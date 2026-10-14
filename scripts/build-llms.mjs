@@ -32,6 +32,7 @@ const stripJsx = (s) => s.replace(/<[^>]+>/g, '').replace(/\{'\s*'\}/g, ' ').rep
 // ---------------------------------------------------------------- components (registry)
 const registry = read('site/src/registry/components.tsx');
 const snippets = JSON.parse(read('site/src/registry/compose-snippets.json'));
+const a11y = JSON.parse(read('site/src/registry/a11y.json'));
 const docs = registry
   .split(/\n  \{\n    id: /)
   .slice(1)
@@ -139,6 +140,10 @@ for (const d of docs.sort((a, b) => (a.group ?? '').localeCompare(b.group ?? '')
   }
   if (d.dos.length) L.push('Do: ' + d.dos.join(' '), '');
   if (d.donts.length) L.push("Don't: " + d.donts.join(' '), '');
+  const ax = a11y[d.id];
+  if (ax?.anatomy?.length) L.push('Anatomy:', ...ax.anatomy.map((p, i) => `${i + 1}. ${p.part}: ${p.description}${p.spec ? ` (${p.spec})` : ''}`), '');
+  if (ax?.accessibility?.length) L.push('Accessibility:', ...ax.accessibility.map((r) => `- ${r.topic}. Web: ${r.web ?? '–'} Android: ${r.android ?? '–'}`), '');
+  if (ax?.gaps?.length) L.push('Known accessibility gaps:', ...ax.gaps.map((g) => `- ${g}`), '');
   for (const ex of d.examples) {
     L.push(`Example: ${ex.title}`, fence('tsx', ex.code));
     if (d.composeCode[ex.title]) L.push(fence('kotlin', d.composeCode[ex.title]));

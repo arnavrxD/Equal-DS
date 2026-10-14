@@ -50,3 +50,12 @@ export type ComponentDoc = {
   dos: string[];
   donts: string[];
 };
+
+/** One visible part of a component, in reading order (Overview → Anatomy). */
+export type AnatomyPart = { part: string; description: string; spec?: string };
+
+/** One accessibility topic (Role, Name, Keyboard, Touch target, Contrast, State, Motion), per platform. */
+export type A11yRow = { topic: string; web?: string; android?: string };
+
+/** Anatomy + accessibility for a docs page, keyed by doc id in site/src/registry/a11y.json. */
+export type ComponentA11y = { anatomy: AnatomyPart[]; accessibility: A11yRow[]; gaps: string[] };

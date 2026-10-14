@@ -93,7 +93,9 @@ When a design and the system disagree, check it first; when a rule changes, upda
    - SVG: `assets/<name>.svg` for web, and a VectorDrawable at `res/drawable/ds_asset_<name>.xml` for Android.
 5. **Tokens:** add any new colours or gradients to `tokens/tokens.json`, then run `npm run tokens`.
 6. **Web components:** add a `.tsx` + `.css` pair using only tokens, export it, and give it a docs entry in
-   `site/src/registry/components.tsx`: examples with `code`, props, tokens, and do / don't.
+   `site/src/registry/components.tsx`: examples with `code`, props, tokens, and do / don't. Add its
+   anatomy (parts in reading order) and accessibility (Role, Name, Keyboard, Touch target, Contrast,
+   State, Motion, for web and Android, plus known gaps) to `site/src/registry/a11y.json`.
 7. **Screens:** add props to the revamped screens, or a new screen in `web/src/screens/`.
 8. **Flow page:** add the flow to `Flow.tsx`, with states (`key`, `label`, `render`, `code`, and
    `height` when the screen is taller than 800), plus steps and the source. Add it to `nav.ts` and the
