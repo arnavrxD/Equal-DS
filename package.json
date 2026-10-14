@@ -13,9 +13,10 @@
     "site:preview": "vite preview --config site/vite.config.ts --outDir site-dist",
     "snippets": "node scripts/build-snippets.mjs",
     "assets": "python3 scripts/build-assets.py",
-    "llms": "node scripts/build-llms.mjs",
+    "llms": "node scripts/build-llms.mjs && node scripts/build-mcp-index.mjs",
     "logo": "node scripts/build-logo.mjs",
-    "deploy": "sh scripts/deploy.sh"
+    "deploy": "sh scripts/deploy.sh",
+    "mcp": "node scripts/mcp-stdio.mjs"
   },
   "dependencies": {
     "@fontsource/dm-sans": "^5.1.0",

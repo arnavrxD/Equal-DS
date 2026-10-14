@@ -193,6 +193,7 @@ const idx = [
   '- [Full catalog](llms-full.txt): rules, components, flows, tokens, assets, icons',
   '- [CLAUDE.md](CLAUDE.md): the rules and the new-flow recipe Claude follows in the repo',
   '- [Claude skill (zip)](equal-ds-flow-skill.zip): upload in claude.ai → Settings → Capabilities → Skills',
+  '- MCP server: https://equal-ds.vercel.app/mcp (tools: search, get, list). Claude Code: `claude mcp add --transport http equal-ds https://equal-ds.vercel.app/mcp`',
   '',
   '## Components',
   '',

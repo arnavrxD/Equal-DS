@@ -1,5 +1,21 @@
 import { Callout, CodeTabs, H2, Page } from '../ui/kit';
 
+const MCP_URL = 'https://equal-ds.vercel.app/mcp';
+
+const mcpSetup = [
+  { label: 'Claude Code', code: `claude mcp add --transport http equal-ds ${MCP_URL}` },
+  { label: 'claude.ai / Claude Desktop', code: `Settings → Connectors → Add custom connector
+Name: Equal DS
+URL:  ${MCP_URL}` },
+  { label: 'Cursor / Windsurf / others', code: `{
+  "mcpServers": {
+    "equal-ds": { "type": "http", "url": "${MCP_URL}" }
+  }
+}` },
+  { label: 'Local (no network)', code: `# from the equal-ds folder
+claude mcp add equal-ds -- node scripts/mcp-stdio.mjs` },
+];
+
 const prompts = [
   {
     label: 'New flow from a design',
@@ -69,6 +85,14 @@ export default function Claude() {
           <p>Needs: nothing, but nothing gets verified either.</p>
         </section>
       </div>
+
+      <H2>MCP server</H2>
+      <p style={{ maxWidth: 760, color: "var(--site-ink-2)", lineHeight: 1.6 }}>
+        Connect any MCP tool to the design system and it looks things up as it works, instead of reading one big file. Three tools:
+        <b> search</b> (find components, flows, rules, tokens and assets in plain words), <b>get</b> (the full entry: imports, tokens, do / don’t, every example in React and Kotlin)
+        and <b>list</b>. It serves the same catalog as <code>llms-full.txt</code> and updates with every deploy. Address: <code>{MCP_URL}</code>
+      </p>
+      <CodeTabs tabs={mcpSetup} />
 
       <H2>Downloads</H2>
       <div className="s-claude-files">

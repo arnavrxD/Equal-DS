@@ -8,6 +8,8 @@ This repo is the Equal AI design system for **web (React)** and **Android (Jetpa
 It covers tokens, components, screens, flows and the docs site. Read this file before you design or
 build anything here. The catalog of every component, prop, token, asset, icon and flow is in
 `site/public/llms-full.txt`, which `npm run llms` regenerates. Search it first; reuse before you add.
+The same catalog is an MCP server (tools `search`, `get`, `list`) at https://equal-ds.vercel.app/mcp,
+or locally with `npm run mcp`. `npm run llms` also rebuilds its index (`api/_index.json`).
 
 ### The rules (these always apply)
 
