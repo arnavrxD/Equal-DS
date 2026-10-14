@@ -10,6 +10,7 @@ import {
   AssistantSheetShell,
   AssistantTaskHeader,
   AssistantThinking,
+  CallSummary,
   ChatBubble,
   ChatHeader,
   ChatWallpaper,
@@ -74,15 +75,7 @@ function CallHistory({ action }: { action: ChatAction }) {
       <ThreadEvent label="Call Ended 4:37 PM" />
       <ChatBubble kind="assistant" sender="Equal AI" time="03:21" tail>Hey Keshav! Here is the summary of your call</ChatBubble>
       <div style={{ paddingLeft: 36 }}>
-        <div className="eq-summary" style={{ width: 268 }}>
-          <div style={{ padding: 8 }}><VoicePlayer duration={157} /></div>
-          <div style={{ padding: '0 10px 8px' }}>
-            <Text as="div" variant="caption" color="tertiary">Call Summary</Text>
-            <Text as="div" variant="body1">{SUMMARY[action]}</Text>
-            <Text as="div" variant="micro" color="tertiary" align="right" style={{ marginTop: 4 }}>03:21</Text>
-          </div>
-          <SummaryActions actions={[{ label: 'Call Back', icon: 'call-filled' }]} />
-        </div>
+        <CallSummary summary={SUMMARY[action]} time="03:21" footer={<SummaryActions actions={[{ label: 'Call Back', icon: 'call-filled' }]} />} />
       </div>
       <div style={{ paddingLeft: 36, marginTop: 4 }}><FeedbackCard /></div>
     </>

@@ -3132,6 +3132,10 @@ Props of `PaywallFooter`:
 - `cta?`: `string` = 'Unlock Unlimited'. Gold block button.
 - `note?`: `string | null` = 'Cancel Anytime. Automatically renews'. Caption under it.
 - `onClick?`: `() => void`. Starts payment.
+- `variant?`: `'gold' | 'gold-outline' | 'primary'` = 'gold'. gold-outline for Cancel Subscription on the plan page.
+- `disabled?`: `boolean`. While a payment is processing.
+- `flat?`: `boolean`. No surface or shadow, inside the sheet paywall.
+- `above?`: `ReactNode`. Above the button, e.g. the processing toast.
 
 Do: Pick the preview from the touchpoint the user came from. Keep one gold CTA; it is the only commit on the page.
 

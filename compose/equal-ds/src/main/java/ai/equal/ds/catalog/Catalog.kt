@@ -1360,8 +1360,9 @@ private fun ChatThread(
                     CallSummaryBubble(
                         summary = "Dr. Mehta Clinic called to confirm your appointment tomorrow at 4 PM.",
                         timestamp = "03:36",
-                        voiceNote = if (locked) ({ LockedRecording(onUnlock = onUnlock) }) else recording,
-                        actions = if (summaryActions) ({ SummaryActions(actions = SampleSummaryActions) }) else null,
+                        voiceNote = recording,
+                        recording = if (locked) ({ LockedRecording(onUnlock = onUnlock) }) else null,
+                        footer = if (summaryActions) ({ SummaryActions(actions = SampleSummaryActions) }) else null,
                         modifier = Modifier.padding(top = 8.dp),
                     )
                 } else {

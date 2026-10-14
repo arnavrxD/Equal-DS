@@ -97,7 +97,7 @@ export type CallSummaryProps = {
   onShare?: () => void;
   /** Hide the recording (summary only). */
   noRecording?: boolean;
-  width?: number;
+  width?: number | string;
   /** Pill left of the timestamp, e.g. { emoji: '🪄', label: 'Instruction Applied' }. */
   tag?: { emoji?: string; label: string };
   /**
@@ -106,15 +106,19 @@ export type CallSummaryProps = {
    */
   locked?: 'audio' | 'all';
   onUnlock?: () => void;
+  /** Replaces the recording player, e.g. the gold crown-locked `<LockedRecording>` on the free plan. */
+  recording?: ReactNode;
+  /** Rows under the summary, e.g. `<SummaryActions>` (Call Back · Add to Calendar). */
+  footer?: ReactNode;
 };
 
 /** Call summary card used inside the thread (Component ref #11, right column + Equal AI variant). */
-export function CallSummary({ duration = 157, summary, time, label = 'Call Summary', onShare, noRecording, width = 268, tag, locked, onUnlock }: CallSummaryProps) {
+export function CallSummary({ duration = 157, summary, time, label = 'Call Summary', onShare, noRecording, width = 268, tag, locked, onUnlock, recording, footer }: CallSummaryProps) {
   return (
     <div className="eq-summary" style={{ width }}>
       {!noRecording && (
         <div style={{ padding: 8, position: 'relative' }}>
-          {locked ? (
+          {recording ? recording : locked ? (
             <>
               <div style={{ filter: 'blur(3px)', pointerEvents: 'none' }} aria-hidden><VoicePlayer duration={duration} /></div>
               <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><UnlockAudioPill onClick={onUnlock} /></div>
@@ -139,6 +143,7 @@ export function CallSummary({ duration = 157, summary, time, label = 'Call Summa
           </div>
         )}
       </div>
+      {footer}
       {onShare && (
         <>
           <hr className="eq-divider" />

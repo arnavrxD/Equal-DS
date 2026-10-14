@@ -7,7 +7,7 @@ import { Icon } from '../foundations/Icon';
 import type { IconName } from '../foundations/icons';
 import { Text } from '../foundations/Text';
 import { Button, IconButton, TextButton } from './Button';
-import { AnimatedCrown, DividerLabel, FaqList, type FaqItem } from './Monetization';
+import { AnimatedCrown, DividerLabel, FaqList, PaywallFooter, type FaqItem } from './Monetization';
 import { VoicePlayer } from './VoiceNote';
 import './MonetizationExperiments.css';
 
@@ -141,11 +141,7 @@ export function PaywallSheet({ price = 249, discountedPrice = 149, applied, onAp
         </div>
         <CouponRow applied={applied} onApply={onApply} />
       </div>
-      {processing && <div style={{ padding: '10px 12px 0' }}><ProcessingStrip variant="toast" /></div>}
-      <div className="eq-paywall-sheet__footer">
-        <Button variant="gold" size="lg" block disabled={processing} onClick={onUnlock}>{processing ? 'Unlock Unlimited' : cta}</Button>
-        <Text as="div" variant="caption" color="secondary" align="center" style={{ fontWeight: 400, marginTop: 8 }}>Cancel Anytime. Automatically renews</Text>
-      </div>
+      <PaywallFooter flat cta={processing ? 'Unlock Unlimited' : cta} disabled={processing} onClick={onUnlock} above={processing ? <ProcessingStrip variant="toast" /> : undefined} />
     </div>
   );
   if (mode === 'inline') return panel;

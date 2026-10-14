@@ -286,9 +286,10 @@ private fun Modifier.wrapRightFraction(fraction: Float): Modifier = layout { mea
  * Gold line pattern, identical to web `PlanPattern`: viewBox 180 × 110 with
  * preserveAspectRatio "xMaxYMax slice" (scaled to cover, anchored bottom-right). Nine stepped
  * polylines plus five shorter ones, stroke 0.9, each fading 0 → 0.55 → 0.8 alpha left to right.
+ * Decorative: draws in [color] ([PlanCard] passes `plan-card/pattern`) and fills [modifier]'s bounds.
  */
 @Composable
-private fun PlanPattern(color: Color, modifier: Modifier = Modifier) {
+fun PlanPattern(color: Color, modifier: Modifier = Modifier) {
     Canvas(modifier) {
         val scale = max(size.width / 180f, size.height / 110f)
         val dx = size.width - 180f * scale
@@ -558,5 +559,13 @@ private fun YouTabPartsPreview() {
             Spacer(Modifier.height(24.dp))
             InviteCard(onShare = {})
         }
+    }
+}
+
+@EqualPreviews
+@Composable
+private fun PlanPatternPreview() {
+    PreviewFrame {
+        PlanPattern(color = EqualTheme.colors.planCardPattern, modifier = Modifier.fillMaxWidth().height(110.dp))
     }
 }

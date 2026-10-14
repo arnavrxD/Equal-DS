@@ -4,8 +4,6 @@ import ai.equal.ds.assets.EqualAssets
 import ai.equal.ds.components.ActionChipData
 import ai.equal.ds.components.AssistantToggleArt
 import ai.equal.ds.components.CategoryAvatar
-import ai.equal.ds.components.EqualButton
-import ai.equal.ds.components.EqualButtonSize
 import ai.equal.ds.components.ExitOfferDialog
 import ai.equal.ds.components.HelpFaqSheet
 import ai.equal.ds.components.LockedRecording
@@ -18,11 +16,10 @@ import ai.equal.ds.components.ProcessingStrip
 import ai.equal.ds.components.ProcessingStripVariant
 import ai.equal.ds.components.SampleSummaryActions
 import ai.equal.ds.components.SummaryActions
-import ai.equal.ds.tokens.EqualRadius
+import ai.equal.ds.components.SocialProof
+import androidx.compose.ui.unit.Dp
 import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
 import ai.equal.ds.assets.EqualCategory
 import ai.equal.ds.components.AiAvatar
 import ai.equal.ds.components.AiAvatarSize
@@ -38,7 +35,6 @@ import ai.equal.ds.components.CouponTicket
 import ai.equal.ds.components.DividerLabel
 import ai.equal.ds.components.EqualButtonVariant
 import ai.equal.ds.components.EqualDivider
-import ai.equal.ds.components.EqualText
 import ai.equal.ds.components.FaqList
 import ai.equal.ds.components.HelpCenterSheet
 import ai.equal.ds.components.LockedPreviewCard
@@ -54,10 +50,7 @@ import ai.equal.ds.components.ValueCard
 import ai.equal.ds.components.ValueSheetVariant
 import ai.equal.ds.components.PlaybackSpeed
 import ai.equal.ds.components.PriceTag
-import ai.equal.ds.components.RatingPill
-import ai.equal.ds.components.StatBlock
 import ai.equal.ds.components.StatusBar
-import ai.equal.ds.components.TestimonialCarousel
 import ai.equal.ds.components.VoiceNotePlayer
 import ai.equal.ds.theme.EqualTheme
 import ai.equal.ds.tokens.EqualMotion
@@ -70,26 +63,20 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.layout.layout
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
 import kotlinx.coroutines.delay
@@ -209,35 +196,24 @@ private fun PaywallOverlay.paymentStatus(): PaymentStatus? = when (this) {
 
 /**
  * The locked call summary the experiments preview (web `LockedSummaryPreview`): a 24dp category
- * avatar and the summary card (`bg/surface`, radius 16) with the gold [LockedRecording], "Call
- * Summary" and the text, plus, with [actions], the crown-locked [SummaryActions].
+ * avatar and a full-width [CallSummaryBubble] with the gold [LockedRecording] in its `recording`
+ * slot, plus, with [actions], the crown-locked [SummaryActions] in its `footer`.
  */
 @Composable
 fun LockedSummaryPreview(
     modifier: Modifier = Modifier,
     actions: Boolean = false,
 ) {
-    val colors = EqualTheme.colors
-    val type = EqualTheme.type
     Row(modifier.fillMaxWidth().padding(8.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         CategoryAvatar(category = EqualCategory.HomeServices, size = 24.dp)
-        Column(
-            Modifier
-                .weight(1f)
-                .clip(RoundedCornerShape(EqualRadius.rLg))
-                .background(colors.bgSurface),
-        ) {
-            Box(Modifier.padding(8.dp)) { LockedRecording() }
-            Column(Modifier.padding(start = 10.dp, end = 10.dp, bottom = 8.dp)) {
-                EqualText(text = "Call Summary", style = type.caption, color = colors.textTertiary, maxLines = 1)
-                EqualText(
-                    text = "Amit invited you to dinner this Sunday, 8 PM at his place. He asked you to confirm by tonight.",
-                    style = type.body1,
-                    color = colors.textPrimary,
-                )
-            }
-            if (actions) SummaryActions(actions = SampleSummaryActions, locked = true)
-        }
+        CallSummaryBubble(
+            summary = "Amit invited you to dinner this Sunday, 8 PM at his place. He asked you to confirm by tonight.",
+            timestamp = null,
+            width = Dp.Unspecified,
+            modifier = Modifier.weight(1f),
+            recording = { LockedRecording() },
+            footer = if (actions) ({ SummaryActions(actions = SampleSummaryActions, locked = true) }) else null,
+        )
     }
 }
 
@@ -366,29 +342,11 @@ fun PaywallScreen(
         header = { StatusBar(background = EqualTheme.colors.paywallHeroTop) },
         footer = {
             if (processing) {
-                Column(Modifier.fillMaxWidth().background(EqualTheme.colors.bgSurface)) {
-                    ProcessingStrip(
-                        variant = ProcessingStripVariant.Toast,
-                        modifier = Modifier.padding(start = 12.dp, end = 12.dp, top = 10.dp),
-                    )
-                    Column(Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 16.dp)) {
-                        EqualButton(
-                            text = "Unlock Unlimited",
-                            onClick = {},
-                            variant = EqualButtonVariant.Gold,
-                            size = EqualButtonSize.Block,
-                            enabled = false,
-                        )
-                        Spacer(Modifier.height(8.dp))
-                        EqualText(
-                            text = "Cancel Anytime. Automatically renews",
-                            style = EqualTheme.type.captionRegular,
-                            color = EqualTheme.colors.textSecondary,
-                            textAlign = TextAlign.Center,
-                            modifier = Modifier.fillMaxWidth(),
-                        )
-                    }
-                }
+                PaywallFooter(
+                    onClick = {},
+                    disabled = true,
+                    above = { ProcessingStrip(variant = ProcessingStripVariant.Toast) },
+                )
             } else {
                 PaywallFooter(onClick = { live = PaywallOverlay.Waiting }, cta = cta)
             }
@@ -465,19 +423,11 @@ enum class SubscriptionState {
     Expired,
 }
 
-/** Pulls [this] out to the full width of a parent with [inset] horizontal padding (web `margin: 0 -16px`). */
-private fun Modifier.bleed(inset: Int): Modifier = layout { measurable, constraints ->
-    val extra = (inset * 2).dp.roundToPx()
-    val width = constraints.maxWidth + extra
-    val placeable = measurable.measure(constraints.copy(minWidth = width, maxWidth = width))
-    layout(constraints.maxWidth, placeable.height) { placeable.place(-inset.dp.roundToPx(), 0) }
-}
-
 /**
  * Manage plan (Monetization value design): the gold hero "Equal AI / Unlimited", What
  * Unlimited Saved You ([ValueCard] with [calls], no heading or perks; "Plan active until
  * [activeUntil]" or "Plan Expired on [expiredOn]"), What You Get ([FeatureList]), the social proof
- * in a cream block (Why people choose EQUAL UNLIMITED, 400k+, the rating, testimonials), FAQ
+ * ([SocialProof]: Why people choose EQUAL UNLIMITED, 400k+, the rating, testimonials), FAQ
  * (4th open), and the plan action pinned at the bottom:
  * - [SubscriptionState.Active]: Cancel Subscription ([EqualButtonVariant.GoldOutline]) + "Cancel
  *   Anytime. Automatically renews";
@@ -507,7 +457,6 @@ fun SubscriptionScreen(
     onRenew: () -> Unit = {},
 ) {
     val colors = EqualTheme.colors
-    val type = EqualTheme.type
     var step by remember { mutableStateOf<CancelStep?>(null) }
     var cancelled by remember(state) { mutableStateOf(state == SubscriptionState.Cancelled) }
     var text by remember { mutableStateOf(reason ?: "") }
@@ -558,34 +507,7 @@ fun SubscriptionScreen(
             DividerLabel(text = "What You Get")
             FeatureList()
         }
-        Column(
-            Modifier
-                .fillMaxWidth()
-                .clip(RoundedCornerShape(bottomStart = 28.dp, bottomEnd = 28.dp))
-                .background(
-                    Brush.verticalGradient(
-                        0f to colors.bgSurface,
-                        0.3f to colors.paywallCardBg,
-                        1f to colors.paywallCardBg,
-                    ),
-                )
-                .padding(start = 16.dp, end = 16.dp, top = 24.dp, bottom = 20.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            Column(
-                Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(2.dp),
-            ) {
-                DividerLabel(text = "Why people choose")
-                EqualText(text = "EQUAL UNLIMITED", style = type.title.copy(fontWeight = FontWeight.Bold), color = colors.textGold, maxLines = 1)
-            }
-            Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
-                StatBlock(value = "400k+", label = "People never miss a call")
-            }
-            Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) { RatingPill(rating = 4.5f) }
-            TestimonialCarousel(items = PaywallTestimonials, modifier = Modifier.bleed(16))
-        }
+        SocialProof(testimonials = PaywallTestimonials)
         FaqList(
             items = PaywallFaq,
             defaultOpen = listOf(3),

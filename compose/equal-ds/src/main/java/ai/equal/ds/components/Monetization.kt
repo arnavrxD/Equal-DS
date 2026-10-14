@@ -87,6 +87,7 @@ import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.Outline
@@ -108,6 +109,7 @@ import androidx.compose.ui.semantics.LiveRegionMode
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.paneTitle
 import androidx.compose.ui.semantics.semantics
@@ -654,7 +656,7 @@ private val BadgeShadow = EqualShadow(listOf(EqualShadowLayer(0.dp, 2.dp, 10.dp,
  * Sans Bold in `text/on-action`, centred on baselines 47u and 72u. Text scales with the seal, not the font scale.
  */
 @Composable
-private fun OffSeal(off: String, modifier: Modifier = Modifier, size: Dp = 28.dp) {
+fun OffSeal(off: String, modifier: Modifier = Modifier, size: Dp = 28.dp) {
     val fill = EqualTheme.colors.textBrand
     val ink = EqualTheme.colors.textOnAction
     val measurer = rememberTextMeasurer()
@@ -778,9 +780,13 @@ fun LockedPreviewCard(
 }
 
 /**
- * Sticky paywall footer: `bg/surface`, shadow 0 -6 18 black/5%, padding 12 / 16 / 16. A block
- * [cta] button ([variant], default [EqualButtonVariant.Gold]) and the [note] (`caption` Regular
- * `text/secondary`, centred, 8 above).
+ * Sticky paywall footer (web `PaywallFooter`): `bg/surface`, shadow 0 -6 18 black/5%, padding
+ * 12 / 16 / 16. Optional [above] content (e.g. the toast [ProcessingStrip], 10 below it), a block
+ * [cta] button ([variant]: [EqualButtonVariant.Gold] on the paywall, [EqualButtonVariant.GoldOutline]
+ * for Cancel Subscription on the plan page, or [EqualButtonVariant.Primary]) and the [note]
+ * (`caption` Regular `text/secondary`, centred, 8 above). [disabled] greys the CTA (a payment is
+ * processing). [flat] drops the surface and shadow and pads 14 / 16 / 18, for use inside a sheet
+ * ([PaywallSheet]). Every paywall-style footer uses it.
  */
 @Composable
 fun PaywallFooter(
@@ -789,16 +795,22 @@ fun PaywallFooter(
     cta: String = "Unlock Unlimited",
     note: String? = "Cancel Anytime. Automatically renews",
     variant: EqualButtonVariant = EqualButtonVariant.Gold,
+    disabled: Boolean = false,
+    flat: Boolean = false,
+    above: (@Composable () -> Unit)? = null,
 ) {
     val colors = EqualTheme.colors
     Column(
         modifier
             .fillMaxWidth()
-            .eqShadow(FooterShadow)
-            .background(colors.bgSurface)
-            .padding(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 16.dp),
+            .then(if (flat) Modifier else Modifier.eqShadow(FooterShadow).background(colors.bgSurface))
+            .padding(start = 16.dp, end = 16.dp, top = if (flat) 14.dp else 12.dp, bottom = if (flat) 18.dp else 16.dp),
     ) {
-        EqualButton(text = cta, onClick = onClick, variant = variant, size = EqualButtonSize.Block)
+        if (above != null) {
+            above()
+            Spacer(Modifier.height(10.dp))
+        }
+        EqualButton(text = cta, onClick = onClick, variant = variant, size = EqualButtonSize.Block, enabled = !disabled)
         if (note != null) {
             Spacer(Modifier.height(8.dp))
             EqualText(
@@ -959,7 +971,6 @@ fun FaqList(
     defaultOpen: List<Int> = emptyList(),
 ) {
     val colors = EqualTheme.colors
-    val type = EqualTheme.type
     var open by rememberSaveable(saver = OpenRowsSaver) { mutableStateOf(defaultOpen.toList()) }
     val cardShape = RoundedCornerShape(16.dp)
     Column(modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(14.dp)) {
@@ -974,35 +985,53 @@ fun FaqList(
             items.forEachIndexed { index, item ->
                 if (index > 0) EqualDivider()
                 val isOpen = index in open
-                Row(
-                    Modifier
-                        .fillMaxWidth()
-                        .clickable(role = Role.Button) {
-                            open = if (isOpen) open - index else open + index
-                        }
-                        .semantics { stateDescription = if (isOpen) "Expanded" else "Collapsed" }
-                        .padding(horizontal = 16.dp, vertical = 14.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(12.dp),
-                ) {
-                    EqualText(text = item.question, style = type.bodyLarge, color = colors.textPrimary, modifier = Modifier.weight(1f))
-                    EqualIcon(
-                        EqualIcons.ChevronDown,
-                        contentDescription = null,
-                        tint = colors.textSecondary,
-                        size = 20.dp,
-                        modifier = Modifier.rotate(if (isOpen) 180f else 0f),
-                    )
-                }
-                if (isOpen) {
-                    EqualText(
-                        text = item.answer,
-                        style = type.body1,
-                        color = colors.textSecondary,
-                        modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 14.dp),
-                    )
-                }
+                FaqEntry(item = item, open = isOpen, onToggle = { open = if (isOpen) open - index else open + index })
             }
+        }
+    }
+}
+
+/**
+ * One question in a FAQ (web `FaqEntry`): the question row (padding 16 / 14, `bodyLarge`
+ * `text/primary` + chevron-down 20 `text/secondary`, rotated 180 when [open], gap 12) and, when
+ * [open], the answer (`body1` `text/secondary`, padding 0 16 14). [onToggle] null makes the row
+ * static. [FaqList] renders its rows through it.
+ */
+@Composable
+fun FaqEntry(
+    item: FaqItem,
+    open: Boolean,
+    modifier: Modifier = Modifier,
+    onToggle: (() -> Unit)? = null,
+) {
+    val colors = EqualTheme.colors
+    val type = EqualTheme.type
+    Column(modifier.fillMaxWidth()) {
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .then(if (onToggle != null) Modifier.clickable(role = Role.Button, onClick = onToggle) else Modifier)
+                .semantics { stateDescription = if (open) "Expanded" else "Collapsed" }
+                .padding(horizontal = 16.dp, vertical = 14.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
+            EqualText(text = item.question, style = type.bodyLarge, color = colors.textPrimary, modifier = Modifier.weight(1f))
+            EqualIcon(
+                EqualIcons.ChevronDown,
+                contentDescription = null,
+                tint = colors.textSecondary,
+                size = 20.dp,
+                modifier = Modifier.rotate(if (open) 180f else 0f),
+            )
+        }
+        if (open) {
+            EqualText(
+                text = item.answer,
+                style = type.body1,
+                color = colors.textSecondary,
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 14.dp),
+            )
         }
     }
 }
@@ -1416,28 +1445,56 @@ fun HelpCenterSheet(
     val type = EqualTheme.type
     StatusSheet(modifier = modifier, inline = inline, label = "Help Center") {
         Column(Modifier.fillMaxWidth().padding(start = 8.dp, end = 8.dp, top = 8.dp)) {
-            EqualText(text = "Help Center", style = type.title.copy(fontWeight = FontWeight.W500), color = colors.textPrimary)
-            Spacer(Modifier.height(4.dp))
-            EqualText(
-                text = "At the moment we can help you in following ways, feel free to contact us.",
-                style = type.body1,
-                color = colors.textSecondary,
-            )
+            SheetHeading(title = "Help Center", body = "At the moment we can help you in following ways, feel free to contact us.")
             Spacer(Modifier.height(16.dp))
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                HelpRow(title = "Call Us", value = phone, icon = EqualIcons.Call, onClick = onCall)
-                HelpRow(title = "Mail Us", value = email, icon = EqualIcons.Mail, onClick = onMail)
+                HelpContactRow(title = "Call Us", value = phone, icon = EqualIcons.Call, onClick = onCall)
+                HelpContactRow(title = "Mail Us", value = email, icon = EqualIcons.Mail, onClick = onMail)
             }
         }
     }
 }
 
+/** A sheet's [title] (`title` Medium `text/primary`) and an optional line of help, [body] (`body1` `text/secondary`, 4 above). */
 @Composable
-private fun HelpRow(title: String, value: String, icon: androidx.compose.ui.graphics.vector.ImageVector, onClick: () -> Unit) {
+fun SheetHeading(
+    title: String,
+    modifier: Modifier = Modifier,
+    body: String? = null,
+) {
+    val colors = EqualTheme.colors
+    val type = EqualTheme.type
+    Column(modifier) {
+        EqualText(
+            text = title,
+            style = type.title.copy(fontWeight = FontWeight.W500),
+            color = colors.textPrimary,
+            modifier = Modifier.semantics { heading() },
+        )
+        if (body != null) {
+            Spacer(Modifier.height(4.dp))
+            EqualText(text = body, style = type.body1, color = colors.textSecondary)
+        }
+    }
+}
+
+/**
+ * A way to reach support (web `HelpContactRow`): radius 14, 1dp `stroke/subtle`, padding
+ * 12 / 12 / 12 / 16, [title] `subheading` over [value] (number or email) `body1` `text/secondary`,
+ * then a 52 × 36 `action-card/highlight` pill with the 22dp [icon] in `text/action`.
+ */
+@Composable
+fun HelpContactRow(
+    title: String,
+    value: String,
+    icon: ImageVector,
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
+) {
     val colors = EqualTheme.colors
     val shape = RoundedCornerShape(14.dp)
     Row(
-        Modifier
+        modifier
             .fillMaxWidth()
             .clip(shape)
             .border(1.dp, colors.strokeSubtle, shape)
@@ -1732,6 +1789,64 @@ fun TestimonialCarousel(
     }
 }
 
+/** The headline stat in [SocialProof]: [value] (e.g. 400k+) over [label]. */
+@Immutable
+data class SocialProofStat(val value: String, val label: String)
+
+/**
+ * Social proof on the plan page (web `SocialProof`), on the gold-washed panel: radius 28 on the
+ * bottom corners, `bg/surface` → `paywall/card-bg` (30%) vertical wash, padding 24 / 16 / 20,
+ * gap 16. "Why people choose" [DividerLabel] over "EQUAL UNLIMITED" (`title` Bold `text/gold`,
+ * gap 2), the [StatBlock] ([stat]), the [RatingPill] ([rating]) and the [TestimonialCarousel]
+ * ([testimonials], full bleed).
+ */
+@Composable
+fun SocialProof(
+    testimonials: List<Testimonial>,
+    modifier: Modifier = Modifier,
+    stat: SocialProofStat = SocialProofStat("400k+", "People never miss a call"),
+    rating: Float = 4.5f,
+) {
+    val colors = EqualTheme.colors
+    val type = EqualTheme.type
+    Column(
+        modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(bottomStart = 28.dp, bottomEnd = 28.dp))
+            .background(
+                Brush.verticalGradient(
+                    0f to colors.bgSurface,
+                    0.3f to colors.paywallCardBg,
+                    1f to colors.paywallCardBg,
+                ),
+            )
+            .padding(start = 16.dp, end = 16.dp, top = 24.dp, bottom = 20.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
+    ) {
+        Column(
+            Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(2.dp),
+        ) {
+            DividerLabel(text = "Why people choose")
+            EqualText(text = "EQUAL UNLIMITED", style = type.title.copy(fontWeight = FontWeight.Bold), color = colors.textGold, maxLines = 1)
+        }
+        Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+            StatBlock(value = stat.value, label = stat.label)
+        }
+        Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) { RatingPill(rating = rating) }
+        TestimonialCarousel(items = testimonials, modifier = Modifier.bleedHorizontal(16.dp))
+    }
+}
+
+/** Pulls [this] out to the full width of a parent with [inset] horizontal padding (web `margin: 0 -16px`). */
+private fun Modifier.bleedHorizontal(inset: Dp): Modifier = layout { measurable, constraints ->
+    val extra = (inset * 2).roundToPx()
+    val width = constraints.maxWidth + extra
+    val placeable = measurable.measure(constraints.copy(minWidth = width, maxWidth = width))
+    layout(constraints.maxWidth, placeable.height) { placeable.place(-inset.roundToPx(), 0) }
+}
+
 // ---------------------------------------------------------------------------------------------
 // Cancellation
 // ---------------------------------------------------------------------------------------------
@@ -1902,5 +2017,55 @@ private fun StatusSheetsPreview() {
         PaymentStatusSheet(status = PaymentStatus.Failed, inline = true)
         VSpace(16.dp)
         CancelSheet(step = CancelStep.Confirm, inline = true)
+    }
+}
+
+@EqualPreviews
+@Composable
+private fun FaqEntryPreview() {
+    PreviewFrame {
+        FaqEntry(item = FaqItem("Can I cancel my Equal Unlimited plan later?", "Yes, cancel anytime."), open = true, onToggle = {})
+        FaqEntry(item = FaqItem("Will Equal screen all types of calls?", "Yes, Equal handles them all."), open = false, onToggle = {})
+    }
+}
+
+@EqualPreviews
+@Composable
+private fun PaywallFooterVariantsPreview() {
+    PreviewFrame(padding = 0.dp) {
+        PaywallFooter(onClick = {}, cta = "Cancel Subscription", variant = EqualButtonVariant.GoldOutline)
+        VSpace(16.dp)
+        PaywallFooter(onClick = {}, disabled = true, above = { ProcessingStrip(variant = ProcessingStripVariant.Toast) })
+        VSpace(16.dp)
+        PaywallFooter(onClick = {}, flat = true)
+    }
+}
+
+@EqualPreviews
+@Composable
+private fun SocialProofPreview() {
+    PreviewFrame(padding = 0.dp) {
+        SocialProof(
+            testimonials = listOf(
+                Testimonial("It is a very useful app for screening the unknown calls.", "Arnav Raj", avatar = {
+                    EqualAssetImage(EqualAssets.AvatarTestimonial1, 36.dp)
+                }),
+                Testimonial("My parents get loan calls all day. Equal answers them.", "Riya Kapoor", avatar = {
+                    EqualAssetImage(EqualAssets.AvatarTestimonial2, 36.dp)
+                }),
+            ),
+        )
+    }
+}
+
+@EqualPreviews
+@Composable
+private fun HelpCenterPartsPreview() {
+    PreviewFrame {
+        SheetHeading(title = "Help Center", body = "At the moment we can help you in following ways, feel free to contact us.")
+        VSpace(16.dp)
+        HelpContactRow(title = "Call Us", value = "+91 9876 543210", icon = EqualIcons.Call)
+        VSpace(12.dp)
+        OffSeal(off = "25%", size = 56.dp)
     }
 }

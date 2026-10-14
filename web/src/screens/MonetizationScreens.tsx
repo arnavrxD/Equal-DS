@@ -27,6 +27,7 @@ import {
   MessageList,
   PaymentStatusSheet,
   PaywallFooter,
+  SocialProof,
   PaywallHero,
   PriceTag,
   RatingPill,
@@ -51,13 +52,13 @@ export function LockedSummaryPreview({ actions }: { actions?: boolean }) {
   return (
     <div style={{ display: 'flex', gap: 8, padding: 8 }}>
       <CategoryAvatar category="home-services" size={24} />
-      <div className="eq-summary" style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ padding: 8 }}><LockedRecording /></div>
-        <div style={{ padding: '0 10px 8px' }}>
-          <Text as="div" variant="caption" color="tertiary">Call Summary</Text>
-          <Text as="div" variant="body1">Amit invited you to dinner this Sunday, 8 PM at his place. He asked you to confirm by tonight.</Text>
-        </div>
-        {actions && <SummaryActions locked actions={summaryActions} />}
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <CallSummary
+          width="100%"
+          summary="Amit invited you to dinner this Sunday, 8 PM at his place. He asked you to confirm by tonight."
+          recording={<LockedRecording />}
+          footer={actions ? <SummaryActions locked actions={summaryActions} /> : undefined}
+        />
       </div>
     </div>
   );
@@ -153,7 +154,7 @@ export function PaywallScreen({ touchpoint = 'chat-list', price = 249, discounte
     <Screen
       surface="surface"
       header={<StatusBar background="var(--eq-paywall-hero-top)" />}
-      footer={processing ? <div style={{ background: 'var(--eq-bg-surface)' }}><div style={{ padding: '10px 12px 0' }}><ProcessingStrip variant="toast" /></div><div className="eq-paywall-footer" style={{ boxShadow: 'none' }}><Button variant="gold" size="lg" block disabled>Unlock Unlimited</Button><Text as="div" variant="caption" color="secondary" align="center" style={{ fontWeight: 400, marginTop: 8 }}>Cancel Anytime. Automatically renews</Text></div></div> : <PaywallFooter cta={cta} onClick={() => setLive('waiting')} />}
+      footer={processing ? <PaywallFooter cta="Unlock Unlimited" disabled above={<ProcessingStrip variant="toast" />} /> : <PaywallFooter cta={cta} onClick={() => setLive('waiting')} />}
       overlay={
         state === 'help' ? (
           <HelpCenterSheet />
@@ -212,10 +213,7 @@ export function SubscriptionScreen({ state = 'active', activeUntil = '25th Jun â
   ) : cancelled ? (
     <PaywallFooter cta="Re-Subscribe" onClick={() => setCancelled(false)} />
   ) : (
-    <div className="eq-paywall-footer">
-      <Button variant="gold-outline" size="lg" block onClick={() => setStep('feedback')}>Cancel Subscription</Button>
-      <Text as="div" variant="caption" color="secondary" align="center" style={{ fontWeight: 400, marginTop: 8 }}>Cancel Anytime. Automatically renews</Text>
-    </div>
+    <PaywallFooter variant="gold-outline" cta="Cancel Subscription" onClick={() => setStep('feedback')} />
   );
   return (
     <Screen
@@ -242,17 +240,7 @@ export function SubscriptionScreen({ state = 'active', activeUntil = '25th Jun â
         <DividerLabel>What You Get</DividerLabel>
         <FeatureList />
       </PaywallHero>
-      <section className="eq-subscription-proof">
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
-          <DividerLabel>Why people choose</DividerLabel>
-          <Text as="div" variant="title" style={{ fontWeight: 700, color: 'var(--eq-text-gold)' }}>EQUAL UNLIMITED</Text>
-        </div>
-        <StatBlock value="400k+" label="People never miss a call" />
-        <div style={{ display: 'flex', justifyContent: 'center' }}><RatingPill rating={4.5} /></div>
-        <div style={{ margin: '0 -16px' }}>
-          <TestimonialCarousel items={testimonials.map((t, i) => ({ ...t, avatar: <Asset name={(['avatar-testimonial-1', 'avatar-testimonial-2', 'avatar-testimonial-3'] as const)[i % 3]} size={36} alt="" /> }))} />
-        </div>
-      </section>
+      <SocialProof testimonials={testimonials.map((t, i) => ({ ...t, avatar: <Asset name={(['avatar-testimonial-1', 'avatar-testimonial-2', 'avatar-testimonial-3'] as const)[i % 3]} size={36} alt="" /> }))} />
       <div style={{ padding: '16px 16px 24px' }}>
         <FaqList items={paywallFaq} defaultOpen={[3]} />
       </div>

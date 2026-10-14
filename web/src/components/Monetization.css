@@ -232,3 +232,4 @@
 [data-theme='dark'] .eq-value-card__glow { display: none; }
 [data-theme='dark'] .eq-value-card.is-rings:has(.eq-value-card__glow) { background: var(--eq-gradient-value-card); }
 [data-theme='dark'] .eq-value-card.is-rings:has(.eq-value-card__glow)::before { display: block; }
+.eq-paywall-footer.is-flat { background: transparent; box-shadow: none; padding: 14px 16px 18px; }

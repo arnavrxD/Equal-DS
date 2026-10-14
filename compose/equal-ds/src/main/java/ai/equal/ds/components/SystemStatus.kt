@@ -186,11 +186,21 @@ enum class MeetAssistantLayout {
     Hero,
 }
 
+/**
+ * The green "Call me" pill (web `CallMeButton`): `gradient/call-me`, 40 high (h18 / 22) with a
+ * shadow 0 6 16 `button/primary` 28%, call-sparkle 18 + [label] `button`, both `text/on-action`
+ * (gap 8). [block] makes it 52 high and full width (the [MeetAssistantLayout.Hero] CTA).
+ */
 @Composable
-private fun CallMeButton(label: String, onClick: () -> Unit, block: Boolean = false) {
+fun CallMeButton(
+    label: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    block: Boolean = false,
+) {
     val colors = EqualTheme.colors
     Row(
-        Modifier
+        modifier
             .then(if (block) Modifier.fillMaxWidth().height(52.dp) else Modifier.height(40.dp))
             .eqShadow(EqualShadow(listOf(EqualShadowLayer(0.dp, 6.dp, 16.dp, colors.buttonPrimary.copy(alpha = 0.28f)))), CircleShape)
             .clip(CircleShape)
@@ -246,7 +256,7 @@ fun MeetAssistantCard(
                 Column {
                     EqualText(text = title, style = type.subheading, color = colors.textPrimary)
                     Spacer(Modifier.height(10.dp))
-                    CallMeButton(ctaLabel, onCallClick)
+                    CallMeButton(label = ctaLabel, onClick = onCallClick)
                 }
             }
             MeetAssistantLayout.Banner -> Row(
@@ -258,7 +268,7 @@ fun MeetAssistantCard(
                     Spacer(Modifier.height(2.dp))
                     EqualText(text = body, style = type.body1, color = colors.textSecondary)
                     Spacer(Modifier.height(16.dp))
-                    CallMeButton(ctaLabel, onCallClick)
+                    CallMeButton(label = ctaLabel, onClick = onCallClick)
                 }
                 EqualAssetImage(
                     EqualAssets.AvatarAssistant,
@@ -289,7 +299,7 @@ fun MeetAssistantCard(
                     textAlign = TextAlign.Center,
                 )
                 Spacer(Modifier.height(32.dp))
-                CallMeButton(ctaLabel, onCallClick, block = true)
+                CallMeButton(label = ctaLabel, onClick = onCallClick, block = true)
             }
         }
         if (onDismiss != null) {
@@ -327,5 +337,15 @@ private fun SystemStatusPreview() {
             title = "Talk With Your Assistant",
             body = "Explore the app, check out features, ask questions, or just say \"Hi\"!",
         )
+    }
+}
+
+@EqualPreviews
+@Composable
+private fun CallMeButtonPreview() {
+    PreviewFrame {
+        CallMeButton(label = "Call me", onClick = {})
+        VSpace(16.dp)
+        CallMeButton(label = "Call me", onClick = {}, block = true)
     }
 }

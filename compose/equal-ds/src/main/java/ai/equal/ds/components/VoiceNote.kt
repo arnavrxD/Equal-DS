@@ -37,6 +37,7 @@ import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.isSpecified
 import androidx.compose.runtime.Immutable
 
 /** Playback speeds; tapping the pill cycles through them (SPEC §11). */
@@ -149,7 +150,7 @@ fun VoiceNotePlayer(
  * Voice note + call summary bubble (SPEC §11). Width 268, `bg/surface`, radius 16.
  * [voiceNote] (usually a [VoiceNotePlayer]) sits with an 8dp margin; then h8: "Call Summary"
  * `caption` `text/tertiary` → summary `body1` → a row with the optional [tag] pill on the left and
- * the timestamp `micro` on the right (6 above). The tag pill is 24 high, h10, 1dp `stroke/subtle`,
+ * the timestamp `micro` on the right (6 above); the row is skipped when both are null. The tag pill is 24 high, h10, 1dp `stroke/subtle`,
  * `bg/surface`, emoji 12 + `caption` `text/secondary` (e.g. 🪄 Instruction Applied).
  * With [onShareClick] a footer appears: 1dp divider + 44-high centred "Share"
  * (`button` `text/action`, share icon 18).
@@ -158,12 +159,16 @@ fun VoiceNotePlayer(
  * [UnlockAudioPill] ([onUnlock]; a tap anywhere on the blurred player also calls it);
  * [CallSummaryLock.All] also wraps the summary text in [LockedContent]. Blur needs API 31+.
  * [actions] is drawn at the bottom of the bubble, e.g. [SummaryActions] (Call Back / Add to
- * Calendar), above the Share footer. [width] defaults to 268.
+ * Calendar), above the Share footer. [width] defaults to 268; [Dp.Unspecified] fills the width.
+ *
+ * Slots (web `recording` / `footer`): [recording] replaces the recording player outright (no lock
+ * treatment), e.g. the gold crown-locked [LockedRecording] on the free plan; [footer] is drawn
+ * under the summary, e.g. [SummaryActions] rows (same place as [actions]; use one of them).
  */
 @Composable
 fun CallSummaryBubble(
     summary: String,
-    timestamp: String,
+    timestamp: String?,
     modifier: Modifier = Modifier,
     title: String = "Call Summary",
     voiceNote: (@Composable () -> Unit)? = null,
@@ -174,17 +179,21 @@ fun CallSummaryBubble(
     onUnlock: () -> Unit = {},
     actions: (@Composable () -> Unit)? = null,
     width: Dp = 268.dp,
+    recording: (@Composable () -> Unit)? = null,
+    footer: (@Composable () -> Unit)? = null,
 ) {
     val colors = EqualTheme.colors
     val type = EqualTheme.type
     val shape = RoundedCornerShape(EqualRadius.rLg)
     Column(
         modifier
-            .width(width)
+            .then(if (width.isSpecified) Modifier.width(width) else Modifier.fillMaxWidth())
             .clip(shape)
             .background(colors.bgSurface),
     ) {
-        if (voiceNote != null && locked != null) {
+        if (recording != null) {
+            Box(Modifier.padding(8.dp)) { recording() }
+        } else if (voiceNote != null && locked != null) {
             Box(Modifier.padding(8.dp), contentAlignment = Alignment.Center) {
                 Box(
                     Modifier
@@ -214,33 +223,36 @@ fun CallSummaryBubble(
             } else {
                 EqualText(text = summary, style = type.body1, color = colors.textPrimary)
             }
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(top = if (tag != null) 6.dp else 0.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                if (tag != null) {
-                    Row(
-                        Modifier
-                            .height(24.dp)
-                            .background(colors.bgSurface, CircleShape)
-                            .border(1.dp, colors.strokeSubtle, CircleShape)
-                            .padding(horizontal = 10.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        if (tag.emoji != null) {
-                            EmojiGlyph(emoji = tag.emoji, size = 12.dp)
-                            Spacer(Modifier.width(4.dp))
+            if (timestamp != null || tag != null) {
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(top = if (tag != null) 6.dp else 0.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    if (tag != null) {
+                        Row(
+                            Modifier
+                                .height(24.dp)
+                                .background(colors.bgSurface, CircleShape)
+                                .border(1.dp, colors.strokeSubtle, CircleShape)
+                                .padding(horizontal = 10.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                        ) {
+                            if (tag.emoji != null) {
+                                EmojiGlyph(emoji = tag.emoji, size = 12.dp)
+                                Spacer(Modifier.width(4.dp))
+                            }
+                            EqualText(text = tag.label, style = type.caption, color = colors.textSecondary, maxLines = 1)
                         }
-                        EqualText(text = tag.label, style = type.caption, color = colors.textSecondary, maxLines = 1)
                     }
+                    Spacer(Modifier.weight(1f))
+                    if (timestamp != null) EqualText(text = timestamp, style = type.micro, color = colors.textTertiary, maxLines = 1)
                 }
-                Spacer(Modifier.weight(1f))
-                EqualText(text = timestamp, style = type.micro, color = colors.textTertiary, maxLines = 1)
             }
         }
         actions?.invoke()
+        footer?.invoke()
         if (onShareClick != null) {
             EqualDivider()
             Row(

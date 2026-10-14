@@ -186,7 +186,7 @@ private fun CallHistory(action: ChatAction) {
                 onSpeedChange = { speed = it },
             )
         },
-        actions = { SummaryActions(actions = listOf(SummaryAction("Call Back", EqualIcons.CallFilled))) },
+        footer = { SummaryActions(actions = listOf(SummaryAction("Call Back", EqualIcons.CallFilled))) },
     )
     FeedbackCard(
         question = "How would you rate the call?",

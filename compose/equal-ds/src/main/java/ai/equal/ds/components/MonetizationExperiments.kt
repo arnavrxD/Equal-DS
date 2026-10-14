@@ -461,9 +461,9 @@ private fun ProcessingRing() {
  * 34/38 Bold (-0.03em), [body] (`caption` Regular `text/secondary`), "🎊 LIMITED TIME DISCOUNT 🎊"
  * (`micro` Medium `text/gold`, 14 above), the gold price between fading hairlines (₹[price], or
  * ₹[discountedPrice] once [applied], landing with fade + rise + scale over `motion.priceDrop`)
- * and the [CouponRow]. Footer (padding 14 / 16 / 18): the gold block [cta] + "Cancel Anytime.
- * Automatically renews". [processing] (a payment in flight): a toast [ProcessingStrip] above a
- * disabled "Unlock Unlimited".
+ * and the [CouponRow]. Footer: a flat [PaywallFooter] (the gold block [cta] + "Cancel Anytime.
+ * Automatically renews"). [processing] (a payment in flight): the footer is disabled ("Unlock
+ * Unlimited") with the toast [ProcessingStrip] above it.
  *
  * Overlay (default): fills its parent with the `scrim` (tap → [onScrim]: the exit offer) and
  * slides the panel up. [inline] draws only the panel, radius 28 all round (docs). Support opens
@@ -576,29 +576,13 @@ fun PaywallSheet(
                     EqualText(text = "Support", style = type.body2, color = colors.textPrimary, maxLines = 1)
                 }
             }
-            if (processing) {
-                ProcessingStrip(
-                    variant = ProcessingStripVariant.Toast,
-                    modifier = Modifier.padding(start = 12.dp, end = 12.dp, top = 10.dp),
-                )
-            }
-            Column(Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, top = 14.dp, bottom = 18.dp)) {
-                EqualButton(
-                    text = if (processing) "Unlock Unlimited" else cta,
-                    onClick = onUnlock,
-                    variant = EqualButtonVariant.Gold,
-                    size = EqualButtonSize.Block,
-                    enabled = !processing,
-                )
-                Spacer(Modifier.height(8.dp))
-                EqualText(
-                    text = "Cancel Anytime. Automatically renews",
-                    style = type.captionRegular,
-                    color = colors.textSecondary,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            }
+            PaywallFooter(
+                onClick = onUnlock,
+                cta = if (processing) "Unlock Unlimited" else cta,
+                disabled = processing,
+                flat = true,
+                above = if (processing) ({ ProcessingStrip(variant = ProcessingStripVariant.Toast) }) else null,
+            )
         }
     }
     if (inline) {

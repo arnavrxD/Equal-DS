@@ -60,7 +60,7 @@ export type PlanCardProps = {
 };
 
 /** Gold line pattern (coded) — the right half of the plan card. */
-function PlanPattern() {
+export function PlanPattern() {
   const lines = Array.from({ length: 9 }, (_, i) => i * 7);
   return (
     <svg className="eq-plan__pattern" viewBox="0 0 180 110" preserveAspectRatio="xMaxYMax slice" aria-hidden>

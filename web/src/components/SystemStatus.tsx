@@ -102,7 +102,8 @@ export type MeetAssistantCardProps = {
   width?: number | string;
 };
 
-function CallMe({ label, onClick, block }: { label: string; onClick?: () => void; block?: boolean }) {
+/** The lime "📞 Call me" pill on Meet Your Assistant (and the system-status back-on card). */
+export function CallMeButton({ label, onClick, block }: { label: string; onClick?: () => void; block?: boolean }) {
   return (
     <button type="button" onClick={onClick} className="eq-t-button" style={{ ...pill, height: block ? 52 : 40, width: block ? '100%' : undefined, justifyContent: 'center', padding: '0 22px 0 18px', gap: 8, background: 'var(--eq-gradient-call-me)', color: 'var(--eq-text-on-action)', boxShadow: '0 6px 16px color-mix(in srgb, var(--eq-button-primary) 28%, transparent)' }}>
       <Icon name="call-sparkle" size={18} />
@@ -130,7 +131,7 @@ export function MeetAssistantCard({
         <Asset name="avatar-assistant" width={170} height={190} alt="Your assistant" />
         <Text as="h3" variant="headline" color="action" align="center" style={{ fontWeight: 700, marginTop: 28 }}>{title}</Text>
         <Text as="p" variant="subheading" align="center" style={{ fontWeight: 400, marginTop: 6 }}>{body}</Text>
-        <div style={{ marginTop: 32, width: '100%' }}><CallMe label={ctaLabel} onClick={onCall} block /></div>
+        <div style={{ marginTop: 32, width: '100%' }}><CallMeButton label={ctaLabel} onClick={onCall} block /></div>
         {close}
       </div>
     );
@@ -141,7 +142,7 @@ export function MeetAssistantCard({
         <div style={{ flex: 1, minWidth: 0 }}>
           <Text as="h3" variant="title" color="action" style={{ fontWeight: 700 }}>{title}</Text>
           <Text as="p" variant="body1" color="secondary" style={{ marginTop: 2 }}>{body}</Text>
-          <div style={{ marginTop: 16 }}><CallMe label={ctaLabel} onClick={onCall} /></div>
+          <div style={{ marginTop: 16 }}><CallMeButton label={ctaLabel} onClick={onCall} /></div>
         </div>
         <Asset name="avatar-assistant" width={100} height={112} alt="Your assistant" style={{ alignSelf: 'flex-end', marginTop: 24, marginBottom: -6 }} />
         {close}
@@ -153,7 +154,7 @@ export function MeetAssistantCard({
       <Asset name="avatar-assistant" width={84} height={94} alt="Your assistant" />
       <div style={{ minWidth: 0 }}>
         <Text as="h3" variant="subheading">{title}</Text>
-        <div style={{ marginTop: 10 }}><CallMe label={ctaLabel} onClick={onCall} /></div>
+        <div style={{ marginTop: 10 }}><CallMeButton label={ctaLabel} onClick={onCall} /></div>
       </div>
       {close}
     </div>

@@ -151,7 +151,8 @@ export function PriceTag({ price, was, label = 'Limited time discount', currency
 }
 
 /** Coded green wavy seal (12 lobes) behind "25% OFF". */
-function OffSeal({ size = 28, off = '25%' }: { size?: number; off?: string }) {
+/** The coded green wavy seal behind "25% OFF" (inside DiscountBadge). */
+export function OffSeal({ size = 28, off = '25%' }: { size?: number; off?: string }) {
   const lobes = 12, r = 50, amp = 4;
   const pts = Array.from({ length: 121 }, (_, i) => {
     const t = (i / 120) * Math.PI * 2;
@@ -231,26 +232,36 @@ export function FaqList({ items, title = 'Frequently asked questions', defaultOp
       <div className="eq-faq__card">
         {items.map((it, i) => {
           const isOpen = open.includes(i);
-          return (
-            <div key={it.q} className={`eq-faq__item ${isOpen ? 'is-open' : ''}`}>
-              <button type="button" className="eq-reset-btn eq-faq__q" aria-expanded={isOpen} onClick={() => setOpen((o) => (isOpen ? o.filter((x) => x !== i) : [...o, i]))}>
-                <Text as="span" variant="bodyLarge" style={{ flex: 1 }}>{it.q}</Text>
-                <Icon name="chevron-down" size={20} color="var(--eq-text-secondary)" rotate={isOpen ? 180 : 0} />
-              </button>
-              {isOpen && <Text as="div" variant="body1" color="secondary" style={{ padding: '0 16px 14px' }}>{it.a}</Text>}
-            </div>
-          );
+          return <FaqEntry key={it.q} item={it} open={isOpen} onToggle={() => setOpen((o) => (isOpen ? o.filter((x) => x !== i) : [...o, i]))} />;
         })}
       </div>
     </section>
   );
 }
 
-/** Sticky paywall footer: gold block CTA + "Cancel Anytime. Automatically renews". */
-export function PaywallFooter({ cta = 'Unlock Unlimited', note = 'Cancel Anytime. Automatically renews', onClick, variant = 'gold' }: { cta?: string; note?: string | null; onClick?: () => void; variant?: 'gold' | 'primary' }) {
+/** One question in a FAQ: the question row with a chevron, and the answer when open. */
+export function FaqEntry({ item, open, onToggle }: { item: FaqItem; open: boolean; onToggle?: () => void }) {
   return (
-    <div className="eq-paywall-footer">
-      <Button variant={variant} size="lg" block onClick={onClick}>{cta}</Button>
+    <div className={`eq-faq__item ${open ? 'is-open' : ''}`}>
+      <button type="button" className="eq-reset-btn eq-faq__q" aria-expanded={open} onClick={onToggle}>
+        <Text as="span" variant="bodyLarge" style={{ flex: 1 }}>{item.q}</Text>
+        <Icon name="chevron-down" size={20} color="var(--eq-text-secondary)" rotate={open ? 180 : 0} />
+      </button>
+      {open && <Text as="div" variant="body1" color="secondary" style={{ padding: '0 16px 14px' }}>{item.a}</Text>}
+    </div>
+  );
+}
+
+/**
+ * Sticky paywall footer: block CTA + "Cancel Anytime. Automatically renews". Every paywall-style
+ * footer uses it: the paywall (gold), the plan page (gold-outline Cancel Subscription), the sheet
+ * paywall (`flat`), and the processing state (`disabled`, with the processing toast in `above`).
+ */
+export function PaywallFooter({ cta = 'Unlock Unlimited', note = 'Cancel Anytime. Automatically renews', onClick, variant = 'gold', disabled, flat, above }: { cta?: string; note?: string | null; onClick?: () => void; variant?: 'gold' | 'gold-outline' | 'primary'; disabled?: boolean; /** No surface or shadow: sits inside a sheet. */ flat?: boolean; /** Shown above the button, e.g. the processing toast. */ above?: ReactNode }) {
+  return (
+    <div className={`eq-paywall-footer ${flat ? 'is-flat' : ''}`}>
+      {above && <div style={{ marginBottom: 10 }}>{above}</div>}
+      <Button variant={variant} size="lg" block disabled={disabled} onClick={onClick}>{cta}</Button>
       {note && <Text as="div" variant="caption" color="secondary" align="center" style={{ fontWeight: 400, marginTop: 8 }}>{note}</Text>}
     </div>
   );
@@ -385,7 +396,32 @@ export function PaymentStatusSheet({ status, cardLast4 = '2652', onRetry, onCont
 
 /** Help Center sheet from Support: Call Us / Mail Us rows with green icon tiles. */
 export function HelpCenterSheet({ phone = '+91 9876 543210', email = 'hello@equal.in', onCall, onMail, mode = 'overlay' }: { phone?: string; email?: string; onCall?: () => void; onMail?: () => void; mode?: 'overlay' | 'inline' }) {
-  const row = (title: string, value: string, icon: IconName, onClick?: () => void) => (
+  return (
+    <StatusSheet mode={mode} label="Help Center">
+      <div style={{ padding: '8px 8px 0' }}>
+        <SheetHeading title="Help Center" body="At the moment we can help you in following ways, feel free to contact us." />
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginTop: 16 }}>
+          <HelpContactRow title="Call Us" value={phone} icon="call" onClick={onCall} />
+          <HelpContactRow title="Mail Us" value={email} icon="mail" onClick={onMail} />
+        </div>
+      </div>
+    </StatusSheet>
+  );
+}
+
+/** A sheet's title (title, 500) and one line of help under it. */
+export function SheetHeading({ title, body }: { title: ReactNode; body?: ReactNode }) {
+  return (
+    <div>
+      <Text as="h2" variant="title" style={{ fontWeight: 500 }}>{title}</Text>
+      {body && <Text as="p" variant="body1" color="secondary" style={{ marginTop: 4 }}>{body}</Text>}
+    </div>
+  );
+}
+
+/** A way to reach support: title, value (number or email) and the green icon tile. */
+export function HelpContactRow({ title, value, icon, onClick }: { title: string; value: string; icon: IconName; onClick?: () => void }) {
+  return (
     <button type="button" className="eq-reset-btn eq-pressable eq-help-row" onClick={onClick}>
       <span style={{ flex: 1, minWidth: 0 }}>
         <Text as="div" variant="subheading">{title}</Text>
@@ -394,17 +430,23 @@ export function HelpCenterSheet({ phone = '+91 9876 543210', email = 'hello@equa
       <span className="eq-help-row__icon"><Icon name={icon} size={22} color="var(--eq-text-action)" /></span>
     </button>
   );
+}
+
+/**
+ * Social proof on the plan page: "Why people choose EQUAL UNLIMITED", the headline stat, the
+ * rating and the testimonial carousel, on the gold-washed panel.
+ */
+export function SocialProof({ stat = { value: '400k+', label: 'People never miss a call' }, rating = 4.5, testimonials }: { stat?: { value: string; label: string }; rating?: number; testimonials: Testimonial[] }) {
   return (
-    <StatusSheet mode={mode} label="Help Center">
-      <div style={{ padding: '8px 8px 0' }}>
-        <Text as="h2" variant="title" style={{ fontWeight: 500 }}>Help Center</Text>
-        <Text as="p" variant="body1" color="secondary" style={{ marginTop: 4 }}>At the moment we can help you in following ways, feel free to contact us.</Text>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginTop: 16 }}>
-          {row('Call Us', phone, 'call', onCall)}
-          {row('Mail Us', email, 'mail', onMail)}
-        </div>
+    <section className="eq-subscription-proof">
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
+        <DividerLabel>Why people choose</DividerLabel>
+        <Text as="div" variant="title" style={{ fontWeight: 700, color: 'var(--eq-text-gold)' }}>EQUAL UNLIMITED</Text>
       </div>
-    </StatusSheet>
+      <StatBlock value={stat.value} label={stat.label} />
+      <div style={{ display: 'flex', justifyContent: 'center' }}><RatingPill rating={rating} /></div>
+      <div style={{ margin: '0 -16px' }}><TestimonialCarousel items={testimonials} /></div>
+    </section>
   );
 }
 

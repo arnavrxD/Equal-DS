@@ -360,15 +360,13 @@ export function ChatScreen({ chat = sampleChats[0], live = false, lock, onUnlock
         <ChatBubble kind="assistant" sender="Equal AI" time="03:32" tail>Hey Keshav! Here is the summary of your call</ChatBubble>
         <div style={{ paddingLeft: 36 }}>
           {locked || withActions ? (
-            <div className="eq-summary" style={{ width: 264 }}>
-              <div style={{ padding: 8 }}>{locked ? <LockedRecording onUnlock={onUnlock} /> : <VoicePlayer duration={157} />}</div>
-              <div style={{ padding: '0 10px 8px' }}>
-                <Text as="div" variant="caption" color="tertiary">Call Summary</Text>
-                <Text as="div" variant="body1">Priya from Dr. Mehta's clinic confirmed your appointment for tomorrow at 10 AM. Bring your previous reports.</Text>
-                <Text as="div" variant="micro" color="tertiary" align="right" style={{ marginTop: 4 }}>03:32</Text>
-              </div>
-              {withActions && <SummaryActions actions={[{ label: 'Call Back', icon: 'call-filled' }, { label: 'Add to Calendar', icon: 'calendar' }]} />}
-            </div>
+            <CallSummary
+              width={264}
+              summary="Priya from Dr. Mehta's clinic confirmed your appointment for tomorrow at 10 AM. Bring your previous reports."
+              time="03:32"
+              recording={locked ? <LockedRecording onUnlock={onUnlock} /> : undefined}
+              footer={withActions ? <SummaryActions actions={[{ label: 'Call Back', icon: 'call-filled' }, { label: 'Add to Calendar', icon: 'calendar' }]} /> : undefined}
+            />
           ) : (
             <CallSummary summary="Priya from Dr. Mehta's clinic confirmed your appointment for tomorrow at 10 AM. Bring your previous reports." time="03:32" onShare={() => {}} width={264} tag={{ emoji: '🪄', label: 'Instruction Applied' }} locked={lock === 'audio' ? 'audio' : undefined} onUnlock={onUnlock} />
           )}
