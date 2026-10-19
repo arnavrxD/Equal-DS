@@ -1,4 +1,5 @@
 import { Asset, categoryLabel, type Category } from '../foundations/Asset';
+import { Text } from '../foundations/Text';
 import { Icon } from '../foundations/Icon';
 
 /**
@@ -11,7 +12,7 @@ export function EqualOrb({ size = 36, label = 'Equal AI' }: { size?: number; lab
   const inset = (img - size) / 2;
   const layer = { position: 'absolute', left: -inset, top: -inset } as const;
   return (
-    <span role="img" aria-label={label} style={{ position: 'relative', width: size, height: size, flexShrink: 0, display: 'inline-block' }}>
+    <span role={label ? 'img' : undefined} aria-label={label || undefined} aria-hidden={label ? undefined : true} style={{ position: 'relative', width: size, height: size, flexShrink: 0, display: 'inline-block' }}>
       <span className="eq-orb eq-orb--light" style={layer}><Asset name="logo-orb-light" size={img} /></span>
       <span className="eq-orb eq-orb--dark" style={layer}><Asset name="logo-orb-dark" size={img} /></span>
     </span>
@@ -32,7 +33,7 @@ export function Mascot({ size = 40, dimmed = false, label = 'Equal assistant' }:
   const left = -MASCOT.box.x * scale + (size - MASCOT.box.w * scale) / 2;
   const top = -MASCOT.box.y * scale + (size - MASCOT.box.h * scale) / 2;
   return (
-    <span role="img" aria-label={label} style={{ position: 'relative', width: size, height: size, flexShrink: 0, display: 'inline-block' }}>
+    <span role={label ? 'img' : undefined} aria-label={label || undefined} aria-hidden={label ? undefined : true} style={{ position: 'relative', width: size, height: size, flexShrink: 0, display: 'inline-block' }}>
       <span style={{ position: 'absolute', left, top, filter: dimmed ? 'grayscale(1)' : undefined, opacity: dimmed ? 0.7 : 1, transition: 'filter var(--eq-duration-base), opacity var(--eq-duration-base)' }}>
         <Asset name="mascot-robot" width={imgW} height={imgH} />
       </span>
@@ -66,13 +67,13 @@ export function ProfileAvatar({ variant = 'male', size = 72, tier = 'free', labe
 }
 
 /** Equal AI assistant avatar — the orb. Sizes 24 / 36 / 48. */
-export function AiAvatar({ size = 36 }: { size?: 24 | 36 | 48 | number }) {
-  return <EqualOrb size={size} />;
+export function AiAvatar({ size = 36, label }: { size?: 24 | 36 | 48 | number; /** '' when a visible title already names Equal AI (decorative). */ label?: string }) {
+  return <EqualOrb size={size} label={label} />;
 }
 
 /** Caller category avatar — the image carries its own coloured circle. */
-export function CategoryAvatar({ category = 'na', size = 48 }: { category?: Category; size?: number }) {
-  return <Asset name={`category-${category}`} size={size} radius="50%" alt={categoryLabel[category]} />;
+export function CategoryAvatar({ category = 'na', size = 48, label }: { category?: Category; size?: number; /** Alt text; '' when it sits beside a visible name. Defaults to the category name. */ label?: string }) {
+  return <Asset name={`category-${category}`} size={size} radius="50%" alt={label ?? categoryLabel[category]} />;
 }
 
 export type ContactAvatarProps = {
@@ -112,9 +113,9 @@ export function ContactAvatar({ size = 48, category = 'na', initials, selected, 
       {initials ? (
         <span style={{ width: size, height: size, borderRadius: '50%', background: `var(--eq-contact-avatar-${t}-bg)`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           {/* Initials scale with the avatar (37.5%): 36 at 96, 18 at 48, 15 at 40. */}
-          <span className="eq-t-subheading" style={{ color: `var(--eq-contact-avatar-${t}-text)`, fontSize: Math.round(size * 0.375), lineHeight: 1.2, fontWeight: 500 }}>
+          <Text variant="subheading" color="none" style={{ color: `var(--eq-contact-avatar-${t}-text)`, fontSize: Math.round(size * 0.375), lineHeight: 1.2, fontWeight: 500 }}>
             {initials.slice(0, 2).toUpperCase()}
-          </span>
+          </Text>
         </span>
       ) : (
         <CategoryAvatar category={category} size={size} />
@@ -125,7 +126,7 @@ export function ContactAvatar({ size = 48, category = 'na', initials, selected, 
         </span>
       )}
       {selected && (
-        <span style={{ position: 'absolute', right: -2, bottom: -2, width: 18, height: 18, borderRadius: '50%', background: 'var(--eq-button-primary)', color: 'var(--eq-text-on-action)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 0 2px var(--eq-bg-surface)' }}>
+        <span role="img" aria-label="Selected" style={{ position: 'absolute', right: -2, bottom: -2, width: 18, height: 18, borderRadius: '50%', background: 'var(--eq-button-primary)', color: 'var(--eq-text-on-action)', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 0 0 2px var(--eq-bg-surface)' }}>
           <Icon name="check" size={12} />
         </span>
       )}

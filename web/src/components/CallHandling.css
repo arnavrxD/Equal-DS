@@ -2,14 +2,14 @@
 
 .eq-ch-question { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 16px 24px 0; }
 
-.eq-ch-choice { display: flex; align-items: center; gap: 16px; width: 100%; padding: 18px 18px 18px 20px; border-radius: 20px; background: var(--eq-bg-surface); box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06); text-align: left; position: relative; }
-.eq-ch-choice.is-selected { background: var(--eq-choice-selected-bg); box-shadow: none; }
+.eq-ch-choice { display: flex; align-items: center; gap: 16px; width: 100%; padding: 18px 18px 18px 20px; border-radius: 20px; background: var(--eq-choice-default-bg); box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06); text-align: left; position: relative; }
+.eq-ch-choice.is-selected { background: var(--eq-action-fill-unread); box-shadow: none; }
 .eq-ch-choice.is-selected::before { content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 2px; background: var(--eq-gradient-choice-stroke); -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite: xor; mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0); pointer-events: none; }
 .eq-ch-choice:disabled { opacity: 0.45; }
 .eq-ch-radio { width: 24px; height: 24px; flex-shrink: 0; border-radius: 50%; border: 2px solid var(--eq-stroke-dark); box-sizing: border-box; }
 .eq-ch-radio.is-on { border-color: var(--eq-button-primary); background: radial-gradient(circle, var(--eq-button-primary) 0 5.5px, transparent 6px); }
 .eq-ch-suggested { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 999px; background: var(--eq-bg-surface); border: 1px solid var(--eq-stroke-subtle); }
-.eq-ch-info { display: flex; flex-direction: column; gap: 4px; padding: 16px; border-radius: 16px; background: var(--eq-info-note-bg); color: var(--eq-info-note-text); }
+.eq-ch-info { display: flex; flex-direction: column; gap: 4px; padding: 16px; border-radius: 16px; background: var(--eq-info-note-bg); color: var(--eq-text-primary); }
 .eq-ch-link { text-decoration: underline; text-underline-offset: 3px; }
 
 .eq-ch-initials { position: relative; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; border-radius: 50%; background: var(--eq-initials-disc-bg); box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07); color: var(--eq-text-primary); }
@@ -29,17 +29,17 @@
 .eq-ch-done { min-height: 100%; display: flex; flex-direction: column; justify-content: space-between; background: var(--eq-gradient-setup-done); }
 .eq-ch-done__body { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 48px 28px 24px; }
 
-.eq-ch-sheet { position: relative; display: flex; flex-direction: column; align-items: center; padding: 32px 20px 24px; background: var(--eq-sheet-bg); border-radius: 32px 32px 0 0; box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.12); }
+.eq-ch-sheet { position: relative; display: flex; flex-direction: column; align-items: center; padding: 32px 20px 24px; background: var(--eq-bg-primary); border-radius: 32px 32px 0 0; box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.12); }
 .eq-ch-sheet__close { position: absolute; top: 18px; right: 18px; background: var(--eq-bg-surface) !important; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); }
 .eq-status-sheet-layer .eq-ch-sheet { animation: eq-sheet-up var(--eq-duration-slow) var(--eq-easing-standard) both; }
 
 /* Android notification (system surface, so it follows the phone's theme through bg/surface). */
 .eq-ch-notif { border-radius: 24px; background: var(--eq-bg-surface); box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18); overflow: hidden; color: var(--eq-text-primary); }
 .eq-ch-notif__app { display: flex; align-items: center; gap: 6px; padding: 12px 16px 0; }
-.eq-ch-notif__sep { color: var(--eq-text-tertiary); font-size: 10px; }
+.eq-ch-notif__sep { color: var(--eq-text-secondary); font-size: 10px; }
 .eq-ch-notif__timer { display: inline-flex; align-items: center; gap: 3px; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--eq-stroke-subtle); font: 400 12px/16px var(--eq-font-family); color: var(--eq-text-secondary); }
 .eq-ch-notif__main { display: flex; align-items: center; gap: 12px; padding: 8px 16px 14px; }
-.eq-ch-notif__badge { position: absolute; right: -3px; bottom: -3px; width: 18px; height: 18px; border-radius: 50%; background: var(--eq-text-brand); display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 0 0 2px var(--eq-bg-surface); }
+.eq-ch-notif__badge { position: absolute; right: -3px; bottom: -3px; width: 18px; height: 18px; border-radius: 50%; background: var(--eq-text-action); display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 0 0 2px var(--eq-bg-surface); }
 .eq-ch-notif__app-icon { width: 48px; height: 48px; border-radius: 16px; background: var(--eq-gradient-fab); display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; color: var(--eq-text-on-action); font: 500 9px/10px var(--eq-font-family); flex-shrink: 0; }
 .eq-ch-notif__call { width: 44px; height: 44px; border-radius: 50%; border: 1.5px solid var(--eq-button-primary); display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .eq-ch-notif__replies { display: flex; gap: 10px; overflow-x: auto; scrollbar-width: none; padding: 10px 16px 14px; border-top: 1px solid var(--eq-stroke-subtle); }
@@ -55,3 +55,8 @@
 .eq-ch-ongoing { display: flex; align-items: center; justify-content: center; gap: 8px; height: 44px; background: var(--eq-ongoing-bar-bg); color: var(--eq-ongoing-bar-text); }
 
 @media (prefers-reduced-motion: reduce) { .eq-ch-prompt { animation: none; } .eq-status-sheet-layer .eq-ch-sheet { animation: none; } }
+
+/* A–Z index: each letter's hit area fills its slot (15 tall, the column is full) and reaches 28 wide
+   into the list's right padding; 48 tall is impossible with 26 letters in the column. */
+.eq-ch-index__letter { position: relative; }
+.eq-ch-index__letter::after { content: ''; position: absolute; top: -0.5px; bottom: -0.5px; right: -2px; left: -12px; }

@@ -14,7 +14,7 @@
 .eq-btn--block { display: flex; width: 100%; }
 
 .eq-btn--primary { background: var(--eq-button-primary); color: var(--eq-text-on-action); }
-.eq-btn--secondary { background: var(--eq-button-secondary); color: var(--eq-text-primary); }
+.eq-btn--secondary { background: var(--eq-button-secondary); color: var(--eq-text-on-secondary); }
 .eq-btn--danger { background: var(--eq-button-danger); color: var(--eq-text-on-danger); }
 /* Monetization: gold commit (Unlock Unlimited, Re-Subscribe) and outline revise (Cancel). */
 .eq-btn--gold { background: var(--eq-gradient-cta-gold); color: #FFFFFF; font-weight: 700; }
@@ -44,5 +44,6 @@
 .eq-icon-btn--ghost { color: var(--eq-text-primary); }
 .eq-icon-btn--danger-ghost { color: var(--eq-button-danger); }
 .eq-icon-btn--neutral { background: var(--eq-bg-surface); color: var(--eq-text-secondary); box-shadow: var(--eq-shadow-raised); }
+.eq-icon-btn--glass { background: var(--eq-glass-button-default); color: var(--eq-text-primary); box-shadow: var(--eq-shadow-glass); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
 .eq-icon-btn--primary { background: var(--eq-button-primary); color: var(--eq-text-on-action); box-shadow: var(--eq-shadow-raised); }
 .eq-icon-btn:disabled { opacity: 0.4; }

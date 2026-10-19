@@ -1,5 +1,6 @@
 package ai.equal.ds.components
 
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import ai.equal.ds.assets.EqualAssetImage
 import ai.equal.ds.assets.EqualAssets
 import ai.equal.ds.icons.EqualIcon
@@ -7,7 +8,6 @@ import ai.equal.ds.icons.EqualIcons
 import ai.equal.ds.theme.EqualShadows
 import ai.equal.ds.theme.EqualTheme
 import ai.equal.ds.theme.eqShadow
-import ai.equal.ds.theme.toBrush
 import ai.equal.ds.tokens.EqualRadius
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -31,6 +31,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.font.FontWeight
@@ -60,9 +64,11 @@ fun StatusBar(
     color: Color = EqualTheme.colors.textPrimary,
 ) {
     val tint = color
+    // A drawn mock of the system bar: TalkBack must not read its fake time.
     Row(
         modifier
             .fillMaxWidth()
+            .clearAndSetSemantics {}
             .height(EqualStatusBarHeight)
             .background(background)
             .padding(horizontal = 24.dp),
@@ -129,7 +135,8 @@ enum class AssistantToggleArt {
 
 /**
  * Assistant availability toggle card (SPEC §3). 64 high, radius 20, padding 12.
- * On: `gradient/assistant-toggle`. Off: `bg/surface` + 1dp `stroke/subtle`.
+ * On: `assistant-toggle/bg` with an `action/stroke/unread` (at 40%) radial glow at each end.
+ * Off: `bg/surface` + 1dp `stroke/subtle`.
  * The whole card is the toggle (role Switch, 64dp target); the [EqualSwitch] inside is visual.
  * The parent supplies the 12dp side margins.
  */
@@ -149,7 +156,23 @@ fun AssistantToggleCard(
     val colors = EqualTheme.colors
     val shape = RoundedCornerShape(EqualRadius.rXl)
     val fillModifier = if (checked) {
-        Modifier.background(EqualTheme.gradients.assistantToggle.toBrush(), shape)
+        // Figma: the flat `assistant-toggle/bg` fill with a soft `action/stroke/unread` glow at each end.
+        val glow = colors.actionStrokeUnread.copy(alpha = colors.actionStrokeUnread.alpha * 0.4f)
+        Modifier
+            .clip(shape)
+            .background(colors.assistantToggleBg)
+            .drawBehind {
+                val radius = size.width * 0.5f
+                for (x in listOf(0f, size.width)) {
+                    drawRect(
+                        Brush.radialGradient(
+                            colors = listOf(glow, Color.Transparent),
+                            center = Offset(x, size.height / 2f),
+                            radius = radius,
+                        ),
+                    )
+                }
+            }
     } else {
         Modifier
             .background(colors.bgSurface, shape)

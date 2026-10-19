@@ -40,6 +40,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.CornerRadius
@@ -55,13 +56,19 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.layout
 import androidx.compose.ui.semantics.Role
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
+import androidx.compose.foundation.LocalIndication
+import androidx.compose.foundation.indication
+import androidx.compose.runtime.State
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -90,12 +97,26 @@ fun ProfileHero(
     phone: String,
     modifier: Modifier = Modifier,
     avatar: ProfileAvatarVariant = ProfileAvatarVariant.Male,
-    plan: String? = "Unlimited",
+    /** [ProfileHeroTone.Gold]: the cream-gold header of a user with a plan. [ProfileHeroTone.Plain]: no plan yet. */
+    tone: ProfileHeroTone = ProfileHeroTone.Gold,
+    plan: String? = if (tone == ProfileHeroTone.Plain) null else "Unlimited",
     /** Paid while a [plan] is set: the gold-ringed avatar; free: the plain bust. */
     tier: PlanTier = if (plan != null) PlanTier.Paid else PlanTier.Free,
     onEdit: (() -> Unit)? = null,
     content: (@Composable ColumnScope.() -> Unit)? = null,
 ) {
+    if (tone == ProfileHeroTone.Plain) {
+        // No subscription and no plan: a flat mint header with 20 dp bottom corners (follows the theme).
+        Column(
+            modifier
+                .fillMaxWidth()
+                .background(EqualTheme.colors.profileHeroPlainBg, RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp))
+                .padding(start = 12.dp, end = 12.dp, top = 20.dp, bottom = 20.dp),
+        ) {
+            HeroRow(name, phone, avatar, null, PlanTier.Free, onEdit, noPlan = true)
+        }
+        return
+    }
     val dark = EqualTheme.colors.isDark
     val heroBrush = EqualTheme.gradients.profileHero.toBrush()
     val arcColor = EqualPrimitives.white.copy(alpha = 0.55f)
@@ -146,6 +167,7 @@ private fun HeroRow(
     plan: String?,
     tier: PlanTier,
     onEdit: (() -> Unit)?,
+    noPlan: Boolean = false,
 ) {
     val colors = EqualTheme.colors
     Row(
@@ -154,7 +176,7 @@ private fun HeroRow(
             .padding(horizontal = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        ProfileAvatar(variant = avatar, width = 70.dp, tier = tier)
+        if (noPlan) NoPlanAvatar(avatar) else ProfileAvatar(variant = avatar, width = 70.dp, tier = tier)
         Spacer(Modifier.width(12.dp))
         Column(Modifier.weight(1f)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -164,7 +186,7 @@ private fun HeroRow(
                     color = colors.textPrimary,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.weight(1f, fill = false),
+                    modifier = Modifier.weight(1f, fill = false).semantics { heading() },
                 )
                 if (plan != null) {
                     Spacer(Modifier.width(8.dp))
@@ -172,19 +194,56 @@ private fun HeroRow(
                 }
                 if (onEdit != null) {
                     Spacer(Modifier.width(8.dp))
-                    // 28dp ghost button; Compose extends the hit area to 48dp.
+                    // 28dp ghost button with a 48dp touch area (layout unchanged).
+                    val interaction = rememberInteraction()
                     Box(
                         Modifier
-                            .size(28.dp)
-                            .clip(CircleShape)
-                            .clickable(role = Role.Button, onClickLabel = "Edit profile", onClick = onEdit),
+                            .touchTarget()
+                            .clickable(interactionSource = interaction, indication = null, role = Role.Button, onClick = onEdit),
                         contentAlignment = Alignment.Center,
                     ) {
-                        EqualIcon(EqualIcons.EditProfile, contentDescription = "Edit profile", tint = colors.textSecondary, size = 18.dp)
+                        Box(
+                            Modifier
+                                .size(28.dp)
+                                .clip(CircleShape)
+                                .indication(interaction, LocalIndication.current),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            EqualIcon(EqualIcons.EditProfile, contentDescription = "Edit profile", tint = colors.textSecondary, size = 18.dp)
+                        }
                     }
                 }
             }
             EqualText(text = phone, style = EqualTheme.type.body1.tabular(), color = colors.textSecondary, maxLines = 1)
+        }
+    }
+}
+
+/** [ProfileHero] header style. */
+enum class ProfileHeroTone {
+    /** Cream-gold header of a user with a plan (light in both themes); hosts the plan card. */
+    Gold,
+
+    /** Mint header of a user with no subscription and no plan: no plan card, no plan marker. */
+    Plain,
+}
+
+/** No-plan avatar: the plain bust on a green disc inside a 5 dp green ring (coded), head above the ring. */
+@Composable
+private fun NoPlanAvatar(avatar: ProfileAvatarVariant) {
+    val green = EqualTheme.colors.buttonPrimary
+    Box(Modifier.size(width = 71.dp, height = 80.dp).clearAndSetSemantics {}) {
+        Box(Modifier.align(Alignment.BottomCenter).size(71.dp).border(5.dp, green, CircleShape))
+        Box(Modifier.align(Alignment.BottomCenter).padding(bottom = 6.5.dp).size(58.dp).background(green, CircleShape))
+        Box(
+            Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 6.5.dp)
+                .size(width = 58.dp, height = 80.dp)
+                .clip(RoundedCornerShape(bottomStart = 29.dp, bottomEnd = 29.dp)),
+            contentAlignment = Alignment.BottomCenter,
+        ) {
+            ProfileAvatar(variant = avatar, width = 58.dp, tier = PlanTier.Free)
         }
     }
 }
@@ -195,11 +254,11 @@ private fun HeroRow(
 
 /**
  * Dark plan card. Radius 20, `plan-card/bg`, padding 14 / 16 / 16.
- * Top row: "Current Plan" pill (24 high, radius 8, 1dp `plan-card/pill-stroke`, 4% white fill,
- * `caption` `text/on-dark`; [expired] → "Plan Expired", filled `plan-card/expired-pill` with no
- * border and `caption` Medium `text/on-dark`), and
+ * Top row: "Current Plan" pill (24 high, radius 8, 1dp `plan-card/pill-stroke`, `plan-card/pill-bg`,
+ * `caption` `text/on-dark`; [expired] → "Plan Expired", `gradient/expired-badge` over
+ * `plan-card/expired-pill` with a 1dp `plan-badge/expired-stroke`, `caption` Medium `text/on-dark`), and
  * on the right an underlined "Manage plan" (`buttonSmall` `text/on-dark`) when [onManageClick]
- * is set. Then [product] `title` `text/on-dark` with [tier] in `text/accent-gold` (12 below),
+ * is set. Then [product] `title` `text/on-dark` with [tier] painted `gradient/unlimited-text` (12 below),
  * then [price] `caption` Regular `text/on-dark-secondary` (tabular). A coded gold line pattern
  * fills the right 60% of the card.
  */
@@ -236,8 +295,10 @@ fun PlanCard(
                     Modifier
                         .height(24.dp)
                         .clip(pillShape)
-                        .background(if (expired) colors.planCardExpiredPill else EqualPrimitives.white.copy(alpha = 0.04f))
-                        .border(1.dp, if (expired) Color.Transparent else colors.planCardPillStroke, pillShape)
+                        .background(if (expired) colors.planCardExpiredPill else colors.planCardPillBg)
+                        // Expired: the `gradient/expired-badge` sheen over the solid red fallback.
+                        .then(if (expired) Modifier.background(EqualTheme.gradients.expiredBadge.toBrush()) else Modifier)
+                        .border(1.dp, if (expired) colors.planBadgeExpiredStroke else colors.planCardPillStroke, pillShape)
                         .padding(horizontal = 10.dp),
                     contentAlignment = Alignment.Center,
                 ) {
@@ -250,24 +311,39 @@ fun PlanCard(
                 }
                 Spacer(Modifier.weight(1f))
                 if (onManageClick != null) {
-                    EqualText(
-                        text = manageLabel,
-                        style = type.buttonSmall.copy(textDecoration = TextDecoration.Underline),
-                        color = colors.textOnDark,
-                        maxLines = 1,
-                        modifier = Modifier.clickable(role = Role.Button, onClick = onManageClick),
-                    )
+                    // 48dp touch area around the text link (layout unchanged).
+                    Box(
+                        Modifier
+                            .touchTarget()
+                            .clickable(role = Role.Button, onClick = onManageClick),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        EqualText(
+                            text = manageLabel,
+                            style = type.buttonSmall.copy(textDecoration = TextDecoration.Underline),
+                            color = colors.textOnDark,
+                            maxLines = 1,
+                        )
+                    }
                 }
             }
             Spacer(Modifier.height(12.dp))
-            BasicText(
-                text = buildAnnotatedString {
-                    append(product)
-                    append(" ")
-                    withStyle(SpanStyle(color = colors.textAccentGold)) { append(tier.uppercase()) }
-                },
-                style = type.title.copy(color = colors.textOnDark),
-            )
+            // The tier ("UNLIMITED") paints `gradient/unlimited-text` through its own glyphs, so it is
+            // its own text run (a span brush would stretch over the whole line).
+            Row {
+                BasicText(
+                    text = "$product ",
+                    style = type.title.copy(color = colors.textOnDark),
+                    modifier = Modifier.alignByBaseline(),
+                    maxLines = 1,
+                )
+                BasicText(
+                    text = tier.uppercase(),
+                    style = type.title.copy(brush = EqualTheme.gradients.unlimitedText.toBrush()),
+                    modifier = Modifier.alignByBaseline(),
+                    maxLines = 1,
+                )
+            }
             EqualText(text = price, style = type.captionRegular.tabular(), color = colors.textOnDarkSecondary, maxLines = 1)
         }
     }
@@ -354,7 +430,7 @@ enum class AiSummaryStatus { Empty, Loading, Ready }
  * Header: 28dp orb + [label] `caption` `text/secondary`.
  * - Empty: centred "I'm still getting to know you..." (`bodyLarge` at Medium).
  * - Loading: five full-width 17dp `skeleton` bars (gap 4) pulsing 0.95 ↔ 0.45 over 1.4s,
- *   staggered 90ms.
+ *   staggered 90ms (still under reduced motion); TalkBack hears "Summary is updating".
  * - Ready: [summary] in `bodyLarge` `text/primary`.
  * Footer, right-aligned `caption` Regular `text/tertiary`: [footer], or by default
  * "Last Updated: [lastUpdated]" while loading and "Usually ready after your first few calls"
@@ -415,7 +491,11 @@ fun AiSummaryCard(
                 Box(
                     Modifier
                         .weight(1f)
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .semantics {
+                            contentDescription = label
+                            stateDescription = "Summary is updating"
+                        },
                     contentAlignment = Alignment.Center,
                 ) {
                     SummarySkeleton()
@@ -425,7 +505,7 @@ fun AiSummaryCard(
         EqualText(
             text = foot,
             style = type.captionRegular,
-            color = colors.textTertiary,
+            color = colors.textSecondary,
             textAlign = TextAlign.End,
             modifier = Modifier.fillMaxWidth(),
         )
@@ -434,14 +514,19 @@ fun AiSummaryCard(
 
 @Composable
 private fun SummarySkeleton() {
-    val color = EqualTheme.colors.skeleton
-    val transition = rememberInfiniteTransition(label = "eqSkeleton")
-    val time by transition.animateFloat(
-        initialValue = 0f,
-        targetValue = SkeletonPeriodMs,
-        animationSpec = infiniteRepeatable(tween(durationMillis = SkeletonPeriodMs.toInt(), easing = LinearEasing)),
-        label = "eqSkeletonTime",
-    )
+    val color = EqualTheme.colors.strokeSubtle
+    // Reduced motion: the bars hold still at the pulse midpoint instead of looping.
+    val reduceMotion = rememberReduceMotion()
+    val time: State<Float> = if (reduceMotion) {
+        remember { mutableFloatStateOf(SkeletonPeriodMs / 4f) }
+    } else {
+        rememberInfiniteTransition(label = "eqSkeleton").animateFloat(
+            initialValue = 0f,
+            targetValue = SkeletonPeriodMs,
+            animationSpec = infiniteRepeatable(tween(durationMillis = SkeletonPeriodMs.toInt(), easing = LinearEasing)),
+            label = "eqSkeletonTime",
+        )
+    }
     Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(4.dp)) {
         for (i in 0 until 5) {
             Box(
@@ -449,7 +534,7 @@ private fun SummarySkeleton() {
                     .fillMaxWidth()
                     .height(17.dp)
                     // Read the animated time in the layer block: redraws without recomposing.
-                    .graphicsLayer { alpha = skeletonAlpha(time - i * 90f) }
+                    .graphicsLayer { alpha = skeletonAlpha(time.value - if (reduceMotion) 0f else i * 90f) }
                     .background(color),
             )
         }
@@ -505,15 +590,24 @@ fun InviteCard(
                 EqualText(text = title, style = EqualTheme.type.subheading, color = colors.textPrimary, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 EqualText(text = subtitle, style = EqualTheme.type.captionRegular, color = colors.textSecondary, maxLines = 1, overflow = TextOverflow.Ellipsis)
             }
+            // 56 × 40 pill with a 56 × 48 touch area (layout unchanged).
+            val shareInteraction = rememberInteraction()
             Box(
                 Modifier
-                    .size(width = 56.dp, height = 40.dp)
-                    .clip(CircleShape)
-                    .background(colors.bgSurface)
-                    .clickable(role = Role.Button, onClickLabel = "Share invite", onClick = onShare),
+                    .touchTarget()
+                    .clickable(interactionSource = shareInteraction, indication = null, role = Role.Button, onClick = onShare),
                 contentAlignment = Alignment.Center,
             ) {
-                EqualIcon(EqualIcons.Share, contentDescription = "Share invite", tint = colors.textSecondary, size = 22.dp)
+                Box(
+                    Modifier
+                        .size(width = 56.dp, height = 40.dp)
+                        .clip(CircleShape)
+                        .background(colors.bgSurface)
+                        .indication(shareInteraction, LocalIndication.current),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    EqualIcon(EqualIcons.Share, contentDescription = "Share invite", tint = colors.textSecondary, size = 22.dp)
+                }
             }
         }
         // Zero-size anchor at the top-left: the art doesn't affect the card's size, so it can rise

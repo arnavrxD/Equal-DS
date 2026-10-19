@@ -22,9 +22,9 @@
   margin-left: 4px;
   border-radius: var(--eq-radius-full);
   background: var(--eq-gradient-takeover);
-  border: 1px solid var(--eq-action-stroke-unread);
+  border: 1px solid var(--eq-takeover-stroke);
   box-shadow: var(--eq-shadow-glass), 0 2px 6px rgba(0, 0, 0, 0.06);
-  color: var(--eq-text-action);
+  color: var(--eq-takeover-text);
   white-space: nowrap;
 }
 .eq-markread {

@@ -39,15 +39,15 @@ export function AppBar({ title, onBack, trailing, statusBar = false, surface = '
 }
 
 /** Uppercase region header ("Your assistant", "Settings & support"). Overline token. */
-export function SectionHeader({ children, action, qualifier, inset = 20, size = 'overline' }: { children: string; action?: ReactNode; qualifier?: string; /** Side padding in dp. */ inset?: number; /** `label`: 13sp medium `text/secondary` (Contact Info). */ size?: 'overline' | 'label' }) {
+export function SectionHeader({ children, action, qualifier, inset = 20, size = 'overline', as = 'h2' }: { children: string; action?: ReactNode; qualifier?: string; /** Side padding in dp. */ inset?: number; /** `label`: 13sp medium `text/secondary` (Contact Info). */ size?: 'overline' | 'label'; /** Heading level for screen-reader heading navigation (looks the same); 'span' for none. */ as?: 'h2' | 'h3' | 'h4' | 'span' }) {
   return (
     <div style={{ display: 'flex', alignItems: 'center', gap: 6, padding: size === 'label' ? `30px ${inset}px 18px` : `24px ${inset}px 12px` }}>
       {size === 'label' ? (
-        <Text variant="caption" color="secondary" style={{ fontSize: 13, lineHeight: '18px', letterSpacing: '0.01em' }}>{children.toUpperCase()}</Text>
+        <Text as={as} aria-label={children} variant="caption" color="secondary" style={{ fontSize: 13, lineHeight: '18px', letterSpacing: '0.01em' }}>{children.toUpperCase()}</Text>
       ) : (
-        <Text variant="overline" color="tertiary">{children.toUpperCase()}</Text>
+        <Text as={as} aria-label={children} variant="overline" color="secondary">{children.toUpperCase()}</Text>
       )}
-      {qualifier && <Text variant="caption" color="tertiary" style={{ fontWeight: 400 }}>{qualifier}</Text>}
+      {qualifier && <Text variant="caption" color="secondary" style={{ fontWeight: 400 }}>{qualifier}</Text>}
       <span style={{ flex: 1 }} />
       {action}
     </div>

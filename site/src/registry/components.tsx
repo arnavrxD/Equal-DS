@@ -481,7 +481,7 @@ function GenderDemo() {
       <GenderSelector value={g} onChange={setG} />
       <Row gap={12}>
         <ProfileAvatar variant={g} size={56} />
-        <span className="eq-t-body1" style={{ color: 'var(--eq-text-secondary)' }}>Your avatar updates across the app.</span>
+        <Text variant="body1" color="secondary">Your avatar updates across the app.</Text>
       </Row>
     </Col>
   );
@@ -584,7 +584,7 @@ export const componentDocs: ComponentDoc[] = [
     importLine: "import { Button, TextButton, IconButton } from '@equal/ds';",
     compose: ['EqualButton', 'EqualTextButton', 'EqualIconButton'],
     spec: '§19 Buttons',
-    tokens: ['button/primary', 'button/secondary', 'button/danger', 'button/disabled', 'text/on-action', 'text/on-danger', 'text/on-action-disabled', 'text/action', 'text/danger', 'bg/surface', 'shadow/raised', 'shadow/focusRing'],
+    tokens: ['button/primary', 'button/secondary', 'button/danger', 'button/disabled', 'text/on-action', 'text/on-danger', 'text/on-action-disabled', 'text/action', 'text/danger', 'bg/surface', 'shadow/raised', 'glass-button/default', 'shadow/focusRing'],
     examples: [
       {
         title: 'Variants',
@@ -707,7 +707,7 @@ export const componentDocs: ComponentDoc[] = [
         props: [
           req('icon', 'IconName', 'Material Symbols icon from the DS manifest.'),
           req('label', 'string', 'Accessible label; also used as the tooltip.'),
-          opt('variant', "'neutral' | 'primary' | 'ghost' | 'danger-ghost'", "'ghost'", 'ghost = bare target; neutral = white raised circle (close); primary = green circle (confirm); danger-ghost = red icon (delete).'),
+          opt('variant', "'neutral' | 'primary' | 'glass' | 'ghost' | 'danger-ghost'", "'ghost'", 'ghost = bare target; neutral = white raised circle (close); primary = green circle (confirm); glass = frosted `glass-button/default` circle for close/back over art or colour; danger-ghost = red icon (delete).'),
           opt('size', 'number', '40 ghost · 42 primary · 44 neutral', 'Circle size in dp.'),
           opt('iconSize', 'number', '24 ghost · 22 filled', 'Icon size in dp.'),
           opt('type', "'button' | 'submit' | 'reset'", "'button'", htmlButtonNote),
@@ -1744,7 +1744,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     importLine: "import { ChatHeader, TakeoverPill, SelectionHeader, HomeHeader } from '@equal/ds';",
     compose: ['ChatHeader', 'TakeoverPill', 'SelectionChatHeader', 'HomeHeader'],
     spec: '§5 Chat Header (In-Conversation)',
-    tokens: ['bg/surface', 'bg/primary', 'shadow/header', 'gradient/takeover', 'action/stroke/unread', 'shadow/glass', 'text/action', 'text/primary', 'text/tertiary', 'button/danger'],
+    tokens: ['bg/surface', 'bg/primary', 'shadow/header', 'gradient/takeover', 'takeover/text', 'takeover/stroke', 'action/stroke/unread', 'shadow/glass', 'text/action', 'text/primary', 'text/tertiary', 'button/danger'],
     examples: [
       {
         title: 'Default',
@@ -1849,7 +1849,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     importLine: "import { ChatListItem } from '@equal/ds';",
     compose: ['ChatListItem'],
     spec: '§6 Chat List Item',
-    tokens: ['bg/surface', 'action-card/highlight', 'text/primary', 'text/secondary', 'text/action', 'text/tertiary', 'button/primary', 'text/on-action'],
+    tokens: ['bg/surface', 'action-card/highlight', 'state/chat-pressed', 'text/primary', 'text/secondary', 'text/action', 'text/tertiary', 'button/primary', 'text/on-action'],
     examples: [
       {
         title: 'Unread and read',
@@ -2033,7 +2033,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     importLine: "import { CallSummary, VoicePlayer } from '@equal/ds';",
     compose: ['CallSummaryBubble', 'VoiceNotePlayer'],
     spec: '§11 Chat Bubbles · Voice note + Call Summary bubble',
-    tokens: ['bg/surface', 'voice/player-bg', 'stroke/subtle', 'waveform/bar', 'waveform/bar-played', 'playback/pill-bg', 'text/on-dark', 'text/tertiary', 'text/primary', 'text/action'],
+    tokens: ['bg/surface', 'voice/player-bg', 'voice/player-stroke', 'stroke/subtle', 'waveform/bar', 'waveform/bar-played', 'playback/pill-bg', 'text/on-dark', 'text/tertiary', 'text/primary', 'text/action'],
     examples: [
       {
         title: 'With recording and share',
@@ -2411,7 +2411,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     importLine: "import { AssistantToggle } from '@equal/ds';",
     compose: ['AssistantToggleCard'],
     spec: '§3 Assistant Availability Toggle',
-    tokens: ['gradient/assistant-toggle', 'bg/surface', 'stroke/subtle', 'text/primary', 'text/secondary', 'button/primary', 'button/disabled'],
+    tokens: ['assistant-toggle/bg', 'bg/surface', 'stroke/subtle', 'text/primary', 'text/secondary', 'button/primary', 'button/disabled', 'action/stroke/unread'],
     examples: [
       {
         title: 'Interactive',
@@ -2540,7 +2540,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
             <ActionCard
               category="others"
               title="Dr. Mehta's Clinic Appointment"
-              details={[{ text: 'Tomorrow, 9:00 AM' }, { text: 'Bring previous medical reports', tone: 'tertiary' }]}
+              details={[{ text: 'Tomorrow, 9:00 AM' }, { text: 'Bring previous medical reports', tone: 'secondary' }]}
               time="03:21"
               actions={[{ label: 'Confirm', emoji: '👍' }, { label: 'Edit', emoji: '✏️' }]}
             />
@@ -2549,7 +2549,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
         code: `<ActionCard category="others" title="Dr. Mehta's Clinic Appointment"
   details={[
     { text: 'Tomorrow, 9:00 AM' },
-    { text: 'Bring previous medical reports', tone: 'tertiary' },
+    { text: 'Bring previous medical reports', tone: 'secondary' },
   ]}
   time="03:21"
   actions={[{ label: 'Confirm', emoji: '👍' }, { label: 'Edit', emoji: '✏️' }]} />`,
@@ -2917,7 +2917,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     importLine: "import { CouponTicket } from '@equal/ds';",
     compose: ['CouponTicket'],
     spec: 'Monetization Flow · EQUAL25',
-    tokens: ['gradient/coupon', 'paywall/card-stroke', 'paywall/divider', 'text/gold', 'gradient/gold-text'],
+    tokens: ['bg/surface', 'gradient/coupon-stroke', 'paywall/divider', 'text/gold', 'gradient/gold-text'],
     examples: [
       { title: 'Available', render: () => <div style={pad16}><div style={{ width: '100%' }}><CouponTicket code="EQUAL25" description="Save Flat ₹100 with this Code" discount="25% OFF" onApply={noop} /></div></div>, code: `<CouponTicket code="EQUAL25" description="Save Flat ₹100 with this Code" discount="25% OFF" onApply={apply} />` },
       { title: 'Applied', render: () => <div style={pad16}><div style={{ width: '100%' }}><CouponTicket code="EQUAL25" description="Save Flat ₹100 with this Code" discount="25% OFF" applied /></div></div>, code: `<CouponTicket code="EQUAL25" description="Save Flat ₹100 with this Code" discount="25% OFF" applied />` },
@@ -2935,7 +2935,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     importLine: "import { Locked, LockBadge, UnlockDetailsCard, UnlockAudioPill, ChatListItem, ChatBubble, CallSummary } from '@equal/ds';",
     compose: ['LockedContent', 'LockBadge', 'UnlockDetailsCard', 'UnlockAudioPill'],
     spec: 'Monetization Flow · touchpoints',
-    tokens: ['locked/badge-bg', 'gradient/status-gold', 'button/primary'],
+    tokens: ['locked/badge-bg', 'locked/badge-stroke', 'gradient/status-gold', 'button/primary'],
     examples: [
       {
         title: 'Locked chat rows',
@@ -3079,7 +3079,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     importLine: "import { PlanExpiryBanner } from '@equal/ds';",
     compose: ['PlanExpiryBanner'],
     spec: 'Monetization value · Home Screen',
-    tokens: ['expiry-banner/warning-bg', 'expiry-banner/warning-text', 'expiry-banner/danger-bg', 'expiry-banner/danger-text'],
+    tokens: ['expiry-banner/warning-bg', 'expiry-banner/warning-icon-bg', 'expiry-banner/danger-icon-bg', 'expiry-banner/warning-text', 'expiry-banner/danger-bg', 'expiry-banner/danger-text'],
     examples: [
       {
         title: 'States',
@@ -3213,7 +3213,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
         title: 'Input: text and voice',
         width: 390,
         render: () => (
-          <div style={{ width: '100%', padding: 16, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: 16, background: 'var(--eq-sheet-bg)' }}>
+          <div style={{ width: '100%', padding: 16, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: 16, background: 'var(--eq-bg-primary)' }}>
             <AssistantInput mode="text" />
             <AssistantInput mode="text" value="Set a remainder for appointment" focused />
             <AssistantInput mode="voice" />
@@ -3226,7 +3226,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
         title: 'Recorder states',
         width: 390,
         render: () => (
-          <div style={{ width: '100%', padding: 16, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: 18, background: 'var(--eq-sheet-bg)' }}>
+          <div style={{ width: '100%', padding: 16, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: 18, background: 'var(--eq-bg-primary)' }}>
             <VoiceRecorder state="idle" />
             <VoiceRecorder state="recording" seconds={4} />
             <VoiceRecorder state="hold" />
@@ -3292,7 +3292,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     importLine: "import { CallQuestion, ChoiceCard, InfoNote, ContactPick, ContactCheckRow, AlphabetIndex, SetupPrompt, SetupDone, PermissionSheet, CallNotification, OngoingCallBar } from '@equal/ds';",
     compose: ['CallQuestion', 'ChoiceCard', 'SuggestedTag', 'InfoNote', 'ContactPick', 'ContactCheckRow', 'AlphabetIndex', 'SetupPrompt', 'SetupDone', 'PermissionSheet', 'CallNotification', 'OngoingCallBar'],
     spec: 'Known Calls (new users) · Known-call notifications',
-    tokens: ['choice/selected-bg', 'gradient/choice-stroke', 'info-note/bg', 'initials-disc/bg', 'gradient/setup-done', 'gradient/setup-prompt', 'ongoing-bar/bg', 'ongoing-bar/text'],
+    tokens: ['choice/default-bg', 'action/fill/unread', 'gradient/choice-stroke', 'info-note/bg', 'initials-disc/bg', 'gradient/setup-done', 'gradient/setup-prompt', 'ongoing-bar/bg', 'ongoing-bar/text'],
     examples: [
       {
         title: 'Choice cards',
@@ -3367,7 +3367,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     importLine: "import { PaymentResult, ProcessingStrip, PaywallSheet, CouponRow, HelpFaqSheet, ExitOfferDialog, OfferStrip, HomeNoticeCard, UsageCapCard, AssistantNoticeCard, SummaryActions, LockedRecording } from '@equal/ds';",
     compose: ['PaymentResult', 'ProcessingStrip', 'PaywallSheet', 'CouponRow', 'HelpFaqSheet', 'ExitOfferDialog', 'OfferStrip', 'HomeNoticeCard', 'UsageCapCard', 'AssistantNoticeCard', 'SummaryActions', 'LockedRecording'],
     spec: 'All Payment States · Payment Pending · Home / Conversation Screen (light & dark) · Plan Expired & Usage Cap touchpoints · Recordings + Transcripts Locked · Actions on Home Page',
-    tokens: ['gradient/result-success', 'gradient/result-pending', 'gradient/result-failed', 'result/ring', 'processing/bg', 'processing/ring', 'offer-strip/bg', 'plan-badge/expired-bg'],
+    tokens: ['gradient/result-success', 'gradient/result-pending', 'gradient/result-failed', 'result/ring', 'processing/bg', 'processing/ring', 'offer-strip/bg', 'plan-badge/expired-bg', 'plan-badge/expired-stroke', 'gradient/expired-badge'],
     examples: [
       {
         title: 'Payment results',
@@ -3485,7 +3485,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     tokens: ['button/primary', 'bg/surface', 'gradient/offline-screen', 'action/stroke/unread'],
     examples: [
       { title: 'Assistant turn', width: 390, render: () => <div style={{ padding: 16, width: '100%', boxSizing: 'border-box', background: 'var(--eq-chat-wallpaper-bg)' }}><AiTurn actions={[{ label: 'Mute', emoji: '🔕' }]}>Are you sure? You’ll not get any call from them even if it’s important</AiTurn></div>, code: `<AiTurn actions={[{ label: 'Mute', emoji: '🔕', onClick: mute }]}>Are you sure? …</AiTurn>` },
-      { title: 'Hold to speak', width: 390, render: () => <div style={{ padding: 16, width: '100%', boxSizing: 'border-box', background: 'var(--eq-sheet-bg)' }}><HoldToSpeakBar /></div>, code: `<HoldToSpeakBar onHold={record} onKeyboard={showKeyboard} />` },
+      { title: 'Hold to speak', width: 390, render: () => <div style={{ padding: 16, width: '100%', boxSizing: 'border-box', background: 'var(--eq-bg-primary)' }}><HoldToSpeakBar /></div>, code: `<HoldToSpeakBar onHold={record} onKeyboard={showKeyboard} />` },
       { title: 'Edit bubble', width: 390, render: () => <div style={{ width: '100%', background: 'rgba(0,0,0,0.35)' }}><EditBubble value="Hi Amit! Count me in for Sunday 8 PM. See you there 👍" /></div>, code: `<EditBubble value={draft} onChange={setDraft} onDone={save} autoFocus />` },
       { title: 'New contact: iOS parity', width: 390, render: () => <div style={{ width: '100%' }}><NewContactForm variant="grouped" value={{ first: 'Rahul (Electrician)', phone: '+91 98717 46113' }} /></div>, code: `<NewContactForm variant="grouped" value={contact} onClose={close} onSave={save} />` },
       { title: 'New contact: WhatsApp parity', width: 390, render: () => <div style={{ width: '100%', height: 520, display: 'flex' }}><NewContactForm variant="outlined" value={{ first: 'Rahul (Electrician)', phone: '+91 98717 46113', sync: true }} /></div>, code: `<NewContactForm variant="outlined" value={contact} onSave={save} onSync={setSync} />` },
@@ -3564,7 +3564,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
       {
         title: 'Delete confirm (inline)',
         render: () => (
-          <div style={{ paddingTop: 40, background: 'var(--eq-scrim)' }}>
+          <div style={{ paddingTop: 40, background: 'var(--eq-bg-overlay)' }}>
             <BottomSheet open mode="inline">
               <ConfirmSheetContent
                 title={<>Delete chat with<br />Amit Nanda</>}
@@ -3589,11 +3589,11 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
         title: 'Titled sheet (inline)',
         note: 'A title row puts close on the left and replaces the floating close.',
         render: () => (
-          <div style={{ paddingTop: 40, background: 'var(--eq-scrim)' }}>
+          <div style={{ paddingTop: 40, background: 'var(--eq-bg-overlay)' }}>
             <BottomSheet open mode="inline" title="Turn off WhatsApp updates?">
               <Col gap={16} style={{ alignItems: 'center', textAlign: 'center' }}>
                 <IllustrationHeader asset="illustration-whatsapp" size={120} />
-                <span className="eq-t-body1" style={{ color: 'var(--eq-text-secondary)' }}>You'll stop getting call alerts and account updates on WhatsApp.</span>
+                <Text variant="body1" color="secondary">You'll stop getting call alerts and account updates on WhatsApp.</Text>
                 <Button block size="lg">Turn off updates</Button>
               </Col>
             </BottomSheet>
@@ -3895,7 +3895,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
           <OnPrimary pad="16px 0">
             <RowGroup>
               <SettingsRow label="Active Instructions" description="3 Active" onClick={noop} />
-              <SettingsRow label="Muted Contacts" trailing={<span className="eq-t-body1 eq-tnum" style={{ color: 'var(--eq-text-tertiary)' }}>4</span>} onClick={noop} />
+              <SettingsRow label="Muted Contacts" trailing={<Text variant="body1" color="secondary" className="eq-tnum">4</Text>} onClick={noop} />
               <SettingsRow label="Version" description="2.4.0" trailing="none" />
             </RowGroup>
           </OnPrimary>
@@ -3913,6 +3913,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
           opt('description', 'ReactNode', undefined, 'Secondary line (caption, text/tertiary).'),
           opt('wrap', 'boolean', undefined, 'Let the description wrap; switches it to captionWrap (Regular, 18 line height).'),
           opt('icon', 'IconName', undefined, 'Leading 24dp icon.'),
+          opt('iconBg', 'string', undefined, 'Puts the icon (20dp) in a 36dp circle of this colour, e.g. var(--eq-preset-tint-lime) on Active Instructions.'),
           opt('isNew', 'boolean', undefined, 'NEW badge after the label.'),
           opt('trailing', "'chevron' | 'none' | ReactNode", "'chevron'", 'Chevron, nothing, or custom content.'),
           opt('onClick', '() => void', undefined, 'Makes the row a button.'),
@@ -4150,7 +4151,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     importLine: "import { PlanCard } from '@equal/ds';",
     compose: ['PlanCard'],
     spec: 'You tab · Plan card',
-    tokens: ['plan-card/bg', 'plan-card/pill-stroke', 'plan-card/pattern', 'text/on-dark', 'text/on-dark-secondary', 'text/accent-gold', 'text/danger'],
+    tokens: ['plan-card/bg', 'plan-card/pill-stroke', 'plan-card/pill-bg', 'gradient/unlimited-text', 'plan-badge/expired-stroke', 'gradient/expired-badge', 'plan-card/pattern', 'text/on-dark', 'text/on-dark-secondary', 'text/accent-gold', 'text/danger'],
     examples: [
       {
         title: 'Current and expired',
@@ -4399,7 +4400,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     importLine: "import { GenderSelector } from '@equal/ds';",
     compose: ['GenderSelector'],
     spec: 'Flows · Profile',
-    tokens: ['bg/surface', 'button/primary', 'gradient/gender-selected', 'text/primary'],
+    tokens: ['bg/surface', 'button/primary', 'gradient/gender-selected', 'gradient/gender-selected-stroke', 'gender/stroke', 'text/primary'],
     examples: [
       {
         title: 'Free vs paid',
@@ -4550,7 +4551,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     importLine: "import { RecommendedCard, SuggestionsComingCard, PresetCard, PresetInstructionCard, InstructionCard, WhenDoRow, InstructionPreview } from '@equal/ds';",
     compose: ['RecommendedCard', 'SuggestionsComingCard', 'PresetCard', 'PresetInstructionCard', 'InstructionCard', 'WhenDoRow', 'InstructionPreview'],
     spec: 'Flows · Instructions · Instruction Card',
-    tokens: ['bg/surface', 'chip/when-bg', 'chip/do-bg', 'preset/tint-red', 'preset/tint-green', 'preset/tint-orange', 'gradient/suggestion-card', 'text/primary', 'text/secondary', 'text/tertiary', 'text/action', 'button/primary'],
+    tokens: ['bg/surface', 'chip/when-bg', 'chip/do-bg', 'preset/tint-green', 'preset/tint-blue', 'preset/tint-orange', 'preset/tint-lime', 'gradient/suggestion-card', 'text/primary', 'text/secondary', 'text/tertiary', 'text/action', 'button/primary'],
     examples: [
       {
         title: 'Recommended for you',
@@ -4577,9 +4578,9 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
             ))}
           </div>
         ),
-        code: `<PresetCard emoji="🛡️" tint="red" title="Screen & Protect"
+        code: `<PresetCard emoji="🛡️" tint="green" title="Screen & Protect"
   description="Decline spam, hold the line on loan and payments call, close wrong call" onClick={open} />
-<PresetCard emoji="📞" tint="green" title="Handle everyday calls"
+<PresetCard emoji="📞" tint="blue" title="Handle everyday calls"
   description="Take message, guide deliveries, relay to family, start in your language" onClick={open} />
 <PresetCard emoji="💼" tint="orange" title="Run my business"
   description="Capture enquiries, orders, bookings, job, and supplier calls" onClick={open} />`,
@@ -4641,7 +4642,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
         component: 'PresetCard',
         props: [
           req('emoji', 'string', 'Emoji in the tinted circle.'),
-          req('tint', "'red' | 'green' | 'orange'", 'Circle tint (PresetTint).'),
+          req('tint', "'green' | 'blue' | 'orange'", 'Circle tint (PresetTint): green = Screen & Protect, blue = Handle everyday calls, orange = Run my business.'),
           req('title', 'string', 'Title (subheading).'),
           req('description', 'string', 'Description (captionWrap).'),
           opt('onClick', '() => void', undefined, 'Opens the preset.'),

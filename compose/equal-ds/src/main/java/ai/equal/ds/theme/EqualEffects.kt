@@ -15,6 +15,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.ClipOp
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Paint
@@ -102,10 +103,17 @@ internal fun cssBlurToShadowRadius(blurPx: Float): Float =
  *
  * Uses `Paint.setShadowLayer`, which renders on hardware canvases from API 28. On API 24–27
  * the shadow is simply not drawn (graceful degradation).
+ *
+ * [outsideOnly] cuts the shape out of the shadow, as CSS does, so a translucent fill on top
+ * (e.g. `choice/default-bg`, `glass-button/default`) doesn't show the shadow through it.
  */
-fun Modifier.eqShadow(shadow: EqualShadow, shape: Shape = RectangleShape): Modifier = this.drawBehind {
+fun Modifier.eqShadow(shadow: EqualShadow, shape: Shape = RectangleShape, outsideOnly: Boolean = false): Modifier = this.drawBehind {
     val path = shape.createOutline(size, layoutDirection, this).toPath()
     drawIntoCanvas { canvas ->
+        if (outsideOnly) {
+            canvas.save()
+            canvas.clipPath(path, ClipOp.Difference)
+        }
         for (layer in shadow.layers) {
             val paint = Paint()
             val frameworkPaint = paint.asFrameworkPaint()
@@ -119,6 +127,7 @@ fun Modifier.eqShadow(shadow: EqualShadow, shape: Shape = RectangleShape): Modif
             )
             canvas.drawPath(path, paint)
         }
+        if (outsideOnly) canvas.restore()
     }
 }
 

@@ -1,0 +1,5568 @@
+{
+ "bg/primary": {
+  "pages": [
+   {
+    "id": "action-card",
+    "name": "Action card"
+   },
+   {
+    "id": "app-bar",
+    "name": "App bar"
+   },
+   {
+    "id": "assistant-sheet",
+    "name": "Assistant sheet (Global MYA)"
+   },
+   {
+    "id": "bottom-sheet",
+    "name": "Bottom sheet"
+   },
+   {
+    "id": "call-handling",
+    "name": "Call Handling"
+   },
+   {
+    "id": "chat-actions",
+    "name": "Chat actions"
+   },
+   {
+    "id": "chat-header",
+    "name": "Chat header"
+   },
+   {
+    "id": "empty-state",
+    "name": "Empty state"
+   },
+   {
+    "id": "context-menu",
+    "name": "Context menu"
+   },
+   {
+    "id": "chat-wallpaper",
+    "name": "Chat wallpaper"
+   },
+   {
+    "id": "gender-selector",
+    "name": "Gender selector"
+   },
+   {
+    "id": "address",
+    "name": "Address"
+   },
+   {
+    "id": "instruction-cards",
+    "name": "Instruction cards"
+   },
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   },
+   {
+    "id": "monetization-experiments",
+    "name": "Paywall experiments"
+   },
+   {
+    "id": "status-bar",
+    "name": "Status bar"
+   }
+  ],
+  "screens": [
+   "ActionFlows",
+   "Screens"
+  ]
+ },
+ "bg/surface": {
+  "pages": [
+   {
+    "id": "action-card",
+    "name": "Action card"
+   },
+   {
+    "id": "ai-panel",
+    "name": "AI panel"
+   },
+   {
+    "id": "app-bar",
+    "name": "App bar"
+   },
+   {
+    "id": "assistant-sheet",
+    "name": "Assistant sheet (Global MYA)"
+   },
+   {
+    "id": "assistant-toggle",
+    "name": "Assistant toggle"
+   },
+   {
+    "id": "avatars",
+    "name": "Avatars"
+   },
+   {
+    "id": "badges",
+    "name": "Badges"
+   },
+   {
+    "id": "bottom-nav",
+    "name": "Bottom nav"
+   },
+   {
+    "id": "button",
+    "name": "Button"
+   },
+   {
+    "id": "call-handling",
+    "name": "Call Handling"
+   },
+   {
+    "id": "call-status",
+    "name": "Call status"
+   },
+   {
+    "id": "chat-actions",
+    "name": "Chat actions"
+   },
+   {
+    "id": "chat-bubble",
+    "name": "Chat bubble"
+   },
+   {
+    "id": "chat-header",
+    "name": "Chat header"
+   },
+   {
+    "id": "chat-list-item",
+    "name": "Chat list item"
+   },
+   {
+    "id": "composer",
+    "name": "Composer"
+   },
+   {
+    "id": "context-menu",
+    "name": "Context menu"
+   },
+   {
+    "id": "dialog",
+    "name": "Dialog"
+   },
+   {
+    "id": "empty-state",
+    "name": "Empty state"
+   },
+   {
+    "id": "feedback-card",
+    "name": "Feedback card"
+   },
+   {
+    "id": "chat-wallpaper",
+    "name": "Chat wallpaper"
+   },
+   {
+    "id": "gender-selector",
+    "name": "Gender selector"
+   },
+   {
+    "id": "address",
+    "name": "Address"
+   },
+   {
+    "id": "instruction-cards",
+    "name": "Instruction cards"
+   },
+   {
+    "id": "bottom-sheet",
+    "name": "Bottom sheet"
+   },
+   {
+    "id": "text-field",
+    "name": "Text field"
+   },
+   {
+    "id": "search-field",
+    "name": "Search field"
+   },
+   {
+    "id": "segmented-chips",
+    "name": "Segmented chips"
+   },
+   {
+    "id": "missed-call",
+    "name": "Missed call card"
+   },
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   },
+   {
+    "id": "monetization-experiments",
+    "name": "Paywall experiments"
+   },
+   {
+    "id": "profile-hero",
+    "name": "Profile hero"
+   },
+   {
+    "id": "contact-info-header",
+    "name": "Contact info header"
+   },
+   {
+    "id": "call-history",
+    "name": "Call history"
+   },
+   {
+    "id": "search",
+    "name": "Search"
+   },
+   {
+    "id": "settings-row",
+    "name": "Settings row"
+   },
+   {
+    "id": "call-summary",
+    "name": "Call summary"
+   },
+   {
+    "id": "plan-card",
+    "name": "Plan card"
+   },
+   {
+    "id": "ai-summary-card",
+    "name": "AI summary card"
+   },
+   {
+    "id": "invite-card",
+    "name": "Invite card"
+   }
+  ],
+  "screens": [
+   "ActionFlows",
+   "AssistantSheet",
+   "CallHandlingScreens",
+   "FlowScreens"
+  ]
+ },
+ "bg/overlay": {
+  "pages": [
+   {
+    "id": "bottom-sheet",
+    "name": "Bottom sheet"
+   },
+   {
+    "id": "dialog",
+    "name": "Dialog"
+   },
+   {
+    "id": "empty-state",
+    "name": "Empty state"
+   },
+   {
+    "id": "context-menu",
+    "name": "Context menu"
+   },
+   {
+    "id": "chat-wallpaper",
+    "name": "Chat wallpaper"
+   },
+   {
+    "id": "gender-selector",
+    "name": "Gender selector"
+   },
+   {
+    "id": "address",
+    "name": "Address"
+   },
+   {
+    "id": "instruction-cards",
+    "name": "Instruction cards"
+   },
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "text/primary": {
+  "pages": [
+   {
+    "id": "action-chips",
+    "name": "Action chips"
+   },
+   {
+    "id": "assistant-sheet",
+    "name": "Assistant sheet (Global MYA)"
+   },
+   {
+    "id": "button",
+    "name": "Button"
+   },
+   {
+    "id": "call-handling",
+    "name": "Call Handling"
+   },
+   {
+    "id": "chat-actions",
+    "name": "Chat actions"
+   },
+   {
+    "id": "chat-bubble",
+    "name": "Chat bubble"
+   },
+   {
+    "id": "chat-header",
+    "name": "Chat header"
+   },
+   {
+    "id": "checkbox",
+    "name": "Checkbox"
+   },
+   {
+    "id": "composer",
+    "name": "Composer"
+   },
+   {
+    "id": "context-menu",
+    "name": "Context menu"
+   },
+   {
+    "id": "dialog",
+    "name": "Dialog"
+   },
+   {
+    "id": "empty-state",
+    "name": "Empty state"
+   },
+   {
+    "id": "chat-wallpaper",
+    "name": "Chat wallpaper"
+   },
+   {
+    "id": "gender-selector",
+    "name": "Gender selector"
+   },
+   {
+    "id": "address",
+    "name": "Address"
+   },
+   {
+    "id": "instruction-cards",
+    "name": "Instruction cards"
+   },
+   {
+    "id": "bottom-sheet",
+    "name": "Bottom sheet"
+   },
+   {
+    "id": "text-field",
+    "name": "Text field"
+   },
+   {
+    "id": "search-field",
+    "name": "Search field"
+   },
+   {
+    "id": "segmented-chips",
+    "name": "Segmented chips"
+   },
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   },
+   {
+    "id": "monetization-experiments",
+    "name": "Paywall experiments"
+   },
+   {
+    "id": "profile-hero",
+    "name": "Profile hero"
+   },
+   {
+    "id": "contact-info-header",
+    "name": "Contact info header"
+   },
+   {
+    "id": "call-history",
+    "name": "Call history"
+   },
+   {
+    "id": "search",
+    "name": "Search"
+   },
+   {
+    "id": "settings-row",
+    "name": "Settings row"
+   },
+   {
+    "id": "status-bar",
+    "name": "Status bar"
+   },
+   {
+    "id": "call-summary",
+    "name": "Call summary"
+   }
+  ],
+  "screens": [
+   "FlowScreens"
+  ]
+ },
+ "text/placeholder": {
+  "pages": [
+   {
+    "id": "assistant-sheet",
+    "name": "Assistant sheet (Global MYA)"
+   },
+   {
+    "id": "empty-state",
+    "name": "Empty state"
+   },
+   {
+    "id": "context-menu",
+    "name": "Context menu"
+   },
+   {
+    "id": "chat-wallpaper",
+    "name": "Chat wallpaper"
+   },
+   {
+    "id": "gender-selector",
+    "name": "Gender selector"
+   },
+   {
+    "id": "address",
+    "name": "Address"
+   },
+   {
+    "id": "instruction-cards",
+    "name": "Instruction cards"
+   },
+   {
+    "id": "bottom-sheet",
+    "name": "Bottom sheet"
+   },
+   {
+    "id": "text-field",
+    "name": "Text field"
+   },
+   {
+    "id": "search-field",
+    "name": "Search field"
+   },
+   {
+    "id": "segmented-chips",
+    "name": "Segmented chips"
+   },
+   {
+    "id": "settings-row",
+    "name": "Settings row"
+   },
+   {
+    "id": "system-status-card",
+    "name": "System status card"
+   },
+   {
+    "id": "system-notification",
+    "name": "System notification"
+   },
+   {
+    "id": "meet-assistant-card",
+    "name": "Meet Your Assistant card"
+   },
+   {
+    "id": "whats-new-card",
+    "name": "What's New card"
+   }
+  ],
+  "screens": []
+ },
+ "text/secondary": {
+  "pages": [
+   {
+    "id": "action-card",
+    "name": "Action card"
+   },
+   {
+    "id": "action-chips",
+    "name": "Action chips"
+   },
+   {
+    "id": "app-bar",
+    "name": "App bar"
+   },
+   {
+    "id": "assistant-sheet",
+    "name": "Assistant sheet (Global MYA)"
+   },
+   {
+    "id": "assistant-toggle",
+    "name": "Assistant toggle"
+   },
+   {
+    "id": "badges",
+    "name": "Badges"
+   },
+   {
+    "id": "bottom-nav",
+    "name": "Bottom nav"
+   },
+   {
+    "id": "bottom-sheet",
+    "name": "Bottom sheet"
+   },
+   {
+    "id": "button",
+    "name": "Button"
+   },
+   {
+    "id": "call-handling",
+    "name": "Call Handling"
+   },
+   {
+    "id": "call-status",
+    "name": "Call status"
+   },
+   {
+    "id": "chat-actions",
+    "name": "Chat actions"
+   },
+   {
+    "id": "chat-bubble",
+    "name": "Chat bubble"
+   },
+   {
+    "id": "chat-header",
+    "name": "Chat header"
+   },
+   {
+    "id": "chat-list-item",
+    "name": "Chat list item"
+   },
+   {
+    "id": "checkbox",
+    "name": "Checkbox"
+   },
+   {
+    "id": "composer",
+    "name": "Composer"
+   },
+   {
+    "id": "context-menu",
+    "name": "Context menu"
+   },
+   {
+    "id": "dialog",
+    "name": "Dialog"
+   },
+   {
+    "id": "empty-state",
+    "name": "Empty state"
+   },
+   {
+    "id": "chat-wallpaper",
+    "name": "Chat wallpaper"
+   },
+   {
+    "id": "gender-selector",
+    "name": "Gender selector"
+   },
+   {
+    "id": "address",
+    "name": "Address"
+   },
+   {
+    "id": "instruction-cards",
+    "name": "Instruction cards"
+   },
+   {
+    "id": "text-field",
+    "name": "Text field"
+   },
+   {
+    "id": "search-field",
+    "name": "Search field"
+   },
+   {
+    "id": "segmented-chips",
+    "name": "Segmented chips"
+   },
+   {
+    "id": "missed-call",
+    "name": "Missed call card"
+   },
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   },
+   {
+    "id": "monetization-experiments",
+    "name": "Paywall experiments"
+   },
+   {
+    "id": "profile-hero",
+    "name": "Profile hero"
+   },
+   {
+    "id": "contact-info-header",
+    "name": "Contact info header"
+   },
+   {
+    "id": "call-history",
+    "name": "Call history"
+   },
+   {
+    "id": "search",
+    "name": "Search"
+   },
+   {
+    "id": "settings-row",
+    "name": "Settings row"
+   },
+   {
+    "id": "system-status-card",
+    "name": "System status card"
+   },
+   {
+    "id": "system-notification",
+    "name": "System notification"
+   },
+   {
+    "id": "meet-assistant-card",
+    "name": "Meet Your Assistant card"
+   },
+   {
+    "id": "call-summary",
+    "name": "Call summary"
+   },
+   {
+    "id": "whats-new-card",
+    "name": "What's New card"
+   },
+   {
+    "id": "plan-card",
+    "name": "Plan card"
+   },
+   {
+    "id": "ai-summary-card",
+    "name": "AI summary card"
+   },
+   {
+    "id": "invite-card",
+    "name": "Invite card"
+   }
+  ],
+  "screens": []
+ },
+ "text/action-disabled": {
+  "pages": [
+   {
+    "id": "button",
+    "name": "Button"
+   }
+  ],
+  "screens": []
+ },
+ "text/action": {
+  "pages": [
+   {
+    "id": "action-card",
+    "name": "Action card"
+   },
+   {
+    "id": "action-chips",
+    "name": "Action chips"
+   },
+   {
+    "id": "assistant-sheet",
+    "name": "Assistant sheet (Global MYA)"
+   },
+   {
+    "id": "badges",
+    "name": "Badges"
+   },
+   {
+    "id": "bottom-nav",
+    "name": "Bottom nav"
+   },
+   {
+    "id": "button",
+    "name": "Button"
+   },
+   {
+    "id": "call-handling",
+    "name": "Call Handling"
+   },
+   {
+    "id": "chat-actions",
+    "name": "Chat actions"
+   },
+   {
+    "id": "chat-bubble",
+    "name": "Chat bubble"
+   },
+   {
+    "id": "chat-header",
+    "name": "Chat header"
+   },
+   {
+    "id": "chat-list-item",
+    "name": "Chat list item"
+   },
+   {
+    "id": "empty-state",
+    "name": "Empty state"
+   },
+   {
+    "id": "context-menu",
+    "name": "Context menu"
+   },
+   {
+    "id": "chat-wallpaper",
+    "name": "Chat wallpaper"
+   },
+   {
+    "id": "gender-selector",
+    "name": "Gender selector"
+   },
+   {
+    "id": "address",
+    "name": "Address"
+   },
+   {
+    "id": "instruction-cards",
+    "name": "Instruction cards"
+   },
+   {
+    "id": "bottom-sheet",
+    "name": "Bottom sheet"
+   },
+   {
+    "id": "lottie",
+    "name": "Lottie animation"
+   },
+   {
+    "id": "missed-call",
+    "name": "Missed call card"
+   },
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   },
+   {
+    "id": "monetization-experiments",
+    "name": "Paywall experiments"
+   },
+   {
+    "id": "profile-hero",
+    "name": "Profile hero"
+   },
+   {
+    "id": "contact-info-header",
+    "name": "Contact info header"
+   },
+   {
+    "id": "call-history",
+    "name": "Call history"
+   },
+   {
+    "id": "search",
+    "name": "Search"
+   },
+   {
+    "id": "system-status-card",
+    "name": "System status card"
+   },
+   {
+    "id": "system-notification",
+    "name": "System notification"
+   },
+   {
+    "id": "meet-assistant-card",
+    "name": "Meet Your Assistant card"
+   },
+   {
+    "id": "whats-new-card",
+    "name": "What's New card"
+   }
+  ],
+  "screens": [
+   "ActionFlows"
+  ]
+ },
+ "text/on-action": {
+  "pages": [
+   {
+    "id": "assistant-sheet",
+    "name": "Assistant sheet (Global MYA)"
+   },
+   {
+    "id": "avatars",
+    "name": "Avatars"
+   },
+   {
+    "id": "badges",
+    "name": "Badges"
+   },
+   {
+    "id": "button",
+    "name": "Button"
+   },
+   {
+    "id": "call-handling",
+    "name": "Call Handling"
+   },
+   {
+    "id": "chat-actions",
+    "name": "Chat actions"
+   },
+   {
+    "id": "composer",
+    "name": "Composer"
+   },
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   },
+   {
+    "id": "switch",
+    "name": "Switch"
+   },
+   {
+    "id": "system-status-card",
+    "name": "System status card"
+   },
+   {
+    "id": "system-notification",
+    "name": "System notification"
+   },
+   {
+    "id": "meet-assistant-card",
+    "name": "Meet Your Assistant card"
+   }
+  ],
+  "screens": []
+ },
+ "text/on-action-disabled": {
+  "pages": [
+   {
+    "id": "button",
+    "name": "Button"
+   }
+  ],
+  "screens": []
+ },
+ "button/primary": {
+  "pages": [
+   {
+    "id": "assistant-sheet",
+    "name": "Assistant sheet (Global MYA)"
+   },
+   {
+    "id": "avatars",
+    "name": "Avatars"
+   },
+   {
+    "id": "badges",
+    "name": "Badges"
+   },
+   {
+    "id": "button",
+    "name": "Button"
+   },
+   {
+    "id": "call-handling",
+    "name": "Call Handling"
+   },
+   {
+    "id": "chat-actions",
+    "name": "Chat actions"
+   },
+   {
+    "id": "checkbox",
+    "name": "Checkbox"
+   },
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   },
+   {
+    "id": "monetization-experiments",
+    "name": "Paywall experiments"
+   },
+   {
+    "id": "search",
+    "name": "Search"
+   },
+   {
+    "id": "switch",
+    "name": "Switch"
+   },
+   {
+    "id": "system-status-card",
+    "name": "System status card"
+   },
+   {
+    "id": "system-notification",
+    "name": "System notification"
+   },
+   {
+    "id": "meet-assistant-card",
+    "name": "Meet Your Assistant card"
+   },
+   {
+    "id": "call-summary",
+    "name": "Call summary"
+   },
+   {
+    "id": "profile-hero",
+    "name": "Profile hero"
+   },
+   {
+    "id": "plan-card",
+    "name": "Plan card"
+   },
+   {
+    "id": "ai-summary-card",
+    "name": "AI summary card"
+   },
+   {
+    "id": "invite-card",
+    "name": "Invite card"
+   }
+  ],
+  "screens": []
+ },
+ "button/secondary": {
+  "pages": [
+   {
+    "id": "button",
+    "name": "Button"
+   },
+   {
+    "id": "call-handling",
+    "name": "Call Handling"
+   },
+   {
+    "id": "dialog",
+    "name": "Dialog"
+   },
+   {
+    "id": "empty-state",
+    "name": "Empty state"
+   }
+  ],
+  "screens": []
+ },
+ "text/on-secondary": {
+  "pages": [
+   {
+    "id": "button",
+    "name": "Button"
+   }
+  ],
+  "screens": []
+ },
+ "button/danger": {
+  "pages": [
+   {
+    "id": "button",
+    "name": "Button"
+   }
+  ],
+  "screens": []
+ },
+ "button/disabled": {
+  "pages": [
+   {
+    "id": "button",
+    "name": "Button"
+   },
+   {
+    "id": "switch",
+    "name": "Switch"
+   }
+  ],
+  "screens": []
+ },
+ "stroke/subtle": {
+  "pages": [
+   {
+    "id": "action-chips",
+    "name": "Action chips"
+   },
+   {
+    "id": "assistant-sheet",
+    "name": "Assistant sheet (Global MYA)"
+   },
+   {
+    "id": "assistant-toggle",
+    "name": "Assistant toggle"
+   },
+   {
+    "id": "call-handling",
+    "name": "Call Handling"
+   },
+   {
+    "id": "call-status",
+    "name": "Call status"
+   },
+   {
+    "id": "chat-actions",
+    "name": "Chat actions"
+   },
+   {
+    "id": "composer",
+    "name": "Composer"
+   },
+   {
+    "id": "empty-state",
+    "name": "Empty state"
+   },
+   {
+    "id": "context-menu",
+    "name": "Context menu"
+   },
+   {
+    "id": "chat-wallpaper",
+    "name": "Chat wallpaper"
+   },
+   {
+    "id": "gender-selector",
+    "name": "Gender selector"
+   },
+   {
+    "id": "address",
+    "name": "Address"
+   },
+   {
+    "id": "instruction-cards",
+    "name": "Instruction cards"
+   },
+   {
+    "id": "bottom-sheet",
+    "name": "Bottom sheet"
+   },
+   {
+    "id": "text-field",
+    "name": "Text field"
+   },
+   {
+    "id": "search-field",
+    "name": "Search field"
+   },
+   {
+    "id": "segmented-chips",
+    "name": "Segmented chips"
+   },
+   {
+    "id": "missed-call",
+    "name": "Missed call card"
+   },
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   },
+   {
+    "id": "monetization-experiments",
+    "name": "Paywall experiments"
+   },
+   {
+    "id": "profile-hero",
+    "name": "Profile hero"
+   },
+   {
+    "id": "contact-info-header",
+    "name": "Contact info header"
+   },
+   {
+    "id": "call-history",
+    "name": "Call history"
+   },
+   {
+    "id": "search",
+    "name": "Search"
+   },
+   {
+    "id": "call-summary",
+    "name": "Call summary"
+   },
+   {
+    "id": "plan-card",
+    "name": "Plan card"
+   },
+   {
+    "id": "ai-summary-card",
+    "name": "AI summary card"
+   },
+   {
+    "id": "invite-card",
+    "name": "Invite card"
+   }
+  ],
+  "screens": [
+   "MonetizationScreens",
+   "Screens"
+  ]
+ },
+ "stroke/medium": {
+  "pages": [
+   {
+    "id": "assistant-sheet",
+    "name": "Assistant sheet (Global MYA)"
+   },
+   {
+    "id": "text-field",
+    "name": "Text field"
+   },
+   {
+    "id": "search-field",
+    "name": "Search field"
+   },
+   {
+    "id": "segmented-chips",
+    "name": "Segmented chips"
+   },
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   },
+   {
+    "id": "monetization-experiments",
+    "name": "Paywall experiments"
+   },
+   {
+    "id": "profile-hero",
+    "name": "Profile hero"
+   },
+   {
+    "id": "contact-info-header",
+    "name": "Contact info header"
+   },
+   {
+    "id": "call-history",
+    "name": "Call history"
+   }
+  ],
+  "screens": []
+ },
+ "stroke/dark": {
+  "pages": [
+   {
+    "id": "call-handling",
+    "name": "Call Handling"
+   },
+   {
+    "id": "chat-actions",
+    "name": "Chat actions"
+   }
+  ],
+  "screens": []
+ },
+ "action/stroke/unread": {
+  "pages": [
+   {
+    "id": "action-chips",
+    "name": "Action chips"
+   },
+   {
+    "id": "assistant-sheet",
+    "name": "Assistant sheet (Global MYA)"
+   },
+   {
+    "id": "assistant-toggle",
+    "name": "Assistant toggle"
+   },
+   {
+    "id": "call-handling",
+    "name": "Call Handling"
+   },
+   {
+    "id": "chat-actions",
+    "name": "Chat actions"
+   },
+   {
+    "id": "chat-header",
+    "name": "Chat header"
+   },
+   {
+    "id": "composer",
+    "name": "Composer"
+   },
+   {
+    "id": "text-field",
+    "name": "Text field"
+   },
+   {
+    "id": "search-field",
+    "name": "Search field"
+   },
+   {
+    "id": "segmented-chips",
+    "name": "Segmented chips"
+   },
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "action/fill/unread": {
+  "pages": [
+   {
+    "id": "call-handling",
+    "name": "Call Handling"
+   }
+  ],
+  "screens": []
+ },
+ "action/bottom-color": {
+  "pages": [],
+  "screens": []
+ },
+ "component/chat-bubble/user-bg": {
+  "pages": [
+   {
+    "id": "chat-bubble",
+    "name": "Chat bubble"
+   }
+  ],
+  "screens": []
+ },
+ "component/chat-bubble/user-title": {
+  "pages": [
+   {
+    "id": "chat-bubble",
+    "name": "Chat bubble"
+   }
+  ],
+  "screens": []
+ },
+ "component/action-card/highlight": {
+  "pages": [
+   {
+    "id": "badges",
+    "name": "Badges"
+   },
+   {
+    "id": "chat-list-item",
+    "name": "Chat list item"
+   },
+   {
+    "id": "empty-state",
+    "name": "Empty state"
+   },
+   {
+    "id": "context-menu",
+    "name": "Context menu"
+   },
+   {
+    "id": "chat-wallpaper",
+    "name": "Chat wallpaper"
+   },
+   {
+    "id": "gender-selector",
+    "name": "Gender selector"
+   },
+   {
+    "id": "address",
+    "name": "Address"
+   },
+   {
+    "id": "instruction-cards",
+    "name": "Instruction cards"
+   },
+   {
+    "id": "bottom-sheet",
+    "name": "Bottom sheet"
+   },
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "text/danger": {
+  "pages": [
+   {
+    "id": "assistant-sheet",
+    "name": "Assistant sheet (Global MYA)"
+   },
+   {
+    "id": "button",
+    "name": "Button"
+   },
+   {
+    "id": "context-menu",
+    "name": "Context menu"
+   },
+   {
+    "id": "text-field",
+    "name": "Text field"
+   },
+   {
+    "id": "search-field",
+    "name": "Search field"
+   },
+   {
+    "id": "segmented-chips",
+    "name": "Segmented chips"
+   },
+   {
+    "id": "profile-hero",
+    "name": "Profile hero"
+   },
+   {
+    "id": "contact-info-header",
+    "name": "Contact info header"
+   },
+   {
+    "id": "call-history",
+    "name": "Call history"
+   }
+  ],
+  "screens": []
+ },
+ "text/on-danger": {
+  "pages": [
+   {
+    "id": "button",
+    "name": "Button"
+   }
+  ],
+  "screens": []
+ },
+ "text/on-dark": {
+  "pages": [
+   {
+    "id": "badges",
+    "name": "Badges"
+   },
+   {
+    "id": "composer",
+    "name": "Composer"
+   },
+   {
+    "id": "monetization-experiments",
+    "name": "Paywall experiments"
+   },
+   {
+    "id": "call-summary",
+    "name": "Call summary"
+   },
+   {
+    "id": "profile-hero",
+    "name": "Profile hero"
+   },
+   {
+    "id": "plan-card",
+    "name": "Plan card"
+   },
+   {
+    "id": "ai-summary-card",
+    "name": "AI summary card"
+   },
+   {
+    "id": "invite-card",
+    "name": "Invite card"
+   }
+  ],
+  "screens": []
+ },
+ "text/on-dark-secondary": {
+  "pages": [
+   {
+    "id": "profile-hero",
+    "name": "Profile hero"
+   },
+   {
+    "id": "plan-card",
+    "name": "Plan card"
+   },
+   {
+    "id": "ai-summary-card",
+    "name": "AI summary card"
+   },
+   {
+    "id": "invite-card",
+    "name": "Invite card"
+   }
+  ],
+  "screens": []
+ },
+ "text/accent-gold": {
+  "pages": [
+   {
+    "id": "profile-hero",
+    "name": "Profile hero"
+   },
+   {
+    "id": "plan-card",
+    "name": "Plan card"
+   },
+   {
+    "id": "ai-summary-card",
+    "name": "AI summary card"
+   },
+   {
+    "id": "invite-card",
+    "name": "Invite card"
+   }
+  ],
+  "screens": []
+ },
+ "component/chat-bubble/contact-title": {
+  "pages": [
+   {
+    "id": "chat-bubble",
+    "name": "Chat bubble"
+   }
+  ],
+  "screens": []
+ },
+ "component/chat-bubble/other-bg": {
+  "pages": [
+   {
+    "id": "chat-bubble",
+    "name": "Chat bubble"
+   }
+  ],
+  "screens": []
+ },
+ "component/plan-card/bg": {
+  "pages": [
+   {
+    "id": "profile-hero",
+    "name": "Profile hero"
+   },
+   {
+    "id": "plan-card",
+    "name": "Plan card"
+   },
+   {
+    "id": "ai-summary-card",
+    "name": "AI summary card"
+   },
+   {
+    "id": "invite-card",
+    "name": "Invite card"
+   }
+  ],
+  "screens": []
+ },
+ "component/plan-card/pill-stroke": {
+  "pages": [
+   {
+    "id": "profile-hero",
+    "name": "Profile hero"
+   },
+   {
+    "id": "plan-card",
+    "name": "Plan card"
+   },
+   {
+    "id": "ai-summary-card",
+    "name": "AI summary card"
+   },
+   {
+    "id": "invite-card",
+    "name": "Invite card"
+   }
+  ],
+  "screens": []
+ },
+ "component/rating/star-filled": {
+  "pages": [
+   {
+    "id": "feedback-card",
+    "name": "Feedback card"
+   }
+  ],
+  "screens": []
+ },
+ "component/rating/star-empty": {
+  "pages": [
+   {
+    "id": "feedback-card",
+    "name": "Feedback card"
+   }
+  ],
+  "screens": []
+ },
+ "component/nav/selected-bg": {
+  "pages": [
+   {
+    "id": "bottom-nav",
+    "name": "Bottom nav"
+   }
+  ],
+  "screens": []
+ },
+ "component/playback/pill-bg": {
+  "pages": [
+   {
+    "id": "call-summary",
+    "name": "Call summary"
+   }
+  ],
+  "screens": []
+ },
+ "component/waveform/bar": {
+  "pages": [
+   {
+    "id": "call-summary",
+    "name": "Call summary"
+   }
+  ],
+  "screens": []
+ },
+ "component/waveform/bar-played": {
+  "pages": [
+   {
+    "id": "call-summary",
+    "name": "Call summary"
+   }
+  ],
+  "screens": []
+ },
+ "component/notice/bg": {
+  "pages": [
+   {
+    "id": "call-status",
+    "name": "Call status"
+   }
+  ],
+  "screens": []
+ },
+ "component/chip/when-bg": {
+  "pages": [
+   {
+    "id": "empty-state",
+    "name": "Empty state"
+   },
+   {
+    "id": "context-menu",
+    "name": "Context menu"
+   },
+   {
+    "id": "chat-wallpaper",
+    "name": "Chat wallpaper"
+   },
+   {
+    "id": "gender-selector",
+    "name": "Gender selector"
+   },
+   {
+    "id": "address",
+    "name": "Address"
+   },
+   {
+    "id": "instruction-cards",
+    "name": "Instruction cards"
+   },
+   {
+    "id": "bottom-sheet",
+    "name": "Bottom sheet"
+   }
+  ],
+  "screens": []
+ },
+ "component/plan-card/pattern": {
+  "pages": [
+   {
+    "id": "profile-hero",
+    "name": "Profile hero"
+   },
+   {
+    "id": "plan-card",
+    "name": "Plan card"
+   },
+   {
+    "id": "ai-summary-card",
+    "name": "AI summary card"
+   },
+   {
+    "id": "invite-card",
+    "name": "Invite card"
+   }
+  ],
+  "screens": []
+ },
+ "component/invite/bg": {
+  "pages": [
+   {
+    "id": "profile-hero",
+    "name": "Profile hero"
+   },
+   {
+    "id": "plan-card",
+    "name": "Plan card"
+   },
+   {
+    "id": "ai-summary-card",
+    "name": "AI summary card"
+   },
+   {
+    "id": "invite-card",
+    "name": "Invite card"
+   }
+  ],
+  "screens": []
+ },
+ "component/invite/stroke": {
+  "pages": [
+   {
+    "id": "profile-hero",
+    "name": "Profile hero"
+   },
+   {
+    "id": "plan-card",
+    "name": "Plan card"
+   },
+   {
+    "id": "ai-summary-card",
+    "name": "AI summary card"
+   },
+   {
+    "id": "invite-card",
+    "name": "Invite card"
+   }
+  ],
+  "screens": []
+ },
+ "component/chip/do-bg": {
+  "pages": [
+   {
+    "id": "empty-state",
+    "name": "Empty state"
+   },
+   {
+    "id": "context-menu",
+    "name": "Context menu"
+   },
+   {
+    "id": "chat-wallpaper",
+    "name": "Chat wallpaper"
+   },
+   {
+    "id": "gender-selector",
+    "name": "Gender selector"
+   },
+   {
+    "id": "address",
+    "name": "Address"
+   },
+   {
+    "id": "instruction-cards",
+    "name": "Instruction cards"
+   },
+   {
+    "id": "bottom-sheet",
+    "name": "Bottom sheet"
+   }
+  ],
+  "screens": []
+ },
+ "component/chip/selected-bg": {
+  "pages": [
+   {
+    "id": "text-field",
+    "name": "Text field"
+   },
+   {
+    "id": "search-field",
+    "name": "Search field"
+   },
+   {
+    "id": "segmented-chips",
+    "name": "Segmented chips"
+   }
+  ],
+  "screens": []
+ },
+ "component/chip/selected-text": {
+  "pages": [
+   {
+    "id": "text-field",
+    "name": "Text field"
+   },
+   {
+    "id": "search-field",
+    "name": "Search field"
+   },
+   {
+    "id": "segmented-chips",
+    "name": "Segmented chips"
+   }
+  ],
+  "screens": []
+ },
+ "component/preset/tint-green": {
+  "pages": [
+   {
+    "id": "empty-state",
+    "name": "Empty state"
+   },
+   {
+    "id": "context-menu",
+    "name": "Context menu"
+   },
+   {
+    "id": "chat-wallpaper",
+    "name": "Chat wallpaper"
+   },
+   {
+    "id": "gender-selector",
+    "name": "Gender selector"
+   },
+   {
+    "id": "address",
+    "name": "Address"
+   },
+   {
+    "id": "instruction-cards",
+    "name": "Instruction cards"
+   },
+   {
+    "id": "bottom-sheet",
+    "name": "Bottom sheet"
+   }
+  ],
+  "screens": []
+ },
+ "component/preset/tint-orange": {
+  "pages": [
+   {
+    "id": "empty-state",
+    "name": "Empty state"
+   },
+   {
+    "id": "context-menu",
+    "name": "Context menu"
+   },
+   {
+    "id": "chat-wallpaper",
+    "name": "Chat wallpaper"
+   },
+   {
+    "id": "gender-selector",
+    "name": "Gender selector"
+   },
+   {
+    "id": "address",
+    "name": "Address"
+   },
+   {
+    "id": "instruction-cards",
+    "name": "Instruction cards"
+   },
+   {
+    "id": "bottom-sheet",
+    "name": "Bottom sheet"
+   }
+  ],
+  "screens": []
+ },
+ "component/icon-button/bg": {
+  "pages": [
+   {
+    "id": "empty-state",
+    "name": "Empty state"
+   },
+   {
+    "id": "context-menu",
+    "name": "Context menu"
+   },
+   {
+    "id": "chat-wallpaper",
+    "name": "Chat wallpaper"
+   },
+   {
+    "id": "gender-selector",
+    "name": "Gender selector"
+   },
+   {
+    "id": "address",
+    "name": "Address"
+   },
+   {
+    "id": "instruction-cards",
+    "name": "Instruction cards"
+   },
+   {
+    "id": "bottom-sheet",
+    "name": "Bottom sheet"
+   }
+  ],
+  "screens": []
+ },
+ "component/chat/wallpaper-bg": {
+  "pages": [
+   {
+    "id": "assistant-sheet",
+    "name": "Assistant sheet (Global MYA)"
+   },
+   {
+    "id": "chat-actions",
+    "name": "Chat actions"
+   },
+   {
+    "id": "empty-state",
+    "name": "Empty state"
+   },
+   {
+    "id": "context-menu",
+    "name": "Context menu"
+   },
+   {
+    "id": "chat-wallpaper",
+    "name": "Chat wallpaper"
+   },
+   {
+    "id": "gender-selector",
+    "name": "Gender selector"
+   },
+   {
+    "id": "address",
+    "name": "Address"
+   },
+   {
+    "id": "instruction-cards",
+    "name": "Instruction cards"
+   },
+   {
+    "id": "bottom-sheet",
+    "name": "Bottom sheet"
+   }
+  ],
+  "screens": []
+ },
+ "component/voice/player-bg": {
+  "pages": [
+   {
+    "id": "call-summary",
+    "name": "Call summary"
+   }
+  ],
+  "screens": []
+ },
+ "component/voice/player-bg-sent": {
+  "pages": [
+   {
+    "id": "call-summary",
+    "name": "Call summary"
+   }
+  ],
+  "screens": []
+ },
+ "component/chat/wallpaper-pattern": {
+  "pages": [
+   {
+    "id": "empty-state",
+    "name": "Empty state"
+   },
+   {
+    "id": "context-menu",
+    "name": "Context menu"
+   },
+   {
+    "id": "chat-wallpaper",
+    "name": "Chat wallpaper"
+   },
+   {
+    "id": "gender-selector",
+    "name": "Gender selector"
+   },
+   {
+    "id": "address",
+    "name": "Address"
+   },
+   {
+    "id": "instruction-cards",
+    "name": "Instruction cards"
+   },
+   {
+    "id": "bottom-sheet",
+    "name": "Bottom sheet"
+   }
+  ],
+  "screens": []
+ },
+ "component/status-card/pill-bg": {
+  "pages": [
+   {
+    "id": "system-status-card",
+    "name": "System status card"
+   },
+   {
+    "id": "system-notification",
+    "name": "System notification"
+   },
+   {
+    "id": "meet-assistant-card",
+    "name": "Meet Your Assistant card"
+   }
+  ],
+  "screens": []
+ },
+ "component/status-card/button": {
+  "pages": [
+   {
+    "id": "system-status-card",
+    "name": "System status card"
+   },
+   {
+    "id": "system-notification",
+    "name": "System notification"
+   },
+   {
+    "id": "meet-assistant-card",
+    "name": "Meet Your Assistant card"
+   }
+  ],
+  "screens": []
+ },
+ "component/status-card/button-text": {
+  "pages": [
+   {
+    "id": "system-status-card",
+    "name": "System status card"
+   },
+   {
+    "id": "system-notification",
+    "name": "System notification"
+   },
+   {
+    "id": "meet-assistant-card",
+    "name": "Meet Your Assistant card"
+   }
+  ],
+  "screens": []
+ },
+ "component/notification/bg": {
+  "pages": [
+   {
+    "id": "system-status-card",
+    "name": "System status card"
+   },
+   {
+    "id": "system-notification",
+    "name": "System notification"
+   },
+   {
+    "id": "meet-assistant-card",
+    "name": "Meet Your Assistant card"
+   }
+  ],
+  "screens": []
+ },
+ "component/brand/whatsapp": {
+  "pages": [
+   {
+    "id": "action-card",
+    "name": "Action card"
+   }
+  ],
+  "screens": []
+ },
+ "text/gold": {
+  "pages": [
+   {
+    "id": "button",
+    "name": "Button"
+   },
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   },
+   {
+    "id": "monetization-experiments",
+    "name": "Paywall experiments"
+   }
+  ],
+  "screens": []
+ },
+ "component/paywall/card-bg": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   },
+   {
+    "id": "monetization-experiments",
+    "name": "Paywall experiments"
+   }
+  ],
+  "screens": []
+ },
+ "component/paywall/card-stroke": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   },
+   {
+    "id": "monetization-experiments",
+    "name": "Paywall experiments"
+   }
+  ],
+  "screens": []
+ },
+ "component/paywall/divider": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "component/plan-banner/bg": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "component/plan-banner/text": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "component/locked/badge-bg": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "component/expiry-banner/warning-bg": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   },
+   {
+    "id": "monetization-experiments",
+    "name": "Paywall experiments"
+   }
+  ],
+  "screens": []
+ },
+ "component/expiry-banner/warning-text": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   },
+   {
+    "id": "monetization-experiments",
+    "name": "Paywall experiments"
+   }
+  ],
+  "screens": []
+ },
+ "component/expiry-banner/danger-bg": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "component/expiry-banner/danger-text": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "component/whats-new/bg": {
+  "pages": [
+   {
+    "id": "whats-new-card",
+    "name": "What's New card"
+   }
+  ],
+  "screens": []
+ },
+ "component/whats-new/glow": {
+  "pages": [
+   {
+    "id": "whats-new-card",
+    "name": "What's New card"
+   }
+  ],
+  "screens": []
+ },
+ "component/missed-call/bg": {
+  "pages": [
+   {
+    "id": "missed-call",
+    "name": "Missed call card"
+   }
+  ],
+  "screens": []
+ },
+ "component/missed-call/stroke": {
+  "pages": [
+   {
+    "id": "missed-call",
+    "name": "Missed call card"
+   }
+  ],
+  "screens": []
+ },
+ "component/missed-call/icon-bg": {
+  "pages": [
+   {
+    "id": "missed-call",
+    "name": "Missed call card"
+   }
+  ],
+  "screens": []
+ },
+ "component/missed-call/icon": {
+  "pages": [
+   {
+    "id": "missed-call",
+    "name": "Missed call card"
+   }
+  ],
+  "screens": []
+ },
+ "component/expiry-chip/warning-bg": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "component/expiry-chip/warning-text": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "component/expiry-chip/danger-bg": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "component/expiry-chip/danger-text": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "component/expiry-chip/active-bg": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "component/value-card/stroke": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "component/value-card/perks-bg": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "component/value-card/ring": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "component/plan-card/expired-pill": {
+  "pages": [
+   {
+    "id": "profile-hero",
+    "name": "Profile hero"
+   },
+   {
+    "id": "plan-card",
+    "name": "Plan card"
+   },
+   {
+    "id": "ai-summary-card",
+    "name": "AI summary card"
+   },
+   {
+    "id": "invite-card",
+    "name": "Invite card"
+   }
+  ],
+  "screens": []
+ },
+ "component/sunburst/ray": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   },
+   {
+    "id": "monetization-experiments",
+    "name": "Paywall experiments"
+   }
+  ],
+  "screens": []
+ },
+ "component/premium-icon/start": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "component/premium-icon/end": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "component/contact-avatar/blue-bg": {
+  "pages": [
+   {
+    "id": "avatars",
+    "name": "Avatars"
+   }
+  ],
+  "screens": []
+ },
+ "component/contact-avatar/blue-text": {
+  "pages": [
+   {
+    "id": "avatars",
+    "name": "Avatars"
+   }
+  ],
+  "screens": []
+ },
+ "component/contact-avatar/green-bg": {
+  "pages": [
+   {
+    "id": "avatars",
+    "name": "Avatars"
+   }
+  ],
+  "screens": []
+ },
+ "component/contact-avatar/green-text": {
+  "pages": [
+   {
+    "id": "avatars",
+    "name": "Avatars"
+   }
+  ],
+  "screens": []
+ },
+ "component/contact-avatar/purple-bg": {
+  "pages": [
+   {
+    "id": "avatars",
+    "name": "Avatars"
+   }
+  ],
+  "screens": []
+ },
+ "component/contact-avatar/purple-text": {
+  "pages": [
+   {
+    "id": "avatars",
+    "name": "Avatars"
+   }
+  ],
+  "screens": []
+ },
+ "component/contact-avatar/orange-bg": {
+  "pages": [
+   {
+    "id": "avatars",
+    "name": "Avatars"
+   }
+  ],
+  "screens": []
+ },
+ "component/contact-avatar/orange-text": {
+  "pages": [
+   {
+    "id": "avatars",
+    "name": "Avatars"
+   }
+  ],
+  "screens": []
+ },
+ "component/contact-avatar/pink-bg": {
+  "pages": [
+   {
+    "id": "avatars",
+    "name": "Avatars"
+   }
+  ],
+  "screens": []
+ },
+ "component/contact-avatar/pink-text": {
+  "pages": [
+   {
+    "id": "avatars",
+    "name": "Avatars"
+   }
+  ],
+  "screens": []
+ },
+ "component/contact-avatar/teal-bg": {
+  "pages": [
+   {
+    "id": "avatars",
+    "name": "Avatars"
+   }
+  ],
+  "screens": []
+ },
+ "component/contact-avatar/teal-text": {
+  "pages": [
+   {
+    "id": "avatars",
+    "name": "Avatars"
+   }
+  ],
+  "screens": []
+ },
+ "component/contact-avatar/badge-bg": {
+  "pages": [
+   {
+    "id": "avatars",
+    "name": "Avatars"
+   }
+  ],
+  "screens": []
+ },
+ "component/contact-avatar/badge-icon": {
+  "pages": [
+   {
+    "id": "avatars",
+    "name": "Avatars"
+   }
+  ],
+  "screens": []
+ },
+ "component/plan-badge/expired-bg": {
+  "pages": [
+   {
+    "id": "monetization-experiments",
+    "name": "Paywall experiments"
+   }
+  ],
+  "screens": []
+ },
+ "component/profile-hero/status-bg": {
+  "pages": [],
+  "screens": [
+   "Screens"
+  ]
+ },
+ "component/profile-hero/status-text": {
+  "pages": [],
+  "screens": [
+   "Screens"
+  ]
+ },
+ "component/profile-hero/plain-bg": {
+  "pages": [
+   {
+    "id": "profile-hero",
+    "name": "Profile hero"
+   },
+   {
+    "id": "plan-card",
+    "name": "Plan card"
+   },
+   {
+    "id": "ai-summary-card",
+    "name": "AI summary card"
+   },
+   {
+    "id": "invite-card",
+    "name": "Invite card"
+   }
+  ],
+  "screens": [
+   "Screens"
+  ]
+ },
+ "component/info-note/bg": {
+  "pages": [
+   {
+    "id": "call-handling",
+    "name": "Call Handling"
+   }
+  ],
+  "screens": []
+ },
+ "component/ongoing-bar/bg": {
+  "pages": [
+   {
+    "id": "call-handling",
+    "name": "Call Handling"
+   }
+  ],
+  "screens": []
+ },
+ "component/ongoing-bar/text": {
+  "pages": [
+   {
+    "id": "call-handling",
+    "name": "Call Handling"
+   }
+  ],
+  "screens": []
+ },
+ "component/initials-disc/bg": {
+  "pages": [
+   {
+    "id": "call-handling",
+    "name": "Call Handling"
+   }
+  ],
+  "screens": []
+ },
+ "component/paywall/hero-top": {
+  "pages": [
+   {
+    "id": "monetization-experiments",
+    "name": "Paywall experiments"
+   }
+  ],
+  "screens": [
+   "MonetizationScreens"
+  ]
+ },
+ "component/takeover/text": {
+  "pages": [
+   {
+    "id": "chat-header",
+    "name": "Chat header"
+   }
+  ],
+  "screens": []
+ },
+ "component/takeover/stroke": {
+  "pages": [
+   {
+    "id": "chat-header",
+    "name": "Chat header"
+   }
+  ],
+  "screens": []
+ },
+ "component/glass-button/default": {
+  "pages": [
+   {
+    "id": "button",
+    "name": "Button"
+   }
+  ],
+  "screens": []
+ },
+ "state/chat-pressed": {
+  "pages": [
+   {
+    "id": "chat-list-item",
+    "name": "Chat list item"
+   }
+  ],
+  "screens": []
+ },
+ "component/voice/player-stroke": {
+  "pages": [
+   {
+    "id": "call-summary",
+    "name": "Call summary"
+   }
+  ],
+  "screens": []
+ },
+ "component/choice/default-bg": {
+  "pages": [
+   {
+    "id": "call-handling",
+    "name": "Call Handling"
+   }
+  ],
+  "screens": []
+ },
+ "component/plan-badge/expired-stroke": {
+  "pages": [
+   {
+    "id": "monetization-experiments",
+    "name": "Paywall experiments"
+   },
+   {
+    "id": "profile-hero",
+    "name": "Profile hero"
+   },
+   {
+    "id": "plan-card",
+    "name": "Plan card"
+   },
+   {
+    "id": "ai-summary-card",
+    "name": "AI summary card"
+   },
+   {
+    "id": "invite-card",
+    "name": "Invite card"
+   }
+  ],
+  "screens": []
+ },
+ "component/plan-card/pill-bg": {
+  "pages": [
+   {
+    "id": "profile-hero",
+    "name": "Profile hero"
+   },
+   {
+    "id": "plan-card",
+    "name": "Plan card"
+   },
+   {
+    "id": "ai-summary-card",
+    "name": "AI summary card"
+   },
+   {
+    "id": "invite-card",
+    "name": "Invite card"
+   }
+  ],
+  "screens": []
+ },
+ "component/locked/badge-stroke": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "component/expiry-banner/warning-icon-bg": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "component/expiry-banner/danger-icon-bg": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "component/assistant-toggle/bg": {
+  "pages": [
+   {
+    "id": "assistant-toggle",
+    "name": "Assistant toggle"
+   }
+  ],
+  "screens": []
+ },
+ "component/preset/tint-blue": {
+  "pages": [
+   {
+    "id": "empty-state",
+    "name": "Empty state"
+   },
+   {
+    "id": "context-menu",
+    "name": "Context menu"
+   },
+   {
+    "id": "chat-wallpaper",
+    "name": "Chat wallpaper"
+   },
+   {
+    "id": "gender-selector",
+    "name": "Gender selector"
+   },
+   {
+    "id": "address",
+    "name": "Address"
+   },
+   {
+    "id": "instruction-cards",
+    "name": "Instruction cards"
+   },
+   {
+    "id": "bottom-sheet",
+    "name": "Bottom sheet"
+   }
+  ],
+  "screens": []
+ },
+ "component/preset/tint-lime": {
+  "pages": [
+   {
+    "id": "empty-state",
+    "name": "Empty state"
+   },
+   {
+    "id": "context-menu",
+    "name": "Context menu"
+   },
+   {
+    "id": "chat-wallpaper",
+    "name": "Chat wallpaper"
+   },
+   {
+    "id": "gender-selector",
+    "name": "Gender selector"
+   },
+   {
+    "id": "address",
+    "name": "Address"
+   },
+   {
+    "id": "instruction-cards",
+    "name": "Instruction cards"
+   },
+   {
+    "id": "bottom-sheet",
+    "name": "Bottom sheet"
+   },
+   {
+    "id": "settings-row",
+    "name": "Settings row"
+   }
+  ],
+  "screens": [
+   "FlowScreens"
+  ]
+ },
+ "component/gender/stroke": {
+  "pages": [
+   {
+    "id": "empty-state",
+    "name": "Empty state"
+   },
+   {
+    "id": "context-menu",
+    "name": "Context menu"
+   },
+   {
+    "id": "chat-wallpaper",
+    "name": "Chat wallpaper"
+   },
+   {
+    "id": "gender-selector",
+    "name": "Gender selector"
+   },
+   {
+    "id": "address",
+    "name": "Address"
+   },
+   {
+    "id": "instruction-cards",
+    "name": "Instruction cards"
+   },
+   {
+    "id": "bottom-sheet",
+    "name": "Bottom sheet"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/fab": {
+  "pages": [
+   {
+    "id": "call-handling",
+    "name": "Call Handling"
+   },
+   {
+    "id": "composer",
+    "name": "Composer"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/send-disabled": {
+  "pages": [
+   {
+    "id": "composer",
+    "name": "Composer"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/gold": {
+  "pages": [
+   {
+    "id": "badges",
+    "name": "Badges"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/chip-large": {
+  "pages": [
+   {
+    "id": "action-chips",
+    "name": "Action chips"
+   },
+   {
+    "id": "assistant-sheet",
+    "name": "Assistant sheet (Global MYA)"
+   },
+   {
+    "id": "call-handling",
+    "name": "Call Handling"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/chip-small-unread": {
+  "pages": [
+   {
+    "id": "action-chips",
+    "name": "Action chips"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/chip-small-read": {
+  "pages": [
+   {
+    "id": "action-chips",
+    "name": "Action chips"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/takeover": {
+  "pages": [
+   {
+    "id": "chat-header",
+    "name": "Chat header"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/profile-hero": {
+  "pages": [
+   {
+    "id": "profile-hero",
+    "name": "Profile hero"
+   },
+   {
+    "id": "plan-card",
+    "name": "Plan card"
+   },
+   {
+    "id": "ai-summary-card",
+    "name": "AI summary card"
+   },
+   {
+    "id": "invite-card",
+    "name": "Invite card"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/ai-summary": {
+  "pages": [
+   {
+    "id": "profile-hero",
+    "name": "Profile hero"
+   },
+   {
+    "id": "plan-card",
+    "name": "Plan card"
+   },
+   {
+    "id": "ai-summary-card",
+    "name": "AI summary card"
+   },
+   {
+    "id": "invite-card",
+    "name": "Invite card"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/gender-selected": {
+  "pages": [
+   {
+    "id": "empty-state",
+    "name": "Empty state"
+   },
+   {
+    "id": "context-menu",
+    "name": "Context menu"
+   },
+   {
+    "id": "chat-wallpaper",
+    "name": "Chat wallpaper"
+   },
+   {
+    "id": "gender-selector",
+    "name": "Gender selector"
+   },
+   {
+    "id": "address",
+    "name": "Address"
+   },
+   {
+    "id": "instruction-cards",
+    "name": "Instruction cards"
+   },
+   {
+    "id": "bottom-sheet",
+    "name": "Bottom sheet"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/suggestion-card": {
+  "pages": [
+   {
+    "id": "empty-state",
+    "name": "Empty state"
+   },
+   {
+    "id": "context-menu",
+    "name": "Context menu"
+   },
+   {
+    "id": "chat-wallpaper",
+    "name": "Chat wallpaper"
+   },
+   {
+    "id": "gender-selector",
+    "name": "Gender selector"
+   },
+   {
+    "id": "address",
+    "name": "Address"
+   },
+   {
+    "id": "instruction-cards",
+    "name": "Instruction cards"
+   },
+   {
+    "id": "bottom-sheet",
+    "name": "Bottom sheet"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/status-card": {
+  "pages": [
+   {
+    "id": "system-status-card",
+    "name": "System status card"
+   },
+   {
+    "id": "system-notification",
+    "name": "System notification"
+   },
+   {
+    "id": "meet-assistant-card",
+    "name": "Meet Your Assistant card"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/meet-assistant": {
+  "pages": [
+   {
+    "id": "system-status-card",
+    "name": "System status card"
+   },
+   {
+    "id": "system-notification",
+    "name": "System notification"
+   },
+   {
+    "id": "meet-assistant-card",
+    "name": "Meet Your Assistant card"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/call-me": {
+  "pages": [
+   {
+    "id": "system-status-card",
+    "name": "System status card"
+   },
+   {
+    "id": "system-notification",
+    "name": "System notification"
+   },
+   {
+    "id": "meet-assistant-card",
+    "name": "Meet Your Assistant card"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/when-chip": {
+  "pages": [
+   {
+    "id": "empty-state",
+    "name": "Empty state"
+   },
+   {
+    "id": "context-menu",
+    "name": "Context menu"
+   },
+   {
+    "id": "chat-wallpaper",
+    "name": "Chat wallpaper"
+   },
+   {
+    "id": "gender-selector",
+    "name": "Gender selector"
+   },
+   {
+    "id": "address",
+    "name": "Address"
+   },
+   {
+    "id": "instruction-cards",
+    "name": "Instruction cards"
+   },
+   {
+    "id": "bottom-sheet",
+    "name": "Bottom sheet"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/do-chip": {
+  "pages": [
+   {
+    "id": "empty-state",
+    "name": "Empty state"
+   },
+   {
+    "id": "context-menu",
+    "name": "Context menu"
+   },
+   {
+    "id": "chat-wallpaper",
+    "name": "Chat wallpaper"
+   },
+   {
+    "id": "gender-selector",
+    "name": "Gender selector"
+   },
+   {
+    "id": "address",
+    "name": "Address"
+   },
+   {
+    "id": "instruction-cards",
+    "name": "Instruction cards"
+   },
+   {
+    "id": "bottom-sheet",
+    "name": "Bottom sheet"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/paywall-hero": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   },
+   {
+    "id": "monetization-experiments",
+    "name": "Paywall experiments"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/gold-text": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/cta-gold": {
+  "pages": [
+   {
+    "id": "button",
+    "name": "Button"
+   },
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   },
+   {
+    "id": "monetization-experiments",
+    "name": "Paywall experiments"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/status-neutral": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/status-success": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   },
+   {
+    "id": "monetization-experiments",
+    "name": "Paywall experiments"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/status-warning": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   },
+   {
+    "id": "monetization-experiments",
+    "name": "Paywall experiments"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/status-danger": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   },
+   {
+    "id": "monetization-experiments",
+    "name": "Paywall experiments"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/status-gold": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/value-card": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/voice-note": {
+  "pages": [
+   {
+    "id": "assistant-sheet",
+    "name": "Assistant sheet (Global MYA)"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/choice-stroke": {
+  "pages": [
+   {
+    "id": "call-handling",
+    "name": "Call Handling"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/setup-done": {
+  "pages": [
+   {
+    "id": "call-handling",
+    "name": "Call Handling"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/setup-prompt": {
+  "pages": [
+   {
+    "id": "call-handling",
+    "name": "Call Handling"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/unlimited-text": {
+  "pages": [
+   {
+    "id": "profile-hero",
+    "name": "Profile hero"
+   },
+   {
+    "id": "plan-card",
+    "name": "Plan card"
+   },
+   {
+    "id": "ai-summary-card",
+    "name": "AI summary card"
+   },
+   {
+    "id": "invite-card",
+    "name": "Invite card"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/coupon-stroke": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/cta-renew": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/expired-badge": {
+  "pages": [
+   {
+    "id": "monetization-experiments",
+    "name": "Paywall experiments"
+   },
+   {
+    "id": "profile-hero",
+    "name": "Profile hero"
+   },
+   {
+    "id": "plan-card",
+    "name": "Plan card"
+   },
+   {
+    "id": "ai-summary-card",
+    "name": "AI summary card"
+   },
+   {
+    "id": "invite-card",
+    "name": "Invite card"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/gender-selected-stroke": {
+  "pages": [
+   {
+    "id": "empty-state",
+    "name": "Empty state"
+   },
+   {
+    "id": "context-menu",
+    "name": "Context menu"
+   },
+   {
+    "id": "chat-wallpaper",
+    "name": "Chat wallpaper"
+   },
+   {
+    "id": "gender-selector",
+    "name": "Gender selector"
+   },
+   {
+    "id": "address",
+    "name": "Address"
+   },
+   {
+    "id": "instruction-cards",
+    "name": "Instruction cards"
+   },
+   {
+    "id": "bottom-sheet",
+    "name": "Bottom sheet"
+   }
+  ],
+  "screens": []
+ }
+}

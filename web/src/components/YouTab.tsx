@@ -20,19 +20,41 @@ export type ProfileHeroProps = {
   onEdit?: () => void;
   /** Rendered at the bottom of the gold hero (the plan card overlaps it). */
   children?: ReactNode;
+  /**
+   * 'gold' (default): the cream-gold header of a user with a plan. 'plain': the mint header of a
+   * user with no subscription and no plan (no plan card, no plan marker, 20 dp bottom corners).
+   */
+  tone?: 'gold' | 'plain';
 };
 
-/** Gold gradient header: profile avatar, headline name + plan marker + edit, phone; hosts the plan card. */
-export function ProfileHero({ name, phone, avatar = 'male', plan = 'Unlimited', tier = plan ? 'paid' : 'free', onEdit, children }: ProfileHeroProps) {
+/** Coded art: the two soft arcs behind the gold profile header. */
+export function ProfileHeroArcs() {
   return (
-    <section className="eq-hero">
-      <svg className="eq-hero__arcs" viewBox="0 0 360 260" preserveAspectRatio="xMidYMin slice" aria-hidden>
-        <circle cx="180" cy="300" r="250" />
-        <circle cx="180" cy="300" r="290" />
-      </svg>
-      {/* The header is light in both themes, so its content always renders with light tokens. */}
-      <div className="eq-hero__row" data-theme="light">
-        <ProfileAvatar variant={avatar} size={70} tier={tier} />
+    <svg className="eq-hero__arcs" viewBox="0 0 360 260" preserveAspectRatio="xMidYMin slice" aria-hidden>
+      <circle cx="180" cy="300" r="250" />
+      <circle cx="180" cy="300" r="290" />
+    </svg>
+  );
+}
+
+/** Gold gradient header: profile avatar, headline name + plan marker + edit, phone; hosts the plan card. */
+export function ProfileHero({ name, phone, avatar = 'male', tone = 'gold', plan = tone === 'plain' ? null : 'Unlimited', tier = plan ? 'paid' : 'free', onEdit, children }: ProfileHeroProps) {
+  const plain = tone === 'plain';
+  return (
+    <section className={`eq-hero ${plain ? 'is-plain' : ''}`}>
+      {!plain && <ProfileHeroArcs />}
+      {/* The gold header is light in both themes, so its content always renders with light tokens. */}
+      <div className="eq-hero__row" data-theme={plain ? undefined : 'light'}>
+        {plain ? (
+          // No plan: the plain bust on a green disc inside a 5 dp green ring (coded), head above the ring.
+          <span className="eq-hero__avatar" aria-hidden>
+            <span className="eq-hero__ring" />
+            <span className="eq-hero__disc" />
+            <span className="eq-hero__bust"><ProfileAvatar variant={avatar} size={58} tier="free" label="" /></span>
+          </span>
+        ) : (
+          <ProfileAvatar variant={avatar} size={70} tier={tier} label="" />
+        )}
         <div style={{ minWidth: 0, flex: 1 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <Text as="h1" variant="headline" truncate style={{ flexShrink: 1 }}>{name}</Text>
@@ -92,12 +114,12 @@ export function PlanCard({ product = 'Equal AI', tier = 'UNLIMITED', price = 'â‚
         </span>
         {onManage && (
           <button type="button" className="eq-reset-btn eq-touch eq-t-button-small eq-plan__manage" onClick={onManage}>
-            {actionLabel}
+            <Text variant="inherit" color="none">{actionLabel}</Text>
           </button>
         )}
       </div>
       <Text as="div" variant="title" color="on-dark" style={{ marginTop: 12, position: 'relative' }}>
-        {product} <span style={{ color: 'var(--eq-text-accent-gold)' }}>{tier}</span>
+        {product} <Text variant="title" color="accent-gold" className="eq-plan__tier">{tier}</Text>
       </Text>
       <Text as="div" variant="caption" color="on-dark-secondary" className="eq-tnum" style={{ fontWeight: 400, position: 'relative' }}>{price}</Text>
     </div>
@@ -133,7 +155,7 @@ export function AiSummaryCard({ status, summary, footer, lastUpdated = '8:06 AM'
           <Text as="p" variant="bodyLarge" align="center" style={{ fontWeight: 500 }}>I'm still getting to know you...</Text>
         )}
         {s === 'loading' && (
-          <div className="eq-skeleton" aria-label="Summary is updating">
+          <div className="eq-skeleton" role="status" aria-label="Summary is updating">
             {[100, 100, 100, 100, 100].map((w, i) => (
               <span key={i} style={{ width: `${w}%`, animationDelay: `${i * 90}ms` }} />
             ))}
@@ -141,7 +163,7 @@ export function AiSummaryCard({ status, summary, footer, lastUpdated = '8:06 AM'
         )}
         {s === 'ready' && <Text as="p" variant="bodyLarge">{summary}</Text>}
       </div>
-      <Text as="div" variant="caption" color="tertiary" align="right" style={{ fontWeight: 400 }}>{foot}</Text>
+      <Text as="div" variant="caption" color="secondary" align="right" style={{ fontWeight: 400 }}>{foot}</Text>
     </div>
   );
 }
@@ -167,7 +189,7 @@ export function InviteCard({ title = 'Invite a Friend', subtitle = 'Invite Frien
         <Text as="div" variant="subheading" truncate>{title}</Text>
         <Text as="div" variant="caption" color="secondary" truncate style={{ fontWeight: 400 }}>{subtitle}</Text>
       </div>
-      <button type="button" className="eq-reset-btn eq-pressable eq-invite__share" aria-label="Share invite" onClick={onShare}>
+      <button type="button" className="eq-reset-btn eq-pressable eq-touch eq-invite__share" aria-label="Share invite" onClick={onShare}>
         <Icon name="share" size={22} />
       </button>
     </div>

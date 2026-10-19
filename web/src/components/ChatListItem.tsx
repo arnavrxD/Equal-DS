@@ -1,5 +1,5 @@
 import { Locked } from './Monetization';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { Text } from '../foundations/Text';
 import { AiAvatar, ContactAvatar, type ContactAvatarProps } from './Avatar';
 import { Icon } from '../foundations/Icon';
@@ -32,13 +32,20 @@ export function ChatListItem({ name, preview, date, unread = 0, actions = [], se
   const isUnread = unread > 0;
   const chipState = selected ? 'outlined' : isUnread ? 'unread' : 'read';
   const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const [pressed, setPressed] = useState(false);
   return (
     <div
       role="button"
       tabIndex={0}
-      aria-selected={selected}
+      aria-pressed={selected === undefined ? undefined : selected}
+      className="eq-chat-row"
       onClick={onClick}
-      onKeyDown={(e) => (e.key === 'Enter' ? onClick?.() : undefined)}
+      onKeyDown={(e) => {
+        // Enter or Space on the row itself (not on a chip inside it) opens the chat.
+        if (e.target !== e.currentTarget || (e.key !== 'Enter' && e.key !== ' ')) return;
+        e.preventDefault();
+        onClick?.();
+      }}
       onContextMenu={(e) => {
         if (onLongPress) {
           e.preventDefault();
@@ -46,18 +53,21 @@ export function ChatListItem({ name, preview, date, unread = 0, actions = [], se
         }
       }}
       onPointerDown={() => {
+        setPressed(true);
         if (onLongPress) timer.current = setTimeout(onLongPress, 500);
       }}
-      onPointerUp={() => clearTimeout(timer.current)}
-      onPointerLeave={() => clearTimeout(timer.current)}
+      onPointerUp={() => { setPressed(false); clearTimeout(timer.current); }}
+      onPointerLeave={() => { setPressed(false); clearTimeout(timer.current); }}
+      onPointerCancel={() => { setPressed(false); clearTimeout(timer.current); }}
       style={{
         display: 'flex',
         gap: 16,
         padding: '12px 0 12px 16px',
         background: selected ? 'var(--eq-action-card-highlight)' : 'var(--eq-bg-surface)',
+        // Pressed: the state/chat-pressed wash, painted over the fill and under the content.
+        boxShadow: pressed && !selected ? 'inset 0 0 0 100vmax var(--eq-state-chat-pressed)' : undefined,
         cursor: 'pointer',
         transition: 'background-color var(--eq-duration-base)',
-        outline: 'none',
       }}
     >
       {official ? <AiAvatar size={48} /> : <ContactAvatar size={48} selected={selected} {...avatar} />}
@@ -67,7 +77,7 @@ export function ChatListItem({ name, preview, date, unread = 0, actions = [], se
             <Text variant="subheading" truncate>{name}</Text>
             {official && <Icon name="verified" size={16} color="var(--eq-text-action)" label="Verified" />}
           </span>
-          <Text variant="micro" color={isUnread || selected ? 'action' : 'tertiary'} style={{ flexShrink: 0 }}>{date}</Text>
+          <Text variant="micro" color={isUnread || selected ? 'action' : 'secondary'} style={{ flexShrink: 0 }}>{date}</Text>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, paddingRight: 16, minHeight: 22 }}>
           {locked ? (

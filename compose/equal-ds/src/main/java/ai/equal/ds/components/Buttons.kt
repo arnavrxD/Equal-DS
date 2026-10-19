@@ -5,6 +5,7 @@ import ai.equal.ds.icons.EqualIcons
 import ai.equal.ds.theme.EqualShadows
 import ai.equal.ds.theme.EqualTheme
 import ai.equal.ds.theme.eqFocusRing
+import ai.equal.ds.theme.eqGlassInset
 import ai.equal.ds.theme.eqPressFeedback
 import ai.equal.ds.theme.eqShadow
 import ai.equal.ds.theme.toBrush
@@ -94,20 +95,22 @@ fun EqualButton(
     leadingIcon: ImageVector? = null,
     trailingIcon: ImageVector? = null,
     iconSize: Dp = 16.dp,
+    /** [EqualButtonVariant.Gold] only: replaces `gradient/cta-gold` (e.g. `gradient/cta-renew`). */
+    goldBrush: Brush? = null,
 ) {
     val colors = EqualTheme.colors
     val type = EqualTheme.type
     val (fill: Color, content: Color) = when {
         !enabled -> colors.buttonDisabled to colors.textOnActionDisabled
         variant == EqualButtonVariant.Primary -> colors.buttonPrimary to colors.textOnAction
-        variant == EqualButtonVariant.Secondary -> colors.buttonSecondary to colors.textPrimary
+        variant == EqualButtonVariant.Secondary -> colors.buttonSecondary to colors.textOnSecondary
         variant == EqualButtonVariant.Gold -> Color.Transparent to EqualPrimitives.white
         variant == EqualButtonVariant.Outline -> Color.Transparent to colors.textAction
         variant == EqualButtonVariant.GoldOutline -> colors.bgSurface to colors.textGold
         else -> colors.buttonDanger to colors.textOnDanger
     }
     val fillModifier = when {
-        enabled && variant == EqualButtonVariant.Gold -> Modifier.background(EqualTheme.gradients.ctaGold.toBrush())
+        enabled && variant == EqualButtonVariant.Gold -> Modifier.background(goldBrush ?: EqualTheme.gradients.ctaGold.toBrush())
         enabled && variant == EqualButtonVariant.Outline -> Modifier.border(1.5.dp, colors.buttonPrimary, CircleShape)
         enabled && variant == EqualButtonVariant.GoldOutline -> Modifier.background(fill).border(1.5.dp, colors.textGold, CircleShape)
         else -> Modifier.background(fill)
@@ -310,12 +313,14 @@ fun EqualTextButton(
 }
 
 /** Icon button roles (SPEC §19). */
-enum class EqualIconButtonVariant { Neutral, Primary }
+enum class EqualIconButtonVariant { Neutral, Primary, Glass }
 
 /**
  * Circular icon button (SPEC §19).
  * - [EqualIconButtonVariant.Neutral]: 44 circle, `bg/surface`, shadow `raised`, icon `text/secondary` (close).
  * - [EqualIconButtonVariant.Primary]: 42 circle, `button/primary`, icon `text/on-action` (confirm).
+ * - [EqualIconButtonVariant.Glass]: 44 frosted circle, `glass-button/default`, shadow `glass`, icon
+ *   `text/primary` (close/back over art or colour).
  */
 @Composable
 fun EqualIconButton(
@@ -328,20 +333,28 @@ fun EqualIconButton(
     iconSize: Dp = 22.dp,
 ) {
     val colors = EqualTheme.colors
-    val diameter = if (variant == EqualIconButtonVariant.Neutral) 44.dp else 42.dp
+    val diameter = if (variant == EqualIconButtonVariant.Primary) 42.dp else 44.dp
     val fill = when {
         variant == EqualIconButtonVariant.Neutral -> colors.bgSurface
+        variant == EqualIconButtonVariant.Glass -> colors.glassButtonDefault
         enabled -> colors.buttonPrimary
         else -> colors.buttonDisabled
     }
     val tint = when {
         variant == EqualIconButtonVariant.Neutral -> colors.textSecondary
+        variant == EqualIconButtonVariant.Glass -> colors.textPrimary
         enabled -> colors.textOnAction
         else -> colors.textOnActionDisabled
     }
     val interaction = rememberInteraction()
-    val shadowModifier = if (variant == EqualIconButtonVariant.Neutral) {
-        Modifier.eqShadow(EqualShadows.raised, CircleShape)
+    val shadowModifier = when (variant) {
+        EqualIconButtonVariant.Neutral -> Modifier.eqShadow(EqualShadows.raised, CircleShape)
+        EqualIconButtonVariant.Glass -> Modifier.eqShadow(EqualShadows.glass, CircleShape, outsideOnly = true)
+        EqualIconButtonVariant.Primary -> Modifier
+    }
+    // The glass inner-bottom highlight paints over the fill, as on the glass action chips.
+    val insetModifier = if (variant == EqualIconButtonVariant.Glass) {
+        Modifier.eqGlassInset(colors.actionBottomColor, CircleShape)
     } else {
         Modifier
     }
@@ -353,6 +366,7 @@ fun EqualIconButton(
             .then(shadowModifier)
             .clip(CircleShape)
             .background(fill)
+            .then(insetModifier)
             .clickable(
                 interactionSource = interaction,
                 indication = null,

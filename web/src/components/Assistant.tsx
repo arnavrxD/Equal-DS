@@ -2,8 +2,9 @@
 // Greeting + quick actions, suggestion chips, text or voice input, hold-to-record, and the short
 // task conversation it turns into (voice note → Thinking… → result card → Edit / Confirm).
 import { useEffect, useState, type ReactNode } from 'react';
+import { useModal } from '../foundations/a11y';
 import { Asset } from '../foundations/Asset';
-import { Icon } from '../foundations/Icon';
+import { Emoji, Icon } from '../foundations/Icon';
 import type { IconName } from '../foundations/icons';
 import { Text } from '../foundations/Text';
 import { EqualMark } from '../foundations/EqualMark';
@@ -17,9 +18,9 @@ import './Assistant.css';
 export function AssistantGreeting({ name, greeting = 'Good morning', prompt = 'What can I help you with today?' }: { name: string; greeting?: string; prompt?: string }) {
   return (
     <div className="eq-mya-greeting">
-      <EqualOrb size={56} />
+      <EqualOrb size={56} label="" />
       <Text as="h2" variant="headline" align="center" style={{ fontWeight: 700, marginTop: 12 }}>
-        {greeting}, <span style={{ color: 'var(--eq-text-action)' }}>{name}</span>
+        {greeting}, <Text variant="inherit" color="action">{name}</Text>
       </Text>
       <Text as="p" variant="body1" color="secondary" align="center" style={{ margin: 0 }}>{prompt}</Text>
     </div>
@@ -51,8 +52,8 @@ export function AssistantActions({ items }: { items: AssistantAction[] }) {
 export function TrySaying({ example }: { example: string }) {
   return (
     <div className="eq-mya-try">
-      <Text as="div" variant="title" color="tertiary" align="center" style={{ fontWeight: 400 }}>Try saying</Text>
-      <Text as="div" variant="title" color="tertiary" align="center" style={{ fontWeight: 400, fontSize: 22, lineHeight: '28px' }}>“{example}”</Text>
+      <Text as="div" variant="title" color="secondary" align="center" style={{ fontWeight: 400 }}>Try saying</Text>
+      <Text as="div" variant="title" color="secondary" align="center" style={{ fontWeight: 400, fontSize: 22, lineHeight: '28px' }}>“{example}”</Text>
     </div>
   );
 }
@@ -97,7 +98,7 @@ export function AssistantInput({ mode, value = '', onChange, onSubmit, onFocus, 
           onPointerUp={() => timer && clearTimeout(timer)}
         >
           <Icon name="mic-fill" size={22} />
-          <span className="eq-t-subheading" style={{ fontWeight: 700 }}>Send voice note</span>
+          <Text variant="subheading" color="none" style={{ fontWeight: 700 }}>Send voice note</Text>
         </button>
       </div>
     );
@@ -142,6 +143,15 @@ function useRecordingBars(active: boolean, count = 22) {
 
 const mmss = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
 
+/** Coded art: the live recording waveform (bar heights in dp); dots while idle, red while cancelling. */
+export function RecordingWaveform({ bars, state }: { bars: number[]; state: RecorderState }) {
+  return (
+    <span className={`eq-mya-wave ${state === 'cancel' ? 'is-cancel' : ''}`} aria-hidden>
+      {state === 'idle' ? <span className="eq-mya-wave__dots" /> : bars.map((h, i) => <span key={i} style={{ height: h }} />)}
+    </span>
+  );
+}
+
 /**
  * Voice recorder bar. idle / recording: delete, timer + waveform, send. hold (press-and-hold):
  * "Release to send, slide left to cancel"; cancel (slid left): "Release to cancel", red waveform.
@@ -149,18 +159,14 @@ const mmss = (s: number) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).
 export function VoiceRecorder({ state, seconds = 0, onDelete, onSend }: { state: RecorderState; seconds?: number; onDelete?: () => void; onSend?: () => void }) {
   const live = state !== 'idle';
   const bars = useRecordingBars(live);
-  const wave = (
-    <span className={`eq-mya-wave ${state === 'cancel' ? 'is-cancel' : ''}`} aria-hidden>
-      {state === 'idle' ? <span className="eq-mya-wave__dots" /> : bars.map((h, i) => <span key={i} style={{ height: h }} />)}
-    </span>
-  );
+  const wave = <RecordingWaveform bars={bars} state={state} />;
   if (state === 'hold' || state === 'cancel') {
     return (
       <div className="eq-mya-hold">
-        <Text as="div" variant="caption" color="secondary" align="center" style={{ fontWeight: 400 }}>{state === 'cancel' ? 'Release to cancel' : 'Release to send, slide left to cancel'}</Text>
+        <Text as="div" role="status" variant="caption" color="secondary" align="center" style={{ fontWeight: 400 }}>{state === 'cancel' ? 'Release to cancel' : 'Release to send, slide left to cancel'}</Text>
         <div className="eq-mya-pill">
-          <Icon name="slide-left" size={18} color="var(--eq-text-tertiary)" />
-          <Text as="span" variant="body1" color="tertiary" style={{ flex: 1 }}>Slide left to cancel</Text>
+          <Icon name="slide-left" size={18} color="var(--eq-text-secondary)" />
+          <Text as="span" variant="body1" color="secondary" style={{ flex: 1 }}>Slide left to cancel</Text>
           {wave}
         </div>
       </div>
@@ -172,7 +178,7 @@ export function VoiceRecorder({ state, seconds = 0, onDelete, onSend }: { state:
         <Icon name="delete" size={24} color="var(--eq-text-danger)" />
       </button>
       <div className="eq-mya-pill" role="timer" aria-label={`Recording ${mmss(seconds)}`}>
-        <span className="eq-t-body1 eq-tnum" style={{ color: 'var(--eq-text-primary)' }}>{mmss(seconds)}</span>
+        <Text variant="body1" color="primary" className="eq-tnum">{mmss(seconds)}</Text>
         {wave}
       </div>
       <button type="button" className="eq-reset-btn eq-pressable eq-mya-mic" aria-label="Send voice note" onClick={onSend}>
@@ -188,7 +194,7 @@ export function VoiceRecorder({ state, seconds = 0, onDelete, onSend }: { state:
 export function AssistantTaskHeader({ title, onClose }: { title: ReactNode; onClose?: () => void }) {
   return (
     <div className="eq-mya-task">
-      <EqualOrb size={32} />
+      <EqualOrb size={32} label="" />
       <Text as="div" variant="subheading" style={{ flex: 1, minWidth: 0, fontWeight: 400 }}>{title}</Text>
       <IconButton icon="close" label="Close" variant="neutral" size={40} onClick={onClose} className="eq-mya-task__close" />
     </div>
@@ -199,7 +205,7 @@ export function AssistantTaskHeader({ title, onClose }: { title: ReactNode; onCl
 export function AssistantThinking({ label = 'Thinking' }: { label?: string }) {
   return (
     <div className="eq-mya-thinking" role="status">
-      <EqualOrb size={28} />
+      <EqualOrb size={28} label="" />
       <Text as="span" variant="subheading" color="secondary" style={{ fontStyle: 'italic', fontWeight: 400 }}>
         {label}<span className="eq-mya-dots" aria-hidden><span>.</span><span>.</span><span>.</span></span>
       </Text>
@@ -212,10 +218,10 @@ export function AssistantReplies({ onEdit, onConfirm, editLabel = 'Edit', confir
   return (
     <div className="eq-mya-replies">
       <button type="button" className="eq-reset-btn eq-pressable eq-mya-reply" onClick={onEdit}>
-        <span aria-hidden>✍️</span> <span className="eq-t-subheading" style={{ fontWeight: 400 }}>{editLabel}</span>
+        <Emoji char="✍️" inline /> <Text variant="subheading" color="none" style={{ fontWeight: 400 }}>{editLabel}</Text>
       </button>
       <button type="button" className="eq-reset-btn eq-pressable eq-mya-reply is-commit" onClick={onConfirm}>
-        <span aria-hidden>👍</span> <span className="eq-t-subheading" style={{ fontWeight: 400 }}>{confirmLabel}</span>
+        <Emoji char="👍" inline /> <Text variant="subheading" color="none" style={{ fontWeight: 400 }}>{confirmLabel}</Text>
       </button>
     </div>
   );
@@ -232,9 +238,10 @@ export function KeyboardSpace() {
 // ---------------------------------------------------------------- sheet shell
 
 /** The sheet itself: dimmed screen behind, radius 32 top, `sheet/bg`. `task` makes it the taller conversation sheet. */
-export function AssistantSheetShell({ children, footer, header, task, inChat, mode = 'overlay', onScrim }: { children?: ReactNode; footer?: ReactNode; header?: ReactNode; task?: boolean; /** Opened from a chat's AI layer: the sheet stops below the chat header so the user still sees which chat it's in. */ inChat?: boolean; mode?: 'overlay' | 'inline'; onScrim?: () => void }) {
+export function AssistantSheetShell({ children, footer, header, task, inChat, mode = 'overlay', onScrim, onClose }: { children?: ReactNode; footer?: ReactNode; header?: ReactNode; task?: boolean; /** Opened from a chat's AI layer: the sheet stops below the chat header so the user still sees which chat it's in. */ inChat?: boolean; mode?: 'overlay' | 'inline'; onScrim?: () => void; /** Escape. Defaults to `onScrim`. */ onClose?: () => void }) {
+  const modal = useModal({ open: true, onClose: onClose ?? onScrim, enabled: mode === 'overlay' });
   const panel = (
-    <div className={`eq-mya-sheet ${task ? 'is-task' : ''} ${inChat ? 'is-in-chat' : ''} ${mode === 'inline' ? 'is-inline' : ''}`} role="dialog" aria-modal={mode === 'overlay'} aria-label="Your assistant">
+    <div className={`eq-mya-sheet ${task ? 'is-task' : ''} ${inChat ? 'is-in-chat' : ''} ${mode === 'inline' ? 'is-inline' : ''}`} role="dialog" aria-label="Your assistant" {...modal}>
       {header}
       <div className="eq-mya-sheet__body">{children}</div>
       {footer && <div className="eq-mya-sheet__footer">{footer}</div>}
@@ -261,12 +268,12 @@ export function AssistantReplyCard({ children, time, actions = [], sender = 'Equ
       <div style={{ padding: '10px 12px 6px' }}>
         <Text as="div" variant="body2" color="action">{sender}</Text>
         <Text as="div" variant="body1" style={{ fontWeight: 400, whiteSpace: 'pre-line' }}>{children}</Text>
-        {time && <Text as="div" variant="micro" color="tertiary" align="right">{time}</Text>}
+        {time && <Text as="div" variant="micro" color="secondary" align="right">{time}</Text>}
       </div>
       {actions.map((a) => (
         <button key={a.label} type="button" className="eq-reset-btn eq-pressable eq-mya-reply-card__action" onClick={a.onClick}>
-          <span aria-hidden>{a.emoji}</span>
-          <span className="eq-t-button">{a.label}</span>
+          <Emoji char={a.emoji} inline />
+          <Text variant="button" color="none">{a.label}</Text>
         </button>
       ))}
     </div>
@@ -276,7 +283,7 @@ export function AssistantReplyCard({ children, time, actions = [], sender = 'Equ
 /** Page dots under a promo carousel (active dot larger, in the action-stroke green). */
 export function CarouselDots({ count, active }: { count: number; active: number }) {
   return (
-    <div className="eq-carousel-dots" role="tablist" aria-label={`Card ${active + 1} of ${count}`}>
+    <div className="eq-carousel-dots" role="img" aria-label={`Card ${active + 1} of ${count}`}>
       {Array.from({ length: count }, (_, i) => <span key={i} className={i === active ? 'is-on' : ''} />)}
     </div>
   );

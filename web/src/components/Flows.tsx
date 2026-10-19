@@ -1,10 +1,11 @@
 // Components for the Profile, Addresses and Instructions flows (the flow designs).
 import { ActionCardBody, instructionLines } from './ActionCard';
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
+import { useEffect, useId, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { Asset, hasAsset, type AssetName } from '../foundations/Asset';
 import patternUrl from '../foundations/chat-pattern@3x.webp';
 import { Emoji, Icon } from '../foundations/Icon';
 import { Text } from '../foundations/Text';
+import { Announce, inertWhen, radioGroupKeyDown, rovingTabIndex, useFocusHandoff, useModal } from '../foundations/a11y';
 import { AiAvatar, ProfileAvatar, type PlanTier } from './Avatar';
 import { Button, IconButton } from './Button';
 import { ContextMenu, type MenuItem } from './ContextMenu';
@@ -26,10 +27,13 @@ export function IllustrationHeader({ asset, size = 160 }: { asset: AssetName; si
 export function OverflowMenu({ items, label = 'More options' }: { items: MenuItem[]; label?: string }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const trigger = () => ref.current?.querySelector<HTMLButtonElement>('button[aria-haspopup]');
+  // Close and give focus back to the ⋮ trigger (Escape, or after choosing an item).
+  const close = () => { setOpen(false); trigger()?.focus({ preventScroll: true }); };
   useEffect(() => {
     if (!open) return;
     const onDown = (e: PointerEvent) => !ref.current?.contains(e.target as Node) && setOpen(false);
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false);
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && close();
     document.addEventListener('pointerdown', onDown);
     document.addEventListener('keydown', onKey);
     return () => {
@@ -39,10 +43,19 @@ export function OverflowMenu({ items, label = 'More options' }: { items: MenuIte
   }, [open]);
   return (
     <div ref={ref} style={{ position: 'relative', zIndex: open ? 30 : undefined }}>
-      <IconButton icon="more-vert" label={label} size={32} iconSize={20} onClick={() => setOpen((o) => !o)} aria-expanded={open} />
+      <IconButton
+        icon="more-vert"
+        label={label}
+        size={32}
+        iconSize={20}
+        onClick={() => setOpen((o) => !o)}
+        onKeyDown={(e) => { if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { e.preventDefault(); setOpen(true); } }}
+        aria-haspopup="menu"
+        aria-expanded={open}
+      />
       {open && (
         <div className="eq-overflow">
-          <ContextMenu items={items.map((it) => ({ ...it, onSelect: () => (setOpen(false), it.onSelect?.()) }))} minWidth={168} />
+          <ContextMenu autoFocus label={label} onClose={() => close()} items={items.map((it) => ({ ...it, onSelect: () => (close(), it.onSelect?.()) }))} minWidth={168} />
         </div>
       )}
     </div>
@@ -71,15 +84,15 @@ export type Gender = 'male' | 'female';
  */
 export function GenderSelector({ value, onChange, tier = 'free' }: { value: Gender; onChange?: (g: Gender) => void; tier?: PlanTier }) {
   return (
-    <div role="radiogroup" aria-label="Gender" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-      {(['male', 'female'] as const).map((g) => {
+    <div role="radiogroup" aria-label="Gender" onKeyDown={radioGroupKeyDown} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+      {(['male', 'female'] as const).map((g, i) => {
         const bust = g === 'male' ? 'avatar-male-bust' : 'avatar-female-bust';
         return (
-          <button key={g} type="button" role="radio" aria-checked={value === g} className={`eq-reset-btn eq-pressable eq-gender ${value === g ? 'is-on' : ''}`} onClick={() => onChange?.(g)}>
-            <span className="eq-gender__mark" aria-hidden>{g === 'male' ? '♂' : '♀'}</span>
+          <button key={g} type="button" role="radio" aria-checked={value === g} tabIndex={rovingTabIndex(i, value === 'male' ? 0 : value === 'female' ? 1 : -1)} className={`eq-reset-btn eq-pressable eq-gender ${value === g ? 'is-on' : ''}`} onClick={() => onChange?.(g)}>
+            <Text variant="inherit" color="none" className="eq-gender__mark" aria-hidden>{g === 'male' ? '♂' : '♀'}</Text>
             <Text variant="subheading" style={{ position: 'relative' }}>{g === 'male' ? 'Male' : 'Female'}</Text>
             <span className="eq-gender__art">
-              {tier === 'paid' ? <ProfileAvatar variant={g} size={52} tier="paid" /> : hasAsset(bust) ? <Asset name={bust} width={60} height={56} /> : <ProfileAvatar variant={g} size={52} />}
+              {tier === 'paid' ? <ProfileAvatar variant={g} size={52} tier="paid" label="" /> : hasAsset(bust) ? <Asset name={bust} width={60} height={56} alt="" /> : <ProfileAvatar variant={g} size={52} label="" />}
             </span>
           </button>
         );
@@ -129,14 +142,15 @@ export function AddressForm({ initial, onSave }: { initial?: Partial<SavedAddres
   const [direction, setDirection] = useState(initial?.direction ?? '');
   const pinError = pincode && !/^\d{6}$/.test(pincode) ? 'Enter a 6-digit pincode' : undefined;
   const canSave = line1.trim() && city.trim() && /^\d{6}$/.test(pincode);
+  const labelId = useId();
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
       <div>
-        <Text as="div" variant="overline" color="tertiary" style={{ marginBottom: 10 }}>LABEL*</Text>
-        <SegmentedChips options={LABELS} value={label} onChange={setLabel} />
+        <Text as="div" id={labelId} variant="overline" color="secondary" style={{ marginBottom: 10 }}>LABEL*</Text>
+        <SegmentedChips options={LABELS} value={label} onChange={setLabel} labelledBy={labelId} />
       </div>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-        <Text as="div" variant="overline" color="tertiary">ADDRESS</Text>
+        <Text as="div" variant="overline" color="secondary">ADDRESS</Text>
         <TextField aria-label="Address line 1" placeholder="Flat, house no., building" value={line1} onChange={setLine1} multiline />
         <TextField aria-label="Address line 2" placeholder="Street, area, landmark" value={line2} onChange={setLine2} multiline />
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
@@ -186,7 +200,7 @@ export function SuggestionsComingCard() {
   );
 }
 
-export type PresetTint = 'red' | 'green' | 'orange';
+export type PresetTint = 'green' | 'blue' | 'orange';
 
 /** "Browse presets" card — emoji in a tinted circle, chevron, title, description. */
 export function PresetCard({ emoji, tint, title, description, onClick }: { emoji: string; tint: PresetTint; title: string; description: string; onClick?: () => void }) {
@@ -222,7 +236,7 @@ export function WhenDoRow({ kind, children, upper = false }: { kind: 'when' | 'd
   return (
     <div className="eq-whendo">
       <span className={`eq-whendo__chip eq-whendo__chip--${kind}`}>
-        <Text variant="caption" color="tertiary" style={{ fontWeight: 400 }}>{label}</Text>
+        <Text variant="caption" color="secondary" style={{ fontWeight: 400 }}>{label}</Text>
       </span>
       <Text as="p" variant="body1" color="primary" style={{ flex: 1 }}>{children}</Text>
     </div>
@@ -233,15 +247,17 @@ export type Instruction = { id: string; title: string; when: string; do: string;
 
 /** Preset instruction with an Apply action (preset detail screen). */
 export function PresetInstructionCard({ instruction, applied, onApply }: { instruction: Instruction; applied?: boolean; onApply?: () => void }) {
+  const handoff = useFocusHandoff<HTMLSpanElement>(!!applied);
   return (
     <div className="eq-flow-card" style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
       <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
         <Text as="h3" variant="subheading" style={{ flex: 1 }}>{instruction.title}</Text>
         {applied ? (
-          <span className="eq-applied"><Icon name="check" size={16} /><span className="eq-t-button-small">Applied</span></span>
+          <span ref={handoff.targetRef} tabIndex={-1} className="eq-applied"><Icon name="check" size={16} /><Text variant="buttonSmall" color="none">Applied</Text></span>
         ) : (
-          <Button size="sm" leadingIcon="add" onClick={onApply}>Apply</Button>
+          <Button size="sm" leadingIcon="add" aria-label={`Apply ${instruction.title}`} onClick={() => { handoff.markFocus(); onApply?.(); }}>Apply</Button>
         )}
+        <Announce message={applied ? `${instruction.title} applied` : ''} />
       </div>
       <WhenDoRow kind="when">{instruction.when}</WhenDoRow>
       <WhenDoRow kind="do">{instruction.do}</WhenDoRow>
@@ -262,7 +278,7 @@ export function InstructionCard({ instruction, onEdit, onDelete }: { instruction
         {(onEdit || onDelete) && (
           <div style={{ margin: '-8px -12px 0 0' }}>
             <OverflowMenu
-              label="Instruction options"
+              label={`${instruction.title} options`}
               items={[
                 ...(onEdit ? [{ label: 'Edit', icon: 'edit' as const, onSelect: onEdit }] : []),
                 ...(onDelete ? [{ label: 'Delete instruction', icon: 'delete' as const, danger: true, onSelect: onDelete }] : []),
@@ -295,7 +311,7 @@ export function InstructionPreview({ title, when, action, time, confirmed }: { t
     <div className="eq-preview-wrap">
       <ActionCardBody icon="instructions" title={title} details={instructionLines(when, action)} time={time} />
       {confirmed && (
-        <span className="eq-reaction" aria-label="Confirmed"><Emoji char="✅" size={18} /></span>
+        <span className="eq-reaction" role="img" aria-label="Confirmed"><Emoji char="✅" size={18} /></span>
       )}
     </div>
   );
@@ -303,18 +319,13 @@ export function InstructionPreview({ title, when, action, time, confirmed }: { t
 
 /** Full-height sheet with a title row (orb + title + close) — the "Setting up instruction" chat. */
 export function FullSheet({ open, onClose, title, children, footer }: { open: boolean; onClose?: () => void; title: string; children: ReactNode; footer?: ReactNode }) {
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose?.();
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [open, onClose]);
+  const modal = useModal<HTMLElement>({ open, onClose });
   return (
-    <div className={`eq-fullsheet ${open ? 'is-open' : ''}`} aria-hidden={!open}>
+    <div className={`eq-fullsheet ${open ? 'is-open' : ''}`} aria-hidden={!open} {...inertWhen(!open)}>
       <div className="eq-fullsheet__scrim" onClick={onClose} />
-      <section className="eq-fullsheet__panel" role="dialog" aria-modal="true" aria-label={title}>
+      <section className="eq-fullsheet__panel" role="dialog" aria-label={title} {...modal}>
         <header className="eq-fullsheet__head">
-          <AiAvatar size={32} />
+          <AiAvatar size={32} label="" />
           <Text variant="subheading" style={{ flex: 1 }}>{title}</Text>
           <IconButton icon="close" label="Close" variant="neutral" size={40} iconSize={22} onClick={onClose} />
         </header>

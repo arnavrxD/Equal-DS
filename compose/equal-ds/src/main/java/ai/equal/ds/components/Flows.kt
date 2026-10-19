@@ -67,11 +67,20 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.LiveRegionMode
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.liveRegion
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
+import androidx.compose.foundation.LocalIndication
+import androidx.compose.foundation.indication
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -138,7 +147,7 @@ fun IllustrationHeader(
 }
 
 /**
- * More-vert button (32dp, icon 20) that opens an anchored [ContextMenu] (min width 168) in a
+ * More-vert button (32dp, icon 20, 48dp touch area; exposes Expanded / Collapsed) that opens an anchored [ContextMenu] (min width 168) in a
  * focusable popup, 30dp below and 6dp in from the right edge. Selecting an item closes the menu
  * first; tapping outside or Back dismisses it. The open state is ephemeral UI state kept here.
  */
@@ -153,14 +162,24 @@ fun OverflowMenu(
     val density = LocalDensity.current
     val offset = with(density) { IntOffset(x = -6.dp.roundToPx(), y = 30.dp.roundToPx()) }
     Box(modifier) {
+        val interaction = rememberInteraction()
+        // 48dp touch area around the 32dp button (layout unchanged); TalkBack hears Expanded / Collapsed.
         Box(
             Modifier
-                .size(32.dp)
-                .clip(CircleShape)
-                .clickable(role = Role.Button, onClickLabel = contentDescription) { open = !open },
+                .touchTarget()
+                .semantics { stateDescription = if (open) "Expanded" else "Collapsed" }
+                .clickable(interactionSource = interaction, indication = null, role = Role.Button) { open = !open },
             contentAlignment = Alignment.Center,
         ) {
-            EqualIcon(EqualIcons.MoreVert, contentDescription = contentDescription, tint = colors.textPrimary, size = 20.dp)
+            Box(
+                Modifier
+                    .size(32.dp)
+                    .clip(CircleShape)
+                    .indication(interaction, LocalIndication.current),
+                contentAlignment = Alignment.Center,
+            ) {
+                EqualIcon(EqualIcons.MoreVert, contentDescription = contentDescription, tint = colors.textPrimary, size = 20.dp)
+            }
         }
         if (open) {
             Popup(
@@ -243,8 +262,8 @@ enum class Gender { Male, Female }
  * (96, 5% `text/primary`, bottom-left, clipped), the label in `subheading` (12 from the top) and
  * the bust art at the bottom centre (`avatar-male-bust` / `avatar-female-bust`, 60 × 56; a 52dp
  * [ProfileAvatar] while those are placeholders).
- * Selected: `gradient/gender-selected` + 2dp `button/primary` border. Unselected: `bg/surface`,
- * 2dp transparent border (`stroke/dark` in dark mode).
+ * Selected: `gradient/gender-selected` + 2dp `gradient/gender-selected-stroke` border (green →
+ * lime → green; lime in dark). Unselected: `bg/surface`, 2dp `gender/stroke` border.
  */
 @Composable
 fun GenderSelector(
@@ -269,11 +288,8 @@ fun GenderSelector(
 private fun GenderCard(gender: Gender, selected: Boolean, tier: PlanTier, onClick: () -> Unit, modifier: Modifier) {
     val colors = EqualTheme.colors
     val shape = RoundedCornerShape(EqualRadius.rLg)
-    val borderColor = when {
-        selected -> colors.buttonPrimary
-        colors.isDark -> colors.strokeDark
-        else -> Color.Transparent
-    }
+    // Selected: the green-lime-green `gradient/gender-selected-stroke`; otherwise `gender/stroke`.
+    val borderBrush = if (selected) EqualTheme.gradients.genderSelectedStroke.toBrush() else SolidColor(colors.genderStroke)
     val fill = if (selected) {
         Modifier.background(EqualTheme.gradients.genderSelected.toBrush(), shape)
     } else {
@@ -287,7 +303,7 @@ private fun GenderCard(gender: Gender, selected: Boolean, tier: PlanTier, onClic
             .height(120.dp)
             .eqShadow(GenderCardShadow, shape)
             .then(fill)
-            .border(2.dp, borderColor, shape)
+            .border(2.dp, borderBrush, shape)
             .clip(shape)
             .selectable(selected = selected, role = Role.RadioButton, onClick = onClick),
     ) {
@@ -296,6 +312,7 @@ private fun GenderCard(gender: Gender, selected: Boolean, tier: PlanTier, onClic
             text = if (gender == Gender.Male) "♂" else "♀",
             style = TextStyle(fontSize = markSize, lineHeight = markSize, color = colors.textPrimary.copy(alpha = 0.05f)),
             modifier = Modifier
+                .clearAndSetSemantics {}
                 .align(Alignment.BottomStart)
                 .offset(x = (-6).dp, y = 18.dp),
         )
@@ -424,12 +441,12 @@ fun AddressForm(
 
     Column(modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(20.dp)) {
         Column {
-            EqualText(text = "LABEL*", style = type.overline, color = colors.textTertiary)
+            EqualText(text = "LABEL*", style = type.overline, color = colors.textSecondary)
             Spacer(Modifier.height(10.dp))
-            SegmentedChips(options = AddressLabels, selectedIndex = labelIndex, onSelectedIndexChange = { labelIndex = it })
+            SegmentedChips(options = AddressLabels, selectedIndex = labelIndex, onSelectedIndexChange = { labelIndex = it }, contentDescription = "Address label")
         }
         Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-            EqualText(text = "ADDRESS", style = type.overline, color = colors.textTertiary)
+            EqualText(text = "ADDRESS", style = type.overline, color = colors.textSecondary)
             EqualTextField(
                 value = line1,
                 onValueChange = { line1 = it },
@@ -542,15 +559,24 @@ fun RecommendedCard(
             EmojiGlyph(emoji = emoji, size = 26.dp)
             Spacer(Modifier.weight(1f))
             if (onAdd != null) {
+                val interaction = rememberInteraction()
+                // 48dp touch area around the 30dp circle (layout unchanged).
                 Box(
                     Modifier
-                        .size(30.dp)
-                        .clip(CircleShape)
-                        .background(colors.iconButtonBg)
-                        .clickable(role = Role.Button, onClickLabel = "Add $title", onClick = onAdd),
+                        .touchTarget()
+                        .clickable(interactionSource = interaction, indication = null, role = Role.Button, onClick = onAdd),
                     contentAlignment = Alignment.Center,
                 ) {
-                    EqualIcon(EqualIcons.Add, contentDescription = "Add $title", tint = colors.textAction, size = 20.dp)
+                    Box(
+                        Modifier
+                            .size(30.dp)
+                            .clip(CircleShape)
+                            .background(colors.iconButtonBg)
+                            .indication(interaction, LocalIndication.current),
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        EqualIcon(EqualIcons.Add, contentDescription = "Add $title", tint = colors.textAction, size = 20.dp)
+                    }
                 }
             }
         }
@@ -595,8 +621,8 @@ fun SuggestionsComingCard(
     }
 }
 
-/** Tint behind a [PresetCard] emoji. */
-enum class PresetTint { Red, Green, Orange }
+/** Tint behind a [PresetCard] emoji: Green = Screen & Protect, Blue = Handle everyday calls, Orange = Run my business. */
+enum class PresetTint { Green, Blue, Orange }
 
 /**
  * "Browse presets" card: bordered flow card, clickable. Emoji 16 in a 26dp tinted circle
@@ -614,8 +640,8 @@ fun PresetCard(
 ) {
     val colors = EqualTheme.colors
     val tintColor = when (tint) {
-        PresetTint.Red -> colors.presetTintRed
         PresetTint.Green -> colors.presetTintGreen
+        PresetTint.Blue -> colors.presetTintBlue
         PresetTint.Orange -> colors.presetTintOrange
     }
     Column(
@@ -695,7 +721,7 @@ fun WhenDoRow(
                     .padding(horizontal = 10.dp),
                 contentAlignment = Alignment.Center,
             ) {
-                EqualText(text = label, style = type.captionRegular, color = colors.textTertiary, maxLines = 1)
+                EqualText(text = label, style = type.captionRegular, color = colors.textSecondary, maxLines = 1)
             }
             Spacer(Modifier.width(12.dp))
             BasicText(text = text, style = type.body1.copy(color = colors.textPrimary), modifier = Modifier.weight(1f))
@@ -744,21 +770,24 @@ fun PresetInstructionCard(
                     .padding(top = 12.dp),
             )
             Spacer(Modifier.width(12.dp))
-            if (applied) {
-                Row(
-                    Modifier
-                        .padding(top = 12.dp)
-                        .height(24.dp)
-                        .background(colors.actionCardHighlight, CircleShape)
-                        .padding(horizontal = 10.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    EqualIcon(EqualIcons.Check, contentDescription = null, tint = colors.textAction, size = 16.dp)
-                    Spacer(Modifier.width(4.dp))
-                    EqualText(text = "Applied", style = EqualTheme.type.buttonSmall, color = colors.textAction, maxLines = 1)
+            // One persistent polite live region: the Apply → Applied swap is announced once.
+            Box(Modifier.semantics { liveRegion = LiveRegionMode.Polite }) {
+                if (applied) {
+                    Row(
+                        Modifier
+                            .padding(top = 12.dp)
+                            .height(24.dp)
+                            .background(colors.actionCardHighlight, CircleShape)
+                            .padding(horizontal = 10.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        EqualIcon(EqualIcons.Check, contentDescription = null, tint = colors.textAction, size = 16.dp)
+                        Spacer(Modifier.width(4.dp))
+                        EqualText(text = "Applied", style = EqualTheme.type.buttonSmall, color = colors.textAction, maxLines = 1)
+                    }
+                } else {
+                    EqualButton(text = "Apply", onClick = onApply, size = EqualButtonSize.Sm, leadingIcon = EqualIcons.Add)
                 }
-            } else {
-                EqualButton(text = "Apply", onClick = onApply, size = EqualButtonSize.Sm, leadingIcon = EqualIcons.Add)
             }
         }
         WhenDoRow(kind = WhenDoKind.When, text = instruction.whenText)
@@ -800,7 +829,7 @@ fun InstructionCard(
                 Spacer(Modifier.width(8.dp))
                 OverflowMenu(
                     items = items,
-                    contentDescription = "Instruction options",
+                    contentDescription = "${instruction.title} options",
                     modifier = Modifier.offset(x = 12.dp, y = (-8).dp),
                 )
             }
@@ -870,7 +899,7 @@ fun InstructionPreview(
                     .background(colors.bgSurface, CircleShape),
                 contentAlignment = Alignment.Center,
             ) {
-                EmojiGlyph(emoji = "✅", size = 18.dp)
+                EmojiGlyph(emoji = "✅", size = 18.dp, contentDescription = "Confirmed")
             }
         }
     }
@@ -882,6 +911,8 @@ fun InstructionPreview(
  * `stroke/subtle` below): orb 32 + [title] `subheading` + neutral close. The body is a
  * [ChatWallpaper]: scrolling [content] ([scrollState], hoist it to auto-scroll) and an optional
  * [footer] (padding 8 / 16 / 16, plus the navigation-bar inset). Place it last in a full-screen Box.
+ * Back calls [onDismissRequest] while [visible]; the panel is announced as [title]; reduced motion
+ * skips the fade / slide.
  */
 @Composable
 fun FullSheet(
@@ -894,16 +925,18 @@ fun FullSheet(
     content: @Composable ColumnScope.() -> Unit,
 ) {
     val colors = EqualTheme.colors
+    val reduceMotion = rememberReduceMotion()
+    EqualBackHandler(enabled = visible, onBack = onDismissRequest)
     Box(Modifier.fillMaxSize()) {
         AnimatedVisibility(
             visible = visible,
-            enter = fadeIn(tween(EqualMotion.slow)),
-            exit = fadeOut(tween(EqualMotion.slow)),
+            enter = fadeIn(tween(EqualMotion.slow)).unlessReduced(reduceMotion),
+            exit = fadeOut(tween(EqualMotion.slow)).unlessReduced(reduceMotion),
         ) {
             Box(
                 Modifier
                     .fillMaxSize()
-                    .background(colors.scrim)
+                    .background(colors.bgOverlay)
                     .clickable(
                         interactionSource = rememberInteraction(),
                         indication = null,
@@ -916,14 +949,15 @@ fun FullSheet(
         AnimatedVisibility(
             visible = visible,
             modifier = Modifier.fillMaxSize(),
-            enter = slideInVertically(tween(EqualMotion.slow, easing = EqualEasing.standard)) { it },
-            exit = slideOutVertically(tween(EqualMotion.slow, easing = EqualEasing.standard)) { it },
+            enter = slideInVertically(tween(EqualMotion.slow, easing = EqualEasing.standard)) { it }.unlessReduced(reduceMotion),
+            exit = slideOutVertically(tween(EqualMotion.slow, easing = EqualEasing.standard)) { it }.unlessReduced(reduceMotion),
         ) {
             val shape = RoundedCornerShape(topStart = EqualRadius.r2xl, topEnd = EqualRadius.r2xl)
             Column(
                 modifier
                     .fillMaxSize()
                     .padding(top = 72.dp)
+                    .overlayPane(title)
                     .clip(shape)
                     .background(colors.bgSurface)
                     .pointerInput(Unit) { detectTapGestures { } },
@@ -942,7 +976,7 @@ fun FullSheet(
                         color = colors.textPrimary,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier.weight(1f).semantics { heading() },
                     )
                     Spacer(Modifier.width(10.dp))
                     EqualIconButton(
@@ -1008,7 +1042,7 @@ private fun FlowCardsPreview() {
         VSpace(12.dp)
         PresetInstructionCard(instruction = PreviewInstruction, applied = false, onApply = {})
         VSpace(12.dp)
-        PresetCard(emoji = "🛡️", tint = PresetTint.Red, title = "Screen & Protect", description = "Decline spam, hold the line on loan and payments call, close wrong call", onClick = {})
+        PresetCard(emoji = "🛡️", tint = PresetTint.Green, title = "Screen & Protect", description = "Decline spam, hold the line on loan and payments call, close wrong call", onClick = {})
         VSpace(12.dp)
         RecommendedCard(emoji = "🚫", title = "Decline sales & spam", description = "Politely declines sales and insurance calls.", onAdd = {})
         VSpace(12.dp)

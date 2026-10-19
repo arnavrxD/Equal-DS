@@ -65,6 +65,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.paneTitle
+import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -297,7 +298,7 @@ fun NewContactForm(
         modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp))
-            .background(if (grouped) colors.sheetBg else colors.bgSurface),
+            .background(if (grouped) colors.bgPrimary else colors.bgSurface),
         verticalArrangement = Arrangement.SpaceBetween,
     ) {
         if (grouped) {
@@ -309,7 +310,7 @@ fun NewContactForm(
                     }
                     EqualDivider()
                     Box(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 14.dp)) {
-                        EqualText(text = value.last ?: "Last name", style = regular, color = if (value.last != null) colors.textPrimary else colors.textTertiary)
+                        EqualText(text = value.last ?: "Last name", style = regular, color = if (value.last != null) colors.textPrimary else colors.textSecondary)
                     }
                 }
                 FormGroup {
@@ -386,7 +387,7 @@ private fun FormPair(label: String, value: String, hint: String? = null, placeho
     Row(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 12.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         EqualText(text = label, style = regular, color = colors.textPrimary, modifier = Modifier.width(110.dp))
         Column(Modifier.weight(1f)) {
-            EqualText(text = value, style = regular.tabular(), color = if (placeholder) colors.textTertiary else colors.textPrimary)
+            EqualText(text = value, style = regular.tabular(), color = if (placeholder) colors.textSecondary else colors.textPrimary)
             if (hint != null) EqualText(text = hint, style = EqualTheme.type.micro, color = colors.textSecondary)
         }
     }
@@ -456,7 +457,7 @@ private val DialogShadow = EqualShadow(listOf(EqualShadowLayer(0.dp, 12.dp, 40.d
  * scrim (tap → [onClose]) and, padded 20, a card (`bg/surface`, radius 24, padding 24 / 16 / 16,
  * shadow 0 12 40 black/22%): 36dp close top-right, [art] 84 → 12 → [title] `title` Medium →
  * [body] `body1` `text/secondary` → 16 → block [cta] ([onAction]). It pops in (scale 0.92 → 1 +
- * fade over `motion.couponSpring`); still under reduced motion.
+ * fade over `motion.couponSpring`); still under reduced motion. With [onClose], system Back calls it.
  */
 @Composable
 fun PermissionDialog(
@@ -466,10 +467,12 @@ fun PermissionDialog(
     modifier: Modifier = Modifier,
     art: EqualAssets = EqualAssets.PermissionContacts,
     onAction: () -> Unit = {},
-    onClose: () -> Unit = {},
+    onClose: (() -> Unit)? = null,
 ) {
     val colors = EqualTheme.colors
     val type = EqualTheme.type
+    if (onClose != null) EqualBackHandler(onBack = onClose)
+    val close = onClose ?: {}
     val still = rememberReduceMotion()
     val enter = remember { Animatable(if (still) 1f else 0f) }
     LaunchedEffect(Unit) { if (!still) enter.animateTo(1f, tween(EqualMotion.couponSpring, easing = EqualEasing.emphasized)) }
@@ -479,7 +482,7 @@ fun PermissionDialog(
             Modifier
                 .matchParentSize()
                 .background(EqualPrimitives.black.copy(alpha = 0.45f))
-                .clickable(interactionSource = rememberInteraction(), indication = null, onClickLabel = "Close", onClick = onClose),
+                .clickable(interactionSource = rememberInteraction(), indication = null, onClickLabel = "Close", onClick = close),
         )
         Box(
             Modifier
@@ -509,7 +512,7 @@ fun PermissionDialog(
                     style = type.title.copy(fontWeight = FontWeight.Medium),
                     color = colors.textPrimary,
                     textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(top = 12.dp),
+                    modifier = Modifier.padding(top = 12.dp).semantics { heading() },
                 )
                 EqualText(
                     text = body,
@@ -520,7 +523,7 @@ fun PermissionDialog(
                 )
                 EqualButton(text = cta, onClick = onAction, size = EqualButtonSize.Block, modifier = Modifier.fillMaxWidth())
             }
-            SmallCloseButton(onClose, Modifier.align(Alignment.TopEnd).padding(top = 12.dp, end = 12.dp))
+            SmallCloseButton(close, Modifier.align(Alignment.TopEnd).padding(top = 12.dp, end = 12.dp))
         }
     }
 }
@@ -563,13 +566,14 @@ enum class OfflineSheetMode {
  * shadow 0 -8 30 black/12%) with the no-internet illustration 64 → 8 → "No internet connection"
  * `title` Medium → why `body2` `text/secondary` → 16 → block Refresh ([onRefresh]).
  * [OfflineSheetMode.Overlay] fills its parent with the `scrim` and slides the panel up over
- * `motion.slow` (none under reduced motion).
+ * `motion.slow` (none under reduced motion). With [onDismiss], system Back and a scrim tap call it.
  */
 @Composable
 fun OfflineSheet(
     modifier: Modifier = Modifier,
     mode: OfflineSheetMode = OfflineSheetMode.Overlay,
     onRefresh: () -> Unit = {},
+    onDismiss: (() -> Unit)? = null,
 ) {
     val colors = EqualTheme.colors
     val type = EqualTheme.type
@@ -591,7 +595,7 @@ fun OfflineSheet(
                 style = type.title.copy(fontWeight = FontWeight.Medium),
                 color = colors.textPrimary,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.padding(top = 8.dp),
+                modifier = Modifier.padding(top = 8.dp).semantics { heading() },
             )
             EqualText(
                 text = OfflineBody,
@@ -608,13 +612,20 @@ fun OfflineSheet(
         return
     }
     val reduceMotion = rememberReduceMotion()
+    if (onDismiss != null) EqualBackHandler(onBack = onDismiss)
     val visible = remember { MutableTransitionState(reduceMotion).apply { targetState = true } }
     Box(modifier.fillMaxSize()) {
         Box(
             Modifier
                 .matchParentSize()
-                .background(colors.scrim)
-                .pointerInput(Unit) { detectTapGestures { } },
+                .background(colors.bgOverlay)
+                .then(
+                    if (onDismiss != null) {
+                        Modifier.clickable(interactionSource = rememberInteraction(), indication = null, onClickLabel = "Dismiss", onClick = onDismiss)
+                    } else {
+                        Modifier.pointerInput(Unit) { detectTapGestures { } }
+                    },
+                ),
         )
         AnimatedVisibility(
             visibleState = visible,
@@ -644,7 +655,7 @@ fun OfflineScreen(
     Column(
         modifier
             .fillMaxSize()
-            .background(EqualTheme.gradients.offlineScreen.toBrush()),
+            .background(SolidColor(EqualTheme.colors.chatWallpaperBg)),
     ) {
         Column(
             Modifier

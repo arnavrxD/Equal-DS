@@ -52,6 +52,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.liveRegion
+import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
@@ -123,7 +124,7 @@ fun SearchBar(
             decorationBox = { inner ->
                 Box(contentAlignment = Alignment.CenterStart) {
                     if (value.isEmpty()) {
-                        EqualText(text = placeholder, style = type.bodyLarge, color = colors.textTertiary, maxLines = 1)
+                        EqualText(text = placeholder, style = type.bodyLarge, color = colors.textSecondary, maxLines = 1)
                     }
                     inner()
                 }
@@ -138,7 +139,7 @@ fun SearchBar(
                     .semantics { contentDescription = "Clear search" },
                 contentAlignment = Alignment.Center,
             ) {
-                EqualIcon(EqualIcons.Close, contentDescription = null, tint = colors.textTertiary, size = 18.dp)
+                EqualIcon(EqualIcons.Close, contentDescription = null, tint = colors.textSecondary, size = 18.dp)
             }
         }
     }
@@ -164,7 +165,7 @@ fun SearchSection(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
-        EqualText(text = title.uppercase(), style = type.overline, color = colors.textTertiary, maxLines = 1)
+        EqualText(text = title.uppercase(), style = type.overline, color = colors.textSecondary, maxLines = 1, modifier = Modifier.semantics { heading() })
         if (onClear != null) {
             Box(
                 Modifier.minimumInteractiveComponentSize(),
@@ -293,7 +294,7 @@ fun MessageResult(
                 modifier = Modifier.weight(1f),
             )
             Spacer(Modifier.width(8.dp))
-            EqualText(text = time, style = type.micro, color = colors.textTertiary, maxLines = 1)
+            EqualText(text = time, style = type.micro, color = colors.textSecondary, maxLines = 1)
         }
         BasicText(
             text = line,
@@ -387,7 +388,7 @@ fun SearchState(
     ) {
         EqualAssetImage(art, size)
         Spacer(Modifier.height(12.dp))
-        EqualText(text = title, style = type.title, color = colors.textPrimary, textAlign = TextAlign.Center)
+        EqualText(text = title, style = type.title, color = colors.textPrimary, textAlign = TextAlign.Center, modifier = Modifier.semantics { heading() })
         Spacer(Modifier.height(4.dp))
         EqualText(
             text = body,

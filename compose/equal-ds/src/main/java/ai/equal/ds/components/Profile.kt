@@ -27,6 +27,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -64,7 +66,7 @@ fun ProfileHeader(
                     color = colors.textPrimary,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.weight(1f, fill = false),
+                    modifier = Modifier.weight(1f, fill = false).semantics { heading() },
                 )
                 if (planLabel != null) {
                     Spacer(Modifier.width(8.dp))
@@ -111,8 +113,9 @@ fun ContactInfoHeader(
             style = type.headline.copy(fontSize = 22.sp, lineHeight = 28.sp, fontWeight = FontWeight.Bold),
             color = colors.textPrimary,
             textAlign = TextAlign.Center,
+            modifier = Modifier.semantics { heading() },
         )
-        EqualText(text = phone, style = type.bodyLarge.tabular(), color = colors.textTertiary, maxLines = 1)
+        EqualText(text = phone, style = type.bodyLarge.tabular(), color = colors.textSecondary, maxLines = 1)
         if (actions.isNotEmpty()) {
             Spacer(Modifier.height(24.dp))
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {

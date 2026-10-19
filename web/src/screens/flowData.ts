@@ -24,8 +24,8 @@ export const instructionLibrary = {
 } satisfies Record<string, Instruction>;
 
 export const presets: Preset[] = [
-  { id: 'screen', emoji: '🛡️', tint: 'red', title: 'Screen & Protect', description: 'Decline spam, hold the line on loan and payments call, close wrong call', instructions: [instructionLibrary.declineSales, instructionLibrary.loanEmi, instructionLibrary.difficult] },
-  { id: 'everyday', emoji: '📞', tint: 'green', title: 'Handle everyday calls', description: 'Take message, guide deliveries, relay to family, start in your language', instructions: [instructionLibrary.takeMessage, instructionLibrary.delivery, instructionLibrary.difficult] },
+  { id: 'screen', emoji: '🛡️', tint: 'green', title: 'Screen & Protect', description: 'Decline spam, hold the line on loan and payments call, close wrong call', instructions: [instructionLibrary.declineSales, instructionLibrary.loanEmi, instructionLibrary.difficult] },
+  { id: 'everyday', emoji: '📞', tint: 'blue', title: 'Handle everyday calls', description: 'Take message, guide deliveries, relay to family, start in your language', instructions: [instructionLibrary.takeMessage, instructionLibrary.delivery, instructionLibrary.difficult] },
   { id: 'business', emoji: '💼', tint: 'orange', title: 'Run my business', description: 'Capture enquiries, orders, bookings, job, and supplier calls', instructions: [instructionLibrary.loanEmi, instructionLibrary.takeMessage] },
 ];
 

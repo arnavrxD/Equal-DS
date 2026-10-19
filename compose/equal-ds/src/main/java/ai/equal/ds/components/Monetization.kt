@@ -112,6 +112,11 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.paneTitle
+import androidx.compose.ui.layout.Layout
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Constraints
+import androidx.compose.foundation.LocalIndication
+import androidx.compose.foundation.indication
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.text.AnnotatedString
@@ -268,6 +273,7 @@ fun LockedContent(
                         .align(Alignment.BottomEnd)
                         .offset(x = 6.dp, y = 8.dp)
                         .background(EqualTheme.colors.lockedBadgeBg, CircleShape)
+                        .border(1.dp, EqualTheme.colors.lockedBadgeStroke, CircleShape)
                         .padding(2.dp),
                 ) {
                     LockBadge(size = 18.dp)
@@ -284,6 +290,7 @@ enum class DividerLabelTone { Primary, Gold }
  * "——— LABEL ———" section label (FAQ, Why people choose): two 1dp `paywall/divider` hairlines
  * either side (gap 12) of the uppercased [text] in `caption` (+0.02em), `text/primary` or
  * `text/gold`. [style] replaces the label style (the value card heading uses `subheading`).
+ * It is a section title, so TalkBack exposes it as a heading unless [heading] is false.
  */
 @Composable
 fun DividerLabel(
@@ -291,6 +298,7 @@ fun DividerLabel(
     modifier: Modifier = Modifier,
     tone: DividerLabelTone = DividerLabelTone.Primary,
     style: TextStyle? = null,
+    heading: Boolean = true,
 ) {
     val colors = EqualTheme.colors
     Row(
@@ -304,6 +312,7 @@ fun DividerLabel(
             style = style ?: EqualTheme.type.caption.copy(letterSpacing = 0.02.em),
             color = if (tone == DividerLabelTone.Gold) colors.textGold else colors.textPrimary,
             maxLines = 1,
+            modifier = if (heading) Modifier.semantics { heading() } else Modifier,
         )
         Box(Modifier.weight(1f).height(1.dp).background(colors.paywallDivider))
     }
@@ -447,19 +456,27 @@ fun PaywallHero(
             ) {
                 AnimatedCrown(size = 64.dp)
                 Spacer(Modifier.height(12.dp))
-                EqualText(
-                    text = title,
-                    style = type.title.copy(fontSize = 22.sp, lineHeight = 26.sp, fontWeight = FontWeight.W400),
-                    color = colors.textPrimary,
-                    textAlign = TextAlign.Center,
-                )
-                EqualText(
-                    text = titleStrong,
-                    style = type.headline.copy(fontSize = 38.sp, lineHeight = 42.sp, fontWeight = FontWeight.Bold, letterSpacing = (-0.03).em),
-                    color = colors.textPrimary,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.semantics { this.contentDescription = "$title $titleStrong" },
-                )
+                // Both lines are one heading, read once: "Unlock Equal Unlimited".
+                Column(
+                    Modifier.clearAndSetSemantics {
+                        this.contentDescription = "$title $titleStrong"
+                        heading()
+                    },
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    EqualText(
+                        text = title,
+                        style = type.title.copy(fontSize = 22.sp, lineHeight = 26.sp, fontWeight = FontWeight.W400),
+                        color = colors.textPrimary,
+                        textAlign = TextAlign.Center,
+                    )
+                    EqualText(
+                        text = titleStrong,
+                        style = type.headline.copy(fontSize = 38.sp, lineHeight = 42.sp, fontWeight = FontWeight.Bold, letterSpacing = (-0.03).em),
+                        color = colors.textPrimary,
+                        textAlign = TextAlign.Center,
+                    )
+                }
                 if (subtitle != null) {
                     Spacer(Modifier.height(8.dp))
                     EqualText(
@@ -630,7 +647,7 @@ fun PriceTag(
             EqualText(
                 text = "Saved $currency$saved",
                 style = type.caption.copy(fontWeight = FontWeight.Bold),
-                color = colors.textBrand,
+                color = colors.textAction,
                 textAlign = TextAlign.Center,
             )
         }
@@ -638,7 +655,7 @@ fun PriceTag(
             DiscountBadge(label = badge, animate = run)
         }
         if (was == null && period != null) {
-            EqualText(text = period, style = type.captionRegular, color = colors.textTertiary, textAlign = TextAlign.Center)
+            EqualText(text = period, style = type.captionRegular, color = colors.textSecondary, textAlign = TextAlign.Center)
         }
     }
 }
@@ -657,7 +674,7 @@ private val BadgeShadow = EqualShadow(listOf(EqualShadowLayer(0.dp, 2.dp, 10.dp,
  */
 @Composable
 fun OffSeal(off: String, modifier: Modifier = Modifier, size: Dp = 28.dp) {
-    val fill = EqualTheme.colors.textBrand
+    val fill = EqualTheme.colors.textAction
     val ink = EqualTheme.colors.textOnAction
     val measurer = rememberTextMeasurer()
     val base = EqualTheme.type.caption
@@ -742,7 +759,7 @@ fun DiscountBadge(
         horizontalArrangement = Arrangement.spacedBy(6.dp),
     ) {
         OffSeal(off = off, modifier = Modifier.graphicsLayer { rotationZ = spin.value })
-        EqualText(text = label, style = EqualTheme.type.caption.copy(fontWeight = FontWeight.Bold), color = colors.textBrand, maxLines = 1)
+        EqualText(text = label, style = EqualTheme.type.caption.copy(fontWeight = FontWeight.Bold), color = colors.textAction, maxLines = 1)
     }
 }
 
@@ -859,8 +876,8 @@ class TicketShape(
 }
 
 /**
- * Coupon ticket: [TicketShape] card (radius 20, two 9dp notches at 58% height), `gradient/coupon`,
- * 1dp `paywall/card-stroke`, padding 14 / 16 / 12. Top row (gap 12): [code] `subheading` Bold
+ * Coupon ticket: [TicketShape] card (radius 20, two 9dp notches at 58% height), `bg/surface`,
+ * 1dp `gradient/coupon-stroke` outline, padding 14 / 16 / 12. Top row (gap 12): [code] `subheading` Bold
  * `text/gold` over [description] `caption` Regular `text/secondary`; on the right APPLY (tap) or
  * APPLIED (`buttonSmall` Bold `text/gold`, 4 from the top). Then a dashed `paywall/divider` rule
  * with the 3D % seal (28dp, gap 10, 6 above / 2 below) and [discount] 30/36 Bold
@@ -883,8 +900,8 @@ fun CouponTicket(
         modifier
             .fillMaxWidth()
             .clip(shape)
-            .background(EqualTheme.gradients.coupon.toBrush())
-            .border(1.dp, colors.paywallCardStroke, shape)
+            .background(SolidColor(EqualTheme.colors.bgSurface))
+            .border(1.dp, EqualTheme.gradients.couponStroke.toBrush(), shape)
             .padding(start = 16.dp, end = 16.dp, top = 14.dp, bottom = 12.dp),
     ) {
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.Top, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -892,27 +909,31 @@ fun CouponTicket(
                 EqualText(text = code, style = type.subheading.copy(fontWeight = FontWeight.Bold), color = colors.textGold, maxLines = 1)
                 EqualText(text = description, style = type.captionRegular, color = colors.textSecondary)
             }
-            if (applied) {
-                EqualText(
-                    text = "APPLIED",
-                    style = stateStyle,
-                    color = colors.textGold,
-                    maxLines = 1,
-                    modifier = Modifier
-                        .padding(top = 4.dp)
-                        .semantics { liveRegion = LiveRegionMode.Polite },
-                )
-            } else {
-                EqualText(
-                    text = "APPLY",
-                    style = stateStyle,
-                    color = colors.textGold,
-                    maxLines = 1,
-                    modifier = Modifier
-                        .minimumInteractiveComponentSize()
-                        .clickable(role = Role.Button, onClick = onApply)
-                        .padding(top = 4.dp),
-                )
+            // One persistent polite live region, so the APPLY → APPLIED swap is announced once.
+            Box(Modifier.semantics { liveRegion = LiveRegionMode.Polite }) {
+                if (applied) {
+                    EqualText(
+                        text = "APPLIED",
+                        style = stateStyle,
+                        color = colors.textGold,
+                        maxLines = 1,
+                        modifier = Modifier
+                            .padding(top = 4.dp)
+                            .semantics { this.contentDescription = "$code applied" },
+                    )
+                } else {
+                    EqualText(
+                        text = "APPLY",
+                        style = stateStyle,
+                        color = colors.textGold,
+                        maxLines = 1,
+                        modifier = Modifier
+                            .minimumInteractiveComponentSize()
+                            .semantics { this.contentDescription = "Apply $code" }
+                            .clickable(role = Role.Button, onClick = onApply)
+                            .padding(top = 4.dp),
+                    )
+                }
             }
         }
         Row(
@@ -1219,10 +1240,13 @@ private fun StatusCardLayout(
                 }
             }
             Column(
-                Modifier.graphicsLayer {
-                    alpha = rise.value
-                    translationY = 8.dp.toPx() * (1f - rise.value)
-                },
+                Modifier
+                    // Both display lines are one heading for TalkBack, read in visual order.
+                    .semantics(mergeDescendants = true) { heading() }
+                    .graphicsLayer {
+                        alpha = rise.value
+                        translationY = 8.dp.toPx() * (1f - rise.value)
+                    },
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 if (strongFirst) {
@@ -1246,8 +1270,8 @@ private fun StatusCardLayout(
 }
 
 /**
- * Live "Redirecting [to …] in 00:5 Secs" countdown (`body2` `text/action`, centred, polite live
- * region). Ticks once a second from [seconds] and calls [onDone] at zero (restarts when
+ * Live "Redirecting [to …] in 00:5 Secs" countdown (`body2` `text/action`, centred). TalkBack hears
+ * "Redirecting … in 5 seconds" once (polite live region), not every tick. Ticks once a second from [seconds] and calls [onDone] at zero (restarts when
  * [seconds] changes).
  */
 @Composable
@@ -1268,6 +1292,8 @@ fun RedirectNote(
         done()
     }
     val target = if (to != null) " to $to" else ""
+    // Announced once: TalkBack gets a fixed sentence, so the per-second ticks are not re-read.
+    val spoken = "Redirecting$target in $seconds seconds"
     EqualText(
         text = "Redirecting$target in 00:$left Secs",
         style = EqualTheme.type.body2,
@@ -1275,7 +1301,10 @@ fun RedirectNote(
         textAlign = TextAlign.Center,
         modifier = modifier
             .fillMaxWidth()
-            .semantics { liveRegion = LiveRegionMode.Polite },
+            .clearAndSetSemantics {
+                contentDescription = spoken
+                liveRegion = LiveRegionMode.Polite
+            },
     )
 }
 
@@ -1286,8 +1315,10 @@ internal val SheetShadow = EqualShadow(listOf(EqualShadowLayer(0.dp, (-8).dp, 30
  * a full-size layer with the `scrim` (swallows taps) and the panel at the bottom — `bg/surface`,
  * radius 24 top, shadow 0 -8 30 black/12%, padding 12 / 12 / 20; [content] (usually a
  * [StatusCard]) on top, [footer] below (padding 16 top, 8 sides). The panel slides up 40% + fades
- * in over `motion.slow` with the standard easing. [inline] renders only the panel, radius 24 all
- * round, for the catalog and docs. [label] is the pane title for accessibility.
+ * in over `motion.slow` with the standard easing (no motion under reduced motion). [inline] renders
+ * only the panel, radius 24 all round, for the catalog and docs. [label] is the pane title for
+ * accessibility. With [onDismiss], system Back and a scrim tap call it; without, the sheet has no
+ * way out (the caller moves on, e.g. after a redirect).
  */
 @Composable
 fun StatusSheet(
@@ -1295,6 +1326,7 @@ fun StatusSheet(
     inline: Boolean = false,
     label: String = "Status",
     footer: (@Composable () -> Unit)? = null,
+    onDismiss: (() -> Unit)? = null,
     content: @Composable () -> Unit,
 ) {
     val colors = EqualTheme.colors
@@ -1319,19 +1351,36 @@ fun StatusSheet(
         panel(modifier)
         return
     }
+    if (onDismiss != null) EqualBackHandler(onBack = onDismiss)
+    val reduceMotion = rememberReduceMotion()
     val visible = remember { MutableTransitionState(false).apply { targetState = true } }
     Box(modifier.fillMaxSize()) {
         Box(
             Modifier
                 .matchParentSize()
-                .background(colors.scrim)
-                .clickable(interactionSource = rememberInteraction(), indication = null, onClick = {}),
+                .background(colors.bgOverlay)
+                .then(
+                    if (onDismiss != null) {
+                        Modifier.clickable(
+                            interactionSource = rememberInteraction(),
+                            indication = null,
+                            onClickLabel = "Dismiss",
+                            role = Role.Button,
+                            onClick = onDismiss,
+                        )
+                    } else {
+                        // No way out by design (e.g. a payment in progress): swallow taps.
+                        Modifier.clickable(interactionSource = rememberInteraction(), indication = null, onClick = {})
+                    },
+                ),
         )
         AnimatedVisibility(
             visibleState = visible,
             modifier = Modifier.align(Alignment.BottomCenter),
-            enter = slideInVertically(tween(EqualMotion.slow, easing = EqualEasing.standard)) { (it * 0.4f).toInt() } +
-                fadeIn(tween(EqualMotion.slow, easing = EqualEasing.standard)),
+            enter = (
+                slideInVertically(tween(EqualMotion.slow, easing = EqualEasing.standard)) { (it * 0.4f).toInt() } +
+                    fadeIn(tween(EqualMotion.slow, easing = EqualEasing.standard))
+                ).unlessReduced(reduceMotion),
         ) {
             panel(Modifier)
         }
@@ -1367,6 +1416,7 @@ fun PaymentStatusSheet(
     inline: Boolean = false,
     waitingArt: EqualAssets = EqualAssets.StatusWaiting,
     progress: Boolean = true,
+    onDismiss: (() -> Unit)? = null,
 ) {
     val cycling = status == PaymentStatus.Waiting && progress
     var step by remember(cycling) { mutableIntStateOf(0) }
@@ -1395,7 +1445,8 @@ fun PaymentStatusSheet(
     val stepSpec = if (cycling) PaymentProgressSteps[step] else null
     val strong = stepSpec?.strong ?: s.strong
     val light = stepSpec?.light ?: s.light
-    StatusSheet(modifier = modifier, inline = inline, label = "$light $strong", footer = footer) {
+    val label = if (s.strongFirst) "$strong $light" else "$light $strong"
+    StatusSheet(modifier = modifier, inline = inline, label = label, footer = footer, onDismiss = onDismiss) {
         key(status, if (cycling) step else -1) {
             StatusCardLayout(
                 tone = s.tone,
@@ -1430,7 +1481,7 @@ private const val PaymentProgressStepMillis = 1400L
  * Medium), the intro (`body1` `text/secondary`, 4 above) and two rows (gap 12, 16 above): radius
  * 14, 1dp `stroke/subtle`, padding 12 / 12 / 12 / 16, title `subheading` over value `body1`
  * `text/secondary`, then a 52 × 36 `action-card/highlight` pill with the 22dp icon in
- * `text/action` (call, mail).
+ * `text/action` (call, mail). [onClose] closes it on Back or a scrim tap.
  */
 @Composable
 fun HelpCenterSheet(
@@ -1440,10 +1491,11 @@ fun HelpCenterSheet(
     onCall: () -> Unit = {},
     onMail: () -> Unit = {},
     inline: Boolean = false,
+    onClose: (() -> Unit)? = null,
 ) {
     val colors = EqualTheme.colors
     val type = EqualTheme.type
-    StatusSheet(modifier = modifier, inline = inline, label = "Help Center") {
+    StatusSheet(modifier = modifier, inline = inline, label = "Help Center", onDismiss = onClose) {
         Column(Modifier.fillMaxWidth().padding(start = 8.dp, end = 8.dp, top = 8.dp)) {
             SheetHeading(title = "Help Center", body = "At the moment we can help you in following ways, feel free to contact us.")
             Spacer(Modifier.height(16.dp))
@@ -1640,20 +1692,48 @@ fun PlanBanner(
     } else {
         Modifier
     }
-    val click = if (onClick != null) Modifier.clickable(role = Role.Button, onClick = onClick) else Modifier
-    Row(
+    val interaction = rememberInteraction()
+    Box(
         modifier
             .then(attach)
-            .fillMaxWidth()
-            .clip(shape)
-            .background(colors.planBannerBg)
-            .then(click)
-            .padding(start = 12.dp, end = 12.dp, top = if (attached) 20.dp else 8.dp, bottom = 8.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+            .fillMaxWidth(),
     ) {
-        EqualIcon(EqualIcons.InfoFill, contentDescription = null, tint = colors.planBannerText, size = 16.dp)
-        EqualText(text = text, style = EqualTheme.type.caption, color = colors.planBannerText, modifier = Modifier.weight(1f))
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .clip(shape)
+                .background(colors.planBannerBg)
+                // When tappable, the button below carries the text for TalkBack.
+                .then(if (onClick != null) Modifier.clearAndSetSemantics {}.indication(interaction, LocalIndication.current) else Modifier)
+                .padding(start = 12.dp, end = 12.dp, top = if (attached) 20.dp else 8.dp, bottom = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            EqualIcon(EqualIcons.InfoFill, contentDescription = null, tint = colors.planBannerText, size = 16.dp)
+            EqualText(text = text, style = EqualTheme.type.caption, color = colors.planBannerText, modifier = Modifier.weight(1f))
+        }
+        if (onClick != null) {
+            // The strip is ~32dp tall; its button is at least 48dp, spilling evenly past the
+            // visible edges so the layout doesn't change.
+            val density = LocalDensity.current
+            Layout(
+                content = {
+                    Box(
+                        Modifier
+                            .semantics { contentDescription = text }
+                            .clickable(interactionSource = interaction, indication = null, role = Role.Button, onClick = onClick),
+                    )
+                },
+                modifier = Modifier.matchParentSize(),
+            ) { measurables, constraints ->
+                val minPx = with(density) { 48.dp.roundToPx() }
+                val h = maxOf(constraints.maxHeight, minPx)
+                val placeable = measurables.first().measure(Constraints.fixed(constraints.maxWidth, h))
+                layout(constraints.maxWidth, constraints.maxHeight) {
+                    placeable.place(0, (constraints.maxHeight - h) / 2)
+                }
+            }
+        }
     }
 }
 
@@ -1709,7 +1789,7 @@ fun RatingPill(
         EqualAssetImage(EqualAssets.StarGold, size = 20.dp)
         EqualText(text = "Rated", style = type.body2, color = colors.textPrimary, maxLines = 1)
         EqualText(text = shown, style = type.body2.copy(fontWeight = FontWeight.Bold), color = colors.textPrimary, maxLines = 1)
-        EqualText(text = "/$outOf", style = type.body1, color = colors.textTertiary, maxLines = 1)
+        EqualText(text = "/$outOf", style = type.body1, color = colors.textSecondary, maxLines = 1)
     }
 }
 
@@ -1863,7 +1943,8 @@ enum class CancelStep { Feedback, Confirm, Submitted }
  *   and Confirm ([onConfirm]), `lg`, equal widths, gap 12.
  * - [CancelStep.Submitted]: thumbs up, "Your Request is / Submitted", 3s redirect to home.
  * The reason is controlled when [onReasonChange] is set ([reason] is the value); otherwise the
- * sheet keeps it itself (seeded from [reason]).
+ * sheet keeps it itself (seeded from [reason]). [onDismiss] closes the sheet from any step on
+ * Back or a scrim tap (the feedback step has no other way out).
  */
 @Composable
 fun CancelSheet(
@@ -1877,6 +1958,7 @@ fun CancelSheet(
     onConfirm: () -> Unit = {},
     onRedirect: () -> Unit = {},
     inline: Boolean = false,
+    onDismiss: (() -> Unit)? = null,
 ) {
     var local by rememberSaveable { mutableStateOf(reason ?: "") }
     val value = if (onReasonChange != null) reason ?: "" else local
@@ -1886,6 +1968,7 @@ fun CancelSheet(
             modifier = modifier,
             inline = inline,
             label = "Cancel subscription",
+            onDismiss = onDismiss,
             footer = {
                 EqualButton(text = "Proceed", onClick = onProceed, size = EqualButtonSize.Block, enabled = value.isNotBlank())
             },
@@ -1905,6 +1988,7 @@ fun CancelSheet(
             modifier = modifier,
             inline = inline,
             label = "Confirm cancellation",
+            onDismiss = onDismiss,
             footer = {
                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     EqualButton(text = "Cancel", onClick = onKeep, variant = EqualButtonVariant.Outline, size = EqualButtonSize.Lg, modifier = Modifier.weight(1f))
@@ -1925,6 +2009,7 @@ fun CancelSheet(
             modifier = modifier,
             inline = inline,
             label = "Request submitted",
+            onDismiss = onDismiss,
             footer = { RedirectNote(seconds = 3, to = "home", onDone = onRedirect) },
         ) {
             StatusCard(

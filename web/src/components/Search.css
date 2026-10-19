@@ -2,8 +2,8 @@
 .eq-searchbar { display: flex; align-items: center; gap: 4px; height: 52px; margin: 8px 16px; padding: 0 8px 0 4px; border-radius: 999px; border: 1.5px solid var(--eq-button-primary); background: var(--eq-bg-surface); }
 .eq-searchbar__back { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; color: var(--eq-text-primary); flex-shrink: 0; }
 .eq-searchbar input { flex: 1; min-width: 0; border: 0; outline: none; background: transparent; color: var(--eq-text-primary); padding: 0; caret-color: var(--eq-text-action); }
-.eq-searchbar input::placeholder { color: var(--eq-text-tertiary); }
-.eq-searchbar__clear { display: inline-flex; color: var(--eq-text-tertiary); padding: 6px; }
+.eq-searchbar input::placeholder { color: var(--eq-text-secondary); }
+.eq-searchbar__clear { display: inline-flex; color: var(--eq-text-secondary); padding: 6px; }
 
 .eq-search-section { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px 8px; }
 .eq-search-section__clear { padding: 4px 12px; border-radius: 999px; background: var(--eq-bg-surface); color: var(--eq-text-primary); }

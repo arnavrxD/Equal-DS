@@ -9,7 +9,7 @@ import { TextButton } from './Button';
 /** Every action-card CTA carries an emoji (✏️ Edit, 📤 Send, 👍 Confirm, 🗑️ Delete). */
 export type ActionCardAction = { label: string; emoji: string; onClick?: () => void; danger?: boolean };
 
-export type ActionCardLine = { text: ReactNode; tone?: 'primary' | 'secondary' | 'tertiary' };
+export type ActionCardLine = { text: ReactNode; tone?: 'primary' | 'secondary' };
 
 export type ActionCardBodyProps = {
   /**
@@ -55,7 +55,7 @@ export function ActionCardBody({ category, icon, source = 'whatsapp', title, quo
         {details.map((d, i) => (
           <Text key={i} as="div" variant="body1" color={d.tone ?? 'secondary'}>{d.text}</Text>
         ))}
-        {time && <Text as="div" variant="micro" color="tertiary" align="right" style={{ marginTop: 2 }}>{time}</Text>}
+        {time && <Text as="div" variant="micro" color="secondary" align="right" style={{ marginTop: 2 }}>{time}</Text>}
       </div>
     </div>
   );

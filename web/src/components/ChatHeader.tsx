@@ -34,9 +34,9 @@ export function ChatHeader({ name, subtitle, avatar, onBack, onCall, onMore, onT
         <IconButton icon="arrow-back" label="Back" onClick={onBack} size={36} />
         {official ? <AiAvatar size={36} /> : <ContactAvatar size={36} {...avatar} />}
         <div style={{ flex: 1, minWidth: 0, marginLeft: 6 }}>
-          <Text as="div" variant="subheading" truncate>{name}</Text>
+          <Text as="h1" variant="subheading" truncate>{name}</Text>
           {subtitle && (
-            <Text as="div" variant="caption" color="tertiary" truncate className={/^[+\d\s()-]+$/.test(subtitle) ? 'eq-tnum' : undefined} style={{ fontWeight: 400 }}>
+            <Text as="div" variant="caption" color="secondary" truncate className={/^[+\d\s()-]+$/.test(subtitle) ? 'eq-tnum' : undefined} style={{ fontWeight: 400 }}>
               {subtitle}
             </Text>
           )}
@@ -60,7 +60,7 @@ export function TakeoverPill({ onClick, label = 'Takeover' }: { onClick?: () => 
   return (
     <button type="button" onClick={onClick} className="eq-reset-btn eq-pressable eq-touch eq-takeover">
       <Icon name="call-filled" size={18} />
-      <span className="eq-t-button">{label}</span>
+      <Text variant="button" color="none">{label}</Text>
     </button>
   );
 }
@@ -82,10 +82,10 @@ export function SelectionHeader({ count, allSelected, onSelectAll, onBack, onMar
       {statusBar && <StatusBar background="var(--eq-bg-surface)" />}
       <div className="eq-chat-header__row">
         <IconButton icon="arrow-back" label="Exit selection" onClick={onBack} />
-        <Text variant="subheading" style={{ flex: 1, marginLeft: 8 }} className="eq-tnum">{`${count} Selected`}</Text>
+        <Text variant="subheading" role="status" style={{ flex: 1, marginLeft: 8 }} className="eq-tnum">{`${count} Selected`}</Text>
         <button type="button" className="eq-reset-btn eq-pressable eq-touch eq-markread" onClick={onMarkRead}>
           <Icon name="done-all" size={16} color="var(--eq-text-action)" />
-          <span className="eq-t-button-small">Mark read</span>
+          <Text variant="buttonSmall" color="none">Mark read</Text>
         </button>
         <IconButton icon="delete" label="Delete" variant="danger-ghost" onClick={onDelete} />
       </div>

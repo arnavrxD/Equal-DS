@@ -28,8 +28,8 @@ export function SearchBar({ value, onChange, onBack, placeholder = 'Search for n
 export function SearchSection({ title, onClear }: { title: string; onClear?: () => void }) {
   return (
     <div className="eq-search-section">
-      <Text as="span" variant="overline" color="tertiary">{title}</Text>
-      {onClear && <button type="button" className="eq-reset-btn eq-touch eq-search-section__clear eq-t-caption" onClick={onClear}>Clear all</button>}
+      <Text as="h2" variant="overline" color="secondary">{title}</Text>
+      {onClear && <button type="button" className="eq-reset-btn eq-touch eq-search-section__clear eq-t-caption" onClick={onClear}><Text variant="inherit" color="none">Clear all</Text></button>}
     </div>
   );
 }
@@ -42,7 +42,7 @@ export function RecentSearches({ items, onPick }: { items: RecentSearch[]; onPic
     <div className="eq-recent">
       {items.map((r) => (
         <button key={r.label} type="button" className="eq-reset-btn eq-pressable eq-recent__item" onClick={() => onPick?.(r.label)}>
-          {r.initials ? <ContactAvatar size={52} initials={r.initials} /> : <CategoryAvatar category={r.category ?? 'na'} size={52} />}
+          {r.initials ? <ContactAvatar size={52} initials={r.initials} /> : <CategoryAvatar category={r.category ?? 'na'} size={52} label="" />}
           <Text as="span" variant="caption" truncate style={{ fontWeight: 400, maxWidth: 72 }}>{r.label}</Text>
         </button>
       ))}
@@ -61,7 +61,7 @@ export function Highlight({ text, query }: { text: string; query: string }) {
   let k = 0;
   for (let at = lower.indexOf(needle); at !== -1; at = lower.indexOf(needle, i)) {
     if (at > i) parts.push(text.slice(i, at));
-    parts.push(<b key={k++} className="eq-highlight">{text.slice(at, at + q.length)}</b>);
+    parts.push(<Text key={k++} as="b" variant="inherit" color="none" className="eq-highlight">{text.slice(at, at + q.length)}</Text>);
     i = at + q.length;
   }
   if (i < text.length) parts.push(text.slice(i));
@@ -74,7 +74,7 @@ export function MessageResult({ name, time, text, query, onClick }: { name: stri
     <button type="button" className="eq-reset-btn eq-pressable eq-message-result" onClick={onClick}>
       <span className="eq-message-result__top">
         <Text as="span" variant="subheading" truncate>{name}</Text>
-        <Text as="span" variant="micro" color="tertiary" className="eq-tnum">{time}</Text>
+        <Text as="span" variant="micro" color="secondary" className="eq-tnum">{time}</Text>
       </span>
       <Text as="span" variant="body1" truncate style={{ fontWeight: 400 }}><Highlight text={text} query={query} /></Text>
     </button>

@@ -2,11 +2,11 @@
 
 /* Payment result pages */
 .eq-result { position: relative; min-height: 100%; display: flex; flex-direction: column; overflow: hidden; }
-.eq-result.is-success { background: var(--eq-gradient-result-success); }
-.eq-result.is-pending { background: var(--eq-gradient-result-pending); }
-.eq-result.is-failed { background: var(--eq-gradient-result-failed); }
+.eq-result.is-success { background: var(--eq-gradient-status-success); }
+.eq-result.is-pending { background: var(--eq-gradient-status-warning); }
+.eq-result.is-failed { background: var(--eq-gradient-status-danger); }
 .eq-result__rings { position: absolute; left: 50%; top: 52%; width: 1100px; height: 1100px; margin: -550px 0 0 -550px; pointer-events: none;
-  background: repeating-radial-gradient(circle, transparent 0 58px, var(--eq-result-ring) 60px 62px, transparent 64px 96px);
+  background: repeating-radial-gradient(circle, transparent 0 58px, var(--eq-sunburst-ray) 60px 62px, transparent 64px 96px);
   -webkit-mask-image: radial-gradient(circle, #000 20%, transparent 60%); mask-image: radial-gradient(circle, #000 20%, transparent 60%); }
 .eq-result__bar { position: relative; height: 52px; padding: 8px 16px 0; }
 .eq-result__chrome { background: var(--eq-bg-surface) !important; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12); }
@@ -15,18 +15,18 @@
 .eq-result .eq-t-body1 { line-height: 20px; }
 
 /* Payment processing */
-.eq-processing { display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: var(--eq-processing-bg); color: var(--eq-text-primary); }
+.eq-processing { display: flex; align-items: center; gap: 10px; padding: 8px 12px; background: var(--eq-expiry-banner-warning-bg); color: var(--eq-text-primary); }
 .eq-processing.is-card { border-radius: 12px; margin: 0 12px 12px; }
 .eq-processing.is-toast { border-radius: 12px; box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12); }
 .eq-processing__ring { position: relative; width: 30px; height: 30px; flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; }
-.eq-processing__ring::before { content: ''; position: absolute; inset: 0; border-radius: 50%; border: 3px solid color-mix(in srgb, var(--eq-processing-ring) 22%, transparent); border-top-color: var(--eq-processing-ring); animation: eq-spin 1.1s linear infinite; }
-.eq-processing__ring > span { width: 18px; height: 18px; border-radius: 50%; background: var(--eq-processing-ring); color: var(--eq-bg-surface); font: 700 12px/18px var(--eq-font-family); text-align: center; }
+.eq-processing__ring::before { content: ''; position: absolute; inset: 0; border-radius: 50%; border: 3px solid color-mix(in srgb, var(--eq-text-gold) 22%, transparent); border-top-color: var(--eq-text-gold); animation: eq-spin 1.1s linear infinite; }
+.eq-processing__ring > span { width: 18px; height: 18px; border-radius: 50%; background: var(--eq-text-gold); color: var(--eq-bg-surface); font: 700 12px/18px var(--eq-font-family); text-align: center; }
 @keyframes eq-spin { to { transform: rotate(360deg); } }
 
 /* Sheet paywall */
 .eq-paywall-sheet { position: relative; background: var(--eq-bg-surface); border-radius: 28px 28px 0 0; box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.14); padding-top: 12px; }
 .eq-paywall-sheet.is-inline { border-radius: 28px; }
-.eq-paywall-sheet.is-help { background: var(--eq-sheet-bg); padding-top: 0; }
+.eq-paywall-sheet.is-help { background: var(--eq-bg-primary); padding-top: 0; }
 .eq-status-sheet-layer .eq-paywall-sheet { animation: eq-sheet-up var(--eq-duration-slow) var(--eq-easing-standard) both; }
 .eq-paywall-sheet__card { position: relative; overflow: hidden; margin: 0 12px; padding: 20px 16px 16px; border-radius: 20px; background: var(--eq-gradient-paywall-hero); border: 1px solid var(--eq-paywall-card-stroke); display: flex; flex-direction: column; align-items: center; }
 .eq-paywall-sheet__rings { position: absolute; left: 50%; top: 70px; width: 520px; height: 520px; margin: -260px 0 0 -260px; pointer-events: none; background: repeating-radial-gradient(circle, transparent 0 46px, rgba(255, 255, 255, 0.55) 47px 48px, transparent 49px 70px); -webkit-mask-image: radial-gradient(circle, #000 20%, transparent 60%); mask-image: radial-gradient(circle, #000 20%, transparent 60%); }
@@ -34,7 +34,7 @@
 .eq-paywall-sheet__card > *:not(.eq-paywall-sheet__rings) { position: relative; }
 .eq-paywall-sheet__support { position: absolute !important; top: 8px; right: 8px; }
 .eq-paywall-sheet__footer { padding: 14px 16px 18px; }
-.eq-coupon-row { align-self: stretch; display: flex; align-items: center; gap: 10px; margin-top: 12px; padding: 10px 14px; border-radius: 14px; background: var(--eq-gradient-coupon); border: 1px solid var(--eq-paywall-card-stroke); }
+.eq-coupon-row { align-self: stretch; display: flex; align-items: center; gap: 10px; margin-top: 12px; padding: 10px 14px; border-radius: 14px; background: var(--eq-bg-surface); border: 1px solid var(--eq-paywall-card-stroke); }
 .eq-coupon-row__apply { color: var(--eq-text-gold); font-weight: 700; padding: 4px 8px; border-radius: 999px; }
 [data-theme='dark'] .eq-coupon-row__apply { background: color-mix(in srgb, var(--eq-text-gold) 18%, transparent); }
 
@@ -43,7 +43,7 @@
 .eq-exit { position: relative; width: 100%; padding: 18px 16px 16px; border-radius: 20px; background: var(--eq-bg-surface); box-shadow: 0 12px 40px rgba(0, 0, 0, 0.22); animation: eq-exit-in var(--eq-duration-couponSpring) var(--eq-easing-spring) both; }
 @keyframes eq-exit-in { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: none; } }
 
-.eq-offer-strip { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--eq-offer-strip-bg); color: var(--eq-offer-strip-text); }
+.eq-offer-strip { display: flex; align-items: center; gap: 8px; padding: 8px 12px; background: var(--eq-expiry-banner-warning-bg); color: var(--eq-expiry-banner-warning-text); }
 .eq-offer-strip__cta { color: inherit; font-weight: 700; text-decoration: underline; text-underline-offset: 3px; flex-shrink: 0; }
 
 /* Home notice / usage cap */
@@ -63,13 +63,14 @@
 /* Locked recording */
 .eq-locked-recording { position: relative; display: block; width: 100%; border-radius: var(--eq-radius-md); overflow: hidden; }
 .eq-locked-recording__player { display: block; filter: blur(2.5px); pointer-events: none; }
-.eq-locked-recording__player .eq-voice { background: linear-gradient(180deg, color-mix(in srgb, var(--eq-paywall-hero-top) 70%, var(--eq-bg-surface)), var(--eq-paywall-card-bg)); }
+.eq-locked-recording__player .eq-voice { background: linear-gradient(180deg, color-mix(in srgb, var(--eq-paywall-hero-top) 70%, var(--eq-bg-surface)), var(--eq-paywall-card-bg)); box-shadow: none; }
 .eq-locked-recording__badge { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 40px; height: 40px; border-radius: 50%; background: var(--eq-gradient-cta-gold); display: inline-flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(140, 88, 23, 0.35); }
 
 /* Locked action chips (home touchpoint) */
 .eq-chip-sm--locked { background: color-mix(in srgb, var(--eq-paywall-hero-top) 45%, var(--eq-bg-surface)) !important; border-color: var(--eq-paywall-card-stroke) !important; color: var(--eq-text-gold) !important; }
 
 /* Expired plan badge */
-.eq-badge--expired { background: var(--eq-plan-badge-expired-bg) !important; color: #FFFFFF !important; }
+/* The red sheen over the solid red fallback, with a 1px dark-red hairline drawn inside. */
+.eq-badge--expired { background: var(--eq-gradient-expired-badge), var(--eq-plan-badge-expired-bg) !important; box-shadow: inset 0 0 0 1px var(--eq-plan-badge-expired-stroke); color: var(--eq-text-on-dark) !important; }
 
 @media (prefers-reduced-motion: reduce) { .eq-processing__ring::before, .eq-exit, .eq-status-sheet-layer .eq-paywall-sheet { animation: none; } }

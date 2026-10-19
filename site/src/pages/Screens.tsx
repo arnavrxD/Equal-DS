@@ -32,6 +32,7 @@ const screens: StagePhone[] = [
   { key: 'home', label: 'Chats', render: () => <HomeScreen />, code: '<HomeScreen />' },
   { key: 'live', label: 'Chat, live call', render: () => <ChatScreen live />, code: '<ChatScreen live />' },
   { key: 'after', label: 'Chat, after the call', render: () => <ChatScreen chat={sampleChats[1]} />, code: '<ChatScreen chat={sampleChats[1]} />' },
+  { key: 'you-no-plan', label: 'You, no plan (free, not subscribed)', render: () => <YouScreen plan="none" />, code: '<YouScreen plan="none" />', height: 1400 },
   { key: 'you', label: 'You, summary ready', render: () => <YouScreen summary="ready" />, code: '<YouScreen summary="ready" />', height: 1480 },
   { key: 'you-loading', label: 'You, summary loading', render: () => <YouScreen summary="loading" />, code: '<YouScreen summary="loading" />', height: 1480 },
   { key: 'you-empty', label: 'You, summary empty', render: () => <YouScreen summary="empty" avatar="female" />, code: '<YouScreen summary="empty" avatar="female" />', height: 1480 },

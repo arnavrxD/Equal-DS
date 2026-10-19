@@ -1,11 +1,16 @@
 package ai.equal.ds.components
 
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.selected
+import androidx.compose.ui.semantics.semantics
 import ai.equal.ds.assets.EqualCategory
 import ai.equal.ds.icons.EqualIcon
 import ai.equal.ds.icons.EqualIcons
 import ai.equal.ds.theme.EqualTheme
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -18,8 +23,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 
@@ -75,11 +83,23 @@ fun ChatListItem(
         ChatListItemState.Read -> SmallActionChipStyle.Read
         ChatListItemState.Selected -> SmallActionChipStyle.Outlined
     }
+    val interaction = remember { MutableInteractionSource() }
+    val pressed by interaction.collectIsPressedAsState()
     Row(
         modifier
             .fillMaxWidth()
             .background(if (selected) colors.actionCardHighlight else colors.bgSurface)
-            .combinedClickable(onClick = onClick, onLongClick = onLongClick)
+            // Pressed: the `state/chat-pressed` wash over the row (not on a selected row).
+            .background(if (pressed && !selected) colors.stateChatPressed else Color.Transparent)
+            .semantics { this.selected = selected }
+            .combinedClickable(
+                interactionSource = interaction,
+                indication = null,
+                role = Role.Button,
+                onLongClickLabel = if (onLongClick != null) "Select" else null,
+                onClick = onClick,
+                onLongClick = onLongClick,
+            )
             .padding(horizontal = 16.dp, vertical = 12.dp),
         verticalAlignment = Alignment.Top,
     ) {
@@ -109,7 +129,7 @@ fun ChatListItem(
                 EqualText(
                     text = date,
                     style = type.micro,
-                    color = if (unread) colors.textAction else colors.textTertiary,
+                    color = if (unread) colors.textAction else colors.textSecondary,
                     maxLines = 1,
                 )
             }

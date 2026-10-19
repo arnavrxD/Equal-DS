@@ -1,6 +1,7 @@
 // Chat action flows (Flows/Call Back, Mute, Reply On WhatsApp, Save Contact, Error states): the pieces
 // the AI layer uses to carry out a task in a chat and to fail gracefully.
 import { useEffect, useRef, type ReactNode } from 'react';
+import { useModal } from '../foundations/a11y';
 import { Asset, type AssetName } from '../foundations/Asset';
 import { Icon } from '../foundations/Icon';
 import { Text } from '../foundations/Text';
@@ -26,7 +27,7 @@ export function HoldToSpeakBar({ onHold, onKeyboard }: { onHold?: () => void; on
     <div className="eq-hold-bar">
       <button type="button" className="eq-reset-btn eq-pressable eq-hold-bar__speak" onClick={onHold}>
         <Icon name="mic-fill" size={20} />
-        <span className="eq-t-button">Hold to speak</span>
+        <Text variant="button" color="none">Hold to speak</Text>
       </button>
       <button type="button" className="eq-reset-btn eq-pressable eq-hold-bar__kbd" aria-label="Type instead" onClick={onKeyboard}>
         <Icon name="keyboard" size={22} color="var(--eq-text-secondary)" />
@@ -77,14 +78,14 @@ export function NewContactForm({ value, variant = 'grouped', onClose, onSave, on
         {header}
         <div className="eq-contact-form__group">
           <div className="eq-contact-form__row"><Text as="span" variant="subheading" style={{ fontWeight: 400 }}>{value.first}</Text></div>
-          <div className="eq-contact-form__row"><Text as="span" variant="subheading" color="tertiary" style={{ fontWeight: 400 }}>{value.last || 'Last name'}</Text></div>
+          <div className="eq-contact-form__row"><Text as="span" variant="subheading" color="secondary" style={{ fontWeight: 400 }}>{value.last || 'Last name'}</Text></div>
         </div>
         <div className="eq-contact-form__group">
           {([['Phone', 'India'], ['Mobile', value.phone], ['Email', value.email || 'Add email']] as const).map(([k, v], i) => (
             <div key={k} className="eq-contact-form__pair">
               <Text as="span" variant="subheading" style={{ fontWeight: 400 }}>{k}</Text>
               <span>
-                <Text as="span" variant="subheading" color={i === 2 && !value.email ? 'tertiary' : 'primary'} className="eq-tnum" style={{ fontWeight: 400 }}>{v}</Text>
+                <Text as="span" variant="subheading" color={i === 2 && !value.email ? 'secondary' : 'primary'} className="eq-tnum" style={{ fontWeight: 400 }}>{v}</Text>
                 {i === 1 && <Text as="div" variant="micro" color="secondary">This phone number is on WhatsApp</Text>}
               </span>
             </div>
@@ -101,15 +102,15 @@ export function NewContactForm({ value, variant = 'grouped', onClose, onSave, on
     <div className="eq-contact-form is-outlined">
       {header}
       <div className="eq-contact-form__fields">
-        <div className="eq-contact-form__line"><Icon name="person" size={22} color="var(--eq-text-secondary)" /><label className="eq-ofield"><span>First name</span><input defaultValue={value.first} /></label></div>
-        <div className="eq-contact-form__line"><span style={{ width: 22 }} /><label className="eq-ofield"><span>Last name</span><input defaultValue={value.last} /></label></div>
+        <div className="eq-contact-form__line"><Icon name="person" size={22} color="var(--eq-text-secondary)" /><label className="eq-ofield"><Text variant="inherit" color="none">First name</Text><input defaultValue={value.first} /></label></div>
+        <div className="eq-contact-form__line"><span style={{ width: 22 }} /><label className="eq-ofield"><Text variant="inherit" color="none">Last name</Text><input defaultValue={value.last} /></label></div>
         <div className="eq-contact-form__line">
           <Icon name="call" size={22} color="var(--eq-text-secondary)" />
-          <label className="eq-ofield" style={{ flex: '0 0 92px' }}><span>Country</span><input defaultValue="IN +91" /></label>
-          <label className="eq-ofield"><span>Phone</span><input className="eq-tnum" defaultValue={value.phone.replace('+91 ', '')} /></label>
+          <label className="eq-ofield" style={{ flex: '0 0 92px' }}><Text variant="inherit" color="none">Country</Text><input defaultValue="IN +91" /></label>
+          <label className="eq-ofield"><Text variant="inherit" color="none">Phone</Text><input className="eq-tnum" defaultValue={value.phone.replace('+91 ', '')} /></label>
         </div>
         <Text as="div" variant="micro" color="secondary" style={{ marginLeft: 38 }}>This phone number is on WhatsApp</Text>
-        <div className="eq-contact-form__line"><span style={{ width: 22 }} /><label className="eq-ofield"><span>Email ID</span><input defaultValue={value.email} /></label></div>
+        <div className="eq-contact-form__line"><span style={{ width: 22 }} /><label className="eq-ofield"><Text variant="inherit" color="none">Email ID</Text><input defaultValue={value.email} /></label></div>
         <div className="eq-contact-form__line" style={{ alignItems: 'flex-start' }}>
           <Icon name="refresh" size={22} color="var(--eq-text-secondary)" />
           <span style={{ flex: 1 }}>
@@ -126,10 +127,11 @@ export function NewContactForm({ value, variant = 'grouped', onClose, onSave, on
 
 /** Centered permission dialog over a dimmed chat (no permission yet): art, title, why, one action, close. */
 export function PermissionDialog({ art = 'permission-contacts', title, body, cta, onAction, onClose }: { art?: AssetName; title: string; body: ReactNode; cta: string; onAction?: () => void; onClose?: () => void }) {
+  const modal = useModal({ open: true, onClose });
   return (
     <div className="eq-dialog-layer">
       <div className="eq-status-sheet-layer__scrim" style={{ background: 'rgba(0,0,0,0.45)' }} onClick={onClose} />
-      <div className="eq-permission-dialog" role="dialog" aria-label={title}>
+      <div className="eq-permission-dialog" role="dialog" aria-label={title} {...modal}>
         <IconButton icon="close" label="Close" variant="neutral" size={36} iconSize={18} onClick={onClose} className="eq-permission-dialog__close" />
         <Asset name={art} size={84} alt="" />
         <Text as="h2" variant="title" align="center" style={{ fontWeight: 500, marginTop: 12 }}>{title}</Text>
@@ -141,9 +143,10 @@ export function PermissionDialog({ art = 'permission-contacts', title, body, cta
 }
 
 /** No-internet sheet over a chat, with Refresh. */
-export function OfflineSheet({ onRefresh, mode = 'overlay' }: { onRefresh?: () => void; mode?: 'overlay' | 'inline' }) {
+export function OfflineSheet({ onRefresh, mode = 'overlay', onClose }: { onRefresh?: () => void; mode?: 'overlay' | 'inline'; /** Escape and the scrim. */ onClose?: () => void }) {
+  const modal = useModal({ open: true, onClose, enabled: mode === 'overlay' });
   const panel = (
-    <div className="eq-offline-sheet" role="alertdialog" aria-label="No internet connection">
+    <div className="eq-offline-sheet" role="alertdialog" aria-label="No internet connection" {...modal}>
       <Asset name="illustration-no-internet" size={64} alt="" />
       <Text as="h2" variant="title" align="center" style={{ fontWeight: 500, marginTop: 8 }}>No internet connection</Text>
       <Text as="p" variant="body2" color="secondary" align="center" style={{ fontWeight: 400, margin: '2px 0 16px' }}>We could not connect to a stable internet. Check your connection and try again.</Text>
@@ -153,7 +156,7 @@ export function OfflineSheet({ onRefresh, mode = 'overlay' }: { onRefresh?: () =
   if (mode === 'inline') return panel;
   return (
     <div className="eq-status-sheet-layer">
-      <div className="eq-status-sheet-layer__scrim" />
+      <div className="eq-status-sheet-layer__scrim" onClick={onClose} />
       {panel}
     </div>
   );
@@ -176,15 +179,15 @@ export function OfflineScreen({ onRetry }: { onRetry?: () => void }) {
 /** Coded stand-in for the phone's dialer during Call Back (the OS draws the real one). */
 export function DialerStandIn({ number, place = 'Bangalore, Karnataka', carrier = 'airtel', onEnd }: { number: string; place?: string; carrier?: string; onEnd?: () => void }) {
   return (
-    <div className="eq-dialer" aria-label={`Calling ${number}`}>
+    <div className="eq-dialer" role="group" aria-label={`Calling ${number}`}>
       <div className="eq-dialer__top">
-        <Text as="div" variant="subheading" align="center" style={{ color: 'rgba(255,255,255,0.8)', fontWeight: 400 }}>Calling via <span style={{ color: '#8AB4F8' }}>{carrier}</span></Text>
-        <div className="eq-dialer__number eq-tnum">{number}</div>
+        <Text as="div" variant="subheading" align="center" style={{ color: 'rgba(255,255,255,0.8)', fontWeight: 400 }}>Calling via <Text variant="inherit" color="none" style={{ color: '#8AB4F8' }}>{carrier}</Text></Text>
+        <Text variant="inherit" color="none" as="div" className="eq-dialer__number eq-tnum">{number}</Text>
         <Text as="div" variant="subheading" align="center" style={{ color: 'rgba(255,255,255,0.8)', fontWeight: 400 }}>{place}</Text>
       </div>
       <div className="eq-dialer__keys">
         {[['Keypad', 'menu'], ['Mute', 'mic'], ['Phone', 'call'], ['More', 'more-vert']].map(([l, i]) => (
-          <span key={l}><span className="eq-dialer__key"><Icon name={i as 'mic'} size={24} color="#FFFFFF" /></span><span>{l}</span></span>
+          <span key={l}><span className="eq-dialer__key"><Icon name={i as 'mic'} size={24} color="#FFFFFF" /></span><Text variant="inherit" color="none">{l}</Text></span>
         ))}
       </div>
       <button type="button" className="eq-reset-btn eq-dialer__end" aria-label="End call" onClick={onEnd}><Icon name="call-filled" size={30} color="#2B0000" rotate={135} /></button>

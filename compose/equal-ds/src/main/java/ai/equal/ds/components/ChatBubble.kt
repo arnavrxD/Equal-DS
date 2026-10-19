@@ -1,5 +1,7 @@
 package ai.equal.ds.components
 
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import ai.equal.ds.assets.EqualCategory
 import ai.equal.ds.theme.EqualTheme
 import androidx.compose.foundation.background
@@ -87,22 +89,29 @@ fun ChatBubble(
     val tailOnStart = type != ChatBubbleType.Outgoing
     val shape = BubbleShape(tailOnStart = tailOnStart, hasTail = tail, tailWidth = BubbleTailWidth, radius = 12.dp)
 
+    // One TalkBack stop per bubble (sender, message, time). Follow-up bubbles hide the sender
+    // visually, so it is added back as the description; controls inside (a voice note) stay separate.
+    val hiddenSender = if (!isFirstInGroup) sender else null
     Row(
-        modifier.fillMaxWidth(),
+        modifier
+            .fillMaxWidth()
+            .semantics(mergeDescendants = true) {
+                if (hiddenSender != null) contentDescription = hiddenSender
+            },
         horizontalArrangement = if (type == ChatBubbleType.Outgoing) Arrangement.End else Arrangement.Start,
         verticalAlignment = Alignment.Top,
     ) {
         when (type) {
             ChatBubbleType.Incoming -> {
                 if (isFirstInGroup) {
-                    CategoryAvatar(category = incomingCategory, size = 28.dp)
+                    CategoryAvatar(category = incomingCategory, size = 28.dp, contentDescription = null)
                 } else {
                     Spacer(Modifier.width(28.dp))
                 }
                 // 8dp avatar gap is provided by the tail gutter.
             }
             ChatBubbleType.Assistant -> {
-                if (isFirstInGroup) AiAvatar(size = AiAvatarSize.Small) else Spacer(Modifier.width(24.dp))
+                if (isFirstInGroup) AiAvatar(size = AiAvatarSize.Small, contentDescription = null) else Spacer(Modifier.width(24.dp))
             }
             ChatBubbleType.Outgoing -> Unit
         }
@@ -132,7 +141,7 @@ fun ChatBubble(
             EqualText(
                 text = timestamp,
                 style = typeScale.micro,
-                color = colors.textTertiary,
+                color = colors.textSecondary,
                 maxLines = 1,
                 modifier = Modifier.align(Alignment.End),
             )

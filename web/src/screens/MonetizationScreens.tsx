@@ -23,6 +23,7 @@ import {
   DividerLabel,
   FaqList,
   HelpCenterSheet,
+  inertWhen,
   LockedPreviewCard,
   MessageList,
   PaymentStatusSheet,
@@ -157,7 +158,7 @@ export function PaywallScreen({ touchpoint = 'chat-list', price = 249, discounte
       footer={processing ? <PaywallFooter cta="Unlock Unlimited" disabled above={<ProcessingStrip variant="toast" />} /> : <PaywallFooter cta={cta} onClick={() => setLive('waiting')} />}
       overlay={
         state === 'help' ? (
-          <HelpCenterSheet />
+          <HelpCenterSheet onClose={overlay !== undefined ? undefined : () => setLive(null)} />
         ) : state ? (
           <PaymentStatusSheet status={state} onRetry={() => setLive('waiting')} onContactSupport={() => setLive('help')} onRedirect={overlay !== undefined ? undefined : () => (state === 'confirmed' ? setLive('welcome') : (setLive(null), onDone?.()))} />
         ) : undefined
@@ -165,7 +166,9 @@ export function PaywallScreen({ touchpoint = 'chat-list', price = 249, discounte
     >
       <PaywallHero subtitle={paywallSubtitles[subtitle]} onBack={onBack} onSupport={() => setLive('help')}>
         {applied ? <PriceTag price={discountedPrice} was={price} badge="Special Coupon Applied!" animate={justApplied} /> : <PriceTag price={shown} />}
-        <PaywallPreview touchpoint={touchpoint} />
+        {/* A picture of what's locked, not controls: inert, with a one-line summary for screen readers. */}
+        <span className="eq-sr">Preview of locked content</span>
+        <div style={{ display: 'contents' }} aria-hidden {...inertWhen(true)}><PaywallPreview touchpoint={touchpoint} /></div>
         {coupon !== 'none' && <CouponTicket code="EQUAL25" description={`Save Flat â‚¹${price - discountedPrice} with this Code`} discount="25% OFF" applied={applied} onApply={() => (setApplied(true), setJustApplied(true))} />}
       </PaywallHero>
       <div style={{ padding: '16px 16px 24px' }}>
@@ -230,14 +233,15 @@ export function SubscriptionScreen({ state = 'active', activeUntil = '25th Jun â
             onKeep={() => setStep(null)}
             onConfirm={() => setStep('submitted')}
             onRedirect={cancelStep !== undefined ? undefined : () => (setStep(null), setCancelled(true))}
+            onClose={cancelStep !== undefined ? undefined : () => setStep(null)}
           />
         ) : undefined
       }
     >
       <PaywallHero title="Equal AI" subtitle={paywallSubtitles.unlock} onBack={onBack}>
-        <DividerLabel>What Unlimited Saved You</DividerLabel>
+        <DividerLabel as="h2">What Unlimited Saved You</DividerLabel>
         <ValueCard calls={calls} title={null} perks={null} expiry={expired ? { state: 'expired', date: expiredOn } : { state: 'active', until: activeUntil }} />
-        <DividerLabel>What You Get</DividerLabel>
+        <DividerLabel as="h2">What You Get</DividerLabel>
         <FeatureList />
       </PaywallHero>
       <SocialProof testimonials={testimonials.map((t, i) => ({ ...t, avatar: <Asset name={(['avatar-testimonial-1', 'avatar-testimonial-2', 'avatar-testimonial-3'] as const)[i % 3]} size={36} alt="" /> }))} />

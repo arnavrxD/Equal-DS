@@ -2,8 +2,9 @@
 // which calls the assistant answers, who always rings you, the permissions it needs, and the
 // Android notification while it answers a known caller.
 import type { ReactNode } from 'react';
+import { Announce, useModal } from '../foundations/a11y';
 import { Asset, type AssetName, type Category } from '../foundations/Asset';
-import { Icon } from '../foundations/Icon';
+import { Emoji, Icon } from '../foundations/Icon';
 import type { IconName } from '../foundations/icons';
 import { Text } from '../foundations/Text';
 import { EqualMark } from '../foundations/EqualMark';
@@ -36,12 +37,14 @@ export type ChoiceCardProps = {
   /** Dimmed while it can't be chosen (e.g. no contacts permission). */
   disabled?: boolean;
   onSelect?: () => void;
+  /** Roving tabindex inside a radiogroup: 0 for the selected card, -1 for the rest (see `rovingTabIndex`). */
+  tabIndex?: number;
 };
 
 /** A radio card: icon, title, description, radio. Selected = green outline fading to lime, tinted fill. */
-export function ChoiceCard({ icon, title, description, selected, suggested, disabled, onSelect }: ChoiceCardProps) {
+export function ChoiceCard({ icon, title, description, selected, suggested, disabled, onSelect, tabIndex }: ChoiceCardProps) {
   return (
-    <button type="button" role="radio" aria-checked={!!selected} disabled={disabled} className={`eq-reset-btn eq-pressable eq-ch-choice ${selected ? 'is-selected' : ''}`} onClick={onSelect}>
+    <button type="button" role="radio" aria-checked={!!selected} disabled={disabled} tabIndex={tabIndex} className={`eq-reset-btn eq-pressable eq-ch-choice ${selected ? 'is-selected' : ''}`} onClick={onSelect}>
       <Icon name={icon} size={28} color="var(--eq-text-primary)" />
       <span style={{ flex: 1, minWidth: 0 }}>
         <span style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
@@ -59,7 +62,7 @@ export function ChoiceCard({ icon, title, description, selected, suggested, disa
 export function SuggestedTag({ label = 'Suggested' }: { label?: string }) {
   return (
     <span className="eq-ch-suggested">
-      <span aria-hidden>⭐</span>
+      <Emoji char="⭐" inline />
       <Text as="span" variant="caption" color="secondary" style={{ fontWeight: 400 }}>{label}</Text>
     </span>
   );
@@ -100,7 +103,8 @@ export function ContactPick({ initials, name, mark = 'add', onClick }: { initial
 /** A contact row with a checkbox: initials disc, name, number. */
 export function ContactCheckRow({ initials, name, phone, checked, onToggle }: { initials: string; name: string; phone: string; checked: boolean; onToggle?: (v: boolean) => void }) {
   return (
-    <div className="eq-ch-row">
+    // The whole row toggles on tap; the checkbox is the keyboard / screen-reader control.
+    <div className="eq-ch-row" onClick={(e) => { if (!(e.target as Element).closest('[role="checkbox"]')) onToggle?.(!checked); }} style={{ cursor: onToggle ? 'pointer' : undefined }}>
       <span className="eq-ch-initials" style={{ width: 52, height: 52 }}>
         <Text as="span" variant="title" style={{ fontWeight: 500 }}>{initials}</Text>
       </span>
@@ -118,7 +122,7 @@ export function AlphabetIndex({ onPick }: { onPick?: (letter: string) => void })
   return (
     <nav className="eq-ch-index" aria-label="Jump to letter">
       {'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map((l) => (
-        <button key={l} type="button" className="eq-reset-btn" onClick={() => onPick?.(l)}>{l}</button>
+        <button key={l} type="button" className="eq-reset-btn eq-ch-index__letter" aria-label={`Jump to ${l}`} onClick={() => onPick?.(l)}><Text variant="inherit" color="none">{l}</Text></button>
       ))}
     </nav>
   );
@@ -127,9 +131,10 @@ export function AlphabetIndex({ onPick }: { onPick?: (letter: string) => void })
 // ---------------------------------------------------------------- setup moments
 
 /** Dark takeover that invites a new user into setup: art, title, subtitle, Start. */
-export function SetupPrompt({ art = 'call-setup', title = 'Set up your calls', subtitle = 'Two questions. One minute.', cta = 'Start', onStart }: { art?: AssetName; title?: string; subtitle?: string; cta?: string; onStart?: () => void }) {
+export function SetupPrompt({ art = 'call-setup', title = 'Set up your calls', subtitle = 'Two questions. One minute.', cta = 'Start', onStart, onClose }: { art?: AssetName; title?: string; subtitle?: string; cta?: string; onStart?: () => void; /** Escape (e.g. "not now"). */ onClose?: () => void }) {
+  const modal = useModal({ open: true, onClose });
   return (
-    <div className="eq-ch-prompt" role="dialog" aria-label={title}>
+    <div className="eq-ch-prompt" role="dialog" aria-label={title} {...modal}>
       <div className="eq-ch-prompt__body">
         <Asset name={art} width={240} height={169} alt="" />
         <Text as="h2" variant="headline" align="center" style={{ color: '#FFFFFF', fontWeight: 500, marginTop: 24 }}>{title}</Text>
@@ -157,8 +162,9 @@ export function SetupDone({ art = 'call-handling-done', title, body, cta = 'Done
 
 /** Ask-once permission sheet: art, title, why, one action; close floats top-right. */
 export function PermissionSheet({ art, title, body, cta, onAllow, onClose, secondary, onSecondary }: { art: AssetName; title: string; body: ReactNode; cta: string; onAllow?: () => void; onClose?: () => void; secondary?: string; onSecondary?: () => void }) {
+  const modal = useModal({ open: true, onClose });
   return (
-    <div className="eq-ch-sheet" role="dialog" aria-label={title}>
+    <div className="eq-ch-sheet" role="dialog" aria-label={title} {...modal}>
       {onClose && <IconButton icon="close" label="Close" variant="neutral" size={44} onClick={onClose} className="eq-ch-sheet__close" />}
       <Asset name={art} size={110} alt="" />
       <Text as="h2" variant="headline" align="center" style={{ fontWeight: 500, marginTop: 12 }}>{title}</Text>
@@ -193,13 +199,15 @@ export type CallNotificationProps = {
 export function CallNotification({ name, category = 'home-services', elapsed = '00:06', state, summary = 'She is asking when will you be coming to the wedding, she also asked you to bring her sweets.', replies = ['Takeover', 'I’ll bring them all', 'I’ll call back to get more'], onReply, onAnswer }: CallNotificationProps) {
   const big = state === 'expanded' || state === 'connecting';
   return (
-    <div className="eq-ch-notif" role="status" aria-label={`Equal AI is answering ${name}`}>
+    // Not a live region: the timer ticks every second. Screen readers hear the call once, on mount.
+    <div className="eq-ch-notif" role="group" aria-label={`Equal AI is answering ${name}`}>
+      <Announce onMount message={state === 'connecting' ? `${name}: this needs your attention, connecting the call to you` : `Equal AI is answering ${name}`} />
       <div className="eq-ch-notif__app">
         <Text as="span" variant="caption" color="secondary" style={{ fontWeight: 400 }}>Equal AI</Text>
-        <span className="eq-ch-notif__sep" aria-hidden>•</span>
+        <Text variant="inherit" color="none" className="eq-ch-notif__sep" aria-hidden>•</Text>
         <Text as="span" variant="caption" color="action" style={{ fontWeight: 400 }}>Ongoing</Text>
-        <span className="eq-ch-notif__timer eq-tnum"><Icon name="graphic-eq" size={12} color="var(--eq-text-action)" /> {elapsed}</span>
-        <Icon name="chevron-down" size={20} color="var(--eq-text-tertiary)" style={{ marginLeft: 'auto' }} />
+        <Text variant="inherit" color="none" className="eq-ch-notif__timer eq-tnum"><Icon name="graphic-eq" size={12} color="var(--eq-text-action)" /> {elapsed}</Text>
+        <Icon name="chevron-down" size={20} color="var(--eq-text-secondary)" style={{ marginLeft: 'auto' }} />
       </div>
       <div className="eq-ch-notif__main">
         <span style={{ position: 'relative', flexShrink: 0 }}>
@@ -211,14 +219,14 @@ export function CallNotification({ name, category = 'home-services', elapsed = '
           <Text as="div" variant="body1" className={big ? 'eq-ch-clamp2' : 'eq-ch-clamp1'} style={{ fontWeight: 400 }}>{state === 'answering' ? 'Your Equal AI is answering your call.' : summary}</Text>
         </span>
         {state === 'expanded' ? (
-          <button type="button" className="eq-reset-btn eq-pressable eq-ch-notif__call" aria-label="Answer the call" onClick={onAnswer}><Icon name="call-filled" size={20} color="var(--eq-text-action)" /></button>
+          <button type="button" className="eq-reset-btn eq-pressable eq-touch eq-ch-notif__call" aria-label="Answer the call" onClick={onAnswer}><Icon name="call-filled" size={20} color="var(--eq-text-action)" /></button>
         ) : state !== 'connecting' ? (
-          <span className="eq-ch-notif__app-icon" aria-hidden><EqualMark width={18} color="var(--eq-text-on-action)" /><span>equal</span></span>
+          <span className="eq-ch-notif__app-icon" aria-hidden><EqualMark width={18} color="var(--eq-text-on-action)" /><Text variant="inherit" color="none">equal</Text></span>
         ) : null}
       </div>
       {state === 'expanded' && (
         <div className="eq-ch-notif__replies">
-          {replies.map((r) => <button key={r} type="button" className="eq-reset-btn eq-pressable eq-ch-notif__reply" onClick={() => onReply?.(r)}>{r}</button>)}
+          {replies.map((r) => <button key={r} type="button" className="eq-reset-btn eq-pressable eq-touch eq-ch-notif__reply" onClick={() => onReply?.(r)}><Text variant="inherit" color="none">{r}</Text></button>)}
         </div>
       )}
       {state === 'connecting' && <Text as="div" variant="body1" align="center" className="eq-ch-notif__handoff">This needs your attention, connecting this call to you</Text>}
@@ -230,9 +238,9 @@ export function CallNotification({ name, category = 'home-services', elapsed = '
 export function DeviceScreen({ time = '2:13', children }: { time?: string; children?: ReactNode }) {
   return (
     <div className="eq-ch-device">
-      <div className="eq-ch-device__bar"><span className="eq-tnum">{time}</span><span aria-hidden>▲ ● ▮</span></div>
+      <div className="eq-ch-device__bar"><Text variant="inherit" color="none" className="eq-tnum">{time}</Text><Text variant="inherit" color="none" aria-hidden>▲ ● ▮</Text></div>
       <div style={{ position: "relative", zIndex: 1, padding: "4px 8px" }}>{children}</div>
-      <div className="eq-ch-device__clock eq-tnum" aria-hidden>{time}</div>
+      <Text variant="inherit" color="none" as="div" className="eq-ch-device__clock eq-tnum" aria-hidden>{time}</Text>
     </div>
   );
 }
@@ -240,7 +248,9 @@ export function DeviceScreen({ time = '2:13', children }: { time?: string; child
 /** Black strip under a chat header while the assistant is on the call: "Ongoing call - 02:34". */
 export function OngoingCallBar({ elapsed }: { elapsed: string }) {
   return (
-    <div className="eq-ch-ongoing" role="status">
+    // Not a live region (the timer ticks every second); the call is announced once.
+    <div className="eq-ch-ongoing">
+      <Announce onMount message="Ongoing call" />
       <Icon name="graphic-eq" size={18} />
       <Text as="span" variant="subheading" className="eq-tnum" style={{ color: 'inherit', fontWeight: 500 }}>Ongoing call - {elapsed}</Text>
     </div>

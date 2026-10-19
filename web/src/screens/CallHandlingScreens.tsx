@@ -15,6 +15,7 @@ import {
   DeviceScreen,
   InfoNote,
   PermissionSheet,
+  radioGroupKeyDown,
   Screen,
   SearchField,
   SetupDone,
@@ -143,9 +144,9 @@ export function CallHandlingScreen({ step, copy = 'which', mode: initialMode = '
       overlay={sheet ? <div className="eq-status-sheet-layer"><div className="eq-status-sheet-layer__scrim" onClick={() => go('question')} />{sheet}</div> : undefined}
     >
       <CallQuestion art="call-handling-all" title={c.title} subtitle={c.subtitle} />
-      <div role="radiogroup" aria-label={c.title} style={{ display: 'flex', flexDirection: 'column', gap: 16, padding: '24px 16px 16px' }}>
-        <ChoiceCard icon="globe" title={c.all.title} description={c.all.description} suggested={copy === 'whose'} selected={mode === 'all'} disabled={copy === 'whose' && !allowed} onSelect={() => setMode('all')} />
-        <ChoiceCard icon="call" title={c.unknown.title} description={c.unknown.description} selected={mode === 'unknown'} onSelect={() => setMode('unknown')} />
+      <div role="radiogroup" aria-label={c.title} onKeyDown={radioGroupKeyDown} style={{ display: 'flex', flexDirection: 'column', gap: 16, padding: '24px 16px 16px' }}>
+        <ChoiceCard icon="globe" title={c.all.title} description={c.all.description} suggested={copy === 'whose'} selected={mode === 'all'} disabled={copy === 'whose' && !allowed} onSelect={() => setMode('all')} tabIndex={mode === 'unknown' || (copy === 'whose' && !allowed) ? -1 : 0} />
+        <ChoiceCard icon="call" title={c.unknown.title} description={c.unknown.description} selected={mode === 'unknown'} onSelect={() => setMode('unknown')} tabIndex={mode === 'unknown' || (copy === 'whose' && !allowed) ? 0 : -1} />
         {copy === 'whose' && !allowed && <InfoNote title="Contact access needed" body="Without it, the assistant can’t handle all calls." link="Give contacts permission" onLink={() => go('perm-contacts')} />}
       </div>
     </Screen>

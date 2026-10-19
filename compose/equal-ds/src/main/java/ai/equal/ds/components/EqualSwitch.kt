@@ -45,7 +45,8 @@ private val SwitchEasing = CubicBezierEasing(0.42f, 0f, 0.58f, 1f)
  * ease-in-out); instant when animations are off.
  *
  * Pass `onCheckedChange = null` when a parent row owns the toggle semantics
- * (e.g. [AssistantToggleCard], [ToggleRow]); the switch is then purely visual.
+ * (e.g. [AssistantToggleCard], [ToggleRow]); the switch is then purely visual. A standalone
+ * switch needs [contentDescription] as its TalkBack name.
  */
 @Composable
 fun EqualSwitch(
@@ -53,6 +54,7 @@ fun EqualSwitch(
     onCheckedChange: ((Boolean) -> Unit)?,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
+    contentDescription: String? = null,
 ) {
     val colors = EqualTheme.colors
     // Figma prototype: 500ms ease-in-out (`motion.switchToggle`); instant under reduced motion.
@@ -70,6 +72,7 @@ fun EqualSwitch(
     val interactive = if (onCheckedChange != null) {
         Modifier
             .minimumInteractiveComponentSize()
+            .then(if (contentDescription != null) Modifier.semantics { this.contentDescription = contentDescription } else Modifier)
             .toggleable(value = checked, enabled = enabled, role = Role.Switch, onValueChange = onCheckedChange)
     } else {
         Modifier
@@ -119,7 +122,7 @@ fun EqualCheckbox(
         EqualIcon(
             imageVector = if (checked) EqualIcons.CheckBox else EqualIcons.CheckBoxOutlineBlank,
             contentDescription = null,
-            tint = if (checked) colors.buttonPrimary else colors.textTertiary,
+            tint = if (checked) colors.buttonPrimary else colors.textSecondary,
             size = size,
         )
     }

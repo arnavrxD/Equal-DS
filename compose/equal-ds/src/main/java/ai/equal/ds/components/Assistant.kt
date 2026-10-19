@@ -240,11 +240,11 @@ fun TrySaying(
             .padding(start = 32.dp, end = 32.dp, top = 32.dp, bottom = 24.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp),
     ) {
-        EqualText(text = "Try saying", style = title, color = colors.textTertiary, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
+        EqualText(text = "Try saying", style = title, color = colors.textSecondary, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
         EqualText(
             text = "“$example”",
             style = title.copy(fontSize = 22.sp, lineHeight = 28.sp),
-            color = colors.textTertiary,
+            color = colors.textSecondary,
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
         )
@@ -456,7 +456,7 @@ private fun mmss(seconds: Int): String = "${seconds / 60}:${(seconds % 60).toStr
 @Composable
 private fun RecorderWave(state: RecorderState, color: Color, modifier: Modifier = Modifier) {
     val bars = rememberRecordingBars(state != RecorderState.Idle)
-    val dot = EqualTheme.colors.textTertiary
+    val dot = EqualTheme.colors.textSecondary
     if (state == RecorderState.Idle) {
         Canvas(modifier.widthIn(max = 160.dp).width(160.dp).height(24.dp)) {
             val step = 6.dp.toPx()
@@ -525,8 +525,8 @@ fun VoiceRecorder(
                 modifier = Modifier.fillMaxWidth().semantics { liveRegion = LiveRegionMode.Polite },
             )
             Row(pill.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-                EqualIcon(EqualIcons.SlideLeft, contentDescription = null, tint = colors.textTertiary, size = 18.dp)
-                EqualText(text = "Slide left to cancel", style = type.body1, color = colors.textTertiary, maxLines = 1, modifier = Modifier.weight(1f))
+                EqualIcon(EqualIcons.SlideLeft, contentDescription = null, tint = colors.textSecondary, size = 18.dp)
+                EqualText(text = "Slide left to cancel", style = type.body1, color = colors.textSecondary, maxLines = 1, modifier = Modifier.weight(1f))
                 RecorderWave(state, waveColor, Modifier.clearAndSetSemantics { })
             }
         }
@@ -722,7 +722,7 @@ fun KeyboardSpace(modifier: Modifier = Modifier) {
  *
  * As an overlay (default) it fills its parent: `scrim` (tap → [onScrim]) and the panel at the
  * bottom, lifted above the keyboard with `imePadding()`, sliding up over `motion.slow` (none under
- * reduced motion). [inline] renders only the panel, for docs.
+ * reduced motion); system Back also calls [onScrim]. [inline] renders only the panel, for docs.
  */
 @Composable
 fun AssistantSheetShell(
@@ -745,7 +745,7 @@ fun AssistantSheetShell(
                 .fillMaxWidth()
                 .eqShadow(SheetShadow, shape)
                 .clip(shape)
-                .background(colors.sheetBg)
+                .background(colors.bgPrimary)
                 .semantics { paneTitle = "Your assistant" },
         ) {
             header?.invoke()
@@ -772,6 +772,7 @@ fun AssistantSheetShell(
         panel(modifier)
         return
     }
+    EqualBackHandler(onBack = onScrim)
     val reduceMotion = rememberReduceMotion()
     val visible = remember { MutableTransitionState(reduceMotion).apply { targetState = true } }
     BoxWithConstraints(modifier.fillMaxSize()) {
@@ -779,7 +780,7 @@ fun AssistantSheetShell(
         Box(
             Modifier
                 .matchParentSize()
-                .background(colors.scrim)
+                .background(colors.bgOverlay)
                 .clickable(interactionSource = rememberInteraction(), indication = null, onClickLabel = "Close", onClick = onScrim),
         )
         AnimatedVisibility(
@@ -851,7 +852,7 @@ fun AssistantReplyCard(
                 EqualText(
                     text = time,
                     style = type.micro,
-                    color = colors.textTertiary,
+                    color = colors.textSecondary,
                     maxLines = 1,
                     modifier = Modifier.align(Alignment.End),
                 )
@@ -954,7 +955,7 @@ private fun AssistantGreetingPreview() {
 @Composable
 private fun AssistantInputPreview() {
     PreviewFrame {
-        Column(Modifier.background(EqualTheme.colors.sheetBg).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        Column(Modifier.background(EqualTheme.colors.bgPrimary).padding(16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
             AssistantInput(mode = AssistantInputMode.Text)
             AssistantInput(mode = AssistantInputMode.Text, value = "Set a remainder for appointment", focused = true)
             AssistantInput(mode = AssistantInputMode.Voice)
@@ -966,7 +967,7 @@ private fun AssistantInputPreview() {
 @Composable
 private fun VoiceRecorderPreview() {
     PreviewFrame {
-        Column(Modifier.background(EqualTheme.colors.sheetBg).padding(16.dp), verticalArrangement = Arrangement.spacedBy(18.dp)) {
+        Column(Modifier.background(EqualTheme.colors.bgPrimary).padding(16.dp), verticalArrangement = Arrangement.spacedBy(18.dp)) {
             VoiceRecorder(state = RecorderState.Idle)
             VoiceRecorder(state = RecorderState.Recording, seconds = 4)
             VoiceRecorder(state = RecorderState.Hold)

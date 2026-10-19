@@ -2,7 +2,11 @@
   border-radius: var(--eq-radius-md);
   padding: 10px 10px 6px;
   background: var(--eq-voice-player-bg);
+  /* 1px hairline drawn inside (no layout change); brand green while playing. */
+  box-shadow: inset 0 0 0 1px var(--eq-voice-player-stroke);
+  transition: box-shadow var(--eq-duration-fast);
 }
+.eq-voice.is-playing { box-shadow: inset 0 0 0 1px var(--eq-button-primary); }
 .eq-voice__row { display: flex; align-items: center; gap: 8px; }
 .eq-voice__wave { flex: 1; display: flex; align-items: center; justify-content: space-between; gap: 2px; height: 24px; min-width: 0; overflow: hidden; }
 .eq-voice__wave span { width: 3px; border-radius: 2px; flex-shrink: 0; transition: background-color var(--eq-duration-fast); }
@@ -37,5 +41,5 @@
   max-width: 100%;
 }
 
-.eq-voice.is-sent { background: var(--eq-voice-player-bg-sent); }
+.eq-voice.is-sent { background: var(--eq-voice-player-bg-sent); box-shadow: none; }
 .eq-voice.is-sent .eq-voice__speed { background: var(--eq-bg-surface); color: var(--eq-text-primary); }

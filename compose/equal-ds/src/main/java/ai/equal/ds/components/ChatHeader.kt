@@ -33,6 +33,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.LiveRegionMode
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.liveRegion
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.Box
@@ -98,13 +103,14 @@ fun ChatHeader(
                 color = colors.textPrimary,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.semantics { heading() },
             )
             if (subtitle != null) {
                 val style = EqualTheme.type.captionRegular
                 EqualText(
                     text = subtitle,
                     style = if (subtitleIsPhone) style.tabular() else style,
-                    color = colors.textTertiary,
+                    color = colors.textSecondary,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
@@ -126,7 +132,7 @@ fun ChatHeader(
 
 /**
  * Takeover pill (SPEC §5 live call). 34 high pill, h14, `gradient/takeover`,
- * 1dp `action/stroke/unread`, shadow `glass`. Filled phone icon 18 `text/action` + 6 + `button` `text/action`.
+ * 1dp `takeover/stroke`, shadow `glass`. Filled phone icon 18 `takeover/text` + 6 + `button` `takeover/text`.
  */
 @Composable
 fun TakeoverPill(
@@ -145,15 +151,15 @@ fun TakeoverPill(
             .eqShadow(EqualShadows.glass, shape)
             .background(EqualTheme.gradients.takeover.toBrush(), shape)
             .eqGlassInset(colors.actionBottomColor, shape)
-            .border(1.dp, colors.actionStrokeUnread, shape)
+            .border(1.dp, colors.takeoverStroke, shape)
             .clip(shape)
             .clickable(interactionSource = interaction, indication = null, role = Role.Button, onClick = onClick)
             .padding(horizontal = 14.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        EqualIcon(EqualIcons.CallFilled, contentDescription = null, tint = colors.textAction, size = 18.dp)
+        EqualIcon(EqualIcons.CallFilled, contentDescription = null, tint = colors.takeoverText, size = 18.dp)
         Spacer(Modifier.width(6.dp))
-        EqualText(text = label, style = EqualTheme.type.button, color = colors.textAction, maxLines = 1)
+        EqualText(text = label, style = EqualTheme.type.button, color = colors.takeoverText, maxLines = 1)
     }
 }
 
@@ -196,23 +202,27 @@ fun SelectionChatHeader(
                 style = EqualTheme.type.subheading,
                 color = colors.textPrimary,
                 maxLines = 1,
-                modifier = Modifier.weight(1f),
+                // Announced (politely) whenever the count changes.
+                modifier = Modifier.weight(1f).semantics { liveRegion = LiveRegionMode.Polite },
             )
             MarkReadPill(label = markReadLabel, onClick = onMarkReadClick)
             Spacer(Modifier.width(12.dp))
             PlainIconButton(EqualIcons.Delete, "Delete", onDeleteClick, tint = colors.buttonDanger)
         }
-        Row(
-            Modifier
-                .fillMaxWidth()
-                .height(40.dp)
-                .toggleable(value = allSelected, role = Role.Checkbox, onValueChange = onSelectAllChange)
-                .padding(horizontal = 16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            EqualCheckbox(checked = allSelected, onCheckedChange = null)
-            Spacer(Modifier.width(12.dp))
-            EqualText(text = selectAllLabel, style = EqualTheme.type.bodyLarge, color = colors.textPrimary, maxLines = 1)
+        // The row stays 40 high; its touch area is 48 (4dp spills over each edge).
+        Box(Modifier.fillMaxWidth().height(40.dp), contentAlignment = Alignment.Center) {
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .requiredHeight(48.dp)
+                    .toggleable(value = allSelected, role = Role.Checkbox, onValueChange = onSelectAllChange)
+                    .padding(horizontal = 16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                EqualCheckbox(checked = allSelected, onCheckedChange = null)
+                Spacer(Modifier.width(12.dp))
+                EqualText(text = selectAllLabel, style = EqualTheme.type.bodyLarge, color = colors.textPrimary, maxLines = 1)
+            }
         }
     }
 }
@@ -291,6 +301,7 @@ fun EqualAppBar(
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         textAlign = TextAlign.Center,
+                        modifier = Modifier.semantics { heading() },
                     )
                 },
                 end = { Row(verticalAlignment = Alignment.CenterVertically, content = actions) },
@@ -310,7 +321,7 @@ fun EqualAppBar(
                     color = colors.textPrimary,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier.weight(1f).semantics { heading() },
                 )
                 actions()
             }

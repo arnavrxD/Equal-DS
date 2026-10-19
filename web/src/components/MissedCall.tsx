@@ -44,7 +44,7 @@ export function MissedCallCard({ caller, reason, category, time, onCallBack, cal
           <span className="eq-missed__text">
             <Text as="div" variant="subheading" truncate>{title}</Text>
             <Text as="div" variant="body2" color="secondary" style={{ fontWeight: 400 }}>{body}</Text>
-            {!reason && time && <Text as="div" variant="micro" color="tertiary" align="right" className="eq-tnum" style={{ marginTop: 2 }}>{time}</Text>}
+            {!reason && time && <Text as="div" variant="micro" color="secondary" align="right" className="eq-tnum" style={{ marginTop: 2 }}>{time}</Text>}
           </span>
         </div>
         {reason && (
@@ -56,13 +56,13 @@ export function MissedCallCard({ caller, reason, category, time, onCallBack, cal
         )}
         <button type="button" className="eq-reset-btn eq-pressable eq-missed__cta" onClick={onCallBack}>
           <Icon name="call" size={20} />
-          <span className="eq-t-subheading">{callBackLabel}</span>
+          <Text variant="subheading" color="none">{callBackLabel}</Text>
         </button>
       </div>
       {onFeedback && (
         <div className="eq-missed__feedback" role="group" aria-label="Was this helpful?">
           {(['up', 'down'] as const).map((v) => (
-            <button key={v} type="button" aria-pressed={feedback === v} aria-label={v === 'up' ? 'Helpful' : 'Not helpful'} className={`eq-reset-btn eq-pressable eq-missed__thumb ${feedback === v ? 'is-on' : ''}`} onClick={() => onFeedback(feedback === v ? null : v)}>
+            <button key={v} type="button" aria-pressed={feedback === v} aria-label={v === 'up' ? 'Helpful' : 'Not helpful'} className={`eq-reset-btn eq-pressable eq-touch eq-missed__thumb ${feedback === v ? 'is-on' : ''}`} onClick={() => onFeedback(feedback === v ? null : v)}>
               <Icon name={feedback === v ? `thumb-${v}-fill` : `thumb-${v}`} size={20} />
             </button>
           ))}

@@ -23,7 +23,7 @@
   gap: 6px;
   border-radius: var(--eq-radius-full);
   background: var(--eq-bg-surface);
-  border: 1px solid var(--eq-badge-new-feature-stroke);
+  border: 1px solid transparent;
   color: var(--eq-text-secondary);
 }
 

@@ -3,7 +3,7 @@
 .eq-sheet-scrim {
   position: absolute;
   inset: 0;
-  background: var(--eq-scrim);
+  background: var(--eq-bg-overlay);
   opacity: 0;
   transition: opacity var(--eq-duration-slow) var(--eq-easing-standard);
 }
@@ -15,7 +15,7 @@
   bottom: 0;
   max-height: 92%;
   overflow-y: auto;
-  background: var(--eq-sheet-bg);
+  background: var(--eq-bg-primary);
   border-radius: 32px 32px 0 0;
   padding: 24px 24px 28px;
   transform: translateY(100%);

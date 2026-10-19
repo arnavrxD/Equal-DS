@@ -1,5 +1,8 @@
 package ai.equal.ds.components
 
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.foundation.selection.selectableGroup
 import ai.equal.ds.icons.EqualIcon
 import ai.equal.ds.icons.EqualIcons
 import ai.equal.ds.theme.EqualShadows
@@ -65,7 +68,8 @@ fun BottomNavBar(
             Modifier
                 .eqShadow(EqualShadows.nav, CircleShape)
                 .background(colors.bgSurface, CircleShape)
-                .padding(8.dp),
+                .padding(8.dp)
+                .selectableGroup(),
         ) {
             NavItem(
                 label = chatsLabel,
@@ -129,7 +133,7 @@ private fun NavItem(
         EqualText(
             text = label,
             style = EqualTheme.type.caption,
-            color = if (selected) colors.textAction else colors.textTertiary,
+            color = if (selected) colors.textAction else colors.textSecondary,
             maxLines = 1,
         )
     }
@@ -142,6 +146,7 @@ private fun NavCountBadge(count: Int, modifier: Modifier = Modifier) {
     Box(
         modifier
             .size(19.dp)
+            .clearAndSetSemantics { contentDescription = "$count unread" }
             .background(colors.bgSurface, CircleShape)
             .padding(1.5.dp)
             .background(colors.buttonPrimary, CircleShape),

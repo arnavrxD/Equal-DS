@@ -135,6 +135,7 @@ import ai.equal.ds.components.ProfileAvatar
 import ai.equal.ds.components.ProfileAvatarVariant
 import ai.equal.ds.components.ProfileHeader
 import ai.equal.ds.components.ProfileHero
+import ai.equal.ds.components.ProfileHeroTone
 import ai.equal.ds.components.RowGroup
 import ai.equal.ds.components.InviteCard
 import ai.equal.ds.components.SearchField
@@ -1447,14 +1448,17 @@ fun YouScreenSample(
     ) {
         Column(Modifier.fillMaxSize()) {
             // The status bar sits on the gold hero in both themes.
-            StatusBar(background = colors.profileHeroStatusBg, color = colors.profileHeroStatusText)
+            val none = plan == YouPlan.None
+            if (none) StatusBar(background = colors.profileHeroPlainBg) else StatusBar(background = colors.profileHeroStatusBg, color = colors.profileHeroStatusText)
             Column(
                 Modifier
                     .weight(1f)
                     .verticalScroll(rememberScrollState())
                     .padding(bottom = 120.dp),
             ) {
-                ProfileHero(
+                if (none) {
+                    ProfileHero(name = "Keshav", phone = "+91 98789 56749", avatar = avatar, tone = ProfileHeroTone.Plain, onEdit = {})
+                } else ProfileHero(
                     name = "Keshav",
                     phone = "+91 98789 56749",
                     avatar = avatar,
@@ -1475,18 +1479,20 @@ fun YouScreenSample(
                     modifier = Modifier.padding(start = 20.dp, end = 20.dp, bottom = 12.dp),
                 )
                 RowGroup {
-                    SettingsRow(
-                        label = "Call Handling",
-                        description = "Choose which calls I answer",
-                        leadingIcon = EqualIcons.Call,
-                        showNewBadge = true,
-                        onClick = onOpenCallHandling,
-                    )
+                    if (!none) {
+                        SettingsRow(
+                            label = "Call Handling",
+                            description = "Choose which calls I answer",
+                            leadingIcon = EqualIcons.Call,
+                            showNewBadge = true,
+                            onClick = onOpenCallHandling,
+                        )
+                    }
                     SettingsRow(
                         label = "Instructions",
                         description = "Tell assistant how you'd like it to help",
                         leadingIcon = EqualIcons.Instructions,
-                        showNewBadge = true,
+                        showNewBadge = !none,
                         onClick = {},
                     )
                     SettingsRow(
@@ -1511,7 +1517,7 @@ fun YouScreenSample(
 
                 SectionHeader(title = "About you")
                 AiSummaryCard(
-                    status = summary,
+                    status = if (none) AiSummaryStatus.Empty else summary,
                     summary = SampleSummary,
                     modifier = Modifier.padding(start = 20.dp, end = 20.dp, bottom = 12.dp),
                 )
@@ -1520,7 +1526,7 @@ fun YouScreenSample(
                         label = "Your Addresses",
                         description = "Add addresses your assistant should know",
                         leadingIcon = EqualIcons.AddressPin,
-                        showNewBadge = true,
+                        showNewBadge = !none,
                         onClick = {},
                     )
                 }
@@ -1568,6 +1574,9 @@ fun YouScreenSample(
 
 /** Plan state on [YouScreenSample]; picks the plan card link. */
 enum class YouPlan(internal val manageLabel: String) {
+    /** No subscription and no plan yet: mint header, no plan card, rows without NEW markers. */
+    None("Manage plan"),
+
     /** Plan running: Manage plan. */
     Active("Manage plan"),
 
@@ -1601,7 +1610,7 @@ fun CategoryGallery(modifier: Modifier = Modifier) {
                     maxLines = 1,
                     modifier = Modifier.padding(top = 4.dp),
                 )
-                EqualText(text = category.label, style = EqualTheme.type.captionRegular, color = colors.textTertiary, maxLines = 1)
+                EqualText(text = category.label, style = EqualTheme.type.captionRegular, color = colors.textSecondary, maxLines = 1)
             }
         }
     }

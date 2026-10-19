@@ -27,7 +27,7 @@ export type QuickAction = { icon: IconName; label: string; onClick?: () => void 
 /** Contact info header — 96dp category / initials avatar, headline name, phone, row of action tiles. */
 /**
  * Contact Info header (Contact Info design, 1:1): category avatar 96 → 10 → name 22/28 Bold → phone
- * `bodyLarge` `text/tertiary` → 24 → action tiles (70 × 72, radius 8, gap 12; dark: 1dp
+ * `bodyLarge` `text/secondary` → 24 → action tiles (70 × 72, radius 8, gap 12; dark: 1dp
  * `stroke/subtle` border), icon 24 `text/action` + label `body1`. Side padding 22.
  */
 export function ContactInfoHeader({ name, phone, avatar, actions = [] }: { name: string; phone: string; avatar?: ContactAvatarProps; actions?: QuickAction[] }) {
@@ -35,7 +35,7 @@ export function ContactInfoHeader({ name, phone, avatar, actions = [] }: { name:
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: '100%', boxSizing: 'border-box', padding: '8px 22px 0', textAlign: 'center' }}>
       <ContactAvatar size={96} {...avatar} />
       <Text as="h1" variant="headline" style={{ marginTop: 10, fontSize: 22, lineHeight: '28px', fontWeight: 700 }}>{name}</Text>
-      <Text as="div" variant="bodyLarge" color="tertiary" className="eq-tnum">{phone}</Text>
+      <Text as="div" variant="bodyLarge" color="secondary" className="eq-tnum">{phone}</Text>
       {actions.length > 0 && (
         <div style={{ display: 'grid', gridTemplateColumns: `repeat(${actions.length}, 1fr)`, gap: 12, width: '100%', marginTop: 24 }}>
           {actions.map((a) => (
@@ -58,17 +58,17 @@ const callIcon = { incoming: 'phone-incoming', outgoing: 'phone-outgoing', misse
 
 /**
  * Call history row (Contact Info design): 63 high, padding 0 21 0 22. Direction icon 24 (missed in
- * `text/danger`) → 10 → title `bodyLarge` + meta `micro` regular `text/tertiary`; time `body1`
+ * `text/danger`) → 10 → title `bodyLarge` + meta `micro` regular `text/secondary`; time `body1`
  * `text/secondary` on the right.
  */
 export function CallHistoryRow({ direction, meta, time, trailing }: CallHistoryRowProps) {
   const missed = direction === 'missed';
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '0 21px 0 22px', minHeight: 63, background: 'var(--eq-bg-surface)' }}>
+    <div role="listitem" style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '0 21px 0 22px', minHeight: 63, background: 'var(--eq-bg-surface)' }}>
       <Icon name={callIcon[direction]} size={24} color={missed ? 'var(--eq-text-danger)' : 'var(--eq-text-primary)'} />
       <div style={{ flex: 1, minWidth: 0 }}>
         <Text as="div" variant="bodyLarge" style={{ lineHeight: '20px' }}>{callLabel[direction]}</Text>
-        <Text as="div" variant="micro" color="tertiary" style={{ fontWeight: 400, fontSize: 11, lineHeight: '14px' }}>{meta}</Text>
+        <Text as="div" variant="micro" color="secondary" style={{ fontWeight: 400, fontSize: 11, lineHeight: '14px' }}>{meta}</Text>
       </div>
       <Text variant="body1" color="secondary" className="eq-tnum">{time}</Text>
       {trailing}
@@ -78,5 +78,5 @@ export function CallHistoryRow({ direction, meta, time, trailing }: CallHistoryR
 
 /** The call-history card: radius 16, `bg/surface`, dividers between rows; dark adds a 1dp `stroke/subtle` border. */
 export function CallHistoryList({ children, inset = 22 }: { children: ReactNode; inset?: number }) {
-  return <div className="eq-row-group eq-call-history" style={{ margin: `0 ${inset}px`, alignSelf: 'stretch', borderRadius: 16, overflow: 'hidden', background: 'var(--eq-bg-surface)', display: 'flex', flexDirection: 'column' }}>{children}</div>;
+  return <div role="list" aria-label="Call history" className="eq-row-group eq-call-history" style={{ margin: `0 ${inset}px`, alignSelf: 'stretch', borderRadius: 16, overflow: 'hidden', background: 'var(--eq-bg-surface)', display: 'flex', flexDirection: 'column' }}>{children}</div>;
 }

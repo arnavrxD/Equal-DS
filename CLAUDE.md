@@ -15,13 +15,23 @@ When a design and the system disagree, check it first; when a rule changes, upda
 **Type and colour**
 - **Typography:** DM Sans only, through the 12 type tokens (`<Text variant>` / `EqualTheme.type`).
   Nothing is set in Lora or any other font. Weights: 400, 500, 600 (SemiBold) and 700.
-- **Colour:** only tokens. Never put a hex value in a component.
+- **Colour:** only tokens. Never put a hex value in a component. Colours follow the Figma library’s
+  “Colours” set: text black 80 / 60 / 40 / 20 % (primary, secondary, placeholder, disabled), strokes
+  black 5 / 8 / 32 %, page `#FAFAFA`. A colour at x % is written as the colour-guide colour plus
+  opacity: `"{brand.green} @ 36%"`. One-off greys snap to the text colours; readable text stays ≥ 4.5:1
+  (40 % is for placeholders only). Every token needs a `why` that states its purpose.
   - **New colour:** add it to `tokens/tokens.json` with `"derived": true` and a `"why"`, give it light
     and dark values, and check text pairs for AA (4.5:1). Decide colours yourself; don't ask for
     sign-off.
 - **Dark mode:** every component and screen works in light and dark. In dark, every green is lime
   (#BAFF29): accents use lime itself, green-tinted surfaces are re-hued to lime, and anything on lime
   is `text/on-action` (black), never white.
+
+**Structure**
+- **Atoms first:** every visible leaf is an atom (`Text`, `Icon`, `Emoji`, `Asset`, `Button`…), never
+  raw markup with a typography class. Molecules combine atoms; organisms combine molecules. Set a new
+  component's level in `site/src/registry/levels.ts` so Trace can show it.
+- **Radii:** whole numbers only (2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 24, 28, 32, 36, 50, 54, 80, 100, full).
 
 **Icons and images**
 - **Action cards:** the grey body sits on a white card (never a green card), and every CTA row is

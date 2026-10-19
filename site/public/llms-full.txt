@@ -19,13 +19,23 @@ When a design and the system disagree, check it first; when a rule changes, upda
 **Type and colour**
 - **Typography:** DM Sans only, through the 12 type tokens (`<Text variant>` / `EqualTheme.type`).
   Nothing is set in Lora or any other font. Weights: 400, 500, 600 (SemiBold) and 700.
-- **Colour:** only tokens. Never put a hex value in a component.
+- **Colour:** only tokens. Never put a hex value in a component. Colours follow the Figma library’s
+  “Colours” set: text black 80 / 60 / 40 / 20 % (primary, secondary, placeholder, disabled), strokes
+  black 5 / 8 / 32 %, page `#FAFAFA`. A colour at x % is written as the colour-guide colour plus
+  opacity: `"{brand.green} @ 36%"`. One-off greys snap to the text colours; readable text stays ≥ 4.5:1
+  (40 % is for placeholders only). Every token needs a `why` that states its purpose.
   - **New colour:** add it to `tokens/tokens.json` with `"derived": true` and a `"why"`, give it light
     and dark values, and check text pairs for AA (4.5:1). Decide colours yourself; don't ask for
     sign-off.
 - **Dark mode:** every component and screen works in light and dark. In dark, every green is lime
   (#BAFF29): accents use lime itself, green-tinted surfaces are re-hued to lime, and anything on lime
   is `text/on-action` (black), never white.
+
+**Structure**
+- **Atoms first:** every visible leaf is an atom (`Text`, `Icon`, `Emoji`, `Asset`, `Button`…), never
+  raw markup with a typography class. Molecules combine atoms; organisms combine molecules. Set a new
+  component's level in `site/src/registry/levels.ts` so Trace can show it.
+- **Radii:** whole numbers only (2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 24, 28, 32, 36, 50, 54, 80, 100, full).
 
 **Icons and images**
 - **Action cards:** the grey body sits on a white card (never a green card), and every CTA row is
@@ -136,6 +146,10 @@ Done means: typecheck clean, `--check` passes, Gradle BUILD SUCCESSFUL, and lint
 
 ### Colour & type
 
+- **Colours come from the Figma library’s “Colours” set: text is black at 80 / 60 / 40 / 20%.** Why: The app file binds its colours to a shared library with two sets of the same names; the newer “Colours” set (alpha black and white) is the one the revamped screens use. Primary text is black 80%, secondary 60%, placeholder 40%, disabled 20%; strokes are black 5 / 8 / 32%; the page is #FAFAFA and the dark surface #1F1F1F. (Source: Figma: 📱 EQAI Android · library “Colours”)
+- **A colour at x% is the colour-guide colour at 100% with x% opacity.** Why: Figma paints the same brand and neutral colours at different opacities (green at 36% for unread strokes, lime at 8% for unread fills). Writing them as “{brand.green} @ 36%” keeps one source colour per hue, so a brand change flows to every tint. (Source: Product owner)
+- **One-off greys snap to the text colours; readable text never drops below 4.5:1.** Why: Figma has about 20 hand-picked greys (#3C3C3C names, #858484 previews, #9F9F9F dates…). Snapping them to primary / secondary keeps new screens to four text colours. Black 40% is 2.85:1 on white, so it is only for placeholders and disabled text; dates and captions use secondary (60%, 5.7:1). Figma colours that fail AA for text are darkened in the same hue and the reason is written on the token. (Source: Product owner + accessibility)
+- **Every colour token says what it is for and is used somewhere.** Why: Tokens that no Figma screen or component uses were deleted in the rebuild. The Colour page lists each token’s purpose and the components that use it, so an unused or duplicate colour is visible at once. (Source: Figma rebuild)
 - **Green (lime in dark) only for what you can touch.** Why: If green also decorates, users can’t tell what is tappable. Reserving it for actions and the assistant’s byline makes every green thing a promise that it does something. (Source: Typography v3 colour roles)
 - **In dark mode every green is lime (#BAFF29).** Why: Brand green goes muddy on near-black; lime is the brand’s dark-mode accent. Accents (buttons, icons, strokes, the FAB, the WhatsApp glyph) use lime itself, and green-tinted dark surfaces are re-hued to lime at the same darkness. Anything drawn on lime is dark (text/on-action), never white. (Source: Design rule)
 - **Every text pair passes WCAG AA (4.5:1).** Why: Many users read the app outdoors on mid-range phones at low brightness. When a mock’s colour falls short (e.g. the saved-contact blue at 4.15:1), the token is nudged until it passes and the reason is written on the token. (Source: Accessibility)
@@ -166,6 +180,8 @@ Done means: typecheck clean, `--check` passes, Gradle BUILD SUCCESSFUL, and lint
 
 ### Components
 
+- **Build from atoms: atoms → molecules → organisms → screens.** Why: Every visible leaf (text, icon, emoji, image, coded art) is rendered by an atom (Text, Icon, Emoji, Asset, Button…). Molecules combine atoms for one job (a chip, a row), organisms are whole sections (a chat row, a paywall). Trace walks this chain, so a designer can point at any pixel and find the atom, then step up with ↑ to the molecule and section. (Source: Product owner)
+- **Corner radii are whole numbers from one scale.** Why: The Figma scale is 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 24, 28, 32, 36, 50, 54, 80, 100 and full. Decimal radii in Figma (5.76, 1.33, 10.27…) come from scaled component instances or circles; use the whole number the master component uses, and “full” for circles and pills. (Source: Figma audit)
 - **Action cards: grey body on a white card, never a green card.** Why: A green wrapper made confirmations look like warnings and broke consistency with the rest of the thread. Every action card has the same frame; the content says what happened. (Source: Design review)
 - **Every action-card CTA has an emoji (📤 Send, ✏️ Edit, 👍 Confirm, 🗑️ Delete).** Why: Emoji make the action recognisable at a glance and match the chip language used everywhere else in chat. (Source: Design review)
 - **All actions in a card have the same weight; Confirm is not a filled button.** Why: Two actions at equal weight let the user choose; a filled Confirm pushes them. The commit goes first, the revise second, both as text rows. (Source: Typography v3 / handoff)
@@ -311,7 +327,7 @@ Filled, text and icon buttons: use a filled Button for the one commit action on 
 
 - React: `import { Button, TextButton, IconButton } from '@equal/ds';`
 - Compose: `EqualButton`, `EqualTextButton`, `EqualIconButton`
-- Tokens: `button/primary`, `button/secondary`, `button/danger`, `button/disabled`, `text/on-action`, `text/on-danger`, `text/on-action-disabled`, `text/action`, `text/danger`, `bg/surface`, `shadow/raised`, `shadow/focusRing`
+- Tokens: `button/primary`, `button/secondary`, `button/danger`, `button/disabled`, `text/on-action`, `text/on-danger`, `text/on-action-disabled`, `text/action`, `text/danger`, `bg/surface`, `shadow/raised`, `glass-button/default`, `shadow/focusRing`
 - Source: §19 Buttons
 
 Do: Use exactly one filled Button per surface for the commit action (Save, Delete, Turn off); pair it with a TextButton for revise or cancel. Write labels in sentence case ("Add new Address", "Share Feedback" as shipped) and keep the same verb from control to confirmation: Turn off → "Call learning turned off". Use the danger variant only for destructive commits, with the trash icon (the delete sheet does this for you). Always pass a `label` to IconButton; it is the accessible name and the tooltip.
@@ -546,7 +562,7 @@ Example: Recorder states
 ```
 ```kotlin
 EqualTheme {
-    Column(Modifier.background(EqualTheme.colors.sheetBg).padding(16.dp), verticalArrangement = Arrangement.spacedBy(18.dp)) {
+    Column(Modifier.background(EqualTheme.colors.bgPrimary).padding(16.dp), verticalArrangement = Arrangement.spacedBy(18.dp)) {
         VoiceRecorder(state = RecorderState.Idle, onDelete = {}, onSend = {})
         VoiceRecorder(state = RecorderState.Recording, seconds = 4, onDelete = {}, onSend = {})
         VoiceRecorder(state = RecorderState.Hold) // press and hold: release to send, slide left to cancel
@@ -814,7 +830,7 @@ Example: Appointment: Confirm + Edit
 <ActionCard category="others" title="Dr. Mehta's Clinic Appointment"
   details={[
     { text: 'Tomorrow, 9:00 AM' },
-    { text: 'Bring previous medical reports', tone: 'tertiary' },
+    { text: 'Bring previous medical reports', tone: 'secondary' },
   ]}
   time="03:21"
   actions={[{ label: 'Confirm', emoji: '👍' }, { label: 'Edit', emoji: '✏️' }]} />
@@ -872,7 +888,7 @@ The card at the top of Chats and the You tab that turns the AI assistant on or o
 
 - React: `import { AssistantToggle } from '@equal/ds';`
 - Compose: `AssistantToggleCard`
-- Tokens: `gradient/assistant-toggle`, `bg/surface`, `stroke/subtle`, `text/primary`, `text/secondary`, `button/primary`, `button/disabled`
+- Tokens: `assistant-toggle/bg`, `bg/surface`, `stroke/subtle`, `text/primary`, `text/secondary`, `button/primary`, `button/disabled`, `action/stroke/unread`
 - Source: §3 Assistant Availability Toggle
 
 Do: Put it directly under the top bar on Chats (HomeHeader does this) and first under YOUR ASSISTANT on the You tab. Let the default copy explain the state: on manages unknown calls, off lets them ring normally.
@@ -1386,7 +1402,7 @@ The post-call card in a thread: a recording player with a coded waveform and spe
 
 - React: `import { CallSummary, VoicePlayer } from '@equal/ds';`
 - Compose: `CallSummaryBubble`, `VoiceNotePlayer`
-- Tokens: `bg/surface`, `voice/player-bg`, `stroke/subtle`, `waveform/bar`, `waveform/bar-played`, `playback/pill-bg`, `text/on-dark`, `text/tertiary`, `text/primary`, `text/action`
+- Tokens: `bg/surface`, `voice/player-bg`, `voice/player-stroke`, `stroke/subtle`, `waveform/bar`, `waveform/bar-played`, `playback/pill-bg`, `text/on-dark`, `text/tertiary`, `text/primary`, `text/action`
 - Source: §11 Chat Bubbles · Voice note + Call Summary bubble
 
 Do: Write the summary as the outcome for the user ("Amit invited you to dinner… confirm by tonight"), not a transcript. Tag the card 🪄 "Instruction Applied" when one of the user's instructions handled the call. Keep the same `seed` for a recording so its waveform is stable.
@@ -1603,7 +1619,7 @@ A row in the Chats list with avatar, name, date, preview, unread count and the s
 
 - React: `import { ChatListItem } from '@equal/ds';`
 - Compose: `ChatListItem`
-- Tokens: `bg/surface`, `action-card/highlight`, `text/primary`, `text/secondary`, `text/action`, `text/tertiary`, `button/primary`, `text/on-action`
+- Tokens: `bg/surface`, `action-card/highlight`, `state/chat-pressed`, `text/primary`, `text/secondary`, `text/action`, `text/tertiary`, `button/primary`, `text/on-action`
 - Source: §6 Chat List Item
 
 Do: Give unknown callers their category art and saved contacts their initials. Offer the next step as chips on the row (📞 Call Back, 🗓️ Add to Calendar) so it is one tap from the list. Use long-press to enter selection mode.
@@ -2203,7 +2219,7 @@ Pieces of the Call Handling setup and the known-call notification: radio choice 
 
 - React: `import { CallQuestion, ChoiceCard, InfoNote, ContactPick, ContactCheckRow, AlphabetIndex, SetupPrompt, SetupDone, PermissionSheet, CallNotification, OngoingCallBar } from '@equal/ds';`
 - Compose: `CallQuestion`, `ChoiceCard`, `SuggestedTag`, `InfoNote`, `ContactPick`, `ContactCheckRow`, `AlphabetIndex`, `SetupPrompt`, `SetupDone`, `PermissionSheet`, `CallNotification`, `OngoingCallBar`
-- Tokens: `choice/selected-bg`, `gradient/choice-stroke`, `info-note/bg`, `initials-disc/bg`, `gradient/setup-done`, `gradient/setup-prompt`, `ongoing-bar/bg`, `ongoing-bar/text`
+- Tokens: `choice/default-bg`, `action/fill/unread`, `gradient/choice-stroke`, `info-note/bg`, `initials-disc/bg`, `gradient/setup-done`, `gradient/setup-prompt`, `ongoing-bar/bg`, `ongoing-bar/text`
 - Source: Known Calls (new users) · Known-call notifications
 
 Props of `ChoiceCard`:
@@ -2372,7 +2388,7 @@ The two-card Male / Female picker in Personal Details; the choice sets the profi
 
 - React: `import { GenderSelector } from '@equal/ds';`
 - Compose: `GenderSelector`
-- Tokens: `bg/surface`, `button/primary`, `gradient/gender-selected`, `text/primary`
+- Tokens: `bg/surface`, `button/primary`, `gradient/gender-selected`, `gradient/gender-selected-stroke`, `gender/stroke`, `text/primary`
 - Source: Flows · Profile
 
 Do: Update the profile avatar (hero and bottom nav) as soon as the user picks. Place it under a GENDER overline, below the Name field.
@@ -2459,7 +2475,7 @@ The pieces of the Instructions flow: recommended and preset cards on the hub, pr
 
 - React: `import { RecommendedCard, SuggestionsComingCard, PresetCard, PresetInstructionCard, InstructionCard, WhenDoRow, InstructionPreview } from '@equal/ds';`
 - Compose: `RecommendedCard`, `SuggestionsComingCard`, `PresetCard`, `PresetInstructionCard`, `InstructionCard`, `WhenDoRow`, `InstructionPreview`
-- Tokens: `bg/surface`, `chip/when-bg`, `chip/do-bg`, `preset/tint-red`, `preset/tint-green`, `preset/tint-orange`, `gradient/suggestion-card`, `text/primary`, `text/secondary`, `text/tertiary`, `text/action`, `button/primary`
+- Tokens: `bg/surface`, `chip/when-bg`, `chip/do-bg`, `preset/tint-green`, `preset/tint-blue`, `preset/tint-orange`, `preset/tint-lime`, `gradient/suggestion-card`, `text/primary`, `text/secondary`, `text/tertiary`, `text/action`, `button/primary`
 - Source: Flows · Instructions · Instruction Card
 
 Do: Write When as the situation and Do as the assistant's behaviour, in plain first person ("say I am not interested"). Use sentence-case When / Do on presets and uppercase WHEN / DO on active instructions (`upper`). Confirm with 👍 Confirm (unread) next to ✍️ Edit (read) under the preview. Show SuggestionsComingCard once every recommendation is applied.
@@ -2529,20 +2545,20 @@ if (added.size < 2) {
 
 Example: Browse presets
 ```tsx
-<PresetCard emoji="🛡️" tint="red" title="Screen & Protect"
+<PresetCard emoji="🛡️" tint="green" title="Screen & Protect"
   description="Decline spam, hold the line on loan and payments call, close wrong call" onClick={open} />
-<PresetCard emoji="📞" tint="green" title="Handle everyday calls"
+<PresetCard emoji="📞" tint="blue" title="Handle everyday calls"
   description="Take message, guide deliveries, relay to family, start in your language" onClick={open} />
 <PresetCard emoji="💼" tint="orange" title="Run my business"
   description="Capture enquiries, orders, bookings, job, and supplier calls" onClick={open} />
 ```
 ```kotlin
 PresetCard(
-    emoji = "🛡️", tint = PresetTint.Red, title = "Screen & Protect",
+    emoji = "🛡️", tint = PresetTint.Green, title = "Screen & Protect",
     description = "Decline spam, hold the line on loan and payments call, close wrong call", onClick = {},
 )
 PresetCard(
-    emoji = "📞", tint = PresetTint.Green, title = "Handle everyday calls",
+    emoji = "📞", tint = PresetTint.Blue, title = "Handle everyday calls",
     description = "Take message, guide deliveries, relay to family, start in your language", onClick = {},
 )
 PresetCard(
@@ -3475,7 +3491,7 @@ Example: Trailing variants
 RowGroup {
     SettingsRow(label = "Active Instructions", description = "3 Active", onClick = {})
     SettingsRow(label = "Muted Contacts", onClick = {}, trailing = {
-        EqualText(text = "4", style = EqualTheme.type.body1, color = EqualTheme.colors.textTertiary)
+        EqualText(text = "4", style = EqualTheme.type.body1, color = EqualTheme.colors.textSecondary)
     })
     SettingsRow(label = "Version", description = "2.4.0", trailing = null) // null = no chevron
 }
@@ -3574,7 +3590,7 @@ A notched ticket with the coupon code, what it saves, APPLY / APPLIED and the bi
 
 - React: `import { CouponTicket } from '@equal/ds';`
 - Compose: `CouponTicket`
-- Tokens: `gradient/coupon`, `paywall/card-stroke`, `paywall/divider`, `text/gold`, `gradient/gold-text`
+- Tokens: `bg/surface`, `gradient/coupon-stroke`, `paywall/divider`, `text/gold`, `gradient/gold-text`
 - Source: Monetization Flow · EQUAL25
 
 Props of `CouponTicket`:
@@ -3857,7 +3873,7 @@ How free users see what Unlimited unlocks: blurred previews with the crown-lock 
 
 - React: `import { Locked, LockBadge, UnlockDetailsCard, UnlockAudioPill, ChatListItem, ChatBubble, CallSummary } from '@equal/ds';`
 - Compose: `LockedContent`, `LockBadge`, `UnlockDetailsCard`, `UnlockAudioPill`
-- Tokens: `locked/badge-bg`, `gradient/status-gold`, `button/primary`
+- Tokens: `locked/badge-bg`, `locked/badge-stroke`, `gradient/status-gold`, `button/primary`
 - Source: Monetization Flow · touchpoints
 
 Props of `Locked`:
@@ -4195,7 +4211,7 @@ The pieces the Android team A/B tests around the paywall: full-screen payment re
 
 - React: `import { PaymentResult, ProcessingStrip, PaywallSheet, CouponRow, HelpFaqSheet, ExitOfferDialog, OfferStrip, HomeNoticeCard, UsageCapCard, AssistantNoticeCard, SummaryActions, LockedRecording } from '@equal/ds';`
 - Compose: `PaymentResult`, `ProcessingStrip`, `PaywallSheet`, `CouponRow`, `HelpFaqSheet`, `ExitOfferDialog`, `OfferStrip`, `HomeNoticeCard`, `UsageCapCard`, `AssistantNoticeCard`, `SummaryActions`, `LockedRecording`
-- Tokens: `gradient/result-success`, `gradient/result-pending`, `gradient/result-failed`, `result/ring`, `processing/bg`, `processing/ring`, `offer-strip/bg`, `plan-badge/expired-bg`
+- Tokens: `gradient/result-success`, `gradient/result-pending`, `gradient/result-failed`, `result/ring`, `processing/bg`, `processing/ring`, `offer-strip/bg`, `plan-badge/expired-bg`, `plan-badge/expired-stroke`, `gradient/expired-badge`
 - Source: All Payment States · Payment Pending · Home / Conversation Screen (light & dark) · Plan Expired & Usage Cap touchpoints · Recordings + Transcripts Locked · Actions on Home Page
 
 Props of `PaymentResult`:
@@ -4420,7 +4436,7 @@ The strip under the home header as a plan runs out: amber while days remain, red
 
 - React: `import { PlanExpiryBanner } from '@equal/ds';`
 - Compose: `PlanExpiryBanner`
-- Tokens: `expiry-banner/warning-bg`, `expiry-banner/warning-text`, `expiry-banner/danger-bg`, `expiry-banner/danger-text`
+- Tokens: `expiry-banner/warning-bg`, `expiry-banner/warning-icon-bg`, `expiry-banner/danger-icon-bg`, `expiry-banner/warning-text`, `expiry-banner/danger-bg`, `expiry-banner/danger-text`
 - Source: Monetization value · Home Screen
 
 Props of `PlanExpiryBanner`:
@@ -4838,7 +4854,7 @@ Headers for the chat surfaces: the in-conversation header (with the Takeover pil
 
 - React: `import { ChatHeader, TakeoverPill, SelectionHeader, HomeHeader } from '@equal/ds';`
 - Compose: `ChatHeader`, `TakeoverPill`, `SelectionChatHeader`, `HomeHeader`
-- Tokens: `bg/surface`, `bg/primary`, `shadow/header`, `gradient/takeover`, `action/stroke/unread`, `shadow/glass`, `text/action`, `text/primary`, `text/tertiary`, `button/danger`
+- Tokens: `bg/surface`, `bg/primary`, `shadow/header`, `gradient/takeover`, `takeover/text`, `takeover/stroke`, `action/stroke/unread`, `shadow/glass`, `text/action`, `text/primary`, `text/tertiary`, `button/danger`
 - Source: §5 Chat Header (In-Conversation)
 
 Do: Show the phone number as the subtitle normally and a status line ("You have a visitor") during a live call. During a live call show only the Takeover pill; the call and more buttons go away. Route selection-mode Delete through the delete confirm sheet.
@@ -5630,7 +5646,7 @@ The dark card showing the user's current plan (Equal AI UNLIMITED, ₹149/Monthl
 
 - React: `import { PlanCard } from '@equal/ds';`
 - Compose: `PlanCard`
-- Tokens: `plan-card/bg`, `plan-card/pill-stroke`, `plan-card/pattern`, `text/on-dark`, `text/on-dark-secondary`, `text/accent-gold`, `text/danger`
+- Tokens: `plan-card/bg`, `plan-card/pill-stroke`, `plan-card/pill-bg`, `gradient/unlimited-text`, `plan-badge/expired-stroke`, `gradient/expired-badge`, `plan-card/pattern`, `text/on-dark`, `text/on-dark-secondary`, `text/accent-gold`, `text/danger`
 - Source: You tab · Plan card
 
 Do: Show the price with the period ("₹149/Monthly"); it renders in tabular figures. Use the expired state with Manage plan so renewing is one tap.
@@ -5770,6 +5786,7 @@ ProfileHeader(name = "Keshav", phone = "+91 98789 56749")
       ChatScreenSample()
   }
   ```
+- `you-no-plan` You, no plan (free, not subscribed): `<YouScreen plan="none" />`
 - `you` You, summary ready: `<YouScreen summary="ready" />`
   ```kotlin
   EqualTheme {
@@ -5809,7 +5826,7 @@ Equal Unlimited: the free-plan touchpoints that open the paywall, the paywall it
 
 Source: Monetization Flow
 
-1. Touchpoints (where the paywall opens from): locked rows in the chat list (blurred preview, crown-lock), a locked conversation (Unlock All Details), locked audio (Unlock Audio), Manage plan on the You tab’s plan card, and the Reactivate banners on a lapsed plan. They sit on the revamped screens as props: HomeScreen lockedFrom, ChatScreen lock (details · audio · lapsed) and YouScreen plan (active · restore · reactivate). Pass the entry as touchpoint so the paywall previews what the user was trying to see.
+1. Touchpoints (where the paywall opens from): locked rows in the chat list (blurred preview, crown-lock), a locked conversation (Unlock All Details), locked audio (Unlock Audio), Manage plan on the You tab’s plan card, and the Reactivate banners on a lapsed plan. They sit on the revamped screens as props: HomeScreen lockedFrom, ChatScreen lock (details · audio · lapsed) and YouScreen plan (none · active · restore · reactivate). Pass the entry as touchpoint so the paywall previews what the user was trying to see.
 2. Paywall: gold hero with the crown, “Unlock Equal Unlimited”, the price under LIMITED TIME DISCOUNT, the preview card, the EQUAL25 coupon (APPLY → APPLIED drops ₹249 to ₹149), FAQ, and the sticky gold Unlock Unlimited with “Cancel Anytime. Automatically renews”.
 3. Payment: Waiting for Confirmation (auto) → Payment Confirmed (redirect in 5s) → Congratulations (redirect to home). Pending offers Contact Support; Failed offers Retry Payment; both say the refund comes within 24 hours. Support opens the Help Center sheet.
 4. After: the home header shows UNLIMITED and avatars turn gold. The You tab’s plan card has Manage plan → the subscription page (plan end date, 400k+, rating, testimonials, FAQ).
@@ -5904,6 +5921,13 @@ States:
   EqualTheme {
       // Paid (the default tier): nothing locked
       HomeScreenSample(promo = { MeetAssistantCard(onCallClick = {}, onDismiss = {}) })
+  }
+  ```
+- `settings-none` You: no plan yet: `<YouScreen plan="none" />`
+  ```kotlin
+  EqualTheme {
+      // No subscription and no plan: mint header, no plan card, rows without NEW markers.
+      YouScreenSample(plan = YouPlan.None)
   }
   ```
 - `settings` You: Manage plan: `<YouScreen plan="active" />`
@@ -7060,102 +7084,95 @@ States:
 
 Alias colours (CSS `var(--eq-<name without component/>)`, TS `color.*`, Compose `EqualTheme.colors.*`):
 
-- `bg/primary`  light {neutrals.grey14} · dark #141414
-- `bg/surface`  light {brand.white} · dark {neutrals.grey02}
-- `bg/nav-bottom`  light #F7F7F7 · dark {neutrals.grey02}
-- `bg/overlay`  light #9F9F9F · dark #B5B5B5
-- `text/primary`  light {neutrals.grey01} · dark {neutrals.grey14}
-- `text/placeholder`  light {neutrals.grey10} · dark {neutrals.grey07}
-- `text/secondary`  light {neutrals.grey05} · dark {neutrals.grey11}
-- `text/action-disabled`  light {neutrals.grey12} · dark {neutrals.grey04}
+- `bg/primary`  light #FAFAFA · dark #141414
+- `bg/surface`  light {brand.white} · dark #1F1F1F
+- `bg/overlay`  light rgba(30,30,30,0.4) · dark rgba(30,30,30,0.4)
+- `text/primary`  light {brand.black} @ 80% · dark {brand.white} @ 80%
+- `text/placeholder`  light {brand.black} @ 40% · dark {brand.white} @ 40%
+- `text/secondary`  light {brand.black} @ 60% · dark {brand.white} @ 60%
+- `text/action-disabled`  light {brand.black} @ 20% · dark {brand.white} @ 40%
 - `text/action`  light {brand.green} · dark {brand.lime}
 - `text/on-action`  light {brand.white} · dark {brand.black}
 - `text/on-action-disabled`  light {neutrals.grey08} · dark {neutrals.grey08}
 - `button/primary`  light {brand.green} · dark {brand.lime}
-- `button/secondary`  light {brand.lime} · dark {brand.green}
-- `button/danger`  light {red.red08} · dark {red.red12}
+- `button/secondary`  light {brand.lime} · dark {brand.lime}
+- `text/on-secondary`  light {brand.black} @ 80% · dark {brand.black} · derived
+- `button/danger`  light {red.red08} · dark #FF5151
 - `button/disabled`  light {neutrals.grey13} · dark {neutrals.grey04}
-- `stroke/subtle`  light #E9E9E9 · dark #2E2E2E
-- `stroke/medium`  light #E1E1E1 · dark #3A3A3A
-- `stroke/dark`  light #A7A7A7 · dark #4A4A4A
-- `action/stroke/unread`  light #9DDDB4 · dark #4B5A2A
-- `action/fill/unread`  light #F0F6E5 · dark #2F3423
+- `stroke/subtle`  light {brand.black} @ 5% · dark {brand.white} @ 8%
+- `stroke/medium`  light {brand.black} @ 8% · dark {brand.white} @ 16%
+- `stroke/dark`  light {brand.black} @ 32% · dark {brand.white} @ 32%
+- `action/stroke/unread`  light {brand.green} @ 36% · dark {brand.lime} @ 36%
+- `action/fill/unread`  light {brand.lime} @ 8% · dark {brand.lime} @ 8%
 - `action/bottom-color`  light #EBEBEB · dark #191919
 - `component/chat-bubble/user-bg`  light #E8FFED · dark #272C1E
 - `component/chat-bubble/user-title`  light #006223 · dark {brand.lime}
-- `component/action-card/highlight`  light #DCFFE4 · dark #2F3423
-- `text/tertiary`  light #6E6E6E · dark {neutrals.grey09} · derived
-- `text/danger`  light {red.red08} · dark {red.red12} · derived
+- `component/action-card/highlight`  light #D3FEE3 · dark #2F3423 · derived
+- `text/danger`  light {red.red08} · dark #FF5151 · derived
 - `text/on-danger`  light {brand.white} · dark {brand.black} · derived
 - `text/on-dark`  light {brand.white} · dark {brand.white} · derived
 - `text/on-dark-secondary`  light {neutrals.grey10} · dark {neutrals.grey10} · derived
-- `text/accent-gold`  light #D9A928 · dark #E6B93C · derived
-- `text/brand`  light {brand.green} · dark {brand.lime} · derived
-- `component/chat-bubble/contact-title`  light #9A5B00 · dark #FFB74D · derived
-- `component/chat-bubble/other-bg`  light {brand.white} · dark {neutrals.grey02} · derived
-- `component/plan-card/bg`  light #2B2B2B · dark #2B2B2B · derived
-- `component/plan-card/pill-stroke`  light #C9A55A · dark #C9A55A · derived
-- `component/rating/star-filled`  light #FFC700 · dark #FFC700 · derived
-- `component/rating/star-empty`  light #CFCFCF · dark {neutrals.grey04} · derived
-- `component/nav/selected-bg`  light #F1FAF3 · dark #272C1E · derived
-- `component/playback/pill-bg`  light {neutrals.grey05} · dark {neutrals.grey04} · derived
-- `component/waveform/bar`  light #8A8A8A · dark #808080 · derived
-- `component/waveform/bar-played`  light {neutrals.grey05} · dark {neutrals.grey11} · derived
-- `component/notice/bg`  light #F6FDEB · dark #272C1E · derived
-- `component/chip/when-bg`  light #F1F1F1 · dark {neutrals.grey03} · derived
-- `component/sheet/bg`  light #F9F9F9 · dark #292929 · derived
-- `component/scrim`  light rgba(0,0,0,0.20) · dark rgba(0,0,0,0.55) · derived
-- `component/badge/new-feature-stroke`  light #E6E6E6 · dark #3A3A3A · derived
+- `text/accent-gold`  light #CFA846 · dark #CFA846
+- `component/chat-bubble/contact-title`  light #AF6307 · dark #FFB74D · derived
+- `component/chat-bubble/other-bg`  light {brand.white} · dark #292929 · derived
+- `component/plan-card/bg`  light #2E2E2E · dark #2E2E2E
+- `component/plan-card/pill-stroke`  light #FFF2C3 · dark #FFF2C3
+- `component/rating/star-filled`  light {brand.green} · dark {brand.lime} · derived
+- `component/rating/star-empty`  light #2B2B2B @ 36% · dark {brand.white} @ 32% · derived
+- `component/nav/selected-bg`  light rgba(0,177,64,0.04) · dark rgba(186,255,41,0.08) · derived
+- `component/playback/pill-bg`  light #5E5E5E · dark #5E5E5E · derived
+- `component/waveform/bar`  light #D9D9D9 · dark #D9D9D9 · derived
+- `component/waveform/bar-played`  light {brand.green} · dark {brand.lime} · derived
+- `component/notice/bg`  light #FAFFF4 · dark rgba(186,255,41,0.08) · derived
+- `component/chip/when-bg`  light rgba(0,0,0,0.05) · dark rgba(255,255,255,0.08) · derived
 - `component/plan-card/pattern`  light #C9A55A · dark #C9A55A · derived
-- `component/invite/bg`  light #F0FBF2 · dark #272C1E · derived
-- `component/invite/stroke`  light #D5F0DB · dark #3D442E · derived
-- `component/skeleton`  light #FFFFFF · dark #353A2A · derived
-- `component/chip/do-bg`  light #EEF8EF · dark #272C1E · derived
-- `component/chip/selected-bg`  light #333333 · dark #F7F7F7 · derived
-- `component/chip/selected-text`  light #FFFFFF · dark #111111 · derived
-- `component/preset/tint-red`  light #FDECEC · dark #3A2222 · derived
-- `component/preset/tint-green`  light #E6F7EA · dark #272C1E · derived
-- `component/preset/tint-orange`  light #FDF1DE · dark #3A3020 · derived
+- `component/invite/bg`  light #F1FFF6 · dark #272C1E · derived
+- `component/invite/stroke`  light rgba(0,177,64,0.10) · dark rgba(186,255,41,0.10) · derived
+- `component/chip/do-bg`  light #F0FBF4 · dark #272C1E · derived
+- `component/chip/selected-bg`  light #313131 · dark #F7F7F7 · derived
+- `component/chip/selected-text`  light #F7F7F7 · dark #313131 · derived
+- `component/preset/tint-green`  light rgba(72,255,138,0.16) · dark rgba(186,255,41,0.16) · derived
+- `component/preset/tint-orange`  light rgba(255,153,8,0.16) · dark rgba(255,153,8,0.16) · derived
 - `component/icon-button/bg`  light #F2F2F2 · dark #333333 · derived
-- `component/chat/wallpaper-bg`  light #F2F2F2 · dark #141414 · derived
-- `component/voice/player-bg`  light #F2F2F2 · dark #2E2E2E · derived
+- `component/chat/wallpaper-bg`  light #F5F5F6 · dark #141414 · derived
+- `component/voice/player-bg`  light {brand.white} · dark #141414 · derived
 - `component/voice/player-bg-sent`  light #E1F7E6 · dark #333926 · derived
 - `component/chat/wallpaper-pattern`  light rgba(115,115,115,0.08) · dark rgba(115,115,115,0.08)
 - `component/status-card/pill-bg`  light #FFFFFF · dark #2E2E2E · derived
 - `component/status-card/button`  light #FAAF39 · dark #F2A22C · derived
 - `component/status-card/button-text`  light #3D2600 · dark #1A1A1A · derived
 - `component/notification/bg`  light #FFFFFF · dark #2A2A2A · derived
-- `component/brand/whatsapp`  light #25D366 · dark {brand.lime} · derived
-- `text/gold`  light #8C5817 · dark #E8BD62 · derived
+- `component/brand/whatsapp`  light {brand.green} · dark {brand.lime} · derived
+- `text/gold`  light #9E6A28 · dark #E8BD62 · derived
 - `component/paywall/card-bg`  light #FFFDF7 · dark #221F19 · derived
-- `component/paywall/card-stroke`  light #EFE2C6 · dark #3A3326 · derived
-- `component/paywall/divider`  light #E9D9B5 · dark #4A4233 · derived
-- `component/plan-banner/bg`  light #FFF0CC · dark #33291A · derived
-- `component/plan-banner/text`  light #82500F · dark #F0C878 · derived
-- `component/locked/badge-bg`  light #FFF6DE · dark #3A3020 · derived
-- `component/expiry-banner/warning-bg`  light #FFEFD3 · dark #33291A · derived
-- `component/expiry-banner/warning-text`  light #7A4300 · dark #F0C878 · derived
-- `component/expiry-banner/danger-bg`  light #FDE4E4 · dark #3A2224 · derived
-- `component/expiry-banner/danger-text`  light #7D0F0F · dark #FFA3A3 · derived
-- `component/whats-new/bg`  light #EAFBE6 · dark #272C1E · derived
-- `component/whats-new/glow`  light #C9F7A0 · dark #4F5E2F · derived
-- `component/missed-call/bg`  light #FFF9F7 · dark #2A2120 · derived
-- `component/missed-call/stroke`  light #F5EDEA · dark #3A2E2C · derived
-- `component/missed-call/icon-bg`  light #FBE9E5 · dark #45302C · derived
-- `component/missed-call/icon`  light #D4380D · dark #FF8A6B · derived
-- `component/expiry-chip/warning-bg`  light #FFF0C9 · dark #FFB64A · derived
-- `component/expiry-chip/warning-text`  light #7A4A00 · dark #2A1A00 · derived
-- `component/expiry-chip/danger-bg`  light #FFE1E1 · dark #5A2328 · derived
-- `component/expiry-chip/danger-text`  light #B3141B · dark #FFB3B3 · derived
-- `component/expiry-chip/active-bg`  light #FFF0C9 · dark #3A3020 · derived
-- `component/value-card/stroke`  light #F0E1BD · dark #4A3C1C · derived
-- `component/value-card/perks-bg`  light #FFFFFF · dark #1F1B14 · derived
+- `component/paywall/card-stroke`  light #F0F0F0 · dark #3D3D3D
+- `component/paywall/divider`  light #A37135 @ 50% · dark #E8BD62 @ 35% · derived
+- `component/plan-banner/bg`  light #FFEFC8 · dark #33291A · derived
+- `component/plan-banner/text`  light #975F19 · dark #F0C878 · derived
+- `component/locked/badge-bg`  light #FCFCFC · dark #292929 · derived
+- `component/expiry-banner/warning-bg`  light #FFF0D3 · dark #33291A · derived
+- `component/expiry-banner/warning-text`  light #763D00 · dark #F0C878 · derived
+- `component/expiry-banner/danger-bg`  light #FFE8E8 · dark #3A2224 · derived
+- `component/expiry-banner/danger-text`  light #6E0000 · dark #FFA3A3 · derived
+- `component/whats-new/bg`  light #E5FFE7 · dark #272C1E · derived
+- `component/whats-new/glow`  light rgba(249,255,237,0.6) · dark #4F5E2F · derived
+- `component/missed-call/bg`  light #FEFBFA · dark #2A2120 · derived
+- `component/missed-call/stroke`  light #F8F8F8 · dark #3A2E2C · derived
+- `component/missed-call/icon-bg`  light #FBEBE7 · dark #45302C · derived
+- `component/missed-call/icon`  light #DB330B · dark #FF8A6B · derived
+- `component/expiry-chip/warning-bg`  light #FFF1D5 · dark #FEBD6B
+- `component/expiry-chip/warning-text`  light #6E4900 · dark #2D1900
+- `component/expiry-chip/danger-bg`  light #FFD5D5 · dark #5A2328 · derived
+- `component/expiry-chip/danger-text`  light #6E0000 · dark #FFB3B3 · derived
+- `component/expiry-chip/active-bg`  light #FFF1D5 · dark #3A3020 · derived
+- `component/value-card/stroke`  light #F0F0F0 · dark #3D3D3D
+- `component/value-card/perks-bg`  light {brand.white} · dark #242424
 - `component/value-card/ring`  light rgba(214,165,70,0.22) · dark rgba(232,189,98,0.35) · derived
-- `component/plan-card/expired-pill`  light #D0302F · dark #D0302F · derived
-- `component/sunburst/ray`  light rgba(255,255,255,0.6) · dark rgba(232,189,98,0.12) · derived
-- `component/premium-icon/start`  light #D1A85C · dark #E2BE77 · derived
-- `component/premium-icon/end`  light #A0621F · dark #B97C3A · derived
-- `component/contact-avatar/blue-bg`  light #D5EFFC · dark #233843 · derived
+- `component/plan-card/expired-pill`  light #CD3200 · dark #CD3200
+- `component/sunburst/ray`  light {brand.white} @ 5% · dark {brand.white} @ 5% · derived
+- `component/premium-icon/start`  light #D1A85C · dark #FEC378
+- `component/premium-icon/end`  light #A0621F · dark #FA8C01
+- `component/contact-avatar/blue-bg`  light #D6F1FF · dark #233843 · derived
 - `component/contact-avatar/blue-text`  light #296D8E · dark #7DC4E8 · derived
 - `component/contact-avatar/green-bg`  light #D5FCE2 · dark #394323 · derived
 - `component/contact-avatar/green-text`  light #247B41 · dark {brand.lime} · derived
@@ -7169,60 +7186,67 @@ Alias colours (CSS `var(--eq-<name without component/>)`, TS `color.*`, Compose 
 - `component/contact-avatar/teal-text`  light #227770 · dark #7DE8DF · derived
 - `component/contact-avatar/badge-bg`  light #FFFFFF · dark #222222 · derived
 - `component/contact-avatar/badge-icon`  light #141414 · dark #F2F2F2 · derived
-- `component/processing/bg`  light #FFEFCF · dark #3A2C1A · derived
-- `component/processing/ring`  light #8C5817 · dark #E8BD62 · derived
-- `component/plan-badge/expired-bg`  light #D0302F · dark #D0302F · derived
-- `component/offer-strip/bg`  light #FFF3D6 · dark #33291A · derived
-- `component/offer-strip/text`  light #5C3A0A · dark #F0C878 · derived
-- `component/result/ring`  light rgba(255,255,255,0.55) · dark rgba(255,255,255,0.07) · derived
+- `component/plan-badge/expired-bg`  light #CD3200 · dark #CD3200
 - `component/profile-hero/status-bg`  light {brand.white} · dark #F8E4A2 · derived
-- `component/profile-hero/status-text`  light {neutrals.grey01} · dark {neutrals.grey01} · derived
-- `component/info-note/bg`  light #E9F1FA · dark #1C2633 · derived
-- `component/info-note/text`  light #1A1A1A · dark #E3ECF6 · derived
-- `component/choice/selected-bg`  light #F3FAEA · dark #272C1E · derived
-- `component/ongoing-bar/bg`  light #262626 · dark #1A1A1A · derived
-- `component/ongoing-bar/text`  light #BAFF29 · dark #BAFF29 · derived
+- `component/profile-hero/status-text`  light #000000 · dark #000000 · derived
+- `component/profile-hero/plain-bg`  light #F2FBF5 · dark #1E2215 · derived
+- `component/info-note/bg`  light rgba(35,149,255,0.06) · dark rgba(35,149,255,0.12) · derived
+- `component/ongoing-bar/bg`  light {brand.black} @ 80% · dark {brand.white} @ 80% · derived
+- `component/ongoing-bar/text`  light {brand.lime} · dark {brand.black} @ 80% · derived
 - `component/initials-disc/bg`  light #FFFFFF · dark #262626 · derived
-- `component/paywall/hero-top`  light #FCE290 · dark #4A3C1C · derived
+- `component/paywall/hero-top`  light #FDEFC6 · dark #4A3C1C · derived
+- `component/takeover/text`  light #009837 · dark #FFFFFF · derived
+- `component/takeover/stroke`  light {brand.green} @ 96% · dark #58741C · derived
+- `component/glass-button/default`  light {brand.white} @ 30% · dark {brand.white} @ 2% · derived
+- `state/chat-pressed`  light {brand.black} @ 3% · dark {brand.white} @ 8% · derived
+- `component/voice/player-stroke`  light #F8F8F8 · dark #141414 · derived
+- `component/choice/default-bg`  light {brand.white} @ 30% · dark {brand.white} @ 4% · derived
+- `component/plan-badge/expired-stroke`  light #8D0000 · dark #8D0000 · derived
+- `component/plan-card/pill-bg`  light #272727 · dark #272727 · derived
+- `component/locked/badge-stroke`  light #FFEFC8 · dark #4A3C1C · derived
+- `component/expiry-banner/warning-icon-bg`  light #763D00 @ 6% · dark #F0C878 @ 12% · derived
+- `component/expiry-banner/danger-icon-bg`  light #6E0000 @ 6% · dark #FFA3A3 @ 12% · derived
+- `component/assistant-toggle/bg`  light #FAFFEE · dark #2B3120 · derived
+- `component/preset/tint-blue`  light rgba(131,224,255,0.16) · dark rgba(131,224,255,0.16) · derived
+- `component/preset/tint-lime`  light rgba(186,255,41,0.18) · dark rgba(186,255,41,0.18) · derived
+- `component/gender/stroke`  light #F4F4F4 · dark rgba(255,255,255,0.08) · derived
 
 Gradients (CSS `var(--eq-gradient-<name>)`, Compose `EqualTheme.gradients.*`):
 
-- `gradient/fab`  light 180deg: #86E63B 0%, #00B140 100% · dark 180deg: #C9FF5C 0%, #BAFF29 100%
-- `gradient/send-disabled`  light 180deg: #E4F6E5 0%, #C8EAD3 100% · dark 180deg: #353A2A 0%, #272C1E 100%
-- `gradient/assistant-toggle`  light 90deg: #D3F4DA 0%, #F7FDEB 55%, #DBF5DF 100% · dark 90deg: #272C1E 0%, #2F3423 55%, #272C1E 100%
-- `gradient/gold`  light 90deg: #D8A857 0%, #A2702C 100% · dark 90deg: #D8A857 0%, #A2702C 100%
-- `gradient/whats-new`  light 120deg: #E6FEE8 0%, #EEFFE8 55%, #F4FFE9 100% · dark 135deg: #272C1E 0%, #2F3423 100%
-- `gradient/chip-large`  light 180deg: #F3F9E8 0%, #EEFAD8 100% · dark 180deg: #2F3423 0%, #272C1E 100%
-- `gradient/chip-small-unread`  light 180deg: #F7FBEF 0%, #EAF7D6 100% · dark 180deg: #2F3423 0%, #272C1E 100%
-- `gradient/chip-small-read`  light 180deg: #FFFFFF 0%, #F2F2F2 100% · dark 180deg: #333333 0%, #2A2A2A 100%
-- `gradient/takeover`  light 180deg: #FFFFFF 0%, #EAF8EE 100% · dark 180deg: #2F3423 0%, #272C1E 100%
-- `gradient/profile-hero`  light 180deg: #F8E4A2 0%, #FAEDC4 45%, #F7F7F7 100% · dark 180deg: #F8E4A2 0%, #FAEDC4 55%, #FDF8EC 100%
-- `gradient/ai-summary`  light 135deg: #FFFFFF 0%, #F6FDEB 40%, #FFFFFF 70%, #E6F7EA 100% · dark 135deg: #222222 0%, #2F3423 45%, #222222 75%, #272C1E 100%
-- `gradient/gender-selected`  light 135deg: #F4FBEC 0%, #EAF7DE 100% · dark 135deg: #2B3021 0%, #252A1C 100%
+- `gradient/fab`  light 180deg: {brand.lime} -28%, {brand.green} 100% · dark 180deg: #C9FF5C 0%, {brand.lime} 100%
+- `gradient/send-disabled`  light 180deg: {brand.lime} @ 20% -28%, {brand.green} @ 20% 100% · dark 180deg: {brand.lime} @ 20% 0%, {brand.lime} @ 20% 100%
+- `gradient/gold`  light radial 125% 250% at 2% 9%: #A37236 9%, #B58D55 66%, #A97B41 100% · dark radial 125% 250% at 2% 9%: #A37236 9%, #B58D55 66%, #A97B41 100%
+- `gradient/chip-large`  light 180deg: #FBFFF4 0%, #F0FFD2 100% · dark 180deg: #212716 0%, #212716 100%
+- `gradient/chip-small-unread`  light 180deg: {brand.lime} @ 1% 0%, {brand.lime} @ 18% 100% · dark 180deg: {brand.lime} @ 1% 0%, {brand.lime} @ 18% 100%
+- `gradient/chip-small-read`  light 180deg: {brand.white} 0%, #EBEBEB @ 40% 100% · dark 180deg: #1F1F1F 0%, #1F1F1F 100%
+- `gradient/takeover`  light 180deg: #E4FFED 0%, #E4FFED 100% · dark 180deg: #212615 0%, #212615 100%
+- `gradient/profile-hero`  light 180deg: #F5E4AE 0%, #F7EBC0 25%, #F5EED8 50%, #F4F0EA 75%, #F7F7F7 100% · dark 180deg: #F5E4AE 0%, #F7EBC0 35%, #FBF5E8 100%
+- `gradient/ai-summary`  light 45deg: #F3FBF6 0%, #FFFFFF 25%, #F8FFEA 50%, #FFFFFF 75%, #EAF9EF 100% · dark 45deg: #272A1F 0%, #1F1F1F 25%, #2E3520 50%, #1F1F1F 75%, #2B3120 100%
+- `gradient/gender-selected`  light 135deg: rgba(186,255,41,0.08) 0%, rgba(186,255,41,0.08) 100% · dark 135deg: rgba(186,255,41,0.08) 0%, rgba(186,255,41,0.08) 100%
 - `gradient/suggestion-card`  light 120deg: #FFFFFF 0%, #F2FBEA 60%, #E9F8EC 100% · dark 120deg: #242424 0%, #2F3423 100%
 - `gradient/status-card`  light 120deg: #FEEBC8 0%, #FDF2DB 45%, #FBF9F4 100% · dark 120deg: #3A2E1A 0%, #2A2622 60%, #242424 100%
-- `gradient/meet-assistant`  light 120deg: #E6F7EB 0%, #EDF9F1 55%, #F3FCEF 100% · dark 120deg: #272C1E 0%, #2F3423 100%
-- `gradient/call-me`  light 90deg: #55CC6D 0%, #00B140 60% · dark 90deg: #C9FF5C 0%, #BAFF29 60%
-- `gradient/when-chip`  light 90deg: #EEEAFF 0%, rgba(238,234,255,0) 100% · dark 90deg: #2B2740 0%, rgba(43,39,64,0) 100%
-- `gradient/do-chip`  light 90deg: #E2F8EA 0%, rgba(226,248,234,0) 100% · dark 90deg: #2C331E 0%, rgba(44,51,30,0) 100%
-- `gradient/paywall-hero`  light 180deg: #FCE290 0%, #FAEFCF 38%, #FFFFFF 62% · dark 180deg: #4A3C1C 0%, #2A241A 38%, #141414 62%
-- `gradient/gold-text`  light 180deg: #B57E32 0%, #7C4C10 100% · dark 180deg: #F6D48A 0%, #D9A44A 100%
-- `gradient/cta-gold`  light 90deg: #8A5516 0%, #9E6A27 55%, #B88A45 100% · dark 90deg: #8A5516 0%, #9E6A27 55%, #B88A45 100%
-- `gradient/coupon`  light 135deg: #FFFCF5 0%, #FFF4DE 100% · dark 135deg: #2A251C 0%, #221F19 100%
-- `gradient/status-neutral`  light 180deg: #E6E6E6 0%, #F7F7F7 45%, #FFFFFF 100% · dark 180deg: #3A3A3A 0%, #262626 60%, #222222 100%
-- `gradient/status-success`  light 180deg: #B8F2C5 0%, #EEFCF1 55%, #FFFFFF 100% · dark 180deg: #313A1E 0%, #2B3020 55%, #222222 100%
-- `gradient/status-warning`  light 180deg: #FFD6AD 0%, #FFF2E5 55%, #FFFFFF 100% · dark 180deg: #43301C 0%, #2E2620 55%, #222222 100%
-- `gradient/status-danger`  light 180deg: #FFC4CB 0%, #FFEEF0 55%, #FFFFFF 100% · dark 180deg: #46232A 0%, #2E2224 55%, #222222 100%
-- `gradient/status-gold`  light 180deg: #FCE290 0%, #FFF7DF 55%, #FFFFFF 100% · dark 180deg: #4A3C1C 0%, #2A241A 55%, #222222 100%
-- `gradient/value-card`  light 180deg: #FCE7A8 0%, #FFF6DC 42%, #FFFFFF 100% · dark 180deg: #4A3410 0%, #1E170C 48%, #0E0E0E 100%
-- `gradient/voice-note`  light 90deg: #00B140 0%, #7FD93A 100% · dark 90deg: #C9FF5C 0%, #BAFF29 100%
-- `gradient/choice-stroke`  light 90deg: #00B140 0%, #A6E36A 100% · dark 90deg: #C9FF5C 0%, #BAFF29 100%
-- `gradient/setup-done`  light 180deg: #E5F5F4 0%, #F3F8EC 50%, #EAF6CC 100% · dark 180deg: #13201F 0%, #161D17 50%, #222814 100%
-- `gradient/setup-prompt`  light 180deg: rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.7) 55%, #000000 100% · dark 180deg: rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.8) 55%, #000000 100%
-- `gradient/result-success`  light 180deg: #A8F5B4 0%, #DDFBE2 45%, #FFFFFF 78% · dark 180deg: #2C3A0E 0%, #1C240B 45%, #0A0A0A 78%
-- `gradient/result-pending`  light 180deg: #FFB98A 0%, #FFE3CF 45%, #FFFFFF 78% · dark 180deg: #3A2410 0%, #22160C 45%, #0A0A0A 78%
-- `gradient/result-failed`  light 180deg: #FFC9CD 0%, #FFE9EB 45%, #FFFFFF 78% · dark 180deg: #4A0E10 0%, #2A0A0B 45%, #0A0A0A 78%
-- `gradient/offline-screen`  light 180deg: #FFFFFF 0%, #F7FBF5 55%, #E6F6E4 100% · dark 180deg: #141414 0%, #151A15 55%, #212618 100%
+- `gradient/meet-assistant`  light 135deg: #EBF9F0 0%, #EBF9F0 60%, #F2FCEE 100% · dark 120deg: #272C1E 0%, #2F3423 100%
+- `gradient/call-me`  light 90deg: {brand.green} 0%, {brand.green} 100% · dark 90deg: {brand.lime} 0%, {brand.lime} 100%
+- `gradient/when-chip`  light 90deg: #FFFFFF 0%, #F4F1FF 100% · dark 90deg: rgba(36,36,36,0.2) 0%, rgba(178,160,255,0.2) 100%
+- `gradient/do-chip`  light 90deg: #FFFFFF 0%, #EEFFF8 100% · dark 90deg: rgba(36,36,36,0.2) 0%, rgba(186,255,41,0.2) 100%
+- `gradient/paywall-hero`  light 180deg: #FDEFC6 0%, #FEF8DD 40%, {brand.white} 70% · dark 180deg: #4A3C1C 0%, #2A241A 38%, #141414 62%
+- `gradient/gold-text`  light radial 48% 93% at 46% 14%: #FFB251 0%, #603600 100% · dark radial 48% 93% at 46% 14%: #F6D48A 0%, #D9A44A 100%
+- `gradient/cta-gold`  light radial 125% 250% at 2% 9%: #A37236 9%, #C8A774 66%, #AF854C 100% · dark radial 125% 250% at 2% 9%: #A37236 9%, #C8A774 66%, #AF854C 100%
+- `gradient/status-neutral`  light 180deg: #E1E1E1 0%, #F4F4F4 50%, {brand.white} 100% · dark 180deg: #434343 0%, #2F2F2F 50%, #1F1F1F 100%
+- `gradient/status-success`  light 180deg: #C7FAD7 0%, #E3FDEA 50%, {brand.white} 100% · dark 180deg: #384321 0%, #2A2F20 50%, #1F1F1F 100%
+- `gradient/status-warning`  light 180deg: #FFDDC2 0%, #FFF3E8 50%, {brand.white} 100% · dark 180deg: #43372E 0%, #2F2A26 50%, #1F1F1F 100%
+- `gradient/status-danger`  light 180deg: #FFD0D0 0%, #FFECEF 50%, {brand.white} 100% · dark 180deg: #432B2B 0%, #2F2424 50%, #1F1F1F 100%
+- `gradient/status-gold`  light 180deg: #FDEFC6 0%, #FFFAE3 50%, {brand.white} 100% · dark 180deg: #3F382A 0%, #2D2A24 50%, #1F1F1F 100%
+- `gradient/value-card`  light 180deg: #FBE399 0%, #FEF6D5 25%, {brand.white} 60% · dark 180deg: #4A2C00 0%, #180E01 45%, {brand.black} 100%
+- `gradient/voice-note`  light 180deg: {brand.lime} -28%, {brand.green} 100% · dark 180deg: #C9FF5C 0%, {brand.lime} 100%
+- `gradient/choice-stroke`  light 74deg: {brand.green} 9%, {brand.lime} 55%, rgba(7,170,66,0.94) 100% · dark 74deg: {brand.lime} 0%, {brand.lime} 100%
+- `gradient/setup-done`  light 180deg: #E9F8F9 0%, #F2F8EF 50%, #EDF9D4 100% · dark 180deg: #13201F 0%, #161D17 50%, #222814 100%
+- `gradient/setup-prompt`  light 180deg: {brand.black} @ 45% 0%, {brand.black} @ 45% 41%, {brand.black} 100% · dark 180deg: {brand.black} @ 45% 0%, {brand.black} @ 45% 41%, {brand.black} 100%
+- `gradient/unlimited-text`  light 90deg: #FFF8C7 -28%, #CFA846 55% · dark 90deg: #FFF8C7 -28%, #CFA846 55%
+- `gradient/coupon-stroke`  light radial 48% 116% at 46% 14%: #FFB251 @ 24% 0%, #603600 @ 24% 100% · dark radial 48% 116% at 46% 14%: #FFB251 @ 32% 0%, #E8BD62 @ 32% 100%
+- `gradient/cta-renew`  light radial 106% 100% at 50% 0%: #D1A85C 0%, #A0621F 100% · dark radial 106% 100% at 50% 0%: #D1A85C 0%, #A0621F 100%
+- `gradient/expired-badge`  light 90deg: #BF3D28 0%, #E4918C 50%, #A43129 100% · dark 90deg: #BF3D28 0%, #E4918C 50%, #A43129 100%
+- `gradient/gender-selected-stroke`  light 86deg: #00B140 0%, #BAFF29 51%, rgba(7,170,66,0.94) 100% · dark 86deg: #BAFF29 0%, #BAFF29 51%, rgba(186,255,41,0.94) 100%
 
 Typography (DM Sans; `<Text variant>`, `.eq-t-<name>`, `EqualTheme.type.<name>`):
 

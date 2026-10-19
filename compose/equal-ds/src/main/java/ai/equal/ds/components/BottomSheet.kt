@@ -32,6 +32,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.text.style.TextOverflow
@@ -51,6 +53,9 @@ import androidx.compose.foundation.layout.BoxWithConstraints
  * With a [title] the sheet uses top radius 24 and a title row instead of the floating close:
  * [ghost close button] [centred `subheading` title] [spacer the same width]. The sheet is at
  * most 92% of the available height; taller content scrolls.
+ *
+ * Accessibility: system Back calls [onDismissRequest] while [visible]; the panel is announced
+ * with [paneTitle]; under reduced motion it appears and leaves without the fade / slide.
  */
 @Composable
 fun EqualBottomSheet(
@@ -59,21 +64,24 @@ fun EqualBottomSheet(
     modifier: Modifier = Modifier,
     showCloseButton: Boolean = true,
     title: String? = null,
+    paneTitle: String = title ?: "Bottom sheet",
     content: @Composable ColumnScope.() -> Unit,
 ) {
     val colors = EqualTheme.colors
     val radius = if (title != null) EqualRadius.r2xl else EqualRadius.r3xl
+    val reduceMotion = rememberReduceMotion()
+    EqualBackHandler(enabled = visible, onBack = onDismissRequest)
     BoxWithConstraints(Modifier.fillMaxSize()) {
         val maxSheetHeight = maxHeight * 0.92f
         AnimatedVisibility(
             visible = visible,
-            enter = fadeIn(tween(EqualMotion.base)),
-            exit = fadeOut(tween(EqualMotion.base)),
+            enter = fadeIn(tween(EqualMotion.base)).unlessReduced(reduceMotion),
+            exit = fadeOut(tween(EqualMotion.base)).unlessReduced(reduceMotion),
         ) {
             Box(
                 Modifier
                     .fillMaxSize()
-                    .background(colors.scrim)
+                    .background(colors.bgOverlay)
                     .clickable(
                         interactionSource = rememberInteraction(),
                         indication = null,
@@ -86,14 +94,15 @@ fun EqualBottomSheet(
         AnimatedVisibility(
             visible = visible,
             modifier = Modifier.align(Alignment.BottomCenter),
-            enter = slideInVertically(tween(EqualMotion.slow, easing = EqualEasing.standard)) { it },
-            exit = slideOutVertically(tween(EqualMotion.base, easing = EqualEasing.standard)) { it },
+            enter = slideInVertically(tween(EqualMotion.slow, easing = EqualEasing.standard)) { it }.unlessReduced(reduceMotion),
+            exit = slideOutVertically(tween(EqualMotion.base, easing = EqualEasing.standard)) { it }.unlessReduced(reduceMotion),
         ) {
             Box(
                 modifier
                     .fillMaxWidth()
+                    .overlayPane(paneTitle)
                     .heightIn(max = maxSheetHeight)
-                    .background(colors.sheetBg, RoundedCornerShape(topStart = radius, topEnd = radius))
+                    .background(colors.bgPrimary, RoundedCornerShape(topStart = radius, topEnd = radius))
                     // Swallow taps so they don't reach the scrim.
                     .pointerInput(Unit) { detectTapGestures { } },
             ) {
@@ -118,7 +127,7 @@ fun EqualBottomSheet(
                                 maxLines = 1,
                                 overflow = TextOverflow.Ellipsis,
                                 textAlign = TextAlign.Center,
-                                modifier = Modifier.weight(1f),
+                                modifier = Modifier.weight(1f).semantics { heading() },
                             )
                             Spacer(Modifier.width(48.dp))
                         }
@@ -168,7 +177,7 @@ fun ConfirmSheetContent(
     Column(modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
         EqualAssetImage(asset = illustration, size = 72.dp)
         Spacer(Modifier.height(20.dp))
-        EqualText(text = title, style = type.title, color = colors.textPrimary, textAlign = TextAlign.Center)
+        EqualText(text = title, style = type.title, color = colors.textPrimary, textAlign = TextAlign.Center, modifier = Modifier.semantics { heading() })
         if (phone != null) {
             EqualText(text = phone, style = type.body1.tabular(), color = colors.textSecondary, textAlign = TextAlign.Center)
         }

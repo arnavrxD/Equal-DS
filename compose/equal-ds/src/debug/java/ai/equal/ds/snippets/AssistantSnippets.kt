@@ -95,7 +95,7 @@ internal fun AssistantInputSnippet() {
 @Composable
 internal fun AssistantRecorderSnippet() {
     EqualTheme {
-        Column(Modifier.background(EqualTheme.colors.sheetBg).padding(16.dp), verticalArrangement = Arrangement.spacedBy(18.dp)) {
+        Column(Modifier.background(EqualTheme.colors.bgPrimary).padding(16.dp), verticalArrangement = Arrangement.spacedBy(18.dp)) {
             VoiceRecorder(state = RecorderState.Idle, onDelete = {}, onSend = {})
             VoiceRecorder(state = RecorderState.Recording, seconds = 4, onDelete = {}, onSend = {})
             VoiceRecorder(state = RecorderState.Hold) // press and hold: release to send, slide left to cancel

@@ -16,7 +16,7 @@
   align-items: center;
   justify-content: center;
   gap: 2px;
-  color: var(--eq-text-tertiary);
+  color: var(--eq-text-secondary);
   transition: background-color var(--eq-duration-base) var(--eq-easing-standard), color var(--eq-duration-base);
 }
 .eq-nav__item .eq-nav__icon { color: var(--eq-text-secondary); }

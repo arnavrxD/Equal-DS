@@ -1,4 +1,5 @@
-import { useEffect, type ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import { inertWhen, useModal } from '../foundations/a11y';
 import { Asset, type AssetName } from '../foundations/Asset';
 import { Text } from '../foundations/Text';
 import type { IconName } from '../foundations/icons';
@@ -23,15 +24,10 @@ export type BottomSheetProps = {
 
 /** Bottom sheet (Component ref #17): scrim, 32dp top radius, floating close. */
 export function BottomSheet({ open, onClose, children, closable = true, mode = 'overlay', label = 'Sheet', title }: BottomSheetProps) {
-  useEffect(() => {
-    if (!open || mode !== 'overlay') return;
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose?.();
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [open, mode, onClose]);
+  const modal = useModal({ open, onClose, enabled: mode === 'overlay' });
 
   const sheet = (
-    <div className={`eq-sheet ${mode === 'inline' ? 'is-inline' : ''} ${title ? 'has-title' : ''}`} role="dialog" aria-modal={mode === 'overlay'} aria-label={title ?? label}>
+    <div className={`eq-sheet ${mode === 'inline' ? 'is-inline' : ''} ${title ? 'has-title' : ''}`} role="dialog" aria-label={title ?? label} {...modal}>
       {title && (
         <div className="eq-sheet__title">
           <IconButton icon="close" label="Close" onClick={onClose} />
@@ -47,7 +43,7 @@ export function BottomSheet({ open, onClose, children, closable = true, mode = '
   );
   if (mode === 'inline') return sheet;
   return (
-    <div className={`eq-sheet-layer ${open ? 'is-open' : ''}`} aria-hidden={!open}>
+    <div className={`eq-sheet-layer ${open ? 'is-open' : ''}`} aria-hidden={!open} {...inertWhen(!open)}>
       <div className="eq-sheet-scrim" onClick={onClose} />
       {sheet}
     </div>

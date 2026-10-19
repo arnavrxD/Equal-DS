@@ -1,4 +1,5 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import { Text } from '../foundations/Text';
 import { Icon } from '../foundations/Icon';
 import type { IconName } from '../foundations/icons';
 import './Button.css';
@@ -28,11 +29,11 @@ export function Button({ children, variant = 'primary', size = 'md', block, lead
     <button
       type={type}
       disabled={disabled}
-      className={['eq-reset-btn eq-pressable eq-btn', `eq-btn--${variant}`, `eq-btn--${size}`, `eq-btn--${shape}`, block && 'eq-btn--block', size === 'sm' && 'eq-touch', className].filter(Boolean).join(' ')}
+      className={['eq-reset-btn eq-pressable eq-btn', `eq-btn--${variant}`, `eq-btn--${size}`, `eq-btn--${shape}`, block && 'eq-btn--block', 'eq-touch', className].filter(Boolean).join(' ')}
       {...rest}
     >
       {leadingIcon && <Icon name={leadingIcon} size={iconSize} />}
-      <span className={size === 'sm' ? 'eq-t-button-small' : 'eq-t-button'}>{children}</span>
+      <Text variant={size === 'sm' ? 'buttonSmall' : 'button'} color="none">{children}</Text>
       {trailingIcon && <Icon name={trailingIcon} size={iconSize} />}
     </button>
   );
@@ -53,7 +54,7 @@ export function TextButton({ children, size = 'button', tone = 'action', leading
   return (
     <button type={type} className={['eq-reset-btn eq-touch eq-text-btn', `eq-text-btn--${tone}`, className].filter(Boolean).join(' ')} {...rest}>
       {leadingIcon && <Icon name={leadingIcon} size={iconSize} />}
-      <span className={size === 'small' ? 'eq-t-button-small' : 'eq-t-button'}>{children}</span>
+      <Text variant={size === 'small' ? 'buttonSmall' : 'button'} color="none">{children}</Text>
       {trailingIcon && <Icon name={trailingIcon} size={iconSize} />}
     </button>
   );
@@ -63,8 +64,8 @@ export type IconButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'chi
   icon: IconName;
   /** Accessible label — required. */
   label: string;
-  /** neutral = white raised circle (close); primary = green circle (confirm); ghost = bare 48dp target. */
-  variant?: 'neutral' | 'primary' | 'ghost' | 'danger-ghost';
+  /** neutral = white raised circle (close); primary = green circle (confirm); glass = frosted circle over content; ghost = bare 48dp target. */
+  variant?: 'neutral' | 'primary' | 'glass' | 'ghost' | 'danger-ghost';
   size?: number;
   iconSize?: number;
 };

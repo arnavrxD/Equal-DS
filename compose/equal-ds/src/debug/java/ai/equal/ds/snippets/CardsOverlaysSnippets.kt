@@ -421,7 +421,7 @@ internal fun SettingsRowTrailingSnippet() {
     RowGroup {
         SettingsRow(label = "Active Instructions", description = "3 Active", onClick = {})
         SettingsRow(label = "Muted Contacts", onClick = {}, trailing = {
-            EqualText(text = "4", style = EqualTheme.type.body1, color = EqualTheme.colors.textTertiary)
+            EqualText(text = "4", style = EqualTheme.type.body1, color = EqualTheme.colors.textSecondary)
         })
         SettingsRow(label = "Version", description = "2.4.0", trailing = null) // null = no chevron
     }

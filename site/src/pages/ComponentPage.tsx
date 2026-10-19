@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { componentDocs } from '../registry/components';
 import composeSnippets from '../registry/compose-snippets.json';
 import a11yData from '../registry/a11y.json';
@@ -70,6 +70,11 @@ function Accessibility({ data }: { data: ComponentA11y }) {
   );
 }
 
+/** Renders an example as its own component, so examples that use hooks keep their own state per page. */
+function Rendered({ render }: { render: () => ReactNode }) {
+  return <>{render()}</>;
+}
+
 export default function ComponentPage({ doc }: { doc: ComponentDoc }) {
   const [tab, setTab] = useState<Tab>('overview');
   useEffect(() => setTab('overview'), [doc.id]);
@@ -102,7 +107,7 @@ export default function ComponentPage({ doc }: { doc: ComponentDoc }) {
           <>
             {doc.examples.map((ex) => (
               <Example key={ex.title} title={ex.title} note={ex.note} code={ex.code} compose={(composeSnippets as Record<string, Record<string, string>>)[doc.id]?.[ex.title]} width={ex.width} surface={ex.surface}>
-                {ex.render()}
+                <Rendered key={doc.id + ex.title} render={ex.render} />
               </Example>
             ))}
             {a11yById[doc.id]?.anatomy.length ? (

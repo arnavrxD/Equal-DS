@@ -55,8 +55,6 @@ data class EqualColors(
     val bgPrimary: Color,
     /** bg/surface */
     val bgSurface: Color,
-    /** bg/nav-bottom */
-    val bgNavBottom: Color,
     /** bg/overlay */
     val bgOverlay: Color,
     /** text/primary */
@@ -77,6 +75,8 @@ data class EqualColors(
     val buttonPrimary: Color,
     /** button/secondary */
     val buttonSecondary: Color,
+    /** text/on-secondary — derived from the screens */
+    val textOnSecondary: Color,
     /** button/danger */
     val buttonDanger: Color,
     /** button/disabled */
@@ -97,10 +97,8 @@ data class EqualColors(
     val chatBubbleUserBg: Color,
     /** component/chat-bubble/user-title */
     val chatBubbleUserTitle: Color,
-    /** component/action-card/highlight */
+    /** component/action-card/highlight — derived from the screens */
     val actionCardHighlight: Color,
-    /** text/tertiary — derived from the screens */
-    val textTertiary: Color,
     /** text/danger — derived from the screens */
     val textDanger: Color,
     /** text/on-danger — derived from the screens */
@@ -109,17 +107,15 @@ data class EqualColors(
     val textOnDark: Color,
     /** text/on-dark-secondary — derived from the screens */
     val textOnDarkSecondary: Color,
-    /** text/accent-gold — derived from the screens */
+    /** text/accent-gold */
     val textAccentGold: Color,
-    /** text/brand — derived from the screens */
-    val textBrand: Color,
     /** component/chat-bubble/contact-title — derived from the screens */
     val chatBubbleContactTitle: Color,
     /** component/chat-bubble/other-bg — derived from the screens */
     val chatBubbleOtherBg: Color,
-    /** component/plan-card/bg — derived from the screens */
+    /** component/plan-card/bg */
     val planCardBg: Color,
-    /** component/plan-card/pill-stroke — derived from the screens */
+    /** component/plan-card/pill-stroke */
     val planCardPillStroke: Color,
     /** component/rating/star-filled — derived from the screens */
     val ratingStarFilled: Color,
@@ -137,28 +133,18 @@ data class EqualColors(
     val noticeBg: Color,
     /** component/chip/when-bg — derived from the screens */
     val chipWhenBg: Color,
-    /** component/sheet/bg — derived from the screens */
-    val sheetBg: Color,
-    /** component/scrim — derived from the screens */
-    val scrim: Color,
-    /** component/badge/new-feature-stroke — derived from the screens */
-    val badgeNewFeatureStroke: Color,
     /** component/plan-card/pattern — derived from the screens */
     val planCardPattern: Color,
     /** component/invite/bg — derived from the screens */
     val inviteBg: Color,
     /** component/invite/stroke — derived from the screens */
     val inviteStroke: Color,
-    /** component/skeleton — derived from the screens */
-    val skeleton: Color,
     /** component/chip/do-bg — derived from the screens */
     val chipDoBg: Color,
     /** component/chip/selected-bg — derived from the screens */
     val chipSelectedBg: Color,
     /** component/chip/selected-text — derived from the screens */
     val chipSelectedText: Color,
-    /** component/preset/tint-red — derived from the screens */
-    val presetTintRed: Color,
     /** component/preset/tint-green — derived from the screens */
     val presetTintGreen: Color,
     /** component/preset/tint-orange — derived from the screens */
@@ -187,7 +173,7 @@ data class EqualColors(
     val textGold: Color,
     /** component/paywall/card-bg — derived from the screens */
     val paywallCardBg: Color,
-    /** component/paywall/card-stroke — derived from the screens */
+    /** component/paywall/card-stroke */
     val paywallCardStroke: Color,
     /** component/paywall/divider — derived from the screens */
     val paywallDivider: Color,
@@ -217,9 +203,9 @@ data class EqualColors(
     val missedCallIconBg: Color,
     /** component/missed-call/icon — derived from the screens */
     val missedCallIcon: Color,
-    /** component/expiry-chip/warning-bg — derived from the screens */
+    /** component/expiry-chip/warning-bg */
     val expiryChipWarningBg: Color,
-    /** component/expiry-chip/warning-text — derived from the screens */
+    /** component/expiry-chip/warning-text */
     val expiryChipWarningText: Color,
     /** component/expiry-chip/danger-bg — derived from the screens */
     val expiryChipDangerBg: Color,
@@ -227,19 +213,19 @@ data class EqualColors(
     val expiryChipDangerText: Color,
     /** component/expiry-chip/active-bg — derived from the screens */
     val expiryChipActiveBg: Color,
-    /** component/value-card/stroke — derived from the screens */
+    /** component/value-card/stroke */
     val valueCardStroke: Color,
-    /** component/value-card/perks-bg — derived from the screens */
+    /** component/value-card/perks-bg */
     val valueCardPerksBg: Color,
     /** component/value-card/ring — derived from the screens */
     val valueCardRing: Color,
-    /** component/plan-card/expired-pill — derived from the screens */
+    /** component/plan-card/expired-pill */
     val planCardExpiredPill: Color,
     /** component/sunburst/ray — derived from the screens */
     val sunburstRay: Color,
-    /** component/premium-icon/start — derived from the screens */
+    /** component/premium-icon/start */
     val premiumIconStart: Color,
-    /** component/premium-icon/end — derived from the screens */
+    /** component/premium-icon/end */
     val premiumIconEnd: Color,
     /** component/contact-avatar/blue-bg — derived from the screens */
     val contactAvatarBlueBg: Color,
@@ -269,28 +255,16 @@ data class EqualColors(
     val contactAvatarBadgeBg: Color,
     /** component/contact-avatar/badge-icon — derived from the screens */
     val contactAvatarBadgeIcon: Color,
-    /** component/processing/bg — derived from the screens */
-    val processingBg: Color,
-    /** component/processing/ring — derived from the screens */
-    val processingRing: Color,
-    /** component/plan-badge/expired-bg — derived from the screens */
+    /** component/plan-badge/expired-bg */
     val planBadgeExpiredBg: Color,
-    /** component/offer-strip/bg — derived from the screens */
-    val offerStripBg: Color,
-    /** component/offer-strip/text — derived from the screens */
-    val offerStripText: Color,
-    /** component/result/ring — derived from the screens */
-    val resultRing: Color,
     /** component/profile-hero/status-bg — derived from the screens */
     val profileHeroStatusBg: Color,
     /** component/profile-hero/status-text — derived from the screens */
     val profileHeroStatusText: Color,
+    /** component/profile-hero/plain-bg — derived from the screens */
+    val profileHeroPlainBg: Color,
     /** component/info-note/bg — derived from the screens */
     val infoNoteBg: Color,
-    /** component/info-note/text — derived from the screens */
-    val infoNoteText: Color,
-    /** component/choice/selected-bg — derived from the screens */
-    val choiceSelectedBg: Color,
     /** component/ongoing-bar/bg — derived from the screens */
     val ongoingBarBg: Color,
     /** component/ongoing-bar/text — derived from the screens */
@@ -299,106 +273,129 @@ data class EqualColors(
     val initialsDiscBg: Color,
     /** component/paywall/hero-top — derived from the screens */
     val paywallHeroTop: Color,
+    /** component/takeover/text — derived from the screens */
+    val takeoverText: Color,
+    /** component/takeover/stroke — derived from the screens */
+    val takeoverStroke: Color,
+    /** component/glass-button/default — derived from the screens */
+    val glassButtonDefault: Color,
+    /** state/chat-pressed — derived from the screens */
+    val stateChatPressed: Color,
+    /** component/voice/player-stroke — derived from the screens */
+    val voicePlayerStroke: Color,
+    /** component/choice/default-bg — derived from the screens */
+    val choiceDefaultBg: Color,
+    /** component/plan-badge/expired-stroke — derived from the screens */
+    val planBadgeExpiredStroke: Color,
+    /** component/plan-card/pill-bg — derived from the screens */
+    val planCardPillBg: Color,
+    /** component/locked/badge-stroke — derived from the screens */
+    val lockedBadgeStroke: Color,
+    /** component/expiry-banner/warning-icon-bg — derived from the screens */
+    val expiryBannerWarningIconBg: Color,
+    /** component/expiry-banner/danger-icon-bg — derived from the screens */
+    val expiryBannerDangerIconBg: Color,
+    /** component/assistant-toggle/bg — derived from the screens */
+    val assistantToggleBg: Color,
+    /** component/preset/tint-blue — derived from the screens */
+    val presetTintBlue: Color,
+    /** component/preset/tint-lime — derived from the screens */
+    val presetTintLime: Color,
+    /** component/gender/stroke — derived from the screens */
+    val genderStroke: Color,
     val isDark: Boolean,
 )
 
 val LightEqualColors = EqualColors(
-    bgPrimary = Color(0xFFF7F7F7), // neutrals/grey14
+    bgPrimary = Color(0xFFFAFAFA), // direct value
     bgSurface = Color(0xFFFFFFFF), // brand/white
-    bgNavBottom = Color(0xFFF7F7F7), // direct value
-    bgOverlay = Color(0xFF9F9F9F), // direct value
-    textPrimary = Color(0xFF111111), // neutrals/grey01
-    textPlaceholder = Color(0xFFAAAAAA), // neutrals/grey10
-    textSecondary = Color(0xFF555555), // neutrals/grey05
-    textActionDisabled = Color(0xFFCCCCCC), // neutrals/grey12
+    bgOverlay = Color(0x661E1E1E), // direct value
+    textPrimary = Color(0xCC000000), // brand/black · 80%
+    textPlaceholder = Color(0x66000000), // brand/black · 40%
+    textSecondary = Color(0x99000000), // brand/black · 60%
+    textActionDisabled = Color(0x33000000), // brand/black · 20%
     textAction = Color(0xFF00B140), // brand/green
     textOnAction = Color(0xFFFFFFFF), // brand/white
     textOnActionDisabled = Color(0xFF888888), // neutrals/grey08
     buttonPrimary = Color(0xFF00B140), // brand/green
     buttonSecondary = Color(0xFFBAFF29), // brand/lime
+    textOnSecondary = Color(0xCC000000), // brand/black · 80%
     buttonDanger = Color(0xFFC50000), // red/red08
     buttonDisabled = Color(0xFFDDDDDD), // neutrals/grey13
-    strokeSubtle = Color(0xFFE9E9E9), // direct value
-    strokeMedium = Color(0xFFE1E1E1), // direct value
-    strokeDark = Color(0xFFA7A7A7), // direct value
-    actionStrokeUnread = Color(0xFF9DDDB4), // direct value
-    actionFillUnread = Color(0xFFF0F6E5), // direct value
+    strokeSubtle = Color(0x0D000000), // brand/black · 5%
+    strokeMedium = Color(0x14000000), // brand/black · 8%
+    strokeDark = Color(0x52000000), // brand/black · 32%
+    actionStrokeUnread = Color(0x5C00B140), // brand/green · 36%
+    actionFillUnread = Color(0x14BAFF29), // brand/lime · 8%
     actionBottomColor = Color(0xFFEBEBEB), // direct value
     chatBubbleUserBg = Color(0xFFE8FFED), // direct value
     chatBubbleUserTitle = Color(0xFF006223), // direct value
-    actionCardHighlight = Color(0xFFDCFFE4), // direct value
-    textTertiary = Color(0xFF6E6E6E), // direct value
+    actionCardHighlight = Color(0xFFD3FEE3), // direct value
     textDanger = Color(0xFFC50000), // red/red08
     textOnDanger = Color(0xFFFFFFFF), // brand/white
     textOnDark = Color(0xFFFFFFFF), // brand/white
     textOnDarkSecondary = Color(0xFFAAAAAA), // neutrals/grey10
-    textAccentGold = Color(0xFFD9A928), // direct value
-    textBrand = Color(0xFF00B140), // brand/green
-    chatBubbleContactTitle = Color(0xFF9A5B00), // direct value
+    textAccentGold = Color(0xFFCFA846), // direct value
+    chatBubbleContactTitle = Color(0xFFAF6307), // direct value
     chatBubbleOtherBg = Color(0xFFFFFFFF), // brand/white
-    planCardBg = Color(0xFF2B2B2B), // direct value
-    planCardPillStroke = Color(0xFFC9A55A), // direct value
-    ratingStarFilled = Color(0xFFFFC700), // direct value
-    ratingStarEmpty = Color(0xFFCFCFCF), // direct value
-    navSelectedBg = Color(0xFFF1FAF3), // direct value
-    playbackPillBg = Color(0xFF555555), // neutrals/grey05
-    waveformBar = Color(0xFF8A8A8A), // direct value
-    waveformBarPlayed = Color(0xFF555555), // neutrals/grey05
-    noticeBg = Color(0xFFF6FDEB), // direct value
-    chipWhenBg = Color(0xFFF1F1F1), // direct value
-    sheetBg = Color(0xFFF9F9F9), // direct value
-    scrim = Color(0x33000000), // direct value
-    badgeNewFeatureStroke = Color(0xFFE6E6E6), // direct value
+    planCardBg = Color(0xFF2E2E2E), // direct value
+    planCardPillStroke = Color(0xFFFFF2C3), // direct value
+    ratingStarFilled = Color(0xFF00B140), // brand/green
+    ratingStarEmpty = Color(0x5C2B2B2B), // direct value
+    navSelectedBg = Color(0x0A00B140), // direct value
+    playbackPillBg = Color(0xFF5E5E5E), // direct value
+    waveformBar = Color(0xFFD9D9D9), // direct value
+    waveformBarPlayed = Color(0xFF00B140), // brand/green
+    noticeBg = Color(0xFFFAFFF4), // direct value
+    chipWhenBg = Color(0x0D000000), // direct value
     planCardPattern = Color(0xFFC9A55A), // direct value
-    inviteBg = Color(0xFFF0FBF2), // direct value
-    inviteStroke = Color(0xFFD5F0DB), // direct value
-    skeleton = Color(0xFFFFFFFF), // direct value
-    chipDoBg = Color(0xFFEEF8EF), // direct value
-    chipSelectedBg = Color(0xFF333333), // direct value
-    chipSelectedText = Color(0xFFFFFFFF), // direct value
-    presetTintRed = Color(0xFFFDECEC), // direct value
-    presetTintGreen = Color(0xFFE6F7EA), // direct value
-    presetTintOrange = Color(0xFFFDF1DE), // direct value
+    inviteBg = Color(0xFFF1FFF6), // direct value
+    inviteStroke = Color(0x1A00B140), // direct value
+    chipDoBg = Color(0xFFF0FBF4), // direct value
+    chipSelectedBg = Color(0xFF313131), // direct value
+    chipSelectedText = Color(0xFFF7F7F7), // direct value
+    presetTintGreen = Color(0x2948FF8A), // direct value
+    presetTintOrange = Color(0x29FF9908), // direct value
     iconButtonBg = Color(0xFFF2F2F2), // direct value
-    chatWallpaperBg = Color(0xFFF2F2F2), // direct value
-    voicePlayerBg = Color(0xFFF2F2F2), // direct value
+    chatWallpaperBg = Color(0xFFF5F5F6), // direct value
+    voicePlayerBg = Color(0xFFFFFFFF), // brand/white
     voicePlayerBgSent = Color(0xFFE1F7E6), // direct value
     chatWallpaperPattern = Color(0x14737373), // direct value
     statusCardPillBg = Color(0xFFFFFFFF), // direct value
     statusCardButton = Color(0xFFFAAF39), // direct value
     statusCardButtonText = Color(0xFF3D2600), // direct value
     notificationBg = Color(0xFFFFFFFF), // direct value
-    brandWhatsapp = Color(0xFF25D366), // direct value
-    textGold = Color(0xFF8C5817), // direct value
+    brandWhatsapp = Color(0xFF00B140), // brand/green
+    textGold = Color(0xFF9E6A28), // direct value
     paywallCardBg = Color(0xFFFFFDF7), // direct value
-    paywallCardStroke = Color(0xFFEFE2C6), // direct value
-    paywallDivider = Color(0xFFE9D9B5), // direct value
-    planBannerBg = Color(0xFFFFF0CC), // direct value
-    planBannerText = Color(0xFF82500F), // direct value
-    lockedBadgeBg = Color(0xFFFFF6DE), // direct value
-    expiryBannerWarningBg = Color(0xFFFFEFD3), // direct value
-    expiryBannerWarningText = Color(0xFF7A4300), // direct value
-    expiryBannerDangerBg = Color(0xFFFDE4E4), // direct value
-    expiryBannerDangerText = Color(0xFF7D0F0F), // direct value
-    whatsNewBg = Color(0xFFEAFBE6), // direct value
-    whatsNewGlow = Color(0xFFC9F7A0), // direct value
-    missedCallBg = Color(0xFFFFF9F7), // direct value
-    missedCallStroke = Color(0xFFF5EDEA), // direct value
-    missedCallIconBg = Color(0xFFFBE9E5), // direct value
-    missedCallIcon = Color(0xFFD4380D), // direct value
-    expiryChipWarningBg = Color(0xFFFFF0C9), // direct value
-    expiryChipWarningText = Color(0xFF7A4A00), // direct value
-    expiryChipDangerBg = Color(0xFFFFE1E1), // direct value
-    expiryChipDangerText = Color(0xFFB3141B), // direct value
-    expiryChipActiveBg = Color(0xFFFFF0C9), // direct value
-    valueCardStroke = Color(0xFFF0E1BD), // direct value
-    valueCardPerksBg = Color(0xFFFFFFFF), // direct value
+    paywallCardStroke = Color(0xFFF0F0F0), // direct value
+    paywallDivider = Color(0x80A37135), // direct value
+    planBannerBg = Color(0xFFFFEFC8), // direct value
+    planBannerText = Color(0xFF975F19), // direct value
+    lockedBadgeBg = Color(0xFFFCFCFC), // direct value
+    expiryBannerWarningBg = Color(0xFFFFF0D3), // direct value
+    expiryBannerWarningText = Color(0xFF763D00), // direct value
+    expiryBannerDangerBg = Color(0xFFFFE8E8), // direct value
+    expiryBannerDangerText = Color(0xFF6E0000), // direct value
+    whatsNewBg = Color(0xFFE5FFE7), // direct value
+    whatsNewGlow = Color(0x99F9FFED), // direct value
+    missedCallBg = Color(0xFFFEFBFA), // direct value
+    missedCallStroke = Color(0xFFF8F8F8), // direct value
+    missedCallIconBg = Color(0xFFFBEBE7), // direct value
+    missedCallIcon = Color(0xFFDB330B), // direct value
+    expiryChipWarningBg = Color(0xFFFFF1D5), // direct value
+    expiryChipWarningText = Color(0xFF6E4900), // direct value
+    expiryChipDangerBg = Color(0xFFFFD5D5), // direct value
+    expiryChipDangerText = Color(0xFF6E0000), // direct value
+    expiryChipActiveBg = Color(0xFFFFF1D5), // direct value
+    valueCardStroke = Color(0xFFF0F0F0), // direct value
+    valueCardPerksBg = Color(0xFFFFFFFF), // brand/white
     valueCardRing = Color(0x38D6A546), // direct value
-    planCardExpiredPill = Color(0xFFD0302F), // direct value
-    sunburstRay = Color(0x99FFFFFF), // direct value
+    planCardExpiredPill = Color(0xFFCD3200), // direct value
+    sunburstRay = Color(0x0DFFFFFF), // brand/white · 5%
     premiumIconStart = Color(0xFFD1A85C), // direct value
     premiumIconEnd = Color(0xFFA0621F), // direct value
-    contactAvatarBlueBg = Color(0xFFD5EFFC), // direct value
+    contactAvatarBlueBg = Color(0xFFD6F1FF), // direct value
     contactAvatarBlueText = Color(0xFF296D8E), // direct value
     contactAvatarGreenBg = Color(0xFFD5FCE2), // direct value
     contactAvatarGreenText = Color(0xFF247B41), // direct value
@@ -412,84 +409,86 @@ val LightEqualColors = EqualColors(
     contactAvatarTealText = Color(0xFF227770), // direct value
     contactAvatarBadgeBg = Color(0xFFFFFFFF), // direct value
     contactAvatarBadgeIcon = Color(0xFF141414), // direct value
-    processingBg = Color(0xFFFFEFCF), // direct value
-    processingRing = Color(0xFF8C5817), // direct value
-    planBadgeExpiredBg = Color(0xFFD0302F), // direct value
-    offerStripBg = Color(0xFFFFF3D6), // direct value
-    offerStripText = Color(0xFF5C3A0A), // direct value
-    resultRing = Color(0x8CFFFFFF), // direct value
+    planBadgeExpiredBg = Color(0xFFCD3200), // direct value
     profileHeroStatusBg = Color(0xFFFFFFFF), // brand/white
-    profileHeroStatusText = Color(0xFF111111), // neutrals/grey01
-    infoNoteBg = Color(0xFFE9F1FA), // direct value
-    infoNoteText = Color(0xFF1A1A1A), // direct value
-    choiceSelectedBg = Color(0xFFF3FAEA), // direct value
-    ongoingBarBg = Color(0xFF262626), // direct value
-    ongoingBarText = Color(0xFFBAFF29), // direct value
+    profileHeroStatusText = Color(0xFF000000), // direct value
+    profileHeroPlainBg = Color(0xFFF2FBF5), // direct value
+    infoNoteBg = Color(0x0F2395FF), // direct value
+    ongoingBarBg = Color(0xCC000000), // brand/black · 80%
+    ongoingBarText = Color(0xFFBAFF29), // brand/lime
     initialsDiscBg = Color(0xFFFFFFFF), // direct value
-    paywallHeroTop = Color(0xFFFCE290), // direct value
+    paywallHeroTop = Color(0xFFFDEFC6), // direct value
+    takeoverText = Color(0xFF009837), // direct value
+    takeoverStroke = Color(0xF500B140), // brand/green · 96%
+    glassButtonDefault = Color(0x4DFFFFFF), // brand/white · 30%
+    stateChatPressed = Color(0x08000000), // brand/black · 3%
+    voicePlayerStroke = Color(0xFFF8F8F8), // direct value
+    choiceDefaultBg = Color(0x4DFFFFFF), // brand/white · 30%
+    planBadgeExpiredStroke = Color(0xFF8D0000), // direct value
+    planCardPillBg = Color(0xFF272727), // direct value
+    lockedBadgeStroke = Color(0xFFFFEFC8), // direct value
+    expiryBannerWarningIconBg = Color(0x0F763D00), // direct value
+    expiryBannerDangerIconBg = Color(0x0F6E0000), // direct value
+    assistantToggleBg = Color(0xFFFAFFEE), // direct value
+    presetTintBlue = Color(0x2983E0FF), // direct value
+    presetTintLime = Color(0x2EBAFF29), // direct value
+    genderStroke = Color(0xFFF4F4F4), // direct value
     isDark = false,
 )
 
 val DarkEqualColors = EqualColors(
     bgPrimary = Color(0xFF141414), // direct value
-    bgSurface = Color(0xFF222222), // neutrals/grey02
-    bgNavBottom = Color(0xFF222222), // neutrals/grey02
-    bgOverlay = Color(0xFFB5B5B5), // direct value
-    textPrimary = Color(0xFFF7F7F7), // neutrals/grey14
-    textPlaceholder = Color(0xFF777777), // neutrals/grey07
-    textSecondary = Color(0xFFBBBBBB), // neutrals/grey11
-    textActionDisabled = Color(0xFF444444), // neutrals/grey04
+    bgSurface = Color(0xFF1F1F1F), // direct value
+    bgOverlay = Color(0x661E1E1E), // direct value
+    textPrimary = Color(0xCCFFFFFF), // brand/white · 80%
+    textPlaceholder = Color(0x66FFFFFF), // brand/white · 40%
+    textSecondary = Color(0x99FFFFFF), // brand/white · 60%
+    textActionDisabled = Color(0x66FFFFFF), // brand/white · 40%
     textAction = Color(0xFFBAFF29), // brand/lime
     textOnAction = Color(0xFF000000), // brand/black
     textOnActionDisabled = Color(0xFF888888), // neutrals/grey08
     buttonPrimary = Color(0xFFBAFF29), // brand/lime
-    buttonSecondary = Color(0xFF00B140), // brand/green
-    buttonDanger = Color(0xFFFF6666), // red/red12
+    buttonSecondary = Color(0xFFBAFF29), // brand/lime
+    textOnSecondary = Color(0xFF000000), // brand/black
+    buttonDanger = Color(0xFFFF5151), // direct value
     buttonDisabled = Color(0xFF444444), // neutrals/grey04
-    strokeSubtle = Color(0xFF2E2E2E), // direct value
-    strokeMedium = Color(0xFF3A3A3A), // direct value
-    strokeDark = Color(0xFF4A4A4A), // direct value
-    actionStrokeUnread = Color(0xFF4B5A2A), // direct value
-    actionFillUnread = Color(0xFF2F3423), // direct value
+    strokeSubtle = Color(0x14FFFFFF), // brand/white · 8%
+    strokeMedium = Color(0x29FFFFFF), // brand/white · 16%
+    strokeDark = Color(0x52FFFFFF), // brand/white · 32%
+    actionStrokeUnread = Color(0x5CBAFF29), // brand/lime · 36%
+    actionFillUnread = Color(0x14BAFF29), // brand/lime · 8%
     actionBottomColor = Color(0xFF191919), // direct value
     chatBubbleUserBg = Color(0xFF272C1E), // direct value
     chatBubbleUserTitle = Color(0xFFBAFF29), // brand/lime
     actionCardHighlight = Color(0xFF2F3423), // direct value
-    textTertiary = Color(0xFF999999), // neutrals/grey09
-    textDanger = Color(0xFFFF6666), // red/red12
+    textDanger = Color(0xFFFF5151), // direct value
     textOnDanger = Color(0xFF000000), // brand/black
     textOnDark = Color(0xFFFFFFFF), // brand/white
     textOnDarkSecondary = Color(0xFFAAAAAA), // neutrals/grey10
-    textAccentGold = Color(0xFFE6B93C), // direct value
-    textBrand = Color(0xFFBAFF29), // brand/lime
+    textAccentGold = Color(0xFFCFA846), // direct value
     chatBubbleContactTitle = Color(0xFFFFB74D), // direct value
-    chatBubbleOtherBg = Color(0xFF222222), // neutrals/grey02
-    planCardBg = Color(0xFF2B2B2B), // direct value
-    planCardPillStroke = Color(0xFFC9A55A), // direct value
-    ratingStarFilled = Color(0xFFFFC700), // direct value
-    ratingStarEmpty = Color(0xFF444444), // neutrals/grey04
-    navSelectedBg = Color(0xFF272C1E), // direct value
-    playbackPillBg = Color(0xFF444444), // neutrals/grey04
-    waveformBar = Color(0xFF808080), // direct value
-    waveformBarPlayed = Color(0xFFBBBBBB), // neutrals/grey11
-    noticeBg = Color(0xFF272C1E), // direct value
-    chipWhenBg = Color(0xFF333333), // neutrals/grey03
-    sheetBg = Color(0xFF292929), // direct value
-    scrim = Color(0x8C000000), // direct value
-    badgeNewFeatureStroke = Color(0xFF3A3A3A), // direct value
+    chatBubbleOtherBg = Color(0xFF292929), // direct value
+    planCardBg = Color(0xFF2E2E2E), // direct value
+    planCardPillStroke = Color(0xFFFFF2C3), // direct value
+    ratingStarFilled = Color(0xFFBAFF29), // brand/lime
+    ratingStarEmpty = Color(0x52FFFFFF), // brand/white · 32%
+    navSelectedBg = Color(0x14BAFF29), // direct value
+    playbackPillBg = Color(0xFF5E5E5E), // direct value
+    waveformBar = Color(0xFFD9D9D9), // direct value
+    waveformBarPlayed = Color(0xFFBAFF29), // brand/lime
+    noticeBg = Color(0x14BAFF29), // direct value
+    chipWhenBg = Color(0x14FFFFFF), // direct value
     planCardPattern = Color(0xFFC9A55A), // direct value
     inviteBg = Color(0xFF272C1E), // direct value
-    inviteStroke = Color(0xFF3D442E), // direct value
-    skeleton = Color(0xFF353A2A), // direct value
+    inviteStroke = Color(0x1ABAFF29), // direct value
     chipDoBg = Color(0xFF272C1E), // direct value
     chipSelectedBg = Color(0xFFF7F7F7), // direct value
-    chipSelectedText = Color(0xFF111111), // direct value
-    presetTintRed = Color(0xFF3A2222), // direct value
-    presetTintGreen = Color(0xFF272C1E), // direct value
-    presetTintOrange = Color(0xFF3A3020), // direct value
+    chipSelectedText = Color(0xFF313131), // direct value
+    presetTintGreen = Color(0x29BAFF29), // direct value
+    presetTintOrange = Color(0x29FF9908), // direct value
     iconButtonBg = Color(0xFF333333), // direct value
     chatWallpaperBg = Color(0xFF141414), // direct value
-    voicePlayerBg = Color(0xFF2E2E2E), // direct value
+    voicePlayerBg = Color(0xFF141414), // direct value
     voicePlayerBgSent = Color(0xFF333926), // direct value
     chatWallpaperPattern = Color(0x14737373), // direct value
     statusCardPillBg = Color(0xFF2E2E2E), // direct value
@@ -499,11 +498,11 @@ val DarkEqualColors = EqualColors(
     brandWhatsapp = Color(0xFFBAFF29), // brand/lime
     textGold = Color(0xFFE8BD62), // direct value
     paywallCardBg = Color(0xFF221F19), // direct value
-    paywallCardStroke = Color(0xFF3A3326), // direct value
-    paywallDivider = Color(0xFF4A4233), // direct value
+    paywallCardStroke = Color(0xFF3D3D3D), // direct value
+    paywallDivider = Color(0x59E8BD62), // direct value
     planBannerBg = Color(0xFF33291A), // direct value
     planBannerText = Color(0xFFF0C878), // direct value
-    lockedBadgeBg = Color(0xFF3A3020), // direct value
+    lockedBadgeBg = Color(0xFF292929), // direct value
     expiryBannerWarningBg = Color(0xFF33291A), // direct value
     expiryBannerWarningText = Color(0xFFF0C878), // direct value
     expiryBannerDangerBg = Color(0xFF3A2224), // direct value
@@ -514,18 +513,18 @@ val DarkEqualColors = EqualColors(
     missedCallStroke = Color(0xFF3A2E2C), // direct value
     missedCallIconBg = Color(0xFF45302C), // direct value
     missedCallIcon = Color(0xFFFF8A6B), // direct value
-    expiryChipWarningBg = Color(0xFFFFB64A), // direct value
-    expiryChipWarningText = Color(0xFF2A1A00), // direct value
+    expiryChipWarningBg = Color(0xFFFEBD6B), // direct value
+    expiryChipWarningText = Color(0xFF2D1900), // direct value
     expiryChipDangerBg = Color(0xFF5A2328), // direct value
     expiryChipDangerText = Color(0xFFFFB3B3), // direct value
     expiryChipActiveBg = Color(0xFF3A3020), // direct value
-    valueCardStroke = Color(0xFF4A3C1C), // direct value
-    valueCardPerksBg = Color(0xFF1F1B14), // direct value
+    valueCardStroke = Color(0xFF3D3D3D), // direct value
+    valueCardPerksBg = Color(0xFF242424), // direct value
     valueCardRing = Color(0x59E8BD62), // direct value
-    planCardExpiredPill = Color(0xFFD0302F), // direct value
-    sunburstRay = Color(0x1FE8BD62), // direct value
-    premiumIconStart = Color(0xFFE2BE77), // direct value
-    premiumIconEnd = Color(0xFFB97C3A), // direct value
+    planCardExpiredPill = Color(0xFFCD3200), // direct value
+    sunburstRay = Color(0x0DFFFFFF), // brand/white · 5%
+    premiumIconStart = Color(0xFFFEC378), // direct value
+    premiumIconEnd = Color(0xFFFA8C01), // direct value
     contactAvatarBlueBg = Color(0xFF233843), // direct value
     contactAvatarBlueText = Color(0xFF7DC4E8), // direct value
     contactAvatarGreenBg = Color(0xFF394323), // direct value
@@ -540,35 +539,46 @@ val DarkEqualColors = EqualColors(
     contactAvatarTealText = Color(0xFF7DE8DF), // direct value
     contactAvatarBadgeBg = Color(0xFF222222), // direct value
     contactAvatarBadgeIcon = Color(0xFFF2F2F2), // direct value
-    processingBg = Color(0xFF3A2C1A), // direct value
-    processingRing = Color(0xFFE8BD62), // direct value
-    planBadgeExpiredBg = Color(0xFFD0302F), // direct value
-    offerStripBg = Color(0xFF33291A), // direct value
-    offerStripText = Color(0xFFF0C878), // direct value
-    resultRing = Color(0x12FFFFFF), // direct value
+    planBadgeExpiredBg = Color(0xFFCD3200), // direct value
     profileHeroStatusBg = Color(0xFFF8E4A2), // direct value
-    profileHeroStatusText = Color(0xFF111111), // neutrals/grey01
-    infoNoteBg = Color(0xFF1C2633), // direct value
-    infoNoteText = Color(0xFFE3ECF6), // direct value
-    choiceSelectedBg = Color(0xFF272C1E), // direct value
-    ongoingBarBg = Color(0xFF1A1A1A), // direct value
-    ongoingBarText = Color(0xFFBAFF29), // direct value
+    profileHeroStatusText = Color(0xFF000000), // direct value
+    profileHeroPlainBg = Color(0xFF1E2215), // direct value
+    infoNoteBg = Color(0x1F2395FF), // direct value
+    ongoingBarBg = Color(0xCCFFFFFF), // brand/white · 80%
+    ongoingBarText = Color(0xCC000000), // brand/black · 80%
     initialsDiscBg = Color(0xFF262626), // direct value
     paywallHeroTop = Color(0xFF4A3C1C), // direct value
+    takeoverText = Color(0xFFFFFFFF), // direct value
+    takeoverStroke = Color(0xFF58741C), // direct value
+    glassButtonDefault = Color(0x05FFFFFF), // brand/white · 2%
+    stateChatPressed = Color(0x14FFFFFF), // brand/white · 8%
+    voicePlayerStroke = Color(0xFF141414), // direct value
+    choiceDefaultBg = Color(0x0AFFFFFF), // brand/white · 4%
+    planBadgeExpiredStroke = Color(0xFF8D0000), // direct value
+    planCardPillBg = Color(0xFF272727), // direct value
+    lockedBadgeStroke = Color(0xFF4A3C1C), // direct value
+    expiryBannerWarningIconBg = Color(0x1FF0C878), // direct value
+    expiryBannerDangerIconBg = Color(0x1FFFA3A3), // direct value
+    assistantToggleBg = Color(0xFF2B3120), // direct value
+    presetTintBlue = Color(0x2983E0FF), // direct value
+    presetTintLime = Color(0x2EBAFF29), // direct value
+    genderStroke = Color(0x14FFFFFF), // direct value
     isDark = true,
 )
 
-/** Linear gradient: CSS-style angle (0 = to top, 90 = to right, 180 = to bottom) and colour stops. */
+/** Elliptical radial gradient: radii and centre as fractions of the painted size (CSS radial-gradient(rx ry at cx cy)). */
 @Immutable
-data class EqualGradientSpec(val angle: Float, val stops: List<Pair<Float, Color>>)
+data class EqualRadial(val radiusX: Float, val radiusY: Float, val centerX: Float, val centerY: Float)
+
+/** Gradient: linear (CSS-style angle: 0 = to top, 90 = to right, 180 = to bottom) or, with [radial], elliptical radial. */
+@Immutable
+data class EqualGradientSpec(val angle: Float, val stops: List<Pair<Float, Color>>, val radial: EqualRadial? = null)
 
 @Immutable
 data class EqualGradients(
     val fab: EqualGradientSpec,
     val sendDisabled: EqualGradientSpec,
-    val assistantToggle: EqualGradientSpec,
     val gold: EqualGradientSpec,
-    val whatsNew: EqualGradientSpec,
     val chipLarge: EqualGradientSpec,
     val chipSmallUnread: EqualGradientSpec,
     val chipSmallRead: EqualGradientSpec,
@@ -585,7 +595,6 @@ data class EqualGradients(
     val paywallHero: EqualGradientSpec,
     val goldText: EqualGradientSpec,
     val ctaGold: EqualGradientSpec,
-    val coupon: EqualGradientSpec,
     val statusNeutral: EqualGradientSpec,
     val statusSuccess: EqualGradientSpec,
     val statusWarning: EqualGradientSpec,
@@ -596,88 +605,85 @@ data class EqualGradients(
     val choiceStroke: EqualGradientSpec,
     val setupDone: EqualGradientSpec,
     val setupPrompt: EqualGradientSpec,
-    val resultSuccess: EqualGradientSpec,
-    val resultPending: EqualGradientSpec,
-    val resultFailed: EqualGradientSpec,
-    val offlineScreen: EqualGradientSpec,
+    val unlimitedText: EqualGradientSpec,
+    val couponStroke: EqualGradientSpec,
+    val ctaRenew: EqualGradientSpec,
+    val expiredBadge: EqualGradientSpec,
+    val genderSelectedStroke: EqualGradientSpec,
 )
 
 val LightEqualGradients = EqualGradients(
-    fab = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFF86E63B), 1f to Color(0xFF00B140))),
-    sendDisabled = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFE4F6E5), 1f to Color(0xFFC8EAD3))),
-    assistantToggle = EqualGradientSpec(angle = 90f, stops = listOf(0f to Color(0xFFD3F4DA), 0.55f to Color(0xFFF7FDEB), 1f to Color(0xFFDBF5DF))),
-    gold = EqualGradientSpec(angle = 90f, stops = listOf(0f to Color(0xFFD8A857), 1f to Color(0xFFA2702C))),
-    whatsNew = EqualGradientSpec(angle = 120f, stops = listOf(0f to Color(0xFFE6FEE8), 0.55f to Color(0xFFEEFFE8), 1f to Color(0xFFF4FFE9))),
-    chipLarge = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFF3F9E8), 1f to Color(0xFFEEFAD8))),
-    chipSmallUnread = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFF7FBEF), 1f to Color(0xFFEAF7D6))),
-    chipSmallRead = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFFFFFFF), 1f to Color(0xFFF2F2F2))),
-    takeover = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFFFFFFF), 1f to Color(0xFFEAF8EE))),
-    profileHero = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFF8E4A2), 0.45f to Color(0xFFFAEDC4), 1f to Color(0xFFF7F7F7))),
-    aiSummary = EqualGradientSpec(angle = 135f, stops = listOf(0f to Color(0xFFFFFFFF), 0.4f to Color(0xFFF6FDEB), 0.7f to Color(0xFFFFFFFF), 1f to Color(0xFFE6F7EA))),
-    genderSelected = EqualGradientSpec(angle = 135f, stops = listOf(0f to Color(0xFFF4FBEC), 1f to Color(0xFFEAF7DE))),
+    fab = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFF91EE2E), 1f to Color(0xFF00B140))),
+    sendDisabled = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0x3391EE2E), 1f to Color(0x3300B140))),
+    gold = EqualGradientSpec(angle = 0f, stops = listOf(0.09f to Color(0xFFA37236), 0.66f to Color(0xFFB58D55), 1f to Color(0xFFA97B41)), radial = EqualRadial(1.25f, 2.5f, 0.02f, 0.09f)),
+    chipLarge = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFFBFFF4), 1f to Color(0xFFF0FFD2))),
+    chipSmallUnread = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0x03BAFF29), 1f to Color(0x2EBAFF29))),
+    chipSmallRead = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFFFFFFF), 1f to Color(0x66EBEBEB))),
+    takeover = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFE4FFED), 1f to Color(0xFFE4FFED))),
+    profileHero = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFF5E4AE), 0.25f to Color(0xFFF7EBC0), 0.5f to Color(0xFFF5EED8), 0.75f to Color(0xFFF4F0EA), 1f to Color(0xFFF7F7F7))),
+    aiSummary = EqualGradientSpec(angle = 45f, stops = listOf(0f to Color(0xFFF3FBF6), 0.25f to Color(0xFFFFFFFF), 0.5f to Color(0xFFF8FFEA), 0.75f to Color(0xFFFFFFFF), 1f to Color(0xFFEAF9EF))),
+    genderSelected = EqualGradientSpec(angle = 135f, stops = listOf(0f to Color(0x14BAFF29), 1f to Color(0x14BAFF29))),
     suggestionCard = EqualGradientSpec(angle = 120f, stops = listOf(0f to Color(0xFFFFFFFF), 0.6f to Color(0xFFF2FBEA), 1f to Color(0xFFE9F8EC))),
     statusCard = EqualGradientSpec(angle = 120f, stops = listOf(0f to Color(0xFFFEEBC8), 0.45f to Color(0xFFFDF2DB), 1f to Color(0xFFFBF9F4))),
-    meetAssistant = EqualGradientSpec(angle = 120f, stops = listOf(0f to Color(0xFFE6F7EB), 0.55f to Color(0xFFEDF9F1), 1f to Color(0xFFF3FCEF))),
-    callMe = EqualGradientSpec(angle = 90f, stops = listOf(0f to Color(0xFF55CC6D), 0.6f to Color(0xFF00B140))),
-    whenChip = EqualGradientSpec(angle = 90f, stops = listOf(0f to Color(0xFFEEEAFF), 1f to Color(0x00EEEAFF))),
-    doChip = EqualGradientSpec(angle = 90f, stops = listOf(0f to Color(0xFFE2F8EA), 1f to Color(0x00E2F8EA))),
-    paywallHero = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFFCE290), 0.38f to Color(0xFFFAEFCF), 0.62f to Color(0xFFFFFFFF))),
-    goldText = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFB57E32), 1f to Color(0xFF7C4C10))),
-    ctaGold = EqualGradientSpec(angle = 90f, stops = listOf(0f to Color(0xFF8A5516), 0.55f to Color(0xFF9E6A27), 1f to Color(0xFFB88A45))),
-    coupon = EqualGradientSpec(angle = 135f, stops = listOf(0f to Color(0xFFFFFCF5), 1f to Color(0xFFFFF4DE))),
-    statusNeutral = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFE6E6E6), 0.45f to Color(0xFFF7F7F7), 1f to Color(0xFFFFFFFF))),
-    statusSuccess = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFB8F2C5), 0.55f to Color(0xFFEEFCF1), 1f to Color(0xFFFFFFFF))),
-    statusWarning = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFFFD6AD), 0.55f to Color(0xFFFFF2E5), 1f to Color(0xFFFFFFFF))),
-    statusDanger = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFFFC4CB), 0.55f to Color(0xFFFFEEF0), 1f to Color(0xFFFFFFFF))),
-    statusGold = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFFCE290), 0.55f to Color(0xFFFFF7DF), 1f to Color(0xFFFFFFFF))),
-    valueCard = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFFCE7A8), 0.42f to Color(0xFFFFF6DC), 1f to Color(0xFFFFFFFF))),
-    voiceNote = EqualGradientSpec(angle = 90f, stops = listOf(0f to Color(0xFF00B140), 1f to Color(0xFF7FD93A))),
-    choiceStroke = EqualGradientSpec(angle = 90f, stops = listOf(0f to Color(0xFF00B140), 1f to Color(0xFFA6E36A))),
-    setupDone = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFE5F5F4), 0.5f to Color(0xFFF3F8EC), 1f to Color(0xFFEAF6CC))),
-    setupPrompt = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0x59000000), 0.55f to Color(0xB3000000), 1f to Color(0xFF000000))),
-    resultSuccess = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFA8F5B4), 0.45f to Color(0xFFDDFBE2), 0.78f to Color(0xFFFFFFFF))),
-    resultPending = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFFFB98A), 0.45f to Color(0xFFFFE3CF), 0.78f to Color(0xFFFFFFFF))),
-    resultFailed = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFFFC9CD), 0.45f to Color(0xFFFFE9EB), 0.78f to Color(0xFFFFFFFF))),
-    offlineScreen = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFFFFFFF), 0.55f to Color(0xFFF7FBF5), 1f to Color(0xFFE6F6E4))),
+    meetAssistant = EqualGradientSpec(angle = 135f, stops = listOf(0f to Color(0xFFEBF9F0), 0.6f to Color(0xFFEBF9F0), 1f to Color(0xFFF2FCEE))),
+    callMe = EqualGradientSpec(angle = 90f, stops = listOf(0f to Color(0xFF00B140), 1f to Color(0xFF00B140))),
+    whenChip = EqualGradientSpec(angle = 90f, stops = listOf(0f to Color(0xFFFFFFFF), 1f to Color(0xFFF4F1FF))),
+    doChip = EqualGradientSpec(angle = 90f, stops = listOf(0f to Color(0xFFFFFFFF), 1f to Color(0xFFEEFFF8))),
+    paywallHero = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFFDEFC6), 0.4f to Color(0xFFFEF8DD), 0.7f to Color(0xFFFFFFFF))),
+    goldText = EqualGradientSpec(angle = 0f, stops = listOf(0f to Color(0xFFFFB251), 1f to Color(0xFF603600)), radial = EqualRadial(0.48f, 0.93f, 0.46f, 0.14f)),
+    ctaGold = EqualGradientSpec(angle = 0f, stops = listOf(0.09f to Color(0xFFA37236), 0.66f to Color(0xFFC8A774), 1f to Color(0xFFAF854C)), radial = EqualRadial(1.25f, 2.5f, 0.02f, 0.09f)),
+    statusNeutral = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFE1E1E1), 0.5f to Color(0xFFF4F4F4), 1f to Color(0xFFFFFFFF))),
+    statusSuccess = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFC7FAD7), 0.5f to Color(0xFFE3FDEA), 1f to Color(0xFFFFFFFF))),
+    statusWarning = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFFFDDC2), 0.5f to Color(0xFFFFF3E8), 1f to Color(0xFFFFFFFF))),
+    statusDanger = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFFFD0D0), 0.5f to Color(0xFFFFECEF), 1f to Color(0xFFFFFFFF))),
+    statusGold = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFFDEFC6), 0.5f to Color(0xFFFFFAE3), 1f to Color(0xFFFFFFFF))),
+    valueCard = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFFBE399), 0.25f to Color(0xFFFEF6D5), 0.6f to Color(0xFFFFFFFF))),
+    voiceNote = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFF91EE2E), 1f to Color(0xFF00B140))),
+    choiceStroke = EqualGradientSpec(angle = 74f, stops = listOf(0.09f to Color(0xFF00B140), 0.55f to Color(0xFFBAFF29), 1f to Color(0xF007AA42))),
+    setupDone = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFE9F8F9), 0.5f to Color(0xFFF2F8EF), 1f to Color(0xFFEDF9D4))),
+    setupPrompt = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0x73000000), 0.41f to Color(0x73000000), 1f to Color(0xFF000000))),
+    unlimitedText = EqualGradientSpec(angle = 90f, stops = listOf(0f to Color(0xFFEFDD9B), 0.55f to Color(0xFFCFA846))),
+    couponStroke = EqualGradientSpec(angle = 0f, stops = listOf(0f to Color(0x3DFFB251), 1f to Color(0x3D603600)), radial = EqualRadial(0.48f, 1.16f, 0.46f, 0.14f)),
+    ctaRenew = EqualGradientSpec(angle = 0f, stops = listOf(0f to Color(0xFFD1A85C), 1f to Color(0xFFA0621F)), radial = EqualRadial(1.06f, 1f, 0.5f, 0f)),
+    expiredBadge = EqualGradientSpec(angle = 90f, stops = listOf(0f to Color(0xFFBF3D28), 0.5f to Color(0xFFE4918C), 1f to Color(0xFFA43129))),
+    genderSelectedStroke = EqualGradientSpec(angle = 86f, stops = listOf(0f to Color(0xFF00B140), 0.51f to Color(0xFFBAFF29), 1f to Color(0xF007AA42))),
 )
 
 val DarkEqualGradients = EqualGradients(
     fab = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFC9FF5C), 1f to Color(0xFFBAFF29))),
-    sendDisabled = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFF353A2A), 1f to Color(0xFF272C1E))),
-    assistantToggle = EqualGradientSpec(angle = 90f, stops = listOf(0f to Color(0xFF272C1E), 0.55f to Color(0xFF2F3423), 1f to Color(0xFF272C1E))),
-    gold = EqualGradientSpec(angle = 90f, stops = listOf(0f to Color(0xFFD8A857), 1f to Color(0xFFA2702C))),
-    whatsNew = EqualGradientSpec(angle = 135f, stops = listOf(0f to Color(0xFF272C1E), 1f to Color(0xFF2F3423))),
-    chipLarge = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFF2F3423), 1f to Color(0xFF272C1E))),
-    chipSmallUnread = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFF2F3423), 1f to Color(0xFF272C1E))),
-    chipSmallRead = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFF333333), 1f to Color(0xFF2A2A2A))),
-    takeover = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFF2F3423), 1f to Color(0xFF272C1E))),
-    profileHero = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFF8E4A2), 0.55f to Color(0xFFFAEDC4), 1f to Color(0xFFFDF8EC))),
-    aiSummary = EqualGradientSpec(angle = 135f, stops = listOf(0f to Color(0xFF222222), 0.45f to Color(0xFF2F3423), 0.75f to Color(0xFF222222), 1f to Color(0xFF272C1E))),
-    genderSelected = EqualGradientSpec(angle = 135f, stops = listOf(0f to Color(0xFF2B3021), 1f to Color(0xFF252A1C))),
+    sendDisabled = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0x33BAFF29), 1f to Color(0x33BAFF29))),
+    gold = EqualGradientSpec(angle = 0f, stops = listOf(0.09f to Color(0xFFA37236), 0.66f to Color(0xFFB58D55), 1f to Color(0xFFA97B41)), radial = EqualRadial(1.25f, 2.5f, 0.02f, 0.09f)),
+    chipLarge = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFF212716), 1f to Color(0xFF212716))),
+    chipSmallUnread = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0x03BAFF29), 1f to Color(0x2EBAFF29))),
+    chipSmallRead = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFF1F1F1F), 1f to Color(0xFF1F1F1F))),
+    takeover = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFF212615), 1f to Color(0xFF212615))),
+    profileHero = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFF5E4AE), 0.35f to Color(0xFFF7EBC0), 1f to Color(0xFFFBF5E8))),
+    aiSummary = EqualGradientSpec(angle = 45f, stops = listOf(0f to Color(0xFF272A1F), 0.25f to Color(0xFF1F1F1F), 0.5f to Color(0xFF2E3520), 0.75f to Color(0xFF1F1F1F), 1f to Color(0xFF2B3120))),
+    genderSelected = EqualGradientSpec(angle = 135f, stops = listOf(0f to Color(0x14BAFF29), 1f to Color(0x14BAFF29))),
     suggestionCard = EqualGradientSpec(angle = 120f, stops = listOf(0f to Color(0xFF242424), 1f to Color(0xFF2F3423))),
     statusCard = EqualGradientSpec(angle = 120f, stops = listOf(0f to Color(0xFF3A2E1A), 0.6f to Color(0xFF2A2622), 1f to Color(0xFF242424))),
     meetAssistant = EqualGradientSpec(angle = 120f, stops = listOf(0f to Color(0xFF272C1E), 1f to Color(0xFF2F3423))),
-    callMe = EqualGradientSpec(angle = 90f, stops = listOf(0f to Color(0xFFC9FF5C), 0.6f to Color(0xFFBAFF29))),
-    whenChip = EqualGradientSpec(angle = 90f, stops = listOf(0f to Color(0xFF2B2740), 1f to Color(0x002B2740))),
-    doChip = EqualGradientSpec(angle = 90f, stops = listOf(0f to Color(0xFF2C331E), 1f to Color(0x002C331E))),
+    callMe = EqualGradientSpec(angle = 90f, stops = listOf(0f to Color(0xFFBAFF29), 1f to Color(0xFFBAFF29))),
+    whenChip = EqualGradientSpec(angle = 90f, stops = listOf(0f to Color(0x33242424), 1f to Color(0x33B2A0FF))),
+    doChip = EqualGradientSpec(angle = 90f, stops = listOf(0f to Color(0x33242424), 1f to Color(0x33BAFF29))),
     paywallHero = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFF4A3C1C), 0.38f to Color(0xFF2A241A), 0.62f to Color(0xFF141414))),
-    goldText = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFF6D48A), 1f to Color(0xFFD9A44A))),
-    ctaGold = EqualGradientSpec(angle = 90f, stops = listOf(0f to Color(0xFF8A5516), 0.55f to Color(0xFF9E6A27), 1f to Color(0xFFB88A45))),
-    coupon = EqualGradientSpec(angle = 135f, stops = listOf(0f to Color(0xFF2A251C), 1f to Color(0xFF221F19))),
-    statusNeutral = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFF3A3A3A), 0.6f to Color(0xFF262626), 1f to Color(0xFF222222))),
-    statusSuccess = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFF313A1E), 0.55f to Color(0xFF2B3020), 1f to Color(0xFF222222))),
-    statusWarning = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFF43301C), 0.55f to Color(0xFF2E2620), 1f to Color(0xFF222222))),
-    statusDanger = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFF46232A), 0.55f to Color(0xFF2E2224), 1f to Color(0xFF222222))),
-    statusGold = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFF4A3C1C), 0.55f to Color(0xFF2A241A), 1f to Color(0xFF222222))),
-    valueCard = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFF4A3410), 0.48f to Color(0xFF1E170C), 1f to Color(0xFF0E0E0E))),
-    voiceNote = EqualGradientSpec(angle = 90f, stops = listOf(0f to Color(0xFFC9FF5C), 1f to Color(0xFFBAFF29))),
-    choiceStroke = EqualGradientSpec(angle = 90f, stops = listOf(0f to Color(0xFFC9FF5C), 1f to Color(0xFFBAFF29))),
+    goldText = EqualGradientSpec(angle = 0f, stops = listOf(0f to Color(0xFFF6D48A), 1f to Color(0xFFD9A44A)), radial = EqualRadial(0.48f, 0.93f, 0.46f, 0.14f)),
+    ctaGold = EqualGradientSpec(angle = 0f, stops = listOf(0.09f to Color(0xFFA37236), 0.66f to Color(0xFFC8A774), 1f to Color(0xFFAF854C)), radial = EqualRadial(1.25f, 2.5f, 0.02f, 0.09f)),
+    statusNeutral = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFF434343), 0.5f to Color(0xFF2F2F2F), 1f to Color(0xFF1F1F1F))),
+    statusSuccess = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFF384321), 0.5f to Color(0xFF2A2F20), 1f to Color(0xFF1F1F1F))),
+    statusWarning = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFF43372E), 0.5f to Color(0xFF2F2A26), 1f to Color(0xFF1F1F1F))),
+    statusDanger = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFF432B2B), 0.5f to Color(0xFF2F2424), 1f to Color(0xFF1F1F1F))),
+    statusGold = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFF3F382A), 0.5f to Color(0xFF2D2A24), 1f to Color(0xFF1F1F1F))),
+    valueCard = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFF4A2C00), 0.45f to Color(0xFF180E01), 1f to Color(0xFF000000))),
+    voiceNote = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFC9FF5C), 1f to Color(0xFFBAFF29))),
+    choiceStroke = EqualGradientSpec(angle = 74f, stops = listOf(0f to Color(0xFFBAFF29), 1f to Color(0xFFBAFF29))),
     setupDone = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFF13201F), 0.5f to Color(0xFF161D17), 1f to Color(0xFF222814))),
-    setupPrompt = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0x80000000), 0.55f to Color(0xCC000000), 1f to Color(0xFF000000))),
-    resultSuccess = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFF2C3A0E), 0.45f to Color(0xFF1C240B), 0.78f to Color(0xFF0A0A0A))),
-    resultPending = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFF3A2410), 0.45f to Color(0xFF22160C), 0.78f to Color(0xFF0A0A0A))),
-    resultFailed = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFF4A0E10), 0.45f to Color(0xFF2A0A0B), 0.78f to Color(0xFF0A0A0A))),
-    offlineScreen = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFF141414), 0.55f to Color(0xFF151A15), 1f to Color(0xFF212618))),
+    setupPrompt = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0x73000000), 0.41f to Color(0x73000000), 1f to Color(0xFF000000))),
+    unlimitedText = EqualGradientSpec(angle = 90f, stops = listOf(0f to Color(0xFFEFDD9B), 0.55f to Color(0xFFCFA846))),
+    couponStroke = EqualGradientSpec(angle = 0f, stops = listOf(0f to Color(0x52FFB251), 1f to Color(0x52E8BD62)), radial = EqualRadial(0.48f, 1.16f, 0.46f, 0.14f)),
+    ctaRenew = EqualGradientSpec(angle = 0f, stops = listOf(0f to Color(0xFFD1A85C), 1f to Color(0xFFA0621F)), radial = EqualRadial(1.06f, 1f, 0.5f, 0f)),
+    expiredBadge = EqualGradientSpec(angle = 90f, stops = listOf(0f to Color(0xFFBF3D28), 0.5f to Color(0xFFE4918C), 1f to Color(0xFFA43129))),
+    genderSelectedStroke = EqualGradientSpec(angle = 86f, stops = listOf(0f to Color(0xFFBAFF29), 0.51f to Color(0xFFBAFF29), 1f to Color(0xF0BAFF29))),
 )
 
 /** Twelve type tokens (+ captionWrap, body1Italic, badgeCount). Font family is applied by EqualTheme. */

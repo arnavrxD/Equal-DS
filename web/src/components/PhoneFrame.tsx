@@ -14,6 +14,7 @@ export function PhoneFrame({ children, height = ANDROID_FRAME.height, bezel = tr
   return (
     <div style={{ display: 'flex', justifyContent: 'center' }}>
       <div
+        data-eq-frame=""
         style={{
           width: ANDROID_FRAME.width,
           height: height === 'auto' ? undefined : Math.max(height, ANDROID_FRAME.height),

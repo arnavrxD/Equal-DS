@@ -2,6 +2,7 @@
 // Composed only from DS components. Source: the flow designs.
 import { Fragment, useEffect, useRef, useState, type ReactNode } from 'react';
 import {
+  prefersReducedMotion,
   AddressCard,
   AddressForm,
   AppBar,
@@ -60,7 +61,7 @@ export function PersonalDetailsScreen({ name: initialName = 'Keshav Reddy', gend
           helper={<>Your AI will call you <b style={{ color: 'var(--eq-text-primary)', fontWeight: 500 }}>‘{first}’</b></>}
         />
         <div>
-          <Text as="div" variant="overline" color="tertiary" style={{ marginBottom: 10 }}>GENDER</Text>
+          <Text as="div" variant="overline" color="secondary" style={{ marginBottom: 10 }}>GENDER</Text>
           <GenderSelector value={gender} tier={tier} onChange={(g) => (setGender(g), onChange?.({ name, gender: g }))} />
         </div>
       </div>
@@ -225,7 +226,7 @@ export function InstructionSetupSheet({ setup, open, onClose, onDone }: { setup:
     setMsgs(setup.needsInput && fq?.length ? [...first, { kind: 'ai', text: fq[0].question }] : [...first, { kind: 'ai', text: 'Got it! Here’s your instruction:' }, { kind: 'preview', instruction: setup.instruction }]);
   }, [setup, open]);
   useEffect(() => {
-    end.current?.scrollIntoView({ block: 'end', behavior: 'smooth' });
+    end.current?.scrollIntoView({ block: 'end', behavior: prefersReducedMotion() ? 'auto' : 'smooth' });
   }, [msgs]);
 
   const final = (a: Record<string, string>): Instruction => (setup ? { ...setup.instruction, do: plain(setup.instruction.do, a) } : instructionLibrary.declineSales);
@@ -396,7 +397,7 @@ export function InstructionsFlow({ onBack, initialActive = [instructionLibrary.d
       )}
       <SectionHeader>Your instructions</SectionHeader>
       <RowGroup>
-        <SettingsRow icon="instructions" label="Active Instructions" description={active.length ? `${active.length} Active` : 'Manage how your assistant handles calls'} onClick={() => setView('active')} />
+        <SettingsRow icon="instructions" iconBg="var(--eq-preset-tint-lime)" label="Active Instructions" description={active.length ? `${active.length} Active` : 'Manage how your assistant handles calls'} onClick={() => setView('active')} />
       </RowGroup>
       <SectionHeader>Browse presets</SectionHeader>
       <div style={{ padding: '0 20px 24px', display: 'flex', flexDirection: 'column', gap: 12 }}>

@@ -1,0 +1,83 @@
+// Atomic levels: atoms (foundations and single-purpose controls) build molecules (small groups with
+// one job), molecules build organisms (whole sections), organisms build screens. Trace walks this chain.
+
+export type Level = 'atom' | 'molecule' | 'organism';
+
+/** Level of every component docs page, by doc id. */
+export const docLevel: Record<string, Level> = {
+  // atoms: one element, one job
+  button: 'atom',
+  switch: 'atom',
+  checkbox: 'atom',
+  'text-field': 'atom',
+  badges: 'atom',
+  avatars: 'atom',
+  'status-bar': 'atom',
+  lottie: 'atom',
+  'chat-wallpaper': 'atom',
+  // molecules: a few atoms with one job
+  'action-chips': 'molecule',
+  'search-field': 'molecule',
+  'segmented-chips': 'molecule',
+  composer: 'molecule',
+  'top-bar': 'molecule',
+  'app-bar': 'molecule',
+  'chat-bubble': 'molecule',
+  'call-summary': 'molecule',
+  'missed-call': 'molecule',
+  'call-status': 'molecule',
+  'assistant-toggle': 'molecule',
+  'feedback-card': 'molecule',
+  'action-card': 'molecule',
+  'whats-new-card': 'molecule',
+  'meet-assistant-card': 'molecule',
+  'system-notification': 'molecule',
+  'coupon-ticket': 'molecule',
+  'locked-content': 'molecule',
+  faq: 'molecule',
+  'plan-banner': 'molecule',
+  'plan-expiry-banner': 'molecule',
+  'feature-list': 'molecule',
+  'discount-badge': 'molecule',
+  'settings-row': 'molecule',
+  'call-history': 'molecule',
+  'empty-state': 'molecule',
+  'plan-card': 'molecule',
+  'ai-summary-card': 'molecule',
+  'invite-card': 'molecule',
+  'gender-selector': 'molecule',
+  'instruction-cards': 'molecule',
+  'context-menu': 'molecule',
+  dialog: 'molecule',
+  // organisms: whole sections built from molecules
+  'bottom-nav': 'organism',
+  'chat-header': 'organism',
+  'chat-list-item': 'organism',
+  'ai-panel': 'organism',
+  'system-status-card': 'organism',
+  paywall: 'organism',
+  'payment-status': 'organism',
+  'help-center-sheet': 'organism',
+  'value-card': 'organism',
+  'assistant-sheet': 'organism',
+  'call-handling': 'organism',
+  'monetization-experiments': 'organism',
+  search: 'organism',
+  'chat-actions': 'organism',
+  'social-proof': 'organism',
+  'cancel-sheet': 'organism',
+  'bottom-sheet': 'organism',
+  'profile-hero': 'organism',
+  'contact-info-header': 'organism',
+  address: 'organism',
+};
+
+/** Foundation atoms: components with a foundations page instead of a component page. */
+export const foundationAtoms: Record<string, { label: string; path: string }> = {
+  Text: { label: 'Typography', path: '/foundations/typography' },
+  Icon: { label: 'Icons', path: '/foundations/icons' },
+  Emoji: { label: 'Action emoji', path: '/foundations/emoji' },
+  Asset: { label: 'Image assets', path: '/reference/assets' },
+  EqualMark: { label: 'Brand', path: '/foundations/brand' },
+  EqualLogo: { label: 'Brand', path: '/foundations/brand' },
+};

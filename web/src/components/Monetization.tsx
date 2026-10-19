@@ -1,10 +1,11 @@
 // Monetization (Monetization Flow design): the Equal Unlimited paywall, its touchpoints (locked chats,
 // bubbles and audio), payment results, plan banners and the cancellation flow.
 // Typography is DM Sans only: the design's serif display lines are set in DM Sans (400 over 700).
-import { useEffect, useId, useState, type ReactNode } from 'react';
+import { useEffect, useId, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
+import { Announce, prefersReducedMotion, useFocusHandoff, useModal } from '../foundations/a11y';
 import { Asset, type AssetName } from '../foundations/Asset';
 import { motion } from '../tokens/tokens';
-import { Icon } from '../foundations/Icon';
+import { Emoji, Icon } from '../foundations/Icon';
 import { icons, type IconName } from '../foundations/icons';
 import { Text } from '../foundations/Text';
 import { Button, IconButton, TextButton } from './Button';
@@ -13,8 +14,8 @@ import './Monetization.css';
 // ---------------------------------------------------------------- shared pieces
 
 /** Premium Lock (Premium Lock.svg): the gold crown with a padlock that marks locked content (rows, bubbles, audio). */
-export function LockBadge({ size = 18 }: { size?: number }) {
-  return <Asset name="crown-lock" size={size} alt="Locked" />;
+export function LockBadge({ size = 18, alt = 'Locked' }: { size?: number; /** '' when a sibling already says "Locked". */ alt?: string }) {
+  return <Asset name="crown-lock" size={size} alt={alt} />;
 }
 
 /**
@@ -26,17 +27,17 @@ export function Locked({ children, badge = true, inline = false }: { children: R
     <span className={`eq-locked ${inline ? 'is-inline' : ''}`}>
       <span className="eq-locked__content" aria-hidden>{children}</span>
       <span className="eq-sr">Locked. Unlock Equal Unlimited to see this.</span>
-      {badge && <span className="eq-locked__badge"><LockBadge size={inline ? 16 : 18} /></span>}
+      {badge && <span className="eq-locked__badge"><LockBadge size={inline ? 16 : 18} alt="" /></span>}
     </span>
   );
 }
 
 /** "——— LABEL ———" section label with gold hairlines (FAQ, Why people choose). */
-export function DividerLabel({ children, tone = 'primary' }: { children: ReactNode; tone?: 'primary' | 'gold' }) {
+export function DividerLabel({ children, tone = 'primary', as = 'span' }: { children: ReactNode; tone?: 'primary' | 'gold'; /** Render the label as a heading ('h2', 'h3', …) when it titles a section. Looks the same. */ as?: 'span' | 'h2' | 'h3' | 'h4' }) {
   return (
     <div className="eq-divider-label">
       <span className="eq-divider-label__rule" />
-      <Text variant="caption" color={tone === 'gold' ? undefined : 'primary'} style={{ textTransform: 'uppercase', letterSpacing: '0.02em', color: tone === 'gold' ? 'var(--eq-text-gold)' : undefined, whiteSpace: 'nowrap' }}>{children}</Text>
+      <Text as={as} variant="caption" color={tone === 'gold' ? undefined : 'primary'} style={{ textTransform: 'uppercase', letterSpacing: '0.02em', color: tone === 'gold' ? 'var(--eq-text-gold)' : undefined, whiteSpace: 'nowrap' }}>{children}</Text>
       <span className="eq-divider-label__rule" />
     </div>
   );
@@ -80,13 +81,13 @@ export function PaywallHero({ title = 'Unlock Equal', titleStrong = 'Unlimited',
         <IconButton icon="arrow-back" label="Back" onClick={onBack} />
         <button type="button" className="eq-reset-btn eq-touch eq-paywall-support" onClick={onSupport}>
           <Icon name="help-circle" size={20} />
-          <span className="eq-t-body2">Support</span>
+          <Text variant="body2" color="none">Support</Text>
         </button>
       </div>
       <div className="eq-paywall-hero__head">
         <AnimatedCrown size={64} />
-        <Text as="div" variant="title" style={{ fontWeight: 400, fontSize: 22, lineHeight: '26px', marginTop: 12 }}>{title}</Text>
-        <Text as="h1" variant="headline" style={{ fontSize: 38, lineHeight: '42px', fontWeight: 700, letterSpacing: '-0.03em' }}>{titleStrong}</Text>
+        <Text as="div" variant="title" aria-hidden style={{ fontWeight: 400, fontSize: 22, lineHeight: '26px', marginTop: 12 }}>{title}</Text>
+        <Text as="h1" variant="headline" style={{ fontSize: 38, lineHeight: '42px', fontWeight: 700, letterSpacing: '-0.03em' }}>{title && <span className="eq-sr">{title} </span>}{titleStrong}</Text>
         {subtitle && <Text as="p" variant="body1" color="secondary" align="center" style={{ marginTop: 8, maxWidth: 300 }}>{subtitle}</Text>}
       </div>
       {children && <div className="eq-paywall-hero__body">{children}</div>}
@@ -109,9 +110,10 @@ export type PriceTagProps = {
 
 /** "🎊 LIMITED TIME DISCOUNT 🎊" + the big gold price between gold hairlines; with `was`, the price drop. */
 export function PriceTag({ price, was, label = 'Limited time discount', currency = '₹', period, badge, animate }: PriceTagProps) {
-  const [phase, setPhase] = useState<'old' | 'strike' | 'done'>(animate && was !== undefined ? 'old' : 'done');
+  const [phase, setPhase] = useState<'old' | 'strike' | 'done'>(animate && was !== undefined && !prefersReducedMotion() ? 'old' : 'done');
   useEffect(() => {
-    if (!animate || was === undefined) return setPhase('done');
+    // Reduced motion: no old → strike → done sequence, the final price shows at once.
+    if (!animate || was === undefined || prefersReducedMotion()) return setPhase('done');
     setPhase('old');
     // Prototype timing: the coupon springs at 300ms, the price drops at 800ms (600ms).
     const t1 = setTimeout(() => setPhase('strike'), motion.duration.couponDelay);
@@ -123,29 +125,30 @@ export function PriceTag({ price, was, label = 'Limited time discount', currency
     <div className={`eq-price ${phase !== 'done' ? `is-${phase}` : ''}`}>
       {label && (
         <Text as="div" variant="caption" align="center" style={{ textTransform: 'uppercase', color: 'var(--eq-text-gold)', fontWeight: 500 }}>
-          <span aria-hidden>🎊 </span>{label}<span aria-hidden> 🎊</span>
+          <Emoji char="🎊" inline />{' '}{label}{' '}<Emoji char="🎊" inline />
         </Text>
       )}
       <div className="eq-price__row">
         <span className="eq-price__rule" />
         {phase === 'done' ? (
           <span className="eq-price__now">
-            <span className="eq-gold-text eq-price__value">{currency}{price}</span>
+            <Text variant="inherit" color="none" className="eq-gold-text eq-price__value">{currency}{price}</Text>
             {was !== undefined && (
               <span className="eq-price__was">
-                <s className="eq-tnum">{currency}{was}</s>
-                <span>{period ?? '/Monthly'}</span>
+                <span className="eq-sr">, was </span>
+                <Text variant="inherit" color="none" as="s" className="eq-tnum">{currency}{was}</Text>
+                <Text variant="inherit" color="none">{period ?? '/Monthly'}</Text>
               </span>
             )}
           </span>
         ) : (
-          <span className="eq-gold-text eq-price__value eq-price__old">{currency}{was}<span className="eq-price__strike" aria-hidden /></span>
+          <Text variant="inherit" color="none" className="eq-gold-text eq-price__value eq-price__old">{currency}{was}<span className="eq-price__strike" aria-hidden /></Text>
         )}
         <span className="eq-price__rule" />
       </div>
-      {phase === 'done' && saved !== undefined && saved > 0 && <Text as="div" variant="caption" align="center" style={{ color: 'var(--eq-text-brand)', fontWeight: 700 }}>Saved {currency}{saved}</Text>}
-      {phase === 'done' && badge && <DiscountBadge label={badge} animate={animate} />}
-      {was === undefined && period && <Text as="div" variant="caption" color="tertiary" align="center" style={{ fontWeight: 400 }}>{period}</Text>}
+      {phase === 'done' && saved !== undefined && saved > 0 && <Text as="div" variant="caption" align="center" style={{ color: 'var(--eq-text-action)', fontWeight: 700 }}>Saved {currency}{saved}</Text>}
+      {phase === 'done' && badge && <DiscountBadge label={badge} animate={animate && !prefersReducedMotion()} />}
+      {was === undefined && period && <Text as="div" variant="caption" color="secondary" align="center" style={{ fontWeight: 400 }}>{period}</Text>}
     </div>
   );
 }
@@ -161,7 +164,7 @@ export function OffSeal({ size = 28, off = '25%' }: { size?: number; off?: strin
   });
   return (
     <svg className="eq-off-seal" width={size} height={size} viewBox="0 0 100 100" aria-hidden>
-      <polygon points={pts.join(' ')} fill="var(--eq-text-brand)" />
+      <polygon points={pts.join(' ')} fill="var(--eq-text-action)" />
       <text x="50" y="47" textAnchor="middle" fontSize="26" fontWeight="700" fill="var(--eq-text-on-action)" fontFamily="DM Sans, sans-serif">{off}</text>
       <text x="50" y="72" textAnchor="middle" fontSize="22" fontWeight="700" fill="var(--eq-text-on-action)" fontFamily="DM Sans, sans-serif">OFF</text>
     </svg>
@@ -173,7 +176,8 @@ export function DiscountBadge({ label = 'Discounted!!', off = '25%', animate }: 
   return (
     <span className={`eq-discount-badge ${animate ? 'is-animated' : ''}`} role="status">
       <OffSeal off={off} />
-      <span className="eq-t-caption" style={{ fontWeight: 700 }}>{label}</span>
+      <span className="eq-sr">{off} off. </span>
+      <Text variant="caption" color="none" style={{ fontWeight: 700 }}>{label}</Text>
     </span>
   );
 }
@@ -202,6 +206,7 @@ export type CouponTicketProps = {
  * `text/gold`) on the right; a dashed rule with the 3D % seal (28dp); "25% OFF" 30/36 Bold gold.
  */
 export function CouponTicket({ code, description, discount, applied, onApply }: CouponTicketProps) {
+  const handoff = useFocusHandoff<HTMLSpanElement>(!!applied);
   return (
     <div className={`eq-coupon ${applied ? 'is-applied' : ''}`}>
       <div className="eq-coupon__top">
@@ -210,13 +215,14 @@ export function CouponTicket({ code, description, discount, applied, onApply }: 
           <Text as="div" variant="caption" color="secondary" style={{ fontWeight: 400 }}>{description}</Text>
         </div>
         {applied ? (
-          <span className="eq-t-button-small eq-coupon__state" aria-live="polite">APPLIED</span>
+          <span ref={handoff.targetRef} tabIndex={-1} className="eq-t-button-small eq-coupon__state" aria-label={`${code} applied`}><Text variant="inherit" color="none">APPLIED</Text></span>
         ) : (
-          <button type="button" className="eq-reset-btn eq-touch eq-t-button-small eq-coupon__state" onClick={onApply}>APPLY</button>
+          <button type="button" className="eq-reset-btn eq-touch eq-t-button-small eq-coupon__state" aria-label={`Apply ${code}`} onClick={() => { handoff.markFocus(); onApply?.(); }}><Text variant="inherit" color="none">APPLY</Text></button>
         )}
+        <Announce message={applied ? `Coupon ${code} applied` : ''} />
       </div>
       <div className="eq-coupon__rule"><span /><Asset name="coupon-seal" size={28} alt="" /><span /></div>
-      <div className="eq-gold-text eq-coupon__discount">{discount}</div>
+      <Text variant="inherit" color="none" as="div" className="eq-gold-text eq-coupon__discount">{discount}</Text>
     </div>
   );
 }
@@ -228,7 +234,7 @@ export function FaqList({ items, title = 'Frequently asked questions', defaultOp
   const [open, setOpen] = useState<number[]>(defaultOpen);
   return (
     <section className="eq-faq">
-      {title && <DividerLabel>{title}</DividerLabel>}
+      {title && <DividerLabel as="h2">{title}</DividerLabel>}
       <div className="eq-faq__card">
         {items.map((it, i) => {
           const isOpen = open.includes(i);
@@ -241,13 +247,14 @@ export function FaqList({ items, title = 'Frequently asked questions', defaultOp
 
 /** One question in a FAQ: the question row with a chevron, and the answer when open. */
 export function FaqEntry({ item, open, onToggle }: { item: FaqItem; open: boolean; onToggle?: () => void }) {
+  const answerId = useId();
   return (
     <div className={`eq-faq__item ${open ? 'is-open' : ''}`}>
-      <button type="button" className="eq-reset-btn eq-faq__q" aria-expanded={open} onClick={onToggle}>
+      <button type="button" className="eq-reset-btn eq-faq__q" aria-expanded={open} aria-controls={answerId} onClick={onToggle}>
         <Text as="span" variant="bodyLarge" style={{ flex: 1 }}>{item.q}</Text>
         <Icon name="chevron-down" size={20} color="var(--eq-text-secondary)" rotate={open ? 180 : 0} />
       </button>
-      {open && <Text as="div" variant="body1" color="secondary" style={{ padding: '0 16px 14px' }}>{item.a}</Text>}
+      <Text as="div" id={answerId} hidden={!open} variant="body1" color="secondary" style={{ padding: '0 16px 14px' }}>{item.a}</Text>
     </div>
   );
 }
@@ -298,7 +305,7 @@ export function StatusCard({ tone, art, strong, light, strongFirst = true, body,
     <div className={`eq-status-card is-${tone}`}>
       {(tone === 'success' || tone === 'gold') && <Sunburst />}
       <div className="eq-status-card__art">{art === 'crown-gold' ? <AnimatedCrown size={100} /> : <Asset name={art} size={100} alt="" />}</div>
-      <div className="eq-status-card__title">{strongFirst ? lines : [...lines].reverse()}</div>
+      <div className="eq-status-card__title" role="heading" aria-level={2}>{strongFirst ? lines : [...lines].reverse()}</div>
       {body && <Text as="p" variant="body1" color="secondary" align="center" style={{ marginTop: 8 }}>{body}</Text>}
       {children && <div style={{ marginTop: 16, width: '100%' }}>{children}</div>}
     </div>
@@ -319,10 +326,14 @@ export function RedirectNote({ seconds = 5, to, onDone }: { seconds?: number; to
     const t = setTimeout(() => setLeft((l) => l - 1), 1000);
     return () => clearTimeout(t);
   }, [left, onDone]);
+  // The visible countdown ticks every second; screen readers hear the notice once.
   return (
-    <Text as="div" variant="body2" color="action" align="center" aria-live="polite">
-      Redirecting{to ? ` to ${to}` : ''} in 00:{left} Secs
-    </Text>
+    <>
+      <Text as="div" variant="body2" color="action" align="center" aria-hidden>
+        Redirecting{to ? ` to ${to}` : ''} in 00:{left} Secs
+      </Text>
+      <Announce onMount message={`Redirecting${to ? ` to ${to}` : ''} in ${seconds} seconds`} />
+    </>
   );
 }
 
@@ -331,9 +342,11 @@ export function RedirectNote({ seconds = 5, to, onDone }: { seconds?: number; to
  * `scrim`, panel `bg/surface` radius 24 top, padding 12 / 12 / 20; card on top, footer below.
  * `mode="inline"` renders it statically for docs.
  */
-export function StatusSheet({ children, footer, mode = 'overlay', label = 'Status' }: { children: ReactNode; footer?: ReactNode; mode?: 'overlay' | 'inline'; label?: string }) {
+export function StatusSheet({ children, footer, mode = 'overlay', label = 'Status', onClose, closeButton = false }: { children: ReactNode; footer?: ReactNode; mode?: 'overlay' | 'inline'; label?: string; /** Escape and the scrim call it. */ onClose?: () => void; /** Floating close (X) at the top-right; needs `onClose`. */ closeButton?: boolean }) {
+  const modal = useModal({ open: true, onClose, enabled: mode === 'overlay' });
   const panel = (
-    <div className={`eq-status-sheet ${mode === 'inline' ? 'is-inline' : ''}`} role="dialog" aria-modal={mode === 'overlay'} aria-label={label}>
+    <div className={`eq-status-sheet ${mode === 'inline' ? 'is-inline' : ''}`} role="dialog" aria-label={label} {...modal}>
+      {closeButton && onClose && <IconButton icon="close" label="Close" className="eq-status-sheet__close" onClick={onClose} />}
       {children}
       {footer && <div className="eq-status-sheet__footer">{footer}</div>}
     </div>
@@ -341,7 +354,7 @@ export function StatusSheet({ children, footer, mode = 'overlay', label = 'Statu
   if (mode === 'inline') return panel;
   return (
     <div className="eq-status-sheet-layer">
-      <div className="eq-status-sheet-layer__scrim" />
+      <div className="eq-status-sheet-layer__scrim" onClick={onClose} />
       {panel}
     </div>
   );
@@ -379,8 +392,11 @@ function usePaymentProgress(on: boolean, every = 1400) {
  * redirect countdown; pending → "If money was deducted from card (**2652)…" + Contact Support;
  * failed → same body + Retry Payment; welcome → "No more limits…" + redirect to home.
  */
-export function PaymentStatusSheet({ status, cardLast4 = '2652', onRetry, onContactSupport, onRedirect, mode = 'overlay', waitingArt = 'status-waiting', progress = true }: { status: PaymentStatus; cardLast4?: string; onRetry?: () => void; onContactSupport?: () => void; onRedirect?: () => void; mode?: 'overlay' | 'inline'; waitingArt?: 'status-waiting' | 'status-waiting-cash'; /** Waiting: cycle the progress steps (Connecting To Razorpay → Waiting for Confirmation → Verifying Transaction). */ progress?: boolean }) {
+export function PaymentStatusSheet({ status, cardLast4 = '2652', onRetry, onContactSupport, onRedirect, mode = 'overlay', waitingArt = 'status-waiting', progress = true, onClose }: { status: PaymentStatus; cardLast4?: string; onRetry?: () => void; onContactSupport?: () => void; onRedirect?: () => void; mode?: 'overlay' | 'inline'; waitingArt?: 'status-waiting' | 'status-waiting-cash'; /** Waiting: cycle the progress steps (Connecting To Razorpay → Waiting for Confirmation → Verifying Transaction). */ progress?: boolean; /** Escape / scrim. */ onClose?: () => void }) {
   const step = usePaymentProgress(status === 'waiting' && progress);
+  // Screen readers hear each progress step once (the first pass), not every loop.
+  const furthest = useRef(0);
+  if (step > furthest.current) furthest.current = step;
   const s = status === 'waiting' && progress ? { ...PAYMENT.waiting, ...PAYMENT_PROGRESS[step] } : PAYMENT[status];
   const refund = `If money was deducted from card (**${cardLast4}), refund will be initiated within 24hours`;
   const body =
@@ -388,16 +404,17 @@ export function PaymentStatusSheet({ status, cardLast4 = '2652', onRetry, onCont
   const footer =
     status === 'confirmed' ? <RedirectNote seconds={5} onDone={onRedirect} /> : status === 'welcome' ? <RedirectNote seconds={5} to="home" onDone={onRedirect} /> : status === 'pending' ? <Button block size="lg" onClick={onContactSupport}>Contact Support</Button> : status === 'failed' ? <Button block size="lg" onClick={onRetry}>Retry Payment</Button> : undefined;
   return (
-    <StatusSheet mode={mode} label={`${s.strong} ${s.light ?? ''}`} footer={footer}>
+    <StatusSheet mode={mode} label={s.strongFirst || !s.light ? `${s.strong} ${s.light ?? ''}`.trim() : `${s.light} ${s.strong}`} footer={footer} onClose={onClose}>
+      {status === 'waiting' && progress && <Announce onMount message={`${PAYMENT_PROGRESS[furthest.current].light} ${PAYMENT_PROGRESS[furthest.current].strong}`} />}
       <StatusCard key={status === 'waiting' ? `w${step}` : status} tone={s.tone} art={status === 'waiting' ? waitingArt : s.art} strong={s.strong} light={s.light} strongFirst={s.strongFirst} body={body} />
     </StatusSheet>
   );
 }
 
 /** Help Center sheet from Support: Call Us / Mail Us rows with green icon tiles. */
-export function HelpCenterSheet({ phone = '+91 9876 543210', email = 'hello@equal.in', onCall, onMail, mode = 'overlay' }: { phone?: string; email?: string; onCall?: () => void; onMail?: () => void; mode?: 'overlay' | 'inline' }) {
+export function HelpCenterSheet({ phone = '+91 9876 543210', email = 'hello@equal.in', onCall, onMail, mode = 'overlay', onClose }: { phone?: string; email?: string; onCall?: () => void; onMail?: () => void; mode?: 'overlay' | 'inline'; /** Close: the X button, Escape and the scrim. */ onClose?: () => void }) {
   return (
-    <StatusSheet mode={mode} label="Help Center">
+    <StatusSheet mode={mode} label="Help Center" onClose={onClose} closeButton>
       <div style={{ padding: '8px 8px 0' }}>
         <SheetHeading title="Help Center" body="At the moment we can help you in following ways, feel free to contact us." />
         <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginTop: 16 }}>
@@ -440,7 +457,7 @@ export function SocialProof({ stat = { value: '400k+', label: 'People never miss
   return (
     <section className="eq-subscription-proof">
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
-        <DividerLabel>Why people choose</DividerLabel>
+        <DividerLabel as="h2">Why people choose</DividerLabel>
         <Text as="div" variant="title" style={{ fontWeight: 700, color: 'var(--eq-text-gold)' }}>EQUAL UNLIMITED</Text>
       </div>
       <StatBlock value={stat.value} label={stat.label} />
@@ -472,9 +489,9 @@ export function UnlockDetailsCard({ title = 'Unlock All Details', body = 'See fu
 /** Pill over a locked recording: 🔒 Unlock Audio (green, 32 high). */
 export function UnlockAudioPill({ onClick, label = 'Unlock Audio' }: { onClick?: () => void; label?: string }) {
   return (
-    <button type="button" className="eq-reset-btn eq-pressable eq-unlock-audio" onClick={onClick}>
+    <button type="button" className="eq-reset-btn eq-pressable eq-touch eq-unlock-audio" onClick={onClick}>
       <Icon name="lock" size={14} />
-      <span className="eq-t-button-small" style={{ fontWeight: 700 }}>{label}</span>
+      <Text variant="buttonSmall" color="none" style={{ fontWeight: 700 }}>{label}</Text>
     </button>
   );
 }
@@ -482,7 +499,13 @@ export function UnlockAudioPill({ onClick, label = 'Unlock Audio' }: { onClick?:
 /** Amber strip for a lapsed plan: info icon + "Reactivate your current Plan to …". */
 export function PlanBanner({ children, onClick, attached }: { children: ReactNode; onClick?: () => void; /** Hangs under the plan card (rounded bottom only). */ attached?: boolean }) {
   return (
-    <div role={onClick ? 'button' : 'status'} tabIndex={onClick ? 0 : undefined} onClick={onClick} className={`eq-plan-banner ${attached ? 'is-attached' : ''}`}>
+    <div
+      role={onClick ? 'button' : 'status'}
+      tabIndex={onClick ? 0 : undefined}
+      onClick={onClick}
+      onKeyDown={onClick ? (e: KeyboardEvent<HTMLDivElement>) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(); } } : undefined}
+      className={`eq-plan-banner ${attached ? 'is-attached' : ''} ${onClick ? 'eq-touch' : ''}`}
+    >
       <Icon name="info-fill" size={16} />
       <Text as="span" variant="caption" style={{ color: 'inherit' }}>{children}</Text>
     </div>
@@ -495,7 +518,7 @@ export function PlanBanner({ children, onClick, attached }: { children: ReactNod
 export function StatBlock({ value, label }: { value: string; label: string }) {
   return (
     <div style={{ textAlign: 'center' }}>
-      <div className="eq-gold-text eq-stat">{value}</div>
+      <Text variant="inherit" color="none" as="div" className="eq-gold-text eq-stat">{value}</Text>
       <Text as="div" variant="body2">{label}</Text>
     </div>
   );
@@ -508,7 +531,7 @@ export function RatingPill({ rating, outOf = 5 }: { rating: number; outOf?: numb
       <Asset name="star-gold" size={20} alt="" />
       <Text variant="body2">Rated</Text>
       <Text variant="body2" style={{ fontWeight: 700 }}>{rating}</Text>
-      <Text variant="body1" color="tertiary">/{outOf}</Text>
+      <Text variant="body1" color="secondary">/{outOf}</Text>
     </span>
   );
 }
@@ -553,13 +576,13 @@ export type CancelStep = 'feedback' | 'confirm' | 'submitted';
  * text), confirm ("Are you really Sure?" — Cancel outline / Confirm), submitted (thumbs up,
  * "Your Request is Submitted", redirect to home). Access stays until `accessUntil`.
  */
-export function CancelSheet({ step, accessUntil = '15 June 2026', reason, onReasonChange, onProceed, onKeep, onConfirm, onRedirect, mode = 'overlay' }: { step: CancelStep; accessUntil?: string; reason?: string; onReasonChange?: (v: string) => void; onProceed?: () => void; onKeep?: () => void; onConfirm?: () => void; onRedirect?: () => void; mode?: 'overlay' | 'inline' }) {
+export function CancelSheet({ step, accessUntil = '15 June 2026', reason, onReasonChange, onProceed, onKeep, onConfirm, onRedirect, mode = 'overlay', onClose }: { step: CancelStep; accessUntil?: string; reason?: string; onReasonChange?: (v: string) => void; onProceed?: () => void; onKeep?: () => void; onConfirm?: () => void; onRedirect?: () => void; mode?: 'overlay' | 'inline'; /** Leave the flow: the feedback step's X button, Escape and the scrim (confirm falls back to `onKeep`). */ onClose?: () => void }) {
   const [text, setText] = useState(reason ?? '');
   const value = reason ?? text;
   const set = (v: string) => (onReasonChange ? onReasonChange(v) : setText(v));
   if (step === 'feedback') {
     return (
-      <StatusSheet mode={mode} label="Cancel subscription" footer={<Button block size="lg" disabled={!value.trim()} onClick={onProceed}>Proceed</Button>}>
+      <StatusSheet mode={mode} label="Cancel subscription" onClose={onClose} closeButton footer={<Button block size="lg" disabled={!value.trim()} onClick={onProceed}>Proceed</Button>}>
         <StatusCard tone="neutral" art="emoji-sad" light="We’re Sad to" strong="See you Cancel" strongFirst={false} body="Tell us why you’re Cancelling Subscription. Your feedback helps us improve.">
           <textarea className="eq-cancel-reason eq-t-body1" value={value} onChange={(e) => set(e.target.value)} placeholder="Tell us more in detail.." rows={3} aria-label="Why are you cancelling?" />
         </StatusCard>
@@ -571,6 +594,7 @@ export function CancelSheet({ step, accessUntil = '15 June 2026', reason, onReas
       <StatusSheet
         mode={mode}
         label="Confirm cancellation"
+        onClose={onClose ?? onKeep}
         footer={
           <div style={{ display: 'flex', gap: 12 }}>
             <Button variant="outline" size="lg" block onClick={onKeep}>Cancel</Button>
@@ -583,7 +607,7 @@ export function CancelSheet({ step, accessUntil = '15 June 2026', reason, onReas
     );
   }
   return (
-    <StatusSheet mode={mode} label="Request submitted" footer={<RedirectNote seconds={3} to="home" onDone={onRedirect} />}>
+    <StatusSheet mode={mode} label="Request submitted" onClose={onRedirect ?? onClose} footer={<RedirectNote seconds={3} to="home" onDone={onRedirect} />}>
       <StatusCard tone="neutral" art="thumbs-up" light="Your Request is" strong="Submitted" strongFirst={false} body={`No more charges from us. You’ll keep full access until ${accessUntil}.`} />
     </StatusSheet>
   );
@@ -616,7 +640,7 @@ export function expiryParts(e: PlanExpiry): { label: string; chip: string; tone:
 
 /** "03 Days" · "Today" · "30th July" · "25th Jun ’26": the tinted chip on the value card's date row. */
 export function ExpiryChip({ tone, children }: { tone: 'active' | 'warning' | 'danger'; children: ReactNode }) {
-  return <span className={`eq-expiry-chip is-${tone} eq-tnum`}>{children}</span>;
+  return <Text variant="inherit" color="none" className={`eq-expiry-chip is-${tone} eq-tnum`}>{children}</Text>;
 }
 
 /**
@@ -633,7 +657,7 @@ export function PlanExpiryBanner({ expiry, onRenew }: { expiry: Exclude<PlanExpi
     <div className={`eq-expiry-banner is-${tone}`} role="status">
       <span className="eq-expiry-banner__icon"><Icon name="info-fill" size={20} /></span>
       <Text as="span" variant="body2" style={{ color: 'inherit', flex: 1, minWidth: 0 }}>{text}</Text>
-      <button type="button" className="eq-reset-btn eq-touch eq-expiry-banner__cta eq-t-button" onClick={onRenew}>Renew Now</button>
+      <button type="button" className="eq-reset-btn eq-touch eq-expiry-banner__cta eq-t-button" onClick={onRenew}><Text variant="inherit" color="none">Renew Now</Text></button>
     </div>
   );
 }
@@ -666,6 +690,37 @@ export const defaultValuePerks: ValuePerk[] = [
   { icon: 'person', text: <>Never asked you to <b>deal with an Unknown Number</b></> },
 ];
 
+/** The gold-icon perk rows on the value and quota cards. */
+export function PerkList({ perks }: { perks: ValuePerk[] }) {
+  return (
+    <ul className="eq-value-card__perks">
+      {perks.map((p, i) => (
+        <li key={i}>
+          <span style={{ paddingTop: 3 }}><PremiumIcon name={p.icon} /></span>
+          <Text as="span" variant="body2" style={{ fontWeight: 400 }}>{p.text}</Text>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+/** The plan row at the foot of the value and quota cards: label + plan name, then ₹price, struck ₹was and the period. */
+export function PlanPriceRow({ label, plan, price, was, period }: { label: string; plan: string; price: number; was?: number; period: string }) {
+  return (
+    <div className="eq-value-card__plan">
+      <span>
+        <Text as="div" variant="caption" color="secondary" style={{ fontWeight: 400 }}>{label}</Text>
+        <Text as="div" variant="title" style={{ fontWeight: 600 }}>{plan}</Text>
+      </span>
+      <span className="eq-tnum" style={{ whiteSpace: 'nowrap' }}>
+        <Text as="span" variant="subheading" style={{ fontWeight: 700 }}>₹{price}</Text>{' '}
+        {was !== undefined && <><span className="eq-sr">was </span><Text as="s" variant="caption" color="secondary" style={{ fontWeight: 400 }}>₹{was}</Text></>}{' '}
+        <Text as="span" variant="caption" color="secondary" style={{ fontWeight: 400 }}>{period}</Text>
+      </span>
+    </div>
+  );
+}
+
 export type ValueCardProps = {
   /** Calls the assistant handled this plan period. */
   calls: number;
@@ -695,21 +750,14 @@ export function ValueCard({ calls, expiry, title = 'What Unlimited saved you', p
       {bg === 'circuit' ? <Asset name="value-card-pattern" width={329} height={192} className="eq-value-card__circuit" /> : <Asset name="premium-glow" width={360} height={246} className="eq-value-card__glow" />}
       {title && <div className="eq-value-card__title"><DividerLabel><Text as="span" variant="subheading" style={{ textTransform: 'uppercase', fontWeight: 500 }}>{title}</Text></DividerLabel></div>}
       <div className="eq-value-card__stat">
-        <span className="eq-value-card__count eq-tnum">{calls}</span>
+        <Text variant="inherit" color="none" className="eq-value-card__count eq-tnum">{calls}</Text>
         <span>
           <Text as="div" variant="title" style={{ fontWeight: 500 }}>Calls Handled</Text>
           <Text as="div" variant="body1" style={{ fontWeight: 400 }}>by your Assistant</Text>
         </span>
       </div>
       {perks && perks.length > 0 && (
-        <ul className="eq-value-card__perks">
-          {perks.map((p, i) => (
-            <li key={i}>
-              <span style={{ paddingTop: 3 }}><PremiumIcon name={p.icon} /></span>
-              <Text as="span" variant="body2" style={{ fontWeight: 400 }}>{p.text}</Text>
-            </li>
-          ))}
-        </ul>
+        <PerkList perks={perks} />
       )}
       <div className="eq-value-card__expiry">
         <span className="eq-divider-label__rule" />
@@ -717,17 +765,7 @@ export function ValueCard({ calls, expiry, title = 'What Unlimited saved you', p
         <ExpiryChip tone={e.tone}>{e.chip}</ExpiryChip>
         <span className="eq-divider-label__rule" />
       </div>
-      <div className="eq-value-card__plan">
-        <span>
-          <Text as="div" variant="caption" color="secondary" style={{ fontWeight: 400 }}>Current Plan</Text>
-          <Text as="div" variant="title" style={{ fontWeight: 600 }}>{plan}</Text>
-        </span>
-        <span className="eq-tnum" style={{ whiteSpace: 'nowrap' }}>
-          <Text as="span" variant="subheading" style={{ fontWeight: 700 }}>₹{price}</Text>{' '}
-          {was !== undefined && <Text as="s" variant="caption" color="secondary" style={{ fontWeight: 400 }}>₹{was}</Text>}{' '}
-          <Text as="span" variant="caption" color="secondary" style={{ fontWeight: 400 }}>{period}</Text>
-        </span>
-      </div>
+      <PlanPriceRow label="Current Plan" plan={plan} price={price} was={was} period={period} />
     </section>
   );
 }
@@ -758,7 +796,7 @@ export function QuotaCard({ quota, perks = quotaPerks, plan = 'Equal AI Unlimite
           <Text as="div" variant="headline" align="center" style={{ fontSize: 30, lineHeight: '36px', fontWeight: 700, letterSpacing: '-0.02em' }}>Limit Reached</Text>
         ) : (
           <Text as="div" variant="headline" align="center" className="eq-tnum" style={{ fontSize: 30, lineHeight: '36px', fontWeight: 700, letterSpacing: '-0.02em' }}>
-            {left} out of {limit} <span style={{ fontSize: 18, fontWeight: 500, letterSpacing: 0 }}>Calls Left</span>
+            {left} out of {limit} <Text variant="inherit" color="none" style={{ fontSize: 18, fontWeight: 500, letterSpacing: 0 }}>Calls Left</Text>
           </Text>
         )}
         {!reached && (
@@ -767,7 +805,7 @@ export function QuotaCard({ quota, perks = quotaPerks, plan = 'Equal AI Unlimite
           </div>
         )}
         <Text as="p" variant="body1" color="secondary" align="center" style={{ margin: 0 }}>
-          {reached ? <><b style={{ color: 'var(--eq-text-primary)' }}>{used} out of {limit} ({pct}%)</b> Of Your Calls Handled by your Assistant this week</> : <><b style={{ color: 'var(--eq-text-primary)' }}>{pct}%</b> Of Your Calls Handled by your Assistant this week</>}
+          {reached ? <><Text as="b" variant="inherit" color="primary">{used} out of {limit} ({pct}%)</Text> Of Your Calls Handled by your Assistant this week</> : <><Text as="b" variant="inherit" color="primary">{pct}%</Text> Of Your Calls Handled by your Assistant this week</>}
         </Text>
       </div>
       <div className="eq-value-card__expiry">
@@ -777,26 +815,9 @@ export function QuotaCard({ quota, perks = quotaPerks, plan = 'Equal AI Unlimite
         <span className="eq-divider-label__rule" />
       </div>
       {perks && perks.length > 0 && (
-        <ul className="eq-value-card__perks">
-          {perks.map((p, i) => (
-            <li key={i}>
-              <span style={{ paddingTop: 3 }}><PremiumIcon name={p.icon} /></span>
-              <Text as="span" variant="body2" style={{ fontWeight: 400 }}>{p.text}</Text>
-            </li>
-          ))}
-        </ul>
+        <PerkList perks={perks} />
       )}
-      <div className="eq-value-card__plan">
-        <span>
-          <Text as="div" variant="caption" color="secondary" style={{ fontWeight: 400 }}>Subscribe to</Text>
-          <Text as="div" variant="title" style={{ fontWeight: 600 }}>{plan}</Text>
-        </span>
-        <span className="eq-tnum" style={{ whiteSpace: 'nowrap' }}>
-          <Text as="span" variant="subheading" style={{ fontWeight: 700 }}>₹{price}</Text>{' '}
-          {was !== undefined && <Text as="s" variant="caption" color="secondary" style={{ fontWeight: 400 }}>₹{was}</Text>}{' '}
-          <Text as="span" variant="caption" color="secondary" style={{ fontWeight: 400 }}>{period}</Text>
-        </span>
-      </div>
+      <PlanPriceRow label="Subscribe to" plan={plan} price={price} was={was} period={period} />
     </section>
   );
 }
@@ -821,11 +842,12 @@ export type ValueSheetProps = {
  * sheet shows what Unlimited saved the user, with Renew your Equal AI. The close button floats above.
  */
 export function ValueSheet({ calls = 20, expiry = { state: 'active', until: '' }, onRenew, onClose, variant = 'card', cta, mode = 'overlay', perks, quota }: ValueSheetProps) {
+  const modal = useModal({ open: true, onClose, enabled: mode === 'overlay' });
   const panel = (
-    <div className={`eq-value-sheet is-${variant} ${mode === 'inline' ? 'is-inline' : ''}`} role="dialog" aria-modal={mode === 'overlay'} aria-label="What Unlimited saved you">
+    <div className={`eq-value-sheet is-${variant} ${mode === 'inline' ? 'is-inline' : ''}`} role="dialog" aria-label="What Unlimited saved you" {...modal}>
       <IconButton icon="close" label="Close" variant="neutral" size={44} className="eq-value-sheet__close" onClick={onClose} />
       <div className="eq-value-sheet__body">{quota ? <QuotaCard quota={quota} perks={perks} /> : <ValueCard calls={calls} expiry={expiry} perks={perks} />}</div>
-      <div className="eq-value-sheet__footer"><Button variant="gold" size="lg" block onClick={onRenew}>{cta ?? (quota ? 'Get Equal AI Unlimited' : 'Renew your Equal AI')}</Button></div>
+      <div className={`eq-value-sheet__footer${quota ? '' : ' is-renew'}`}><Button variant="gold" size="lg" block onClick={onRenew}>{cta ?? (quota ? 'Get Equal AI Unlimited' : 'Renew your Equal AI')}</Button></div>
     </div>
   );
   if (mode === 'inline') return panel;

@@ -1,6 +1,6 @@
 /* Global MYA (Global MYA design): the assistant sheet from the green orb. DM Sans only. */
 
-.eq-mya-sheet { position: relative; display: flex; flex-direction: column; background: var(--eq-sheet-bg); border-radius: 32px 32px 0 0; box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.12); overflow: hidden; }
+.eq-mya-sheet { position: relative; display: flex; flex-direction: column; background: var(--eq-bg-primary); border-radius: 32px 32px 0 0; box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.12); overflow: hidden; }
 .eq-mya-sheet.is-inline { border-radius: 32px; }
 .eq-mya-sheet.is-task { height: 82%; }
 .eq-status-sheet-layer .eq-mya-sheet { animation: eq-sheet-up var(--eq-duration-slow) var(--eq-easing-standard) both; }
@@ -31,7 +31,7 @@
 .eq-mya-wave { margin-left: auto; display: inline-flex; align-items: center; gap: 2px; height: 24px; color: var(--eq-text-action); }
 .eq-mya-wave > span:not(.eq-mya-wave__dots) { width: 3px; border-radius: 2px; background: currentColor; transition: height 120ms linear; }
 .eq-mya-wave.is-cancel { color: var(--eq-text-danger); }
-.eq-mya-wave__dots { width: 160px; max-width: 100%; height: 3px; background: radial-gradient(circle, var(--eq-text-tertiary) 1.2px, transparent 1.4px) 0 50% / 6px 3px repeat-x; }
+.eq-mya-wave__dots { width: 160px; max-width: 100%; height: 3px; background: radial-gradient(circle, var(--eq-text-secondary) 1.2px, transparent 1.4px) 0 50% / 6px 3px repeat-x; }
 .eq-mya-hold { display: flex; flex-direction: column; gap: 12px; }
 .eq-mya-hold .eq-mya-pill { flex: none; }
 

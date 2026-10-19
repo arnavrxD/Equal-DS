@@ -2,6 +2,24 @@ package ai.equal.ds.components
 
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.paneTitle
+import androidx.compose.ui.layout.layout
+import androidx.compose.ui.unit.Constraints
+import androidx.compose.animation.EnterTransition
+import androidx.compose.animation.ExitTransition
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.OnBackPressedDispatcherOwner
+import androidx.activity.findViewTreeOnBackPressedDispatcherOwner
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import android.content.Context
+import android.content.ContextWrapper
 import androidx.compose.foundation.layout.offset
 import ai.equal.ds.R
 import ai.equal.ds.assets.EqualCategory
@@ -76,18 +94,24 @@ fun EqualText(
 /**
  * A Unicode emoji drawn at an icon size. It uses the platform emoji font (no DM Sans) and
  * converts [size] from dp to sp, so the glyph does not grow with the user's font scale.
- * lineHeight matches the font size.
+ * lineHeight matches the font size. Hidden from TalkBack unless [contentDescription] is set.
  */
 @Composable
 fun EmojiGlyph(
     emoji: String,
     size: Dp,
     modifier: Modifier = Modifier,
+    contentDescription: String? = null,
 ) {
     val fontSize = with(LocalDensity.current) { size.toSp() }
+    // Decorative by default: the label next to it carries the meaning, so TalkBack must not read
+    // the emoji name ("magic wand", "party popper"). Pass [contentDescription] when the emoji
+    // stands alone and means something.
     BasicText(
         text = emoji,
-        modifier = modifier,
+        modifier = modifier.clearAndSetSemantics {
+            if (contentDescription != null) this.contentDescription = contentDescription
+        },
         style = TextStyle(fontSize = fontSize, lineHeight = fontSize, textAlign = TextAlign.Center),
         maxLines = 1,
         softWrap = false,
@@ -344,5 +368,66 @@ internal fun rememberReduceMotion(): Boolean {
             android.provider.Settings.Global.ANIMATOR_DURATION_SCALE,
             1f,
         ) == 0f
+    }
+}
+
+
+/**
+ * System Back for overlays (sheets, dialogs, menus): while [enabled], Back calls [onBack] instead
+ * of leaving the screen. Built on the platform OnBackPressedDispatcher, so it works in any
+ * ComponentActivity and is a no-op in previews.
+ */
+@Composable
+internal fun EqualBackHandler(enabled: Boolean = true, onBack: () -> Unit) {
+    val currentOnBack by rememberUpdatedState(onBack)
+    val callback = remember {
+        object : OnBackPressedCallback(enabled) {
+            override fun handleOnBackPressed() {
+                currentOnBack()
+            }
+        }
+    }
+    SideEffect { callback.isEnabled = enabled }
+    val view = LocalView.current
+    val context = LocalContext.current
+    val owner = remember(view, context) { view.findViewTreeOnBackPressedDispatcherOwner() ?: context.findBackOwner() }
+    val lifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(owner, lifecycleOwner, callback) {
+        owner?.onBackPressedDispatcher?.addCallback(lifecycleOwner, callback)
+        onDispose { callback.remove() }
+    }
+}
+
+private tailrec fun Context.findBackOwner(): OnBackPressedDispatcherOwner? = when (this) {
+    is OnBackPressedDispatcherOwner -> this
+    is ContextWrapper -> baseContext.findBackOwner()
+    else -> null
+}
+
+/** Names an overlay surface for TalkBack (announced when it appears). */
+internal fun Modifier.overlayPane(title: String): Modifier = semantics { paneTitle = title }
+
+/** [enter] unless reduced motion is on, then no transition. */
+internal fun EnterTransition.unlessReduced(reduce: Boolean): EnterTransition = if (reduce) EnterTransition.None else this
+
+/** [exit] unless reduced motion is on, then no transition. */
+internal fun ExitTransition.unlessReduced(reduce: Boolean): ExitTransition = if (reduce) ExitTransition.None else this
+
+/**
+ * A touch area (and TalkBack focus area) of at least [min] × [min] for a control drawn smaller,
+ * without changing the layout: the node lays out at its visual size and the extra area spills
+ * evenly past its edges (Compose hit-tests outside a parent's bounds unless an ancestor clips).
+ * Put it first in the chain, before the clickable; draw the visual (size, clip, background) on
+ * a child. Use [minimumInteractiveComponentSize] instead where the layout has room for 48dp.
+ * [minHeight] can be lowered for tightly stacked targets (an A–Z index) so they don't overlap.
+ */
+internal fun Modifier.touchTarget(min: Dp = 48.dp, minHeight: Dp = min): Modifier = layout { measurable, constraints ->
+    val visualW = measurable.maxIntrinsicWidth(Constraints.Infinity).coerceIn(constraints.minWidth, constraints.maxWidth)
+    val visualH = measurable.maxIntrinsicHeight(visualW).coerceIn(constraints.minHeight, constraints.maxHeight)
+    val touchW = maxOf(visualW, min.roundToPx())
+    val touchH = maxOf(visualH, minHeight.roundToPx())
+    val placeable = measurable.measure(Constraints.fixed(touchW, touchH))
+    layout(visualW, visualH) {
+        placeable.place((visualW - touchW) / 2, (visualH - touchH) / 2)
     }
 }

@@ -41,6 +41,7 @@ const flows: Record<string, FlowDef> = {
       { key: 'help', label: 'Help Center', render: () => <PaywallScreen overlay="help" />, code: '<PaywallScreen overlay="help" />' },
       { key: 'welcome', label: 'Congratulations', render: () => <PaywallScreen overlay="welcome" />, code: '<PaywallScreen overlay="welcome" />' },
       { key: 'home-paid', label: 'Home, paid', render: () => <HomeScreen promo="meet-assistant" />, code: '<HomeScreen promo="meet-assistant" />' },
+      { key: 'settings-none', label: 'You: no plan yet', render: () => <YouScreen plan="none" />, code: '<YouScreen plan="none" />', height: 1400 },
       { key: 'settings', label: 'You: Manage plan', render: () => <YouScreen plan="active" />, code: '<YouScreen plan="active" />', height: 1480 },
       { key: 'subscription', label: 'Subscription (Try it: cancel)', render: () => <SubscriptionScreen />, code: '<SubscriptionScreen />', height: SUB_H },
       { key: 'cancel-feedback', label: 'Cancel: tell us why', render: () => <SubscriptionScreen cancelStep="feedback" />, code: '<SubscriptionScreen cancelStep="feedback" />' },
@@ -53,7 +54,7 @@ const flows: Record<string, FlowDef> = {
       { key: 'chat-lapsed', label: 'Chat: plan lapsed', render: () => <ChatScreen lock="lapsed" />, code: '<ChatScreen lock="lapsed" />' },
     ],
     steps: [
-      <><b>Touchpoints</b> (where the paywall opens from): locked rows in the chat list (blurred preview, crown-lock), a locked conversation (Unlock All Details), locked audio (Unlock Audio), Manage plan on the You tab’s plan card, and the Reactivate banners on a lapsed plan. They sit on the revamped screens as props: <code>HomeScreen lockedFrom</code>, <code>ChatScreen lock</code> (details · audio · lapsed) and <code>YouScreen plan</code> (active · restore · reactivate). Pass the entry as <code>touchpoint</code> so the paywall previews what the user was trying to see.</>,
+      <><b>Touchpoints</b> (where the paywall opens from): locked rows in the chat list (blurred preview, crown-lock), a locked conversation (Unlock All Details), locked audio (Unlock Audio), Manage plan on the You tab’s plan card, and the Reactivate banners on a lapsed plan. They sit on the revamped screens as props: <code>HomeScreen lockedFrom</code>, <code>ChatScreen lock</code> (details · audio · lapsed) and <code>YouScreen plan</code> (none · active · restore · reactivate). Pass the entry as <code>touchpoint</code> so the paywall previews what the user was trying to see.</>,
       <><b>Paywall</b>: gold hero with the crown, “Unlock Equal Unlimited”, the price under LIMITED TIME DISCOUNT, the preview card, the EQUAL25 coupon (APPLY → APPLIED drops ₹249 to ₹149), FAQ, and the sticky gold Unlock Unlimited with “Cancel Anytime. Automatically renews”.</>,
       <><b>Payment</b>: Waiting for Confirmation (auto) → Payment Confirmed (redirect in 5s) → Congratulations (redirect to home). Pending offers Contact Support; Failed offers Retry Payment; both say the refund comes within 24 hours. Support opens the Help Center sheet.</>,
       <><b>After</b>: the home header shows UNLIMITED and avatars turn gold. The You tab’s plan card has Manage plan → the subscription page (plan end date, 400k+, rating, testimonials, FAQ).</>,

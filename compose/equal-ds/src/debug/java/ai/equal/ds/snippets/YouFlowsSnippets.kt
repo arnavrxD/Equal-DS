@@ -304,11 +304,11 @@ internal fun InstructionRecommendedSnippet() {
 @Composable
 internal fun InstructionBrowsePresetsSnippet() {
     PresetCard(
-        emoji = "🛡️", tint = PresetTint.Red, title = "Screen & Protect",
+        emoji = "🛡️", tint = PresetTint.Green, title = "Screen & Protect",
         description = "Decline spam, hold the line on loan and payments call, close wrong call", onClick = {},
     )
     PresetCard(
-        emoji = "📞", tint = PresetTint.Green, title = "Handle everyday calls",
+        emoji = "📞", tint = PresetTint.Blue, title = "Handle everyday calls",
         description = "Take message, guide deliveries, relay to family, start in your language", onClick = {},
     )
     PresetCard(

@@ -8,7 +8,7 @@
 .eq-edit-bubble__done { width: 48px; height: 48px; flex-shrink: 0; border-radius: 50%; background: var(--eq-button-primary); color: var(--eq-text-on-action); display: inline-flex; align-items: center; justify-content: center; }
 .eq-edit-dim { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.35); pointer-events: none; }
 
-.eq-contact-form { min-height: 100%; display: flex; flex-direction: column; background: var(--eq-sheet-bg); border-radius: 24px 24px 0 0; }
+.eq-contact-form { min-height: 100%; display: flex; flex-direction: column; background: var(--eq-bg-primary); border-radius: 24px 24px 0 0; }
 .eq-contact-form__bar { display: flex; align-items: center; gap: 8px; padding: 16px 16px 8px 4px; }
 .eq-contact-form__group { margin: 8px 16px; border-radius: 16px; background: var(--eq-bg-surface); overflow: hidden; }
 .eq-contact-form__row { padding: 14px 16px; }
@@ -30,7 +30,7 @@
 
 .eq-offline-sheet { position: relative; display: flex; flex-direction: column; align-items: center; padding: 24px 16px 20px; border-radius: 28px 28px 0 0; background: var(--eq-bg-surface); box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.12); }
 .eq-status-sheet-layer .eq-offline-sheet { animation: eq-sheet-up var(--eq-duration-slow) var(--eq-easing-standard) both; }
-.eq-offline-screen { min-height: 100%; display: flex; flex-direction: column; background: var(--eq-gradient-offline-screen); }
+.eq-offline-screen { min-height: 100%; display: flex; flex-direction: column; background: var(--eq-chat-wallpaper-bg); }
 .eq-offline-screen__body { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px 28px; }
 
 .eq-dialer { min-height: 100%; display: flex; flex-direction: column; align-items: center; background: #1F2125; color: #FFFFFF; padding: 72px 16px 32px; box-sizing: border-box; }

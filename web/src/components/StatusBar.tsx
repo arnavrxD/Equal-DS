@@ -1,4 +1,5 @@
 import { Icon } from '../foundations/Icon';
+import { Text } from '../foundations/Text';
 
 export type StatusBarProps = { time?: string; background?: string; /** Text and glyph colour (default text/primary). */ color?: string };
 
@@ -13,8 +14,9 @@ export const STATUS_BAR_HEIGHT = 52;
  */
 export function StatusBar({ time = '12:30', background = 'var(--eq-bg-primary)', color = 'var(--eq-text-primary)' }: StatusBarProps) {
   return (
-    <div style={{ width: '100%', boxSizing: 'border-box', height: STATUS_BAR_HEIGHT, padding: '0 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background, color, flexShrink: 0 }}>
-      <span className="eq-tnum" style={{ fontFamily: 'Roboto, "Google Sans", system-ui, sans-serif', fontSize: 14, lineHeight: '20px', fontWeight: 500, letterSpacing: '0.1px' }}>{time}</span>
+    // A mock of the system bar: hidden from screen readers (the time is fake).
+    <div aria-hidden style={{ width: '100%', boxSizing: 'border-box', height: STATUS_BAR_HEIGHT, padding: '0 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background, color, flexShrink: 0 }}>
+      <Text variant="inherit" color="none" className="eq-tnum" style={{ fontFamily: 'Roboto, "Google Sans", system-ui, sans-serif', fontSize: 14, lineHeight: '20px', fontWeight: 500, letterSpacing: '0.1px' }}>{time}</Text>
       <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
         <Icon name="wifi" size={18} />
         <Icon name="signal" size={18} />

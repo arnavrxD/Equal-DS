@@ -11,7 +11,7 @@
   outline: none;
   transition: border-color var(--eq-duration-base), box-shadow var(--eq-duration-base);
 }
-.eq-composer__input::placeholder { color: var(--eq-text-tertiary); }
+.eq-composer__input::placeholder { color: var(--eq-text-secondary); }
 .eq-composer__input:focus,
 .eq-composer.is-focus .eq-composer__input { border-color: var(--eq-action-stroke-unread); box-shadow: var(--eq-shadow-focus-ring); }
 .eq-composer__send {

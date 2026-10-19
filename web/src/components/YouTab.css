@@ -14,6 +14,14 @@
 [data-theme='dark'] .eq-hero { background: none; }
 [data-theme='dark'] .eq-hero::before { content: ''; position: absolute; inset: 0 0 56px; border-radius: 0 0 24px 24px; background: var(--eq-gradient-profile-hero); }
 [data-theme='dark'] .eq-hero__arcs { bottom: 56px; height: auto; }
+/* No plan: a flat mint header with 20 dp bottom corners, no plan card. Follows the theme (not forced light). */
+.eq-hero.is-plain { background: var(--eq-profile-hero-plain-bg); border-radius: 0 0 20px 20px; padding-bottom: 20px; }
+[data-theme='dark'] .eq-hero.is-plain { background: var(--eq-profile-hero-plain-bg); }
+[data-theme='dark'] .eq-hero.is-plain::before { content: none; }
+.eq-hero__avatar { position: relative; width: 71px; height: 80px; flex-shrink: 0; }
+.eq-hero__ring { position: absolute; left: 0; bottom: 0; width: 71px; height: 71px; box-sizing: border-box; border-radius: 50%; border: 5px solid var(--eq-button-primary); }
+.eq-hero__disc { position: absolute; left: 6.5px; bottom: 6.5px; width: 58px; height: 58px; border-radius: 50%; background: var(--eq-button-primary); }
+.eq-hero__bust { position: absolute; left: 6.5px; bottom: 6.5px; width: 58px; height: 80px; overflow: hidden; border-radius: 0 0 29px 29px; display: flex; align-items: flex-end; justify-content: center; }
 
 .eq-plan {
   position: relative;
@@ -31,9 +39,19 @@
   padding: 0 10px;
   border-radius: var(--eq-radius-sm);
   border: 1px solid var(--eq-plan-card-pill-stroke);
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--eq-plan-card-pill-bg);
 }
-.eq-plan__pill.is-expired { border-color: transparent; background: var(--eq-plan-card-expired-pill); }
+/* Expired: the red sheen over the solid red fallback, outlined in dark red. */
+.eq-plan__pill.is-expired { border-color: var(--eq-plan-badge-expired-stroke); background: var(--eq-gradient-expired-badge), var(--eq-plan-card-expired-pill); }
+/* "UNLIMITED": the cream-to-gold gradient through the glyphs; text/accent-gold is the fallback colour. */
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .eq-plan__tier {
+    background: var(--eq-gradient-unlimited-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+}
 .eq-plan__manage { color: var(--eq-text-on-dark); text-decoration: underline; text-underline-offset: 2px; }
 
 .eq-summary-card {
@@ -52,7 +70,7 @@
 .eq-skeleton span {
   display: block;
   height: 17px;
-  background: var(--eq-skeleton);
+  background: var(--eq-stroke-subtle);
   opacity: 0.85;
   animation: eq-shimmer 1.4s var(--eq-easing-standard) infinite;
 }

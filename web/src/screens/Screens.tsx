@@ -401,27 +401,34 @@ export type YouScreenProps = {
    * (Restore Plan, use with tier="free"); reactivate: autopay is off (banner + Reactivate plan);
    * expired: the red "Plan Expired" pill, Manage plan opens the renewal page (use with tier="free").
    */
-  plan?: 'active' | 'restore' | 'reactivate' | 'expired';
+  /** 'none': no subscription and no plan (mint header, no plan card). */
+  plan?: 'none' | 'active' | 'restore' | 'reactivate' | 'expired';
   /** The plan card link (the Manage plan touchpoint). */
   onManagePlan?: () => void;
 };
 
 export function YouScreen({ onTab, onOpen, summary = 'ready', avatar = 'male', name = 'Keshav', tier = 'paid', plan = 'active', onManagePlan }: YouScreenProps) {
   const [assistantOn, setAssistantOn] = useState(true);
+  // No subscription and no plan: mint header, plain avatar, no plan card, and the rows without NEW markers.
+  const none = plan === 'none';
   return (
-    <Screen header={<StatusBar background="var(--eq-profile-hero-status-bg)" color="var(--eq-profile-hero-status-text)" />} floating={<BottomNav active="you" unread={2} onChange={onTab} avatar={avatar} tier={tier} />}>
+    <Screen header={none ? <StatusBar background="var(--eq-profile-hero-plain-bg)" /> : <StatusBar background="var(--eq-profile-hero-status-bg)" color="var(--eq-profile-hero-status-text)" />} floating={<BottomNav active="you" unread={2} onChange={onTab} avatar={avatar} tier={none ? 'free' : tier} />}>
+      {none ? (
+        <ProfileHero tone="plain" name={name} phone="+91 98789 56749" avatar={avatar} tier="free" onEdit={() => onOpen?.('personal')} />
+      ) : (
       <ProfileHero name={name} phone="+91 98789 56749" avatar={avatar} tier={tier} plan={tier === 'paid' ? 'Unlimited' : null} onEdit={() => onOpen?.('personal')}>
         <PlanCard onManage={onManagePlan ?? (() => {})} status={plan === 'expired' ? 'expired' : 'current'} actionLabel={plan === 'restore' ? 'Restore Plan' : plan === 'reactivate' ? 'Reactivate plan' : 'Manage plan'} />
         {plan === 'reactivate' && <PlanBanner attached>Reactivate your current Plan to use Equal Unlimited</PlanBanner>}
       </ProfileHero>
+      )}
 
       <SectionHeader>Your assistant</SectionHeader>
       <div style={{ padding: '0 20px 12px' }}>
         <AssistantToggle on={assistantOn} onChange={setAssistantOn} />
       </div>
       <RowGroup>
-        <SettingsRow icon="call" label="Call Handling" description="Choose which calls I answer" isNew onClick={() => onOpen?.('call-handling')} />
-        <SettingsRow icon="instructions" label="Instructions" description="Tell assistant how you'd like it to help" isNew onClick={() => onOpen?.('instructions')} />
+        {!none && <SettingsRow icon="call" label="Call Handling" description="Choose which calls I answer" isNew onClick={() => onOpen?.('call-handling')} />}
+        <SettingsRow icon="instructions" label="Instructions" description="Tell assistant how you'd like it to help" isNew={!none} onClick={() => onOpen?.('instructions')} />
         <SettingsRow icon="health-check" label="Assistant Health Check" description="Check Real-Time Assistant Connectivity" onClick={() => {}} />
         <SettingsRow icon="silent-mode" label="Silent Mode" description="Mute promotional calls automatically" onClick={() => onOpen?.('silent')} />
         <SettingsRow icon="voice-language" label="Voice & Language" description="Choose assistant's voice and languages" onClick={() => {}} />
@@ -430,12 +437,12 @@ export function YouScreen({ onTab, onOpen, summary = 'ready', avatar = 'male', n
       <SectionHeader>About you</SectionHeader>
       <div style={{ padding: '0 20px 12px' }}>
         <AiSummaryCard
-          status={summary}
+          status={none ? 'empty' : summary}
           summary="Your family calls you a lot. They always say it's urgent. They almost never say why. Everyone wants you, not me. You keep me on anyway, and let me be the one who asks."
         />
       </div>
       <RowGroup>
-        <SettingsRow icon="address-pin" label="Your Addresses" description="Add addresses your assistant should know" isNew onClick={() => onOpen?.('addresses')} />
+        <SettingsRow icon="address-pin" label="Your Addresses" description="Add addresses your assistant should know" isNew={!none} onClick={() => onOpen?.('addresses')} />
       </RowGroup>
 
       <SectionHeader>Settings &amp; support</SectionHeader>

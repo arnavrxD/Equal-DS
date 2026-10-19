@@ -48,7 +48,7 @@ internal fun FoundationColourSnippet() {
             EqualText(text = "Equal AI", style = EqualTheme.type.subheading, color = colors.textAction)
         }
         // Gradients are tokens too
-        Box(Modifier.size(64.dp).background(EqualTheme.gradients.whatsNew.toBrush(), RoundedCornerShape(EqualRadius.r2xl)))
+        Box(Modifier.size(64.dp).background(EqualTheme.gradients.fab.toBrush(), RoundedCornerShape(EqualRadius.r2xl)))
     }
 }
 
@@ -60,8 +60,8 @@ internal fun FoundationTypographySnippet() {
     Column {
         EqualText(text = "Amit Nanda", style = type.headline, color = colors.textPrimary)
         EqualText(text = "Assistant Health Check", style = type.subheading, color = colors.textPrimary)
-        EqualText(text = "Check Real-Time Assistant Connectivity", style = type.caption, color = colors.textTertiary)
-        EqualText(text = "CALL HISTORY", style = type.overline, color = colors.textTertiary)
+        EqualText(text = "Check Real-Time Assistant Connectivity", style = type.caption, color = colors.textSecondary)
+        EqualText(text = "CALL HISTORY", style = type.overline, color = colors.textSecondary)
     }
 }
 

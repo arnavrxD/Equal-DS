@@ -1,4 +1,5 @@
 import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import { Text } from '../foundations/Text';
 import { Emoji, Icon } from '../foundations/Icon';
 import { Asset } from '../foundations/Asset';
 import './ActionChip.css';
@@ -19,7 +20,7 @@ export function SmallActionChip({ label, emoji, state = 'unread', chevron = true
   return (
     <button type={type} className={['eq-reset-btn eq-pressable eq-touch eq-chip-sm', `eq-chip-sm--${state}`, locked && 'eq-chip-sm--locked', className].filter(Boolean).join(' ')} {...rest}>
       {locked ? <Asset name="crown-lock" size={14} alt="Locked" /> : emoji && <Emoji char={emoji} size={12} />}
-      <span className="eq-t-button-small">{label}</span>
+      <Text variant="buttonSmall" color="none">{label}</Text>
       {chevron && <Icon name="chevron-right" size={14} />}
     </button>
   );
@@ -36,9 +37,9 @@ export type LargeActionChipProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>,
 /** Large post-call action chip — inside chats (Component ref #10). button token. */
 export function LargeActionChip({ label, emoji, state = 'unread', className, type = 'button', ...rest }: LargeActionChipProps) {
   return (
-    <button type={type} className={['eq-reset-btn eq-pressable eq-chip-lg', `eq-chip-lg--${state}`, className].filter(Boolean).join(' ')} {...rest}>
+    <button type={type} className={['eq-reset-btn eq-pressable eq-touch eq-chip-lg', `eq-chip-lg--${state}`, className].filter(Boolean).join(' ')} {...rest}>
       {emoji && <Emoji char={emoji} size={14} />}
-      <span className="eq-t-button">{label}</span>
+      <Text variant="button" color="none">{label}</Text>
     </button>
   );
 }

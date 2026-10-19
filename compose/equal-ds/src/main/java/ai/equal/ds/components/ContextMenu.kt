@@ -43,7 +43,7 @@ data class ContextMenuItem(
 
 /**
  * Long-press context menu surface (SPEC §18). Min width 131, `bg/surface`, radius 12, shadow
- * `card`. Items 40 high, h12: icon 16 `text/tertiary` → 10 → label `body1` `text/primary`,
+ * `card`. Items 48 high (the touch minimum), h12: icon 16 `text/tertiary` → 10 → label `body1` `text/primary`,
  * 1dp `stroke/subtle` between items. Destructive: `text/danger`.
  * Use [ContextMenuPopup] to anchor it.
  */
@@ -66,12 +66,12 @@ fun ContextMenu(
     ) {
         items.forEachIndexed { index, item ->
             if (index > 0) EqualDivider()
-            val tint = if (item.destructive) colors.textDanger else colors.textTertiary
+            val tint = if (item.destructive) colors.textDanger else colors.textSecondary
             val labelColor = if (item.destructive) colors.textDanger else colors.textPrimary
             Row(
                 Modifier
                     .fillMaxWidth()
-                    .height(40.dp)
+                    .height(48.dp)
                     .clickable(role = Role.Button, onClick = item.onClick)
                     .padding(horizontal = 12.dp),
                 verticalAlignment = Alignment.CenterVertically,

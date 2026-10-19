@@ -10,6 +10,8 @@ import ai.equal.ds.tokens.EqualRadius
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.LocalIndication
+import androidx.compose.foundation.indication
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,6 +36,11 @@ import androidx.compose.ui.draw.BlurredEdgeTreatment
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.ProgressBarRangeInfo
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.progressBarRangeInfo
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -62,13 +69,15 @@ enum class VoicePlayerTone {
 
 /**
  * Voice note player box (SPEC §11). Radius 12, filled `voice-player/bg` ([tone] Sent:
- * `voice/player-bg-sent`, speed pill `bg/surface` / `text/primary`), no border, padding 10.
+ * `voice/player-bg-sent`, speed pill `bg/surface` / `text/primary`), padding 10. The neutral player has a
+ * 1dp `voice/player-stroke` hairline that turns `button/primary` while playing; Sent and a custom
+ * [background] have none.
  * Play/pause 22 `text/secondary` → 8 → waveform (fills) → 8 → speed pill (22 high, h8,
  * `playback/pill-bg`, `caption` `text/on-dark`, tabular; tap cycles). Elapsed and total `micro`
  * `text/tertiary` sit under the two ends of the waveform (gap 4).
  *
- * The play button and pill are smaller than 48dp visually; Compose extends their pointer
- * hit area to the 48dp minimum touch target. [background] replaces the fill (the gold wash of a
+ * The play button and pill are smaller than 48dp visually; each has a 48dp touch and TalkBack
+ * area ([touchTarget]) that spills past it without changing the layout. [background] replaces the fill (the gold wash of a
  * [LockedRecording]).
  */
 @Composable
@@ -99,49 +108,83 @@ fun VoiceNotePlayer(
                     Modifier.background(if (sent) colors.voicePlayerBgSent else colors.voicePlayerBg, shape)
                 },
             )
+            .then(
+                // Neutral player: 1dp `voice/player-stroke` hairline, brand green while playing.
+                if (background == null && !sent) {
+                    Modifier.border(1.dp, if (isPlaying) colors.buttonPrimary else colors.voicePlayerStroke, shape)
+                } else {
+                    Modifier
+                },
+            )
             .padding(10.dp),
         verticalAlignment = Alignment.Top,
     ) {
+        val playInteraction = rememberInteraction()
         Box(
             Modifier
-                .size(22.dp)
-                .clip(CircleShape)
-                .clickable(role = Role.Button, onClick = onPlayPauseClick),
+                .touchTarget()
+                .clickable(interactionSource = playInteraction, indication = null, role = Role.Button, onClick = onPlayPauseClick),
             contentAlignment = Alignment.Center,
         ) {
-            EqualIcon(
-                imageVector = if (isPlaying) EqualIcons.Pause else EqualIcons.PlayArrow,
-                contentDescription = if (isPlaying) "Pause" else "Play",
-                tint = colors.textSecondary,
-                size = 22.dp,
-            )
+            Box(
+                Modifier
+                    .size(22.dp)
+                    .clip(CircleShape)
+                    .indication(playInteraction, LocalIndication.current),
+                contentAlignment = Alignment.Center,
+            ) {
+                EqualIcon(
+                    imageVector = if (isPlaying) EqualIcons.Pause else EqualIcons.PlayArrow,
+                    contentDescription = if (isPlaying) "Pause" else "Play",
+                    tint = colors.textSecondary,
+                    size = 22.dp,
+                )
+            }
         }
         Spacer(Modifier.width(8.dp))
         Column(Modifier.weight(1f)) {
             EqualWaveform(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(22.dp),
+                    .height(22.dp)
+                    .semantics {
+                        contentDescription = "Playback"
+                        progressBarRangeInfo = ProgressBarRangeInfo(progress.coerceIn(0f, 1f), 0f..1f)
+                        stateDescription = "$elapsed of $total"
+                    },
                 samples = samples,
                 progress = progress,
             )
             Spacer(Modifier.height(4.dp))
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                EqualText(text = elapsed, style = type.micro, color = colors.textTertiary, maxLines = 1)
-                EqualText(text = total, style = type.micro, color = colors.textTertiary, maxLines = 1)
+                EqualText(text = elapsed, style = type.micro, color = colors.textSecondary, maxLines = 1)
+                EqualText(text = total, style = type.micro, color = colors.textSecondary, maxLines = 1)
             }
         }
         Spacer(Modifier.width(8.dp))
+        val speedInteraction = rememberInteraction()
         Box(
             Modifier
-                .height(22.dp)
-                .clip(CircleShape)
-                .background(if (sent) colors.bgSurface else colors.playbackPillBg)
-                .clickable(role = Role.Button, onClickLabel = "Change speed") { onSpeedChange(speed.next()) }
-                .padding(horizontal = 8.dp),
+                .touchTarget()
+                .clickable(
+                    interactionSource = speedInteraction,
+                    indication = null,
+                    role = Role.Button,
+                    onClickLabel = "Change speed",
+                ) { onSpeedChange(speed.next()) },
             contentAlignment = Alignment.Center,
         ) {
-            EqualText(text = speed.label, style = type.caption.tabular(), color = if (sent) colors.textPrimary else colors.textOnDark, maxLines = 1)
+            Box(
+                Modifier
+                    .height(22.dp)
+                    .clip(CircleShape)
+                    .background(if (sent) colors.bgSurface else colors.playbackPillBg)
+                    .indication(speedInteraction, LocalIndication.current)
+                    .padding(horizontal = 8.dp),
+                contentAlignment = Alignment.Center,
+            ) {
+                EqualText(text = speed.label, style = type.caption.tabular(), color = if (sent) colors.textPrimary else colors.textOnDark, maxLines = 1)
+            }
         }
     }
 }
@@ -152,7 +195,7 @@ fun VoiceNotePlayer(
  * `caption` `text/tertiary` → summary `body1` → a row with the optional [tag] pill on the left and
  * the timestamp `micro` on the right (6 above); the row is skipped when both are null. The tag pill is 24 high, h10, 1dp `stroke/subtle`,
  * `bg/surface`, emoji 12 + `caption` `text/secondary` (e.g. 🪄 Instruction Applied).
- * With [onShareClick] a footer appears: 1dp divider + 44-high centred "Share"
+ * With [onShareClick] a footer appears: 1dp divider + 48-high centred "Share"
  * (`button` `text/action`, share icon 18).
  *
  * [locked] (monetization): [CallSummaryLock.Audio] blurs the recording (3dp) under an
@@ -217,7 +260,7 @@ fun CallSummaryBubble(
                 .fillMaxWidth()
                 .padding(start = 8.dp, end = 8.dp, bottom = 8.dp),
         ) {
-            EqualText(text = title, style = type.caption, color = colors.textTertiary, maxLines = 1)
+            EqualText(text = title, style = type.caption, color = colors.textSecondary, maxLines = 1)
             if (locked == CallSummaryLock.All) {
                 LockedContent { EqualText(text = summary, style = type.body1, color = colors.textPrimary) }
             } else {
@@ -247,7 +290,7 @@ fun CallSummaryBubble(
                         }
                     }
                     Spacer(Modifier.weight(1f))
-                    if (timestamp != null) EqualText(text = timestamp, style = type.micro, color = colors.textTertiary, maxLines = 1)
+                    if (timestamp != null) EqualText(text = timestamp, style = type.micro, color = colors.textSecondary, maxLines = 1)
                 }
             }
         }
@@ -258,7 +301,7 @@ fun CallSummaryBubble(
             Row(
                 Modifier
                     .fillMaxWidth()
-                    .height(44.dp)
+                    .height(48.dp)
                     .clickable(role = Role.Button, onClick = onShareClick),
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,

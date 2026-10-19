@@ -137,6 +137,15 @@ internal fun FlowMonetizationHomePaidSnippet() {
     }
 }
 
+// snippet: flow-monetization / settings-none
+@Composable
+internal fun FlowMonetizationSettingsNoneSnippet() {
+    EqualTheme {
+        // No subscription and no plan: mint header, no plan card, rows without NEW markers.
+        YouScreenSample(plan = YouPlan.None)
+    }
+}
+
 // snippet: flow-monetization / settings
 @Composable
 internal fun FlowMonetizationSettingsSnippet() {

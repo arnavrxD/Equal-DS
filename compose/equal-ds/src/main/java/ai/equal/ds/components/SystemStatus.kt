@@ -11,6 +11,9 @@ import ai.equal.ds.theme.eqShadow
 import ai.equal.ds.theme.toBrush
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.LocalIndication
+import androidx.compose.foundation.indication
+import androidx.compose.ui.semantics.heading
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -97,24 +100,36 @@ fun SystemStatusCard(
                 color = colors.textPrimary,
                 maxLines = 1,
                 softWrap = false,
+                modifier = Modifier.semantics { heading() },
             )
             Spacer(Modifier.height(2.dp))
             EqualText(text = body, style = type.captionRegular, color = colors.textSecondary, modifier = Modifier.widthIn(max = 190.dp))
             Spacer(Modifier.height(14.dp))
             Box(Modifier.heightIn(min = 32.dp), contentAlignment = Alignment.CenterStart) {
                 when (state) {
-                    SystemStatusState.Unavailable -> Row(
-                        Modifier
-                            .height(32.dp)
-                            .clip(CircleShape)
-                            .background(colors.statusCardButton)
-                            .clickable(role = Role.Button, onClick = onNotifyClick)
-                            .padding(start = 12.dp, end = 14.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(6.dp),
-                    ) {
-                        EqualIcon(EqualIcons.NotifyMe, contentDescription = null, tint = colors.statusCardButtonText, size = 16.dp)
-                        EqualText(text = "Notify me when ready", style = type.buttonSmall.copy(fontWeight = FontWeight.Bold), color = colors.statusCardButtonText)
+                    SystemStatusState.Unavailable -> {
+                        // 48dp touch area around the 32dp pill (layout unchanged).
+                        val interaction = rememberInteraction()
+                        Box(
+                            Modifier
+                                .touchTarget()
+                                .clickable(interactionSource = interaction, indication = null, role = Role.Button, onClick = onNotifyClick),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            Row(
+                                Modifier
+                                    .height(32.dp)
+                                    .clip(CircleShape)
+                                    .background(colors.statusCardButton)
+                                    .indication(interaction, LocalIndication.current)
+                                    .padding(start = 12.dp, end = 14.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                            ) {
+                                EqualIcon(EqualIcons.NotifyMe, contentDescription = null, tint = colors.statusCardButtonText, size = 16.dp)
+                                EqualText(text = "Notify me when ready", style = type.buttonSmall.copy(fontWeight = FontWeight.Bold), color = colors.statusCardButtonText)
+                            }
+                        }
                     }
                     SystemStatusState.Notified -> Row(
                         verticalAlignment = Alignment.CenterVertically,
@@ -199,19 +214,28 @@ fun CallMeButton(
     block: Boolean = false,
 ) {
     val colors = EqualTheme.colors
-    Row(
+    val interaction = rememberInteraction()
+    // The 40dp pill gets a 48dp touch area (layout unchanged); the 52dp block already has one.
+    Box(
         modifier
-            .then(if (block) Modifier.fillMaxWidth().height(52.dp) else Modifier.height(40.dp))
-            .eqShadow(EqualShadow(listOf(EqualShadowLayer(0.dp, 6.dp, 16.dp, colors.buttonPrimary.copy(alpha = 0.28f)))), CircleShape)
-            .clip(CircleShape)
-            .background(EqualTheme.gradients.callMe.toBrush())
-            .clickable(role = Role.Button, onClick = onClick)
-            .padding(start = 18.dp, end = 22.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+            .then(if (block) Modifier.fillMaxWidth() else Modifier.touchTarget())
+            .clickable(interactionSource = interaction, indication = null, role = Role.Button, onClick = onClick),
+        contentAlignment = Alignment.Center,
     ) {
-        EqualIcon(EqualIcons.CallSparkle, contentDescription = null, tint = colors.textOnAction, size = 18.dp)
-        EqualText(text = label, style = EqualTheme.type.button, color = colors.textOnAction)
+        Row(
+            Modifier
+                .then(if (block) Modifier.fillMaxWidth().height(52.dp) else Modifier.height(40.dp))
+                .eqShadow(EqualShadow(listOf(EqualShadowLayer(0.dp, 6.dp, 16.dp, colors.buttonPrimary.copy(alpha = 0.28f)))), CircleShape)
+                .clip(CircleShape)
+                .background(EqualTheme.gradients.callMe.toBrush())
+                .indication(interaction, LocalIndication.current)
+                .padding(start = 18.dp, end = 22.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
+        ) {
+            EqualIcon(EqualIcons.CallSparkle, contentDescription = null, tint = colors.textOnAction, size = 18.dp)
+            EqualText(text = label, style = EqualTheme.type.button, color = colors.textOnAction)
+        }
     }
 }
 
@@ -252,7 +276,7 @@ fun MeetAssistantCard(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(18.dp),
             ) {
-                EqualAssetImage(EqualAssets.AvatarAssistant, DpSize(84.dp, 94.dp), contentDescription = "Your assistant")
+                EqualAssetImage(EqualAssets.AvatarAssistant, DpSize(84.dp, 94.dp), contentDescription = null)
                 Column {
                     EqualText(text = title, style = type.subheading, color = colors.textPrimary)
                     Spacer(Modifier.height(10.dp))
@@ -274,7 +298,7 @@ fun MeetAssistantCard(
                     EqualAssets.AvatarAssistant,
                     DpSize(100.dp, 112.dp),
                     modifier = Modifier.align(Alignment.Bottom).padding(top = 24.dp),
-                    contentDescription = "Your assistant",
+                    contentDescription = null,
                 )
             }
             MeetAssistantLayout.Hero -> Column(
@@ -283,7 +307,7 @@ fun MeetAssistantCard(
                     .padding(start = 24.dp, top = 40.dp, end = 24.dp, bottom = 28.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                EqualAssetImage(EqualAssets.AvatarAssistant, DpSize(170.dp, 190.dp), contentDescription = "Your assistant")
+                EqualAssetImage(EqualAssets.AvatarAssistant, DpSize(170.dp, 190.dp), contentDescription = null)
                 Spacer(Modifier.height(28.dp))
                 EqualText(
                     text = title,
@@ -306,8 +330,9 @@ fun MeetAssistantCard(
             Box(
                 Modifier
                     .align(Alignment.TopEnd)
-                    .padding(6.dp)
-                    .size(32.dp)
+                    // 48dp touch area centred where the old 32dp button (inset 6) was.
+                    .offset(x = 2.dp, y = (-2).dp)
+                    .size(48.dp)
                     .clip(CircleShape)
                     .clickable(role = Role.Button, onClick = onDismiss),
                 contentAlignment = Alignment.Center,

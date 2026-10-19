@@ -8,6 +8,7 @@ export { Text, textColorVar, typeClass, type TextProps, type TextColor } from '.
 export { Icon, Emoji, type IconProps } from './foundations/Icon';
 export { icons, iconNames, iconSource, type IconName } from './foundations/icons';
 export { Asset, assetNames, assetUsage, categories, categoryLabel, registerAssets, hasAsset, assetUrl, type AssetName, type Category } from './foundations/Asset';
+export { useModal, useMenu, inertWhen, menuKeyDown, radioGroupKeyDown, rovingTabIndex, getFocusable, prefersReducedMotion, useReducedMotion, useFocusHandoff, Announce, VisuallyHidden, type UseModalOptions, type ModalProps } from './foundations/a11y';
 export { EqualMark, EqualLogo, type EqualLogoProps } from './foundations/EqualMark';
 export { LOGO_VIEWBOX, MARK_VIEWBOX, MARK_PATH, WORDMARK_PATH } from './foundations/logo';
 

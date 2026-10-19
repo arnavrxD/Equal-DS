@@ -12,6 +12,9 @@ export type AssistantToggleProps = {
   art?: 'robot' | 'phone';
 };
 
+const GLOW = 'color-mix(in srgb, var(--eq-action-stroke-unread) 40%, transparent)';
+const GLOWS = `radial-gradient(50% 160% at 0% 50%, ${GLOW}, transparent), radial-gradient(50% 160% at 100% 50%, ${GLOW}, transparent), var(--eq-assistant-toggle-bg)`;
+
 /** Assistant availability card (Component ref #3). */
 export function AssistantToggle({ on, onChange, title, description = 'Equal is managing your unknown calls!', art = 'robot' }: AssistantToggleProps) {
   return (
@@ -23,7 +26,8 @@ export function AssistantToggle({ on, onChange, title, description = 'Equal is m
         minHeight: 64,
         padding: '12px 10px 12px 12px',
         borderRadius: 20,
-        background: on ? 'var(--eq-gradient-assistant-toggle)' : 'var(--eq-bg-surface)',
+        // On: Figma's flat assistant-toggle/bg fill with a soft action/stroke/unread glow at each end.
+        background: on ? GLOWS : 'var(--eq-bg-surface)',
         border: on ? '1px solid transparent' : '1px solid var(--eq-stroke-subtle)',
         transition: 'background var(--eq-duration-base)',
       }}

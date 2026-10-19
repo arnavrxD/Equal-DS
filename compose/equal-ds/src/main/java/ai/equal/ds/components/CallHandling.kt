@@ -43,6 +43,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
@@ -66,6 +67,7 @@ import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.paneTitle
+import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
@@ -109,24 +111,31 @@ private fun FitArt(asset: EqualAssets, size: DpSize, modifier: Modifier = Modifi
 private fun UnderlinedLink(text: String, onClick: () -> Unit, modifier: Modifier = Modifier, chevron: Boolean = false) {
     val colors = EqualTheme.colors
     val interaction = rememberInteraction()
-    Row(
+    // 48dp touch area around the 36dp link (layout unchanged).
+    Box(
         modifier
-            .height(36.dp)
-            .eqPressFeedback(interaction, CircleShape)
-            .clip(CircleShape)
-            .clickable(interactionSource = interaction, indication = null, role = Role.Button, onClick = onClick)
-            .padding(horizontal = 8.dp),
-        verticalAlignment = Alignment.CenterVertically,
+            .touchTarget()
+            .clickable(interactionSource = interaction, indication = null, role = Role.Button, onClick = onClick),
+        contentAlignment = Alignment.Center,
     ) {
-        EqualText(
-            text = text,
-            style = EqualTheme.type.button.copy(textDecoration = TextDecoration.Underline),
-            color = colors.textAction,
-            maxLines = 1,
-        )
-        if (chevron) {
-            Spacer(Modifier.width(4.dp))
-            EqualIcon(EqualIcons.ChevronRight, contentDescription = null, tint = colors.textAction, size = 16.dp)
+        Row(
+            Modifier
+                .height(36.dp)
+                .eqPressFeedback(interaction, CircleShape)
+                .clip(CircleShape)
+                .padding(horizontal = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            EqualText(
+                text = text,
+                style = EqualTheme.type.button.copy(textDecoration = TextDecoration.Underline),
+                color = colors.textAction,
+                maxLines = 1,
+            )
+            if (chevron) {
+                Spacer(Modifier.width(4.dp))
+                EqualIcon(EqualIcons.ChevronRight, contentDescription = null, tint = colors.textAction, size = 16.dp)
+            }
         }
     }
 }
@@ -195,7 +204,7 @@ fun CallQuestion(
 /**
  * Radio card: [icon] 28 → 16 → [title] `subheading` (+ [SuggestedTag] when [suggested]) over
  * [description] `body1` `text/secondary` → the 24dp radio. Radius 20, padding 18 / 18 / 18 / 20,
- * `bg/surface` with a soft shadow. Selected: `choice/selected-bg` and a 2dp `gradient/choice-stroke`
+ * `choice/default-bg` with a soft shadow. Selected: `action/fill/unread` and a 2dp `gradient/choice-stroke`
  * outline (green fading to lime), radio filled `button/primary`. [enabled] false dims it to 45%
  * (e.g. no contacts permission). Put the cards in a column with `Modifier.selectableGroup()`.
  */
@@ -217,13 +226,13 @@ fun ChoiceCard(
     val surface = if (selected) {
         Modifier
             .clip(shape)
-            .background(colors.choiceSelectedBg)
+            .background(colors.actionFillUnread)
             .border(2.dp, EqualTheme.gradients.choiceStroke.toBrush(), shape)
     } else {
         Modifier
-            .eqShadow(ChoiceShadow, shape)
+            .eqShadow(ChoiceShadow, shape, outsideOnly = true)
             .clip(shape)
-            .background(colors.bgSurface)
+            .background(colors.choiceDefaultBg)
     }
     Row(
         modifier
@@ -313,10 +322,10 @@ fun InfoNote(
         verticalArrangement = Arrangement.spacedBy(4.dp),
     ) {
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-            EqualIcon(EqualIcons.Info, contentDescription = null, tint = colors.infoNoteText, size = 18.dp)
-            EqualText(text = title, style = type.subheading, color = colors.infoNoteText)
+            EqualIcon(EqualIcons.Info, contentDescription = null, tint = colors.textPrimary, size = 18.dp)
+            EqualText(text = title, style = type.subheading, color = colors.textPrimary)
         }
-        if (body != null) EqualText(text = body, style = type.body1, color = colors.infoNoteText, textAlign = TextAlign.Center)
+        if (body != null) EqualText(text = body, style = type.body1, color = colors.textPrimary, textAlign = TextAlign.Center)
         if (link != null) UnderlinedLink(text = link, onClick = onLink, chevron = true)
     }
 }
@@ -410,9 +419,11 @@ fun ContactCheckRow(
     modifier: Modifier = Modifier,
 ) {
     val colors = EqualTheme.colors
+    // The whole row toggles (one TalkBack stop: name, phone, checked state).
     Row(
         modifier
             .fillMaxWidth()
+            .toggleable(value = checked, role = Role.Checkbox, onValueChange = onCheckedChange)
             .padding(start = 16.dp, top = 10.dp, end = 28.dp, bottom = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -422,7 +433,7 @@ fun ContactCheckRow(
             EqualText(text = name, style = EqualTheme.type.title, color = colors.textPrimary, maxLines = 1, overflow = TextOverflow.Ellipsis)
             EqualText(text = phone, style = EqualTheme.type.body1.tabular(), color = colors.textSecondary, maxLines = 1)
         }
-        EqualCheckbox(checked = checked, onCheckedChange = onCheckedChange, size = 26.dp, contentDescription = "Select $name")
+        EqualCheckbox(checked = checked, onCheckedChange = null, size = 26.dp)
     }
 }
 
@@ -440,14 +451,21 @@ fun AlphabetIndex(modifier: Modifier = Modifier, onPick: (Char) -> Unit = {}) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         ('A'..'Z').forEach { l ->
-            EqualText(
-                text = l.toString(),
-                style = style,
-                color = colors.textPrimary,
-                modifier = Modifier
-                    .clickable(onClickLabel = "Jump to $l", role = Role.Button) { onPick(l) }
-                    .padding(horizontal = 2.dp),
-            )
+            // 26 letters must fit the list height, so each target is 48dp wide but only as tall
+            // as its row (taller targets would overlap and pick the wrong letter).
+            Box(
+                Modifier
+                    .touchTarget(minHeight = 0.dp)
+                    .clickable(onClickLabel = "Jump to $l", role = Role.Button) { onPick(l) },
+                contentAlignment = Alignment.Center,
+            ) {
+                EqualText(
+                    text = l.toString(),
+                    style = style,
+                    color = colors.textPrimary,
+                    modifier = Modifier.padding(horizontal = 2.dp),
+                )
+            }
         }
     }
 }
@@ -460,7 +478,7 @@ fun AlphabetIndex(modifier: Modifier = Modifier, onPick: (Char) -> Unit = {}) {
  * Dark takeover that invites a new user into setup, drawn over the whole screen (an overlay):
  * `gradient/setup-prompt`, the 240 × 169 [art], [title] `headline` and [subtitle] `title` Regular
  * in `text/on-dark`, then a full-width [cta] with a 1.5dp `button/secondary` ring. Fades in over
- * `motion.slow` (held still when animations are off).
+ * `motion.slow` (held still when animations are off). With [onDismiss], system Back calls it.
  */
 @Composable
 fun SetupPrompt(
@@ -470,9 +488,11 @@ fun SetupPrompt(
     title: String = "Set up your calls",
     subtitle: String = "Two questions. One minute.",
     cta: String = "Start",
+    onDismiss: (() -> Unit)? = null,
 ) {
     val colors = EqualTheme.colors
     val type = EqualTheme.type
+    if (onDismiss != null) EqualBackHandler(onBack = onDismiss)
     val reduceMotion = rememberReduceMotion()
     val visible = remember { MutableTransitionState(reduceMotion).apply { targetState = true } }
     AnimatedVisibility(
@@ -500,7 +520,7 @@ fun SetupPrompt(
             ) {
                 FitArt(art, DpSize(240.dp, 169.dp))
                 Spacer(Modifier.height(20.dp))
-                EqualText(text = title, style = type.headline, color = colors.textOnDark, textAlign = TextAlign.Center)
+                EqualText(text = title, style = type.headline, color = colors.textOnDark, textAlign = TextAlign.Center, modifier = Modifier.semantics { heading() })
                 EqualText(
                     text = subtitle,
                     style = type.title.copy(fontWeight = FontWeight.W400),
@@ -578,7 +598,7 @@ fun SetupDone(
  *
  * As an overlay (default) it fills its parent: `scrim` (tap → [onScrim]) and the sheet at the
  * bottom, which slides up 40% + fades in over `motion.slow` (none when animations are off).
- * [inline] draws only the sheet, for docs.
+ * [inline] draws only the sheet, for docs. System Back calls [onClose] when it is set.
  */
 @Composable
 fun PermissionSheet(
@@ -603,7 +623,7 @@ fun PermissionSheet(
                 .fillMaxWidth()
                 .eqShadow(PermissionSheetShadow, shape)
                 .clip(shape)
-                .background(colors.sheetBg)
+                .background(colors.bgPrimary)
                 // Swallow taps so they don't reach the scrim.
                 .clickable(interactionSource = rememberInteraction(), indication = null, onClick = {})
                 .semantics { paneTitle = title },
@@ -617,7 +637,7 @@ fun PermissionSheet(
             ) {
                 EqualAssetImage(art, size = 110.dp)
                 Spacer(Modifier.height(12.dp))
-                EqualText(text = title, style = type.headline, color = colors.textPrimary, textAlign = TextAlign.Center)
+                EqualText(text = title, style = type.headline, color = colors.textPrimary, textAlign = TextAlign.Center, modifier = Modifier.semantics { heading() })
                 Spacer(Modifier.height(4.dp))
                 EqualText(text = body, style = type.title.copy(fontWeight = FontWeight.W400), color = colors.textSecondary, textAlign = TextAlign.Center)
                 Spacer(Modifier.height(24.dp))
@@ -643,13 +663,14 @@ fun PermissionSheet(
         sheet(modifier)
         return
     }
+    if (onClose != null) EqualBackHandler(onBack = onClose)
     val reduceMotion = rememberReduceMotion()
     val visible = remember { MutableTransitionState(reduceMotion).apply { targetState = true } }
     Box(modifier.fillMaxSize()) {
         Box(
             Modifier
                 .matchParentSize()
-                .background(colors.scrim)
+                .background(colors.bgOverlay)
                 .clickable(interactionSource = rememberInteraction(), indication = null, onClickLabel = "Close", onClick = onScrim),
         )
         AnimatedVisibility(
@@ -722,10 +743,9 @@ fun CallNotification(
             .fillMaxWidth()
             .eqShadow(NotificationShadow, shape)
             .clip(shape)
-            .background(colors.bgSurface)
-            .semantics { liveRegion = LiveRegionMode.Polite },
+            .background(colors.bgSurface),
     ) {
-        // App line
+        // App line (the ticking timer is not a live region; only the message below is).
         Row(
             Modifier
                 .fillMaxWidth()
@@ -734,7 +754,7 @@ fun CallNotification(
             horizontalArrangement = Arrangement.spacedBy(6.dp),
         ) {
             EqualText(text = "Equal AI", style = type.captionRegular, color = colors.textSecondary)
-            EqualText(text = "•", style = type.captionRegular.copy(fontSize = 10.sp), color = colors.textTertiary, modifier = Modifier.clearAndSetSemantics {})
+            EqualText(text = "•", style = type.captionRegular.copy(fontSize = 10.sp), color = colors.textSecondary, modifier = Modifier.clearAndSetSemantics {})
             EqualText(text = "Ongoing", style = type.captionRegular, color = colors.textAction)
             Row(
                 Modifier
@@ -748,7 +768,7 @@ fun CallNotification(
                 EqualText(text = elapsed, style = type.captionRegular.tabular(), color = colors.textSecondary)
             }
             Spacer(Modifier.weight(1f))
-            EqualIcon(EqualIcons.ChevronDown, contentDescription = null, tint = colors.textTertiary, size = 20.dp)
+            EqualIcon(EqualIcons.ChevronDown, contentDescription = null, tint = colors.textSecondary, size = 20.dp)
         }
         // Caller
         Row(
@@ -768,7 +788,7 @@ fun CallNotification(
                             .size(18.dp)
                             .border(2.dp, colors.bgSurface, CircleShape)
                             .padding(2.dp)
-                            .background(colors.textBrand, CircleShape),
+                            .background(colors.textAction, CircleShape),
                         contentAlignment = Alignment.Center,
                     ) {
                         EqualMark(width = 10.dp, color = colors.textOnAction)
@@ -783,22 +803,31 @@ fun CallNotification(
                     color = colors.textPrimary,
                     maxLines = if (big) 2 else 1,
                     overflow = TextOverflow.Ellipsis,
+                    // Announced once when the message changes, never on timer ticks.
+                    modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite },
                 )
             }
             when (state) {
                 CallNotificationState.Expanded -> {
                     val interaction = rememberInteraction()
+                    // 48dp touch area around the 44dp button (layout unchanged).
                     Box(
                         Modifier
-                            .size(44.dp)
-                            .eqPressFeedback(interaction, CircleShape)
-                            .clip(CircleShape)
-                            .border(1.5.dp, colors.buttonPrimary, CircleShape)
+                            .touchTarget()
                             .clickable(interactionSource = interaction, indication = null, onClickLabel = "Answer the call", role = Role.Button, onClick = onAnswer)
                             .semantics { contentDescription = "Answer the call" },
                         contentAlignment = Alignment.Center,
                     ) {
-                        EqualIcon(EqualIcons.CallFilled, contentDescription = null, tint = colors.textAction, size = 20.dp)
+                        Box(
+                            Modifier
+                                .size(44.dp)
+                                .eqPressFeedback(interaction, CircleShape)
+                                .clip(CircleShape)
+                                .border(1.5.dp, colors.buttonPrimary, CircleShape),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            EqualIcon(EqualIcons.CallFilled, contentDescription = null, tint = colors.textAction, size = 20.dp)
+                        }
                     }
                 }
                 CallNotificationState.Connecting -> Unit
@@ -825,6 +854,7 @@ fun CallNotification(
                 color = colors.textPrimary,
                 textAlign = TextAlign.Center,
                 modifier = Modifier
+                    .semantics { liveRegion = LiveRegionMode.Polite }
                     .fillMaxWidth()
                     .padding(start = 16.dp, top = 12.dp, end = 16.dp, bottom = 14.dp),
             )
@@ -858,18 +888,25 @@ private fun AppBadge() {
 private fun ReplyChip(label: String, onClick: () -> Unit) {
     val colors = EqualTheme.colors
     val interaction = rememberInteraction()
+    // 48dp-high touch area around the 34dp chip (layout unchanged).
     Box(
         Modifier
-            .height(34.dp)
-            .eqPressFeedback(interaction, CircleShape)
-            .clip(CircleShape)
-            .background(EqualTheme.gradients.chipLarge.toBrush())
-            .border(1.dp, colors.actionStrokeUnread, CircleShape)
-            .clickable(interactionSource = interaction, indication = null, role = Role.Button, onClick = onClick)
-            .padding(horizontal = 16.dp),
+            .touchTarget()
+            .clickable(interactionSource = interaction, indication = null, role = Role.Button, onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
-        EqualText(text = label, style = EqualTheme.type.body1, color = colors.textPrimary, maxLines = 1)
+        Box(
+            Modifier
+                .height(34.dp)
+                .eqPressFeedback(interaction, CircleShape)
+                .clip(CircleShape)
+                .background(EqualTheme.gradients.chipLarge.toBrush())
+                .border(1.dp, colors.actionStrokeUnread, CircleShape)
+                .padding(horizontal = 16.dp),
+            contentAlignment = Alignment.Center,
+        ) {
+            EqualText(text = label, style = EqualTheme.type.body1, color = colors.textPrimary, maxLines = 1)
+        }
     }
 }
 
@@ -930,13 +967,26 @@ fun OngoingCallBar(elapsed: String, modifier: Modifier = Modifier) {
         modifier
             .fillMaxWidth()
             .height(44.dp)
-            .background(colors.ongoingBarBg)
-            .semantics { liveRegion = LiveRegionMode.Polite },
+            .background(colors.ongoingBarBg),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp, Alignment.CenterHorizontally),
     ) {
         EqualIcon(EqualIcons.GraphicEq, contentDescription = null, tint = colors.ongoingBarText, size = 18.dp)
-        EqualText(text = "Ongoing call - $elapsed", style = EqualTheme.type.subheading.tabular(), color = colors.ongoingBarText)
+        // Two runs that read as one line: "Ongoing call" is a live region announced once when the
+        // bar appears; the ticking timer is readable on focus but never announced on its own.
+        val style = EqualTheme.type.subheading.tabular()
+        Row {
+            EqualText(
+                text = "Ongoing call -",
+                style = style,
+                color = colors.ongoingBarText,
+                modifier = Modifier.semantics {
+                    contentDescription = "Ongoing call"
+                    liveRegion = LiveRegionMode.Polite
+                },
+            )
+            EqualText(text = " $elapsed", style = style, color = colors.ongoingBarText)
+        }
     }
 }
 

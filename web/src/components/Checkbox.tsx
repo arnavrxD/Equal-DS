@@ -1,4 +1,5 @@
 import { Icon } from '../foundations/Icon';
+import { Text } from '../foundations/Text';
 
 export type CheckboxProps = {
   checked: boolean;
@@ -20,14 +21,14 @@ export function Checkbox({ checked, onChange, label, size = 22, labelVariant = '
       aria-checked={checked}
       aria-label={ariaLabel}
       onClick={() => onChange?.(!checked)}
-      className="eq-reset-btn"
+      className="eq-reset-btn eq-touch"
       style={{ display: 'inline-flex', alignItems: 'center', gap: 12, minHeight: 40 }}
     >
       <Icon name={checked ? 'checkbox-checked' : 'checkbox-blank'} size={size} color={checked ? 'var(--eq-button-primary)' : 'var(--eq-text-secondary)'} />
       {label && (
-        <span className={labelVariant === 'bodyLarge' ? 'eq-t-body-large' : 'eq-t-body1'} style={{ color: 'var(--eq-text-primary)' }}>
+        <Text variant={labelVariant === 'bodyLarge' ? 'bodyLarge' : 'body1'} color="primary">
           {label}
-        </span>
+        </Text>
       )}
     </button>
   );

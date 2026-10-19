@@ -39,8 +39,8 @@
   position: absolute;
   left: 50%;
   top: 50%;
-  width: max(100%, 48px);
-  height: max(100%, 48px);
+  width: max(100%, var(--eq-touch-w, 48px));
+  height: max(100%, var(--eq-touch-h, 48px));
   transform: translate(-50%, -50%);
 }
 
@@ -68,3 +68,13 @@
 /* Lottie: `tint` recolours a single-colour animation to follow the theme. */
 .eq-lottie--tint svg [fill]:not([fill='none']) { fill: var(--eq-lottie-tint); }
 .eq-lottie--tint svg [stroke]:not([stroke='none']) { stroke: var(--eq-lottie-tint); }
+
+/* Visually hidden text that screen readers still read. */
+.eq-sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0; }
+
+/* Modal panels take programmatic focus (tabIndex -1); the panel itself draws no ring. */
+[data-eq-modal]:focus { outline: none; }
+
+/* Chat list rows (role=button divs): an inset focus ring that rows above and below can't cover. */
+.eq-chat-row { outline: none; }
+.eq-chat-row:focus-visible { outline: 2px solid var(--eq-text-action); outline-offset: -2px; }

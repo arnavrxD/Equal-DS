@@ -58,90 +58,79 @@ export const aliases: AliasToken[] = [
   {
     "name": "bg/primary",
     "cssVar": "--eq-bg-primary",
-    "light": "#F7F7F7",
+    "light": "#FAFAFA",
     "dark": "#141414",
-    "lightRef": "neutrals/grey14",
+    "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "bg",
     "derived": false,
-    "why": null
+    "why": "The app canvas behind lists, chats and sheets; the Colours collection sets it to #FAFAFA / #141414 (one-off #F7F7F7/#F8F8F8 header fills snap to it)."
   },
   {
     "name": "bg/surface",
     "cssVar": "--eq-bg-surface",
     "light": "#FFFFFF",
-    "dark": "#222222",
+    "dark": "#1F1F1F",
     "lightRef": "brand/white",
-    "darkRef": "neutrals/grey02",
+    "darkRef": "direct value",
     "group": "bg",
     "derived": false,
-    "why": null
-  },
-  {
-    "name": "bg/nav-bottom",
-    "cssVar": "--eq-bg-nav-bottom",
-    "light": "#F7F7F7",
-    "dark": "#222222",
-    "lightRef": "direct value",
-    "darkRef": "neutrals/grey02",
-    "group": "bg",
-    "derived": false,
-    "why": null
+    "why": "Raised surfaces such as list rows, cards, inputs and chips; white in light and #1F1F1F in dark per the Colours collection."
   },
   {
     "name": "bg/overlay",
     "cssVar": "--eq-bg-overlay",
-    "light": "#9F9F9F",
-    "dark": "#B5B5B5",
+    "light": "rgba(30,30,30,0.4)",
+    "dark": "rgba(30,30,30,0.4)",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "bg",
     "derived": false,
-    "why": null
+    "why": "The dimming layer behind bottom sheets and dialogs; Figma's Overlay variable is #1E1E1E at 40% in both themes."
   },
   {
     "name": "text/primary",
     "cssVar": "--eq-text-primary",
-    "light": "#111111",
-    "dark": "#F7F7F7",
-    "lightRef": "neutrals/grey01",
-    "darkRef": "neutrals/grey14",
+    "light": "rgba(0,0,0,0.8)",
+    "dark": "rgba(255,255,255,0.8)",
+    "lightRef": "brand/black · 80%",
+    "darkRef": "brand/white · 80%",
     "group": "text",
     "derived": false,
-    "why": null
+    "why": "Body text, titles and names; Colours text/primary is black at 80% (white at 80% in dark), and one-off greys #3C3C3C/#242424/#333333/#111111 snap to it."
   },
   {
     "name": "text/placeholder",
     "cssVar": "--eq-text-placeholder",
-    "light": "#AAAAAA",
-    "dark": "#777777",
-    "lightRef": "neutrals/grey10",
-    "darkRef": "neutrals/grey07",
+    "light": "rgba(0,0,0,0.4)",
+    "dark": "rgba(255,255,255,0.4)",
+    "lightRef": "brand/black · 40%",
+    "darkRef": "brand/white · 40%",
     "group": "text",
     "derived": false,
-    "why": null
+    "why": "Placeholder text in inputs and search only (2.85:1, so never for readable labels); Colours text/placeholder black/white at 40%."
   },
   {
     "name": "text/secondary",
     "cssVar": "--eq-text-secondary",
-    "light": "#555555",
-    "dark": "#BBBBBB",
-    "lightRef": "neutrals/grey05",
-    "darkRef": "neutrals/grey11",
+    "light": "rgba(0,0,0,0.6)",
+    "dark": "rgba(255,255,255,0.6)",
+    "lightRef": "brand/black · 60%",
+    "darkRef": "brand/white · 60%",
     "group": "text",
     "derived": false,
-    "why": null
+    "why": "Previews, captions, dates and secondary labels (5.7:1 on white); one-off greys #858484/#676767/#9F9F9F/#545454/#5E5E5E snap here for AA."
   },
   {
     "name": "text/action-disabled",
     "cssVar": "--eq-text-action-disabled",
-    "light": "#CCCCCC",
-    "dark": "#444444",
-    "lightRef": "neutrals/grey12",
-    "darkRef": "neutrals/grey04",
+    "light": "rgba(0,0,0,0.2)",
+    "dark": "rgba(255,255,255,0.4)",
+    "lightRef": "brand/black · 20%",
+    "darkRef": "brand/white · 40%",
     "group": "text",
     "derived": false,
-    "why": null
+    "why": "Disabled text buttons and inactive indicators; takes the Colours text/disabled value."
   },
   {
     "name": "text/action",
@@ -152,7 +141,7 @@ export const aliases: AliasToken[] = [
     "darkRef": "brand/lime",
     "group": "text",
     "derived": false,
-    "why": null
+    "why": "Text buttons, links and accent headings; brand green in light, lime in dark."
   },
   {
     "name": "text/on-action",
@@ -163,7 +152,7 @@ export const aliases: AliasToken[] = [
     "darkRef": "brand/black",
     "group": "text",
     "derived": false,
-    "why": null
+    "why": "Labels and icons on primary buttons and badges: white on green in light, black on lime in dark."
   },
   {
     "name": "text/on-action-disabled",
@@ -174,7 +163,7 @@ export const aliases: AliasToken[] = [
     "darkRef": "neutrals/grey08",
     "group": "text",
     "derived": false,
-    "why": null
+    "why": "Label on a disabled filled button; no Figma evidence found, so the value is left as is pending a check of the Button component set."
   },
   {
     "name": "button/primary",
@@ -185,29 +174,40 @@ export const aliases: AliasToken[] = [
     "darkRef": "brand/lime",
     "group": "button",
     "derived": false,
-    "why": null
+    "why": "Filled primary buttons, switches and active indicators; green in light, lime in dark."
   },
   {
     "name": "button/secondary",
     "cssVar": "--eq-button-secondary",
     "light": "#BAFF29",
-    "dark": "#00B140",
+    "dark": "#BAFF29",
     "lightRef": "brand/lime",
-    "darkRef": "brand/green",
+    "darkRef": "brand/lime",
     "group": "button",
     "derived": false,
-    "why": null
+    "why": "The lime accent used as the start of the brand gradients and secondary fills; inverts to green in dark per the Colours collection."
+  },
+  {
+    "name": "text/on-secondary",
+    "cssVar": "--eq-text-on-secondary",
+    "light": "rgba(0,0,0,0.8)",
+    "dark": "#000000",
+    "lightRef": "brand/black · 80%",
+    "darkRef": "brand/black",
+    "group": "text",
+    "derived": true,
+    "why": "Label on the lime secondary button (button/secondary): black in both themes, because white on lime is unreadable."
   },
   {
     "name": "button/danger",
     "cssVar": "--eq-button-danger",
     "light": "#C50000",
-    "dark": "#FF6666",
+    "dark": "#FF5151",
     "lightRef": "red/red08",
-    "darkRef": "red/red12",
+    "darkRef": "direct value",
     "group": "button",
     "derived": false,
-    "why": null
+    "why": "Destructive buttons such as Delete; Colours brand/danger is #C50000 in light and #FF5151 in dark."
   },
   {
     "name": "button/disabled",
@@ -218,62 +218,62 @@ export const aliases: AliasToken[] = [
     "darkRef": "neutrals/grey04",
     "group": "button",
     "derived": false,
-    "why": null
+    "why": "Fill of a disabled filled button and switch track; no Figma evidence found, value left as is."
   },
   {
     "name": "stroke/subtle",
     "cssVar": "--eq-stroke-subtle",
-    "light": "#E9E9E9",
-    "dark": "#2E2E2E",
-    "lightRef": "direct value",
-    "darkRef": "direct value",
+    "light": "rgba(0,0,0,0.05)",
+    "dark": "rgba(255,255,255,0.08)",
+    "lightRef": "brand/black · 5%",
+    "darkRef": "brand/white · 8%",
     "group": "stroke",
     "derived": false,
-    "why": null
+    "why": "Hairline dividers and the faintest card and chip outlines."
   },
   {
     "name": "stroke/medium",
     "cssVar": "--eq-stroke-medium",
-    "light": "#E1E1E1",
-    "dark": "#3A3A3A",
-    "lightRef": "direct value",
-    "darkRef": "direct value",
+    "light": "rgba(0,0,0,0.08)",
+    "dark": "rgba(255,255,255,0.16)",
+    "lightRef": "brand/black · 8%",
+    "darkRef": "brand/white · 16%",
     "group": "stroke",
     "derived": false,
-    "why": null
+    "why": "Outlines of inputs, the composer field and date pills."
   },
   {
     "name": "stroke/dark",
     "cssVar": "--eq-stroke-dark",
-    "light": "#A7A7A7",
-    "dark": "#4A4A4A",
-    "lightRef": "direct value",
-    "darkRef": "direct value",
+    "light": "rgba(0,0,0,0.32)",
+    "dark": "rgba(255,255,255,0.32)",
+    "lightRef": "brand/black · 32%",
+    "darkRef": "brand/white · 32%",
     "group": "stroke",
     "derived": false,
-    "why": null
+    "why": "Strong outlines such as unchecked radios and checkboxes."
   },
   {
     "name": "action/stroke/unread",
     "cssVar": "--eq-action-stroke-unread",
-    "light": "#9DDDB4",
-    "dark": "#4B5A2A",
-    "lightRef": "direct value",
-    "darkRef": "direct value",
+    "light": "rgba(0,177,64,0.36)",
+    "dark": "rgba(186,255,41,0.36)",
+    "lightRef": "brand/green · 36%",
+    "darkRef": "brand/lime · 36%",
     "group": "action",
     "derived": false,
-    "why": null
+    "why": "Outline of unread/active action chips and the green glow on the assistant toggle."
   },
   {
     "name": "action/fill/unread",
     "cssVar": "--eq-action-fill-unread",
-    "light": "#F0F6E5",
-    "dark": "#2F3423",
-    "lightRef": "direct value",
-    "darkRef": "direct value",
+    "light": "rgba(186,255,41,0.08)",
+    "dark": "rgba(186,255,41,0.08)",
+    "lightRef": "brand/lime · 8%",
+    "darkRef": "brand/lime · 8%",
     "group": "action",
     "derived": false,
-    "why": null
+    "why": "The faint lime wash for unread chips and selected choice cards; lime at 8% in both themes."
   },
   {
     "name": "action/bottom-color",
@@ -284,7 +284,7 @@ export const aliases: AliasToken[] = [
     "darkRef": "direct value",
     "group": "action",
     "derived": false,
-    "why": null
+    "why": "Android only: the inner bottom highlight of the glass action chips and the Takeover pill (eqGlassInset). Web draws the same edge with a CSS inset shadow."
   },
   {
     "name": "component/chat-bubble/user-bg",
@@ -295,7 +295,7 @@ export const aliases: AliasToken[] = [
     "darkRef": "direct value",
     "group": "component",
     "derived": false,
-    "why": null
+    "why": "Your own sent chat bubble: a pale green in light and a lime-hued dark tint in dark."
   },
   {
     "name": "component/chat-bubble/user-title",
@@ -306,40 +306,29 @@ export const aliases: AliasToken[] = [
     "darkRef": "brand/lime",
     "group": "component",
     "derived": false,
-    "why": null
+    "why": "The 'You' sender line in your own bubble; dark green passes AA at 7.2:1 on the bubble."
   },
   {
     "name": "component/action-card/highlight",
     "cssVar": "--eq-action-card-highlight",
-    "light": "#DCFFE4",
+    "light": "#D3FEE3",
     "dark": "#2F3423",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
-    "derived": false,
-    "why": null
-  },
-  {
-    "name": "text/tertiary",
-    "cssVar": "--eq-text-tertiary",
-    "light": "#6E6E6E",
-    "dark": "#999999",
-    "lightRef": "direct value",
-    "darkRef": "neutrals/grey09",
-    "group": "text",
     "derived": true,
-    "why": "Typography inventory uses text-tertiary for captions, timestamps, overlines. Not in the alias guide. Decision: AA: 4.76 on bg/primary (was grey07 #777777, 4.18)."
+    "why": "Selected chat-list row and soft green badges; the Conversation component's selected fill."
   },
   {
     "name": "text/danger",
     "cssVar": "--eq-text-danger",
     "light": "#C50000",
-    "dark": "#FF6666",
+    "dark": "#FF5151",
     "lightRef": "red/red08",
-    "darkRef": "red/red12",
+    "darkRef": "direct value",
     "group": "text",
     "derived": true,
-    "why": "Typography: 'Delete instruction' (buttonSmall, danger)."
+    "why": "Destructive text actions such as 'Delete instruction'; same red as the danger button."
   },
   {
     "name": "text/on-danger",
@@ -350,7 +339,7 @@ export const aliases: AliasToken[] = [
     "darkRef": "brand/black",
     "group": "text",
     "derived": true,
-    "why": "Typography: destructive action label on button/danger."
+    "why": "Labels on the danger button: white on dark red, black on the lighter dark-mode red."
   },
   {
     "name": "text/on-dark",
@@ -361,7 +350,7 @@ export const aliases: AliasToken[] = [
     "darkRef": "brand/white",
     "group": "text",
     "derived": true,
-    "why": "Typography: plan card, playback speed pill."
+    "why": "Text on always-dark chips such as the playback speed pill."
   },
   {
     "name": "text/on-dark-secondary",
@@ -372,194 +361,150 @@ export const aliases: AliasToken[] = [
     "darkRef": "neutrals/grey10",
     "group": "text",
     "derived": true,
-    "why": "Typography: plan price on the dark plan card."
+    "why": "Secondary text (price) on the dark plan card; needs checking against the monetization pages."
   },
   {
     "name": "text/accent-gold",
     "cssVar": "--eq-text-accent-gold",
-    "light": "#D9A928",
-    "dark": "#E6B93C",
+    "light": "#CFA846",
+    "dark": "#CFA846",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "text",
-    "derived": true,
-    "why": "Typography: 'UNLIMITED' in the plan card product name."
-  },
-  {
-    "name": "text/brand",
-    "cssVar": "--eq-text-brand",
-    "light": "#00B140",
-    "dark": "#BAFF29",
-    "lightRef": "brand/green",
-    "darkRef": "brand/lime",
-    "group": "text",
-    "derived": true,
-    "why": "Typography uses 'brand-green' as a role. Green in light; lime in dark (dark mode rule: every green is lime)."
+    "derived": false,
+    "why": "Paints the word 'UNLIMITED' on the dark plan card in #CFA846, the solid end of Figma's cream-to-gold text gradient (6.0:1 on the card)."
   },
   {
     "name": "component/chat-bubble/contact-title",
     "cssVar": "--eq-chat-bubble-contact-title",
-    "light": "#9A5B00",
+    "light": "#AF6307",
     "dark": "#FFB74D",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Component ref #11: contact sender line (Dr. Mehta Clinic) is amber. Decision: AA: 5.43 on white (was #B36B00, 4.18)."
+    "why": "Amber sender line on an incoming bubble from a business contact; Figma's #AF6307 passes AA at 4.55:1 on white."
   },
   {
     "name": "component/chat-bubble/other-bg",
     "cssVar": "--eq-chat-bubble-other-bg",
     "light": "#FFFFFF",
-    "dark": "#222222",
+    "dark": "#292929",
     "lightRef": "brand/white",
-    "darkRef": "neutrals/grey02",
+    "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Component ref #11: incoming bubble is white."
+    "why": "Incoming chat bubble surface: white in light, #292929 in dark."
   },
   {
     "name": "component/plan-card/bg",
     "cssVar": "--eq-plan-card-bg",
-    "light": "#2B2B2B",
-    "dark": "#2B2B2B",
+    "light": "#2E2E2E",
+    "dark": "#2E2E2E",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
-    "derived": true,
-    "why": "You (Settings) design: dark plan card (was #1B1E1B from the typography specimen)."
+    "derived": false,
+    "why": "Fills the dark 'Equal AI UNLIMITED' plan card in Settings with Figma's #2E2E2E charcoal, which stays dark in both modes."
   },
   {
     "name": "component/plan-card/pill-stroke",
     "cssVar": "--eq-plan-card-pill-stroke",
-    "light": "#C9A55A",
-    "dark": "#C9A55A",
+    "light": "#FFF2C3",
+    "dark": "#FFF2C3",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
-    "derived": true,
-    "why": "You (Settings) design: gold outline of the 'Current Plan' pill."
+    "derived": false,
+    "why": "Outlines the 'Current Plan' pill on the plan card in Figma's pale cream #FFF2C3."
   },
   {
     "name": "component/rating/star-filled",
     "cssVar": "--eq-rating-star-filled",
-    "light": "#FFC700",
-    "dark": "#FFC700",
-    "lightRef": "direct value",
-    "darkRef": "direct value",
+    "light": "#00B140",
+    "dark": "#BAFF29",
+    "lightRef": "brand/green",
+    "darkRef": "brand/lime",
     "group": "component",
     "derived": true,
-    "why": "Component ref #13. Decision: kept the familiar gold; the rating reads from filled gold vs the grey empty star, not from star-to-card contrast."
+    "why": "Fills the selected stars on the 'How would you rate the call?' card in brand green (lime in dark), as Figma draws them."
   },
   {
     "name": "component/rating/star-empty",
     "cssVar": "--eq-rating-star-empty",
-    "light": "#CFCFCF",
-    "dark": "#444444",
+    "light": "rgba(43,43,43,0.36)",
+    "dark": "rgba(255,255,255,0.32)",
     "lightRef": "direct value",
-    "darkRef": "neutrals/grey04",
+    "darkRef": "brand/white · 32%",
     "group": "component",
     "derived": true,
-    "why": "Component ref #13. Decision: Visible empty stars on white (was #EEEEEE)."
+    "why": "Fills the unselected rating stars with Figma's #2B2B2B at 36% so they read as empty against the filled green ones."
   },
   {
     "name": "component/nav/selected-bg",
     "cssVar": "--eq-nav-selected-bg",
-    "light": "#F1FAF3",
-    "dark": "#272C1E",
+    "light": "rgba(0,177,64,0.04)",
+    "dark": "rgba(186,255,41,0.08)",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Component ref #4: selected tab capsule. Decision: the brand green icon on this fill is 2.68:1; kept because the selected state is also carried by the pill fill and the label colour, and text/action is the brand."
+    "why": "The selected tab capsule is brand green at 4% alpha (about #F5FCF7 on the white nav), not a solid #F1FAF3; dark re-hues to lime and raises alpha to 8% (the action/unread_fill level) because 4% is invisible on dark."
   },
   {
     "name": "component/playback/pill-bg",
     "cssVar": "--eq-playback-pill-bg",
-    "light": "#555555",
-    "dark": "#444444",
-    "lightRef": "neutrals/grey05",
-    "darkRef": "neutrals/grey04",
+    "light": "#5E5E5E",
+    "dark": "#5E5E5E",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Component ref #11: '1x' speed pill."
+    "why": "The '1x' playback-speed pill on voice notes."
   },
   {
     "name": "component/waveform/bar",
     "cssVar": "--eq-waveform-bar",
-    "light": "#8A8A8A",
-    "dark": "#808080",
+    "light": "#D9D9D9",
+    "dark": "#D9D9D9",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Component ref #11: voice note waveform. Decision: 3:1 against the player fill (was grey12, 1.43). Dark #808080 (3.44 on the dark player; was grey05, 1.82)."
+    "why": "Unplayed voice-note waveform bars; Figma's light grey (non-text, so below 3:1 by design choice)."
   },
   {
     "name": "component/waveform/bar-played",
     "cssVar": "--eq-waveform-bar-played",
-    "light": "#555555",
-    "dark": "#BBBBBB",
-    "lightRef": "neutrals/grey05",
-    "darkRef": "neutrals/grey11",
+    "light": "#00B140",
+    "dark": "#BAFF29",
+    "lightRef": "brand/green",
+    "darkRef": "brand/lime",
     "group": "component",
     "derived": true,
-    "why": "Voice note progress (interaction state)."
+    "why": "Played portion of the waveform, showing progress in brand green."
   },
   {
     "name": "component/notice/bg",
     "cssVar": "--eq-notice-bg",
-    "light": "#F6FDEB",
-    "dark": "#272C1E",
+    "light": "#FAFFF4",
+    "dark": "rgba(186,255,41,0.08)",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Component ref #21: 'Call has ended…' notice."
+    "why": "Figma's notice pill is a fainter lime tint than the token; dark mirrors the alpha variant in lime. Note Figma sets the notice text to text/primary while the web uses text/secondary."
   },
   {
     "name": "component/chip/when-bg",
     "cssVar": "--eq-chip-when-bg",
-    "light": "#F1F1F1",
-    "dark": "#333333",
-    "lightRef": "direct value",
-    "darkRef": "neutrals/grey03",
-    "group": "component",
-    "derived": true,
-    "why": "Typography specimen: 'When' / 'Do' chips."
-  },
-  {
-    "name": "component/sheet/bg",
-    "cssVar": "--eq-sheet-bg",
-    "light": "#F9F9F9",
-    "dark": "#292929",
+    "light": "rgba(0,0,0,0.05)",
+    "dark": "rgba(255,255,255,0.08)",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Component ref #17: bottom sheet surface."
-  },
-  {
-    "name": "component/scrim",
-    "cssVar": "--eq-scrim",
-    "light": "rgba(0,0,0,0.20)",
-    "dark": "rgba(0,0,0,0.55)",
-    "lightRef": "direct value",
-    "darkRef": "direct value",
-    "group": "component",
-    "derived": true,
-    "why": "Component refs #12/#17 show a grey backdrop behind sheets. bg/overlay (#9F9F9F) is opaque, so this is the translucent scrim."
-  },
-  {
-    "name": "component/badge/new-feature-stroke",
-    "cssVar": "--eq-badge-new-feature-stroke",
-    "light": "#E6E6E6",
-    "dark": "#3A3A3A",
-    "lightRef": "direct value",
-    "darkRef": "direct value",
-    "group": "component",
-    "derived": true,
-    "why": "Component ref #20."
+    "why": "The plain When chip is filled with the stroke/subtle variable (black 5%), so it takes that value and its dark value (white 8%) from the Colours collection; radius 50 means fully round."
   },
   {
     "name": "component/plan-card/pattern",
@@ -570,106 +515,84 @@ export const aliases: AliasToken[] = [
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "You (Settings) design: gold line pattern on the plan card (drawn in code at low opacity)."
+    "why": "Draws the gold line pattern on the right of the plan card; #C9A55A at low opacity reproduces Figma's colour-dodged gold lines."
   },
   {
     "name": "component/invite/bg",
     "cssVar": "--eq-invite-bg",
-    "light": "#F0FBF2",
+    "light": "#F1FFF6",
     "dark": "#272C1E",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "You (Settings) design: Invite a Friend card fill."
+    "why": "Figma's invite card is #F1FFF6 (slightly greener than #F0FBF2); dark keeps the lime-re-hued surface. Radius in Figma is 20, the web uses 24."
   },
   {
     "name": "component/invite/stroke",
     "cssVar": "--eq-invite-stroke",
-    "light": "#D5F0DB",
-    "dark": "#3D442E",
+    "light": "rgba(0,177,64,0.10)",
+    "dark": "rgba(186,255,41,0.10)",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "You (Settings) design: Invite a Friend card outline."
-  },
-  {
-    "name": "component/skeleton",
-    "cssVar": "--eq-skeleton",
-    "light": "#FFFFFF",
-    "dark": "#353A2A",
-    "lightRef": "direct value",
-    "darkRef": "direct value",
-    "group": "component",
-    "derived": true,
-    "why": "You (Settings) design: AI Summary loading bars."
+    "why": "The outline is brand green at 10% alpha rather than a solid mint; dark uses lime at the same alpha per the dark-mode rule."
   },
   {
     "name": "component/chip/do-bg",
     "cssVar": "--eq-chip-do-bg",
-    "light": "#EEF8EF",
+    "light": "#F0FBF4",
     "dark": "#272C1E",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Profile, Addresses and Instructions designs: 'Do' label chip on instruction cards."
+    "why": "Figma's Do chip is #F0FBF4 (token had #EEF8EF); dark keeps the lime-re-hued surface."
   },
   {
     "name": "component/chip/selected-bg",
     "cssVar": "--eq-chip-selected-bg",
-    "light": "#333333",
+    "light": "#313131",
     "dark": "#F7F7F7",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Profile, Addresses and Instructions designs: selected segmented chip (Home / Work / Other) is dark, not green."
+    "why": "Selected segmented chip is #313131 in Figma (token had #333333); dark inverts to a light chip."
   },
   {
     "name": "component/chip/selected-text",
     "cssVar": "--eq-chip-selected-text",
-    "light": "#FFFFFF",
-    "dark": "#111111",
+    "light": "#F7F7F7",
+    "dark": "#313131",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Profile, Addresses and Instructions designs: label on the selected segmented chip."
-  },
-  {
-    "name": "component/preset/tint-red",
-    "cssVar": "--eq-preset-tint-red",
-    "light": "#FDECEC",
-    "dark": "#3A2222",
-    "lightRef": "direct value",
-    "darkRef": "direct value",
-    "group": "component",
-    "derived": true,
-    "why": "Profile, Addresses and Instructions designs: circle behind the 🛡️ preset emoji."
+    "why": "The label on the dark chip is #F7F7F7 (bg/primary), not pure white; 13.4:1 on #313131. Dark mirrors the chip inversion."
   },
   {
     "name": "component/preset/tint-green",
     "cssVar": "--eq-preset-tint-green",
-    "light": "#E6F7EA",
-    "dark": "#272C1E",
+    "light": "rgba(72,255,138,0.16)",
+    "dark": "rgba(186,255,41,0.16)",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Profile, Addresses and Instructions designs: circle behind the 📞 preset emoji."
+    "why": "Figma's green preset tint is #48FF8A at 16% alpha; use it for Screen & Protect (🛡️), and give Handle everyday calls (📞) the new blue tint. Dark re-hues to lime."
   },
   {
     "name": "component/preset/tint-orange",
     "cssVar": "--eq-preset-tint-orange",
-    "light": "#FDF1DE",
-    "dark": "#3A3020",
+    "light": "rgba(255,153,8,0.16)",
+    "dark": "rgba(255,153,8,0.16)",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Profile, Addresses and Instructions designs: circle behind the 💼 preset emoji."
+    "why": "Figma's orange tint is #FF9908 at 16% alpha; the alpha tint also works on dark surfaces, so dark keeps it."
   },
   {
     "name": "component/icon-button/bg",
@@ -680,29 +603,29 @@ export const aliases: AliasToken[] = [
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Profile, Addresses and Instructions designs: grey circle behind the + on recommended cards."
+    "why": "Grey circle behind the + on recommended cards; Profile section not checked."
   },
   {
     "name": "component/chat/wallpaper-bg",
     "cssVar": "--eq-chat-wallpaper-bg",
-    "light": "#F2F2F2",
+    "light": "#F5F5F6",
     "dark": "#141414",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Profile, Addresses and Instructions designs: chat background under the doodle wallpaper asset."
+    "why": "Chat background under the doodle wallpaper."
   },
   {
     "name": "component/voice/player-bg",
     "cssVar": "--eq-voice-player-bg",
-    "light": "#F2F2F2",
-    "dark": "#2E2E2E",
-    "lightRef": "direct value",
+    "light": "#FFFFFF",
+    "dark": "#141414",
+    "lightRef": "brand/white",
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Profile, Addresses and Instructions designs: filled recording player inside the call summary (replaces the outlined box)."
+    "why": "Voice-note player inside an incoming call-summary bubble."
   },
   {
     "name": "component/voice/player-bg-sent",
@@ -713,7 +636,7 @@ export const aliases: AliasToken[] = [
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Global MYA design: the recording player inside your own (sent) voice-note bubble turns green."
+    "why": "Voice-note player inside your own sent bubble, a green tint that sits on the bubble."
   },
   {
     "name": "component/chat/wallpaper-pattern",
@@ -724,7 +647,7 @@ export const aliases: AliasToken[] = [
     "darkRef": "direct value",
     "group": "component",
     "derived": false,
-    "why": "BG pattern.svg: doodle pattern fill #737373 at 8% opacity, same in light and dark (per brief)."
+    "why": "Doodle pattern drawn over the chat background."
   },
   {
     "name": "component/status-card/pill-bg",
@@ -735,7 +658,7 @@ export const aliases: AliasToken[] = [
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Temporarily Unavailable design: system status card (light only in the design; dark derived to match the dark screens). \"SYSTEM STATUS\" pill."
+    "why": "The Temporarily Unavailable system status card is not in this Figma file; keep the current value until the owner confirms where it comes from or deletes the component."
   },
   {
     "name": "component/status-card/button",
@@ -746,7 +669,7 @@ export const aliases: AliasToken[] = [
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Temporarily Unavailable design: system status card (light only in the design; dark derived to match the dark screens). Amber \"Notify me when ready\" pill."
+    "why": "Not in Figma; current amber kept pending owner decision."
   },
   {
     "name": "component/status-card/button-text",
@@ -757,7 +680,7 @@ export const aliases: AliasToken[] = [
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Temporarily Unavailable design: system status card (light only in the design; dark derived to match the dark screens). Label on the amber pill. Decision: AA: 7.63 on the amber (white was 1.87). Amber kept from the design."
+    "why": "Not in Figma; current AA-safe #3D2600 kept pending owner decision."
   },
   {
     "name": "component/notification/bg",
@@ -768,29 +691,29 @@ export const aliases: AliasToken[] = [
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Temporarily Unavailable design: Android heads-up notification \"Equal AI Assistant is back on\"."
+    "why": "Android heads-up / ongoing-call notification card."
   },
   {
     "name": "component/brand/whatsapp",
     "cssVar": "--eq-brand-whatsapp",
-    "light": "#25D366",
+    "light": "#00B140",
     "dark": "#BAFF29",
-    "lightRef": "direct value",
+    "lightRef": "brand/green",
     "darkRef": "brand/lime",
     "group": "component",
     "derived": true,
-    "why": "WhatsApp brand green for the coded WhatsApp logo (simple-icons glyph) on the action card; replaces the logo-whatsapp image slot. Graphic only, on the white/dark-surface source circle."
+    "why": "WhatsApp glyph on the action card; Figma draws it in brand green, not WhatsApp's #25D366."
   },
   {
     "name": "text/gold",
     "cssVar": "--eq-text-gold",
-    "light": "#8C5817",
+    "light": "#9E6A28",
     "dark": "#E8BD62",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "text",
     "derived": true,
-    "why": "Monetization Flow design: gold labels: coupon code, APPLY, LIMITED TIME DISCOUNT, EQUAL UNLIMITED. AA 5.6:1 on white."
+    "why": "Colours gold labels on the paywall (coupon code, APPLY, EQUAL Unlimited) in Figma's #B4792E, which is 3.7:1 on white so it suits large or bold labels only. Darkened from Figma’s #B4792E (3.7:1) to pass AA 4.5:1 for text."
   },
   {
     "name": "component/paywall/card-bg",
@@ -801,249 +724,249 @@ export const aliases: AliasToken[] = [
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Monetization Flow design: preview card and coupon fill on the gold hero."
+    "why": "Fills the paywall preview card in Figma's warm off-white #FFFDF8 so it sits softly on the gold hero."
   },
   {
     "name": "component/paywall/card-stroke",
     "cssVar": "--eq-paywall-card-stroke",
-    "light": "#EFE2C6",
-    "dark": "#3A3326",
+    "light": "#F0F0F0",
+    "dark": "#3D3D3D",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
-    "derived": true,
-    "why": "Monetization Flow design: preview card / coupon ticket outline."
+    "derived": false,
+    "why": "Outlines the paywall preview card in Figma's neutral #F0F0F0 (#3D3D3D on dark cards), not a gold tint."
   },
   {
     "name": "component/paywall/divider",
     "cssVar": "--eq-paywall-divider",
-    "light": "#E9D9B5",
-    "dark": "#4A4233",
+    "light": "rgba(163,113,53,0.5)",
+    "dark": "rgba(232,189,98,0.35)",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Monetization Flow design: gold hairlines either side of the price and section labels."
+    "why": "Draws the hairlines either side of paywall section labels in Figma's #A37135 at 50%, which fade out at the ends."
   },
   {
     "name": "component/plan-banner/bg",
     "cssVar": "--eq-plan-banner-bg",
-    "light": "#FFF0CC",
+    "light": "#FFEFC8",
     "dark": "#33291A",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Monetization Flow design: \"Reactivate your current Plan…\" strip under the plan card and at the top of a chat."
+    "why": "Fills the 'Reactivate your current Plan' strip in Figma's cream #FFEFC8."
   },
   {
     "name": "component/plan-banner/text",
     "cssVar": "--eq-plan-banner-text",
-    "light": "#82500F",
+    "light": "#975F19",
     "dark": "#F0C878",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Monetization Flow design: text and info icon on the plan banner (AA 6.0:1 on its fill)."
+    "why": "Colours the text and info icon on the reactivate strip in Figma's #A6691C (4.0:1 on its fill, just under AA for body text). Darkened from Figma’s #A6691C (4.0:1) to pass AA 4.5:1 for text."
   },
   {
     "name": "component/locked/badge-bg",
     "cssVar": "--eq-locked-badge-bg",
-    "light": "#FFF6DE",
-    "dark": "#3A3020",
+    "light": "#FCFCFC",
+    "dark": "#292929",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Monetization Flow design: circle behind the crown-lock badge on locked rows and bubbles."
+    "why": "Fills the circle behind the gold lock on locked rows and bubbles in Figma's near-white #FCFCFC so the gold lock stands out."
   },
   {
     "name": "component/expiry-banner/warning-bg",
     "cssVar": "--eq-expiry-banner-warning-bg",
-    "light": "#FFEFD3",
+    "light": "#FFF0D3",
     "dark": "#33291A",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Monetization value design: \"Your Plan Expires in 2 Days · Renew Now\" strip under the home header."
+    "why": "Fills the 'Your Plan Expires in 2 Days · Renew Now' strip in Figma's amber cream #FFF0D3."
   },
   {
     "name": "component/expiry-banner/warning-text",
     "cssVar": "--eq-expiry-banner-warning-text",
-    "light": "#7A4300",
+    "light": "#763D00",
     "dark": "#F0C878",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Monetization value design: text, info icon and Renew Now on the warning strip (AA on its fill)."
+    "why": "Colours the text, icon and Renew Now on the expiry warning strip in Figma's dark brown #763D00 (7.7:1)."
   },
   {
     "name": "component/expiry-banner/danger-bg",
     "cssVar": "--eq-expiry-banner-danger-bg",
-    "light": "#FDE4E4",
+    "light": "#FFE8E8",
     "dark": "#3A2224",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Monetization value design: \"Your Plan Expires Today\" / \"Expired on 30th July\" strip."
+    "why": "Fills the 'Your Plan Expires Today / Expired' strip in Figma's pale red #FFE8E8."
   },
   {
     "name": "component/expiry-banner/danger-text",
     "cssVar": "--eq-expiry-banner-danger-text",
-    "light": "#7D0F0F",
+    "light": "#6E0000",
     "dark": "#FFA3A3",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Monetization value design: text, info icon and Renew Now on the danger strip (AA on its fill)."
+    "why": "Colours the text, icon and Renew Now on the expired strip in Figma's deep red #6E0000 (10.8:1)."
   },
   {
     "name": "component/whats-new/bg",
     "cssVar": "--eq-whats-new-bg",
-    "light": "#EAFBE6",
+    "light": "#E5FFE7",
     "dark": "#272C1E",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "What's New card: one flat fill (the card is a fill plus a blurred circle, not a gradient). Text AA: text/action and text/secondary both pass on it."
+    "why": "Flat fill of the What's New card."
   },
   {
     "name": "component/whats-new/glow",
     "cssVar": "--eq-whats-new-glow",
-    "light": "#C9F7A0",
+    "light": "rgba(249,255,237,0.6)",
     "dark": "#4F5E2F",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "What's New card: the blurred circle in the bottom-right corner behind the illustration, a lighter lime than the fill so the art lifts off the card."
+    "why": "Blurred highlight circle behind the What's New illustration."
   },
   {
     "name": "component/missed-call/bg",
     "cssVar": "--eq-missed-call-bg",
-    "light": "#FFF9F7",
+    "light": "#FEFBFA",
     "dark": "#2A2120",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Missed-call card: the warm tint marks a call the assistant missed without reading as an error (sampled from the design)."
+    "why": "Warm tint of the missed-call card header."
   },
   {
     "name": "component/missed-call/stroke",
     "cssVar": "--eq-missed-call-stroke",
-    "light": "#F5EDEA",
+    "light": "#F8F8F8",
     "dark": "#3A2E2C",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Missed-call card: hairline around the tinted header."
+    "why": "Hairline around the missed-call card header."
   },
   {
     "name": "component/missed-call/icon-bg",
     "cssVar": "--eq-missed-call-icon-bg",
-    "light": "#FBE9E5",
+    "light": "#FBEBE7",
     "dark": "#45302C",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Missed-call card: the disc behind the missed-call glyph, and the badge on a caller's art."
+    "why": "Disc behind the missed-call glyph."
   },
   {
     "name": "component/missed-call/icon",
     "cssVar": "--eq-missed-call-icon",
-    "light": "#D4380D",
+    "light": "#DB330B",
     "dark": "#FF8A6B",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Missed-call card: the red-orange missed-call glyph (sampled). 3:1+ on its disc in both themes."
+    "why": "Red-orange missed-call glyph (4.0:1 on its disc, above 3:1 for icons)."
   },
   {
     "name": "component/expiry-chip/warning-bg",
     "cssVar": "--eq-expiry-chip-warning-bg",
-    "light": "#FFF0C9",
-    "dark": "#FFB64A",
+    "light": "#FFF1D5",
+    "dark": "#FEBD6B",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
-    "derived": true,
-    "why": "Monetization value design: \"03 Days\" chip on the value card."
+    "derived": false,
+    "why": "Fills the '03 Days' chip on the value card in Figma's #FFF1D5 (bright amber #FEBD6B on the dark card)."
   },
   {
     "name": "component/expiry-chip/warning-text",
     "cssVar": "--eq-expiry-chip-warning-text",
-    "light": "#7A4A00",
-    "dark": "#2A1A00",
+    "light": "#6E4900",
+    "dark": "#2D1900",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
-    "derived": true,
-    "why": "Monetization value design: text on the warning chip (AA)."
+    "derived": false,
+    "why": "Colours the '03 Days' chip text in Figma's #6E4900 (near-black #2D1900 on the amber dark chip) for strong contrast."
   },
   {
     "name": "component/expiry-chip/danger-bg",
     "cssVar": "--eq-expiry-chip-danger-bg",
-    "light": "#FFE1E1",
+    "light": "#FFD5D5",
     "dark": "#5A2328",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Monetization value design: \"Today\" / \"30th July\" chip on the value card."
+    "why": "Fills the 'Today' / '30th July' chip on the value card in Figma's pale red #FFD5D5."
   },
   {
     "name": "component/expiry-chip/danger-text",
     "cssVar": "--eq-expiry-chip-danger-text",
-    "light": "#B3141B",
+    "light": "#6E0000",
     "dark": "#FFB3B3",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Monetization value design: text on the danger chip (AA)."
+    "why": "Colours the 'Today' / '30th July' chip text in Figma's deep red #6E0000 (9.5:1)."
   },
   {
     "name": "component/expiry-chip/active-bg",
     "cssVar": "--eq-expiry-chip-active-bg",
-    "light": "#FFF0C9",
+    "light": "#FFF1D5",
     "dark": "#3A3020",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Monetization value design: \"25th Jun '26\" chip (plan active until)."
+    "why": "Fills the '25th Jun ’26' plan-active chip, which reuses the warning chip's #FFF1D5 in Figma."
   },
   {
     "name": "component/value-card/stroke",
     "cssVar": "--eq-value-card-stroke",
-    "light": "#F0E1BD",
-    "dark": "#4A3C1C",
+    "light": "#F0F0F0",
+    "dark": "#3D3D3D",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
-    "derived": true,
-    "why": "Monetization value design: \"What Unlimited saved you\" card outline."
+    "derived": false,
+    "why": "Outlines the 'What Unlimited saved you' card in Figma's neutral #F0F0F0 (#3D3D3D in dark)."
   },
   {
     "name": "component/value-card/perks-bg",
     "cssVar": "--eq-value-card-perks-bg",
     "light": "#FFFFFF",
-    "dark": "#1F1B14",
-    "lightRef": "direct value",
+    "dark": "#242424",
+    "lightRef": "brand/white",
     "darkRef": "direct value",
     "group": "component",
-    "derived": true,
-    "why": "Monetization value design: the three perk rows inside the value card."
+    "derived": false,
+    "why": "Fills the three perk rows inside the value card in white, and Figma's #242424 on the dark card."
   },
   {
     "name": "component/value-card/ring",
@@ -1054,62 +977,62 @@ export const aliases: AliasToken[] = [
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Monetization value design: concentric rings behind the calls-handled stat."
+    "why": "Paints the concentric rings behind the calls-handled number; Figma bakes them into an image, so the current gold tints stay until a vector source exists."
   },
   {
     "name": "component/plan-card/expired-pill",
     "cssVar": "--eq-plan-card-expired-pill",
-    "light": "#D0302F",
-    "dark": "#D0302F",
+    "light": "#CD3200",
+    "dark": "#CD3200",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
-    "derived": true,
-    "why": "Monetization value design: filled \"Plan Expired\" pill on the dark plan card (white text, AA 4.9:1)."
+    "derived": false,
+    "why": "Fills the 'Plan Expired' pill on the plan card with Figma's red base #CD3200 so white text reads at 5.2:1."
   },
   {
     "name": "component/sunburst/ray",
     "cssVar": "--eq-sunburst-ray",
-    "light": "rgba(255,255,255,0.6)",
-    "dark": "rgba(232,189,98,0.12)",
-    "lightRef": "direct value",
-    "darkRef": "direct value",
+    "light": "rgba(255,255,255,0.05)",
+    "dark": "rgba(255,255,255,0.05)",
+    "lightRef": "brand/white · 5%",
+    "darkRef": "brand/white · 5%",
     "group": "component",
     "derived": true,
-    "why": "Monetization local components design: the slowly rotating ray burst behind success art."
+    "why": "Paints the slowly rotating rays behind success art in white at 5%, as Figma's Reward Animation does."
   },
   {
     "name": "component/premium-icon/start",
     "cssVar": "--eq-premium-icon-start",
     "light": "#D1A85C",
-    "dark": "#E2BE77",
+    "dark": "#FEC378",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
-    "derived": true,
-    "why": "Monetization perk icons: radial gradient centre (filled 16 dp Material Symbols). Dark is lifted for contrast on the black card."
+    "derived": false,
+    "why": "Sets the centre of the gold radial on premium perk icons, #D1A85C in light and Figma's brighter #FEC378 on dark cards."
   },
   {
     "name": "component/premium-icon/end",
     "cssVar": "--eq-premium-icon-end",
     "light": "#A0621F",
-    "dark": "#B97C3A",
+    "dark": "#FA8C01",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
-    "derived": true,
-    "why": "Monetization perk icons: radial gradient edge."
+    "derived": false,
+    "why": "Sets the edge of the gold radial on premium perk icons, #A0621F in light and Figma's #FA8C01 on dark cards."
   },
   {
     "name": "component/contact-avatar/blue-bg",
     "cssVar": "--eq-contact-avatar-blue-bg",
-    "light": "#D5EFFC",
+    "light": "#D6F1FF",
     "dark": "#233843",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Saved-contact avatar palette: same saturation and lightness across hues, picked per contact so lists aren’t all one colour."
+    "why": "Disc behind a saved contact's initials; the only initials disc colour Figma uses."
   },
   {
     "name": "component/contact-avatar/blue-text",
@@ -1120,7 +1043,7 @@ export const aliases: AliasToken[] = [
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Initials on the blue disc. AA 4.79:1 light, 6.36:1 dark."
+    "why": "Initials on the blue disc; kept slightly darker than Figma's #377594 so readable text passes 4.5:1."
   },
   {
     "name": "component/contact-avatar/green-bg",
@@ -1131,7 +1054,7 @@ export const aliases: AliasToken[] = [
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Saved-contact avatar palette: same saturation and lightness across hues, picked per contact so lists aren’t all one colour."
+    "why": "Figma has no green initials disc; saved-contact initials use the blue disc."
   },
   {
     "name": "component/contact-avatar/green-text",
@@ -1142,7 +1065,7 @@ export const aliases: AliasToken[] = [
     "darkRef": "brand/lime",
     "group": "component",
     "derived": true,
-    "why": "Initials on the green disc. AA 4.73:1 light, 7.28:1 dark."
+    "why": "Figma has no green initials colour; use the blue disc's initials colour."
   },
   {
     "name": "component/contact-avatar/purple-bg",
@@ -1153,7 +1076,7 @@ export const aliases: AliasToken[] = [
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Saved-contact avatar palette: same saturation and lightness across hues, picked per contact so lists aren’t all one colour."
+    "why": "Figma has no purple initials disc; saved-contact initials use the blue disc."
   },
   {
     "name": "component/contact-avatar/purple-text",
@@ -1164,7 +1087,7 @@ export const aliases: AliasToken[] = [
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Initials on the purple disc. AA 6.49:1 light, 4.7:1 dark."
+    "why": "Figma has no purple initials colour; use the blue disc's initials colour."
   },
   {
     "name": "component/contact-avatar/orange-bg",
@@ -1175,7 +1098,7 @@ export const aliases: AliasToken[] = [
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Saved-contact avatar palette: same saturation and lightness across hues, picked per contact so lists aren’t all one colour."
+    "why": "Figma has no orange initials disc; saved-contact initials use the blue disc."
   },
   {
     "name": "component/contact-avatar/orange-text",
@@ -1186,7 +1109,7 @@ export const aliases: AliasToken[] = [
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Initials on the orange disc. AA 4.75:1 light, 6.39:1 dark."
+    "why": "Figma has no orange initials colour; use the blue disc's initials colour."
   },
   {
     "name": "component/contact-avatar/pink-bg",
@@ -1197,7 +1120,7 @@ export const aliases: AliasToken[] = [
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Saved-contact avatar palette: same saturation and lightness across hues, picked per contact so lists aren’t all one colour."
+    "why": "Figma has no pink initials disc; saved-contact initials use the blue disc."
   },
   {
     "name": "component/contact-avatar/pink-text",
@@ -1208,7 +1131,7 @@ export const aliases: AliasToken[] = [
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Initials on the pink disc. AA 5.26:1 light, 5.22:1 dark."
+    "why": "Figma has no pink initials colour; use the blue disc's initials colour."
   },
   {
     "name": "component/contact-avatar/teal-bg",
@@ -1219,7 +1142,7 @@ export const aliases: AliasToken[] = [
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Saved-contact avatar palette: same saturation and lightness across hues, picked per contact so lists aren’t all one colour."
+    "why": "Figma has no teal initials disc; saved-contact initials use the blue disc."
   },
   {
     "name": "component/contact-avatar/teal-text",
@@ -1230,7 +1153,7 @@ export const aliases: AliasToken[] = [
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Initials on the teal disc. AA 4.85:1 light, 7.42:1 dark."
+    "why": "Figma has no teal initials colour; use the blue disc's initials colour."
   },
   {
     "name": "component/contact-avatar/badge-bg",
@@ -1241,7 +1164,7 @@ export const aliases: AliasToken[] = [
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "The ring/disc behind the saved-contact person badge (cuts into the avatar)."
+    "why": "Figma has no saved-contact badge on avatars."
   },
   {
     "name": "component/contact-avatar/badge-icon",
@@ -1252,73 +1175,18 @@ export const aliases: AliasToken[] = [
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "The filled person glyph that marks a saved contact."
-  },
-  {
-    "name": "component/processing/bg",
-    "cssVar": "--eq-processing-bg",
-    "light": "#FFEFCF",
-    "dark": "#3A2C1A",
-    "lightRef": "direct value",
-    "darkRef": "direct value",
-    "group": "component",
-    "derived": true,
-    "why": "Monetization experiments: \"Payment processing\" strip (home, chat, paywall toast)."
-  },
-  {
-    "name": "component/processing/ring",
-    "cssVar": "--eq-processing-ring",
-    "light": "#8C5817",
-    "dark": "#E8BD62",
-    "lightRef": "direct value",
-    "darkRef": "direct value",
-    "group": "component",
-    "derived": true,
-    "why": "Monetization experiments: Spinning progress arc + info dot on the processing strip."
+    "why": "Figma has no saved-contact badge glyph."
   },
   {
     "name": "component/plan-badge/expired-bg",
     "cssVar": "--eq-plan-badge-expired-bg",
-    "light": "#D0302F",
-    "dark": "#D0302F",
+    "light": "#CD3200",
+    "dark": "#CD3200",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
-    "derived": true,
-    "why": "Monetization experiments: PLAN EXPIRED badge next to the logo (white text, AA 5.1:1)."
-  },
-  {
-    "name": "component/offer-strip/bg",
-    "cssVar": "--eq-offer-strip-bg",
-    "light": "#FFF3D6",
-    "dark": "#33291A",
-    "lightRef": "direct value",
-    "darkRef": "direct value",
-    "group": "component",
-    "derived": true,
-    "why": "Monetization experiments: \"Go unlimited for ₹149 with EQUAL25 · Claim Now\" strip under the home header."
-  },
-  {
-    "name": "component/offer-strip/text",
-    "cssVar": "--eq-offer-strip-text",
-    "light": "#5C3A0A",
-    "dark": "#F0C878",
-    "lightRef": "direct value",
-    "darkRef": "direct value",
-    "group": "component",
-    "derived": true,
-    "why": "Monetization experiments: Text on the offer strip (AA)."
-  },
-  {
-    "name": "component/result/ring",
-    "cssVar": "--eq-result-ring",
-    "light": "rgba(255,255,255,0.55)",
-    "dark": "rgba(255,255,255,0.07)",
-    "lightRef": "direct value",
-    "darkRef": "direct value",
-    "group": "component",
-    "derived": true,
-    "why": "Monetization experiments: Concentric light rings on the payment result pages."
+    "derived": false,
+    "why": "Fills the 'Plan Expired' badge next to the logo with Figma's red base #CD3200 so white text reads at 5.2:1."
   },
   {
     "name": "component/profile-hero/status-bg",
@@ -1329,73 +1197,62 @@ export const aliases: AliasToken[] = [
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "You tab status bar: white in light; in dark it sits on the cream-gold header (dark-mode You mock)."
+    "why": "Premium You tab status bar is white, as the token says; dark now matches the first stop of the revised hero gradient. On the no-plan tab the status bar should use component/profile-hero/no-plan-bg instead."
   },
   {
     "name": "component/profile-hero/status-text",
     "cssVar": "--eq-profile-hero-status-text",
-    "light": "#111111",
-    "dark": "#111111",
-    "lightRef": "neutrals/grey01",
-    "darkRef": "neutrals/grey01",
+    "light": "#000000",
+    "dark": "#000000",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "You tab status bar text: always dark, since the header is light in both themes."
+    "why": "Status bar time and icons are pure black in Figma (token had #111111); the header is light in both themes, so dark is black too."
+  },
+  {
+    "name": "component/profile-hero/plain-bg",
+    "cssVar": "--eq-profile-hero-plain-bg",
+    "light": "#F2FBF5",
+    "dark": "#1E2215",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": true,
+    "why": "You tab without a plan (Figma: Profile Android › Without Premium, node 8:157214): the mint header with 20 dp bottom corners. Dark value derived (lime rule, same darkness as other tinted dark surfaces)."
   },
   {
     "name": "component/info-note/bg",
     "cssVar": "--eq-info-note-bg",
-    "light": "#E9F1FA",
-    "dark": "#1C2633",
+    "light": "rgba(35,149,255,0.06)",
+    "dark": "rgba(35,149,255,0.12)",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Known Calls (new users) design: \"Contact access needed\" note."
-  },
-  {
-    "name": "component/info-note/text",
-    "cssVar": "--eq-info-note-text",
-    "light": "#1A1A1A",
-    "dark": "#E3ECF6",
-    "lightRef": "direct value",
-    "darkRef": "direct value",
-    "group": "component",
-    "derived": true,
-    "why": "Known Calls (new users) design: Text on the info note (AA)."
-  },
-  {
-    "name": "component/choice/selected-bg",
-    "cssVar": "--eq-choice-selected-bg",
-    "light": "#F3FAEA",
-    "dark": "#272C1E",
-    "lightRef": "direct value",
-    "darkRef": "direct value",
-    "group": "component",
-    "derived": true,
-    "why": "Known Calls (new users) design: Selected radio card fill (\"Only unknown numbers\")."
+    "why": "Blue-tinted note that explains missing contact access."
   },
   {
     "name": "component/ongoing-bar/bg",
     "cssVar": "--eq-ongoing-bar-bg",
-    "light": "#262626",
-    "dark": "#1A1A1A",
-    "lightRef": "direct value",
-    "darkRef": "direct value",
+    "light": "rgba(0,0,0,0.8)",
+    "dark": "rgba(255,255,255,0.8)",
+    "lightRef": "brand/black · 80%",
+    "darkRef": "brand/white · 80%",
     "group": "component",
     "derived": true,
-    "why": "Known Calls (new users) design: Known-call notifications design: \"Ongoing call - 02:34\" strip under the chat header."
+    "why": "The 'Ongoing call – 02:34' strip under the chat header, an inverted bar so it stands out."
   },
   {
     "name": "component/ongoing-bar/text",
     "cssVar": "--eq-ongoing-bar-text",
     "light": "#BAFF29",
-    "dark": "#BAFF29",
-    "lightRef": "direct value",
-    "darkRef": "direct value",
+    "dark": "rgba(0,0,0,0.8)",
+    "lightRef": "brand/lime",
+    "darkRef": "brand/black · 80%",
     "group": "component",
     "derived": true,
-    "why": "Known Calls (new users) design: Lime text and bars on the ongoing-call strip (AA on its fill)."
+    "why": "Lime text and bars on the dark ongoing-call strip."
   },
   {
     "name": "component/initials-disc/bg",
@@ -1406,18 +1263,183 @@ export const aliases: AliasToken[] = [
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Known Calls (new users) design: Call Handling contact pickers: plain white disc behind initials (not the saved-contact blue)."
+    "why": "Plain white disc behind initials in the call-handling contact pickers."
   },
   {
     "name": "component/paywall/hero-top",
     "cssVar": "--eq-paywall-hero-top",
-    "light": "#FCE290",
+    "light": "#FDEFC6",
     "dark": "#4A3C1C",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Monetization Flow design: top stop of gradient/paywall-hero, used as the status-bar fill above the gold hero."
+    "why": "Fills the very top of the paywall hero (and status bar above it) with Figma's soft gold glow #FDEFC6."
+  },
+  {
+    "name": "component/takeover/text",
+    "cssVar": "--eq-takeover-text",
+    "light": "#009837",
+    "dark": "#FFFFFF",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": true,
+    "why": "Label on the Takeover pill (3.6:1, bold 14px)."
+  },
+  {
+    "name": "component/takeover/stroke",
+    "cssVar": "--eq-takeover-stroke",
+    "light": "rgba(0,177,64,0.96)",
+    "dark": "#58741C",
+    "lightRef": "brand/green · 96%",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": true,
+    "why": "Outline of the Takeover pill."
+  },
+  {
+    "name": "component/glass-button/default",
+    "cssVar": "--eq-glass-button-default",
+    "light": "rgba(255,255,255,0.3)",
+    "dark": "rgba(255,255,255,0.02)",
+    "lightRef": "brand/white · 30%",
+    "darkRef": "brand/white · 2%",
+    "group": "component",
+    "derived": true,
+    "why": "Frosted round icon buttons (close/back) over content."
+  },
+  {
+    "name": "state/chat-pressed",
+    "cssVar": "--eq-state-chat-pressed",
+    "light": "rgba(0,0,0,0.03)",
+    "dark": "rgba(255,255,255,0.08)",
+    "lightRef": "brand/black · 3%",
+    "darkRef": "brand/white · 8%",
+    "group": "state",
+    "derived": true,
+    "why": "Pressed state of a chat-list row."
+  },
+  {
+    "name": "component/voice/player-stroke",
+    "cssVar": "--eq-voice-player-stroke",
+    "light": "#F8F8F8",
+    "dark": "#141414",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": true,
+    "why": "Hairline around the voice-note player (turns brand green while playing)."
+  },
+  {
+    "name": "component/choice/default-bg",
+    "cssVar": "--eq-choice-default-bg",
+    "light": "rgba(255,255,255,0.3)",
+    "dark": "rgba(255,255,255,0.04)",
+    "lightRef": "brand/white · 30%",
+    "darkRef": "brand/white · 4%",
+    "group": "component",
+    "derived": true,
+    "why": "Unselected radio card fill in call handling."
+  },
+  {
+    "name": "component/plan-badge/expired-stroke",
+    "cssVar": "--eq-plan-badge-expired-stroke",
+    "light": "#8D0000",
+    "dark": "#8D0000",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": true,
+    "why": "Outlines the 'Plan Expired' pill and badge in Figma's dark red #8D0000."
+  },
+  {
+    "name": "component/plan-card/pill-bg",
+    "cssVar": "--eq-plan-card-pill-bg",
+    "light": "#272727",
+    "dark": "#272727",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": true,
+    "why": "Fills the 'Current Plan' pill with Figma's #272727, a touch darker than the card."
+  },
+  {
+    "name": "component/locked/badge-stroke",
+    "cssVar": "--eq-locked-badge-stroke",
+    "light": "#FFEFC8",
+    "dark": "#4A3C1C",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": true,
+    "why": "Rings the lock badge circle in Figma's cream #FFEFC8."
+  },
+  {
+    "name": "component/expiry-banner/warning-icon-bg",
+    "cssVar": "--eq-expiry-banner-warning-icon-bg",
+    "light": "rgba(118,61,0,0.06)",
+    "dark": "rgba(240,200,120,0.12)",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": true,
+    "why": "Fills the circle behind the info icon on the warning strip with the strip's text colour at 6%."
+  },
+  {
+    "name": "component/expiry-banner/danger-icon-bg",
+    "cssVar": "--eq-expiry-banner-danger-icon-bg",
+    "light": "rgba(110,0,0,0.06)",
+    "dark": "rgba(255,163,163,0.12)",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": true,
+    "why": "Fills the circle behind the info icon on the expired strip with the strip's text colour at 6%."
+  },
+  {
+    "name": "component/assistant-toggle/bg",
+    "cssVar": "--eq-assistant-toggle-bg",
+    "light": "#FAFFEE",
+    "dark": "#2B3120",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": true,
+    "why": "The assistant on/off card has its own pale lime fill; dark is lime at 8% on bg/surface."
+  },
+  {
+    "name": "component/preset/tint-blue",
+    "cssVar": "--eq-preset-tint-blue",
+    "light": "rgba(131,224,255,0.16)",
+    "dark": "rgba(131,224,255,0.16)",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": true,
+    "why": "The everyday-calls preset uses a blue tint in Figma; flowData 'everyday' should switch from green to this."
+  },
+  {
+    "name": "component/preset/tint-lime",
+    "cssVar": "--eq-preset-tint-lime",
+    "light": "rgba(186,255,41,0.18)",
+    "dark": "rgba(186,255,41,0.18)",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": true,
+    "why": "The Your Instructions › Active Instructions row has its own lime icon tint."
+  },
+  {
+    "name": "component/gender/stroke",
+    "cssVar": "--eq-gender-stroke",
+    "light": "#F4F4F4",
+    "dark": "rgba(255,255,255,0.08)",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": true,
+    "why": "The unselected gender card has a very light grey outline; dark uses stroke/subtle's dark value."
   }
 ];
 
@@ -1425,7 +1447,6 @@ export const aliases: AliasToken[] = [
 export const color = {
   bgPrimary: 'var(--eq-bg-primary)',
   bgSurface: 'var(--eq-bg-surface)',
-  bgNavBottom: 'var(--eq-bg-nav-bottom)',
   bgOverlay: 'var(--eq-bg-overlay)',
   textPrimary: 'var(--eq-text-primary)',
   textPlaceholder: 'var(--eq-text-placeholder)',
@@ -1436,6 +1457,7 @@ export const color = {
   textOnActionDisabled: 'var(--eq-text-on-action-disabled)',
   buttonPrimary: 'var(--eq-button-primary)',
   buttonSecondary: 'var(--eq-button-secondary)',
+  textOnSecondary: 'var(--eq-text-on-secondary)',
   buttonDanger: 'var(--eq-button-danger)',
   buttonDisabled: 'var(--eq-button-disabled)',
   strokeSubtle: 'var(--eq-stroke-subtle)',
@@ -1447,13 +1469,11 @@ export const color = {
   chatBubbleUserBg: 'var(--eq-chat-bubble-user-bg)',
   chatBubbleUserTitle: 'var(--eq-chat-bubble-user-title)',
   actionCardHighlight: 'var(--eq-action-card-highlight)',
-  textTertiary: 'var(--eq-text-tertiary)',
   textDanger: 'var(--eq-text-danger)',
   textOnDanger: 'var(--eq-text-on-danger)',
   textOnDark: 'var(--eq-text-on-dark)',
   textOnDarkSecondary: 'var(--eq-text-on-dark-secondary)',
   textAccentGold: 'var(--eq-text-accent-gold)',
-  textBrand: 'var(--eq-text-brand)',
   chatBubbleContactTitle: 'var(--eq-chat-bubble-contact-title)',
   chatBubbleOtherBg: 'var(--eq-chat-bubble-other-bg)',
   planCardBg: 'var(--eq-plan-card-bg)',
@@ -1466,17 +1486,12 @@ export const color = {
   waveformBarPlayed: 'var(--eq-waveform-bar-played)',
   noticeBg: 'var(--eq-notice-bg)',
   chipWhenBg: 'var(--eq-chip-when-bg)',
-  sheetBg: 'var(--eq-sheet-bg)',
-  scrim: 'var(--eq-scrim)',
-  badgeNewFeatureStroke: 'var(--eq-badge-new-feature-stroke)',
   planCardPattern: 'var(--eq-plan-card-pattern)',
   inviteBg: 'var(--eq-invite-bg)',
   inviteStroke: 'var(--eq-invite-stroke)',
-  skeleton: 'var(--eq-skeleton)',
   chipDoBg: 'var(--eq-chip-do-bg)',
   chipSelectedBg: 'var(--eq-chip-selected-bg)',
   chipSelectedText: 'var(--eq-chip-selected-text)',
-  presetTintRed: 'var(--eq-preset-tint-red)',
   presetTintGreen: 'var(--eq-preset-tint-green)',
   presetTintOrange: 'var(--eq-preset-tint-orange)',
   iconButtonBg: 'var(--eq-icon-button-bg)',
@@ -1532,119 +1547,112 @@ export const color = {
   contactAvatarTealText: 'var(--eq-contact-avatar-teal-text)',
   contactAvatarBadgeBg: 'var(--eq-contact-avatar-badge-bg)',
   contactAvatarBadgeIcon: 'var(--eq-contact-avatar-badge-icon)',
-  processingBg: 'var(--eq-processing-bg)',
-  processingRing: 'var(--eq-processing-ring)',
   planBadgeExpiredBg: 'var(--eq-plan-badge-expired-bg)',
-  offerStripBg: 'var(--eq-offer-strip-bg)',
-  offerStripText: 'var(--eq-offer-strip-text)',
-  resultRing: 'var(--eq-result-ring)',
   profileHeroStatusBg: 'var(--eq-profile-hero-status-bg)',
   profileHeroStatusText: 'var(--eq-profile-hero-status-text)',
+  profileHeroPlainBg: 'var(--eq-profile-hero-plain-bg)',
   infoNoteBg: 'var(--eq-info-note-bg)',
-  infoNoteText: 'var(--eq-info-note-text)',
-  choiceSelectedBg: 'var(--eq-choice-selected-bg)',
   ongoingBarBg: 'var(--eq-ongoing-bar-bg)',
   ongoingBarText: 'var(--eq-ongoing-bar-text)',
   initialsDiscBg: 'var(--eq-initials-disc-bg)',
   paywallHeroTop: 'var(--eq-paywall-hero-top)',
+  takeoverText: 'var(--eq-takeover-text)',
+  takeoverStroke: 'var(--eq-takeover-stroke)',
+  glassButtonDefault: 'var(--eq-glass-button-default)',
+  stateChatPressed: 'var(--eq-state-chat-pressed)',
+  voicePlayerStroke: 'var(--eq-voice-player-stroke)',
+  choiceDefaultBg: 'var(--eq-choice-default-bg)',
+  planBadgeExpiredStroke: 'var(--eq-plan-badge-expired-stroke)',
+  planCardPillBg: 'var(--eq-plan-card-pill-bg)',
+  lockedBadgeStroke: 'var(--eq-locked-badge-stroke)',
+  expiryBannerWarningIconBg: 'var(--eq-expiry-banner-warning-icon-bg)',
+  expiryBannerDangerIconBg: 'var(--eq-expiry-banner-danger-icon-bg)',
+  assistantToggleBg: 'var(--eq-assistant-toggle-bg)',
+  presetTintBlue: 'var(--eq-preset-tint-blue)',
+  presetTintLime: 'var(--eq-preset-tint-lime)',
+  genderStroke: 'var(--eq-gender-stroke)',
 } as const;
 
 export const gradients = [
   {
     "name": "fab",
     "cssVar": "--eq-gradient-fab",
-    "light": "linear-gradient(180deg, #86E63B 0%, #00B140 100%)",
+    "light": "linear-gradient(180deg, #BAFF29 -28%, #00B140 100%)",
     "dark": "linear-gradient(180deg, #C9FF5C 0%, #BAFF29 100%)",
     "derived": true,
-    "why": "Send button (active) in the composer (#15). The AI avatar and FAB now use the orb asset."
+    "why": "Active send button and the app-icon tile: lime fading to brand green."
   },
   {
     "name": "send-disabled",
     "cssVar": "--eq-gradient-send-disabled",
-    "light": "linear-gradient(180deg, #E4F6E5 0%, #C8EAD3 100%)",
-    "dark": "linear-gradient(180deg, #353A2A 0%, #272C1E 100%)",
+    "light": "linear-gradient(180deg, rgba(186,255,41,0.2) -28%, rgba(0,177,64,0.2) 100%)",
+    "dark": "linear-gradient(180deg, rgba(186,255,41,0.2) 0%, rgba(186,255,41,0.2) 100%)",
     "derived": true,
-    "why": "Component ref #15 disabled send."
-  },
-  {
-    "name": "assistant-toggle",
-    "cssVar": "--eq-gradient-assistant-toggle",
-    "light": "linear-gradient(90deg, #D3F4DA 0%, #F7FDEB 55%, #DBF5DF 100%)",
-    "dark": "linear-gradient(90deg, #272C1E 0%, #2F3423 55%, #272C1E 100%)",
-    "derived": true,
-    "why": "Component ref #3."
+    "why": "Disabled send button: the active gradient at 20% opacity."
   },
   {
     "name": "gold",
     "cssVar": "--eq-gradient-gold",
-    "light": "linear-gradient(90deg, #D8A857 0%, #A2702C 100%)",
-    "dark": "linear-gradient(90deg, #D8A857 0%, #A2702C 100%)",
-    "derived": true,
-    "why": "Component ref #2 UNLIMITED pill."
-  },
-  {
-    "name": "whats-new",
-    "cssVar": "--eq-gradient-whats-new",
-    "light": "linear-gradient(120deg, #E6FEE8 0%, #EEFFE8 55%, #F4FFE9 100%)",
-    "dark": "linear-gradient(135deg, #272C1E 0%, #2F3423 100%)",
-    "derived": true,
-    "why": "Component ref #22; light values sampled from the Language Preference card design."
+    "light": "radial-gradient(125% 250% at 2% 9%, #A37236 9%, #B58D55 66%, #A97B41 100%)",
+    "dark": "radial-gradient(125% 250% at 2% 9%, #A37236 9%, #B58D55 66%, #A97B41 100%)",
+    "derived": false,
+    "why": "Fills the small 'UNLIMITED' pill next to the name and logo with Figma's #A37236 base plus a 22% light sheen, in both modes."
   },
   {
     "name": "chip-large",
     "cssVar": "--eq-gradient-chip-large",
-    "light": "linear-gradient(180deg, #F3F9E8 0%, #EEFAD8 100%)",
-    "dark": "linear-gradient(180deg, #2F3423 0%, #272C1E 100%)",
+    "light": "linear-gradient(180deg, #FBFFF4 0%, #F0FFD2 100%)",
+    "dark": "linear-gradient(180deg, #212716 0%, #212716 100%)",
     "derived": true,
-    "why": "Component ref #10."
+    "why": "Large action chips in the conversation and assistant sheet: white washed with lime, deeper at the bottom."
   },
   {
     "name": "chip-small-unread",
     "cssVar": "--eq-gradient-chip-small-unread",
-    "light": "linear-gradient(180deg, #F7FBEF 0%, #EAF7D6 100%)",
-    "dark": "linear-gradient(180deg, #2F3423 0%, #272C1E 100%)",
+    "light": "linear-gradient(180deg, rgba(186,255,41,0.01) 0%, rgba(186,255,41,0.18) 100%)",
+    "dark": "linear-gradient(180deg, rgba(186,255,41,0.01) 0%, rgba(186,255,41,0.18) 100%)",
     "derived": true,
-    "why": "Component ref #6/#9 unread chip (glass)."
+    "why": "Unread home-list action chip: a lime wash that deepens towards the bottom."
   },
   {
     "name": "chip-small-read",
     "cssVar": "--eq-gradient-chip-small-read",
-    "light": "linear-gradient(180deg, #FFFFFF 0%, #F2F2F2 100%)",
-    "dark": "linear-gradient(180deg, #333333 0%, #2A2A2A 100%)",
+    "light": "linear-gradient(180deg, #FFFFFF 0%, rgba(235,235,235,0.4) 100%)",
+    "dark": "linear-gradient(180deg, #1F1F1F 0%, #1F1F1F 100%)",
     "derived": true,
-    "why": "Component ref #6/#9 read chip (glass)."
+    "why": "Read action chip: white fading to a light grey."
   },
   {
     "name": "takeover",
     "cssVar": "--eq-gradient-takeover",
-    "light": "linear-gradient(180deg, #FFFFFF 0%, #EAF8EE 100%)",
-    "dark": "linear-gradient(180deg, #2F3423 0%, #272C1E 100%)",
+    "light": "linear-gradient(180deg, #E4FFED 0%, #E4FFED 100%)",
+    "dark": "linear-gradient(180deg, #212615 0%, #212615 100%)",
     "derived": true,
-    "why": "Component ref #5 Takeover pill."
+    "why": "The Takeover pill in the chat header; Figma fills it flat pale green."
   },
   {
     "name": "profile-hero",
     "cssVar": "--eq-gradient-profile-hero",
-    "light": "linear-gradient(180deg, #F8E4A2 0%, #FAEDC4 45%, #F7F7F7 100%)",
-    "dark": "linear-gradient(180deg, #F8E4A2 0%, #FAEDC4 55%, #FDF8EC 100%)",
+    "light": "linear-gradient(180deg, #F5E4AE 0%, #F7EBC0 25%, #F5EED8 50%, #F4F0EA 75%, #F7F7F7 100%)",
+    "dark": "linear-gradient(180deg, #F5E4AE 0%, #F7EBC0 35%, #FBF5E8 100%)",
     "derived": true,
-    "why": "You (Settings) design: gold header behind the profile on the You tab. Light: fades into bg/primary. Dark: the header stays cream-gold (dark-mode You mock) as a panel with rounded bottom corners that the plan card overlaps."
+    "why": "Figma draws the hero as a gold blur plus a video, not a gradient; these stops are what it renders, slightly paler at the top than the old #F8E4A2. Dark keeps the cream panel and is derived."
   },
   {
     "name": "ai-summary",
     "cssVar": "--eq-gradient-ai-summary",
-    "light": "linear-gradient(135deg, #FFFFFF 0%, #F6FDEB 40%, #FFFFFF 70%, #E6F7EA 100%)",
-    "dark": "linear-gradient(135deg, #222222 0%, #2F3423 45%, #222222 75%, #272C1E 100%)",
+    "light": "linear-gradient(45deg, #F3FBF6 0%, #FFFFFF 25%, #F8FFEA 50%, #FFFFFF 75%, #EAF9EF 100%)",
+    "dark": "linear-gradient(45deg, #272A1F 0%, #1F1F1F 25%, #2E3520 50%, #1F1F1F 75%, #2B3120 100%)",
     "derived": true,
-    "why": "You (Settings) design: AI Summary card surface (soft lime/green tints)."
+    "why": "Figma's card is white with green glows at top-right and bottom-left and a lime glow in the centre, so the gradient runs bottom-left to top-right (45deg), not the old 135deg. Dark re-hues every glow to lime on bg/surface #1F1F1F. Card radius in Figma is 16 (web uses 20)."
   },
   {
     "name": "gender-selected",
     "cssVar": "--eq-gradient-gender-selected",
-    "light": "linear-gradient(135deg, #F4FBEC 0%, #EAF7DE 100%)",
-    "dark": "linear-gradient(135deg, #2B3021 0%, #252A1C 100%)",
+    "light": "linear-gradient(135deg, rgba(186,255,41,0.08) 0%, rgba(186,255,41,0.08) 100%)",
+    "dark": "linear-gradient(135deg, rgba(186,255,41,0.08) 0%, rgba(186,255,41,0.08) 100%)",
     "derived": true,
-    "why": "Profile, Addresses and Instructions designs: selected gender card fill."
+    "why": "The selected gender card fill is flat lime at 8% (it can point to action/unread_fill), not a two-tone gradient; the green-to-lime look comes from its gradient stroke, added as gradient:gender-selected-stroke."
   },
   {
     "name": "suggestion-card",
@@ -1652,7 +1660,7 @@ export const gradients = [
     "light": "linear-gradient(120deg, #FFFFFF 0%, #F2FBEA 60%, #E9F8EC 100%)",
     "dark": "linear-gradient(120deg, #242424 0%, #2F3423 100%)",
     "derived": true,
-    "why": "Profile, Addresses and Instructions designs: 'New suggestions coming…' card."
+    "why": "The 'New suggestions coming…' card is not in this Figma file; keep the current value until the owner decides whether the card stays."
   },
   {
     "name": "status-card",
@@ -1660,183 +1668,183 @@ export const gradients = [
     "light": "linear-gradient(120deg, #FEEBC8 0%, #FDF2DB 45%, #FBF9F4 100%)",
     "dark": "linear-gradient(120deg, #3A2E1A 0%, #2A2622 60%, #242424 100%)",
     "derived": true,
-    "why": "Temporarily Unavailable design: system status card (light only in the design; dark derived to match the dark screens)."
+    "why": "Not in Figma; current gradient kept pending owner decision."
   },
   {
     "name": "meet-assistant",
     "cssVar": "--eq-gradient-meet-assistant",
-    "light": "linear-gradient(120deg, #E6F7EB 0%, #EDF9F1 55%, #F3FCEF 100%)",
+    "light": "linear-gradient(135deg, #EBF9F0 0%, #EBF9F0 60%, #F2FCEE 100%)",
     "dark": "linear-gradient(120deg, #272C1E 0%, #2F3423 100%)",
     "derived": true,
-    "why": "Temporarily Unavailable design + Meet Your Assistant banner: card fill."
+    "why": "Meet Your Assistant banner: white tinted 8% green with a light glow bottom-right."
   },
   {
     "name": "call-me",
     "cssVar": "--eq-gradient-call-me",
-    "light": "linear-gradient(90deg, #55CC6D 0%, #00B140 60%)",
-    "dark": "linear-gradient(90deg, #C9FF5C 0%, #BAFF29 60%)",
+    "light": "linear-gradient(90deg, #00B140 0%, #00B140 100%)",
+    "dark": "linear-gradient(90deg, #BAFF29 0%, #BAFF29 100%)",
     "derived": true,
-    "why": "Meet Your Assistant: \"Call me\" pill (green in light, lime in dark like the primary button)."
+    "why": "The 'Call me' pill: flat brand green in Figma."
   },
   {
     "name": "when-chip",
     "cssVar": "--eq-gradient-when-chip",
-    "light": "linear-gradient(90deg, #EEEAFF 0%, rgba(238,234,255,0) 100%)",
-    "dark": "linear-gradient(90deg, #2B2740 0%, rgba(43,39,64,0) 100%)",
+    "light": "linear-gradient(90deg, #FFFFFF 0%, #F4F1FF 100%)",
+    "dark": "linear-gradient(90deg, rgba(36,36,36,0.2) 0%, rgba(178,160,255,0.2) 100%)",
     "derived": true,
-    "why": "Active instruction card (Instructions screenshot): the WHEN / DO label pill fades from a tint to transparent."
+    "why": "Figma's pill goes from white on the left to lavender on the right, the reverse of the token, and ends in the card colour instead of transparent. Dark is Figma's own dark frame."
   },
   {
     "name": "do-chip",
     "cssVar": "--eq-gradient-do-chip",
-    "light": "linear-gradient(90deg, #E2F8EA 0%, rgba(226,248,234,0) 100%)",
-    "dark": "linear-gradient(90deg, #2C331E 0%, rgba(44,51,30,0) 100%)",
+    "light": "linear-gradient(90deg, #FFFFFF 0%, #EEFFF8 100%)",
+    "dark": "linear-gradient(90deg, rgba(36,36,36,0.2) 0%, rgba(186,255,41,0.2) 100%)",
     "derived": true,
-    "why": "Active instruction card (Instructions screenshot): the WHEN / DO label pill fades from a tint to transparent."
+    "why": "Figma's DO pill is a mint #EEFFF8 that fades to white toward the left; dark takes Figma's 20% dark treatment with the green re-hued to lime."
   },
   {
     "name": "paywall-hero",
     "cssVar": "--eq-gradient-paywall-hero",
-    "light": "linear-gradient(180deg, #FCE290 0%, #FAEFCF 38%, #FFFFFF 62%)",
+    "light": "linear-gradient(180deg, #FDEFC6 0%, #FEF8DD 40%, #FFFFFF 70%)",
     "dark": "linear-gradient(180deg, #4A3C1C 0%, #2A241A 38%, #141414 62%)",
     "derived": true,
-    "why": "Monetization Flow design: Unlock Equal Unlimited hero, Settings and Subscription headers."
+    "why": "Washes the top of the Unlock Equal Unlimited paywall and Settings header with Figma's soft #FDEFC6 glow fading to white."
   },
   {
     "name": "gold-text",
     "cssVar": "--eq-gradient-gold-text",
-    "light": "linear-gradient(180deg, #B57E32 0%, #7C4C10 100%)",
-    "dark": "linear-gradient(180deg, #F6D48A 0%, #D9A44A 100%)",
+    "light": "radial-gradient(48% 93% at 46% 14%, #FFB251 0%, #603600 100%)",
+    "dark": "radial-gradient(48% 93% at 46% 14%, #F6D48A 0%, #D9A44A 100%)",
     "derived": true,
-    "why": "Monetization Flow design: big price (₹249), 25% OFF, 400k+."
+    "why": "Fills the big price digits and '400k+' with Figma's orange-to-brown radial (#FFB251 to #603600)."
   },
   {
     "name": "cta-gold",
     "cssVar": "--eq-gradient-cta-gold",
-    "light": "linear-gradient(90deg, #8A5516 0%, #9E6A27 55%, #B88A45 100%)",
-    "dark": "linear-gradient(90deg, #8A5516 0%, #9E6A27 55%, #B88A45 100%)",
+    "light": "radial-gradient(125% 250% at 2% 9%, #A37236 9%, #C8A774 66%, #AF854C 100%)",
+    "dark": "radial-gradient(125% 250% at 2% 9%, #A37236 9%, #C8A774 66%, #AF854C 100%)",
     "derived": true,
-    "why": "Monetization Flow design: Unlock Unlimited / Re-Subscribe button. Darker than the design where the label sits so white text passes AA (5.1:1)."
-  },
-  {
-    "name": "coupon",
-    "cssVar": "--eq-gradient-coupon",
-    "light": "linear-gradient(135deg, #FFFCF5 0%, #FFF4DE 100%)",
-    "dark": "linear-gradient(135deg, #2A251C 0%, #221F19 100%)",
-    "derived": true,
-    "why": "Monetization Flow design: coupon ticket fill."
+    "why": "Fills the main Unlock / Re-Subscribe button with Figma's #A37236 base and 44% sheen; white label is 4.2:1 at the dark end but about 2.5:1 at the highlight."
   },
   {
     "name": "status-neutral",
     "cssVar": "--eq-gradient-status-neutral",
-    "light": "linear-gradient(180deg, #E6E6E6 0%, #F7F7F7 45%, #FFFFFF 100%)",
-    "dark": "linear-gradient(180deg, #3A3A3A 0%, #262626 60%, #222222 100%)",
+    "light": "linear-gradient(180deg, #E1E1E1 0%, #F4F4F4 50%, #FFFFFF 100%)",
+    "dark": "linear-gradient(180deg, #434343 0%, #2F2F2F 50%, #1F1F1F 100%)",
     "derived": true,
-    "why": "Monetization Flow design: Waiting for Confirmation / Request Submitted / cancel cards."
+    "why": "Tints the top of the Waiting for Confirmation and cancel sheet cards with Figma's blurred grey #E1E1E1 glow fading to white."
   },
   {
     "name": "status-success",
     "cssVar": "--eq-gradient-status-success",
-    "light": "linear-gradient(180deg, #B8F2C5 0%, #EEFCF1 55%, #FFFFFF 100%)",
-    "dark": "linear-gradient(180deg, #313A1E 0%, #2B3020 55%, #222222 100%)",
+    "light": "linear-gradient(180deg, #C7FAD7 0%, #E3FDEA 50%, #FFFFFF 100%)",
+    "dark": "linear-gradient(180deg, #384321 0%, #2A2F20 50%, #1F1F1F 100%)",
     "derived": true,
-    "why": "Monetization Flow design: Payment Confirmed card."
+    "why": "Tints the top of the Payment Confirmed card with Figma's blurred green #C7FAD7 glow (lime-tinted in dark)."
   },
   {
     "name": "status-warning",
     "cssVar": "--eq-gradient-status-warning",
-    "light": "linear-gradient(180deg, #FFD6AD 0%, #FFF2E5 55%, #FFFFFF 100%)",
-    "dark": "linear-gradient(180deg, #43301C 0%, #2E2620 55%, #222222 100%)",
+    "light": "linear-gradient(180deg, #FFDDC2 0%, #FFF3E8 50%, #FFFFFF 100%)",
+    "dark": "linear-gradient(180deg, #43372E 0%, #2F2A26 50%, #1F1F1F 100%)",
     "derived": true,
-    "why": "Monetization Flow design: Payment Pending card."
+    "why": "Tints the top of the Payment Pending card with Figma's blurred orange glow, which shows as #FFDDC2 at the card top."
   },
   {
     "name": "status-danger",
     "cssVar": "--eq-gradient-status-danger",
-    "light": "linear-gradient(180deg, #FFC4CB 0%, #FFEEF0 55%, #FFFFFF 100%)",
-    "dark": "linear-gradient(180deg, #46232A 0%, #2E2224 55%, #222222 100%)",
+    "light": "linear-gradient(180deg, #FFD0D0 0%, #FFECEF 50%, #FFFFFF 100%)",
+    "dark": "linear-gradient(180deg, #432B2B 0%, #2F2424 50%, #1F1F1F 100%)",
     "derived": true,
-    "why": "Monetization Flow design: Payment Failed card."
+    "why": "Tints the top of the Payment Failed card with Figma's blurred red #FFD0D0 glow fading to white."
   },
   {
     "name": "status-gold",
     "cssVar": "--eq-gradient-status-gold",
-    "light": "linear-gradient(180deg, #FCE290 0%, #FFF7DF 55%, #FFFFFF 100%)",
-    "dark": "linear-gradient(180deg, #4A3C1C 0%, #2A241A 55%, #222222 100%)",
+    "light": "linear-gradient(180deg, #FDEFC6 0%, #FFFAE3 50%, #FFFFFF 100%)",
+    "dark": "linear-gradient(180deg, #3F382A 0%, #2D2A24 50%, #1F1F1F 100%)",
     "derived": true,
-    "why": "Monetization Flow design: Congratulations / Welcome to Equal Unlimited card."
+    "why": "Tints the top of the Congratulations / Welcome to Equal Unlimited card with Figma's blurred #FDEFC6 gold glow."
   },
   {
     "name": "value-card",
     "cssVar": "--eq-gradient-value-card",
-    "light": "linear-gradient(180deg, #FCE7A8 0%, #FFF6DC 42%, #FFFFFF 100%)",
-    "dark": "linear-gradient(180deg, #4A3410 0%, #1E170C 48%, #0E0E0E 100%)",
-    "derived": true,
-    "why": "Monetization value design: \"What Unlimited saved you\" card (light: cream-gold; dark: black with gold glow)."
+    "light": "linear-gradient(180deg, #FBE399 0%, #FEF6D5 25%, #FFFFFF 60%)",
+    "dark": "linear-gradient(180deg, #4A2C00 0%, #180E01 45%, #000000 100%)",
+    "derived": false,
+    "why": "Washes the 'What Unlimited saved you' card with Figma's yellow glow fading to white (gold glow on pure black in dark)."
   },
   {
     "name": "voice-note",
     "cssVar": "--eq-gradient-voice-note",
-    "light": "linear-gradient(90deg, #00B140 0%, #7FD93A 100%)",
-    "dark": "linear-gradient(90deg, #C9FF5C 0%, #BAFF29 100%)",
+    "light": "linear-gradient(180deg, #BAFF29 -28%, #00B140 100%)",
+    "dark": "linear-gradient(180deg, #C9FF5C 0%, #BAFF29 100%)",
     "derived": true,
-    "why": "Global MYA design: the \"Send voice note\" pill and the mic / send buttons in the assistant sheet (light: green → lime-green, white text; dark: lime, black text)."
+    "why": "The 'Send voice note' pill and mic button: same lime-to-green as the send button."
   },
   {
     "name": "choice-stroke",
     "cssVar": "--eq-gradient-choice-stroke",
-    "light": "linear-gradient(90deg, #00B140 0%, #A6E36A 100%)",
-    "dark": "linear-gradient(90deg, #C9FF5C 0%, #BAFF29 100%)",
+    "light": "linear-gradient(74deg, #00B140 9%, #BAFF29 55%, rgba(7,170,66,0.94) 100%)",
+    "dark": "linear-gradient(74deg, #BAFF29 0%, #BAFF29 100%)",
     "derived": true,
-    "why": "Known Calls (new users) design: outline of the selected radio card (green fading to lime)."
+    "why": "Outline of the selected radio card: green to lime and back to green."
   },
   {
     "name": "setup-done",
     "cssVar": "--eq-gradient-setup-done",
-    "light": "linear-gradient(180deg, #E5F5F4 0%, #F3F8EC 50%, #EAF6CC 100%)",
+    "light": "linear-gradient(180deg, #E9F8F9 0%, #F2F8EF 50%, #EDF9D4 100%)",
     "dark": "linear-gradient(180deg, #13201F 0%, #161D17 50%, #222814 100%)",
     "derived": true,
-    "why": "Known Calls (new users) design: Perfect! / All Sorted! background (mint to lime wash)."
+    "why": "Perfect! / All Sorted! background: a cyan-to-lime wash."
   },
   {
     "name": "setup-prompt",
     "cssVar": "--eq-gradient-setup-prompt",
-    "light": "linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.7) 55%, #000000 100%)",
-    "dark": "linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.8) 55%, #000000 100%)",
+    "light": "linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.45) 41%, #000000 100%)",
+    "dark": "linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.45) 41%, #000000 100%)",
     "derived": true,
-    "why": "Known Calls (new users) design: \"Set up your calls\" takeover: the home dims and falls to black at the bottom."
+    "why": "'Set up your calls' takeover: home dimmed 45%, falling to black at the bottom."
   },
   {
-    "name": "result-success",
-    "cssVar": "--eq-gradient-result-success",
-    "light": "linear-gradient(180deg, #A8F5B4 0%, #DDFBE2 45%, #FFFFFF 78%)",
-    "dark": "linear-gradient(180deg, #2C3A0E 0%, #1C240B 45%, #0A0A0A 78%)",
+    "name": "unlimited-text",
+    "cssVar": "--eq-gradient-unlimited-text",
+    "light": "linear-gradient(90deg, #FFF8C7 -28%, #CFA846 55%)",
+    "dark": "linear-gradient(90deg, #FFF8C7 -28%, #CFA846 55%)",
     "derived": true,
-    "why": "Light/Dark Mode_ All Payment States design: Congratulations page."
+    "why": "Fills the word 'UNLIMITED' on the plan card with Figma's cream-to-gold gradient; text/accent-gold is its solid fallback."
   },
   {
-    "name": "result-pending",
-    "cssVar": "--eq-gradient-result-pending",
-    "light": "linear-gradient(180deg, #FFB98A 0%, #FFE3CF 45%, #FFFFFF 78%)",
-    "dark": "linear-gradient(180deg, #3A2410 0%, #22160C 45%, #0A0A0A 78%)",
+    "name": "coupon-stroke",
+    "cssVar": "--eq-gradient-coupon-stroke",
+    "light": "radial-gradient(48% 116% at 46% 14%, rgba(255,178,81,0.24) 0%, rgba(96,54,0,0.24) 100%)",
+    "dark": "radial-gradient(48% 116% at 46% 14%, rgba(255,178,81,0.32) 0%, rgba(232,189,98,0.32) 100%)",
     "derived": true,
-    "why": "Light/Dark Mode_ All Payment States design: Payment Pending page."
+    "why": "Outlines the coupon ticket with Figma's orange-to-brown radial at 24%."
   },
   {
-    "name": "result-failed",
-    "cssVar": "--eq-gradient-result-failed",
-    "light": "linear-gradient(180deg, #FFC9CD 0%, #FFE9EB 45%, #FFFFFF 78%)",
-    "dark": "linear-gradient(180deg, #4A0E10 0%, #2A0A0B 45%, #0A0A0A 78%)",
+    "name": "cta-renew",
+    "cssVar": "--eq-gradient-cta-renew",
+    "light": "radial-gradient(106% 100% at 50% 0%, #D1A85C 0%, #A0621F 100%)",
+    "dark": "radial-gradient(106% 100% at 50% 0%, #D1A85C 0%, #A0621F 100%)",
     "derived": true,
-    "why": "Light/Dark Mode_ All Payment States design: Payment Failed page."
+    "why": "Fills the 'Renew your Equal AI' button on the value sheet with Figma's #D1A85C to #A0621F radial, which differs from the paywall button."
   },
   {
-    "name": "offline-screen",
-    "cssVar": "--eq-gradient-offline-screen",
-    "light": "linear-gradient(180deg, #FFFFFF 0%, #F7FBF5 55%, #E6F6E4 100%)",
-    "dark": "linear-gradient(180deg, #141414 0%, #151A15 55%, #212618 100%)",
+    "name": "expired-badge",
+    "cssVar": "--eq-gradient-expired-badge",
+    "light": "linear-gradient(90deg, #BF3D28 0%, #E4918C 50%, #A43129 100%)",
+    "dark": "linear-gradient(90deg, #BF3D28 0%, #E4918C 50%, #A43129 100%)",
     "derived": true,
-    "why": "Error states design: full-screen No internet connection (white fading to a soft green at the bottom)."
+    "why": "Gives the 'Plan Expired' pill and badge Figma's full red sheen; white text drops to about 2.6:1 at the highlight."
+  },
+  {
+    "name": "gender-selected-stroke",
+    "cssVar": "--eq-gradient-gender-selected-stroke",
+    "light": "linear-gradient(86deg, #00B140 0%, #BAFF29 51%, rgba(7,170,66,0.94) 100%)",
+    "dark": "linear-gradient(86deg, #BAFF29 0%, #BAFF29 51%, rgba(186,255,41,0.94) 100%)",
+    "derived": true,
+    "why": "The selected gender card's border is a green-lime-green gradient (web uses solid button-primary); in dark every green becomes lime."
   }
 ];
 

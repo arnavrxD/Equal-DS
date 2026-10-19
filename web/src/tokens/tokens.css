@@ -94,102 +94,95 @@
 :root,
 [data-theme='light'] {
   color-scheme: light;
-  --eq-bg-primary: #F7F7F7;
+  --eq-bg-primary: #FAFAFA;
   --eq-bg-surface: #FFFFFF;
-  --eq-bg-nav-bottom: #F7F7F7;
-  --eq-bg-overlay: #9F9F9F;
-  --eq-text-primary: #111111;
-  --eq-text-placeholder: #AAAAAA;
-  --eq-text-secondary: #555555;
-  --eq-text-action-disabled: #CCCCCC;
+  --eq-bg-overlay: rgba(30,30,30,0.4);
+  --eq-text-primary: rgba(0,0,0,0.8);
+  --eq-text-placeholder: rgba(0,0,0,0.4);
+  --eq-text-secondary: rgba(0,0,0,0.6);
+  --eq-text-action-disabled: rgba(0,0,0,0.2);
   --eq-text-action: #00B140;
   --eq-text-on-action: #FFFFFF;
   --eq-text-on-action-disabled: #888888;
   --eq-button-primary: #00B140;
   --eq-button-secondary: #BAFF29;
+  --eq-text-on-secondary: rgba(0,0,0,0.8); /* derived */
   --eq-button-danger: #C50000;
   --eq-button-disabled: #DDDDDD;
-  --eq-stroke-subtle: #E9E9E9;
-  --eq-stroke-medium: #E1E1E1;
-  --eq-stroke-dark: #A7A7A7;
-  --eq-action-stroke-unread: #9DDDB4;
-  --eq-action-fill-unread: #F0F6E5;
+  --eq-stroke-subtle: rgba(0,0,0,0.05);
+  --eq-stroke-medium: rgba(0,0,0,0.08);
+  --eq-stroke-dark: rgba(0,0,0,0.32);
+  --eq-action-stroke-unread: rgba(0,177,64,0.36);
+  --eq-action-fill-unread: rgba(186,255,41,0.08);
   --eq-action-bottom-color: #EBEBEB;
   --eq-chat-bubble-user-bg: #E8FFED;
   --eq-chat-bubble-user-title: #006223;
-  --eq-action-card-highlight: #DCFFE4;
-  --eq-text-tertiary: #6E6E6E; /* derived */
+  --eq-action-card-highlight: #D3FEE3; /* derived */
   --eq-text-danger: #C50000; /* derived */
   --eq-text-on-danger: #FFFFFF; /* derived */
   --eq-text-on-dark: #FFFFFF; /* derived */
   --eq-text-on-dark-secondary: #AAAAAA; /* derived */
-  --eq-text-accent-gold: #D9A928; /* derived */
-  --eq-text-brand: #00B140; /* derived */
-  --eq-chat-bubble-contact-title: #9A5B00; /* derived */
+  --eq-text-accent-gold: #CFA846;
+  --eq-chat-bubble-contact-title: #AF6307; /* derived */
   --eq-chat-bubble-other-bg: #FFFFFF; /* derived */
-  --eq-plan-card-bg: #2B2B2B; /* derived */
-  --eq-plan-card-pill-stroke: #C9A55A; /* derived */
-  --eq-rating-star-filled: #FFC700; /* derived */
-  --eq-rating-star-empty: #CFCFCF; /* derived */
-  --eq-nav-selected-bg: #F1FAF3; /* derived */
-  --eq-playback-pill-bg: #555555; /* derived */
-  --eq-waveform-bar: #8A8A8A; /* derived */
-  --eq-waveform-bar-played: #555555; /* derived */
-  --eq-notice-bg: #F6FDEB; /* derived */
-  --eq-chip-when-bg: #F1F1F1; /* derived */
-  --eq-sheet-bg: #F9F9F9; /* derived */
-  --eq-scrim: rgba(0,0,0,0.20); /* derived */
-  --eq-badge-new-feature-stroke: #E6E6E6; /* derived */
+  --eq-plan-card-bg: #2E2E2E;
+  --eq-plan-card-pill-stroke: #FFF2C3;
+  --eq-rating-star-filled: #00B140; /* derived */
+  --eq-rating-star-empty: rgba(43,43,43,0.36); /* derived */
+  --eq-nav-selected-bg: rgba(0,177,64,0.04); /* derived */
+  --eq-playback-pill-bg: #5E5E5E; /* derived */
+  --eq-waveform-bar: #D9D9D9; /* derived */
+  --eq-waveform-bar-played: #00B140; /* derived */
+  --eq-notice-bg: #FAFFF4; /* derived */
+  --eq-chip-when-bg: rgba(0,0,0,0.05); /* derived */
   --eq-plan-card-pattern: #C9A55A; /* derived */
-  --eq-invite-bg: #F0FBF2; /* derived */
-  --eq-invite-stroke: #D5F0DB; /* derived */
-  --eq-skeleton: #FFFFFF; /* derived */
-  --eq-chip-do-bg: #EEF8EF; /* derived */
-  --eq-chip-selected-bg: #333333; /* derived */
-  --eq-chip-selected-text: #FFFFFF; /* derived */
-  --eq-preset-tint-red: #FDECEC; /* derived */
-  --eq-preset-tint-green: #E6F7EA; /* derived */
-  --eq-preset-tint-orange: #FDF1DE; /* derived */
+  --eq-invite-bg: #F1FFF6; /* derived */
+  --eq-invite-stroke: rgba(0,177,64,0.10); /* derived */
+  --eq-chip-do-bg: #F0FBF4; /* derived */
+  --eq-chip-selected-bg: #313131; /* derived */
+  --eq-chip-selected-text: #F7F7F7; /* derived */
+  --eq-preset-tint-green: rgba(72,255,138,0.16); /* derived */
+  --eq-preset-tint-orange: rgba(255,153,8,0.16); /* derived */
   --eq-icon-button-bg: #F2F2F2; /* derived */
-  --eq-chat-wallpaper-bg: #F2F2F2; /* derived */
-  --eq-voice-player-bg: #F2F2F2; /* derived */
+  --eq-chat-wallpaper-bg: #F5F5F6; /* derived */
+  --eq-voice-player-bg: #FFFFFF; /* derived */
   --eq-voice-player-bg-sent: #E1F7E6; /* derived */
   --eq-chat-wallpaper-pattern: rgba(115,115,115,0.08);
   --eq-status-card-pill-bg: #FFFFFF; /* derived */
   --eq-status-card-button: #FAAF39; /* derived */
   --eq-status-card-button-text: #3D2600; /* derived */
   --eq-notification-bg: #FFFFFF; /* derived */
-  --eq-brand-whatsapp: #25D366; /* derived */
-  --eq-text-gold: #8C5817; /* derived */
+  --eq-brand-whatsapp: #00B140; /* derived */
+  --eq-text-gold: #9E6A28; /* derived */
   --eq-paywall-card-bg: #FFFDF7; /* derived */
-  --eq-paywall-card-stroke: #EFE2C6; /* derived */
-  --eq-paywall-divider: #E9D9B5; /* derived */
-  --eq-plan-banner-bg: #FFF0CC; /* derived */
-  --eq-plan-banner-text: #82500F; /* derived */
-  --eq-locked-badge-bg: #FFF6DE; /* derived */
-  --eq-expiry-banner-warning-bg: #FFEFD3; /* derived */
-  --eq-expiry-banner-warning-text: #7A4300; /* derived */
-  --eq-expiry-banner-danger-bg: #FDE4E4; /* derived */
-  --eq-expiry-banner-danger-text: #7D0F0F; /* derived */
-  --eq-whats-new-bg: #EAFBE6; /* derived */
-  --eq-whats-new-glow: #C9F7A0; /* derived */
-  --eq-missed-call-bg: #FFF9F7; /* derived */
-  --eq-missed-call-stroke: #F5EDEA; /* derived */
-  --eq-missed-call-icon-bg: #FBE9E5; /* derived */
-  --eq-missed-call-icon: #D4380D; /* derived */
-  --eq-expiry-chip-warning-bg: #FFF0C9; /* derived */
-  --eq-expiry-chip-warning-text: #7A4A00; /* derived */
-  --eq-expiry-chip-danger-bg: #FFE1E1; /* derived */
-  --eq-expiry-chip-danger-text: #B3141B; /* derived */
-  --eq-expiry-chip-active-bg: #FFF0C9; /* derived */
-  --eq-value-card-stroke: #F0E1BD; /* derived */
-  --eq-value-card-perks-bg: #FFFFFF; /* derived */
+  --eq-paywall-card-stroke: #F0F0F0;
+  --eq-paywall-divider: rgba(163,113,53,0.5); /* derived */
+  --eq-plan-banner-bg: #FFEFC8; /* derived */
+  --eq-plan-banner-text: #975F19; /* derived */
+  --eq-locked-badge-bg: #FCFCFC; /* derived */
+  --eq-expiry-banner-warning-bg: #FFF0D3; /* derived */
+  --eq-expiry-banner-warning-text: #763D00; /* derived */
+  --eq-expiry-banner-danger-bg: #FFE8E8; /* derived */
+  --eq-expiry-banner-danger-text: #6E0000; /* derived */
+  --eq-whats-new-bg: #E5FFE7; /* derived */
+  --eq-whats-new-glow: rgba(249,255,237,0.6); /* derived */
+  --eq-missed-call-bg: #FEFBFA; /* derived */
+  --eq-missed-call-stroke: #F8F8F8; /* derived */
+  --eq-missed-call-icon-bg: #FBEBE7; /* derived */
+  --eq-missed-call-icon: #DB330B; /* derived */
+  --eq-expiry-chip-warning-bg: #FFF1D5;
+  --eq-expiry-chip-warning-text: #6E4900;
+  --eq-expiry-chip-danger-bg: #FFD5D5; /* derived */
+  --eq-expiry-chip-danger-text: #6E0000; /* derived */
+  --eq-expiry-chip-active-bg: #FFF1D5; /* derived */
+  --eq-value-card-stroke: #F0F0F0;
+  --eq-value-card-perks-bg: #FFFFFF;
   --eq-value-card-ring: rgba(214,165,70,0.22); /* derived */
-  --eq-plan-card-expired-pill: #D0302F; /* derived */
-  --eq-sunburst-ray: rgba(255,255,255,0.6); /* derived */
-  --eq-premium-icon-start: #D1A85C; /* derived */
-  --eq-premium-icon-end: #A0621F; /* derived */
-  --eq-contact-avatar-blue-bg: #D5EFFC; /* derived */
+  --eq-plan-card-expired-pill: #CD3200;
+  --eq-sunburst-ray: rgba(255,255,255,0.05); /* derived */
+  --eq-premium-icon-start: #D1A85C;
+  --eq-premium-icon-end: #A0621F;
+  --eq-contact-avatar-blue-bg: #D6F1FF; /* derived */
   --eq-contact-avatar-blue-text: #296D8E; /* derived */
   --eq-contact-avatar-green-bg: #D5FCE2; /* derived */
   --eq-contact-avatar-green-text: #247B41; /* derived */
@@ -203,120 +196,120 @@
   --eq-contact-avatar-teal-text: #227770; /* derived */
   --eq-contact-avatar-badge-bg: #FFFFFF; /* derived */
   --eq-contact-avatar-badge-icon: #141414; /* derived */
-  --eq-processing-bg: #FFEFCF; /* derived */
-  --eq-processing-ring: #8C5817; /* derived */
-  --eq-plan-badge-expired-bg: #D0302F; /* derived */
-  --eq-offer-strip-bg: #FFF3D6; /* derived */
-  --eq-offer-strip-text: #5C3A0A; /* derived */
-  --eq-result-ring: rgba(255,255,255,0.55); /* derived */
+  --eq-plan-badge-expired-bg: #CD3200;
   --eq-profile-hero-status-bg: #FFFFFF; /* derived */
-  --eq-profile-hero-status-text: #111111; /* derived */
-  --eq-info-note-bg: #E9F1FA; /* derived */
-  --eq-info-note-text: #1A1A1A; /* derived */
-  --eq-choice-selected-bg: #F3FAEA; /* derived */
-  --eq-ongoing-bar-bg: #262626; /* derived */
+  --eq-profile-hero-status-text: #000000; /* derived */
+  --eq-profile-hero-plain-bg: #F2FBF5; /* derived */
+  --eq-info-note-bg: rgba(35,149,255,0.06); /* derived */
+  --eq-ongoing-bar-bg: rgba(0,0,0,0.8); /* derived */
   --eq-ongoing-bar-text: #BAFF29; /* derived */
   --eq-initials-disc-bg: #FFFFFF; /* derived */
-  --eq-paywall-hero-top: #FCE290; /* derived */
-  --eq-gradient-fab: linear-gradient(180deg, #86E63B 0%, #00B140 100%);
-  --eq-gradient-send-disabled: linear-gradient(180deg, #E4F6E5 0%, #C8EAD3 100%);
-  --eq-gradient-assistant-toggle: linear-gradient(90deg, #D3F4DA 0%, #F7FDEB 55%, #DBF5DF 100%);
-  --eq-gradient-gold: linear-gradient(90deg, #D8A857 0%, #A2702C 100%);
-  --eq-gradient-whats-new: linear-gradient(120deg, #E6FEE8 0%, #EEFFE8 55%, #F4FFE9 100%);
-  --eq-gradient-chip-large: linear-gradient(180deg, #F3F9E8 0%, #EEFAD8 100%);
-  --eq-gradient-chip-small-unread: linear-gradient(180deg, #F7FBEF 0%, #EAF7D6 100%);
-  --eq-gradient-chip-small-read: linear-gradient(180deg, #FFFFFF 0%, #F2F2F2 100%);
-  --eq-gradient-takeover: linear-gradient(180deg, #FFFFFF 0%, #EAF8EE 100%);
-  --eq-gradient-profile-hero: linear-gradient(180deg, #F8E4A2 0%, #FAEDC4 45%, #F7F7F7 100%);
-  --eq-gradient-ai-summary: linear-gradient(135deg, #FFFFFF 0%, #F6FDEB 40%, #FFFFFF 70%, #E6F7EA 100%);
-  --eq-gradient-gender-selected: linear-gradient(135deg, #F4FBEC 0%, #EAF7DE 100%);
+  --eq-paywall-hero-top: #FDEFC6; /* derived */
+  --eq-takeover-text: #009837; /* derived */
+  --eq-takeover-stroke: rgba(0,177,64,0.96); /* derived */
+  --eq-glass-button-default: rgba(255,255,255,0.3); /* derived */
+  --eq-state-chat-pressed: rgba(0,0,0,0.03); /* derived */
+  --eq-voice-player-stroke: #F8F8F8; /* derived */
+  --eq-choice-default-bg: rgba(255,255,255,0.3); /* derived */
+  --eq-plan-badge-expired-stroke: #8D0000; /* derived */
+  --eq-plan-card-pill-bg: #272727; /* derived */
+  --eq-locked-badge-stroke: #FFEFC8; /* derived */
+  --eq-expiry-banner-warning-icon-bg: rgba(118,61,0,0.06); /* derived */
+  --eq-expiry-banner-danger-icon-bg: rgba(110,0,0,0.06); /* derived */
+  --eq-assistant-toggle-bg: #FAFFEE; /* derived */
+  --eq-preset-tint-blue: rgba(131,224,255,0.16); /* derived */
+  --eq-preset-tint-lime: rgba(186,255,41,0.18); /* derived */
+  --eq-gender-stroke: #F4F4F4; /* derived */
+  --eq-gradient-fab: linear-gradient(180deg, #BAFF29 -28%, #00B140 100%);
+  --eq-gradient-send-disabled: linear-gradient(180deg, rgba(186,255,41,0.2) -28%, rgba(0,177,64,0.2) 100%);
+  --eq-gradient-gold: radial-gradient(125% 250% at 2% 9%, #A37236 9%, #B58D55 66%, #A97B41 100%);
+  --eq-gradient-chip-large: linear-gradient(180deg, #FBFFF4 0%, #F0FFD2 100%);
+  --eq-gradient-chip-small-unread: linear-gradient(180deg, rgba(186,255,41,0.01) 0%, rgba(186,255,41,0.18) 100%);
+  --eq-gradient-chip-small-read: linear-gradient(180deg, #FFFFFF 0%, rgba(235,235,235,0.4) 100%);
+  --eq-gradient-takeover: linear-gradient(180deg, #E4FFED 0%, #E4FFED 100%);
+  --eq-gradient-profile-hero: linear-gradient(180deg, #F5E4AE 0%, #F7EBC0 25%, #F5EED8 50%, #F4F0EA 75%, #F7F7F7 100%);
+  --eq-gradient-ai-summary: linear-gradient(45deg, #F3FBF6 0%, #FFFFFF 25%, #F8FFEA 50%, #FFFFFF 75%, #EAF9EF 100%);
+  --eq-gradient-gender-selected: linear-gradient(135deg, rgba(186,255,41,0.08) 0%, rgba(186,255,41,0.08) 100%);
   --eq-gradient-suggestion-card: linear-gradient(120deg, #FFFFFF 0%, #F2FBEA 60%, #E9F8EC 100%);
   --eq-gradient-status-card: linear-gradient(120deg, #FEEBC8 0%, #FDF2DB 45%, #FBF9F4 100%);
-  --eq-gradient-meet-assistant: linear-gradient(120deg, #E6F7EB 0%, #EDF9F1 55%, #F3FCEF 100%);
-  --eq-gradient-call-me: linear-gradient(90deg, #55CC6D 0%, #00B140 60%);
-  --eq-gradient-when-chip: linear-gradient(90deg, #EEEAFF 0%, rgba(238,234,255,0) 100%);
-  --eq-gradient-do-chip: linear-gradient(90deg, #E2F8EA 0%, rgba(226,248,234,0) 100%);
-  --eq-gradient-paywall-hero: linear-gradient(180deg, #FCE290 0%, #FAEFCF 38%, #FFFFFF 62%);
-  --eq-gradient-gold-text: linear-gradient(180deg, #B57E32 0%, #7C4C10 100%);
-  --eq-gradient-cta-gold: linear-gradient(90deg, #8A5516 0%, #9E6A27 55%, #B88A45 100%);
-  --eq-gradient-coupon: linear-gradient(135deg, #FFFCF5 0%, #FFF4DE 100%);
-  --eq-gradient-status-neutral: linear-gradient(180deg, #E6E6E6 0%, #F7F7F7 45%, #FFFFFF 100%);
-  --eq-gradient-status-success: linear-gradient(180deg, #B8F2C5 0%, #EEFCF1 55%, #FFFFFF 100%);
-  --eq-gradient-status-warning: linear-gradient(180deg, #FFD6AD 0%, #FFF2E5 55%, #FFFFFF 100%);
-  --eq-gradient-status-danger: linear-gradient(180deg, #FFC4CB 0%, #FFEEF0 55%, #FFFFFF 100%);
-  --eq-gradient-status-gold: linear-gradient(180deg, #FCE290 0%, #FFF7DF 55%, #FFFFFF 100%);
-  --eq-gradient-value-card: linear-gradient(180deg, #FCE7A8 0%, #FFF6DC 42%, #FFFFFF 100%);
-  --eq-gradient-voice-note: linear-gradient(90deg, #00B140 0%, #7FD93A 100%);
-  --eq-gradient-choice-stroke: linear-gradient(90deg, #00B140 0%, #A6E36A 100%);
-  --eq-gradient-setup-done: linear-gradient(180deg, #E5F5F4 0%, #F3F8EC 50%, #EAF6CC 100%);
-  --eq-gradient-setup-prompt: linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.7) 55%, #000000 100%);
-  --eq-gradient-result-success: linear-gradient(180deg, #A8F5B4 0%, #DDFBE2 45%, #FFFFFF 78%);
-  --eq-gradient-result-pending: linear-gradient(180deg, #FFB98A 0%, #FFE3CF 45%, #FFFFFF 78%);
-  --eq-gradient-result-failed: linear-gradient(180deg, #FFC9CD 0%, #FFE9EB 45%, #FFFFFF 78%);
-  --eq-gradient-offline-screen: linear-gradient(180deg, #FFFFFF 0%, #F7FBF5 55%, #E6F6E4 100%);
+  --eq-gradient-meet-assistant: linear-gradient(135deg, #EBF9F0 0%, #EBF9F0 60%, #F2FCEE 100%);
+  --eq-gradient-call-me: linear-gradient(90deg, #00B140 0%, #00B140 100%);
+  --eq-gradient-when-chip: linear-gradient(90deg, #FFFFFF 0%, #F4F1FF 100%);
+  --eq-gradient-do-chip: linear-gradient(90deg, #FFFFFF 0%, #EEFFF8 100%);
+  --eq-gradient-paywall-hero: linear-gradient(180deg, #FDEFC6 0%, #FEF8DD 40%, #FFFFFF 70%);
+  --eq-gradient-gold-text: radial-gradient(48% 93% at 46% 14%, #FFB251 0%, #603600 100%);
+  --eq-gradient-cta-gold: radial-gradient(125% 250% at 2% 9%, #A37236 9%, #C8A774 66%, #AF854C 100%);
+  --eq-gradient-status-neutral: linear-gradient(180deg, #E1E1E1 0%, #F4F4F4 50%, #FFFFFF 100%);
+  --eq-gradient-status-success: linear-gradient(180deg, #C7FAD7 0%, #E3FDEA 50%, #FFFFFF 100%);
+  --eq-gradient-status-warning: linear-gradient(180deg, #FFDDC2 0%, #FFF3E8 50%, #FFFFFF 100%);
+  --eq-gradient-status-danger: linear-gradient(180deg, #FFD0D0 0%, #FFECEF 50%, #FFFFFF 100%);
+  --eq-gradient-status-gold: linear-gradient(180deg, #FDEFC6 0%, #FFFAE3 50%, #FFFFFF 100%);
+  --eq-gradient-value-card: linear-gradient(180deg, #FBE399 0%, #FEF6D5 25%, #FFFFFF 60%);
+  --eq-gradient-voice-note: linear-gradient(180deg, #BAFF29 -28%, #00B140 100%);
+  --eq-gradient-choice-stroke: linear-gradient(74deg, #00B140 9%, #BAFF29 55%, rgba(7,170,66,0.94) 100%);
+  --eq-gradient-setup-done: linear-gradient(180deg, #E9F8F9 0%, #F2F8EF 50%, #EDF9D4 100%);
+  --eq-gradient-setup-prompt: linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.45) 41%, #000000 100%);
+  --eq-gradient-unlimited-text: linear-gradient(90deg, #FFF8C7 -28%, #CFA846 55%);
+  --eq-gradient-coupon-stroke: radial-gradient(48% 116% at 46% 14%, rgba(255,178,81,0.24) 0%, rgba(96,54,0,0.24) 100%);
+  --eq-gradient-cta-renew: radial-gradient(106% 100% at 50% 0%, #D1A85C 0%, #A0621F 100%);
+  --eq-gradient-expired-badge: linear-gradient(90deg, #BF3D28 0%, #E4918C 50%, #A43129 100%);
+  --eq-gradient-gender-selected-stroke: linear-gradient(86deg, #00B140 0%, #BAFF29 51%, rgba(7,170,66,0.94) 100%);
 }
 
 [data-theme='dark'] {
   color-scheme: dark;
   --eq-bg-primary: #141414;
-  --eq-bg-surface: #222222;
-  --eq-bg-nav-bottom: #222222;
-  --eq-bg-overlay: #B5B5B5;
-  --eq-text-primary: #F7F7F7;
-  --eq-text-placeholder: #777777;
-  --eq-text-secondary: #BBBBBB;
-  --eq-text-action-disabled: #444444;
+  --eq-bg-surface: #1F1F1F;
+  --eq-bg-overlay: rgba(30,30,30,0.4);
+  --eq-text-primary: rgba(255,255,255,0.8);
+  --eq-text-placeholder: rgba(255,255,255,0.4);
+  --eq-text-secondary: rgba(255,255,255,0.6);
+  --eq-text-action-disabled: rgba(255,255,255,0.4);
   --eq-text-action: #BAFF29;
   --eq-text-on-action: #000000;
   --eq-text-on-action-disabled: #888888;
   --eq-button-primary: #BAFF29;
-  --eq-button-secondary: #00B140;
-  --eq-button-danger: #FF6666;
+  --eq-button-secondary: #BAFF29;
+  --eq-text-on-secondary: #000000; /* derived */
+  --eq-button-danger: #FF5151;
   --eq-button-disabled: #444444;
-  --eq-stroke-subtle: #2E2E2E;
-  --eq-stroke-medium: #3A3A3A;
-  --eq-stroke-dark: #4A4A4A;
-  --eq-action-stroke-unread: #4B5A2A;
-  --eq-action-fill-unread: #2F3423;
+  --eq-stroke-subtle: rgba(255,255,255,0.08);
+  --eq-stroke-medium: rgba(255,255,255,0.16);
+  --eq-stroke-dark: rgba(255,255,255,0.32);
+  --eq-action-stroke-unread: rgba(186,255,41,0.36);
+  --eq-action-fill-unread: rgba(186,255,41,0.08);
   --eq-action-bottom-color: #191919;
   --eq-chat-bubble-user-bg: #272C1E;
   --eq-chat-bubble-user-title: #BAFF29;
-  --eq-action-card-highlight: #2F3423;
-  --eq-text-tertiary: #999999; /* derived */
-  --eq-text-danger: #FF6666; /* derived */
+  --eq-action-card-highlight: #2F3423; /* derived */
+  --eq-text-danger: #FF5151; /* derived */
   --eq-text-on-danger: #000000; /* derived */
   --eq-text-on-dark: #FFFFFF; /* derived */
   --eq-text-on-dark-secondary: #AAAAAA; /* derived */
-  --eq-text-accent-gold: #E6B93C; /* derived */
-  --eq-text-brand: #BAFF29; /* derived */
+  --eq-text-accent-gold: #CFA846;
   --eq-chat-bubble-contact-title: #FFB74D; /* derived */
-  --eq-chat-bubble-other-bg: #222222; /* derived */
-  --eq-plan-card-bg: #2B2B2B; /* derived */
-  --eq-plan-card-pill-stroke: #C9A55A; /* derived */
-  --eq-rating-star-filled: #FFC700; /* derived */
-  --eq-rating-star-empty: #444444; /* derived */
-  --eq-nav-selected-bg: #272C1E; /* derived */
-  --eq-playback-pill-bg: #444444; /* derived */
-  --eq-waveform-bar: #808080; /* derived */
-  --eq-waveform-bar-played: #BBBBBB; /* derived */
-  --eq-notice-bg: #272C1E; /* derived */
-  --eq-chip-when-bg: #333333; /* derived */
-  --eq-sheet-bg: #292929; /* derived */
-  --eq-scrim: rgba(0,0,0,0.55); /* derived */
-  --eq-badge-new-feature-stroke: #3A3A3A; /* derived */
+  --eq-chat-bubble-other-bg: #292929; /* derived */
+  --eq-plan-card-bg: #2E2E2E;
+  --eq-plan-card-pill-stroke: #FFF2C3;
+  --eq-rating-star-filled: #BAFF29; /* derived */
+  --eq-rating-star-empty: rgba(255,255,255,0.32); /* derived */
+  --eq-nav-selected-bg: rgba(186,255,41,0.08); /* derived */
+  --eq-playback-pill-bg: #5E5E5E; /* derived */
+  --eq-waveform-bar: #D9D9D9; /* derived */
+  --eq-waveform-bar-played: #BAFF29; /* derived */
+  --eq-notice-bg: rgba(186,255,41,0.08); /* derived */
+  --eq-chip-when-bg: rgba(255,255,255,0.08); /* derived */
   --eq-plan-card-pattern: #C9A55A; /* derived */
   --eq-invite-bg: #272C1E; /* derived */
-  --eq-invite-stroke: #3D442E; /* derived */
-  --eq-skeleton: #353A2A; /* derived */
+  --eq-invite-stroke: rgba(186,255,41,0.10); /* derived */
   --eq-chip-do-bg: #272C1E; /* derived */
   --eq-chip-selected-bg: #F7F7F7; /* derived */
-  --eq-chip-selected-text: #111111; /* derived */
-  --eq-preset-tint-red: #3A2222; /* derived */
-  --eq-preset-tint-green: #272C1E; /* derived */
-  --eq-preset-tint-orange: #3A3020; /* derived */
+  --eq-chip-selected-text: #313131; /* derived */
+  --eq-preset-tint-green: rgba(186,255,41,0.16); /* derived */
+  --eq-preset-tint-orange: rgba(255,153,8,0.16); /* derived */
   --eq-icon-button-bg: #333333; /* derived */
   --eq-chat-wallpaper-bg: #141414; /* derived */
-  --eq-voice-player-bg: #2E2E2E; /* derived */
+  --eq-voice-player-bg: #141414; /* derived */
   --eq-voice-player-bg-sent: #333926; /* derived */
   --eq-chat-wallpaper-pattern: rgba(115,115,115,0.08);
   --eq-status-card-pill-bg: #2E2E2E; /* derived */
@@ -326,11 +319,11 @@
   --eq-brand-whatsapp: #BAFF29; /* derived */
   --eq-text-gold: #E8BD62; /* derived */
   --eq-paywall-card-bg: #221F19; /* derived */
-  --eq-paywall-card-stroke: #3A3326; /* derived */
-  --eq-paywall-divider: #4A4233; /* derived */
+  --eq-paywall-card-stroke: #3D3D3D;
+  --eq-paywall-divider: rgba(232,189,98,0.35); /* derived */
   --eq-plan-banner-bg: #33291A; /* derived */
   --eq-plan-banner-text: #F0C878; /* derived */
-  --eq-locked-badge-bg: #3A3020; /* derived */
+  --eq-locked-badge-bg: #292929; /* derived */
   --eq-expiry-banner-warning-bg: #33291A; /* derived */
   --eq-expiry-banner-warning-text: #F0C878; /* derived */
   --eq-expiry-banner-danger-bg: #3A2224; /* derived */
@@ -341,18 +334,18 @@
   --eq-missed-call-stroke: #3A2E2C; /* derived */
   --eq-missed-call-icon-bg: #45302C; /* derived */
   --eq-missed-call-icon: #FF8A6B; /* derived */
-  --eq-expiry-chip-warning-bg: #FFB64A; /* derived */
-  --eq-expiry-chip-warning-text: #2A1A00; /* derived */
+  --eq-expiry-chip-warning-bg: #FEBD6B;
+  --eq-expiry-chip-warning-text: #2D1900;
   --eq-expiry-chip-danger-bg: #5A2328; /* derived */
   --eq-expiry-chip-danger-text: #FFB3B3; /* derived */
   --eq-expiry-chip-active-bg: #3A3020; /* derived */
-  --eq-value-card-stroke: #4A3C1C; /* derived */
-  --eq-value-card-perks-bg: #1F1B14; /* derived */
+  --eq-value-card-stroke: #3D3D3D;
+  --eq-value-card-perks-bg: #242424;
   --eq-value-card-ring: rgba(232,189,98,0.35); /* derived */
-  --eq-plan-card-expired-pill: #D0302F; /* derived */
-  --eq-sunburst-ray: rgba(232,189,98,0.12); /* derived */
-  --eq-premium-icon-start: #E2BE77; /* derived */
-  --eq-premium-icon-end: #B97C3A; /* derived */
+  --eq-plan-card-expired-pill: #CD3200;
+  --eq-sunburst-ray: rgba(255,255,255,0.05); /* derived */
+  --eq-premium-icon-start: #FEC378;
+  --eq-premium-icon-end: #FA8C01;
   --eq-contact-avatar-blue-bg: #233843; /* derived */
   --eq-contact-avatar-blue-text: #7DC4E8; /* derived */
   --eq-contact-avatar-green-bg: #394323; /* derived */
@@ -367,57 +360,64 @@
   --eq-contact-avatar-teal-text: #7DE8DF; /* derived */
   --eq-contact-avatar-badge-bg: #222222; /* derived */
   --eq-contact-avatar-badge-icon: #F2F2F2; /* derived */
-  --eq-processing-bg: #3A2C1A; /* derived */
-  --eq-processing-ring: #E8BD62; /* derived */
-  --eq-plan-badge-expired-bg: #D0302F; /* derived */
-  --eq-offer-strip-bg: #33291A; /* derived */
-  --eq-offer-strip-text: #F0C878; /* derived */
-  --eq-result-ring: rgba(255,255,255,0.07); /* derived */
+  --eq-plan-badge-expired-bg: #CD3200;
   --eq-profile-hero-status-bg: #F8E4A2; /* derived */
-  --eq-profile-hero-status-text: #111111; /* derived */
-  --eq-info-note-bg: #1C2633; /* derived */
-  --eq-info-note-text: #E3ECF6; /* derived */
-  --eq-choice-selected-bg: #272C1E; /* derived */
-  --eq-ongoing-bar-bg: #1A1A1A; /* derived */
-  --eq-ongoing-bar-text: #BAFF29; /* derived */
+  --eq-profile-hero-status-text: #000000; /* derived */
+  --eq-profile-hero-plain-bg: #1E2215; /* derived */
+  --eq-info-note-bg: rgba(35,149,255,0.12); /* derived */
+  --eq-ongoing-bar-bg: rgba(255,255,255,0.8); /* derived */
+  --eq-ongoing-bar-text: rgba(0,0,0,0.8); /* derived */
   --eq-initials-disc-bg: #262626; /* derived */
   --eq-paywall-hero-top: #4A3C1C; /* derived */
+  --eq-takeover-text: #FFFFFF; /* derived */
+  --eq-takeover-stroke: #58741C; /* derived */
+  --eq-glass-button-default: rgba(255,255,255,0.02); /* derived */
+  --eq-state-chat-pressed: rgba(255,255,255,0.08); /* derived */
+  --eq-voice-player-stroke: #141414; /* derived */
+  --eq-choice-default-bg: rgba(255,255,255,0.04); /* derived */
+  --eq-plan-badge-expired-stroke: #8D0000; /* derived */
+  --eq-plan-card-pill-bg: #272727; /* derived */
+  --eq-locked-badge-stroke: #4A3C1C; /* derived */
+  --eq-expiry-banner-warning-icon-bg: rgba(240,200,120,0.12); /* derived */
+  --eq-expiry-banner-danger-icon-bg: rgba(255,163,163,0.12); /* derived */
+  --eq-assistant-toggle-bg: #2B3120; /* derived */
+  --eq-preset-tint-blue: rgba(131,224,255,0.16); /* derived */
+  --eq-preset-tint-lime: rgba(186,255,41,0.18); /* derived */
+  --eq-gender-stroke: rgba(255,255,255,0.08); /* derived */
   --eq-gradient-fab: linear-gradient(180deg, #C9FF5C 0%, #BAFF29 100%);
-  --eq-gradient-send-disabled: linear-gradient(180deg, #353A2A 0%, #272C1E 100%);
-  --eq-gradient-assistant-toggle: linear-gradient(90deg, #272C1E 0%, #2F3423 55%, #272C1E 100%);
-  --eq-gradient-gold: linear-gradient(90deg, #D8A857 0%, #A2702C 100%);
-  --eq-gradient-whats-new: linear-gradient(135deg, #272C1E 0%, #2F3423 100%);
-  --eq-gradient-chip-large: linear-gradient(180deg, #2F3423 0%, #272C1E 100%);
-  --eq-gradient-chip-small-unread: linear-gradient(180deg, #2F3423 0%, #272C1E 100%);
-  --eq-gradient-chip-small-read: linear-gradient(180deg, #333333 0%, #2A2A2A 100%);
-  --eq-gradient-takeover: linear-gradient(180deg, #2F3423 0%, #272C1E 100%);
-  --eq-gradient-profile-hero: linear-gradient(180deg, #F8E4A2 0%, #FAEDC4 55%, #FDF8EC 100%);
-  --eq-gradient-ai-summary: linear-gradient(135deg, #222222 0%, #2F3423 45%, #222222 75%, #272C1E 100%);
-  --eq-gradient-gender-selected: linear-gradient(135deg, #2B3021 0%, #252A1C 100%);
+  --eq-gradient-send-disabled: linear-gradient(180deg, rgba(186,255,41,0.2) 0%, rgba(186,255,41,0.2) 100%);
+  --eq-gradient-gold: radial-gradient(125% 250% at 2% 9%, #A37236 9%, #B58D55 66%, #A97B41 100%);
+  --eq-gradient-chip-large: linear-gradient(180deg, #212716 0%, #212716 100%);
+  --eq-gradient-chip-small-unread: linear-gradient(180deg, rgba(186,255,41,0.01) 0%, rgba(186,255,41,0.18) 100%);
+  --eq-gradient-chip-small-read: linear-gradient(180deg, #1F1F1F 0%, #1F1F1F 100%);
+  --eq-gradient-takeover: linear-gradient(180deg, #212615 0%, #212615 100%);
+  --eq-gradient-profile-hero: linear-gradient(180deg, #F5E4AE 0%, #F7EBC0 35%, #FBF5E8 100%);
+  --eq-gradient-ai-summary: linear-gradient(45deg, #272A1F 0%, #1F1F1F 25%, #2E3520 50%, #1F1F1F 75%, #2B3120 100%);
+  --eq-gradient-gender-selected: linear-gradient(135deg, rgba(186,255,41,0.08) 0%, rgba(186,255,41,0.08) 100%);
   --eq-gradient-suggestion-card: linear-gradient(120deg, #242424 0%, #2F3423 100%);
   --eq-gradient-status-card: linear-gradient(120deg, #3A2E1A 0%, #2A2622 60%, #242424 100%);
   --eq-gradient-meet-assistant: linear-gradient(120deg, #272C1E 0%, #2F3423 100%);
-  --eq-gradient-call-me: linear-gradient(90deg, #C9FF5C 0%, #BAFF29 60%);
-  --eq-gradient-when-chip: linear-gradient(90deg, #2B2740 0%, rgba(43,39,64,0) 100%);
-  --eq-gradient-do-chip: linear-gradient(90deg, #2C331E 0%, rgba(44,51,30,0) 100%);
+  --eq-gradient-call-me: linear-gradient(90deg, #BAFF29 0%, #BAFF29 100%);
+  --eq-gradient-when-chip: linear-gradient(90deg, rgba(36,36,36,0.2) 0%, rgba(178,160,255,0.2) 100%);
+  --eq-gradient-do-chip: linear-gradient(90deg, rgba(36,36,36,0.2) 0%, rgba(186,255,41,0.2) 100%);
   --eq-gradient-paywall-hero: linear-gradient(180deg, #4A3C1C 0%, #2A241A 38%, #141414 62%);
-  --eq-gradient-gold-text: linear-gradient(180deg, #F6D48A 0%, #D9A44A 100%);
-  --eq-gradient-cta-gold: linear-gradient(90deg, #8A5516 0%, #9E6A27 55%, #B88A45 100%);
-  --eq-gradient-coupon: linear-gradient(135deg, #2A251C 0%, #221F19 100%);
-  --eq-gradient-status-neutral: linear-gradient(180deg, #3A3A3A 0%, #262626 60%, #222222 100%);
-  --eq-gradient-status-success: linear-gradient(180deg, #313A1E 0%, #2B3020 55%, #222222 100%);
-  --eq-gradient-status-warning: linear-gradient(180deg, #43301C 0%, #2E2620 55%, #222222 100%);
-  --eq-gradient-status-danger: linear-gradient(180deg, #46232A 0%, #2E2224 55%, #222222 100%);
-  --eq-gradient-status-gold: linear-gradient(180deg, #4A3C1C 0%, #2A241A 55%, #222222 100%);
-  --eq-gradient-value-card: linear-gradient(180deg, #4A3410 0%, #1E170C 48%, #0E0E0E 100%);
-  --eq-gradient-voice-note: linear-gradient(90deg, #C9FF5C 0%, #BAFF29 100%);
-  --eq-gradient-choice-stroke: linear-gradient(90deg, #C9FF5C 0%, #BAFF29 100%);
+  --eq-gradient-gold-text: radial-gradient(48% 93% at 46% 14%, #F6D48A 0%, #D9A44A 100%);
+  --eq-gradient-cta-gold: radial-gradient(125% 250% at 2% 9%, #A37236 9%, #C8A774 66%, #AF854C 100%);
+  --eq-gradient-status-neutral: linear-gradient(180deg, #434343 0%, #2F2F2F 50%, #1F1F1F 100%);
+  --eq-gradient-status-success: linear-gradient(180deg, #384321 0%, #2A2F20 50%, #1F1F1F 100%);
+  --eq-gradient-status-warning: linear-gradient(180deg, #43372E 0%, #2F2A26 50%, #1F1F1F 100%);
+  --eq-gradient-status-danger: linear-gradient(180deg, #432B2B 0%, #2F2424 50%, #1F1F1F 100%);
+  --eq-gradient-status-gold: linear-gradient(180deg, #3F382A 0%, #2D2A24 50%, #1F1F1F 100%);
+  --eq-gradient-value-card: linear-gradient(180deg, #4A2C00 0%, #180E01 45%, #000000 100%);
+  --eq-gradient-voice-note: linear-gradient(180deg, #C9FF5C 0%, #BAFF29 100%);
+  --eq-gradient-choice-stroke: linear-gradient(74deg, #BAFF29 0%, #BAFF29 100%);
   --eq-gradient-setup-done: linear-gradient(180deg, #13201F 0%, #161D17 50%, #222814 100%);
-  --eq-gradient-setup-prompt: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.8) 55%, #000000 100%);
-  --eq-gradient-result-success: linear-gradient(180deg, #2C3A0E 0%, #1C240B 45%, #0A0A0A 78%);
-  --eq-gradient-result-pending: linear-gradient(180deg, #3A2410 0%, #22160C 45%, #0A0A0A 78%);
-  --eq-gradient-result-failed: linear-gradient(180deg, #4A0E10 0%, #2A0A0B 45%, #0A0A0A 78%);
-  --eq-gradient-offline-screen: linear-gradient(180deg, #141414 0%, #151A15 55%, #212618 100%);
+  --eq-gradient-setup-prompt: linear-gradient(180deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.45) 41%, #000000 100%);
+  --eq-gradient-unlimited-text: linear-gradient(90deg, #FFF8C7 -28%, #CFA846 55%);
+  --eq-gradient-coupon-stroke: radial-gradient(48% 116% at 46% 14%, rgba(255,178,81,0.32) 0%, rgba(232,189,98,0.32) 100%);
+  --eq-gradient-cta-renew: radial-gradient(106% 100% at 50% 0%, #D1A85C 0%, #A0621F 100%);
+  --eq-gradient-expired-badge: linear-gradient(90deg, #BF3D28 0%, #E4918C 50%, #A43129 100%);
+  --eq-gradient-gender-selected-stroke: linear-gradient(86deg, #BAFF29 0%, #BAFF29 51%, rgba(186,255,41,0.94) 100%);
 }
 
 .eq-t-headline {

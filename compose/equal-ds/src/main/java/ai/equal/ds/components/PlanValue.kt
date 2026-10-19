@@ -66,6 +66,10 @@ import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.paneTitle
+import androidx.compose.ui.semantics.CollectionInfo
+import androidx.compose.ui.semantics.CollectionItemInfo
+import androidx.compose.ui.semantics.collectionInfo
+import androidx.compose.ui.semantics.collectionItemInfo
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.SpanStyle
@@ -173,7 +177,7 @@ fun ExpiryChip(
  * Home strip under the header when a plan is about to end or has ended: amber
  * (`expiry-banner/warning-*`) for "Your Plan Expires in **2 Days**", red (`expiry-banner/danger-*`)
  * for "Your Plan Expires **Today**" and "Your Plan Expired on **30th July**". Full width, min 44
- * high, padding 6 / 12, gap 10: info-fill 20 in a 3dp-padded circle of the text colour at 12%,
+ * high, padding 6 / 12, gap 10: info-fill 20 in a 3dp-padded `expiry-banner/{warning,danger}-icon-bg` circle,
  * the message (`body2`, the bold part Bold) and an underlined Bold "Renew Now" (`button`,
  * [onRenew], 48dp touch target). Everything is in the banner's text colour. Polite live region.
  */
@@ -188,6 +192,7 @@ fun PlanExpiryBanner(
     val warning = expiry is PlanExpiry.Expiring
     val bg = if (warning) colors.expiryBannerWarningBg else colors.expiryBannerDangerBg
     val fg = if (warning) colors.expiryBannerWarningText else colors.expiryBannerDangerText
+    val iconBg = if (warning) colors.expiryBannerWarningIconBg else colors.expiryBannerDangerIconBg
     val message = buildAnnotatedString {
         val bold = SpanStyle(fontWeight = FontWeight.Bold)
         when (expiry) {
@@ -216,7 +221,7 @@ fun PlanExpiryBanner(
     ) {
         Box(
             Modifier
-                .background(fg.copy(alpha = 0.12f), CircleShape)
+                .background(iconBg, CircleShape)
                 .padding(3.dp),
         ) {
             EqualIcon(EqualIcons.InfoFill, contentDescription = null, tint = fg, size = 20.dp)
@@ -592,6 +597,10 @@ private fun ValuePlanRow(label: String, plan: String, price: Int, was: Int?, per
             style = type.captionRegular.copy(color = colors.textSecondary).tabular(),
             maxLines = 1,
             softWrap = false,
+            // The strike-through is visual only: say "was".
+            modifier = Modifier.semantics {
+                contentDescription = if (was != null) "₹$price, was ₹$was $period" else "₹$price $period"
+            },
         )
     }
 }
@@ -736,8 +745,8 @@ enum class ValueSheetVariant {
  * padding 16. A neutral 44dp close floats 16dp above the panel, centred ([onClose]).
  *
  * As an overlay it fills its parent: `scrim` (tap closes) and the panel at the bottom, which
- * slides up 40% + fades in over `motion.slow` with the standard easing (close included).
- * [inline] renders only the panel (radius 24 all round) with the close above, for docs.
+ * slides up 40% + fades in over `motion.slow` with the standard easing (close included; no
+ * motion under reduced motion). System Back calls [onClose]. [inline] renders only the panel (radius 24 all round) with the close above, for docs.
  */
 @Composable
 fun ValueSheet(
@@ -766,8 +775,8 @@ fun ValueSheet(
                     .fillMaxWidth()
                     .eqShadow(SheetShadow, shape)
                     .clip(shape)
-                    .background(colors.sheetBg)
-                    .semantics { paneTitle = "What Unlimited saved you" },
+                    .background(colors.bgPrimary)
+                    .semantics { paneTitle = if (quota != null) "Equal AI Unlimited" else "What Unlimited saved you" },
             ) {
                 Box(if (flush) Modifier else Modifier.padding(start = 12.dp, end = 12.dp, top = 12.dp)) {
                     if (quota != null) {
@@ -805,6 +814,8 @@ fun ValueSheet(
                         variant = EqualButtonVariant.Gold,
                         size = EqualButtonSize.Block,
                         modifier = Modifier.padding(16.dp),
+                        // "Renew your Equal AI" has its own radial; the quota upsell keeps cta-gold.
+                        goldBrush = if (quota == null) EqualTheme.gradients.ctaRenew.toBrush() else null,
                     )
                 }
             }
@@ -814,19 +825,23 @@ fun ValueSheet(
         panel(modifier.padding(top = 4.dp))
         return
     }
+    EqualBackHandler(onBack = onClose)
+    val reduceMotion = rememberReduceMotion()
     val visible = remember { MutableTransitionState(false).apply { targetState = true } }
     Box(modifier.fillMaxSize()) {
         Box(
             Modifier
                 .matchParentSize()
-                .background(colors.scrim)
+                .background(colors.bgOverlay)
                 .clickable(interactionSource = rememberInteraction(), indication = null, onClickLabel = "Close", onClick = onClose),
         )
         AnimatedVisibility(
             visibleState = visible,
             modifier = Modifier.align(Alignment.BottomCenter),
-            enter = slideInVertically(tween(EqualMotion.slow, easing = EqualEasing.standard)) { (it * 0.4f).toInt() } +
-                fadeIn(tween(EqualMotion.slow, easing = EqualEasing.standard)),
+            enter = (
+                slideInVertically(tween(EqualMotion.slow, easing = EqualEasing.standard)) { (it * 0.4f).toInt() } +
+                    fadeIn(tween(EqualMotion.slow, easing = EqualEasing.standard))
+                ).unlessReduced(reduceMotion),
         ) {
             panel(Modifier)
         }
@@ -860,11 +875,20 @@ fun FeatureList(
 ) {
     val colors = EqualTheme.colors
     val shape = RoundedCornerShape(12.dp)
-    Column(modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(10.dp)) {
-        items.forEach { f ->
+    // A list for TalkBack ("3 items"); each card is one stop.
+    Column(
+        modifier
+            .fillMaxWidth()
+            .semantics { collectionInfo = CollectionInfo(rowCount = items.size, columnCount = 1) },
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+    ) {
+        items.forEachIndexed { index, f ->
             Row(
                 Modifier
                     .fillMaxWidth()
+                    .semantics(mergeDescendants = true) {
+                        collectionItemInfo = CollectionItemInfo(rowIndex = index, rowSpan = 1, columnIndex = 0, columnSpan = 1)
+                    }
                     .clip(shape)
                     .background(colors.bgSurface)
                     .border(1.dp, colors.strokeSubtle, shape)

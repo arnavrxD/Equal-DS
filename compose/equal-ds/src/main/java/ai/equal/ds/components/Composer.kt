@@ -40,6 +40,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -65,6 +67,7 @@ fun VoiceInputBar(
     placeholder: String = "Type a message",
     enabled: Boolean = true,
     sendContentDescription: String = "Send",
+    contentDescription: String = "Message",
 ) {
     val colors = EqualTheme.colors
     val type = EqualTheme.type
@@ -81,6 +84,8 @@ fun VoiceInputBar(
             modifier = Modifier
                 .weight(1f)
                 .height(45.dp)
+                // The placeholder disappears once there is text, so the field needs its own name.
+                .semantics { this.contentDescription = contentDescription }
                 .eqFocusRing(active, CircleShape)
                 .background(colors.bgSurface, CircleShape)
                 .border(1.dp, if (active) colors.actionStrokeUnread else colors.strokeSubtle, CircleShape),
@@ -102,7 +107,7 @@ fun VoiceInputBar(
                         EqualText(
                             text = placeholder,
                             style = type.body1,
-                            color = colors.textTertiary,
+                            color = colors.textSecondary,
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                         )
@@ -127,12 +132,10 @@ private fun SendButton(enabled: Boolean, onClick: () -> Unit, contentDescription
     } else {
         Modifier.background(gradients.sendDisabled.toBrush(), CircleShape)
     }
+    // 48dp touch area around the 45dp circle (layout unchanged).
     Box(
         Modifier
-            .eqPressFeedback(interaction, CircleShape)
-            .size(45.dp)
-            .then(surface)
-            .clip(CircleShape)
+            .touchTarget()
             .clickable(
                 interactionSource = interaction,
                 indication = null,
@@ -143,14 +146,23 @@ private fun SendButton(enabled: Boolean, onClick: () -> Unit, contentDescription
             ),
         contentAlignment = Alignment.Center,
     ) {
-        // Material Send rotated −35° to match the reference paper plane.
-        EqualIcon(
-            EqualIcons.Send,
-            contentDescription = contentDescription,
-            tint = if (enabled) EqualTheme.colors.textOnAction else EqualTheme.colors.textOnDark,
-            size = 20.dp,
-            modifier = Modifier.rotate(-35f),
-        )
+        Box(
+            Modifier
+                .eqPressFeedback(interaction, CircleShape)
+                .size(45.dp)
+                .then(surface)
+                .clip(CircleShape),
+            contentAlignment = Alignment.Center,
+        ) {
+            // Material Send rotated −35° to match the reference paper plane.
+            EqualIcon(
+                EqualIcons.Send,
+                contentDescription = contentDescription,
+                tint = if (enabled) EqualTheme.colors.textOnAction else EqualTheme.colors.textOnDark,
+                size = 20.dp,
+                modifier = Modifier.rotate(-35f),
+            )
+        }
     }
 }
 

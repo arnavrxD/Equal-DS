@@ -178,7 +178,7 @@ export default function Home() {
             <div style={{ fontSize: 56, lineHeight: 1, fontWeight: 500, letterSpacing: '-0.04em' }}>Aa</div>
             <div>
               <Text as="div" variant="subheading">Assistant Health Check</Text>
-              <Text as="div" variant="caption" color="tertiary" style={{ fontWeight: 400 }}>Check Real-Time Assistant Connectivity</Text>
+              <Text as="div" variant="caption" color="secondary" style={{ fontWeight: 400 }}>Check Real-Time Assistant Connectivity</Text>
             </div>
           </div>
           <div className="s-found2__icons" aria-hidden>

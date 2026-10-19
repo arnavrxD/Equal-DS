@@ -20,13 +20,29 @@ const prim = {};
 for (const [group, values] of Object.entries(t.primitive)) {
   for (const [name, hex] of Object.entries(values)) prim[`${group}.${name}`] = hex.toUpperCase();
 }
+// A reference is a colour-guide colour at 100%, optionally with an opacity: "{brand.green}" or
+// "{brand.green} @ 36%" (Figma's "Colours" set paints the same colours at x%). The opacity form
+// resolves to rgba(…) so both web and Compose get the exact Figma value.
+const REF = /^\{(.+?)\}(?:\s*@\s*(\d+(?:\.\d+)?)%)?$/;
+const HEX_ALPHA = /^#([0-9A-Fa-f]{6})\s*@\s*(\d+(?:\.\d+)?)%$/;
 const resolveRef = (v) => {
-  const m = /^\{(.+)\}$/.exec(v);
+  const h = typeof v === 'string' ? HEX_ALPHA.exec(v) : null;
+  if (h) {
+    const [r, g, b] = [0, 2, 4].map((i) => parseInt(h[1].slice(i, i + 2), 16));
+    return `rgba(${r},${g},${b},${+(parseFloat(h[2]) / 100).toFixed(3)})`;
+  }
+  const m = REF.exec(v);
   if (!m) return v;
-  if (!prim[m[1]]) throw new Error(`Unknown primitive reference ${v}`);
-  return prim[m[1]];
+  const hex = prim[m[1]];
+  if (!hex) throw new Error(`Unknown primitive reference ${v}`);
+  if (m[2] === undefined) return hex;
+  const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16));
+  return `rgba(${r},${g},${b},${+(parseFloat(m[2]) / 100).toFixed(3)})`;
 };
-const refLabel = (v) => (/^\{(.+)\}$/.exec(v)?.[1].replace('.', '/') ?? 'direct value');
+const refLabel = (v) => {
+  const m = REF.exec(v);
+  return m ? m[1].replace('.', '/') + (m[2] !== undefined ? ` · ${m[2]}%` : '') : 'direct value';
+};
 
 // "component/chat-bubble/user-bg" -> "chat-bubble-user-bg"
 const aliasSlug = (name) => name.replace(/^component\//, '').replace(/[/_]/g, '-');
@@ -45,15 +61,23 @@ const aliases = Object.entries(t.alias).map(([name, v]) => ({
   group: name.startsWith('component/') ? 'component' : name.split('/')[0],
 }));
 
+// Gradient: [head, ...stops]. head is "180deg" (linear) or "radial RX% RY% at CX% CY%" (elliptical
+// radial). A stop is "<colour> <position>%", where colour may be a reference with an opacity.
+const splitStop = (s) => {
+  const i = s.lastIndexOf(' ');
+  return { color: resolveRef(s.slice(0, i).trim()), pos: parseFloat(s.slice(i + 1)) };
+};
+const resolveGradient = ([head, ...stops]) => [head, ...stops.map((s) => { const { color, pos } = splitStop(s); return `${color} ${pos}%`; })];
 const gradients = Object.entries(t.gradient).map(([name, v]) => ({
   name,
   key: camel(name),
-  light: v.light,
-  dark: v.dark,
+  light: resolveGradient(v.light),
+  dark: resolveGradient(v.dark),
   derived: !!(v.derived ?? v.proposed),
   why: v.why ?? null,
 }));
-const cssGradient = ([angle, ...stops]) => `linear-gradient(${angle}, ${stops.join(', ')})`;
+const cssGradient = ([head, ...stops]) =>
+  head.startsWith('radial') ? `radial-gradient(${head.replace(/^radial\s*/, '')}, ${stops.join(', ')})` : `linear-gradient(${head}, ${stops.join(', ')})`;
 
 const typeEntries = Object.entries(t.typography).filter(([k]) => !k.startsWith('$'));
 
@@ -156,12 +180,31 @@ const ktColor = (v) => {
   }
   return `Color(0xFF${v.replace('#', '').toUpperCase()})`;
 };
-const ktStops = ([angle, ...stops]) => {
-  const parsed = stops.map((s) => {
-    const [hex, pct] = s.split(' ');
-    return `${parseFloat(pct) / 100}f to ${ktColor(hex)}`;
-  });
-  return `EqualGradientSpec(angle = ${parseFloat(angle)}f, stops = listOf(${parsed.join(', ')}))`;
+const toRgba = (c) => {
+  const m = /^rgba\((\d+),\s*(\d+),\s*(\d+),\s*([\d.]+)\)$/.exec(c);
+  if (m) return [+m[1], +m[2], +m[3], +m[4]];
+  const h = c.replace('#', '');
+  return [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16)).concat(1);
+};
+const fromRgba = ([r, g, b, a]) => (a >= 0.999 ? '#' + [r, g, b].map((n) => Math.round(n).toString(16).padStart(2, '0')).join('').toUpperCase() : `rgba(${Math.round(r)},${Math.round(g)},${Math.round(b)},${+a.toFixed(3)})`);
+const lerp = (c1, c2, t) => fromRgba(toRgba(c1).map((v, i) => v + (toRgba(c2)[i] - v) * t));
+// Android needs stop positions inside 0..1: a stop outside is replaced by the colour at the edge.
+const clampStops = (stops) => {
+  const out = stops.map((s) => splitStop(s));
+  const at = (p) => {
+    for (let i = 0; i < out.length - 1; i++) if (p >= out[i].pos && p <= out[i + 1].pos) return lerp(out[i].color, out[i + 1].color, (p - out[i].pos) / (out[i + 1].pos - out[i].pos || 1));
+    return p < out[0].pos ? out[0].color : out[out.length - 1].color;
+  };
+  const inside = out.filter((s) => s.pos >= 0 && s.pos <= 100);
+  if (out[0].pos < 0) inside.unshift({ color: at(0), pos: 0 });
+  if (out[out.length - 1].pos > 100) inside.push({ color: at(100), pos: 100 });
+  return inside;
+};
+const ktStops = ([head, ...stops]) => {
+  const parsed = clampStops(stops).map(({ color, pos }) => `${+(pos / 100).toFixed(4)}f to ${ktColor(color)}`).join(', ');
+  const r = /^radial\s+([\d.]+)%\s+([\d.]+)%\s+at\s+([\d.]+)%\s+([\d.]+)%$/.exec(head);
+  if (r) return `EqualGradientSpec(angle = 0f, stops = listOf(${parsed}), radial = EqualRadial(${r.slice(1).map((n) => `${+(parseFloat(n) / 100).toFixed(4)}f`).join(', ')}))`;
+  return `EqualGradientSpec(angle = ${parseFloat(head)}f, stops = listOf(${parsed}))`;
 };
 const weightName = (w) => ({ 400: 'FontWeight.W400', 500: 'FontWeight.W500', 700: 'FontWeight.W700' })[w];
 
@@ -201,9 +244,13 @@ ${aliases.map((a) => `    ${a.key} = ${ktColor(a.dark)}, // ${a.darkRef}`).join(
     isDark = true,
 )
 
-/** Linear gradient: CSS-style angle (0 = to top, 90 = to right, 180 = to bottom) and colour stops. */
+/** Elliptical radial gradient: radii and centre as fractions of the painted size (CSS radial-gradient(rx ry at cx cy)). */
 @Immutable
-data class EqualGradientSpec(val angle: Float, val stops: List<Pair<Float, Color>>)
+data class EqualRadial(val radiusX: Float, val radiusY: Float, val centerX: Float, val centerY: Float)
+
+/** Gradient: linear (CSS-style angle: 0 = to top, 90 = to right, 180 = to bottom) or, with [radial], elliptical radial. */
+@Immutable
+data class EqualGradientSpec(val angle: Float, val stops: List<Pair<Float, Color>>, val radial: EqualRadial? = null)
 
 @Immutable
 data class EqualGradients(

@@ -1,5 +1,7 @@
 import { useMemo, useState } from 'react';
 import { aliases, gradients, primitives } from '@equal/ds';
+import tokenUsage from '../../registry/token-usage.json';
+import { Link } from '../../app/router';
 import { copyText } from '../../app/copy';
 import { Callout, CopyTag, H2, Page, useToast } from '../../ui/kit';
 import { FoundationCode } from '../../ui/FoundationCode';
@@ -13,6 +15,28 @@ const GROUPS: { key: string; label: string; note: string }[] = [
   { key: 'action', label: 'Action chips', note: 'The glass chips in the chat list.' },
   { key: 'component', label: 'Component', note: 'Tokens scoped to one element: bubbles, cards, chips, plan card, wallpaper.' },
 ];
+
+type Usage = { pages: { id: string; name: string }[]; screens: string[] };
+const usageOf = (name: string) => (tokenUsage as Record<string, Usage>)[name];
+
+/** Purpose (why the colour exists) and where it is used: docs pages it paints, plus screens. */
+function Where({ name, why }: { name: string; why?: string }) {
+  const u = usageOf(name);
+  return (
+    <div className="s-where">
+      {why && <div><span className="s-where__k">Purpose</span>{why}</div>}
+      <div>
+        <span className="s-where__k">Used in</span>
+        {u && (u.pages.length || u.screens.length) ? (
+          <span className="s-where__list">
+            {u.pages.map((p) => <Link key={p.id} to={`/components/${p.id}`} className="s-where__chip">{p.name}</Link>)}
+            {u.screens.map((sc) => <span key={sc} className="s-where__chip is-screen">{sc}</span>)}
+          </span>
+        ) : <span style={{ color: 'var(--site-ink-3)' }}>Not used by any component yet</span>}
+      </div>
+    </div>
+  );
+}
 
 function Ramp({ name, values }: { name: string; values: Record<string, string> }) {
   const toast = useToast();
@@ -85,7 +109,7 @@ export default function Colour() {
                           <CopyTag value={`var(${a.cssVar})`} label={a.cssVar} />
                           <CopyTag k="Kt" value={`EqualTheme.colors.${camel(a.cssVar)}`} label={camel(a.cssVar)} />
                         </div>
-                        {a.why && <span className="s-alias__why">{a.why}</span>}
+                        <Where name={a.name} why={a.why ?? undefined} />
                       </div>
                     </div>
                     {(['light', 'dark'] as const).map((m) => (
@@ -117,7 +141,7 @@ export default function Colour() {
             <div style={{ padding: 14 }}>
               <b style={{ fontWeight: 500 }}>{g.name}</b>
               <div style={{ margin: '6px 0' }}><CopyTag value={`var(${g.cssVar})`} label={g.cssVar} /></div>
-              <div style={{ fontSize: 12.5, color: 'var(--site-ink-3)' }}>{g.why}</div>
+              <Where name={`gradient/${g.name.replace(/^gradient\//, '')}`} why={g.why} />
             </div>
           </div>
         ))}

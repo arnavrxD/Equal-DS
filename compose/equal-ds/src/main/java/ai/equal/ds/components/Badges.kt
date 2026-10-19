@@ -1,5 +1,8 @@
 package ai.equal.ds.components
 
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
 import ai.equal.ds.theme.EqualTheme
 import ai.equal.ds.theme.toBrush
 import ai.equal.ds.tokens.EqualPrimitives
@@ -41,21 +44,25 @@ fun NewBadge(
 
 /**
  * Count badge (SPEC §20): 20 circle (min width 20, h5 padding for 2+ digits), `button/primary`,
- * `badgeCount` `text/on-action`. Counts above [max] render as "max+".
+ * `badgeCount` `text/on-action`. Counts above [max] render as "max+". TalkBack reads
+ * [contentDescription] (default "N unread").
  */
 @Composable
 fun CountBadge(
     count: Int,
     modifier: Modifier = Modifier,
     max: Int = 99,
+    contentDescription: String? = null,
 ) {
     val colors = EqualTheme.colors
     val label = if (count > max) "$max+" else count.toString()
+    val spoken = contentDescription ?: "$label unread"
     val paddingH = if (label.length > 1) 5.dp else 0.dp
     Box(
         modifier
             .height(20.dp)
             .defaultMinSize(minWidth = 20.dp)
+            .clearAndSetSemantics { this.contentDescription = spoken }
             .background(colors.buttonPrimary, CircleShape)
             .padding(horizontal = paddingH),
         contentAlignment = Alignment.Center,
@@ -79,7 +86,7 @@ fun FeatureBadge(
         modifier
             .height(24.dp)
             .background(colors.bgSurface, CircleShape)
-            .border(1.dp, colors.badgeNewFeatureStroke, CircleShape)
+            .border(1.dp, Color.Transparent, CircleShape)
             .padding(start = 8.dp, end = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -96,13 +103,14 @@ enum class PlanBadgeTone {
     /** `gradient/gold`: the paid plan ("UNLIMITED"). */
     Paid,
 
-    /** `plan-badge/expired-bg` (red): "PLAN EXPIRED" (Plan Expired touchpoint). */
+    /** `gradient/expired-badge` over `plan-badge/expired-bg` (red): "PLAN EXPIRED" (Plan Expired touchpoint). */
     Expired,
 }
 
 /**
  * Plan badge "UNLIMITED" (SPEC §2): 16 high, h6, radius 4, `gradient/gold`, `badge` `text/on-dark`.
- * [PlanBadgeTone.Expired] is the red "PLAN EXPIRED" badge (`plan-badge/expired-bg`, white label).
+ * [PlanBadgeTone.Expired] is the red "PLAN EXPIRED" badge: `gradient/expired-badge` over
+ * `plan-badge/expired-bg`, 1dp `plan-badge/expired-stroke`, white label.
  */
 @Composable
 fun PlanBadge(
@@ -111,7 +119,11 @@ fun PlanBadge(
     tone: PlanBadgeTone = PlanBadgeTone.Paid,
 ) {
     val fill = if (tone == PlanBadgeTone.Expired) {
-        Modifier.background(EqualTheme.colors.planBadgeExpiredBg, RoundedCornerShape(EqualRadius.rXs))
+        val shape = RoundedCornerShape(EqualRadius.rXs)
+        Modifier
+            .background(EqualTheme.colors.planBadgeExpiredBg, shape)
+            .background(EqualTheme.gradients.expiredBadge.toBrush(), shape)
+            .border(1.dp, EqualTheme.colors.planBadgeExpiredStroke, shape)
     } else {
         Modifier.background(EqualTheme.gradients.gold.toBrush(), RoundedCornerShape(EqualRadius.rXs))
     }

@@ -25,11 +25,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.layout.size
 import androidx.compose.ui.unit.sp
 import androidx.compose.foundation.border
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.Role
+import androidx.compose.foundation.layout.Box
+import androidx.compose.ui.semantics.CollectionInfo
+import androidx.compose.ui.semantics.collectionInfo
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -60,18 +68,25 @@ fun SectionHeader(
         EqualText(
             text = title.uppercase(),
             style = if (label) EqualTheme.type.caption.copy(fontSize = 13.sp, lineHeight = 18.sp, letterSpacing = 0.13.sp) else EqualTheme.type.overline,
-            color = if (label) colors.textSecondary else colors.textTertiary,
+            color = if (label) colors.textSecondary else colors.textSecondary,
             maxLines = 1,
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.weight(1f).semantics { heading() },
         )
         if (actionLabel != null) {
-            EqualText(
-                text = actionLabel,
-                style = EqualTheme.type.buttonSmall,
-                color = colors.textAction,
-                maxLines = 1,
-                modifier = Modifier.clickable(role = Role.Button, onClick = onActionClick),
-            )
+            // 48dp touch area around the text action (layout unchanged).
+            Box(
+                Modifier
+                    .touchTarget()
+                    .clickable(role = Role.Button, onClick = onActionClick),
+                contentAlignment = Alignment.Center,
+            ) {
+                EqualText(
+                    text = actionLabel,
+                    style = EqualTheme.type.buttonSmall,
+                    color = colors.textAction,
+                    maxLines = 1,
+                )
+            }
         }
     }
 }
@@ -93,6 +108,8 @@ fun SettingsRow(
     leadingIcon: ImageVector? = null,
     showNewBadge: Boolean = false,
     onClick: (() -> Unit)? = null,
+    /** Puts [leadingIcon] (20dp) in a 36dp circle of this colour (e.g. `preset/tint-lime` on Active Instructions). */
+    leadingIconBg: Color? = null,
     trailing: (@Composable () -> Unit)? = {
         EqualIcon(EqualIcons.ChevronRight, contentDescription = null, tint = EqualTheme.colors.textPlaceholder, size = 22.dp)
     },
@@ -110,7 +127,13 @@ fun SettingsRow(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (leadingIcon != null) {
-            EqualIcon(leadingIcon, contentDescription = null, tint = colors.textPrimary, size = 24.dp)
+            if (leadingIconBg != null) {
+                Box(Modifier.size(36.dp).background(leadingIconBg, CircleShape), contentAlignment = Alignment.Center) {
+                    EqualIcon(leadingIcon, contentDescription = null, tint = colors.textPrimary, size = 20.dp)
+                }
+            } else {
+                EqualIcon(leadingIcon, contentDescription = null, tint = colors.textPrimary, size = 24.dp)
+            }
             Spacer(Modifier.width(12.dp))
         }
         Column(Modifier.weight(1f)) {
@@ -130,12 +153,12 @@ fun SettingsRow(
             }
             if (description != null) {
                 if (descriptionWraps) {
-                    EqualText(text = description, style = type.captionWrap, color = colors.textTertiary)
+                    EqualText(text = description, style = type.captionWrap, color = colors.textSecondary)
                 } else {
                     EqualText(
                         text = description,
                         style = type.captionRegular,
-                        color = colors.textTertiary,
+                        color = colors.textSecondary,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                     )
@@ -202,18 +225,21 @@ enum class SectionHeaderSize { Overline, Label }
 /**
  * The call-history card (Contact Info design): radius 16, `bg/surface`, 1dp dividers between rows
  * (`stroke/subtle`; `stroke/medium` in dark), and in dark a 1dp `stroke/subtle` outline. Side
- * margin [inset] (22 on Contact Info).
+ * margin [inset] (22 on Contact Info). Exposed to TalkBack as a list; pass [itemCount] (the number
+ * of rows) so it announces how many calls there are.
  */
 @Composable
 fun CallHistoryList(
     modifier: Modifier = Modifier,
     inset: Dp = 22.dp,
+    itemCount: Int = -1,
     content: @Composable ColumnScope.() -> Unit,
 ) {
     val colors = EqualTheme.colors
     val shape = RoundedCornerShape(EqualRadius.rLg)
     Column(
         modifier
+            .semantics { collectionInfo = CollectionInfo(rowCount = itemCount, columnCount = 1) }
             .padding(horizontal = inset)
             .fillMaxWidth()
             .clip(shape)
@@ -258,6 +284,8 @@ fun CallHistoryRow(
         modifier
             .fillMaxWidth()
             .defaultMinSize(minHeight = 63.dp)
+            // One TalkBack stop per call (label, meta, time); the call button stays separate.
+            .semantics(mergeDescendants = true) {}
             .background(colors.bgSurface)
             .padding(start = 22.dp, end = 21.dp, top = 10.dp, bottom = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -271,7 +299,7 @@ fun CallHistoryRow(
         Spacer(Modifier.width(10.dp))
         Column(Modifier.weight(1f)) {
             EqualText(text = label, style = type.bodyLarge.copy(lineHeight = 20.sp), color = colors.textPrimary, maxLines = 1)
-            EqualText(text = meta, style = type.microRegular.copy(fontSize = 11.sp, lineHeight = 14.sp), color = colors.textTertiary, maxLines = 1)
+            EqualText(text = meta, style = type.microRegular.copy(fontSize = 11.sp, lineHeight = 14.sp), color = colors.textSecondary, maxLines = 1)
         }
         Spacer(Modifier.width(12.dp))
         EqualText(text = time, style = type.body1.tabular(), color = colors.textSecondary, maxLines = 1)

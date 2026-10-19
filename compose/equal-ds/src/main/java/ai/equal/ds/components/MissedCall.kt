@@ -132,7 +132,7 @@ fun MissedCallCard(
                         EqualText(
                             text = time,
                             style = type.micro.tabular(),
-                            color = colors.textTertiary,
+                            color = colors.textSecondary,
                             maxLines = 1,
                             modifier = Modifier.align(Alignment.End).padding(top = 2.dp),
                         )
@@ -182,19 +182,26 @@ fun MissedCallCard(
                     }
                     val tint = if (on) colors.textAction else colors.textSecondary
                     val interaction = rememberInteraction()
+                    // 48dp touch area around the 40dp visual (layout unchanged).
                     Box(
                         Modifier
-                            .eqPressFeedback(interaction, CircleShape)
-                            .size(40.dp)
-                            .clip(CircleShape)
-                            .background(colors.bgSurface)
-                            .border(1.dp, if (on) colors.textAction else colors.strokeSubtle, CircleShape)
+                            .touchTarget()
                             .toggleable(value = on, interactionSource = interaction, indication = null, role = Role.Button) {
                                 onFeedback(if (on) null else v)
                             },
                         contentAlignment = Alignment.Center,
                     ) {
-                        EqualIcon(icon, contentDescription = if (up) "Helpful" else "Not helpful", tint = tint, size = 20.dp)
+                        Box(
+                            Modifier
+                                .eqPressFeedback(interaction, CircleShape)
+                                .size(40.dp)
+                                .clip(CircleShape)
+                                .background(colors.bgSurface)
+                                .border(1.dp, if (on) colors.textAction else colors.strokeSubtle, CircleShape),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            EqualIcon(icon, contentDescription = if (up) "Helpful" else "Not helpful", tint = tint, size = 20.dp)
+                        }
                     }
                 }
             }

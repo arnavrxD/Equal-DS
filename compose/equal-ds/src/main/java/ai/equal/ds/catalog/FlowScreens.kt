@@ -188,7 +188,7 @@ fun PersonalDetailsScreen(
                 },
             )
             Column {
-                EqualText(text = "GENDER", style = EqualTheme.type.overline, color = colors.textTertiary)
+                EqualText(text = "GENDER", style = EqualTheme.type.overline, color = colors.textSecondary)
                 Spacer(Modifier.height(10.dp))
                 GenderSelector(
                     value = gender,
@@ -791,6 +791,7 @@ fun InstructionsFlow(
                     label = "Active Instructions",
                     description = if (active.isNotEmpty()) "${active.size} Active" else "Manage how your assistant handles calls",
                     leadingIcon = EqualIcons.Instructions,
+                    leadingIconBg = EqualTheme.colors.presetTintLime,
                     onClick = { view = InstructionsView.Active },
                 )
             }

@@ -1,12 +1,16 @@
-import { useMemo, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { ANDROID_FRAME, PhoneFrame } from '@equal/ds';
 import { componentDocs } from '../registry/components';
 import { useRoute } from '../app/router';
-import { traceAt, type TraceHit } from '../app/trace';
+import { traceChain, type TraceStep } from '../app/trace';
+import { docLevel, foundationAtoms, type Level } from '../registry/levels';
 
-const nameToDoc = new Map<string, { id: string; name: string }>();
-componentDocs.forEach((d) => d.components.forEach((c) => nameToDoc.set(c, { id: d.id, name: d.name })));
-const traceable = new Set(nameToDoc.keys());
+/** Where each traceable component lives in the docs, and its atomic level. */
+type Target = { path: string; level: Level };
+const targets = new Map<string, Target>();
+componentDocs.forEach((d) => d.components.forEach((c) => targets.set(c, { path: `/components/${d.id}`, level: docLevel[d.id] ?? 'molecule' })));
+Object.entries(foundationAtoms).forEach(([c, f]) => targets.set(c, { path: f.path, level: 'atom' }));
+const traceable = new Set(targets.keys());
 
 export type StagePhone = {
   key: string;
@@ -19,7 +23,7 @@ export type StagePhone = {
   height?: number;
 };
 
-type Box = { x: number; y: number; w: number; h: number; hit: TraceHit };
+type Box = { x: number; y: number; w: number; h: number };
 
 /**
  * Horizontal stage of live phones. In Trace mode, hovering outlines the DS component under the
@@ -27,47 +31,69 @@ type Box = { x: number; y: number; w: number; h: number; hit: TraceHit };
  */
 export function TraceStage({ phones, scale = 0.78, mode, height = 800, wrap = false }: { phones: StagePhone[]; scale?: number; mode: 'trace' | 'try'; height?: number; wrap?: boolean }) {
   const stage = useRef<HTMLDivElement>(null);
-  const [box, setBox] = useState<Box | null>(null);
+  // The chain under the cursor, innermost (atom) first, and which step of it is selected.
+  const [steps, setSteps] = useState<TraceStep[]>([]);
+  const [depth, setDepth] = useState(0);
   const { go } = useRoute();
   const w = ANDROID_FRAME.width * scale;
 
   const locate = (target: EventTarget | null) => {
     const root = stage.current;
-    if (!root || !(target instanceof Element)) return setBox(null);
-    const hit = traceAt(target, traceable, root);
-    if (!hit) return setBox(null);
-    const r = hit.element.getBoundingClientRect();
-    const s = root.getBoundingClientRect();
-    setBox({ x: r.left - s.left + root.scrollLeft, y: r.top - s.top + root.scrollTop, w: r.width, h: r.height, hit });
+    if (!root || !(target instanceof Element)) return setSteps([]);
+    const chain = traceChain(target, traceable, root);
+    setSteps((prev) => {
+      if (prev[0]?.element !== chain[0]?.element) setDepth(0);
+      return chain;
+    });
   };
 
-  const doc = box ? nameToDoc.get(box.hit.name) : undefined;
-  const parent = box?.hit.chain.find((n) => n !== box.hit.name);
-  const tagAbove = box ? box.y > 36 : true;
+  // ↑ walks out (atom → molecule → organism), ↓ walks back in.
+  useEffect(() => {
+    if (mode !== 'trace' || !steps.length) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowUp') { e.preventDefault(); setDepth((d) => Math.min(d + 1, steps.length - 1)); }
+      if (e.key === 'ArrowDown') { e.preventDefault(); setDepth((d) => Math.max(d - 1, 0)); }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [mode, steps.length]);
+
+  const step = steps[Math.min(depth, steps.length - 1)];
+  const box: Box | null = (() => {
+    const root = stage.current;
+    if (!root || !step) return null;
+    const r = step.element.getBoundingClientRect();
+    const sr = root.getBoundingClientRect();
+    return { x: r.left - sr.left + root.scrollLeft, y: r.top - sr.top + root.scrollTop, w: r.width, h: r.height };
+  })();
+  const tagAbove = box ? box.y > 64 : true;
 
   const handlers = useMemo(
     () =>
       mode === 'trace'
         ? {
             onMouseMove: (e: React.MouseEvent) => locate(e.target instanceof Element && e.target.closest('.s-phone__label') ? null : e.target),
-            onMouseLeave: () => setBox(null),
+            onMouseLeave: () => setSteps([]),
             onClickCapture: (e: React.MouseEvent) => {
               const root = stage.current;
               if (!root || !(e.target instanceof Element) || e.target.closest('.s-phone__label')) return;
-              const hit = traceAt(e.target, traceable, root);
               e.preventDefault();
               e.stopPropagation();
-              const d = hit && nameToDoc.get(hit.name);
-              if (d) go(`/components/${d.id}`);
+              const chain = traceChain(e.target, traceable, root);
+              const picked = chain[Math.min(depthRef.current, chain.length - 1)];
+              const t = picked && targets.get(picked.name);
+              if (t) go(t.path);
             },
           }
         : {},
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [mode],
   );
+  const depthRef = useRef(0);
+  depthRef.current = depth;
 
   return (
-    <div ref={stage} className={`s-stage ${wrap ? 's-stage--wrap' : ''}`} {...handlers} style={{ cursor: mode === 'trace' ? 'crosshair' : undefined }} onScroll={() => setBox(null)}>
+    <div ref={stage} className={`s-stage ${wrap ? 's-stage--wrap' : ''}`} {...handlers} style={{ cursor: mode === 'trace' ? 'crosshair' : undefined }} onScroll={() => setSteps([])}>
       {phones.map((p) => (
         <div key={p.key} className="s-phone" style={{ width: w }}>
           <div className="s-phone__label">
@@ -81,13 +107,23 @@ export function TraceStage({ phones, scale = 0.78, mode, height = 800, wrap = fa
           </div>
         </div>
       ))}
-      {mode === 'trace' && box && doc && (
+      {mode === 'trace' && box && step && (
         <>
-          <div className="s-trace-box" style={{ transform: `translate(${box.x - 2}px, ${box.y - 2}px)`, width: box.w + 4, height: box.h + 4 }} />
-          <div className="s-trace-tag" style={{ transform: `translate(${box.x - 2}px, ${tagAbove ? box.y - 36 : box.y + box.h + 8}px)` }}>
-            {box.hit.name}
-            {parent && <small>in {parent}</small>}
-            <kbd>click to open</kbd>
+          <div className={`s-trace-box is-${targets.get(step.name)?.level ?? 'atom'}`} style={{ transform: `translate(${box.x - 2}px, ${box.y - 2}px)`, width: box.w + 4, height: box.h + 4 }} />
+          <div className="s-trace-tag" style={{ transform: `translate(${box.x - 2}px, ${tagAbove ? box.y - 62 : box.y + box.h + 8}px)` }}>
+            <span className="s-trace-chain">
+              {steps.slice(0, 4).map((st, i) => {
+                const lvl = targets.get(st.name)?.level ?? 'atom';
+                return (
+                  <span key={st.name + i} className={`s-trace-step ${i === Math.min(depth, steps.length - 1) ? 'is-on' : ''}`}>
+                    {i > 0 && <span className="s-trace-sep">›</span>}
+                    <b>{st.name}</b>
+                    <em className={`s-trace-lvl is-${lvl}`}>{lvl}</em>
+                  </span>
+                );
+              })}
+            </span>
+            <kbd>{steps.length > 1 ? '↑ ↓ change level · ' : ''}click to open</kbd>
           </div>
         </>
       )}

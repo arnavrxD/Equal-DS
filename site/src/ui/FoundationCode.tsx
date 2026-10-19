@@ -10,14 +10,14 @@ import { Text } from '@equal/ds';
   <div style={{ background: 'var(--eq-bg-surface)', borderRadius: 'var(--eq-radius-lg)', padding: 16 }}>
     <Text variant="subheading" color="action">Equal AI</Text>
   </div>
-  <div style={{ width: 64, height: 64, background: 'var(--eq-gradient-whats-new)' }} />
+  <div style={{ width: 64, height: 64, background: 'var(--eq-gradient-fab)' }} />
 </div>`,
   typography: `import { Text } from '@equal/ds';
 
 <Text as="h1" variant="headline">Amit Nanda</Text>
 <Text variant="subheading">Assistant Health Check</Text>
-<Text variant="caption" color="tertiary">Check Real-Time Assistant Connectivity</Text>
-<Text variant="overline" color="tertiary">CALL HISTORY</Text>`,
+<Text variant="caption" color="secondary">Check Real-Time Assistant Connectivity</Text>
+<Text variant="overline" color="secondary">CALL HISTORY</Text>`,
   layout: `<div
   style={{
     background: 'var(--eq-bg-surface)',

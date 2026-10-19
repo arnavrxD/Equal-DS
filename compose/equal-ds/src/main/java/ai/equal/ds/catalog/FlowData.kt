@@ -91,7 +91,7 @@ val Presets: List<Preset> = listOf(
     Preset(
         id = "screen",
         emoji = "🛡️",
-        tint = PresetTint.Red,
+        tint = PresetTint.Green,
         title = "Screen & Protect",
         description = "Decline spam, hold the line on loan and payments call, close wrong call",
         instructions = listOf(InstructionLibrary.declineSales, InstructionLibrary.loanEmi, InstructionLibrary.difficult),
@@ -99,7 +99,7 @@ val Presets: List<Preset> = listOf(
     Preset(
         id = "everyday",
         emoji = "📞",
-        tint = PresetTint.Green,
+        tint = PresetTint.Blue,
         title = "Handle everyday calls",
         description = "Take message, guide deliveries, relay to family, start in your language",
         instructions = listOf(InstructionLibrary.takeMessage, InstructionLibrary.delivery, InstructionLibrary.difficult),

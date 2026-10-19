@@ -35,18 +35,22 @@ export function ChatBubble({ kind, sender, time, children, first = true, tail = 
   const avatar = left ? (
     <span className="eq-bubble__avatar">{first ? kind === 'assistant' ? <AiAvatar size={24} /> : <CategoryAvatar category={category} size={28} /> : null}</span>
   ) : null;
+  // Follow-ups (and bare bubbles) draw no sender line; screen readers still hear who sent them.
+  const showsSender = !bare && first && !!sender;
+  const srSender = showsSender ? undefined : sender ?? (kind === 'assistant' ? 'Equal AI' : undefined);
   return (
     <div className={`eq-bubble-row ${left ? 'is-left' : 'is-right'} ${first ? 'is-first' : ''}`}>
       {avatar}
       <div className={`eq-bubble eq-bubble--${kind} ${tail && first ? 'has-tail' : ''} ${bare ? 'is-bare' : ''}`} style={{ maxWidth }}>
-        {!bare && first && sender && (
+        {srSender && <span className="eq-sr">{srSender}: </span>}
+        {showsSender && (
           <Text as="div" variant="body2" color="inherit" style={{ color: senderColor }}>
             {sender}
           </Text>
         )}
         {bare ? children : locked ? <Locked><Text as="div" variant="body1">{children}</Text></Locked> : <Text as="div" variant="body1">{children}</Text>}
         {!bare && time && (
-          <Text as="div" variant="micro" color="tertiary" align="right" style={{ marginTop: 2 }}>
+          <Text as="div" variant="micro" color="secondary" align="right" style={{ marginTop: 2 }}>
             {time}
           </Text>
         )}
@@ -56,6 +60,7 @@ export function ChatBubble({ kind, sender, time, children, first = true, tail = 
 }
 
 /** Vertical stack of messages with the correct 4 / 12dp group rhythm. */
-export function MessageList({ children }: { children: ReactNode }) {
-  return <div className="eq-message-list">{children}</div>;
+export function MessageList({ children, label = 'Messages' }: { children: ReactNode; /** Accessible name of the log. */ label?: string }) {
+  // role="log": new messages in a live thread are announced politely.
+  return <div className="eq-message-list" role="log" aria-label={label}>{children}</div>;
 }

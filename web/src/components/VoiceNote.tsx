@@ -1,5 +1,5 @@
 import { Locked, UnlockAudioPill } from './Monetization';
-import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useRef, useState, type HTMLAttributes, type ReactNode } from 'react';
 import { Emoji, Icon } from '../foundations/Icon';
 import { Text } from '../foundations/Text';
 import { TextButton } from './Button';
@@ -19,6 +19,17 @@ function useBars(count: number, seed: number) {
       return r < 0.18 ? 4 : Math.max(5, Math.round((6 + r * 14) * envelope + 2));
     });
   }, [count, seed]);
+}
+
+/** Coded waveform art: one 3dp bar per height; bars before `played` take the played colour. */
+export function VoiceWaveform({ heights, played, ...rest }: { heights: number[]; played: number } & HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div className="eq-voice__wave" {...rest}>
+      {heights.map((h, i) => (
+        <span key={i} style={{ height: h, background: i < played ? 'var(--eq-waveform-bar-played)' : 'var(--eq-waveform-bar)' }} />
+      ))}
+    </div>
+  );
 }
 
 export type VoicePlayerProps = {
@@ -62,28 +73,24 @@ export function VoicePlayer({ duration, position, seed = 42, bars = 28, tone = '
 
   const played = Math.round((current / duration) * bars);
   return (
-    <div className={`eq-voice ${tone === 'sent' ? 'is-sent' : ''}`}>
+    <div className={['eq-voice', tone === 'sent' && 'is-sent', playing && 'is-playing'].filter(Boolean).join(' ')}>
       <div className="eq-voice__row">
         <button type="button" className="eq-reset-btn eq-touch" aria-label={playing ? 'Pause' : 'Play'} onClick={() => setPlaying((p) => !p)} style={{ color: 'var(--eq-text-secondary)' }}>
           <Icon name={playing ? 'pause' : 'play'} size={22} />
         </button>
-        <div className="eq-voice__wave" aria-hidden>
-          {heights.map((h, i) => (
-            <span key={i} style={{ height: h, background: i < played ? 'var(--eq-waveform-bar-played)' : 'var(--eq-waveform-bar)' }} />
-          ))}
-        </div>
+        <VoiceWaveform heights={heights} played={played} role="progressbar" aria-label="Playback position" aria-valuemin={0} aria-valuemax={Math.round(duration)} aria-valuenow={Math.round(current)} aria-valuetext={`${fmt(current)} of ${fmt(duration)}`} />
         <button
           type="button"
           className="eq-reset-btn eq-touch eq-voice__speed eq-t-caption eq-tnum"
           aria-label={`Playback speed ${speed}x`}
           onClick={() => setSpeed(SPEEDS[(SPEEDS.indexOf(speed) + 1) % SPEEDS.length])}
         >
-          {speed}x
+          <Text variant="inherit" color="none">{speed}x</Text>
         </button>
       </div>
       <div className="eq-voice__times">
-        <Text variant="micro" color="tertiary">{fmt(current)}</Text>
-        <Text variant="micro" color="tertiary">{fmt(duration)}</Text>
+        <Text variant="micro" color="secondary">{fmt(current)}</Text>
+        <Text variant="micro" color="secondary">{fmt(duration)}</Text>
       </div>
     </div>
   );
@@ -129,17 +136,17 @@ export function CallSummary({ duration = 157, summary, time, label = 'Call Summa
         </div>
       )}
       <div style={{ padding: noRecording ? '10px 10px 6px' : '0 10px 6px' }}>
-        <Text as="div" variant="caption" color="tertiary">{label}</Text>
+        <Text as="div" variant="caption" color="secondary">{label}</Text>
         {locked === 'all' ? <Locked><Text as="div" variant="body1">{summary}</Text></Locked> : <Text as="div" variant="body1">{summary}</Text>}
         {(time || tag) && (
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginTop: 6 }}>
             {tag ? (
               <span className="eq-summary__tag">
                 {tag.emoji && <Emoji char={tag.emoji} size={12} />}
-                <span className="eq-t-caption">{tag.label}</span>
+                <Text variant="caption" color="none">{tag.label}</Text>
               </span>
             ) : <span />}
-            {time && <Text variant="micro" color="tertiary">{time}</Text>}
+            {time && <Text variant="micro" color="secondary">{time}</Text>}
           </div>
         )}
       </div>

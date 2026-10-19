@@ -29,7 +29,7 @@
 }
 .eq-search:focus-within { border-color: var(--eq-action-stroke-unread); box-shadow: var(--eq-shadow-focus-ring); }
 .eq-search input { flex: 1; min-width: 0; border: 0; outline: none; background: transparent; color: var(--eq-text-primary); padding: 0; }
-.eq-search input::placeholder { color: var(--eq-text-tertiary); }
+.eq-search input::placeholder { color: var(--eq-text-secondary); }
 
 .eq-seg {
   height: 36px;

@@ -43,6 +43,7 @@ import ai.equal.ds.theme.tabular
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.error
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.text.BasicText
@@ -103,12 +104,12 @@ fun EqualTextField(
                 EqualText(
                     text = label.uppercase() + if (required) "*" else "",
                     style = type.overline,
-                    color = colors.textTertiary,
+                    color = colors.textSecondary,
                     maxLines = 1,
                 )
                 if (optional) {
                     Spacer(Modifier.width(6.dp))
-                    EqualText(text = optionalLabel, style = type.captionRegular, color = colors.textTertiary, maxLines = 1)
+                    EqualText(text = optionalLabel, style = type.captionRegular, color = colors.textSecondary, maxLines = 1)
                 }
             }
             Spacer(Modifier.height(8.dp))
@@ -122,7 +123,11 @@ fun EqualTextField(
                 .eqFocusRing(focused && error == null, fieldShape)
                 .background(colors.bgSurface, fieldShape)
                 .border(1.dp, borderColor, fieldShape)
-                .then(if (a11y != null) Modifier.semantics { this.contentDescription = a11y } else Modifier),
+                .semantics {
+                    if (a11y != null) this.contentDescription = a11y
+                    // TalkBack announces the error when the field is focused.
+                    if (error != null) error(error)
+                },
             enabled = enabled,
             singleLine = !multiline,
             minLines = if (multiline) 2 else 1,
@@ -174,6 +179,7 @@ fun SearchField(
     modifier: Modifier = Modifier,
     placeholder: String = "Search for names",
     onActivate: (() -> Unit)? = null,
+    contentDescription: String = placeholder,
 ) {
     val colors = EqualTheme.colors
     val type = EqualTheme.type
@@ -188,7 +194,7 @@ fun SearchField(
                 .padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            EqualIcon(EqualIcons.Search, contentDescription = null, tint = colors.textTertiary, size = 20.dp)
+            EqualIcon(EqualIcons.Search, contentDescription = null, tint = colors.textSecondary, size = 20.dp)
             Spacer(Modifier.width(8.dp))
             EqualText(text = placeholder, style = type.bodyLarge, color = colors.textPlaceholder, maxLines = 1)
         }
@@ -200,7 +206,9 @@ fun SearchField(
         modifier = modifier
             .fillMaxWidth()
             .height(48.dp)
-            .background(colors.bgSurface, CircleShape),
+            .background(colors.bgSurface, CircleShape)
+            // The placeholder disappears once there is text, so the field needs its own name.
+            .semantics { this.contentDescription = contentDescription },
         singleLine = true,
         textStyle = type.bodyLarge.copy(color = colors.textPrimary),
         cursorBrush = SolidColor(colors.textAction),
@@ -211,7 +219,7 @@ fun SearchField(
                     .padding(horizontal = 16.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                EqualIcon(EqualIcons.Search, contentDescription = null, tint = colors.textTertiary, size = 20.dp)
+                EqualIcon(EqualIcons.Search, contentDescription = null, tint = colors.textSecondary, size = 20.dp)
                 Spacer(Modifier.width(8.dp))
                 Box(Modifier.weight(1f), contentAlignment = Alignment.CenterStart) {
                     if (value.isEmpty()) {
@@ -227,7 +235,8 @@ fun SearchField(
 /**
  * Segmented label chips, e.g. Home / Work / Other (derived). 36 high pills, h16, `button`.
  * Selected: `chip/selected-bg` + `chip/selected-text` (dark chip). Unselected: `bg/surface`,
- * 1dp `stroke/medium`, `text/secondary`.
+ * 1dp `stroke/medium`, `text/secondary`. [contentDescription] names the radio group for TalkBack
+ * (e.g. "Address label").
  */
 @Composable
 fun SegmentedChips(
@@ -235,10 +244,13 @@ fun SegmentedChips(
     selectedIndex: Int,
     onSelectedIndexChange: (Int) -> Unit,
     modifier: Modifier = Modifier,
+    contentDescription: String? = null,
 ) {
     val colors = EqualTheme.colors
     Row(
-        modifier.selectableGroup(),
+        modifier
+            .selectableGroup()
+            .then(if (contentDescription != null) Modifier.semantics { this.contentDescription = contentDescription } else Modifier),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {

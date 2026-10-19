@@ -47,3 +47,28 @@ export function traceAt(node: Element | null, names: Set<string>, boundary: Elem
   }
   return hit;
 }
+
+export type TraceStep = { name: string; element: Element };
+
+/**
+ * Every DS component under `node`, innermost first (atom → molecule → organism), each with its own
+ * host element. Consecutive repeats of the same name and steps with the same box are collapsed.
+ */
+export function traceChain(node: Element | null, names: Set<string>, boundary: Element): TraceStep[] {
+  if (!node) return [];
+  let f = fiberOf(node);
+  const steps: TraceStep[] = [];
+  while (f) {
+    const n = nameOf(f);
+    if (n && names.has(n)) {
+      const el = hostOf(f);
+      if (el && boundary.contains(el)) {
+        const last = steps[steps.length - 1];
+        if (!last || (last.name !== n && last.element !== el)) steps.push({ name: n, element: el });
+        else if (last.element === el && last.name !== n) steps[steps.length - 1] = { name: n, element: el };
+      }
+    }
+    f = f.return;
+  }
+  return steps;
+}

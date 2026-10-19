@@ -27,7 +27,7 @@ export function Composer({ value, onChange, onSend, placeholder = 'Type a messag
   return (
     <form className={`eq-composer ${forceFocus ? 'is-focus' : ''} ${canSend ? 'can-send' : ''}`} onSubmit={submit}>
       <input className="eq-composer__input eq-t-body1" value={text} placeholder={placeholder} onChange={(e) => set(e.target.value)} aria-label="Message" autoFocus={autoFocus} />
-      <button type="submit" className="eq-reset-btn eq-pressable eq-composer__send" disabled={!canSend} aria-label="Send">
+      <button type="submit" className="eq-reset-btn eq-pressable eq-touch eq-composer__send" disabled={!canSend} aria-label="Send">
         <Icon name="send" size={20} color={canSend || forceFocus ? 'var(--eq-text-on-action)' : 'var(--eq-text-on-dark)'} rotate={-35} />
       </button>
     </form>

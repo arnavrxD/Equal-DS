@@ -17,9 +17,8 @@
 .eq-locked.is-inline { display: flex; width: 100%; }
 .eq-locked__content { filter: blur(4px); user-select: none; pointer-events: none; min-width: 0; overflow: hidden; }
 .eq-locked.is-inline .eq-locked__content { flex: 1; white-space: nowrap; text-overflow: ellipsis; }
-.eq-locked__badge { position: absolute; right: -6px; bottom: -8px; display: inline-flex; padding: 2px; border-radius: 50%; background: var(--eq-locked-badge-bg); }
-.eq-locked.is-inline .eq-locked__badge { position: static; background: none; padding: 0; }
-.eq-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.eq-locked__badge { position: absolute; right: -6px; bottom: -8px; display: inline-flex; padding: 2px; border-radius: 50%; background: var(--eq-locked-badge-bg); box-shadow: inset 0 0 0 1px var(--eq-locked-badge-stroke); }
+.eq-locked.is-inline .eq-locked__badge { position: static; background: none; box-shadow: none; padding: 0; }
 
 .eq-divider-label { display: flex; align-items: center; gap: 12px; align-self: stretch; }
 .eq-divider-label__rule { flex: 1; height: 1px; background: var(--eq-paywall-divider); }
@@ -48,8 +47,9 @@
   position: relative;
   border-radius: 20px;
   padding: 14px 16px 12px;
-  background: var(--eq-gradient-coupon);
-  border: 1px solid var(--eq-paywall-card-stroke);
+  /* 1px gradient outline: the surface fills the padding box, gradient/coupon-stroke shows in the border. */
+  border: 1px solid transparent;
+  background: linear-gradient(var(--eq-bg-surface), var(--eq-bg-surface)) padding-box, var(--eq-gradient-coupon-stroke) border-box;
   /* the two ticket notches */
   -webkit-mask: radial-gradient(circle 9px at 0 58%, transparent 98%, #000) left / 51% 100% no-repeat, radial-gradient(circle 9px at 100% 58%, transparent 98%, #000) right / 51% 100% no-repeat;
   mask: radial-gradient(circle 9px at 0 58%, transparent 98%, #000) left / 51% 100% no-repeat, radial-gradient(circle 9px at 100% 58%, transparent 98%, #000) right / 51% 100% no-repeat;
@@ -84,7 +84,7 @@
 .eq-status-sheet.is-inline { border-radius: 24px; }
 .eq-status-sheet__footer { padding: 16px 8px 0; }
 .eq-status-sheet-layer { position: absolute; inset: 0; z-index: 40; display: flex; flex-direction: column; justify-content: flex-end; }
-.eq-status-sheet-layer__scrim { position: absolute; inset: 0; background: var(--eq-scrim); }
+.eq-status-sheet-layer__scrim { position: absolute; inset: 0; background: var(--eq-bg-overlay); }
 .eq-status-sheet-layer .eq-status-sheet { position: relative; animation: eq-sheet-up var(--eq-duration-slow) var(--eq-easing-standard) both; }
 @keyframes eq-sheet-up { from { transform: translateY(40%); opacity: 0; } to { transform: none; opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .eq-status-sheet-layer .eq-status-sheet { animation: none; } }
@@ -137,20 +137,22 @@
 @keyframes eq-strike { to { transform: scaleX(1); } }
 @keyframes eq-price-land { from { opacity: 0; transform: translateY(6px) scale(0.96); } to { opacity: 1; transform: none; } }
 
-.eq-discount-badge { display: inline-flex; align-items: center; gap: 6px; padding: 2px 10px 2px 2px; border-radius: 999px; background: var(--eq-bg-surface); color: var(--eq-text-brand); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); }
+.eq-discount-badge { display: inline-flex; align-items: center; gap: 6px; padding: 2px 10px 2px 2px; border-radius: 999px; background: var(--eq-bg-surface); color: var(--eq-text-action); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08); }
 .eq-discount-badge.is-animated { animation: eq-badge-pop var(--eq-duration-couponSpring) var(--eq-easing-spring) 120ms both; }
 .eq-discount-badge.is-animated .eq-off-seal { animation: eq-seal-spin var(--eq-duration-couponSpring) var(--eq-easing-spring) 120ms both; }
 @keyframes eq-badge-pop { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: none; } }
 @keyframes eq-seal-spin { from { transform: rotate(-90deg); } to { transform: none; } }
 
 /* Gold CTA: a sheen sweeps across every few seconds. */
-.eq-btn--gold { position: relative; overflow: hidden; }
-.eq-btn--gold::after { content: ''; position: absolute; inset: 0; background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.35) 48%, transparent 66%); transform: translateX(-120%); animation: eq-sheen calc(var(--eq-duration-shimmerDelay) + var(--eq-duration-shimmer)) var(--eq-easing-standard) infinite; pointer-events: none; }
+/* The sheen is a moving background on ::before (no overflow clipping), so ::after stays free for the 48px eq-touch hit area. */
+.eq-btn--gold { position: relative; }
+.eq-btn--gold::before { content: ''; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(110deg, transparent 43%, rgba(255, 255, 255, 0.35) 50%, transparent 57%) no-repeat; background-size: 300% 100%; background-position: 100% 0; animation: eq-sheen calc(var(--eq-duration-shimmerDelay) + var(--eq-duration-shimmer)) var(--eq-easing-standard) infinite; pointer-events: none; }
+.eq-btn--gold > * { position: relative; }
 /* Button Glow (prototype): the glow eases up over 300ms after 800ms, then back. */
 .eq-btn--gold { animation: eq-gold-glow calc(2 * (var(--eq-duration-buttonGlowDelay) + var(--eq-duration-buttonGlow))) var(--eq-easing-standard) infinite; }
 @keyframes eq-gold-glow { 0%, 36% { box-shadow: 0 4px 12px rgba(140, 88, 23, 0.18); } 50%, 86% { box-shadow: 0 6px 22px rgba(184, 138, 69, 0.45); } 100% { box-shadow: 0 4px 12px rgba(140, 88, 23, 0.18); } }
-.eq-btn--gold:disabled::after { display: none; }
-@keyframes eq-sheen { 0%, 66% { transform: translateX(-120%); } 100% { transform: translateX(120%); } }
+.eq-btn--gold:disabled::before { display: none; }
+@keyframes eq-sheen { 0%, 66% { background-position: 100% 0; } 100% { background-position: 0% 0; } }
 
 /* Payment progress: each step's title rises in. */
 .eq-status-sheet .eq-status-card__title { animation: eq-step-in var(--eq-duration-paymentStatus) var(--eq-easing-gentle) both; }
@@ -165,15 +167,17 @@
 
 @media (prefers-reduced-motion: reduce) {
   .eq-price__now, .eq-discount-badge.is-animated, .eq-discount-badge.is-animated .eq-off-seal, .eq-status-sheet .eq-status-card__title { animation: none; }
-  .eq-btn--gold::after, .eq-sunburst, .eq-btn--gold { animation: none; }
-  .eq-btn--gold::after { display: none; }
+  .eq-btn--gold::before, .eq-sunburst, .eq-btn--gold { animation: none; }
+  .eq-btn--gold::before { display: none; }
 }
 
 /* ---------------------------------------------------------------- plan value & renewal (Monetization value design) */
 .eq-expiry-banner { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 6px 12px; }
 .eq-expiry-banner.is-warning { background: var(--eq-expiry-banner-warning-bg); color: var(--eq-expiry-banner-warning-text); }
 .eq-expiry-banner.is-danger { background: var(--eq-expiry-banner-danger-bg); color: var(--eq-expiry-banner-danger-text); }
-.eq-expiry-banner__icon { display: inline-flex; padding: 3px; border-radius: 50%; background: color-mix(in srgb, currentColor 12%, transparent); }
+.eq-expiry-banner__icon { display: inline-flex; padding: 3px; border-radius: 50%; }
+.eq-expiry-banner.is-warning .eq-expiry-banner__icon { background: var(--eq-expiry-banner-warning-icon-bg); }
+.eq-expiry-banner.is-danger .eq-expiry-banner__icon { background: var(--eq-expiry-banner-danger-icon-bg); }
 .eq-expiry-banner__cta { color: inherit; text-decoration: underline; text-underline-offset: 3px; font-weight: 700; flex-shrink: 0; }
 
 .eq-expiry-chip { display: inline-flex; align-items: center; height: 30px; padding: 0 8px; border-radius: 6px; font-weight: 700; font-size: 18px; letter-spacing: -0.02em; white-space: nowrap; }
@@ -196,7 +200,7 @@
 .eq-value-card__expiry .eq-divider-label__rule { min-width: 12px; }
 .eq-value-card__plan { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; padding: 0 16px; }
 
-.eq-value-sheet { position: relative; background: var(--eq-sheet-bg); border-radius: 24px 24px 0 0; box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.12); }
+.eq-value-sheet { position: relative; background: var(--eq-bg-primary); border-radius: 24px 24px 0 0; box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.12); }
 .eq-value-sheet.is-inline { border-radius: 24px; margin-top: 64px; }
 .eq-status-sheet-layer .eq-value-sheet { animation: eq-sheet-up var(--eq-duration-slow) var(--eq-easing-standard) both; }
 .eq-value-sheet__close { position: absolute; left: 50%; top: -60px; transform: translateX(-50%); background: var(--eq-bg-surface) !important; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12); }
@@ -204,6 +208,8 @@
 .eq-value-sheet.is-flush .eq-value-sheet__body .eq-value-card { border: 0; border-radius: 24px 24px 0 0; }
 .eq-value-sheet.is-flush.is-inline .eq-value-sheet__body .eq-value-card { border-radius: 24px 24px 0 0; }
 .eq-value-sheet__footer { padding: 16px; }
+/* "Renew your Equal AI" has its own radial, distinct from the paywall's gold CTA. */
+.eq-value-sheet__footer.is-renew .eq-btn--gold { background: var(--eq-gradient-cta-renew); }
 .eq-value-sheet.is-flush .eq-value-sheet__footer { background: var(--eq-bg-surface); border-top: 1px solid var(--eq-stroke-subtle); border-radius: 0 0 24px 24px; }
 .eq-status-sheet-layer .eq-value-sheet.is-flush .eq-value-sheet__footer { border-radius: 0; }
 
@@ -233,3 +239,7 @@
 [data-theme='dark'] .eq-value-card.is-rings:has(.eq-value-card__glow) { background: var(--eq-gradient-value-card); }
 [data-theme='dark'] .eq-value-card.is-rings:has(.eq-value-card__glow)::before { display: block; }
 .eq-paywall-footer.is-flat { background: transparent; box-shadow: none; padding: 14px 16px 18px; }
+
+/* Optional close (X) on a StatusSheet (Help Center, cancel feedback) when the host passes onClose. */
+.eq-status-sheet { position: relative; }
+.eq-status-sheet__close { position: absolute !important; top: 8px; right: 8px; z-index: 1; }

@@ -43,6 +43,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -55,9 +58,9 @@ import androidx.compose.ui.window.PopupProperties
 
 /**
  * Feedback card (SPEC §13). Width 246, `bg/surface`, radius 12, padding 10 h / 12 top.
- * Question `body1` → 10 → five 28dp stars (gap 8; filled star `rating/star-filled`, empty =
- * outline star `text/placeholder`),
- * tap to rate → divider → 36-high footer "Share Feedback" `button` `text/action` + chevron 16.
+ * Question `body1` → 10 → five 28dp stars, each centred in a 48dp touch cell (filled star
+ * `rating/star-filled`, empty = outline star `text/placeholder`), a radio group: tap to rate →
+ * divider → 48-high footer "Share Feedback" `button` `text/action` + chevron 16.
  * [rating] is 0..5 (0 = unrated).
  */
 @Composable
@@ -77,29 +80,30 @@ fun FeedbackCard(
             .clip(RoundedCornerShape(EqualRadius.rMd))
             .background(colors.bgSurface),
     ) {
-        Column(Modifier.padding(start = 10.dp, end = 10.dp, top = 12.dp, bottom = 12.dp)) {
+        Column(Modifier.padding(start = 10.dp, end = 10.dp, top = 12.dp)) {
             EqualText(text = question, style = type.body1, color = colors.textPrimary)
-            Spacer(Modifier.height(10.dp))
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                for (star in 1..5) {
-                    val filled = star <= rating
-                    Box(
-                        Modifier
-                            .size(28.dp)
-                            .selectable(
-                                selected = star == rating,
-                                role = Role.RadioButton,
-                                onClick = { onRatingChange(star) },
-                            ),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        EqualIcon(
-                            imageVector = if (filled) EqualIcons.Star else EqualIcons.StarOutline,
-                            contentDescription = "$star star" + if (star > 1) "s" else "",
-                            tint = if (filled) colors.ratingStarFilled else colors.textPlaceholder,
-                            size = 28.dp,
-                        )
-                    }
+        }
+        // Each 28dp star sits centred in a 48dp touch cell. The row spans the card edge to edge,
+        // so the first star still starts 10dp in and stays 10dp below the question.
+        Row(Modifier.fillMaxWidth().padding(bottom = 2.dp).selectableGroup()) {
+            for (star in 1..5) {
+                val filled = star <= rating
+                Box(
+                    Modifier
+                        .size(48.dp)
+                        .selectable(
+                            selected = star == rating,
+                            role = Role.RadioButton,
+                            onClick = { onRatingChange(star) },
+                        ),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    EqualIcon(
+                        imageVector = if (filled) EqualIcons.Star else EqualIcons.StarOutline,
+                        contentDescription = "$star star" + if (star > 1) "s" else "",
+                        tint = if (filled) colors.ratingStarFilled else colors.ratingStarEmpty,
+                        size = 28.dp,
+                    )
                 }
             }
         }
@@ -107,7 +111,7 @@ fun FeedbackCard(
         Row(
             Modifier
                 .fillMaxWidth()
-                .height(36.dp)
+                .height(48.dp)
                 .clickable(role = Role.Button, onClick = onShareFeedbackClick),
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically,
@@ -201,7 +205,7 @@ fun ActionCardBody(
                 val tint = when (line.tone) {
                     ActionCardTone.Primary -> colors.textPrimary
                     ActionCardTone.Secondary -> colors.textSecondary
-                    ActionCardTone.Tertiary -> colors.textTertiary
+                    ActionCardTone.Tertiary -> colors.textSecondary
                 }
                 BasicText(text = line.text, style = type.body1.copy(color = tint))
             }
@@ -209,7 +213,7 @@ fun ActionCardBody(
                 EqualText(
                     text = timestamp,
                     style = type.micro,
-                    color = colors.textTertiary,
+                    color = colors.textSecondary,
                     maxLines = 1,
                     modifier = Modifier.align(Alignment.End).padding(top = 2.dp),
                 )
@@ -221,7 +225,7 @@ fun ActionCardBody(
 /**
  * Action card (SPEC §14): something the assistant did or proposes. Width 268, radius 16, a white
  * `bg/surface` card: the grey [ActionCardBody] sits in an 8dp frame (never on a green card). Each
- * action is a full-width green text row (44dp) under a full-bleed divider, always led by its emoji
+ * action is a full-width green text row (48dp, the touch minimum) under a full-bleed divider, always led by its emoji
  * (14dp, gap 6). All actions share the same weight, the first one ("Confirm", "Send") included:
  * never a filled button.
  */
@@ -257,7 +261,7 @@ fun ActionCard(
             Box(
                 Modifier
                     .fillMaxWidth()
-                    .height(44.dp)
+                    .height(48.dp)
                     .clickable(role = Role.Button, onClick = action.onClick),
                 contentAlignment = Alignment.Center,
             ) {
@@ -334,7 +338,12 @@ fun WhatsNewCard(
         ) {
             FeatureBadge(text = badgeText)
             Spacer(Modifier.height(12.dp))
-            EqualText(text = title, style = type.title.copy(fontSize = 18.sp, lineHeight = 24.sp, fontWeight = FontWeight.Bold), color = colors.textAction)
+            EqualText(
+                text = title,
+                style = type.title.copy(fontSize = 18.sp, lineHeight = 24.sp, fontWeight = FontWeight.Bold),
+                color = colors.textAction,
+                modifier = Modifier.semantics { heading() },
+            )
             Spacer(Modifier.height(4.dp))
             EqualText(text = body, style = type.captionRegular, color = colors.textSecondary, maxLines = 3, overflow = TextOverflow.Ellipsis)
             Spacer(Modifier.height(14.dp))
@@ -344,8 +353,8 @@ fun WhatsNewCard(
             Box(
                 Modifier
                     .align(Alignment.TopEnd)
-                    .padding(8.dp)
-                    .size(32.dp)
+                    // 48dp touch area centred where the old 32dp button (inset 8) was.
+                    .size(48.dp)
                     .clip(CircleShape)
                     .clickable(role = Role.Button, onClick = onCloseClick),
                 contentAlignment = Alignment.Center,

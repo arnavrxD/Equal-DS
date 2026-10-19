@@ -63,6 +63,7 @@ import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.CompositingStrategy
 import androidx.compose.ui.graphics.drawscope.Stroke
@@ -75,6 +76,9 @@ import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.liveRegion
 import androidx.compose.ui.semantics.paneTitle
+import androidx.compose.foundation.indication
+import androidx.compose.foundation.LocalIndication
+import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
@@ -137,14 +141,19 @@ private fun RadialRings(
     )
 }
 
-/** Sheet / dialog entrance: slide up 40% + fade over `motion.slow` (none under reduced motion). */
+/**
+ * Sheet / dialog entrance: slide up 40% + fade over `motion.slow` (none under reduced motion).
+ * System Back calls [onBack] (by default the same as a scrim tap).
+ */
 @Composable
 private fun SheetLayer(
     modifier: Modifier,
     scrim: Color,
     onScrim: () -> Unit,
+    onBack: () -> Unit = onScrim,
     content: @Composable () -> Unit,
 ) {
+    EqualBackHandler(onBack = onBack)
     val still = rememberReduceMotion()
     val visible = remember { MutableTransitionState(still).apply { targetState = true } }
     Box(modifier.fillMaxSize()) {
@@ -223,9 +232,9 @@ fun PaymentResult(
     val gradients = EqualTheme.gradients
     data class Spec(val wash: EqualGradientSpec, val art: EqualAssets, val title: String, val sub: String?, val body: String)
     val r = when (status) {
-        PaymentResultStatus.Success -> Spec(gradients.resultSuccess, EqualAssets.StatusConfirmed, "Congratulations", "You’re Unlimited", "No more limits. Everything Equal AI can do, now yours.")
-        PaymentResultStatus.Pending -> Spec(gradients.resultPending, EqualAssets.StatusPending, "Payment Pending", null, "We’re confirming your UPI payment. This may take a few moments.")
-        PaymentResultStatus.Failed -> Spec(gradients.resultFailed, EqualAssets.StatusFailed, "Payment Failed", null, "Many banks block UPI Autopay by default. A different UPI app, linked to another bank, usually works.")
+        PaymentResultStatus.Success -> Spec(gradients.statusSuccess, EqualAssets.StatusConfirmed, "Congratulations", "You’re Unlimited", "No more limits. Everything Equal AI can do, now yours.")
+        PaymentResultStatus.Pending -> Spec(gradients.statusWarning, EqualAssets.StatusPending, "Payment Pending", null, "We’re confirming your UPI payment. This may take a few moments.")
+        PaymentResultStatus.Failed -> Spec(gradients.statusDanger, EqualAssets.StatusFailed, "Payment Failed", null, "Many banks block UPI Autopay by default. A different UPI app, linked to another bank, usually works.")
     }
     Box(
         modifier
@@ -235,7 +244,7 @@ fun PaymentResult(
     ) {
         RadialRings(
             modifier = Modifier.matchParentSize(),
-            color = colors.resultRing,
+            color = colors.sunburstRay,
             centerYFraction = 0.52f,
             firstRadius = 61.dp,
             spacing = 96.dp,
@@ -252,21 +261,35 @@ fun PaymentResult(
             ) {
                 if (status != PaymentResultStatus.Success) {
                     val pending = status == PaymentResultStatus.Pending
+                    val chipInteraction = rememberInteraction()
+                    // 48dp touch area around the 44dp chip (layout unchanged).
                     Box(
                         Modifier
-                            .size(44.dp)
-                            .eqShadow(ResultChromeShadow, CircleShape)
-                            .clip(CircleShape)
-                            .background(colors.bgSurface)
-                            .clickable(role = Role.Button, onClickLabel = if (pending) "Close" else "Back", onClick = if (pending) onClose else onBack),
+                            .touchTarget()
+                            .clickable(
+                                interactionSource = chipInteraction,
+                                indication = null,
+                                role = Role.Button,
+                                onClick = if (pending) onClose else onBack,
+                            ),
                         contentAlignment = Alignment.Center,
                     ) {
-                        EqualIcon(
-                            if (pending) EqualIcons.Close else EqualIcons.Back,
-                            contentDescription = if (pending) "Close" else "Back",
-                            tint = colors.textSecondary,
-                            size = 20.dp,
-                        )
+                        Box(
+                            Modifier
+                                .size(44.dp)
+                                .eqShadow(ResultChromeShadow, CircleShape)
+                                .clip(CircleShape)
+                                .background(colors.bgSurface)
+                                .indication(chipInteraction, LocalIndication.current),
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            EqualIcon(
+                                if (pending) EqualIcons.Close else EqualIcons.Back,
+                                contentDescription = if (pending) "Close" else "Back",
+                                tint = colors.textSecondary,
+                                size = 20.dp,
+                            )
+                        }
                     }
                 }
             }
@@ -285,6 +308,7 @@ fun PaymentResult(
                     style = type.headline.copy(fontSize = 30.sp, lineHeight = 36.sp, fontWeight = FontWeight.Bold, letterSpacing = (-0.02).em),
                     color = colors.textPrimary,
                     textAlign = TextAlign.Center,
+                    modifier = Modifier.semantics { heading() },
                 )
                 if (r.sub != null) {
                     EqualText(
@@ -390,7 +414,7 @@ fun ProcessingStrip(
             .fillMaxWidth()
             .then(shadow)
             .clip(shape)
-            .background(colors.processingBg)
+            .background(colors.expiryBannerWarningBg)
             .semantics(mergeDescendants = true) { liveRegion = LiveRegionMode.Polite }
             .padding(horizontal = 12.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -407,7 +431,7 @@ fun ProcessingStrip(
 @Composable
 private fun ProcessingRing() {
     val colors = EqualTheme.colors
-    val ring = colors.processingRing
+    val ring = colors.textGold
     val turn: State<Float>? = if (!rememberReduceMotion()) {
         rememberInfiniteTransition(label = "processing").animateFloat(
             initialValue = 0f,
@@ -588,7 +612,7 @@ fun PaywallSheet(
     if (inline) {
         panel(modifier)
     } else {
-        SheetLayer(modifier, scrim = colors.scrim, onScrim = onScrim) { panel(Modifier) }
+        SheetLayer(modifier, scrim = colors.bgOverlay, onScrim = onScrim) { panel(Modifier) }
     }
 }
 
@@ -645,7 +669,7 @@ fun CouponRow(
         modifier
             .fillMaxWidth()
             .clip(shape)
-            .background(EqualTheme.gradients.coupon.toBrush())
+            .background(SolidColor(EqualTheme.colors.bgSurface))
             .border(1.dp, colors.paywallCardStroke, shape)
             .padding(horizontal = 14.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -655,27 +679,31 @@ fun CouponRow(
             EqualText(text = code, style = type.subheading.copy(fontWeight = FontWeight.Bold), color = colors.textGold, maxLines = 1)
             EqualText(text = description, style = type.captionRegular, color = colors.textPrimary)
         }
-        if (applied) {
-            EqualText(
-                text = "APPLIED",
-                style = state,
-                color = colors.textGold,
-                maxLines = 1,
-                modifier = Modifier.semantics { liveRegion = LiveRegionMode.Polite },
-            )
-        } else {
-            EqualText(
-                text = "APPLY",
-                style = state,
-                color = colors.textGold,
-                maxLines = 1,
-                modifier = Modifier
-                    .minimumInteractiveComponentSize()
-                    .clip(CircleShape)
-                    .background(if (colors.isDark) colors.textGold.copy(alpha = 0.18f) else Color.Transparent)
-                    .clickable(role = Role.Button, onClick = onApply)
-                    .padding(horizontal = 8.dp, vertical = 4.dp),
-            )
+        // One persistent polite live region, so the APPLY → APPLIED swap is announced once.
+        Box(Modifier.semantics { liveRegion = LiveRegionMode.Polite }) {
+            if (applied) {
+                EqualText(
+                    text = "APPLIED",
+                    style = state,
+                    color = colors.textGold,
+                    maxLines = 1,
+                    modifier = Modifier.semantics { contentDescription = "$code applied" },
+                )
+            } else {
+                EqualText(
+                    text = "APPLY",
+                    style = state,
+                    color = colors.textGold,
+                    maxLines = 1,
+                    modifier = Modifier
+                        .minimumInteractiveComponentSize()
+                        .semantics { contentDescription = "Apply $code" }
+                        .clip(CircleShape)
+                        .background(if (colors.isDark) colors.textGold.copy(alpha = 0.18f) else Color.Transparent)
+                        .clickable(role = Role.Button, onClick = onApply)
+                        .padding(horizontal = 8.dp, vertical = 4.dp),
+                )
+            }
         }
     }
 }
@@ -703,7 +731,7 @@ fun HelpFaqSheet(
                 .fillMaxWidth()
                 .eqShadow(PaywallSheetShadow, shape)
                 .clip(shape)
-                .background(colors.sheetBg)
+                .background(colors.bgPrimary)
                 .semantics { paneTitle = "Help Center" },
         ) {
             Row(
@@ -712,7 +740,12 @@ fun HelpFaqSheet(
                 horizontalArrangement = Arrangement.spacedBy(4.dp),
             ) {
                 PlainIconButton(EqualIcons.Back, "Back", onBack, tint = colors.textPrimary)
-                EqualText(text = "Help Center", style = type.title.copy(fontWeight = FontWeight.W500), color = colors.textPrimary)
+                EqualText(
+                    text = "Help Center",
+                    style = type.title.copy(fontWeight = FontWeight.W500),
+                    color = colors.textPrimary,
+                    modifier = Modifier.semantics { heading() },
+                )
             }
             EqualText(
                 text = "Check out this section to get answers for all the frequently asked questions",
@@ -731,7 +764,7 @@ fun HelpFaqSheet(
     if (inline) {
         panel(modifier)
     } else {
-        SheetLayer(modifier, scrim = colors.scrim, onScrim = onScrim) { panel(Modifier) }
+        SheetLayer(modifier, scrim = colors.bgOverlay, onScrim = onScrim, onBack = onBack) { panel(Modifier) }
     }
 }
 
@@ -743,7 +776,8 @@ fun HelpFaqSheet(
  * Now / Claim 25% Off on home; Leave / Keep 25% Off in a chat).
  *
  * Overlay (default): centred over a black 55% scrim (padding 16), springing in (fade + 0.92 → 1
- * over `motion.couponSpring`; still under reduced motion). [inline] draws only the card.
+ * over `motion.couponSpring`; still under reduced motion); system Back calls [onDismiss]. [inline]
+ * draws only the card.
  */
 @Composable
 fun ExitOfferDialog(
@@ -769,7 +803,12 @@ fun ExitOfferDialog(
                 .semantics { paneTitle = title }
                 .padding(start = 16.dp, end = 16.dp, top = 18.dp, bottom = 16.dp),
         ) {
-            EqualText(text = title, style = type.title.copy(fontWeight = FontWeight.W500), color = colors.textPrimary)
+            EqualText(
+                text = title,
+                style = type.title.copy(fontWeight = FontWeight.W500),
+                color = colors.textPrimary,
+                modifier = Modifier.semantics { heading() },
+            )
             Spacer(Modifier.height(4.dp))
             EqualText(text = body, style = type.body1, color = colors.textSecondary)
             Spacer(Modifier.height(16.dp))
@@ -783,6 +822,7 @@ fun ExitOfferDialog(
         card(modifier)
         return
     }
+    EqualBackHandler(onBack = onDismiss)
     val still = rememberReduceMotion()
     val enter = remember { Animatable(if (still) 1f else 0f) }
     LaunchedEffect(Unit) { if (!still) enter.animateTo(1f, tween(EqualMotion.couponSpring, easing = EqualEasing.emphasized)) }
@@ -821,17 +861,17 @@ fun OfferStrip(
     Row(
         modifier
             .fillMaxWidth()
-            .background(colors.offerStripBg)
+            .background(colors.expiryBannerWarningBg)
             .padding(horizontal = 12.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        EqualIcon(EqualIcons.InfoFill, contentDescription = null, tint = colors.offerStripText, size = 16.dp)
-        EqualText(text = text, style = type.body2.copy(fontWeight = FontWeight.W500), color = colors.offerStripText, modifier = Modifier.weight(1f))
+        EqualIcon(EqualIcons.InfoFill, contentDescription = null, tint = colors.expiryBannerWarningText, size = 16.dp)
+        EqualText(text = text, style = type.body2.copy(fontWeight = FontWeight.W500), color = colors.expiryBannerWarningText, modifier = Modifier.weight(1f))
         EqualText(
             text = cta,
             style = type.body2.copy(fontWeight = FontWeight.Bold, textDecoration = TextDecoration.Underline),
-            color = colors.offerStripText,
+            color = colors.expiryBannerWarningText,
             maxLines = 1,
             modifier = Modifier
                 .minimumInteractiveComponentSize()

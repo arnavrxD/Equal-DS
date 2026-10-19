@@ -1,4 +1,5 @@
 import { Icon } from '../foundations/Icon';
+import { Text } from '../foundations/Text';
 import { CountBadge } from './Badge';
 import { EqualOrb, ProfileAvatar, type PlanTier, type ProfileAvatarVariant } from './Avatar';
 import './BottomNav.css';
@@ -32,13 +33,13 @@ export function BottomNav({ active, onChange, unread = 0, showFab = true, onFabC
               </span>
             )}
           </span>
-          <span className="eq-t-caption">Chats</span>
+          <Text variant="caption" color="none">Chats</Text>
         </button>
         <button type="button" className={`eq-reset-btn eq-nav__item ${active === 'you' ? 'is-active' : ''}`} aria-current={active === 'you' ? 'page' : undefined} onClick={() => onChange?.('you')}>
           <span className="eq-nav__icon">
-            <span style={{ display: 'block', width: 24, height: 24, marginTop: -3 }}><ProfileAvatar variant={avatar} size={24} tier={tier} /></span>
+            <span style={{ display: 'block', width: 24, height: 24, marginTop: -3 }}><ProfileAvatar variant={avatar} size={24} tier={tier} label="" /></span>
           </span>
-          <span className="eq-t-caption">You</span>
+          <Text variant="caption" color="none">You</Text>
         </button>
       </nav>
       {showFab && <Fab onClick={onFabClick} />}
@@ -50,7 +51,7 @@ export function BottomNav({ active, onChange, unread = 0, showFab = true, onFabC
 export function Fab({ onClick, label = 'Talk to Equal AI', size = 58 }: { onClick?: () => void; label?: string; size?: number }) {
   return (
     <button type="button" aria-label={label} onClick={onClick} className="eq-reset-btn eq-pressable eq-fab" style={{ width: size, height: size }}>
-      <EqualOrb size={size} label={label} />
+      <EqualOrb size={size} label="" />
     </button>
   );
 }

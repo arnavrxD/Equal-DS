@@ -353,7 +353,7 @@ fun PaywallScreen(
         },
         overlay = when {
             state == PaywallOverlay.Help -> {
-                { HelpCenterSheet() }
+                { HelpCenterSheet(onClose = if (pinned) null else ({ live = PaywallOverlay.None })) }
             }
             state.paymentStatus() != null -> {
                 {
@@ -486,6 +486,7 @@ fun SubscriptionScreen(
                     onProceed = { step = CancelStep.Confirm },
                     onKeep = { step = null },
                     onConfirm = { step = CancelStep.Submitted },
+                    onDismiss = if (pinned) null else ({ step = null }),
                     onRedirect = {
                         if (!pinned) {
                             step = null
