@@ -95,7 +95,7 @@ fun EqualSwitch(
 }
 
 /**
- * 18dp checkbox glyph (SPEC §5 select-all row). Checked = `button/primary`, unchecked = `text/tertiary`.
+ * 18dp checkbox glyph (SPEC §5 select-all row). Checked = `button/primary`, unchecked = `text/secondary`.
  * Pass `onCheckedChange = null` when the row owns the semantics; otherwise give it a
  * [contentDescription] when nothing beside it names it.
  */

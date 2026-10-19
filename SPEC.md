@@ -4,7 +4,7 @@ The contract both implementations follow (`web/` React and `compose/` Jetpack Co
 **Inline emoji** (chips, badges, pills) are set at the label's font size, never larger; standalone emoji icons (preset circles, recommended cards) keep their own size.
 
 All units are **dp** (mdpi: 1px = 1dp = 1sp). **Frame: design every Android screen at 390 × 800dp and extend only vertically when content needs it** (`ANDROID_FRAME` on web, `EqualFrameWidthDp` / `EqualFrameHeightDp` in Compose). The designs were drawn at 360 wide; their dp values carry over unchanged, and full-width elements simply fill the wider frame. Text sizes are **sp** and always come from a type token.
-Colour names are alias tokens (`bg/surface`, `text/tertiary`, …). Names marked ⓓ are derived tokens: final values taken from the screens and component references because the colour guide doesn’t define them (`"derived": true` in `tokens/tokens.json`). Every text pair passes WCAG AA in both themes.
+Colour names are alias tokens (`bg/surface`, `text/secondary`, …). Names marked ⓓ are derived tokens: final values taken from the screens and component references because the colour guide doesn’t define them (`"derived": true` in `tokens/tokens.json`). Every text pair passes WCAG AA in both themes.
 Measurements were taken from *Component References design* (rendered at 2×, halved).
 
 ## Global rules (from Typography v3 final)
@@ -55,12 +55,12 @@ Track 40 × 24, radius full. On: `button/primary`. Off: `button/disabled`. Thumb
 ## 4. Tab Bar (Bottom Navigation)
 Floating pill container 185 × 75 (padding 8, radius full, fill `bg/surface`, shadow `nav`). Two items, each 99 × 52 capsule (radius full).
 Item: icon 24 (Chats: chat-bubble filled when selected / outline when not; You: ProfileAvatar 24 wide) above label `caption` (Medium). Gap 2.
-Selected: capsule fill `nav/selected-bg` ⓓ, label `text/action`. Unselected: no fill, label `text/tertiary` ⓓ, icon `text/secondary`.
+Selected: capsule fill `nav/selected-bg` ⓓ, label `text/action`. Unselected: no fill, label `text/secondary` ⓓ, icon `text/secondary`.
 Count badge on icon: 16 circle, `button/primary` fill, `badgeCount` `text/on-action`, offset top-right (x +10, y −6), 1.5dp `bg/surface` ring.
 **FAB** (beside the pill, gap 16): the logo orb at 58dp (light/dark asset, glow built in).
 
 ## 5. Chat Header (In-Conversation)
-Height 64, fill `bg/surface`, shadow `header`, padding h 12. Row: back-arrow icon button (48 target, 24 icon `text/primary`) → gap 4 → category avatar 36 (default `na`) → gap 12 → column [name `subheading` `text/primary`, subtitle `caption` Regular `text/tertiary` (phone number — tabular) or status text] → spacer → trailing actions.
+Height 64, fill `bg/surface`, shadow `header`, padding h 12. Row: back-arrow icon button (48 target, 24 icon `text/primary`) → gap 4 → category avatar 36 (default `na`) → gap 12 → column [name `subheading` `text/primary`, subtitle `caption` Regular `text/secondary` (phone number — tabular) or status text] → spacer → trailing actions.
 Variants:
 - **Default**: trailing = phone icon button + more-vert icon button (24 icons, `text/primary`).
 - **Live call / visitor**: trailing = **Takeover pill only** (no call, no more-options): height 34, padding h 14, radius full, fill `gradient/takeover` ⓓ, 1dp `action/stroke/unread`, shadow `glass`; phone icon 18 `text/action` + gap 6 + `button` `text/action`.
@@ -69,7 +69,7 @@ Variants:
 
 ## 6. Chat List Item
 Width fill, padding 16 (top 12, bottom 12), fill `bg/surface`. Row: category avatar 48 (default `na`; initials for saved contacts) → gap 16 → column (fill).
-Column row 1: name `subheading` `text/primary` (1 line, ellipsis) + spacer + date `micro` (`text/action` when unread, else `text/tertiary`).
+Column row 1: name `subheading` `text/primary` (1 line, ellipsis) + spacer + date `micro` (`text/action` when unread, else `text/secondary`).
 Row 2: preview `body1` `text/secondary` (1 line, ellipsis) + spacer + unread count (20 circle, `button/primary`, `badgeCount` `text/on-action`) if > 0.
 Row 3 (gap 8): horizontal scroll of **Small action chips**, gap 12, overflow clips at right edge.
 States: `unread` (chips use unread style), `read` (chips use read style), `selected` (row fill `action-card/highlight`, avatar gets 18 green check badge bottom-right with 2dp `bg/surface` ring, chips outlined only).
@@ -85,7 +85,7 @@ Touch target 48 high (padding outside the visual).
 Height 44, padding h 16, radius full, fill `gradient/chip-large` ⓓ, 1dp `action/stroke/unread`. Content: emoji 14 (= label size) → gap 10 → label `button` `text/action`. Examples: Takeover 📞, Ask to reschedule 🗓️.
 
 ## 11. Chat Bubbles
-Max width 264 (≈ 68% of the 390 frame). Radius 12. Padding 8 top, 10 h, 6 bottom. Contents: sender line `body2` → message `body1` `text/primary` → timestamp `micro` `text/tertiary`, right-aligned (gap 2).
+Max width 264 (≈ 68% of the 390 frame). Radius 12. Padding 8 top, 10 h, 6 bottom. Contents: sender line `body2` → message `body1` `text/primary` → timestamp `micro` `text/secondary`, right-aligned (gap 2).
 - **Outgoing (user / Equal AI speaking on the call)**: right aligned, fill `chat-bubble/user-bg`, sender colour `chat-bubble/user-title`. Sender = "Equal AI" or "You".
 - **Incoming (contact)**: left aligned, 28 category avatar (default `others`, the red telephone) with gap 8, fill `chat-bubble/other-bg` ⓓ, sender colour `chat-bubble/contact-title` ⓓ.
 - **Assistant (Equal AI talking to the user)**: left aligned, 24 AI avatar, fill `bg/surface`, sender `text/action`.
@@ -93,8 +93,8 @@ Max width 264 (≈ 68% of the 390 frame). Radius 12. Padding 8 top, 10 h, 6 bott
 - Consecutive bubbles from the same sender: gap 4, avatar only on the first, sender line only on the first.
 
 ### Voice note + Call Summary bubble
-Width 268. Fill `bg/surface`, radius 16. Inner **Voice player** box: margin 8, radius 12, 1dp `stroke/subtle`, padding 10. Row: play icon 22 `text/secondary` → gap 8 → waveform (fill; bars 2dp wide, gap 2, heights 4–16, `waveform/bar` ⓓ, played part `waveform/bar-played` ⓓ) → gap 8 → speed pill (height 22, padding h 8, radius full, fill `playback/pill-bg` ⓓ, `caption` `text/on-dark` ⓓ, tabular "1x/1.2x/1.5x/2x", tap cycles). Below (gap 4, indent 26): elapsed & total `micro` `text/tertiary` at the two ends of the waveform.
-Then padding 8 h: "Call Summary" `caption` Medium `text/tertiary` → summary `body1` `text/primary` → timestamp `micro`.
+Width 268. Fill `bg/surface`, radius 16. Inner **Voice player** box: margin 8, radius 12, 1dp `stroke/subtle`, padding 10. Row: play icon 22 `text/secondary` → gap 8 → waveform (fill; bars 2dp wide, gap 2, heights 4–16, `waveform/bar` ⓓ, played part `waveform/bar-played` ⓓ) → gap 8 → speed pill (height 22, padding h 8, radius full, fill `playback/pill-bg` ⓓ, `caption` `text/on-dark` ⓓ, tabular "1x/1.2x/1.5x/2x", tap cycles). Below (gap 4, indent 26): elapsed & total `micro` `text/secondary` at the two ends of the waveform.
+Then padding 8 h: "Call Summary" `caption` Medium `text/secondary` → summary `body1` `text/primary` → timestamp `micro`.
 Optional footer: 1dp `stroke/subtle` divider, 44 high centred button: share icon 18 + gap 6 + "Share" `button` `text/action`.
 
 ## 12. AI Assistant Avatar
@@ -107,15 +107,15 @@ Panel fill `bg/surface`, radius top 24, padding 20 h, 20 top, 16 bottom. Row: AI
 Width 246, fill `bg/surface`, radius 12. Padding 10 h, 12 top. Question `body1` `text/primary`. Gap 10. Five stars 28, gap 8 (filled `rating/star-filled` ⓓ, empty `rating/star-empty` ⓓ), tap to rate. Divider `stroke/subtle`. Footer 36 high centred: "Share Feedback" `button` `text/action` + chevron 16.
 
 ## 14. Action Card
-Width 268, fill `bg/surface`, radius 16, padding 8. Inner quote block (`ActionCardBody`, shared with the setup-chat instruction preview): fill `bg/primary`, radius 12, padding 8. Row: 40dp circle → gap 12 → column [title `body2` `text/primary`, quote / lines `body1`, timestamp `micro` `text/tertiary` right-aligned]. The circle holds one of:
-- **Caller category** (3D avatar, its own coloured circle): a person or business, e.g. "Dr. Mehta's Clinic Appointment" with "Tomorrow, 9:00 AM" (`text/secondary`) and "Bring previous medical reports" (`text/tertiary`).
+Width 268, fill `bg/surface`, radius 16, padding 8. Inner quote block (`ActionCardBody`, shared with the setup-chat instruction preview): fill `bg/primary`, radius 12, padding 8. Row: 40dp circle → gap 12 → column [title `body2` `text/primary`, quote / lines `body1`, timestamp `micro` `text/secondary` right-aligned]. The circle holds one of:
+- **Caller category** (3D avatar, its own coloured circle): a person or business, e.g. "Dr. Mehta's Clinic Appointment" with "Tomorrow, 9:00 AM" (`text/secondary`) and "Bring previous medical reports" (`text/secondary`).
 - **Material Symbol** in `text/action` on a `bg/surface` circle. Instructions always use `instructions` (note_stack) with two lines: "When: …" `text/primary` and "Do: …" `text/secondary`. Never a 3D category avatar.
 - **Source logo**: the coded WhatsApp logo 22 (`brand/whatsapp`), e.g. "WhatsApp · Amit Nanda" + quote.
 Actions below: stacked rows 44 high, each preceded by a 1dp `stroke/subtle` divider (full card width, bleeding to the edges), label `button` `text/action` centred (`text/danger` for destructive). Every action is a text row at equal weight, the first one ("Confirm", "Send") included: never a filled button.
 Highlight variant: card fill `action-card/highlight` (confirmations, e.g. "Instruction saved" + When / Do + "Edit rule").
 
 ## 15. Voice Input Bar (Composer)
-Row: input (fill, height 45, radius full, fill `bg/surface`, 1dp `stroke/subtle`, padding h 20, placeholder `body1` `text/tertiary`, value `body1` `text/primary`) → gap 10 → send button 45 circle.
+Row: input (fill, height 45, radius full, fill `bg/surface`, 1dp `stroke/subtle`, padding h 20, placeholder `body1` `text/secondary`, value `body1` `text/primary`) → gap 10 → send button 45 circle.
 - **Empty**: send fill `gradient/send-disabled` ⓓ, icon white, disabled.
 - **Focused/typing**: input 1dp `action/stroke/unread` + shadow `focusRing`; send fill `gradient/fab`, shadow `fab`, icon white.
 
@@ -128,7 +128,7 @@ Confirm-sheet content (centred): illustration asset 72 → gap 20 → title `tit
 Destructive button: height 45, radius full, fill `button/danger`, trash icon 18 + gap 6 + `button` `text/on-danger` ⓓ.
 
 ## 18. Context Menu (Long-press)
-Width 131 (min), fill `bg/surface`, radius 12, shadow `card`. Items 40 high, padding h 12, icon 16 `text/tertiary` + gap 10 + label `body1` `text/primary`. 1dp `stroke/subtle` divider between items. Destructive item: label & icon `text/danger`.
+Width 131 (min), fill `bg/surface`, radius 12, shadow `card`. Items 40 high, padding h 12, icon 16 `text/secondary` + gap 10 + label `body1` `text/primary`. 1dp `stroke/subtle` divider between items. Destructive item: label & icon `text/danger`.
 
 ## 19. Buttons
 - **Filled** (primary / secondary / danger / disabled): radius full. Sizes: `sm` height 24 padding h 14 `buttonSmall`; `md` height 36 padding h 20 `button`; `lg` height 45 padding h 24 `button`; `block` full width. Fill `button/primary` + `text/on-action`; secondary `button/secondary` + `text/primary` (light) ; danger `button/danger` + `text/on-danger`; disabled `button/disabled` + `text/on-action-disabled`. Optional leading/trailing icon 16 (gap 6).
@@ -155,21 +155,21 @@ Width 322, radius 24, fill `gradient/whats-new` ⓓ, padding 16. Top row: Featur
 ## Surfaces from the Typography screen inventory (derived — no visual reference)
 
 - **App Bar**: height 64, back arrow + title `subheading` + trailing actions. Selection variant = §5.
-- **Section Header**: `overline` `text/tertiary`, padding 16 h, 24 top, 8 bottom. Optional trailing `buttonSmall` action (e.g. Clear all).
-- **Settings Row**: min height 64, padding 16 h 12 v. Optional leading icon 24. Column [label `subheading` + optional NEW badge (gap 8), description `caption` (1 line Medium → `captionWrap` Regular when multi-line) `text/tertiary`] + chevron-right 20 `text/tertiary` or Switch.
+- **Section Header**: `overline` `text/secondary`, padding 16 h, 24 top, 8 bottom. Optional trailing `buttonSmall` action (e.g. Clear all).
+- **Settings Row**: min height 64, padding 16 h 12 v. Optional leading icon 24. Column [label `subheading` + optional NEW badge (gap 8), description `caption` (1 line Medium → `captionWrap` Regular when multi-line) `text/secondary`] + chevron-right 20 `text/secondary` or Switch.
 - **Toggle Row**: Settings row with a trailing Switch.
-- **AI Summary Card**: fill `bg/surface`, radius 16, padding 16. Label "Your AI Summary" `caption` `text/action` → body `bodyLarge` `text/primary` (empty: `text/tertiary`) → footer `caption` Regular `text/tertiary` right.
+- **AI Summary Card**: fill `bg/surface`, radius 16, padding 16. Label "Your AI Summary" `caption` `text/action` → body `bodyLarge` `text/primary` (empty: `text/secondary`) → footer `caption` Regular `text/secondary` right.
 - **Plan Card**: fill `plan-card/bg` ⓓ, radius 16, padding 16. "Current Plan" status pill (height 24, padding h 10, 1dp `plan-card/pill-stroke`, `caption` `text/on-dark`; expired → `text/danger`) → product name `title` `text/on-dark` + "UNLIMITED" `text/accent-gold` → price `caption` Regular `text/on-dark-secondary` (tabular) → optional "Manage plan" `buttonSmall` `text/action`.
 - **Profile Header**: name `headline` + plan badge (gap 8), phone `body1` `text/secondary` (tabular).
-- **Instruction Card**: fill `bg/surface`, radius 16, padding 16. "When" chip (height 22, padding h 8, radius 6, fill `chip/when-bg` ⓓ, `caption` `text/tertiary`) → condition `body2` → gap 12 → "Do" chip → action `body2`. Overflow menu (Edit / Delete instruction `buttonSmall`).
-- **Address Card**: label `subheading` → value `caption` Regular `text/tertiary` (wraps → captionWrap). Trailing Edit text button.
-- **Text Field**: overline label (+ `caption` Regular "(Optional)"), input height 48, radius 12, 1dp `stroke/medium`, focus 1dp `action/stroke/unread` + focusRing, value `bodyLarge` `text/primary`, placeholder `text/placeholder`, helper `caption` Regular `text/tertiary`, error `text/danger`.
-- **Search Field**: height 48, radius full, fill `bg/surface`, search icon 20 `text/tertiary`, `bodyLarge`.
+- **Instruction Card**: fill `bg/surface`, radius 16, padding 16. "When" chip (height 22, padding h 8, radius 6, fill `chip/when-bg` ⓓ, `caption` `text/secondary`) → condition `body2` → gap 12 → "Do" chip → action `body2`. Overflow menu (Edit / Delete instruction `buttonSmall`).
+- **Address Card**: label `subheading` → value `caption` Regular `text/secondary` (wraps → captionWrap). Trailing Edit text button.
+- **Text Field**: overline label (+ `caption` Regular "(Optional)"), input height 48, radius 12, 1dp `stroke/medium`, focus 1dp `action/stroke/unread` + focusRing, value `bodyLarge` `text/primary`, placeholder `text/placeholder`, helper `caption` Regular `text/secondary`, error `text/danger`.
+- **Search Field**: height 48, radius full, fill `bg/surface`, search icon 20 `text/secondary`, `bodyLarge`.
 - **Segmented Label Chips** (Home / Work / Other): height 36, padding h 16, radius full; selected fill `button/primary` + `text/on-action`; unselected 1dp `stroke/medium` + `text/secondary`; `button` token.
-- **Dialog**: width 312, radius 24, padding 24, fill `bg/surface`. Title `title` → subject `caption` `text/tertiary` → body `body1` `text/secondary` → actions right-aligned: text (revise/cancel) + filled (commit) or danger.
+- **Dialog**: width 312, radius 24, padding 24, fill `bg/surface`. Title `title` → subject `caption` `text/secondary` → body `body1` `text/secondary` → actions right-aligned: text (revise/cancel) + filled (commit) or danger.
 - **Contact Info Header**: avatar 72 → name `headline` → phone `bodyLarge` `text/secondary` (tabular) → row of icon buttons (48 circle `bg/primary`, icon 22, label `caption` `text/secondary` below): Call, Mute, Save, Share.
-- **Call History Row**: direction icon 20 → column [type `body2` "Incoming call" (missed: `text/danger`), meta `micro` Regular `text/tertiary` "Today • 30 Sec."] → time `micro` `text/tertiary`.
-- **Empty / Error State**: illustration slot 96 → title `subheading` → body `caption` Regular (wrap) `text/tertiary` → optional button.
+- **Call History Row**: direction icon 20 → column [type `body2` "Incoming call" (missed: `text/danger`), meta `micro` Regular `text/secondary` "Today • 30 Sec."] → time `micro` `text/secondary`.
+- **Empty / Error State**: illustration slot 96 → title `subheading` → body `caption` Regular (wrap) `text/secondary` → optional button.
 - **Snackbar/Toast**: fill `text/primary`, text `body1` `bg/surface`, radius 12, padding 12 h 16, optional text action `text/action` (dark: lime).
 
 ---

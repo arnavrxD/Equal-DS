@@ -59,13 +59,28 @@ function Accessibility({ data }: { data: ComponentA11y }) {
           </tbody>
         </table>
       </div>
-      {data.gaps.length > 0 && (
-        <>
-          <h2 className="s-h2">Known gaps</h2>
-          <p className="s-p">Where today’s code falls short of the rules above. Fix these before relying on the component for a new screen.</p>
-          <ul className="s-gaps">{data.gaps.map((g) => <li key={g}>{md(g)}</li>)}</ul>
-        </>
-      )}
+      {(() => {
+        const accepted = data.gaps.filter((g) => g.startsWith('Accepted brand decision'));
+        const open = data.gaps.filter((g) => !g.startsWith('Accepted brand decision'));
+        return (
+          <>
+            {open.length > 0 && (
+              <>
+                <h2 className="s-h2">Known gaps</h2>
+                <p className="s-p">Where today’s code still falls short of the rules above.</p>
+                <ul className="s-gaps">{open.map((g) => <li key={g}>{md(g)}</li>)}</ul>
+              </>
+            )}
+            {accepted.length > 0 && (
+              <>
+                <h2 className="s-h2">Accepted brand decisions</h2>
+                <p className="s-p">Brand green #00B140 is kept in light mode by product decision, although white on green and green on white are 2.85:1. These are known and intentional.</p>
+                <ul className="s-gaps is-accepted">{accepted.map((g) => <li key={g}>{md(g.replace(/^Accepted brand decision:\s*/, ''))}</li>)}</ul>
+              </>
+            )}
+          </>
+        );
+      })()}
     </>
   );
 }

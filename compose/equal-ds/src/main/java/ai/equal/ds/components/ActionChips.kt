@@ -40,7 +40,7 @@ enum class SmallActionChipStyle { Unread, Read, Outlined }
 
 /**
  * Small action chip (SPEC §9), used outside chats (chat list row 3).
- * 30 high pill, padding 8/10: emoji 16 (Unicode, [EmojiGlyph]) → 6 → `buttonSmall` label → 4 →
+ * 30 high pill, padding 8/10: emoji 12, the label size (Unicode, [EmojiGlyph]) → 6 → `buttonSmall` label → 4 →
  * chevron 14.
  * - Unread: `gradient/chip-small-unread`, 1dp `action/stroke/unread`, `glass`, label `text/action`.
  * - Read: `gradient/chip-small-read`, 1dp `stroke/subtle`, `glass`, label `text/secondary`.

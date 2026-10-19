@@ -707,13 +707,13 @@ export const aliases: AliasToken[] = [
   {
     "name": "text/gold",
     "cssVar": "--eq-text-gold",
-    "light": "#9E6A28",
+    "light": "#906024",
     "dark": "#E8BD62",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "text",
     "derived": true,
-    "why": "Colours gold labels on the paywall (coupon code, APPLY, EQUAL Unlimited) in Figma's #B4792E, which is 3.7:1 on white so it suits large or bold labels only. Darkened from Figma’s #B4792E (3.7:1) to pass AA 4.5:1 for text."
+    "why": "Colours gold labels on the paywall (coupon code, APPLY, EQUAL Unlimited) in Figma's #B4792E, which is 3.7:1 on white so it suits large or bold labels only. Darkened in the same hue from Figma’s #B4792E so it passes AA 4.5:1 on white, the paywall hero cream (#FDEFC6) and the active expiry chip."
   },
   {
     "name": "component/paywall/card-bg",
@@ -1959,6 +1959,6 @@ export const shadow = {
   "fab": "0 6px 16px rgba(0,177,64,0.30)",
   "glass": "inset 0 -2px 0 var(--eq-action-bottom-color), 0 1px 2px rgba(0,0,0,0.06)",
   "header": "0 2px 6px rgba(0,0,0,0.08)",
-  "focusRing": "0 0 0 3px rgba(0,177,64,0.12)"
+  "focusRing": "0 0 0 2px var(--eq-bg-surface), 0 0 0 4px var(--eq-text-primary)"
 } as const;
 export const motion = {"duration":{"fast":120,"base":200,"slow":320,"switchToggle":500,"couponSpring":590,"couponDelay":300,"priceDrop":600,"priceDelay":800,"shimmer":600,"shimmerDelay":1200,"buttonGlow":300,"buttonGlowDelay":800,"paymentStatus":1022,"paymentDelay":2400,"reward":6000},"easing":{"standard":"cubic-bezier(0.2, 0, 0, 1)","emphasized":"cubic-bezier(0.3, 0, 0, 1.3)","easeInOut":"cubic-bezier(0.42, 0, 0.58, 1)","spring":"cubic-bezier(0.34, 1.56, 0.64, 1)","gentle":"cubic-bezier(0.25, 0.8, 0.25, 1)","linear":"linear"},"$source":"Monetization prototype (Figma): Switch 500ms ease-in-out; Coupon spring 590ms after 300ms; Pricing / Coupon Pricing 600ms after 800ms; Shimmer 600ms after 1.2s; Button Glow 300ms after 800ms; Payment Status 1022ms gentle after 2.4s; Reward Animation 6s linear."} as const;

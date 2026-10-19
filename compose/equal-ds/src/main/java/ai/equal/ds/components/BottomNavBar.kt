@@ -40,7 +40,7 @@ enum class EqualTab { Chats, You }
  * Floating bottom navigation (SPEC §4): pill container (padding 8, `bg/surface`, shadow `nav`)
  * with two 99 × 52 capsules, plus the 58dp orb FAB beside it (gap 16).
  *
- * Selected capsule fill `nav/selected-bg`, label `text/action`. Unselected: label `text/tertiary`,
+ * Selected capsule fill `nav/selected-bg`, label `text/action`. Unselected: label `text/secondary`,
  * icon `text/secondary`. [chatsBadgeCount] > 0 shows a 16dp count badge on the Chats icon.
  * The You item is the user's [ProfileAvatar] ([avatar]) at 24dp wide, lifted 3dp.
  */

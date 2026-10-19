@@ -43,7 +43,7 @@ data class ContextMenuItem(
 
 /**
  * Long-press context menu surface (SPEC §18). Min width 131, `bg/surface`, radius 12, shadow
- * `card`. Items 48 high (the touch minimum), h12: icon 16 `text/tertiary` → 10 → label `body1` `text/primary`,
+ * `card`. Items 48 high (the touch minimum), h12: icon 16 `text/secondary` → 10 → label `body1` `text/primary`,
  * 1dp `stroke/subtle` between items. Destructive: `text/danger`.
  * Use [ContextMenuPopup] to anchor it.
  */

@@ -77,4 +77,4 @@
 
 /* Chat list rows (role=button divs): an inset focus ring that rows above and below can't cover. */
 .eq-chat-row { outline: none; }
-.eq-chat-row:focus-visible { outline: 2px solid var(--eq-text-action); outline-offset: -2px; }
+.eq-chat-row:focus-visible { outline: 2px solid var(--eq-text-primary); outline-offset: -2px; }

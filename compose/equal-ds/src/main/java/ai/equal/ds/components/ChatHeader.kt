@@ -61,7 +61,7 @@ enum class ChatHeaderVariant {
 /**
  * In-conversation header (SPEC §5). 64 high, `bg/surface`, shadow `header`, h12.
  * Back (48 target) → 4 → avatar 36 → 12 → [name `subheading`, subtitle `caption` Regular
- * `text/tertiary`] → trailing actions. Set [subtitleIsPhone] for tabular figures.
+ * `text/secondary`] → trailing actions. Set [subtitleIsPhone] for tabular figures.
  * Trailing: [ChatHeaderVariant.Default] shows call + more-options; [ChatHeaderVariant.LiveCall]
  * shows only the Takeover pill, which replaces both.
  * The avatar is the [category] image (default [EqualCategory.NA], the unknown caller), or

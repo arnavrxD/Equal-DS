@@ -71,7 +71,7 @@ import androidx.compose.ui.unit.dp
 /**
  * Pill search bar, web `SearchBar`: 52 high, `bg/surface`, 1.5dp `button/primary` outline (it is
  * the active field), back arrow inside on the left, `bodyLarge` input (placeholder
- * `text/tertiary`, caret `text/action`) and a clear × (`text/tertiary`) once there is a query.
+ * `text/secondary`, caret `text/action`) and a clear × (`text/secondary`) once there is a query.
  * Margin 8 vertical / 16 horizontal is part of the bar. [autoFocus] focuses it on first show.
  */
 @Composable
@@ -146,7 +146,7 @@ fun SearchBar(
 }
 
 /**
- * Section label, web `SearchSection`: [title] as an `overline` in `text/tertiary` (uppercased
+ * Section label, web `SearchSection`: [title] as an `overline` in `text/secondary` (uppercased
  * here), with an optional "Clear all" pill on the right (`caption`, `bg/surface`, `text/primary`).
  */
 @Composable
@@ -259,7 +259,7 @@ fun highlight(
 }
 
 /**
- * A message hit, web `MessageResult`: [name] (`subheading`) and [time] (`micro`, `text/tertiary`)
+ * A message hit, web `MessageResult`: [name] (`subheading`) and [time] (`micro`, `text/secondary`)
  * on top, then the line (`body1` Regular) with every match of [query] in Bold `text/primary`.
  * Padding 16 / 10. Separate consecutive hits with an [EqualDivider].
  */

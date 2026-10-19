@@ -31,7 +31,7 @@ import androidx.compose.ui.window.DialogProperties
 
 /**
  * Dialog surface (derived). Width 312, radius 24, padding 24, `bg/surface`. Title `title` →
- * subject `caption` `text/tertiary` → body `body1` `text/secondary` → right-aligned actions:
+ * subject `caption` `text/secondary` → body `body1` `text/secondary` → right-aligned actions:
  * text button (revise / cancel) + filled commit (or danger when [destructive]).
  * Use [EqualDialog] to show it in a window. With [onDismiss], system Back calls it too.
  */
@@ -112,7 +112,7 @@ fun EqualDialog(
 
 /**
  * Empty / error state (derived). Illustration slot 96 → title `subheading` → body `captionWrap`
- * `text/tertiary` (centred) → optional `md` button. Set [announce] when it replaces a list after
+ * `text/secondary` (centred) → optional `md` button. Set [announce] when it replaces a list after
  * a search or filter, so TalkBack reads it once (polite live region).
  */
 @Composable

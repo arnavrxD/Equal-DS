@@ -84,7 +84,7 @@ data class ContactInfoAction(val label: String, val icon: ImageVector, val onCli
 
 /**
  * Contact info header (Contact Info design, measured 1:1): [ContactAvatar] 96 ([category] image or
- * [initials]) → 10 → name 22/28 Bold → phone `bodyLarge` `text/tertiary` (tabular). Padding
+ * [initials]) → 10 → name 22/28 Bold → phone `bodyLarge` `text/secondary` (tabular). Padding
  * 8 top, 22 sides. Below (24 top), a row of equal action tiles (gap 12): 72 high, radius 8,
  * `bg/surface` (faint shadow in light; 1dp `stroke/subtle` in dark), icon 24 `text/action` → 8 →
  * label `body1` `text/primary`.

@@ -524,7 +524,7 @@ private const val PriceLandAtMillis = EqualMotion.priceDelay.toLong()
  * (gap 6), the struck [currency][was] (14sp Medium, tabular) and [period] (default "/Monthly",
  * 14sp), both `text/secondary`; under it "Saved ₹N" (`caption` Bold `text/brand`, when [price] is
  * a number below [was]) and, with [badge], a [DiscountBadge] ("Special Coupon Applied!").
- * Without [was], [period] sits under the price (`caption` Regular `text/tertiary`).
+ * Without [was], [period] sits under the price (`caption` Regular `text/secondary`).
  *
  * [animate] (Monetization local components design; pass true only when the user caused the change,
  * e.g. APPLY): the old price shows first, a 3dp `text/gold` strike line (108% wide, 52% down,
@@ -1762,7 +1762,7 @@ private val RatingShadow = EqualShadow(listOf(EqualShadowLayer(0.dp, 2.dp, 6.dp,
 /**
  * "⭐ Rated 4.5 /5" pill: 36 high, h14, radius 10, `bg/surface`, 1dp `paywall/card-stroke`,
  * shadow 0 2 6 black/6%, gap 6. Gold star 20 → "Rated" `body2` → [rating] `body2` Bold →
- * "/[outOf]" `body1` `text/tertiary`. Whole ratings drop the ".0".
+ * "/[outOf]" `body1` `text/secondary`. Whole ratings drop the ".0".
  */
 @Composable
 fun RatingPill(

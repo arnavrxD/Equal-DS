@@ -658,3 +658,4 @@ img { max-width: 100%; }
 .s-where__chip { padding: 1px 8px; border-radius: 999px; border: 1px solid var(--site-hair); color: var(--site-ink); font-size: 12px; text-decoration: none; }
 .s-where__chip:hover { border-color: var(--site-accent); }
 .s-where__chip.is-screen { border-style: dashed; color: var(--site-ink-2); }
+.s-gaps.is-accepted li { border-color: var(--site-hair); background: var(--site-slab); }

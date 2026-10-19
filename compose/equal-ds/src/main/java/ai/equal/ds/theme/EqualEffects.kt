@@ -67,9 +67,9 @@ object EqualShadows {
     /** 0 2 6 black/8% */
     val header = EqualShadow(listOf(EqualShadowLayer(0.dp, 2.dp, 6.dp, black.copy(alpha = 0.08f))))
 
-    /** focusRing: 0 0 0 3px green/12% */
-    val focusRingColor: Color = green.copy(alpha = 0.12f)
-    val focusRingWidth: Dp = 3.dp
+    /** focusRing: a 2dp gap, then a 2dp `text/primary` ring (≥ 3:1 on every surface, both themes). */
+    val focusRingGap: Dp = 2.dp
+    val focusRingWidth: Dp = 2.dp
 
     /** Inset height of the `glass` bottom edge. */
     val glassInset: Dp = 2.dp
@@ -144,16 +144,20 @@ fun Modifier.eqGlassInset(color: Color, shape: Shape): Modifier = this.drawBehin
 }
 
 /**
- * `focusRing` token: a 3dp translucent-green ring outside [shape] when [visible].
- * Put it *before* `background` in the chain.
+ * `focusRing` token: a 2dp `text/primary` ring drawn 2dp outside [shape] when [visible], so keyboard
+ * focus is clearly visible (≥ 3:1) on light and dark surfaces. Put it *before* `background` in the chain.
  */
-fun Modifier.eqFocusRing(visible: Boolean, shape: Shape): Modifier = this.drawBehind {
-    if (visible) {
-        val spread = EqualShadows.focusRingWidth.toPx()
-        val ringSize = Size(size.width + spread * 2f, size.height + spread * 2f)
-        val outline = shape.createOutline(ringSize, layoutDirection, this)
-        translate(left = -spread, top = -spread) {
-            drawOutline(outline, EqualShadows.focusRingColor)
+fun Modifier.eqFocusRing(visible: Boolean, shape: Shape): Modifier = composed {
+    val ring = EqualTheme.colors.textPrimary
+    this.drawBehind {
+        if (visible) {
+            val w = EqualShadows.focusRingWidth.toPx()
+            val spread = EqualShadows.focusRingGap.toPx() + w / 2f
+            val ringSize = Size(size.width + spread * 2f, size.height + spread * 2f)
+            val outline = shape.createOutline(ringSize, layoutDirection, this)
+            translate(left = -spread, top = -spread) {
+                drawOutline(outline, ring, style = androidx.compose.ui.graphics.drawscope.Stroke(width = w))
+            }
         }
     }
 }

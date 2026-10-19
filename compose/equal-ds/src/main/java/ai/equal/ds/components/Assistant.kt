@@ -225,7 +225,7 @@ fun AssistantActions(
 
 /**
  * "Try saying" + an example request, shown while recording. Both `title` Regular in
- * `text/tertiary`, centred (the example 22/28 in curly quotes). Padding 32 / 32 / 24, gap 14.
+ * `text/secondary`, centred (the example 22/28 in curly quotes). Padding 32 / 32 / 24, gap 14.
  */
 @Composable
 fun TrySaying(
@@ -493,7 +493,7 @@ private fun RecorderWave(state: RecorderState, color: Color, modifier: Modifier 
  *   ([seconds], `body1` tabular) and the waveform (idle: dotted line) → 52dp send ([onSend]).
  * - [RecorderState.Hold] / [RecorderState.Cancel]: hint `caption` Regular `text/secondary`
  *   ("Release to send, slide left to cancel" / "Release to cancel") above the pill with
- *   slide-left 18 + "Slide left to cancel" `body1` `text/tertiary` and the waveform
+ *   slide-left 18 + "Slide left to cancel" `body1` `text/secondary` and the waveform
  *   (`text/action`; cancel `text/danger`).
  *
  * The waveform animates while live and holds still under reduced motion.
@@ -819,7 +819,7 @@ data class ReplyAction(
  * The assistant's answer as a card in a task conversation (e.g. a drafted WhatsApp reply): max
  * width 300, radius 16, `bg/surface`, `glass` shadow (0 1 2 black/6%). Padding 10 / 12 / 6:
  * [sender] `body2` `text/action` → [text] `body1` Regular (line breaks kept) → [time] `micro`
- * `text/tertiary`, right-aligned. Then each [actions] row: full width, min 48 high, 1dp
+ * `text/secondary`, right-aligned. Then each [actions] row: full width, min 48 high, 1dp
  * `stroke/subtle` top border, emoji (14dp) → 6 → label `button` in `text/action`.
  * [body] adds rich content under the text (e.g. an [ActionCardBody]); an empty [text] is skipped.
  */

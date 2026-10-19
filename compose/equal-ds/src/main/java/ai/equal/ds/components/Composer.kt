@@ -50,7 +50,7 @@ import androidx.compose.foundation.horizontalScroll
 
 /**
  * Voice input bar / composer (SPEC §15). Input (fills, 45 high pill, `bg/surface`,
- * 1dp `stroke/subtle`, h20, `body1`; placeholder `text/tertiary`) → 10 → 45dp send button.
+ * 1dp `stroke/subtle`, h20, `body1`; placeholder `text/secondary`) → 10 → 45dp send button.
  *
  * - Empty: send uses `gradient/send-disabled` and is disabled.
  * - Focused / typing: input border `action/stroke/unread` + `focusRing`; send uses

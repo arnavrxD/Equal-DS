@@ -993,7 +993,7 @@ export const componentDocs: ComponentDoc[] = [
     importLine: "import { TextField } from '@equal/ds';",
     compose: ['EqualTextField'],
     spec: 'Surfaces from the Typography screen inventory · Text Field',
-    tokens: ['bg/surface', 'stroke/medium', 'action/stroke/unread', 'shadow/focusRing', 'text/primary', 'text/placeholder', 'text/tertiary', 'text/secondary', 'text/danger'],
+    tokens: ['bg/surface', 'stroke/medium', 'action/stroke/unread', 'shadow/focusRing', 'text/primary', 'text/placeholder', 'text/secondary', 'text/danger'],
     examples: [
       {
         title: 'Name',
@@ -1082,7 +1082,7 @@ export const componentDocs: ComponentDoc[] = [
     importLine: "import { SearchField } from '@equal/ds';",
     compose: ['SearchField'],
     spec: 'Surfaces from the Typography screen inventory · Search Field',
-    tokens: ['bg/surface', 'text/tertiary', 'text/primary', 'text/placeholder'],
+    tokens: ['bg/surface', 'text/secondary', 'text/primary', 'text/placeholder'],
     examples: [
       {
         title: 'Empty',
@@ -1199,7 +1199,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     importLine: "import { Composer } from '@equal/ds';",
     compose: ['VoiceInputBar'],
     spec: '§15 Voice Input Bar (Composer)',
-    tokens: ['bg/surface', 'stroke/subtle', 'action/stroke/unread', 'shadow/focusRing', 'gradient/send-disabled', 'gradient/fab', 'shadow/fab', 'text/tertiary', 'text/primary'],
+    tokens: ['bg/surface', 'stroke/subtle', 'action/stroke/unread', 'shadow/focusRing', 'gradient/send-disabled', 'gradient/fab', 'shadow/fab', 'text/secondary', 'text/primary'],
     examples: [
       {
         title: 'Interactive',
@@ -1255,7 +1255,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     importLine: "import { NewBadge, CountBadge, FeatureBadge, PlanBadge } from '@equal/ds';",
     compose: ['NewBadge', 'CountBadge', 'FeatureBadge', 'PlanBadge'],
     spec: '§20 Badge',
-    tokens: ['button/primary', 'text/on-action', 'bg/surface', 'badge/new-feature-stroke', 'text/secondary', 'gradient/gold', 'text/on-dark'],
+    tokens: ['button/primary', 'text/on-action', 'bg/surface', 'text/secondary', 'gradient/gold', 'text/on-dark'],
     examples: [
       {
         title: 'All badges',
@@ -1605,7 +1605,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     importLine: "import { AppBar, SectionHeader } from '@equal/ds';",
     compose: ['EqualAppBar', 'SectionHeader'],
     spec: 'Surfaces from the Typography screen inventory · App Bar, Section Header',
-    tokens: ['bg/primary', 'bg/surface', 'shadow/header', 'text/primary', 'text/tertiary'],
+    tokens: ['bg/primary', 'bg/surface', 'shadow/header', 'text/primary', 'text/secondary'],
     examples: [
       {
         title: 'Centred (flows)',
@@ -1650,7 +1650,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
       {
         component: 'SectionHeader',
         props: [
-          req('children', 'string', 'Header text; uppercased in the string (overline, text/tertiary).'),
+          req('children', 'string', 'Header text; uppercased in the string (overline, text/secondary).'),
           opt('action', 'ReactNode', undefined, 'Trailing action, e.g. a small TextButton.'),
           opt('qualifier', 'string', undefined, 'Caption Regular text after the label, e.g. "(Optional)" or a count.'),
           opt('inset', 'number', '20', 'Side padding in dp (You tab: 20).'),
@@ -1675,7 +1675,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     importLine: "import { BottomNav, Fab } from '@equal/ds';",
     compose: ['BottomNavBar', 'EqualFab'],
     spec: '§4 Tab Bar (Bottom Navigation)',
-    tokens: ['bg/surface', 'shadow/nav', 'nav/selected-bg', 'text/action', 'text/tertiary', 'text/secondary', 'button/primary', 'text/on-action'],
+    tokens: ['bg/surface', 'shadow/nav', 'nav/selected-bg', 'text/action', 'text/secondary', 'button/primary', 'text/on-action'],
     examples: [
       {
         title: 'Interactive',
@@ -1744,7 +1744,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     importLine: "import { ChatHeader, TakeoverPill, SelectionHeader, HomeHeader } from '@equal/ds';",
     compose: ['ChatHeader', 'TakeoverPill', 'SelectionChatHeader', 'HomeHeader'],
     spec: '§5 Chat Header (In-Conversation)',
-    tokens: ['bg/surface', 'bg/primary', 'shadow/header', 'gradient/takeover', 'takeover/text', 'takeover/stroke', 'action/stroke/unread', 'shadow/glass', 'text/action', 'text/primary', 'text/tertiary', 'button/danger'],
+    tokens: ['bg/surface', 'bg/primary', 'shadow/header', 'gradient/takeover', 'takeover/text', 'takeover/stroke', 'action/stroke/unread', 'shadow/glass', 'text/action', 'text/primary', 'text/secondary', 'button/danger'],
     examples: [
       {
         title: 'Default',
@@ -1849,7 +1849,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     importLine: "import { ChatListItem } from '@equal/ds';",
     compose: ['ChatListItem'],
     spec: '§6 Chat List Item',
-    tokens: ['bg/surface', 'action-card/highlight', 'state/chat-pressed', 'text/primary', 'text/secondary', 'text/action', 'text/tertiary', 'button/primary', 'text/on-action'],
+    tokens: ['bg/surface', 'action-card/highlight', 'state/chat-pressed', 'text/primary', 'text/secondary', 'text/action', 'button/primary', 'text/on-action'],
     examples: [
       {
         title: 'Unread and read',
@@ -1929,7 +1929,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     importLine: "import { ChatBubble, MessageList } from '@equal/ds';",
     compose: ['ChatBubble'],
     spec: '§11 Chat Bubbles',
-    tokens: ['chat-bubble/user-bg', 'chat-bubble/user-title', 'chat-bubble/other-bg', 'chat-bubble/contact-title', 'bg/surface', 'text/action', 'text/primary', 'text/tertiary'],
+    tokens: ['chat-bubble/user-bg', 'chat-bubble/user-title', 'chat-bubble/other-bg', 'chat-bubble/contact-title', 'bg/surface', 'text/action', 'text/primary', 'text/secondary'],
     examples: [
       {
         title: 'A call thread',
@@ -2033,7 +2033,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     importLine: "import { CallSummary, VoicePlayer } from '@equal/ds';",
     compose: ['CallSummaryBubble', 'VoiceNotePlayer'],
     spec: '§11 Chat Bubbles · Voice note + Call Summary bubble',
-    tokens: ['bg/surface', 'voice/player-bg', 'voice/player-stroke', 'stroke/subtle', 'waveform/bar', 'waveform/bar-played', 'playback/pill-bg', 'text/on-dark', 'text/tertiary', 'text/primary', 'text/action'],
+    tokens: ['bg/surface', 'voice/player-bg', 'voice/player-stroke', 'stroke/subtle', 'waveform/bar', 'waveform/bar-played', 'playback/pill-bg', 'text/on-dark', 'text/secondary', 'text/primary', 'text/action'],
     examples: [
       {
         title: 'With recording and share',
@@ -2124,7 +2124,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     components: ['MissedCallCard'],
     importLine: "import { MissedCallCard } from '@equal/ds';",
     compose: ['MissedCallCard'],
-    tokens: ['bg/surface', 'missed-call/bg', 'missed-call/stroke', 'missed-call/icon-bg', 'missed-call/icon', 'text/primary', 'text/secondary', 'text/tertiary', 'text/action', 'stroke/subtle'],
+    tokens: ['bg/surface', 'missed-call/bg', 'missed-call/stroke', 'missed-call/icon-bg', 'missed-call/icon', 'text/primary', 'text/secondary', 'text/action', 'stroke/subtle'],
     examples: [
       {
         title: 'With a reason',
@@ -2519,7 +2519,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     importLine: "import { ActionCard, ActionCardBody, instructionLines } from '@equal/ds';",
     compose: ['ActionCard'],
     spec: '§14 Action Card',
-    tokens: ['bg/surface', 'bg/primary', 'stroke/subtle', 'text/primary', 'text/secondary', 'text/tertiary', 'text/action', 'button/primary'],
+    tokens: ['bg/surface', 'bg/primary', 'stroke/subtle', 'text/primary', 'text/secondary', 'text/action', 'button/primary'],
     examples: [
       {
         title: 'WhatsApp reply',
@@ -2617,7 +2617,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     importLine: "import { WhatsNewCard } from '@equal/ds';",
     compose: ['WhatsNewCard'],
     spec: "§22 What's New Card",
-    tokens: ['whats-new/bg', 'whats-new/glow', 'badge/new-feature-stroke', 'text/action', 'text/secondary', 'text/placeholder', 'button/primary'],
+    tokens: ['whats-new/bg', 'whats-new/glow', 'text/action', 'text/secondary', 'text/placeholder', 'button/primary'],
     examples: [
       {
         title: 'Default',
@@ -3005,7 +3005,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     importLine: "import { PaymentStatusSheet, StatusCard, StatusSheet, RedirectNote } from '@equal/ds';",
     compose: ['PaymentStatusSheet', 'StatusCard', 'StatusSheet', 'RedirectNote'],
     spec: 'Monetization Flow · payment results',
-    tokens: ['gradient/status-neutral', 'gradient/status-success', 'gradient/status-warning', 'gradient/status-danger', 'gradient/status-gold', 'scrim'],
+    tokens: ['gradient/status-neutral', 'gradient/status-success', 'gradient/status-warning', 'gradient/status-danger', 'gradient/status-gold', 'bg/overlay'],
     examples: (['waiting', 'confirmed', 'pending', 'failed', 'welcome'] as const).map((s) => ({
       title: { waiting: 'Waiting for Confirmation', confirmed: 'Payment Confirmed', pending: 'Payment Pending', failed: 'Payment Failed', welcome: 'Congratulations' }[s],
       render: () => <div style={pad16}><div style={{ width: '100%' }}><PaymentStatusSheet status={s} mode="inline" onRetry={noop} onContactSupport={noop} /></div></div>,
@@ -3167,7 +3167,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     importLine: "import { DiscountBadge, PriceTag } from '@equal/ds';",
     compose: ['DiscountBadge', 'PriceTag'],
     spec: 'Monetization local components',
-    tokens: ['text/brand', 'gradient/gold-text'],
+    tokens: ['text/action', 'gradient/gold-text'],
     examples: [
       { title: 'Badges', render: () => <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}><DiscountBadge /><DiscountBadge label="Special Coupon Applied!" /></div>, code: `<DiscountBadge />
 <DiscountBadge label="Special Coupon Applied!" />` },
@@ -3189,7 +3189,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     importLine: "import { AssistantSheetShell, AssistantGreeting, AssistantActions, AssistantInput, VoiceRecorder, TrySaying, AssistantTaskHeader, AssistantThinking, AssistantReplies, CarouselDots } from '@equal/ds';",
     compose: ['AssistantSheetShell', 'AssistantGreeting', 'AssistantActions', 'AssistantInput', 'VoiceRecorder', 'TrySaying', 'AssistantTaskHeader', 'AssistantThinking', 'AssistantReplies', 'CarouselDots'],
     spec: 'Global MYA',
-    tokens: ['component/sheet/bg', 'gradient/voice-note', 'text/action', 'action/stroke/unread', 'text/danger', 'component/chat/wallpaper-bg'],
+    tokens: ['bg/primary', 'gradient/voice-note', 'text/action', 'action/stroke/unread', 'text/danger', 'component/chat/wallpaper-bg'],
     examples: [
       {
         title: 'Greeting & quick actions',
@@ -3367,7 +3367,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     importLine: "import { PaymentResult, ProcessingStrip, PaywallSheet, CouponRow, HelpFaqSheet, ExitOfferDialog, OfferStrip, HomeNoticeCard, UsageCapCard, AssistantNoticeCard, SummaryActions, LockedRecording } from '@equal/ds';",
     compose: ['PaymentResult', 'ProcessingStrip', 'PaywallSheet', 'CouponRow', 'HelpFaqSheet', 'ExitOfferDialog', 'OfferStrip', 'HomeNoticeCard', 'UsageCapCard', 'AssistantNoticeCard', 'SummaryActions', 'LockedRecording'],
     spec: 'All Payment States · Payment Pending · Home / Conversation Screen (light & dark) · Plan Expired & Usage Cap touchpoints · Recordings + Transcripts Locked · Actions on Home Page',
-    tokens: ['gradient/result-success', 'gradient/result-pending', 'gradient/result-failed', 'result/ring', 'processing/bg', 'processing/ring', 'offer-strip/bg', 'plan-badge/expired-bg', 'plan-badge/expired-stroke', 'gradient/expired-badge'],
+    tokens: ['gradient/status-success', 'gradient/status-warning', 'gradient/status-danger', 'sunburst/ray', 'expiry-banner/warning-bg', 'text/gold', 'plan-badge/expired-bg', 'plan-badge/expired-stroke', 'gradient/expired-badge'],
     examples: [
       {
         title: 'Payment results',
@@ -3447,7 +3447,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     importLine: "import { SearchBar, SearchSection, RecentSearches, MessageResult, LoadingDots, SearchState } from '@equal/ds';",
     compose: ['SearchBar', 'SearchSection', 'RecentSearches', 'MessageResult', 'LoadingDots', 'SearchState'],
     spec: 'Search',
-    tokens: ['button/primary', 'bg/surface', 'text/tertiary', 'text/primary'],
+    tokens: ['button/primary', 'bg/surface', 'text/secondary', 'text/primary'],
     examples: [
       { title: 'Search bar', width: 390, render: () => <div style={{ width: '100%' }}><SearchBar value="" /><SearchBar value="Sa" /></div>, code: `<SearchBar value={q} onChange={setQ} onBack={goBack} autoFocus />` },
       { title: 'Recent searches', width: 390, render: () => <div style={{ width: '100%' }}><SearchSection title="Recent searches" onClear={noop} /><RecentSearches items={[{ label: 'Amit Nanda', category: 'career' }, { label: 'Shankar', category: 'ride' }, { label: 'DSR Builder', category: 'financial' }]} /></div>, code: `<SearchSection title="Recent searches" onClear={clearRecent} />
@@ -3482,7 +3482,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     importLine: "import { AiTurn, HoldToSpeakBar, EditBubble, NewContactForm, PermissionDialog, OfflineSheet, OfflineScreen } from '@equal/ds';",
     compose: ['AiTurn', 'HoldToSpeakBar', 'EditBubble', 'NewContactForm', 'PermissionDialog', 'OfflineSheet', 'OfflineScreen', 'DialerStandIn'],
     spec: 'Flows/Call Back · Mute · Reply On WhatsApp · Save Contact · Error states',
-    tokens: ['button/primary', 'bg/surface', 'gradient/offline-screen', 'action/stroke/unread'],
+    tokens: ['button/primary', 'bg/surface', 'chat/wallpaper-bg', 'action/stroke/unread'],
     examples: [
       { title: 'Assistant turn', width: 390, render: () => <div style={{ padding: 16, width: '100%', boxSizing: 'border-box', background: 'var(--eq-chat-wallpaper-bg)' }}><AiTurn actions={[{ label: 'Mute', emoji: '🔕' }]}>Are you sure? You’ll not get any call from them even if it’s important</AiTurn></div>, code: `<AiTurn actions={[{ label: 'Mute', emoji: '🔕', onClick: mute }]}>Are you sure? …</AiTurn>` },
       { title: 'Hold to speak', width: 390, render: () => <div style={{ padding: 16, width: '100%', boxSizing: 'border-box', background: 'var(--eq-bg-primary)' }}><HoldToSpeakBar /></div>, code: `<HoldToSpeakBar onHold={record} onKeyboard={showKeyboard} />` },
@@ -3559,7 +3559,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     importLine: "import { BottomSheet, ConfirmSheetContent, FullSheet } from '@equal/ds';",
     compose: ['EqualBottomSheet', 'ConfirmSheetContent', 'FullSheet'],
     spec: '§17 Bottom Sheet',
-    tokens: ['scrim', 'sheet/bg', 'bg/surface', 'shadow/raised', 'text/secondary', 'text/primary', 'button/danger', 'text/on-danger', 'chat/wallpaper-bg'],
+    tokens: ['bg/overlay', 'bg/primary', 'bg/surface', 'shadow/raised', 'text/secondary', 'text/primary', 'button/danger', 'text/on-danger', 'chat/wallpaper-bg'],
     examples: [
       {
         title: 'Delete confirm (inline)',
@@ -3690,7 +3690,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     importLine: "import { Dialog, Snackbar } from '@equal/ds';",
     compose: ['EqualDialog', 'EqualDialogContent', 'EqualSnackbar'],
     spec: 'Surfaces from the Typography screen inventory · Dialog, Snackbar/Toast',
-    tokens: ['bg/surface', 'shadow/nav', 'scrim', 'text/primary', 'text/secondary', 'text/tertiary', 'button/primary', 'button/danger', 'button/secondary'],
+    tokens: ['bg/surface', 'shadow/nav', 'bg/overlay', 'text/primary', 'text/secondary', 'button/primary', 'button/danger', 'button/secondary'],
     examples: [
       {
         title: 'Inline',
@@ -3741,7 +3741,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
         props: [
           req('open', 'boolean', 'Visibility in overlay mode (inline always renders).'),
           req('title', 'string', 'Question (title token).'),
-          opt('subject', 'string', undefined, 'What it applies to (caption, text/tertiary).'),
+          opt('subject', 'string', undefined, 'What it applies to (caption, text/secondary).'),
           opt('body', 'ReactNode', undefined, 'Consequence (body1, text/secondary).'),
           req('confirmLabel', 'string', 'Filled commit label.'),
           opt('cancelLabel', 'string', "'Cancel'", 'Neutral text action label.'),
@@ -3779,7 +3779,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     importLine: "import { ContextMenu, OverflowMenu } from '@equal/ds';",
     compose: ['ContextMenu', 'ContextMenuPopup', 'OverflowMenu'],
     spec: '§18 Context Menu (Long-press)',
-    tokens: ['bg/surface', 'shadow/card', 'stroke/subtle', 'text/primary', 'text/tertiary', 'text/danger'],
+    tokens: ['bg/surface', 'shadow/card', 'stroke/subtle', 'text/primary', 'text/secondary', 'text/danger'],
     examples: [
       {
         title: 'Chat long-press',
@@ -3855,7 +3855,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     importLine: "import { SettingsRow, ToggleRow, RowGroup } from '@equal/ds';",
     compose: ['SettingsRow', 'ToggleRow', 'RowGroup'],
     spec: 'You tab · Settings row',
-    tokens: ['bg/surface', 'stroke/subtle', 'text/primary', 'text/tertiary', 'text/placeholder', 'button/primary'],
+    tokens: ['bg/surface', 'stroke/subtle', 'text/primary', 'text/secondary', 'text/placeholder', 'button/primary'],
     examples: [
       {
         title: 'You tab group',
@@ -3910,7 +3910,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
         component: 'SettingsRow',
         props: [
           req('label', 'string', 'Row label (subheading).'),
-          opt('description', 'ReactNode', undefined, 'Secondary line (caption, text/tertiary).'),
+          opt('description', 'ReactNode', undefined, 'Secondary line (caption, text/secondary).'),
           opt('wrap', 'boolean', undefined, 'Let the description wrap; switches it to captionWrap (Regular, 18 line height).'),
           opt('icon', 'IconName', undefined, 'Leading 24dp icon.'),
           opt('iconBg', 'string', undefined, 'Puts the icon (20dp) in a 36dp circle of this colour, e.g. var(--eq-preset-tint-lime) on Active Instructions.'),
@@ -3954,7 +3954,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     importLine: "import { CallHistoryList, CallHistoryRow } from '@equal/ds';",
     compose: ['CallHistoryList', 'CallHistoryRow'],
     spec: 'Contact Info · Call history',
-    tokens: ['bg/surface', 'stroke/subtle', 'stroke/medium', 'text/primary', 'text/secondary', 'text/tertiary', 'text/danger'],
+    tokens: ['bg/surface', 'stroke/subtle', 'stroke/medium', 'text/primary', 'text/secondary', 'text/danger'],
     examples: [
       {
         title: 'Directions',
@@ -3993,7 +3993,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
         component: 'CallHistoryRow',
         props: [
           req('direction', "'incoming' | 'outgoing' | 'missed'", 'Sets the icon and label (Incoming Call / Outgoing Call / Missed Call). Only the missed icon is red.'),
-          req('meta', 'string', 'Meta line (11sp Regular, text/tertiary), e.g. "Today • 30 Sec.".'),
+          req('meta', 'string', 'Meta line (11sp Regular, text/secondary), e.g. "Today • 30 Sec.".'),
           req('time', 'string', 'Time (body1, text/secondary).'),
           opt('trailing', 'ReactNode', undefined, 'Content after the time.'),
         ],
@@ -4017,7 +4017,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     importLine: "import { EmptyState, IllustrationHeader } from '@equal/ds';",
     compose: ['EmptyState', 'IllustrationHeader'],
     spec: 'Surfaces from the Typography screen inventory · Empty / Error State',
-    tokens: ['text/primary', 'text/tertiary', 'button/primary'],
+    tokens: ['text/primary', 'text/secondary', 'button/primary'],
     examples: [
       {
         title: 'Addresses empty',
@@ -4053,7 +4053,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
         component: 'EmptyState',
         props: [
           req('title', 'string', 'Title (subheading).'),
-          opt('body', 'string', undefined, 'Body (captionWrap, text/tertiary, max 260dp).'),
+          opt('body', 'string', undefined, 'Body (captionWrap, text/secondary, max 260dp).'),
           opt('illustration', 'AssetName', undefined, '96dp illustration.'),
           opt('actionLabel', 'string', undefined, 'Shows a filled Button.'),
           opt('onAction', '() => void', undefined, 'Button handler.'),
@@ -4203,7 +4203,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     importLine: "import { AiSummaryCard } from '@equal/ds';",
     compose: ['AiSummaryCard'],
     spec: 'You tab · AI Summary card',
-    tokens: ['gradient/ai-summary', 'skeleton', 'text/primary', 'text/secondary', 'text/tertiary'],
+    tokens: ['gradient/ai-summary', 'stroke/subtle', 'text/primary', 'text/secondary'],
     examples: [
       {
         title: 'Ready',
@@ -4475,7 +4475,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     importLine: "import { AddressCard, AddressForm, formatAddress } from '@equal/ds';",
     compose: ['AddressCard', 'AddressForm'],
     spec: 'Flows · Addresses',
-    tokens: ['bg/surface', 'text/primary', 'text/secondary', 'text/tertiary', 'text/danger', 'chip/selected-bg', 'button/primary'],
+    tokens: ['bg/surface', 'text/primary', 'text/secondary', 'text/danger', 'chip/selected-bg', 'button/primary'],
     examples: [
       {
         title: 'Saved addresses',
@@ -4551,7 +4551,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     importLine: "import { RecommendedCard, SuggestionsComingCard, PresetCard, PresetInstructionCard, InstructionCard, WhenDoRow, InstructionPreview } from '@equal/ds';",
     compose: ['RecommendedCard', 'SuggestionsComingCard', 'PresetCard', 'PresetInstructionCard', 'InstructionCard', 'WhenDoRow', 'InstructionPreview'],
     spec: 'Flows · Instructions · Instruction Card',
-    tokens: ['bg/surface', 'chip/when-bg', 'chip/do-bg', 'preset/tint-green', 'preset/tint-blue', 'preset/tint-orange', 'preset/tint-lime', 'gradient/suggestion-card', 'text/primary', 'text/secondary', 'text/tertiary', 'text/action', 'button/primary'],
+    tokens: ['bg/surface', 'chip/when-bg', 'chip/do-bg', 'preset/tint-green', 'preset/tint-blue', 'preset/tint-orange', 'preset/tint-lime', 'gradient/suggestion-card', 'text/primary', 'text/secondary', 'text/action', 'button/primary'],
     examples: [
       {
         title: 'Recommended for you',

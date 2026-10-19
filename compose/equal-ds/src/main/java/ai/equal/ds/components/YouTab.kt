@@ -432,7 +432,7 @@ enum class AiSummaryStatus { Empty, Loading, Ready }
  * - Loading: five full-width 17dp `skeleton` bars (gap 4) pulsing 0.95 ↔ 0.45 over 1.4s,
  *   staggered 90ms (still under reduced motion); TalkBack hears "Summary is updating".
  * - Ready: [summary] in `bodyLarge` `text/primary`.
- * Footer, right-aligned `caption` Regular `text/tertiary`: [footer], or by default
+ * Footer, right-aligned `caption` Regular `text/secondary`: [footer], or by default
  * "Last Updated: [lastUpdated]" while loading and "Usually ready after your first few calls"
  * otherwise.
  */

@@ -74,7 +74,7 @@ enum class VoicePlayerTone {
  * [background] have none.
  * Play/pause 22 `text/secondary` → 8 → waveform (fills) → 8 → speed pill (22 high, h8,
  * `playback/pill-bg`, `caption` `text/on-dark`, tabular; tap cycles). Elapsed and total `micro`
- * `text/tertiary` sit under the two ends of the waveform (gap 4).
+ * `text/secondary` sit under the two ends of the waveform (gap 4).
  *
  * The play button and pill are smaller than 48dp visually; each has a 48dp touch and TalkBack
  * area ([touchTarget]) that spills past it without changing the layout. [background] replaces the fill (the gold wash of a
@@ -192,7 +192,7 @@ fun VoiceNotePlayer(
 /**
  * Voice note + call summary bubble (SPEC §11). Width 268, `bg/surface`, radius 16.
  * [voiceNote] (usually a [VoiceNotePlayer]) sits with an 8dp margin; then h8: "Call Summary"
- * `caption` `text/tertiary` → summary `body1` → a row with the optional [tag] pill on the left and
+ * `caption` `text/secondary` → summary `body1` → a row with the optional [tag] pill on the left and
  * the timestamp `micro` on the right (6 above); the row is skipped when both are null. The tag pill is 24 high, h10, 1dp `stroke/subtle`,
  * `bg/surface`, emoji 12 + `caption` `text/secondary` (e.g. 🪄 Instruction Applied).
  * With [onShareClick] a footer appears: 1dp divider + 48-high centred "Share"

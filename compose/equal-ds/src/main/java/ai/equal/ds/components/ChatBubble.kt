@@ -48,7 +48,7 @@ private val BubbleMaxWidth = 264.dp
 /**
  * Chat bubble (SPEC §11). Max width 264, radius 12, padding 8 top / 10 h / 6 bottom.
  * Sender `body2` (first of group only) → message `body1` `text/primary` → timestamp `micro`
- * `text/tertiary` right-aligned, gap 2.
+ * `text/secondary` right-aligned, gap 2.
  *
  * Grouping: for consecutive bubbles from the same sender pass `isFirstInGroup = false` and lay
  * them out with a 4dp gap; the avatar and sender line appear only on the first. [tail] draws an

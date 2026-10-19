@@ -38,7 +38,7 @@ enum class ChatListItemState { Unread, Read, Selected }
  * Chat list row (SPEC §6). Padding 16 h / 12 v, `bg/surface` (selected: `action-card/highlight`).
  * Avatar 48 ([category] image, default [EqualCategory.NA]; or [initials] for a saved contact)
  * → 16 → column:
- * 1. name `subheading` + date `micro` (`text/action` when unread, else `text/tertiary`);
+ * 1. name `subheading` + date `micro` (`text/action` when unread, else `text/secondary`);
  * 2. preview `body1` `text/secondary` + unread count (20, `button/primary`);
  * 3. (gap 8) horizontally scrolling [SmallActionChip]s, gap 12, clipped at the right edge.
  *

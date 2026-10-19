@@ -55,7 +55,7 @@ enum class TextFieldAlign { Start, Center }
 
 /**
  * Text field (derived), matching web `TextField`.
- * - Optional [label]: `overline` `text/tertiary`, uppercased, with `*` when [required], plus a
+ * - Optional [label]: `overline` `text/secondary`, uppercased, with `*` when [required], plus a
  *   `caption` Regular "(Optional)" when [optional]. Omit it for fields that share a group label
  *   (then pass [contentDescription]).
  * - Input: min height 48, `bg/surface`, 12dp corners on every text field, padding 12 / 14. No
@@ -168,7 +168,7 @@ fun EqualTextField(
 }
 
 /**
- * Search field (derived). 48 high pill, `bg/surface`, search icon 20 `text/tertiary`, `bodyLarge`.
+ * Search field (derived). 48 high pill, `bg/surface`, search icon 20 `text/secondary`, `bodyLarge`.
  * [onActivate]: Home uses the field as an entry point; tapping it opens the search screen instead
  * of taking input.
  */

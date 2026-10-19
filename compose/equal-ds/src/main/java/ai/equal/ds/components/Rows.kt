@@ -43,7 +43,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 /**
- * Section header (derived). `overline` `text/tertiary` (uppercased in the string), padding
+ * Section header (derived). `overline` `text/secondary` (uppercased in the string), padding
  * [inset] h (default 20, the You tab inset), 24 top, 12 bottom. Optional trailing `buttonSmall`
  * `text/action` action (e.g. "Clear all").
  */
@@ -93,7 +93,7 @@ fun SectionHeader(
 
 /**
  * Settings row (derived). Min height 64, padding 16 h / 12 v. Optional leading icon 24 →
- * column [label `subheading` (+ NEW badge, gap 8), description `text/tertiary`] → trailing.
+ * column [label `subheading` (+ NEW badge, gap 8), description `text/secondary`] → trailing.
  * Description is `caption` Regular on one line; set [descriptionWraps] to switch to `captionWrap`.
  * Leading icon tint `text/primary`; [showNewBadge] adds the solid green [NewBadge].
  * Trailing defaults to a 22dp `text/placeholder` chevron; pass [trailing] to replace it (e.g. a
@@ -257,7 +257,7 @@ enum class CallDirection { Incoming, Outgoing, Missed }
  * Call history row (Contact Info design): min height 63, padding 0 / 21 / 0 / 22, `bg/surface`.
  * Direction icon 24 (phone incoming / outgoing / missed; missed in `text/danger`, others
  * `text/primary`) → 10 → [label "Incoming Call" / "Outgoing Call" / "Missed Call", `bodyLarge`
- * `text/primary` (never red); [meta] 11sp Regular `text/tertiary`] → [time] `body1`
+ * `text/primary` (never red); [meta] 11sp Regular `text/secondary`] → [time] `body1`
  * `text/secondary`. Put rows in a [CallHistoryList]. [onCallClick] adds a trailing call button.
  */
 @Composable
