@@ -5,6 +5,7 @@ import ai.equal.ds.assets.EqualAssetImage
 import ai.equal.ds.assets.EqualAssets
 import ai.equal.ds.icons.EqualIcon
 import ai.equal.ds.icons.EqualIcons
+import ai.equal.ds.theme.DmSans
 import ai.equal.ds.theme.EqualShadows
 import ai.equal.ds.theme.EqualTheme
 import ai.equal.ds.theme.eqShadow
@@ -78,7 +79,7 @@ fun StatusBar(
             text = time,
             style = TextStyle(
                 color = tint,
-                fontFamily = FontFamily.Default,
+                fontFamily = DmSans,
                 fontWeight = FontWeight.Medium,
                 fontSize = 14.sp,
                 lineHeight = 20.sp,

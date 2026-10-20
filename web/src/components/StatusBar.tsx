@@ -16,7 +16,7 @@ export function StatusBar({ time = '12:30', background = 'var(--eq-bg-primary)',
   return (
     // A mock of the system bar: hidden from screen readers (the time is fake).
     <div aria-hidden style={{ width: '100%', boxSizing: 'border-box', height: STATUS_BAR_HEIGHT, padding: '0 24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', background, color, flexShrink: 0 }}>
-      <Text variant="inherit" color="none" className="eq-tnum" style={{ fontFamily: 'Roboto, "Google Sans", system-ui, sans-serif', fontSize: 14, lineHeight: '20px', fontWeight: 500, letterSpacing: '0.1px' }}>{time}</Text>
+      <Text variant="inherit" color="none" className="eq-tnum" style={{ fontSize: 14, lineHeight: '20px', fontWeight: 500, letterSpacing: '0.1px' }}>{time}</Text>
       <span style={{ display: 'flex', alignItems: 'center', gap: 4 }}>
         <Icon name="wifi" size={18} />
         <Icon name="signal" size={18} />

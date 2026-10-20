@@ -18,7 +18,8 @@ When a design and the system disagree, check it first; when a rule changes, upda
 
 **Type and colour**
 - **Typography:** DM Sans only, through the 12 type tokens (`<Text variant>` / `EqualTheme.type`).
-  Nothing is set in Lora or any other font. Weights: 400, 500, 600 (SemiBold) and 700.
+  Nothing is set in Lora, Roboto, the system font or any other font, not even in system mocks (status
+  bar clock, dialer). Weights: 400, 500, 600 (SemiBold) and 700.
 - **Colour:** only tokens. Never put a hex value in a component. Colours follow the Figma library’s
   “Colours” set: text black 80 / 60 / 40 / 20 % (primary, secondary, placeholder, disabled), strokes
   black 5 / 8 / 32 %, page `#FAFAFA`. A colour at x % is written as the colour-guide colour plus
@@ -47,7 +48,8 @@ When a design and the system disagree, check it first; when a rule changes, upda
 - **Premium (monetization) surfaces:** perk icons are *filled* Material Symbols at 16 dp, painted
   with the gold radial gradient `premium-icon/start` → `premium-icon/end` (`<PremiumIcon>` /
   `PremiumIcon`). Light premium cards sit on the `premium-glow` art; dark ones use the coded
-  black-gold gradient. Gold CTAs use `gradient/cta-gold`. Most monetization values (price, coupon, copy, entry point) are experiments: keep them as props.
+  black-gold gradient. Gold CTAs use `gradient/cta-gold`. Gold (buttons, text, badges) is only for subscription surfaces:
+  paywall, plan, renewal, payment. Most monetization values (price, coupon, copy, entry point) are experiments: keep them as props.
 - **Mascots:** the green mascot illustrations are generated to order. When a screen needs a new one,
   ask for it and show a placeholder.
 
@@ -194,6 +196,8 @@ Done means: typecheck clean, `--check` passes, Gradle BUILD SUCCESSFUL, and lint
 - **Unlimited is ₹249; with EQUAL25 it is ₹149.** Why: Today’s default, confirmed by product; price and coupon are experiment props (price, discountedPrice). The coupon row says “Save Flat ₹100”, and the price drop animates only when the user taps APPLY. (Source: Product decision)
 - **The plan value card shows ₹39 with ₹49 struck through.** Why: The value designs show both orders; ₹39 / ₹49 was confirmed. (Source: Product decision)
 - **🎊 LIMITED TIME DISCOUNT stays an emoji, not art.** Why: Confirmed by design: it is copy, not an illustration. (Source: Design decision)
+- **Gold is only for subscription: paywall, plan, renewal, payment and anything else about Equal AI Unlimited.** Why: Gold means “premium”. Keeping it to subscription surfaces makes it a reliable signal and keeps the rest of the app green. Its white-on-gold contrast at the sheen is an accepted brand decision, like brand green. (Source: Product owner)
+- **Every piece of text is DM Sans, including system mocks.** Why: One family everywhere. Even the mock status bar clock, the dialer stand-in and the call-handling device bar use DM Sans, not Roboto or the system font. (Source: Product owner)
 - **Lock content, never identity.** Why: Free users still see who called and when; only the content (bubbles, recording, actions) is blurred or crown-locked. Hiding the caller would make the app useless, not tempting. (Source: Product)
 - **While a payment is processing, every surface says so and the paywall button is disabled.** Why: UPI confirmations can take minutes. Without this, users who close the pending page pay twice. (Source: Design: If User Closes the payment pending page)
 - **The exit offer appears once per session.** Why: Offering the coupon when someone leaves converts; offering it every time trains people to leave first. (Source: System guidance (not yet enforced in code))
@@ -353,7 +357,7 @@ Accessibility:
 Known accessibility gaps:
 - Accepted brand decision: Button.css / Buttons.kt white label on button/primary #00B140 is 2.85:1 in light mode, below 4.5:1 for 14sp text.
 - Accepted brand decision: Button.css / Buttons.kt TextButton tone 'action' and the Outline variant (text/action #00B140 on white) are 2.85:1 in light mode.
-- Button.css / Buttons.kt: the Gold variant's white label on gradient/cta-gold drops to 2.3:1 at the #C8A774 stop (4.2:1 at #A37236), below 4.5:1.
+- Accepted brand decision (premium gold, subscription surfaces only): button.css / Buttons.kt: the Gold variant's white label on gradient/cta-gold drops to 2.3:1 at the #C8A774 stop (4.2:1 at #A37236), below 4.5:1.
 - Buttons.kt: EqualTextButton and EqualIconButton use indication = null with no eqFocusRing, so hardware-keyboard focus is invisible (only EqualButton draws a ring).
 - Buttons.kt: EqualIconButton Neutral and Glass ignore enabled = false visually (same fill and tint), while web dims IconButton to 40%.
 
@@ -1994,7 +1998,7 @@ Accessibility:
 
 Known accessibility gaps:
 - Accepted brand decision: Badge.css / Badges.kt NewBadge solid (white on #00B140, 2.85:1) and soft (text/action on action-card/highlight #D3FEE3, 2.6:1) fail 4.5:1 for 10sp text in light mode.
-- Badge.css / Badges.kt: PlanBadge white text on gradient/gold is 3.0–4.2:1 in both themes, below 4.5:1 for 10sp text.
+- Accepted brand decision (premium gold, subscription surfaces only): badge.css / Badges.kt: PlanBadge white text on gradient/gold is 3.0–4.2:1 in both themes, below 4.5:1 for 10sp text.
 - MonetizationExperiments.css / Badges.kt: the expired PlanBadge's white label sits on the #E4918C middle stop of gradient/expired-badge, 2.4:1.
 
 Example: All badges
@@ -3586,7 +3590,7 @@ Accessibility:
 - Motion. Web: Static; the price drop above it animates in PriceTag (off under reduced motion). Android: Static.
 
 Known accessibility gaps:
-- The gradient/gold-text discount line runs from #FFB251 (1.8:1 on white) to #603600, so the top of the 30 px text falls under 3:1 even as large text (Monetization.css .eq-gold-text, Monetization.kt GoldText).
+- Accepted brand decision (premium gold, subscription surfaces only): the gradient/gold-text discount line runs from #FFB251 (1.8:1 on white) to #603600, so the top of the 30 px text falls under 3:1 even as large text (Monetization.css .eq-gold-text, Monetization.kt GoldText).
 
 Example: Available
 ```tsx
@@ -3649,7 +3653,7 @@ Accessibility:
 
 Known accessibility gaps:
 - Accepted brand decision: the text/action label and Saved line, and the seal's white text on text/action, are 2.85:1 in light theme (Monetization.tsx and Monetization.kt).
-- PriceTag price (gradient/gold-text, .eq-gold-text in Monetization.css and GoldText in Monetization.kt) starts at #FFB251, 1.8:1 on white, so the light part of the 44 px glyphs is below 3:1 for large text.
+- Accepted brand decision (premium gold, subscription surfaces only): priceTag price (gradient/gold-text, .eq-gold-text in Monetization.css and GoldText in Monetization.kt) starts at #FFB251, 1.8:1 on white, so the light part of the 44 px glyphs is below 3:1 for large text.
 
 Example: Badges
 ```tsx
@@ -3869,7 +3873,7 @@ Accessibility:
 
 Known accessibility gaps:
 - Accepted brand decision: UnlockAudioPill (Monetization.tsx/.css and Monetization.kt) puts white text on button/primary #00B140, 2.85:1 in light theme.
-- The gold CTA on UnlockDetailsCard (Button gold, Button.css and Buttons.kt) puts a white label on gradient/cta-gold, 4.2:1 at #A37236 falling to 2.3:1 at #C8A774; the label needs 4.5:1 throughout.
+- Accepted brand decision (premium gold, subscription surfaces only): the gold CTA on UnlockDetailsCard (Button gold, Button.css and Buttons.kt) puts a white label on gradient/cta-gold, 4.2:1 at #A37236 falling to 2.3:1 at #C8A774; the label needs 4.5:1 throughout.
 - LockedContent in Monetization.kt: Modifier.blur is a no-op below API 31, so locked content is drawn readable on older Android (documented as an accepted degradation).
 
 Example: Locked chat rows
@@ -4065,8 +4069,8 @@ Accessibility:
 - Motion. Web: Crown sway, gold CTA sheen and glow, the price drop and the badge pop all stop under prefers-reduced-motion, and PriceTag shows the final price at once. Android: Crown, sheen, glow, price drop and badge pop all hold still when rememberReduceMotion() is true.
 
 Known accessibility gaps:
-- The white CTA label on gradient/cta-gold is 4.2:1 at the dark stop and about 2.3:1 at the #C8A774 sheen, below 4.5:1 for 14 px text (Button.css, Buttons.kt, tokens.json).
-- The gradient/gold-text price runs from #FFB251 (1.8:1 on white) to #603600, so the top of the 44 px digits falls under 3:1 even as large text (Monetization.css .eq-gold-text, Monetization.kt GoldText).
+- Accepted brand decision (premium gold, subscription surfaces only): the white CTA label on gradient/cta-gold is 4.2:1 at the dark stop and about 2.3:1 at the #C8A774 sheen, below 4.5:1 for 14 px text (Button.css, Buttons.kt, tokens.json).
+- Accepted brand decision (premium gold, subscription surfaces only): the gradient/gold-text price runs from #FFB251 (1.8:1 on white) to #603600, so the top of the 44 px digits falls under 3:1 even as large text (Monetization.css .eq-gold-text, Monetization.kt GoldText).
 - Accepted brand decision: "Saved ₹N" and the DiscountBadge label use text/action #00B140 on white (2.85:1) in light (Monetization.tsx, Monetization.kt).
 
 Example: Hero with price and preview
@@ -4209,7 +4213,7 @@ Accessibility:
 
 Known accessibility gaps:
 - HomeNoticeCard usage bar in MonetizationExperiments.kt only sets contentDescription 'N% used', not progressBarRangeInfo, so TalkBack doesn't announce it as a progress bar (web uses role=progressbar).
-- Gold CTAs (PaywallSheet Unlock, ExitOfferDialog Claim 25% Off; Button gold in Button.css and Buttons.kt) put white on gradient/cta-gold, 4.2:1 falling to 2.3:1; the label needs 4.5:1.
+- Accepted brand decision (premium gold, subscription surfaces only): gold CTAs (PaywallSheet Unlock, ExitOfferDialog Claim 25% Off; Button gold in Button.css and Buttons.kt) put white on gradient/cta-gold, 4.2:1 falling to 2.3:1; the label needs 4.5:1.
 - Accepted brand decision: primary buttons and text/action labels (Refresh Status, Retry payment, AssistantNoticeCard CTA, unlocked SummaryActions, the usage bar fill) are 2.85:1 in light theme.
 
 Example: Payment results
@@ -4461,8 +4465,8 @@ Accessibility:
 
 Known accessibility gaps:
 - TestimonialCarousel track in Monetization.tsx is not focusable and has no controls, so keyboard users can't reach later testimonials; no platform announces the page position.
-- StatBlock in Monetization.tsx paints text with background-clip and color: transparent (.eq-gold-text), so it disappears in forced-colors / high-contrast mode.
-- StatBlock's gradient/gold-text (Monetization.css and GoldText in Monetization.kt) starts at #FFB251, 1.8:1 on white, so the light part of the 52 px stat is below 3:1.
+- Accepted brand decision (premium gold, subscription surfaces only): statBlock in Monetization.tsx paints text with background-clip and color: transparent (.eq-gold-text), so it disappears in forced-colors / high-contrast mode.
+- Accepted brand decision (premium gold, subscription surfaces only): statBlock's gradient/gold-text (Monetization.css and GoldText in Monetization.kt) starts at #FFB251, 1.8:1 on white, so the light part of the 52 px stat is below 3:1.
 - RatingPill in Monetization.tsx reads 'Rated 4.5 /5' from separate spans; Monetization.kt already says 'Rated 4.5 out of 5'.
 
 Example: Stat and rating
@@ -4565,7 +4569,7 @@ Accessibility:
 - Motion. Web: Sheet slides up (motion.slow); gold CTA sheen and glow; all stop under prefers-reduced-motion. Android: The ValueSheet slide-up and fade and the gold CTA sheen/glow are static under rememberReduceMotion().
 
 Known accessibility gaps:
-- ValueSheet gold CTAs (Button gold, Button.css / Monetization.css and Buttons.kt): white on gradient/cta-renew falls to 2.2:1 at #D1A85C, and white on gradient/cta-gold to 2.3:1 at #C8A774; the label needs 4.5:1.
+- Accepted brand decision (premium gold, subscription surfaces only): valueSheet gold CTAs (Button gold, Button.css / Monetization.css and Buttons.kt): white on gradient/cta-renew falls to 2.2:1 at #D1A85C, and white on gradient/cta-gold to 2.3:1 at #C8A774; the label needs 4.5:1.
 
 Example: Sheet
 ```tsx
@@ -4973,7 +4977,7 @@ Accessibility:
 - Motion. Web: None. Android: None.
 
 Known accessibility gaps:
-- TopBar.tsx / HomeChrome.kt: the paid PlanBadge has white text on gradient/gold at 3.0–4.2:1, below 4.5:1.
+- Accepted brand decision (premium gold, subscription surfaces only): topBar.tsx / HomeChrome.kt: the paid PlanBadge has white text on gradient/gold at 3.0–4.2:1, below 4.5:1.
 - TopBar.tsx / HomeChrome.kt: the expired PlanBadge's white label drops to 2.4:1 on the #E4918C middle stop of gradient/expired-badge.
 
 Example: Default
@@ -5657,7 +5661,7 @@ Accessibility:
 - Motion. Web: None, apart from the eq-pressable press scale on Edit, which is 0ms under reduced motion. Android: None, apart from the press indication.
 
 Known accessibility gaps:
-- PlanBadge (Badge.css / Badges.kt): white 10sp text on gradient/gold (#A37236 → #B58D55) is 3.0–4.2:1, below 4.5:1.
+- Accepted brand decision (premium gold, subscription surfaces only): planBadge (Badge.css / Badges.kt): white 10sp text on gradient/gold (#A37236 → #B58D55) is 3.0–4.2:1, below 4.5:1.
 
 Example: You tab hero with plan card
 ```tsx

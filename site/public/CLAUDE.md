@@ -14,7 +14,8 @@ When a design and the system disagree, check it first; when a rule changes, upda
 
 **Type and colour**
 - **Typography:** DM Sans only, through the 12 type tokens (`<Text variant>` / `EqualTheme.type`).
-  Nothing is set in Lora or any other font. Weights: 400, 500, 600 (SemiBold) and 700.
+  Nothing is set in Lora, Roboto, the system font or any other font, not even in system mocks (status
+  bar clock, dialer). Weights: 400, 500, 600 (SemiBold) and 700.
 - **Colour:** only tokens. Never put a hex value in a component. Colours follow the Figma library’s
   “Colours” set: text black 80 / 60 / 40 / 20 % (primary, secondary, placeholder, disabled), strokes
   black 5 / 8 / 32 %, page `#FAFAFA`. A colour at x % is written as the colour-guide colour plus
@@ -43,7 +44,8 @@ When a design and the system disagree, check it first; when a rule changes, upda
 - **Premium (monetization) surfaces:** perk icons are *filled* Material Symbols at 16 dp, painted
   with the gold radial gradient `premium-icon/start` → `premium-icon/end` (`<PremiumIcon>` /
   `PremiumIcon`). Light premium cards sit on the `premium-glow` art; dark ones use the coded
-  black-gold gradient. Gold CTAs use `gradient/cta-gold`. Most monetization values (price, coupon, copy, entry point) are experiments: keep them as props.
+  black-gold gradient. Gold CTAs use `gradient/cta-gold`. Gold (buttons, text, badges) is only for subscription surfaces:
+  paywall, plan, renewal, payment. Most monetization values (price, coupon, copy, entry point) are experiments: keep them as props.
 - **Mascots:** the green mascot illustrations are generated to order. When a screen needs a new one,
   ask for it and show a placeholder.
 

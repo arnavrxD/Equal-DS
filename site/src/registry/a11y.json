@@ -72,7 +72,7 @@
     "gaps": [
       "Accepted brand decision: Button.css / Buttons.kt white label on button/primary #00B140 is 2.85:1 in light mode, below 4.5:1 for 14sp text.",
       "Accepted brand decision: Button.css / Buttons.kt TextButton tone 'action' and the Outline variant (text/action #00B140 on white) are 2.85:1 in light mode.",
-      "Button.css / Buttons.kt: the Gold variant's white label on gradient/cta-gold drops to 2.3:1 at the #C8A774 stop (4.2:1 at #A37236), below 4.5:1.",
+      "Accepted brand decision (premium gold, subscription surfaces only): button.css / Buttons.kt: the Gold variant's white label on gradient/cta-gold drops to 2.3:1 at the #C8A774 stop (4.2:1 at #A37236), below 4.5:1.",
       "Buttons.kt: EqualTextButton and EqualIconButton use indication = null with no eqFocusRing, so hardware-keyboard focus is invisible (only EqualButton draws a ring).",
       "Buttons.kt: EqualIconButton Neutral and Glass ignore enabled = false visually (same fill and tint), while web dims IconButton to 40%."
     ]
@@ -596,7 +596,7 @@
     ],
     "gaps": [
       "Accepted brand decision: Badge.css / Badges.kt NewBadge solid (white on #00B140, 2.85:1) and soft (text/action on action-card/highlight #D3FEE3, 2.6:1) fail 4.5:1 for 10sp text in light mode.",
-      "Badge.css / Badges.kt: PlanBadge white text on gradient/gold is 3.0–4.2:1 in both themes, below 4.5:1 for 10sp text.",
+      "Accepted brand decision (premium gold, subscription surfaces only): badge.css / Badges.kt: PlanBadge white text on gradient/gold is 3.0–4.2:1 in both themes, below 4.5:1 for 10sp text.",
       "MonetizationExperiments.css / Badges.kt: the expired PlanBadge's white label sits on the #E4918C middle stop of gradient/expired-badge, 2.4:1."
     ]
   },
@@ -803,7 +803,7 @@
       }
     ],
     "gaps": [
-      "TopBar.tsx / HomeChrome.kt: the paid PlanBadge has white text on gradient/gold at 3.0–4.2:1, below 4.5:1.",
+      "Accepted brand decision (premium gold, subscription surfaces only): topBar.tsx / HomeChrome.kt: the paid PlanBadge has white text on gradient/gold at 3.0–4.2:1, below 4.5:1.",
       "TopBar.tsx / HomeChrome.kt: the expired PlanBadge's white label drops to 2.4:1 on the #E4918C middle stop of gradient/expired-badge."
     ]
   },
@@ -2242,8 +2242,8 @@
       }
     ],
     "gaps": [
-      "The white CTA label on gradient/cta-gold is 4.2:1 at the dark stop and about 2.3:1 at the #C8A774 sheen, below 4.5:1 for 14 px text (Button.css, Buttons.kt, tokens.json).",
-      "The gradient/gold-text price runs from #FFB251 (1.8:1 on white) to #603600, so the top of the 44 px digits falls under 3:1 even as large text (Monetization.css .eq-gold-text, Monetization.kt GoldText).",
+      "Accepted brand decision (premium gold, subscription surfaces only): the white CTA label on gradient/cta-gold is 4.2:1 at the dark stop and about 2.3:1 at the #C8A774 sheen, below 4.5:1 for 14 px text (Button.css, Buttons.kt, tokens.json).",
+      "Accepted brand decision (premium gold, subscription surfaces only): the gradient/gold-text price runs from #FFB251 (1.8:1 on white) to #603600, so the top of the 44 px digits falls under 3:1 even as large text (Monetization.css .eq-gold-text, Monetization.kt GoldText).",
       "Accepted brand decision: \"Saved ₹N\" and the DiscountBadge label use text/action #00B140 on white (2.85:1) in light (Monetization.tsx, Monetization.kt)."
     ]
   },
@@ -2318,7 +2318,7 @@
       }
     ],
     "gaps": [
-      "The gradient/gold-text discount line runs from #FFB251 (1.8:1 on white) to #603600, so the top of the 30 px text falls under 3:1 even as large text (Monetization.css .eq-gold-text, Monetization.kt GoldText)."
+      "Accepted brand decision (premium gold, subscription surfaces only): the gradient/gold-text discount line runs from #FFB251 (1.8:1 on white) to #603600, so the top of the 30 px text falls under 3:1 even as large text (Monetization.css .eq-gold-text, Monetization.kt GoldText)."
     ]
   },
   "locked-content": {
@@ -2393,7 +2393,7 @@
     ],
     "gaps": [
       "Accepted brand decision: UnlockAudioPill (Monetization.tsx/.css and Monetization.kt) puts white text on button/primary #00B140, 2.85:1 in light theme.",
-      "The gold CTA on UnlockDetailsCard (Button gold, Button.css and Buttons.kt) puts a white label on gradient/cta-gold, 4.2:1 at #A37236 falling to 2.3:1 at #C8A774; the label needs 4.5:1 throughout.",
+      "Accepted brand decision (premium gold, subscription surfaces only): the gold CTA on UnlockDetailsCard (Button gold, Button.css and Buttons.kt) puts a white label on gradient/cta-gold, 4.2:1 at #A37236 falling to 2.3:1 at #C8A774; the label needs 4.5:1 throughout.",
       "LockedContent in Monetization.kt: Modifier.blur is a no-op below API 31, so locked content is drawn readable on older Android (documented as an accepted degradation)."
     ]
   },
@@ -2824,7 +2824,7 @@
       }
     ],
     "gaps": [
-      "ValueSheet gold CTAs (Button gold, Button.css / Monetization.css and Buttons.kt): white on gradient/cta-renew falls to 2.2:1 at #D1A85C, and white on gradient/cta-gold to 2.3:1 at #C8A774; the label needs 4.5:1."
+      "Accepted brand decision (premium gold, subscription surfaces only): valueSheet gold CTAs (Button gold, Button.css / Monetization.css and Buttons.kt): white on gradient/cta-renew falls to 2.2:1 at #D1A85C, and white on gradient/cta-gold to 2.3:1 at #C8A774; the label needs 4.5:1."
     ]
   },
   "feature-list": {
@@ -2971,7 +2971,7 @@
     ],
     "gaps": [
       "Accepted brand decision: the text/action label and Saved line, and the seal's white text on text/action, are 2.85:1 in light theme (Monetization.tsx and Monetization.kt).",
-      "PriceTag price (gradient/gold-text, .eq-gold-text in Monetization.css and GoldText in Monetization.kt) starts at #FFB251, 1.8:1 on white, so the light part of the 44 px glyphs is below 3:1 for large text."
+      "Accepted brand decision (premium gold, subscription surfaces only): priceTag price (gradient/gold-text, .eq-gold-text in Monetization.css and GoldText in Monetization.kt) starts at #FFB251, 1.8:1 on white, so the light part of the 44 px glyphs is below 3:1 for large text."
     ]
   },
   "assistant-sheet": {
@@ -3229,7 +3229,7 @@
     ],
     "gaps": [
       "HomeNoticeCard usage bar in MonetizationExperiments.kt only sets contentDescription 'N% used', not progressBarRangeInfo, so TalkBack doesn't announce it as a progress bar (web uses role=progressbar).",
-      "Gold CTAs (PaywallSheet Unlock, ExitOfferDialog Claim 25% Off; Button gold in Button.css and Buttons.kt) put white on gradient/cta-gold, 4.2:1 falling to 2.3:1; the label needs 4.5:1.",
+      "Accepted brand decision (premium gold, subscription surfaces only): gold CTAs (PaywallSheet Unlock, ExitOfferDialog Claim 25% Off; Button gold in Button.css and Buttons.kt) put white on gradient/cta-gold, 4.2:1 falling to 2.3:1; the label needs 4.5:1.",
       "Accepted brand decision: primary buttons and text/action labels (Refresh Status, Retry payment, AssistantNoticeCard CTA, unlocked SummaryActions, the usage bar fill) are 2.85:1 in light theme."
     ]
   },
@@ -3455,8 +3455,8 @@
     ],
     "gaps": [
       "TestimonialCarousel track in Monetization.tsx is not focusable and has no controls, so keyboard users can't reach later testimonials; no platform announces the page position.",
-      "StatBlock in Monetization.tsx paints text with background-clip and color: transparent (.eq-gold-text), so it disappears in forced-colors / high-contrast mode.",
-      "StatBlock's gradient/gold-text (Monetization.css and GoldText in Monetization.kt) starts at #FFB251, 1.8:1 on white, so the light part of the 52 px stat is below 3:1.",
+      "Accepted brand decision (premium gold, subscription surfaces only): statBlock in Monetization.tsx paints text with background-clip and color: transparent (.eq-gold-text), so it disappears in forced-colors / high-contrast mode.",
+      "Accepted brand decision (premium gold, subscription surfaces only): statBlock's gradient/gold-text (Monetization.css and GoldText in Monetization.kt) starts at #FFB251, 1.8:1 on white, so the light part of the 52 px stat is below 3:1.",
       "RatingPill in Monetization.tsx reads 'Rated 4.5 /5' from separate spans; Monetization.kt already says 'Rated 4.5 out of 5'."
     ]
   },
@@ -4112,7 +4112,7 @@
       }
     ],
     "gaps": [
-      "PlanBadge (Badge.css / Badges.kt): white 10sp text on gradient/gold (#A37236 → #B58D55) is 3.0–4.2:1, below 4.5:1."
+      "Accepted brand decision (premium gold, subscription surfaces only): planBadge (Badge.css / Badges.kt): white 10sp text on gradient/gold (#A37236 → #B58D55) is 3.0–4.2:1, below 4.5:1."
     ]
   },
   "plan-card": {

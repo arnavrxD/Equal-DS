@@ -74,8 +74,8 @@ function Accessibility({ data }: { data: ComponentA11y }) {
             {accepted.length > 0 && (
               <>
                 <h2 className="s-h2">Accepted brand decisions</h2>
-                <p className="s-p">Brand green #00B140 is kept in light mode by product decision, although white on green and green on white are 2.85:1. These are known and intentional.</p>
-                <ul className="s-gaps is-accepted">{accepted.map((g) => <li key={g}>{md(g.replace(/^Accepted brand decision:\s*/, ''))}</li>)}</ul>
+                <p className="s-p">Brand green #00B140 (light mode) and the premium gold (subscription surfaces only) are kept by product decision, although some text on them falls below 4.5:1. These are known and intentional.</p>
+                <ul className="s-gaps is-accepted">{accepted.map((g) => <li key={g}>{md(g.replace(/^Accepted brand decision( \([^)]*\))?:\s*/, ''))}</li>)}</ul>
               </>
             )}
           </>

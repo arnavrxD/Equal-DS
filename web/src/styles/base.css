@@ -12,7 +12,8 @@
 [data-theme] button { font-family: inherit; }
 
 /* Shared helpers */
-.eq-reset-btn {
+/* :where() gives the reset zero specificity, so a type class on the same button (eq-t-*) wins. */
+:where(.eq-reset-btn) {
   appearance: none;
   border: 0;
   background: none;

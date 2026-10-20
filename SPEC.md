@@ -40,7 +40,7 @@ Coded (never images): the logo (as vector paths), waveform, stars, checkboxes, s
 ---
 
 ## 1. Status Bar
-Material 3 status bar (mocks and flows only; the app draws edge-to-edge and pads content with `WindowInsets.statusBars`). Height 52, horizontal padding 24, background `bg/primary` (overridable). Left: time "12:30" in the system font (Roboto) Medium 14/20, tracking 0.1, tabular, `text/primary`. Right: Material Symbols `wifi`, `signal_cellular_4_bar` (filled triangle) and an upright `battery_full`, 18dp, gap 4, `text/primary`.
+Material 3 status bar (mocks and flows only; the app draws edge-to-edge and pads content with `WindowInsets.statusBars`). Height 52, horizontal padding 24, background `bg/primary` (overridable). Left: time "12:30" in DM Sans Medium 14/20 (all text is DM Sans, even in system mocks), tracking 0.1, tabular, `text/primary`. Right: Material Symbols `wifi`, `signal_cellular_4_bar` (filled triangle) and an upright `battery_full`, 18dp, gap 4, `text/primary`.
 
 ## 2. Top Bar (Logo + Availability Status)
 Height 56, padding horizontal 16. Row: full vector logo 20dp high (≈94dp wide, `text/action`) + gap 8 + **UNLIMITED plan pill**: height 16, padding h 6, radius 4, fill `gradient/gold` ⓓ, text `badge` "UNLIMITED" `text/on-dark` ⓓ.
