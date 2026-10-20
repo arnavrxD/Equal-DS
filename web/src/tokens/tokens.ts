@@ -12,32 +12,14 @@ export const primitives = {
     "grey02": "#222222",
     "grey03": "#333333",
     "grey04": "#444444",
-    "grey05": "#555555",
-    "grey06": "#666666",
-    "grey07": "#777777",
     "grey08": "#888888",
-    "grey09": "#999999",
     "grey10": "#AAAAAA",
-    "grey11": "#BBBBBB",
-    "grey12": "#CCCCCC",
-    "grey13": "#DDDDDD",
-    "grey14": "#F7F7F7"
+    "grey13": "#DDDDDD"
   },
   "red": {
-    "red01": "#1A0000",
     "red02": "#330000",
-    "red03": "#4D0000",
-    "red04": "#660000",
-    "red05": "#800000",
-    "red06": "#990000",
-    "red07": "#B30000",
     "red08": "#C50000",
-    "red09": "#E60000",
-    "red10": "#FF0000",
-    "red11": "#FF3333",
-    "red12": "#FF6666",
-    "red13": "#FF9999",
-    "red14": "#FFCCCC"
+    "red12": "#FF6666"
   }
 } as const;
 

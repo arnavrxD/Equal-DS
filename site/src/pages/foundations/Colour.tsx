@@ -73,7 +73,7 @@ export default function Colour() {
       meta={<><CopyTag k="CSS" value="var(--eq-text-action)" /><CopyTag k="TS" value="color.textAction" /><CopyTag k="Kotlin" value="EqualTheme.colors.textAction" /></>}
     >
       <H2>Primitives</H2>
-      <p className="s-p">Brand green and lime are the action colours; black and white anchor contrast. Neutrals run 14 steps from #111 to #F7F7F7, and the red ramp carries danger. Click a swatch to copy its hex.</p>
+      <p className="s-p">Brand green and lime are the action colours; black and white anchor contrast. Only the neutrals and reds a token or component uses are kept (7 greys, 3 reds); the rest of the original ramps were removed because nothing used them. Click a swatch to copy its hex.</p>
       <Ramp name="brand" values={primitives.brand} />
       <Ramp name="neutrals" values={primitives.neutrals} />
       <Ramp name="red" values={primitives.red} />
