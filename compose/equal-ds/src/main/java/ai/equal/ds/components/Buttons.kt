@@ -14,14 +14,15 @@ import ai.equal.ds.tokens.EqualMotion
 import ai.equal.ds.theme.EqualEasing
 import ai.equal.ds.theme.cssBlurToShadowRadius
 import ai.equal.ds.theme.toPath
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.animation.core.Animatable
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.keyframes
-import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -173,47 +174,52 @@ private const val SheenCycleMillis = EqualMotion.shimmerDelay + EqualMotion.shim
 /** Glow: rest `buttonGlowDelay`, rise `buttonGlow`, hold `buttonGlowDelay`, fall `buttonGlow` (web `eq-gold-glow`). */
 private const val GlowCycleMillis = 2 * (EqualMotion.buttonGlowDelay + EqualMotion.buttonGlow)
 
-/** The gold CTA sheen's position (−1.2 → 1.2 widths), or null under reduced motion. */
+/** How many times the sheen and glow play before stopping, so motion ends within 5 s (WCAG 2.2.2). */
+private const val GoldMotionRuns = 2
+
+/** The gold CTA sheen's position (−1.2 → 1.2 widths), or null under reduced motion. Plays [GoldMotionRuns] times. */
 @Composable
 private fun rememberSheenShift(): State<Float>? {
     if (rememberReduceMotion()) return null
-    val transition = rememberInfiniteTransition(label = "gold-sheen")
-    val shift = transition.animateFloat(
-        initialValue = -1.2f,
-        targetValue = 1.2f,
-        animationSpec = infiniteRepeatable(
-            animation = keyframes {
-                durationMillis = SheenCycleMillis
-                -1.2f at 0
-                -1.2f at EqualMotion.shimmerDelay using EqualEasing.standard
-                1.2f at SheenCycleMillis
-            },
-        ),
-        label = "gold-sheen-shift",
-    )
-    return shift
+    val shift = remember { Animatable(-1.2f) }
+    LaunchedEffect(Unit) {
+        repeat(GoldMotionRuns) {
+            shift.snapTo(-1.2f)
+            shift.animateTo(
+                1.2f,
+                keyframes {
+                    durationMillis = SheenCycleMillis
+                    -1.2f at 0
+                    -1.2f at EqualMotion.shimmerDelay using EqualEasing.standard
+                    1.2f at SheenCycleMillis
+                },
+            )
+        }
+    }
+    return shift.asState()
 }
 
-/** The gold CTA glow level (0 rest → 1 full), or null under reduced motion. */
+/** The gold CTA glow level (0 rest → 1 full), or null under reduced motion. Plays [GoldMotionRuns] times. */
 @Composable
 private fun rememberGoldGlow(): State<Float>? {
     if (rememberReduceMotion()) return null
-    val transition = rememberInfiniteTransition(label = "gold-glow")
-    return transition.animateFloat(
-        initialValue = 0f,
-        targetValue = 0f,
-        animationSpec = infiniteRepeatable(
-            animation = keyframes {
-                durationMillis = GlowCycleMillis
-                0f at 0
-                0f at EqualMotion.buttonGlowDelay using EqualEasing.standard
-                1f at EqualMotion.buttonGlowDelay + EqualMotion.buttonGlow
-                1f at 2 * EqualMotion.buttonGlowDelay + EqualMotion.buttonGlow using EqualEasing.standard
-                0f at GlowCycleMillis
-            },
-        ),
-        label = "gold-glow-level",
-    )
+    val level = remember { Animatable(0f) }
+    LaunchedEffect(Unit) {
+        repeat(GoldMotionRuns) {
+            level.animateTo(
+                0f,
+                keyframes {
+                    durationMillis = GlowCycleMillis
+                    0f at 0
+                    0f at EqualMotion.buttonGlowDelay using EqualEasing.standard
+                    1f at EqualMotion.buttonGlowDelay + EqualMotion.buttonGlow
+                    1f at 2 * EqualMotion.buttonGlowDelay + EqualMotion.buttonGlow using EqualEasing.standard
+                    0f at GlowCycleMillis
+                },
+            )
+        }
+    }
+    return level.asState()
 }
 
 /** Pill shadow in [color] whose offset / blur / alpha follow [level] (read in the draw phase). */

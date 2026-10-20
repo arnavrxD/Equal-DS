@@ -119,7 +119,7 @@
 /* Animated crown: turntable sway + float (stand-in for the rotating-crown video). */
 .eq-crown { display: inline-flex; perspective: 300px; flex-shrink: 0; }
 .eq-crown > * { transform-origin: 50% 60%; }
-.eq-crown.is-animated > * { animation: eq-crown-turn 4.8s ease-in-out infinite; filter: drop-shadow(0 6px 10px rgba(140, 88, 23, 0.25)); }
+.eq-crown.is-animated > * { animation: eq-crown-turn 4.8s ease-in-out 1; /* one turn, then rest (WCAG 2.2.2) */ filter: drop-shadow(0 6px 10px rgba(140, 88, 23, 0.25)); }
 @keyframes eq-crown-turn {
   0%, 100% { transform: translateY(0) rotateY(-20deg) rotateZ(-2deg); }
   50% { transform: translateY(-4px) rotateY(20deg) rotateZ(2deg); }
@@ -146,10 +146,10 @@
 /* Gold CTA: a sheen sweeps across every few seconds. */
 /* The sheen is a moving background on ::before (no overflow clipping), so ::after stays free for the 48px eq-touch hit area. */
 .eq-btn--gold { position: relative; }
-.eq-btn--gold::before { content: ''; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(110deg, transparent 43%, rgba(255, 255, 255, 0.35) 50%, transparent 57%) no-repeat; background-size: 300% 100%; background-position: 100% 0; animation: eq-sheen calc(var(--eq-duration-shimmerDelay) + var(--eq-duration-shimmer)) var(--eq-easing-standard) infinite; pointer-events: none; }
+.eq-btn--gold::before { content: ''; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(110deg, transparent 43%, rgba(255, 255, 255, 0.35) 50%, transparent 57%) no-repeat; background-size: 300% 100%; background-position: 100% 0; animation: eq-sheen calc(var(--eq-duration-shimmerDelay) + var(--eq-duration-shimmer)) var(--eq-easing-standard) 2; /* 2 runs ≈ 3.6 s: motion stops within 5 s (WCAG 2.2.2) */ pointer-events: none; }
 .eq-btn--gold > * { position: relative; }
 /* Button Glow (prototype): the glow eases up over 300ms after 800ms, then back. */
-.eq-btn--gold { animation: eq-gold-glow calc(2 * (var(--eq-duration-buttonGlowDelay) + var(--eq-duration-buttonGlow))) var(--eq-easing-standard) infinite; }
+.eq-btn--gold { animation: eq-gold-glow calc(2 * (var(--eq-duration-buttonGlowDelay) + var(--eq-duration-buttonGlow))) var(--eq-easing-standard) 2; /* 2 runs ≈ 4.4 s (WCAG 2.2.2) */ }
 @keyframes eq-gold-glow { 0%, 36% { box-shadow: 0 4px 12px rgba(140, 88, 23, 0.18); } 50%, 86% { box-shadow: 0 6px 22px rgba(184, 138, 69, 0.45); } 100% { box-shadow: 0 4px 12px rgba(140, 88, 23, 0.18); } }
 .eq-btn--gold:disabled::before { display: none; }
 @keyframes eq-sheen { 0%, 66% { background-position: 100% 0; } 100% { background-position: 0% 0; } }
@@ -162,7 +162,7 @@
 .eq-sunburst { position: absolute; left: 50%; top: 70px; width: 560px; height: 560px; margin: -280px 0 0 -280px; pointer-events: none; border-radius: 50%;
   background: repeating-conic-gradient(var(--eq-sunburst-ray) 0 calc(var(--eq-sunburst-step) / 2), transparent 0 var(--eq-sunburst-step));
   -webkit-mask-image: radial-gradient(circle, #000 0, rgba(0, 0, 0, 0.6) 30%, transparent 62%); mask-image: radial-gradient(circle, #000 0, rgba(0, 0, 0, 0.6) 30%, transparent 62%);
-  animation: eq-sunburst-turn var(--eq-duration-reward) var(--eq-easing-linear) infinite; }
+  animation: eq-sunburst-turn var(--eq-duration-reward) var(--eq-easing-linear) 0.8 forwards; } /* stops after 4.8 s (WCAG 2.2.2) */
 @keyframes eq-sunburst-turn { to { transform: rotate(360deg); } }
 
 @media (prefers-reduced-motion: reduce) {

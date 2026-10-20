@@ -19,10 +19,7 @@ import androidx.compose.animation.core.CubicBezierEasing
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.MutableTransitionState
-import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInVertically
@@ -349,16 +346,13 @@ fun AnimatedCrown(
         EqualAssetImage(EqualAssets.CrownGold, size = size, modifier = modifier)
         return
     }
-    val transition = rememberInfiniteTransition(label = "crown")
-    val sway = transition.animateFloat(
-        initialValue = 0f,
-        targetValue = 1f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(CrownHalfCycleMillis, easing = FastOutSlowInEasing),
-            repeatMode = RepeatMode.Reverse,
-        ),
-        label = "crown-sway",
-    )
+    // One sway out and back (≈ 4.8 s), then rest: decorative motion stops within 5 s (WCAG 2.2.2).
+    val swayAnim = remember { Animatable(0f) }
+    LaunchedEffect(Unit) {
+        swayAnim.animateTo(1f, tween(CrownHalfCycleMillis, easing = FastOutSlowInEasing))
+        swayAnim.animateTo(0f, tween(CrownHalfCycleMillis, easing = FastOutSlowInEasing))
+    }
+    val sway = swayAnim.asState()
     Box(
         modifier
             .size(size)
@@ -1091,12 +1085,10 @@ fun Sunburst(
 ) {
     val ray = EqualTheme.colors.sunburstRay
     val turn: State<Float>? = if (animated && !rememberReduceMotion()) {
-        rememberInfiniteTransition(label = "sunburst").animateFloat(
-            initialValue = 0f,
-            targetValue = 360f,
-            animationSpec = infiniteRepeatable(tween(SunburstTurnMillis, easing = LinearEasing), RepeatMode.Restart),
-            label = "sunburst-turn",
-        )
+        // Turns for 4.8 s (0.8 of a turn), then rests: decorative motion stops within 5 s (WCAG 2.2.2).
+        val turnAnim = remember { Animatable(0f) }
+        LaunchedEffect(Unit) { turnAnim.animateTo(288f, tween((SunburstTurnMillis * 0.8f).toInt(), easing = LinearEasing)) }
+        turnAnim.asState()
     } else {
         null
     }

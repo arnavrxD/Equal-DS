@@ -17,7 +17,7 @@
 .eq-btn--secondary { background: var(--eq-button-secondary); color: var(--eq-text-on-secondary); }
 .eq-btn--danger { background: var(--eq-button-danger); color: var(--eq-text-on-danger); }
 /* Monetization: gold commit (Unlock Unlimited, Re-Subscribe) and outline revise (Cancel). */
-.eq-btn--gold { background: var(--eq-gradient-cta-gold); color: #FFFFFF; font-weight: 700; }
+.eq-btn--gold { background: var(--eq-gradient-cta-gold); color: var(--eq-text-on-dark); font-weight: 700; }
 .eq-btn--gold-outline { background: var(--eq-bg-surface); color: var(--eq-text-gold); box-shadow: inset 0 0 0 1.5px var(--eq-text-gold); }
 .eq-btn--outline { background: transparent; color: var(--eq-text-action); box-shadow: inset 0 0 0 1.5px var(--eq-button-primary); }
 .eq-btn:disabled { background: var(--eq-button-disabled); color: var(--eq-text-on-action-disabled); }

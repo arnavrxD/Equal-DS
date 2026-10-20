@@ -1914,6 +1914,10 @@
     "name": "Badges"
    },
    {
+    "id": "button",
+    "name": "Button"
+   },
+   {
     "id": "composer",
     "name": "Composer"
    },
