@@ -15,6 +15,11 @@ import ai.equal.ds.theme.toBrush
 import ai.equal.ds.tokens.EqualMotion
 import ai.equal.ds.tokens.EqualPrimitives
 import ai.equal.ds.tokens.EqualRadius
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.PaddingValues
+import ai.equal.ds.tokens.EqualColors
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
@@ -517,9 +522,16 @@ fun AddressForm(
 // Instructions flow
 // =============================================================================================
 
-/** Where an instruction came from (a preset), shown as a small chip on active instructions. */
+/** The 3D art of the three presets. */
+enum class PresetArt(val asset: EqualAssets) {
+    ScreenProtect(EqualAssets.PresetScreenProtect),
+    EverydayCalls(EqualAssets.PresetEverydayCalls),
+    Business(EqualAssets.PresetBusiness),
+}
+
+/** Where an instruction came from (a preset), shown as the [SourceBadge] on active instructions. */
 @Immutable
-data class InstructionSource(val emoji: String, val label: String)
+data class InstructionSource(val art: PresetArt, val label: String)
 
 /**
  * An assistant instruction. [whenText] / [doText] are the web `when` / `do` lines (Kotlin
@@ -535,9 +547,29 @@ data class Instruction(
 )
 
 /**
- * "Recommended for you" card: 188 wide, min 114 high, bordered flow card. Emoji 26 and a 30dp
- * `icon-button/bg` circle with add 20 `text/action` → 10 → title `subheading` → description
- * `body1` `text/secondary`.
+ * Tinted "+ Apply" pill (Preset Instruction design): `button/tonal` (brand green 8 %), add 16 +
+ * `buttonSmall` in `text/action`, 24 high. Used on recommended cards and preset instructions.
+ */
+@Composable
+fun ApplyButton(
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    text: String = "Apply",
+    contentDescription: String? = null,
+) {
+    EqualButton(
+        text = text,
+        onClick = onClick,
+        modifier = if (contentDescription != null) modifier.semantics { this.contentDescription = contentDescription } else modifier,
+        variant = EqualButtonVariant.Tonal,
+        size = EqualButtonSize.Sm,
+        leadingIcon = EqualIcons.Add,
+    )
+}
+
+/**
+ * "Recommended for you" card: 191 × 114 min, radius 12, `bg/surface`, 1dp `stroke/subtle`,
+ * padding 12. Emoji 24 + [ApplyButton] → title 14 SemiBold → description 12/16 `text/primary`.
  */
 @Composable
 fun RecommendedCard(
@@ -548,48 +580,35 @@ fun RecommendedCard(
     onAdd: (() -> Unit)? = null,
 ) {
     val colors = EqualTheme.colors
+    val type = EqualTheme.type
+    val shape = RoundedCornerShape(EqualRadius.rMd)
     Column(
         modifier
-            .width(188.dp)
+            .width(191.dp)
             .defaultMinSize(minHeight = 114.dp)
-            .flowCard(elevated = false)
-            .padding(horizontal = 16.dp, vertical = 14.dp),
+            .background(colors.bgSurface, shape)
+            .border(1.dp, colors.strokeSubtle, shape)
+            .padding(12.dp),
+        verticalArrangement = Arrangement.SpaceBetween,
     ) {
-        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.Top) {
-            EmojiGlyph(emoji = emoji, size = 26.dp)
+        Row(Modifier.fillMaxWidth().defaultMinSize(minHeight = 28.dp), verticalAlignment = Alignment.CenterVertically) {
+            EmojiGlyph(emoji = emoji, size = 24.dp)
             Spacer(Modifier.weight(1f))
-            if (onAdd != null) {
-                val interaction = rememberInteraction()
-                // 48dp touch area around the 30dp circle (layout unchanged).
-                Box(
-                    Modifier
-                        .touchTarget()
-                        .clickable(interactionSource = interaction, indication = null, role = Role.Button, onClick = onAdd),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Box(
-                        Modifier
-                            .size(30.dp)
-                            .clip(CircleShape)
-                            .background(colors.iconButtonBg)
-                            .indication(interaction, LocalIndication.current),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        EqualIcon(EqualIcons.Add, contentDescription = "Add $title", tint = colors.textAction, size = 20.dp)
-                    }
-                }
-            }
+            if (onAdd != null) ApplyButton(onClick = onAdd, contentDescription = "Apply $title")
         }
-        Spacer(Modifier.height(10.dp))
-        EqualText(text = title, style = EqualTheme.type.subheading, color = colors.textPrimary)
-        EqualText(text = description, style = EqualTheme.type.body1, color = colors.textSecondary)
+        Spacer(Modifier.height(8.dp))
+        Column {
+            EqualText(text = title, style = type.body2.copy(fontWeight = FontWeight.SemiBold, lineHeight = 18.sp), color = colors.textPrimary)
+            EqualText(text = description, style = type.captionRegular, color = colors.textPrimary)
+        }
     }
 }
 
 /**
- * Shown in place of recommendations when all are applied or none exist. Radius 16,
- * `gradient/suggestion-card`, 1dp `stroke/subtle`, padding 16 / 12 / 12 / 16. Orb 18 + caption,
- * 12 → `bodyLarge` line, then the 112dp `illustration-suggestions`.
+ * Shown in place of recommendations when all are applied or none exist: radius 16, `bg/primary`,
+ * 1dp `stroke/medium`, three soft `suggest/glow` circles, orb 18 + "New suggestions coming…"
+ * (12 Bold `text/secondary`), 13 → `body2` line (max 184 wide), and the 140dp
+ * `illustration-suggestions` at the top-right.
  */
 @Composable
 fun SuggestionsComingCard(
@@ -598,40 +617,89 @@ fun SuggestionsComingCard(
     body: String = "More suggestions will show up here as I learn your calls",
 ) {
     val colors = EqualTheme.colors
+    val type = EqualTheme.type
+    val shape = RoundedCornerShape(EqualRadius.rLg)
+    val glow = colors.suggestGlow
+    Box(
+        modifier
+            .fillMaxWidth()
+            .height(116.dp)
+            .clip(shape)
+            .background(colors.bgPrimary)
+            .border(1.dp, colors.strokeMedium, shape)
+            // Figma: #00B140 @ 20 % circles under a 50dp Gaussian blur, drawn as soft radial falloffs.
+            .drawBehind {
+                listOf(Triple(334.5f, 194.5f, 44.5f), Triple(22f, 201f, 34f), Triple(172f, 110f, 65f)).forEach { (cx, cy, r) ->
+                    val center = Offset(cx.dp.toPx(), cy.dp.toPx())
+                    val radius = (r + 100f).dp.toPx()
+                    drawCircle(Brush.radialGradient(listOf(glow, glow.copy(alpha = 0f)), center, radius), radius, center)
+                }
+            },
+    ) {
+        EqualAssetImage(
+            asset = EqualAssets.IllustrationSuggestions,
+            size = 140.dp,
+            modifier = Modifier.align(Alignment.TopEnd).offset(x = 6.dp, y = (-5).dp),
+        )
+        Column(Modifier.padding(16.dp)) {
+            Row(Modifier.height(24.dp), verticalAlignment = Alignment.CenterVertically) {
+                EqualLogoOrb(size = 18.dp)
+                Spacer(Modifier.width(4.dp))
+                EqualText(text = label, style = type.caption.copy(fontWeight = FontWeight.Bold), color = colors.textSecondary, maxLines = 1)
+            }
+            Spacer(Modifier.height(13.dp))
+            EqualText(text = body, style = type.body2.copy(lineHeight = 18.sp), color = colors.textPrimary, modifier = Modifier.widthIn(max = 184.dp))
+        }
+    }
+}
+
+/** Tint behind a preset's art: Green = Screen & Protect, Blue = Handle everyday calls, Orange = Run my business, Lime = Active Instructions. */
+enum class PresetTint { Green, Blue, Orange, Lime }
+
+/** 3D art in its tinted circle (44dp circle, art 75 % of it). */
+@Composable
+fun PresetIcon(asset: EqualAssets, tint: PresetTint, modifier: Modifier = Modifier, size: Dp = 44.dp) {
+    val colors = EqualTheme.colors
+    val tintColor = when (tint) {
+        PresetTint.Green -> colors.presetTintGreen
+        PresetTint.Blue -> colors.presetTintBlue
+        PresetTint.Orange -> colors.presetTintOrange
+        PresetTint.Lime -> colors.presetTintLime
+    }
+    Box(modifier.size(size).clip(CircleShape).background(tintColor), contentAlignment = Alignment.Center) {
+        EqualAssetImage(asset = asset, size = size * 0.75f)
+    }
+}
+
+/** Shared shell of [PresetCard] and [ActiveInstructionsRow]: radius 16, `bg/surface`, 1dp `stroke/subtle`. */
+@Composable
+private fun PresetRowShell(onClick: () -> Unit, minHeight: Dp, padding: PaddingValues, modifier: Modifier, content: @Composable RowScope.() -> Unit) {
+    val colors = EqualTheme.colors
     val shape = RoundedCornerShape(EqualRadius.rLg)
     Row(
         modifier
             .fillMaxWidth()
-            .background(EqualTheme.gradients.suggestionCard.toBrush(), shape)
+            .defaultMinSize(minHeight = minHeight)
+            .clip(shape)
+            .background(colors.bgSurface)
             .border(1.dp, colors.strokeSubtle, shape)
-            .padding(start = 16.dp, top = 16.dp, end = 12.dp, bottom = 12.dp),
+            .clickable(role = Role.Button, onClick = onClick)
+            .padding(padding),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        Column(Modifier.weight(1f)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                EqualLogoOrb(size = 18.dp)
-                Spacer(Modifier.width(6.dp))
-                EqualText(text = label, style = EqualTheme.type.caption, color = colors.textSecondary, maxLines = 1)
-            }
-            Spacer(Modifier.height(12.dp))
-            EqualText(text = body, style = EqualTheme.type.bodyLarge, color = colors.textPrimary)
-        }
-        EqualAssetImage(asset = EqualAssets.IllustrationSuggestions, size = 112.dp)
+        content()
+        EqualIcon(EqualIcons.ChevronRight, contentDescription = null, tint = colors.textPlaceholder, size = 22.dp)
     }
 }
 
-/** Tint behind a [PresetCard] emoji: Green = Screen & Protect, Blue = Handle everyday calls, Orange = Run my business. */
-enum class PresetTint { Green, Blue, Orange }
-
 /**
- * "Browse presets" card: bordered flow card, clickable. Emoji 16 in a 26dp tinted circle
- * (`preset/tint-*`) + chevron 22 `text/placeholder` → 12 → title `subheading` → description
- * `captionWrap` `text/secondary`.
+ * "Browse presets" card (320 × 85): [PresetIcon] → 8 → title 16 SemiBold → description 12/16
+ * `text/secondary` → chevron 22 `text/placeholder`.
  */
 @Composable
 fun PresetCard(
-    emoji: String,
+    art: PresetArt,
     tint: PresetTint,
     title: String,
     description: String,
@@ -639,34 +707,36 @@ fun PresetCard(
     modifier: Modifier = Modifier,
 ) {
     val colors = EqualTheme.colors
-    val tintColor = when (tint) {
-        PresetTint.Green -> colors.presetTintGreen
-        PresetTint.Blue -> colors.presetTintBlue
-        PresetTint.Orange -> colors.presetTintOrange
-    }
-    Column(
-        modifier
-            .fillMaxWidth()
-            .flowCard(elevated = false)
-            .clip(RoundedCornerShape(EqualRadius.rLg))
-            .clickable(role = Role.Button, onClick = onClick)
-            .padding(horizontal = 16.dp, vertical = 14.dp),
-    ) {
-        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Box(
-                Modifier
-                    .size(26.dp)
-                    .background(tintColor, CircleShape),
-                contentAlignment = Alignment.Center,
-            ) {
-                EmojiGlyph(emoji = emoji, size = 16.dp)
-            }
-            Spacer(Modifier.weight(1f))
-            EqualIcon(EqualIcons.ChevronRight, contentDescription = null, tint = colors.textPlaceholder, size = 22.dp)
+    val type = EqualTheme.type
+    PresetRowShell(onClick, 85.dp, PaddingValues(start = 13.dp, top = 12.dp, end = 12.dp, bottom = 12.dp), modifier) {
+        PresetIcon(asset = art.asset, tint = tint)
+        Column(Modifier.weight(1f)) {
+            EqualText(text = title, style = type.subheading.copy(fontWeight = FontWeight.SemiBold, lineHeight = 19.sp), color = colors.textPrimary)
+            Spacer(Modifier.height(2.dp))
+            EqualText(text = description, style = type.captionRegular, color = colors.textSecondary)
         }
-        Spacer(Modifier.height(12.dp))
-        EqualText(text = title, style = EqualTheme.type.subheading, color = colors.textPrimary)
-        EqualText(text = description, style = EqualTheme.type.captionWrap, color = colors.textSecondary)
+    }
+}
+
+/**
+ * "Your instructions" entry (319 × 76): the robot-with-wand on the lime tint → Active Instructions
+ * (14 SemiBold) over "N active instructions" (12 `text/secondary`) → chevron.
+ */
+@Composable
+fun ActiveInstructionsRow(count: Int, onClick: () -> Unit, modifier: Modifier = Modifier) {
+    val colors = EqualTheme.colors
+    val type = EqualTheme.type
+    PresetRowShell(onClick, 76.dp, PaddingValues(start = 14.dp, top = 15.dp, end = 16.dp, bottom = 15.dp), modifier) {
+        PresetIcon(asset = EqualAssets.MascotInstructions, tint = PresetTint.Lime)
+        Column(Modifier.weight(1f)) {
+            EqualText(text = "Active Instructions", style = type.body2.copy(fontWeight = FontWeight.SemiBold), color = colors.textPrimary, maxLines = 1)
+            EqualText(
+                text = if (count > 0) "$count active instruction${if (count == 1) "" else "s"}" else "Manage how your assistant handles calls",
+                style = type.captionRegular,
+                color = colors.textSecondary,
+                maxLines = 1,
+            )
+        }
     }
 }
 
@@ -674,58 +744,40 @@ fun PresetCard(
 enum class WhenDoKind { When, Do }
 
 /**
- * When / Do line of an instruction. Presets: a flat pill (min 42 wide, 26 high, h10; When
- * `chip/when-bg`, Do `chip/do-bg`) with a sentence-case `caption` Regular label → 12 → `body1`.
- * Active instructions ([upper]): a 51 × 24 pill fading from `gradient/when-chip` / `gradient/do-chip`
- * to transparent, WHEN / DO 13sp medium caps `text/secondary` → 8 → text 13/18 `text/primary`.
+ * When / Do line of an instruction (preset and active instructions alike): a 52 × 24 pill fading
+ * from `gradient/when-chip` / `gradient/do-chip` to the card colour, WHEN / DO 12 SemiBold caps
+ * `text/secondary` → 8 → text 14/18 `text/primary`.
  */
 @Composable
 fun WhenDoRow(
     kind: WhenDoKind,
     text: AnnotatedString,
     modifier: Modifier = Modifier,
-    upper: Boolean = false,
 ) {
     val colors = EqualTheme.colors
     val type = EqualTheme.type
-    val label = if (kind == WhenDoKind.When) "When" else "Do"
+    val gradient = if (kind == WhenDoKind.When) EqualTheme.gradients.whenChip else EqualTheme.gradients.doChip
     Row(modifier.fillMaxWidth(), verticalAlignment = Alignment.Top) {
-        if (upper) {
-            val gradient = if (kind == WhenDoKind.When) EqualTheme.gradients.whenChip else EqualTheme.gradients.doChip
-            Box(
-                Modifier
-                    .offset(y = (-3).dp)
-                    .size(width = 51.dp, height = 24.dp)
-                    .background(gradient.toBrush(), CircleShape),
-                contentAlignment = Alignment.Center,
-            ) {
-                EqualText(
-                    text = label.uppercase(),
-                    style = type.caption.copy(fontSize = 13.sp, lineHeight = 16.sp, letterSpacing = 0.26.sp),
-                    color = colors.textSecondary,
-                    maxLines = 1,
-                )
-            }
-            Spacer(Modifier.width(8.dp))
-            BasicText(
-                text = text,
-                style = type.body1.copy(color = colors.textPrimary, fontSize = 13.sp, lineHeight = 18.sp),
-                modifier = Modifier.weight(1f),
+        Box(
+            Modifier
+                .offset(y = (-3).dp)
+                .size(width = 52.dp, height = 24.dp)
+                .background(gradient.toBrush(), CircleShape),
+            contentAlignment = Alignment.Center,
+        ) {
+            EqualText(
+                text = if (kind == WhenDoKind.When) "WHEN" else "DO",
+                style = type.caption.copy(fontWeight = FontWeight.SemiBold),
+                color = colors.textSecondary,
+                maxLines = 1,
             )
-        } else {
-            Box(
-                Modifier
-                    .height(26.dp)
-                    .widthIn(min = 42.dp)
-                    .background(if (kind == WhenDoKind.When) colors.chipWhenBg else colors.chipDoBg, CircleShape)
-                    .padding(horizontal = 10.dp),
-                contentAlignment = Alignment.Center,
-            ) {
-                EqualText(text = label, style = type.captionRegular, color = colors.textSecondary, maxLines = 1)
-            }
-            Spacer(Modifier.width(12.dp))
-            BasicText(text = text, style = type.body1.copy(color = colors.textPrimary), modifier = Modifier.weight(1f))
         }
+        Spacer(Modifier.width(8.dp))
+        BasicText(
+            text = text,
+            style = type.body1.copy(color = colors.textPrimary, lineHeight = 18.sp),
+            modifier = Modifier.weight(1f),
+        )
     }
 }
 
@@ -735,15 +787,20 @@ fun WhenDoRow(
     kind: WhenDoKind,
     text: String,
     modifier: Modifier = Modifier,
-    upper: Boolean = false,
 ) {
-    WhenDoRow(kind = kind, text = AnnotatedString(text), modifier = modifier, upper = upper)
+    WhenDoRow(kind = kind, text = AnnotatedString(text), modifier = modifier)
+}
+
+/** Outlined instruction card shell: `bg/surface`, 1dp `stroke/subtle`, radius 16, gap 16. */
+private fun Modifier.instructionCard(colors: EqualColors, padding: PaddingValues): Modifier {
+    val shape = RoundedCornerShape(EqualRadius.rLg)
+    return fillMaxWidth().background(colors.bgSurface, shape).border(1.dp, colors.strokeSubtle, shape).padding(padding)
 }
 
 /**
- * Preset instruction (preset detail screen): title `subheading` with an Apply `sm` button (add
- * icon), or an "Applied" pill (24 high, `action-card/highlight`, check 16 + `buttonSmall`
- * `text/action`) once [applied] → When / Do rows (gap 14).
+ * Preset instruction (preset detail screen): title 16/20 SemiBold with the [ApplyButton], or an
+ * "Applied" pill (24 high, `action-card/highlight`, check 16 + `buttonSmall` `text/action`) once
+ * [applied] → WHEN / DO rows (gap 16). Padding 12 / 16.
  */
 @Composable
 fun PresetInstructionCard(
@@ -754,20 +811,15 @@ fun PresetInstructionCard(
 ) {
     val colors = EqualTheme.colors
     Column(
-        modifier
-            .fillMaxWidth()
-            .flowCard()
-            .padding(horizontal = 16.dp, vertical = 14.dp),
-        verticalArrangement = Arrangement.spacedBy(14.dp),
+        modifier.instructionCard(colors, PaddingValues(horizontal = 16.dp, vertical = 12.dp)),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         Row(verticalAlignment = Alignment.Top) {
             EqualText(
                 text = instruction.title,
-                style = EqualTheme.type.subheading,
+                style = EqualTheme.type.subheading.copy(fontWeight = FontWeight.SemiBold, lineHeight = 20.sp),
                 color = colors.textPrimary,
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(top = 12.dp),
+                modifier = Modifier.weight(1f),
             )
             Spacer(Modifier.width(12.dp))
             // One persistent polite live region: the Apply → Applied swap is announced once.
@@ -775,7 +827,6 @@ fun PresetInstructionCard(
                 if (applied) {
                     Row(
                         Modifier
-                            .padding(top = 12.dp)
                             .height(24.dp)
                             .background(colors.actionCardHighlight, CircleShape)
                             .padding(horizontal = 10.dp),
@@ -786,7 +837,7 @@ fun PresetInstructionCard(
                         EqualText(text = "Applied", style = EqualTheme.type.buttonSmall, color = colors.textAction, maxLines = 1)
                     }
                 } else {
-                    EqualButton(text = "Apply", onClick = onApply, size = EqualButtonSize.Sm, leadingIcon = EqualIcons.Add)
+                    ApplyButton(onClick = onApply, contentDescription = "Apply ${instruction.title}")
                 }
             }
         }
@@ -795,11 +846,32 @@ fun PresetInstructionCard(
     }
 }
 
+/** Source badge on an active instruction: outlined pill (1dp `stroke/medium`, padding 4 / 8), preset art 16 + 10sp SemiBold `text/secondary`. */
+@Composable
+fun SourceBadge(source: InstructionSource, modifier: Modifier = Modifier) {
+    val colors = EqualTheme.colors
+    Row(
+        modifier
+            .defaultMinSize(minHeight = 24.dp)
+            .background(colors.bgSurface, CircleShape)
+            .border(1.dp, colors.strokeMedium, CircleShape)
+            .padding(horizontal = 8.dp, vertical = 4.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        EqualAssetImage(asset = source.art.asset, size = 16.dp)
+        Spacer(Modifier.width(4.dp))
+        EqualText(
+            text = source.label,
+            style = EqualTheme.type.caption.copy(fontSize = 10.sp, lineHeight = 12.sp, fontWeight = FontWeight.SemiBold),
+            color = colors.textSecondary,
+            maxLines = 1,
+        )
+    }
+}
+
 /**
- * Active instruction (Instructions screenshot, 328dp card): `bg/surface`, 1dp `stroke/subtle`
- * outline, radius 16, padding 17. Header: title 17/20 Bold + [OverflowMenu] (Edit / Delete
- * instruction); then the outlined source pill (24 high, h 8/10, emoji 14 + `caption`
- * `text/secondary`); a full-width divider (9 above, 17 below); then the WHEN and DO rows (gap 14).
+ * Active instruction (328dp card, padding 16, gap 16): title 16/20 Bold + [OverflowMenu] (Edit /
+ * Delete instruction), the [SourceBadge] 6 below it, then the WHEN and DO rows (gap 12). No divider.
  */
 @Composable
 fun InstructionCard(
@@ -809,52 +881,33 @@ fun InstructionCard(
     onDelete: (() -> Unit)? = null,
 ) {
     val colors = EqualTheme.colors
-    val shape = RoundedCornerShape(EqualRadius.rLg)
     Column(
-        modifier
-            .fillMaxWidth()
-            .background(colors.bgSurface, shape)
-            .border(1.dp, colors.strokeSubtle, shape)
-            .padding(17.dp),
+        modifier.instructionCard(colors, PaddingValues(16.dp)),
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        Row(verticalAlignment = Alignment.Top) {
-            EqualText(
-                text = instruction.title,
-                style = EqualTheme.type.subheading.copy(fontSize = 17.sp, lineHeight = 20.sp, fontWeight = FontWeight.Bold),
-                color = colors.textPrimary,
-                modifier = Modifier.weight(1f).padding(top = 2.dp),
-            )
-            val items = editDeleteItems(onEdit, onDelete, deleteLabel = "Delete instruction")
-            if (items.isNotEmpty()) {
-                Spacer(Modifier.width(8.dp))
-                OverflowMenu(
-                    items = items,
-                    contentDescription = "${instruction.title} options",
-                    modifier = Modifier.offset(x = 12.dp, y = (-8).dp),
+        Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+            Row(verticalAlignment = Alignment.Top) {
+                EqualText(
+                    text = instruction.title,
+                    style = EqualTheme.type.subheading.copy(lineHeight = 20.sp, fontWeight = FontWeight.Bold),
+                    color = colors.textPrimary,
+                    modifier = Modifier.weight(1f),
                 )
+                val items = editDeleteItems(onEdit, onDelete, deleteLabel = "Delete instruction")
+                if (items.isNotEmpty()) {
+                    Spacer(Modifier.width(8.dp))
+                    OverflowMenu(
+                        items = items,
+                        contentDescription = "${instruction.title} options",
+                        modifier = Modifier.offset(x = 14.dp, y = (-10).dp),
+                    )
+                }
             }
+            instruction.source?.let { SourceBadge(it) }
         }
-        val source = instruction.source
-        if (source != null) {
-            Spacer(Modifier.height(8.dp))
-            Row(
-                Modifier
-                    .height(24.dp)
-                    .border(1.dp, colors.strokeSubtle, CircleShape)
-                    .padding(start = 8.dp, end = 10.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                EmojiGlyph(emoji = source.emoji, size = 12.dp)
-                Spacer(Modifier.width(6.dp))
-                EqualText(text = source.label, style = EqualTheme.type.caption, color = colors.textSecondary, maxLines = 1)
-            }
-        }
-        Spacer(Modifier.height(9.dp))
-        EqualDivider()
-        Spacer(Modifier.height(17.dp))
-        Column(verticalArrangement = Arrangement.spacedBy(14.dp)) {
-            WhenDoRow(kind = WhenDoKind.When, text = instruction.whenText, upper = true)
-            WhenDoRow(kind = WhenDoKind.Do, text = instruction.doText, upper = true)
+        Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            WhenDoRow(kind = WhenDoKind.When, text = instruction.whenText)
+            WhenDoRow(kind = WhenDoKind.Do, text = instruction.doText)
         }
     }
 }
@@ -1026,7 +1079,7 @@ private val PreviewInstruction = Instruction(
     title = "Decline sales, promo spam calls",
     whenText = "The caller is selling loan, insurance, credit card, product, or another unsolicited offer",
     doText = "Politely say I am not interested and end the conversation without discussing the offer",
-    source = InstructionSource("🛡️", "Screen & Protect"),
+    source = InstructionSource(PresetArt.ScreenProtect, "Screen & Protect"),
 )
 
 @EqualPreviews
@@ -1042,7 +1095,7 @@ private fun FlowCardsPreview() {
         VSpace(12.dp)
         PresetInstructionCard(instruction = PreviewInstruction, applied = false, onApply = {})
         VSpace(12.dp)
-        PresetCard(emoji = "🛡️", tint = PresetTint.Green, title = "Screen & Protect", description = "Decline spam, hold the line on loan and payments call, close wrong call", onClick = {})
+        PresetCard(art = PresetArt.ScreenProtect, tint = PresetTint.Green, title = "Screen & Protect", description = "Decline spam, hold the line on loan and payments call, close wrong call", onClick = {})
         VSpace(12.dp)
         RecommendedCard(emoji = "🚫", title = "Decline sales & spam", description = "Politely declines sales and insurance calls.", onAdd = {})
         VSpace(12.dp)

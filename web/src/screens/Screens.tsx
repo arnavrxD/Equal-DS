@@ -368,7 +368,7 @@ export function ChatScreen({ chat = sampleChats[0], live = false, lock, onUnlock
               footer={withActions ? <SummaryActions actions={[{ label: 'Call Back', icon: 'call-filled' }, { label: 'Add to Calendar', icon: 'calendar' }]} /> : undefined}
             />
           ) : (
-            <CallSummary summary="Priya from Dr. Mehta's clinic confirmed your appointment for tomorrow at 10 AM. Bring your previous reports." time="03:32" onShare={() => {}} width={264} tag={{ emoji: '🪄', label: 'Instruction Applied' }} locked={lock === 'audio' ? 'audio' : undefined} onUnlock={onUnlock} />
+            <CallSummary summary="Priya from Dr. Mehta's clinic confirmed your appointment for tomorrow at 10 AM. Bring your previous reports." time="03:32" onShare={() => {}} width={264} tag={{ emoji: '🪄', label: '2 instructions applied in this call' }} locked={lock === 'audio' ? 'audio' : undefined} onUnlock={onUnlock} />
           )}
         </div>
         <div style={{ paddingLeft: 36, marginTop: 4 }}>

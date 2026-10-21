@@ -611,7 +611,7 @@ private fun CatalogContent(modifier: Modifier) {
                 Recommendations.forEach { RecommendedCard(emoji = it.emoji, title = it.title, description = it.description, onAdd = {}) }
             }
             SuggestionsComingCard()
-            Presets.forEach { PresetCard(emoji = it.emoji, tint = it.tint, title = it.title, description = it.description, onClick = {}) }
+            Presets.forEach { PresetCard(art = it.art, tint = it.tint, title = it.title, description = it.description, onClick = {}) }
             InstructionPreview(
                 title = InstructionLibrary.delivery.title,
                 whenText = AnnotatedString(InstructionLibrary.delivery.whenText),

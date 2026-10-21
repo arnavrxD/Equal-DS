@@ -126,11 +126,12 @@ const flows: Record<string, FlowDef> = {
       { key: 'no-recs', label: 'No recommendations', render: () => <InstructionsFlow noRecommendations />, code: '<InstructionsFlow noRecommendations />' },
     ],
     steps: [
-      <><b>Hub</b>: horizontal recommended cards (or “New suggestions coming…” once they’re all applied), an Active Instructions row, three presets and a pinned “Add New Instruction”.</>,
-      <><b>Preset</b>: the description plus instruction cards with When / Do rows and + Apply, which turns into Applied.</>,
+      <><b>Hub</b>: horizontal recommended cards with a tinted + Apply (or “New suggestions coming…” once they’re all applied), the Active Instructions row with the robot-with-wand art, three presets led by their 3D art, and a pinned “Add New Instruction”.</>,
+      <><b>Preset</b>: the description plus instruction cards with WHEN / DO pills and + Apply, which turns into Applied.</>,
       <><b>Setup chat, no input</b>: You → Equal AI “Got it! Here’s your instruction:” → preview → ✍️ Edit / 👍 Confirm. Confirm adds ✅ and saves.</>,
       <><b>Setup chat, input needed</b>: Equal AI asks each follow-up (the landmark, then the wait time); the answers are bolded in the preview → ✏️ Change something else / 👌 That’s all.</>,
-      <><b>Active</b>: cards with a source chip, WHEN / DO, and ⋮ Edit / Delete instruction; plus an empty state.</>,
+      <><b>Active</b>: cards with the preset’s source badge, WHEN / DO, and ⋮ Edit / Delete instruction; plus an empty state.</>,
+      <><b>In the chat</b>: after a call, the summary says which instructions ran: “🪄 2 instructions applied in this call”.</>,
     ],
   },
   'plan-renewal': {

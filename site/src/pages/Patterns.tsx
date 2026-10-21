@@ -42,7 +42,7 @@ export default function Patterns() {
     <Page title="Patterns" lead="How components combine: the rhythm of a call thread, selection in the chat list, and the confirm-then-undo pattern for destructive actions.">
       <H2>A call thread</H2>
       <p className="s-p">Day divider → call events → outgoing (Equal AI on your behalf) and incoming (the caller) bubbles → the notice that the call ended → the assistant’s summary with the recording → the rating card. Consecutive bubbles from one sender group at 4dp; a new sender opens at 12dp with a tail.</p>
-      <Example title="Thread on the chat wallpaper" width={390} code={`<ChatWallpaper>\n  <MessageList>\n    <DayDivider label="Today" />\n    <ThreadEvent label="Call Started 03:31" />\n    <ChatBubble kind="outgoing" sender="Equal AI" tail>…</ChatBubble>\n    <ChatBubble kind="incoming" sender="Dr Mehta Clinic" tail>…</ChatBubble>\n    <ThreadNotice>Call has ended…</ThreadNotice>\n    <CallSummary summary="…" tag={{ emoji: '🪄', label: 'Instruction Applied' }} />\n  </MessageList>\n</ChatWallpaper>`}>
+      <Example title="Thread on the chat wallpaper" width={390} code={`<ChatWallpaper>\n  <MessageList>\n    <DayDivider label="Today" />\n    <ThreadEvent label="Call Started 03:31" />\n    <ChatBubble kind="outgoing" sender="Equal AI" tail>…</ChatBubble>\n    <ChatBubble kind="incoming" sender="Dr Mehta Clinic" tail>…</ChatBubble>\n    <ThreadNotice>Call has ended…</ThreadNotice>\n    <CallSummary summary="…" tag={{ emoji: '🪄', label: '2 instructions applied in this call' }} />\n  </MessageList>\n</ChatWallpaper>`}>
         <div style={{ width: 390, borderRadius: 16, overflow: 'hidden' }}>
           <ChatWallpaper>
             <MessageList>
@@ -55,7 +55,7 @@ export default function Patterns() {
               <ThreadNotice>Call has ended. You are now talking to your AI assistant.</ThreadNotice>
               <ChatBubble kind="assistant" sender="Equal AI" time="03:32" tail>Hey Keshav! Here is the summary of your call</ChatBubble>
               <div style={{ paddingLeft: 36 }}>
-                <CallSummary summary="Priya from Dr. Mehta’s clinic confirmed your appointment for tomorrow at 10 AM." time="03:32" tag={{ emoji: '🪄', label: 'Instruction Applied' }} onShare={() => {}} width={264} />
+                <CallSummary summary="Priya from Dr. Mehta’s clinic confirmed your appointment for tomorrow at 10 AM." time="03:32" tag={{ emoji: '🪄', label: '2 instructions applied in this call' }} onShare={() => {}} width={264} />
               </div>
               <div style={{ paddingLeft: 36 }}><FeedbackCard /></div>
             </MessageList>

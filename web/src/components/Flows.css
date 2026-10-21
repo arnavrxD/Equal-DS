@@ -63,56 +63,67 @@
 .eq-gender__art { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); }
 
 /* Recommended */
-.eq-rec { width: 188px; min-height: 114px; flex-shrink: 0; border: 1px solid var(--eq-stroke-subtle); box-shadow: none; }
-.eq-rec__add {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  background: var(--eq-icon-button-bg);
-  color: var(--eq-text-action);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.eq-suggest {
+/* Recommended for you (Preset Instruction design): 191 × 114, padding 12, radius 12. */
+.eq-rec {
   display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   gap: 8px;
-  align-items: center;
-  border-radius: 16px;
-  padding: 16px 12px 12px 16px;
-  background: var(--eq-gradient-suggestion-card);
+  width: 191px;
+  min-height: 114px;
+  flex-shrink: 0;
+  padding: 12px;
+  border-radius: 12px;
+  background: var(--eq-bg-surface);
   border: 1px solid var(--eq-stroke-subtle);
 }
+.eq-rec__top { display: flex; justify-content: space-between; align-items: center; min-height: 28px; }
 
-/* Presets */
-.eq-preset { border: 1px solid var(--eq-stroke-subtle); box-shadow: none; }
-.eq-preset__icon { width: 26px; height: 26px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; }
-
-.eq-whendo { display: flex; gap: 12px; align-items: flex-start; }
-.eq-whendo__chip {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 42px;
-  height: 26px;
-  padding: 0 10px;
-  border-radius: var(--eq-radius-full);
-  flex-shrink: 0;
+/* New suggestions coming…: grey card, three soft green glows, robot top-right. */
+.eq-suggest {
+  position: relative;
+  overflow: hidden;
+  min-height: 116px;
+  padding: 16px;
+  border-radius: 16px;
+  background: var(--eq-bg-primary);
+  border: 1px solid var(--eq-stroke-medium);
 }
-.eq-whendo__chip--when { background: var(--eq-chip-when-bg); }
-.eq-whendo__chip--do { background: var(--eq-chip-do-bg); }
+.eq-suggest__glow { position: absolute; border-radius: 50%; background: var(--eq-suggest-glow); filter: blur(50px); pointer-events: none; }
+.eq-suggest__art { position: absolute; top: -5px; right: -6px; }
+
+/* Presets and the Active Instructions entry: art in a tinted circle, title, description, chevron. */
+.eq-preset {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 85px;
+  padding: 12px 12px 12px 13px;
+  text-align: left;
+  border-radius: 16px;
+  background: var(--eq-bg-surface);
+  border: 1px solid var(--eq-stroke-subtle);
+}
+.eq-preset--entry { min-height: 76px; gap: 8px; padding: 15px 16px 15px 14px; }
+.eq-preset__icon { border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; overflow: hidden; }
+
+/* WHEN / DO: 52dp pill fading from the tint to the card colour, text beside it. */
+.eq-whendo { display: flex; gap: 8px; align-items: flex-start; }
+.eq-whendo__pill { display: inline-flex; align-items: center; justify-content: center; width: 52px; height: 24px; margin-top: -3px; border-radius: var(--eq-radius-full); flex-shrink: 0; }
+.eq-whendo__pill--when { background: var(--eq-gradient-when-chip); }
+.eq-whendo__pill--do { background: var(--eq-gradient-do-chip); }
 
 .eq-source {
   display: inline-flex;
   align-self: flex-start;
   align-items: center;
-  gap: 6px;
-  height: 24px;
-  margin-top: 8px;
-  padding: 0 10px 0 8px;
+  gap: 4px;
+  min-height: 24px;
+  padding: 4px 8px;
   border-radius: var(--eq-radius-full);
-  border: 1px solid var(--eq-stroke-subtle);
+  background: var(--eq-bg-surface);
+  border: 1px solid var(--eq-stroke-medium);
 }
 
 .eq-applied {
@@ -169,12 +180,9 @@
 @keyframes eq-heads-up-in { from { transform: translateY(-120%); opacity: 0; } to { transform: none; opacity: 1; } }
 @media (prefers-reduced-motion: reduce) { .eq-heads-up { animation: none; } }
 
-/* Active instruction card (Instructions screenshot). */
-.eq-instruction-card { display: flex; flex-direction: column; background: var(--eq-bg-surface); border: 1px solid var(--eq-stroke-subtle); border-radius: 16px; padding: 17px; }
-.eq-whendo--active { gap: 8px; }
-.eq-whendo__pill { display: inline-flex; align-items: center; justify-content: center; width: 51px; height: 24px; margin-top: -3px; border-radius: var(--eq-radius-full); flex-shrink: 0; }
-.eq-whendo__pill--when { background: var(--eq-gradient-when-chip); }
-.eq-whendo__pill--do { background: var(--eq-gradient-do-chip); }
+/* Active and preset instruction cards: 328dp, radius 16, gap 16. */
+.eq-instruction-card { display: flex; flex-direction: column; gap: 16px; background: var(--eq-bg-surface); border: 1px solid var(--eq-stroke-subtle); border-radius: 16px; padding: 16px; }
+.eq-instruction-card--preset { padding: 12px 16px; }
 
 /* Closed FullSheet: hidden (and inert) after the slide-out, so its controls leave the Tab order. */
 .eq-fullsheet { visibility: hidden; transition: visibility 0s linear var(--eq-duration-slow); }

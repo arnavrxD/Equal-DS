@@ -47,3 +47,6 @@
 .eq-icon-btn--glass { background: var(--eq-glass-button-default); color: var(--eq-text-primary); box-shadow: var(--eq-shadow-glass); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
 .eq-icon-btn--primary { background: var(--eq-button-primary); color: var(--eq-text-on-action); box-shadow: var(--eq-shadow-raised); }
 .eq-icon-btn:disabled { opacity: 0.4; }
+
+/* Tinted pill: “+ Apply” on recommended cards and preset instructions. */
+.eq-btn--tonal { background: var(--eq-button-tonal); color: var(--eq-text-action); }

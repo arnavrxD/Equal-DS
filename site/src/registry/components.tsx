@@ -132,6 +132,7 @@ import {
   PlanBadge,
   PlanCard,
   PresetCard,
+  ActiveInstructionsRow,
   PresetInstructionCard,
   ProfileAvatar,
   ProfileHeader,
@@ -2028,7 +2029,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     id: 'call-summary',
     name: 'Call summary',
     group: 'Chat',
-    summary: 'The post-call card in a thread: a recording player with a coded waveform and speed pill, the assistant\'s summary, and an optional share footer or "Instruction Applied" tag.',
+    summary: 'The post-call card in a thread: a recording player with a coded waveform and speed pill, the assistant\'s summary, and an optional share footer or "2 instructions applied in this call" tag.',
     components: ['CallSummary', 'VoicePlayer'],
     importLine: "import { CallSummary, VoicePlayer } from '@equal/ds';",
     compose: ['CallSummaryBubble', 'VoiceNotePlayer'],
@@ -2052,12 +2053,12 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
         title: 'Instruction applied',
         render: () => (
           <div style={pad16}>
-            <CallSummary summary="Priya from Dr. Mehta's clinic confirmed your appointment for tomorrow at 10 AM. Bring your previous reports." time="03:32" width={264} tag={{ emoji: '🪄', label: 'Instruction Applied' }} />
+            <CallSummary summary="Priya from Dr. Mehta's clinic confirmed your appointment for tomorrow at 10 AM. Bring your previous reports." time="03:32" width={264} tag={{ emoji: '🪄', label: '2 instructions applied in this call' }} />
           </div>
         ),
         code: `<CallSummary
   summary="Priya from Dr. Mehta's clinic confirmed your appointment for tomorrow at 10 AM. Bring your previous reports."
-  time="03:32" tag={{ emoji: '🪄', label: 'Instruction Applied' }} />`,
+  time="03:32" tag={{ emoji: '🪄', label: '2 instructions applied in this call' }} />`,
       },
       {
         title: 'Summary only',
@@ -2091,7 +2092,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
           opt('onShare', '() => void', undefined, 'Adds the divider + Share footer.'),
           opt('noRecording', 'boolean', undefined, 'Hide the recording player.'),
           opt('width', 'number', '268', 'Card width in dp.'),
-          opt('tag', '{ emoji?: string; label: string }', undefined, "Pill left of the timestamp, e.g. { emoji: '🪄', label: 'Instruction Applied' }."),
+          opt('tag', '{ emoji?: string; label: string }', undefined, "Pill left of the timestamp, e.g. { emoji: '🪄', label: '2 instructions applied in this call' }."),
           opt('recording', 'ReactNode', undefined, 'Replaces the recording player, e.g. `<LockedRecording>` (gold, crown-locked) on the free plan.'),
           opt('footer', 'ReactNode', undefined, 'Rows under the summary, e.g. `<SummaryActions>` (Call Back · Add to Calendar).'),
         ],
@@ -2108,7 +2109,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     ],
     dos: [
       'Write the summary as the outcome for the user ("Amit invited you to dinner… confirm by tonight"), not a transcript.',
-      'Tag the card 🪄 "Instruction Applied" when one of the user\'s instructions handled the call.',
+      'Tag the card 🪄 "2 instructions applied in this call" when one of the user\'s instructions handled the call.',
       'Keep the same `seed` for a recording so its waveform is stable.',
     ],
     donts: [
@@ -4546,16 +4547,16 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     id: 'instruction-cards',
     name: 'Instruction cards',
     group: 'Flows',
-    summary: 'The pieces of the Instructions flow: recommended and preset cards on the hub, preset and active instruction cards with When / Do rows, and the preview shown in the setup chat.',
-    components: ['RecommendedCard', 'SuggestionsComingCard', 'PresetCard', 'PresetInstructionCard', 'InstructionCard', 'WhenDoRow', 'InstructionPreview'],
-    importLine: "import { RecommendedCard, SuggestionsComingCard, PresetCard, PresetInstructionCard, InstructionCard, WhenDoRow, InstructionPreview } from '@equal/ds';",
-    compose: ['RecommendedCard', 'SuggestionsComingCard', 'PresetCard', 'PresetInstructionCard', 'InstructionCard', 'WhenDoRow', 'InstructionPreview'],
-    spec: 'Flows · Instructions · Instruction Card',
-    tokens: ['bg/surface', 'chip/when-bg', 'chip/do-bg', 'preset/tint-green', 'preset/tint-blue', 'preset/tint-orange', 'preset/tint-lime', 'gradient/suggestion-card', 'text/primary', 'text/secondary', 'text/action', 'button/primary'],
+    summary: 'The pieces of the Instructions flow: recommended cards with a tinted + Apply pill, the New suggestions card, the Active Instructions entry and 3D-art preset cards on the hub, preset and active instruction cards with WHEN / DO rows, and the preview shown in the setup chat.',
+    components: ['RecommendedCard', 'ApplyButton', 'SuggestionsComingCard', 'ActiveInstructionsRow', 'PresetCard', 'PresetIcon', 'PresetInstructionCard', 'InstructionCard', 'SourceBadge', 'WhenDoRow', 'InstructionPreview'],
+    importLine: "import { RecommendedCard, ApplyButton, SuggestionsComingCard, ActiveInstructionsRow, PresetCard, PresetIcon, PresetInstructionCard, InstructionCard, SourceBadge, WhenDoRow, InstructionPreview } from '@equal/ds';",
+    compose: ['RecommendedCard', 'ApplyButton', 'SuggestionsComingCard', 'ActiveInstructionsRow', 'PresetCard', 'PresetIcon', 'PresetInstructionCard', 'InstructionCard', 'SourceBadge', 'WhenDoRow', 'InstructionPreview'],
+    spec: 'Preset Instruction design (For Review)',
+    tokens: ['bg/surface', 'bg/primary', 'preset/tint-green', 'preset/tint-blue', 'preset/tint-orange', 'preset/tint-lime', 'suggest/glow', 'button/tonal', 'gradient/when-chip', 'gradient/do-chip', 'stroke/subtle', 'stroke/medium', 'text/primary', 'text/secondary', 'text/action', 'button/primary'],
     examples: [
       {
         title: 'Recommended for you',
-        note: 'Tap + to add; once both are added the "New suggestions coming…" card takes their place.',
+        note: 'Tap + Apply to set it up; once every recommendation is applied the "New suggestions coming…" card takes their place.',
         render: () => (
           <OnPrimary pad="16px">
             <RecommendedDemo />
@@ -4569,25 +4570,32 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
 {allApplied && <SuggestionsComingCard />}`,
       },
       {
-        title: 'Browse presets',
-        width: 'wide',
+        title: 'Your instructions and browse presets',
+        note: 'Each preset leads with its 3D art on a tinted circle; the Active Instructions entry uses the robot with a wand on lime.',
+        width: 390,
         render: () => (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))', gap: 12 }}>
-            {presets.map((p) => (
-              <PresetCard key={p.id} emoji={p.emoji} tint={p.tint} title={p.title} description={p.description} onClick={noop} />
-            ))}
-          </div>
+          <OnPrimary pad="16px">
+            <Col gap={6}>
+              <ActiveInstructionsRow count={5} onClick={noop} />
+              <div style={{ height: 10 }} />
+              {presets.map((p) => (
+                <PresetCard key={p.id} art={p.art} tint={p.tint} title={p.title} description={p.description} onClick={noop} />
+              ))}
+            </Col>
+          </OnPrimary>
         ),
-        code: `<PresetCard emoji="🛡️" tint="green" title="Screen & Protect"
+        code: `<ActiveInstructionsRow count={5} onClick={openActive} />
+
+<PresetCard art="preset-screen-protect" tint="green" title="Screen & Protect"
   description="Decline spam, hold the line on loan and payments call, close wrong call" onClick={open} />
-<PresetCard emoji="📞" tint="blue" title="Handle everyday calls"
+<PresetCard art="preset-everyday-calls" tint="blue" title="Handle everyday calls"
   description="Take message, guide deliveries, relay to family, start in your language" onClick={open} />
-<PresetCard emoji="💼" tint="orange" title="Run my business"
+<PresetCard art="preset-business" tint="orange" title="Run my business"
   description="Capture enquiries, orders, bookings, job, and supplier calls" onClick={open} />`,
       },
       {
         title: 'Preset instructions',
-        note: 'Apply turns into Applied.',
+        note: 'The tinted + Apply pill turns into Applied.',
         render: () => (
           <OnPrimary pad="16px">
             <PresetApplyDemo />
@@ -4598,21 +4606,21 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
       },
       {
         title: 'Active instructions',
-        note: 'Outlined card: bold title + ⋮, the source pill, a divider, then WHEN / DO in fading pills.',
+        note: 'Outlined card: bold title + ⋮, the source badge with the preset art, then WHEN / DO in fading pills. No divider.',
         width: 390,
         render: () => (
           <OnPrimary pad="16px">
             <Col gap={8}>
-              <InstructionCard instruction={{ ...instructionLibrary.declineSales, source: { emoji: '✨', label: 'Recommended for you' } }} onEdit={noop} onDelete={noop} />
-              <InstructionCard instruction={{ ...instructionLibrary.loanEmi, source: { emoji: '💼', label: 'Run my business' } }} onEdit={noop} onDelete={noop} />
-              <InstructionCard instruction={{ ...instructionLibrary.difficult, source: { emoji: '📞', label: 'Handle everyday calls' } }} onEdit={noop} onDelete={noop} />
+              <InstructionCard instruction={{ ...instructionLibrary.declineSales, source: { art: 'preset-screen-protect', label: 'Screen & Protect' } }} onEdit={noop} onDelete={noop} />
+              <InstructionCard instruction={{ ...instructionLibrary.loanEmi, source: { art: 'preset-business', label: 'Run my business' } }} onEdit={noop} onDelete={noop} />
+              <InstructionCard instruction={{ ...instructionLibrary.difficult, source: { art: 'preset-everyday-calls', label: 'Handle everyday calls' } }} onEdit={noop} onDelete={noop} />
             </Col>
           </OnPrimary>
         ),
         code: `<InstructionCard instruction={{
   id: 'decline-sales',
   title: 'Decline sales, promo spam calls',
-  source: { emoji: '✨', label: 'Recommended for you' },
+  source: { art: 'preset-screen-protect', label: 'Screen & Protect' },
   when: 'The caller is selling loan, insurance, credit card, product, or another unsolicited offer',
   do: 'Politely say I am not interested and end the conversation without discussing the offer',
 }} onEdit={edit} onDelete={confirmDelete} />`,
@@ -4631,20 +4639,50 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
       {
         component: 'RecommendedCard',
         props: [
-          req('emoji', 'string', 'Leading emoji (26dp).'),
-          req('title', 'string', 'Title (subheading).'),
-          req('description', 'string', 'One-line description (body1).'),
-          opt('onAdd', '() => void', undefined, 'Shows the + button.'),
+          req('emoji', 'string', 'Leading emoji (24dp).'),
+          req('title', 'string', 'Title (14 semibold).'),
+          req('description', 'string', 'Two-line description (12/16).'),
+          opt('onAdd', '() => void', undefined, 'Shows the tinted + Apply pill.'),
+        ],
+      },
+      {
+        component: 'ApplyButton',
+        props: [
+          opt('label', 'string', "'Apply'", 'Pill label.'),
+          opt('aria-label', 'string', undefined, 'Names what is applied, e.g. "Apply Decline sales & spam".'),
+          opt('onClick', '() => void', undefined, 'Apply handler.'),
         ],
       },
       { component: 'SuggestionsComingCard', props: [] },
       {
+        component: 'ActiveInstructionsRow',
+        props: [
+          req('count', 'number', '"N active instructions"; 0 shows "Manage how your assistant handles calls".'),
+          opt('onClick', '() => void', undefined, 'Opens Active Instructions.'),
+        ],
+      },
+      {
+        component: 'PresetIcon',
+        props: [
+          req('art', 'AssetName', 'The 3D art (33dp in a 44dp circle).'),
+          req('tint', "'green' | 'blue' | 'orange' | 'lime'", 'Circle tint.'),
+          opt('size', 'number', '44', 'Circle size; the art is 75 % of it.'),
+        ],
+      },
+      {
+        component: 'SourceBadge',
+        props: [
+          req('art', 'PresetArt', 'The preset art (16dp).'),
+          req('label', 'string', 'The preset name.'),
+        ],
+      },
+      {
         component: 'PresetCard',
         props: [
-          req('emoji', 'string', 'Emoji in the tinted circle.'),
+          req('art', "'preset-screen-protect' | 'preset-everyday-calls' | 'preset-business'", 'The preset\'s 3D art in the tinted circle (PresetArt).'),
           req('tint', "'green' | 'blue' | 'orange'", 'Circle tint (PresetTint): green = Screen & Protect, blue = Handle everyday calls, orange = Run my business.'),
           req('title', 'string', 'Title (subheading).'),
-          req('description', 'string', 'Description (captionWrap).'),
+          req('description', 'string', 'Description (12/16, text/secondary).'),
           opt('onClick', '() => void', undefined, 'Opens the preset.'),
         ],
       },
@@ -4659,7 +4697,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
       {
         component: 'InstructionCard',
         props: [
-          req('instruction', 'Instruction', '{ id, title, when, do, source? }. source renders as an emoji chip under the title.'),
+          req('instruction', 'Instruction', '{ id, title, when, do, source? }. source ({ art, label }) renders as the SourceBadge under the title.'),
           opt('onEdit', '() => void', undefined, 'Adds "Edit" to the overflow menu.'),
           opt('onDelete', '() => void', undefined, 'Adds "Delete instruction" (danger) to the overflow menu.'),
         ],
@@ -4668,8 +4706,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
         component: 'WhenDoRow',
         props: [
           req('kind', "'when' | 'do'", 'Which chip to show.'),
-          req('children', 'ReactNode', 'The condition or action (body1).'),
-          opt('upper', 'boolean', 'false', 'Uppercase overline chip (active instructions) instead of sentence case (presets).'),
+          req('children', 'ReactNode', 'The condition or action (14/18).'),
         ],
       },
       {
@@ -4685,13 +4722,13 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     ],
     dos: [
       'Write When as the situation and Do as the assistant\'s behaviour, in plain first person ("say I am not interested").',
-      'Use sentence-case When / Do on presets and uppercase WHEN / DO on active instructions (`upper`).',
+      'Use the uppercase WHEN / DO pills on both preset and active instructions.',
       'Confirm with 👍 Confirm (unread) next to ✍️ Edit (read) under the preview.',
       'Show SuggestionsComingCard once every recommendation is applied.',
     ],
     donts: [
       "Don't delete an instruction straight from the ⋮ menu; confirm first.",
-      "Don't use Material icons on preset or recommended cards; they lead with emoji.",
+      "Don't use Material icons or emoji on preset cards; they lead with their 3D art. Recommended cards lead with emoji.",
       "Don't put two filled buttons on a preset instruction; Apply is the only commit.",
     ],
   },

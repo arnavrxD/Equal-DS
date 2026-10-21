@@ -126,7 +126,7 @@ export default function Home() {
           <FeedbackCard rating={4} width={300} />
         </Tile>
         <Tile span={5} label="Call summary" to="/components/call-summary">
-          <CallSummary summary="Amit invited you to dinner this Sunday, 8 PM at his place. He asked you to confirm by tonight." time="03:21" tag={{ emoji: '🪄', label: 'Instruction Applied' }} onShare={() => {}} width={320} />
+          <CallSummary summary="Amit invited you to dinner this Sunday, 8 PM at his place. He asked you to confirm by tonight." time="03:21" tag={{ emoji: '🪄', label: '2 instructions applied in this call' }} onShare={() => {}} width={320} />
         </Tile>
         <Tile span={3} label="Buttons · Switch" to="/components/button">
           <div style={{ display: 'flex', flexDirection: 'column', gap: 12, alignItems: 'flex-start' }}>

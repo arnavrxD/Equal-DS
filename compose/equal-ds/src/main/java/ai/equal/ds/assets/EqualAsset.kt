@@ -49,8 +49,20 @@ enum class EqualAssets(val assetName: String, @DrawableRes val resId: Int) {
     /** Active Instructions empty state. */
     IllustrationInstructionsEmpty("illustration-instructions-empty", R.drawable.ds_asset_illustration_instructions_empty),
 
-    /** "New suggestions coming" card (112dp). */
+    /** "New suggestions coming" card: the robot reading among call bubbles (140dp, top-right). */
     IllustrationSuggestions("illustration-suggestions", R.drawable.ds_asset_illustration_suggestions),
+
+    /** Instructions hub › Active Instructions row: the robot with a magic wand (40dp on the lime tint). */
+    MascotInstructions("mascot-instructions", R.drawable.ds_asset_mascot_instructions),
+
+    /** Screen & Protect preset: 3D shield with a tick (33dp; 16dp in the source badge). */
+    PresetScreenProtect("preset-screen-protect", R.drawable.ds_asset_preset_screen_protect),
+
+    /** Handle everyday calls preset: 3D receiver with a question mark (33dp; 16dp in the source badge). */
+    PresetEverydayCalls("preset-everyday-calls", R.drawable.ds_asset_preset_everyday_calls),
+
+    /** Run my business preset: 3D briefcase (33dp; 16dp in the source badge). */
+    PresetBusiness("preset-business", R.drawable.ds_asset_preset_business),
 
     /** Gender selector bust, male (60 × 56). Falls back to ProfileAvatar while a placeholder. */
     AvatarMaleBust("avatar-male-bust", R.drawable.ds_asset_avatar_male_bust),

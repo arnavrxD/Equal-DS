@@ -32,7 +32,7 @@ When a design and the system disagree, check it first; when a rule changes, upda
 - **Atoms first:** every visible leaf is an atom (`Text`, `Icon`, `Emoji`, `Asset`, `Button`…), never
   raw markup with a typography class. Molecules combine atoms; organisms combine molecules. Set a new
   component's level in `site/src/registry/levels.ts` so Trace can show it.
-- **Radii:** whole numbers only (2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 24, 28, 32, 36, 50, 54, 80, 100, full).
+- **Radii:** whole numbers only (2, 4, 6, 8, 12, 16, 18, 20, 24, 28, 32, 36, 50, 54, 80, 100, full). The Experiments page is not a source for anything.
 
 **Icons and images**
 - **Action cards:** the grey body sits on a white card (never a green card), and every CTA row is

@@ -36,7 +36,7 @@ When a design and the system disagree, check it first; when a rule changes, upda
 - **Atoms first:** every visible leaf is an atom (`Text`, `Icon`, `Emoji`, `Asset`, `Button`…), never
   raw markup with a typography class. Molecules combine atoms; organisms combine molecules. Set a new
   component's level in `site/src/registry/levels.ts` so Trace can show it.
-- **Radii:** whole numbers only (2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 24, 28, 32, 36, 50, 54, 80, 100, full).
+- **Radii:** whole numbers only (2, 4, 6, 8, 12, 16, 18, 20, 24, 28, 32, 36, 50, 54, 80, 100, full). The Experiments page is not a source for anything.
 
 **Icons and images**
 - **Action cards:** the grey body sits on a white card (never a green card), and every CTA row is
@@ -148,6 +148,7 @@ Done means: typecheck clean, `--check` passes, Gradle BUILD SUCCESSFUL, and lint
 
 ### Colour & type
 
+- **Nothing comes from the Figma “Experiments” page.** Why: It holds explorations that are not decided. Colours, radii, type and components are taken only from the other pages (Updated UI, Monetization, Global MYA, Preset Instruction…). (Source: Product owner)
 - **Colours come from the Figma library’s “Colours” set: text is black at 80 / 60 / 40 / 20%.** Why: The app file binds its colours to a shared library with two sets of the same names; the newer “Colours” set (alpha black and white) is the one the revamped screens use. Primary text is black 80%, secondary 60%, placeholder 40%, disabled 20%; strokes are black 5 / 8 / 32%; the page is #FAFAFA and the dark surface #1F1F1F. (Source: Figma: 📱 EQAI Android · library “Colours”)
 - **A colour at x% is the colour-guide colour at 100% with x% opacity.** Why: Figma paints the same brand and neutral colours at different opacities (green at 36% for unread strokes, lime at 8% for unread fills). Writing them as “{brand.green} @ 36%” keeps one source colour per hue, so a brand change flows to every tint. (Source: Product owner)
 - **One-off greys snap to the text colours; readable text never drops below 4.5:1.** Why: Figma has about 20 hand-picked greys (#3C3C3C names, #858484 previews, #9F9F9F dates…). Snapping them to primary / secondary keeps new screens to four text colours. Black 40% is 2.85:1 on white, so it is only for placeholders and disabled text; dates and captions use secondary (60%, 5.7:1). Figma colours that fail AA for text are darkened in the same hue and the reason is written on the token. (Source: Product owner + accessibility)
@@ -183,7 +184,7 @@ Done means: typecheck clean, `--check` passes, Gradle BUILD SUCCESSFUL, and lint
 ### Components
 
 - **Build from atoms: atoms → molecules → organisms → screens.** Why: Every visible leaf (text, icon, emoji, image, coded art) is rendered by an atom (Text, Icon, Emoji, Asset, Button…). Molecules combine atoms for one job (a chip, a row), organisms are whole sections (a chat row, a paywall). Trace walks this chain, so a designer can point at any pixel and find the atom, then step up with ↑ to the molecule and section. (Source: Product owner)
-- **Corner radii are whole numbers from one scale.** Why: The Figma scale is 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 24, 28, 32, 36, 50, 54, 80, 100 and full. Decimal radii in Figma (5.76, 1.33, 10.27…) come from scaled component instances or circles; use the whole number the master component uses, and “full” for circles and pills. (Source: Figma audit)
+- **Corner radii are whole numbers from one scale.** Why: The Figma scale is 2, 4, 6, 8, 12, 16, 18, 20, 24, 28, 32, 36, 50, 54, 80, 100 and full. Decimal radii in Figma (5.76, 1.33, 10.27…) come from scaled component instances or circles; use the whole number the master component uses, and “full” for circles and pills. (Source: Figma audit)
 - **Action cards: grey body on a white card, never a green card.** Why: A green wrapper made confirmations look like warnings and broke consistency with the rest of the thread. Every action card has the same frame; the content says what happened. (Source: Design review)
 - **Every action-card CTA has an emoji (📤 Send, ✏️ Edit, 👍 Confirm, 🗑️ Delete).** Why: Emoji make the action recognisable at a glance and match the chip language used everywhere else in chat. (Source: Design review)
 - **All actions in a card have the same weight; Confirm is not a filled button.** Why: Two actions at equal weight let the user choose; a filled Confirm pushes them. The commit goes first, the revise second, both as text rows. (Source: Typography v3 / handoff)
@@ -1384,14 +1385,14 @@ ChatWallpaper {
 
 #### Call summary (`call-summary`)
 
-The post-call card in a thread: a recording player with a coded waveform and speed pill, the assistant's summary, and an optional share footer or "Instruction Applied" tag.
+The post-call card in a thread: a recording player with a coded waveform and speed pill, the assistant's summary, and an optional share footer or "2 instructions applied in this call" tag.
 
 - React: `import { CallSummary, VoicePlayer } from '@equal/ds';`
 - Compose: `CallSummaryBubble`, `VoiceNotePlayer`
 - Tokens: `bg/surface`, `voice/player-bg`, `voice/player-stroke`, `stroke/subtle`, `waveform/bar`, `waveform/bar-played`, `playback/pill-bg`, `text/on-dark`, `text/secondary`, `text/primary`, `text/action`
 - Source: §11 Chat Bubbles · Voice note + Call Summary bubble
 
-Do: Write the summary as the outcome for the user ("Amit invited you to dinner… confirm by tonight"), not a transcript. Tag the card 🪄 "Instruction Applied" when one of the user's instructions handled the call. Keep the same `seed` for a recording so its waveform is stable.
+Do: Write the summary as the outcome for the user ("Amit invited you to dinner… confirm by tonight"), not a transcript. Tag the card 🪄 "2 instructions applied in this call" when one of the user's instructions handled the call. Keep the same `seed` for a recording so its waveform is stable.
 
 Don't: Don't use an image for the waveform; it is coded. Don't show the player for calls without a recording; use `noRecording`.
 
@@ -1403,7 +1404,7 @@ Anatomy:
 5. Speed pill: Cycles 1x → 1.2x → 1.5x → 2x. (22 high · min width 34 (web) · padding 0 8 · radius full · playback/pill-bg · Text caption tabular · text/on-dark (sent: bg/surface + text/primary) · 48 touch area)
 6. Times: Elapsed and total under the two ends of the waveform. (Text micro · text/secondary · 4 above)
 7. Label and summary: "Call Summary" caption over the summary text. (Text caption text/secondary · Text body1 text/primary · padding 0 10 6 (web) / 0 8 8 (Compose))
-8. Tag and time: Optional pill (e.g. 🪄 Instruction Applied) and the timestamp. (6 above · tag 24 high · padding 0 10 · radius full · 1 px stroke/subtle · bg/surface · Emoji 12 · Text caption text/secondary · time Text micro text/secondary)
+8. Tag and time: Optional line under the summary saying which instructions ran (🪄 2 instructions applied in this call), then the timestamp on the right. (8 above · padding 4 · Emoji 12 + 12 Regular text/secondary · time Text micro text/secondary, right-aligned)
 9. Share footer: Divider and a centred Share action. (divider stroke/subtle · row 44 (web, TextButton with 48 touch area) / 48 (Compose) · share icon 18 · button text/action)
 
 Accessibility:
@@ -1447,13 +1448,13 @@ Example: Instruction applied
 ```tsx
 <CallSummary
   summary="Priya from Dr. Mehta's clinic confirmed your appointment for tomorrow at 10 AM. Bring your previous reports."
-  time="03:32" tag={{ emoji: '🪄', label: 'Instruction Applied' }} />
+  time="03:32" tag={{ emoji: '🪄', label: '2 instructions applied in this call' }} />
 ```
 ```kotlin
 CallSummaryBubble(
     summary = "Priya from Dr. Mehta's clinic confirmed your appointment for tomorrow at 10 AM. Bring your previous reports.",
     timestamp = "03:32",
-    tag = CallSummaryTag(label = "Instruction Applied", emoji = "🪄"),
+    tag = CallSummaryTag(label = "2 instructions applied in this call", emoji = "🪄"),
     modifier = Modifier.width(264.dp),
 )
 ```
@@ -2456,40 +2457,43 @@ GenderSelector(value = gender, onValueChange = { gender = it })
 
 #### Instruction cards (`instruction-cards`)
 
-The pieces of the Instructions flow: recommended and preset cards on the hub, preset and active instruction cards with When / Do rows, and the preview shown in the setup chat.
+The pieces of the Instructions flow: recommended cards with a tinted + Apply pill, the New suggestions card, the Active Instructions entry and 3D-art preset cards on the hub, preset and active instruction cards with WHEN / DO rows, and the preview shown in the setup chat.
 
-- React: `import { RecommendedCard, SuggestionsComingCard, PresetCard, PresetInstructionCard, InstructionCard, WhenDoRow, InstructionPreview } from '@equal/ds';`
-- Compose: `RecommendedCard`, `SuggestionsComingCard`, `PresetCard`, `PresetInstructionCard`, `InstructionCard`, `WhenDoRow`, `InstructionPreview`
-- Tokens: `bg/surface`, `chip/when-bg`, `chip/do-bg`, `preset/tint-green`, `preset/tint-blue`, `preset/tint-orange`, `preset/tint-lime`, `gradient/suggestion-card`, `text/primary`, `text/secondary`, `text/action`, `button/primary`
-- Source: Flows · Instructions · Instruction Card
+- React: `import { RecommendedCard, ApplyButton, SuggestionsComingCard, ActiveInstructionsRow, PresetCard, PresetIcon, PresetInstructionCard, InstructionCard, SourceBadge, WhenDoRow, InstructionPreview } from '@equal/ds';`
+- Compose: `RecommendedCard`, `ApplyButton`, `SuggestionsComingCard`, `ActiveInstructionsRow`, `PresetCard`, `PresetIcon`, `PresetInstructionCard`, `InstructionCard`, `SourceBadge`, `WhenDoRow`, `InstructionPreview`
+- Tokens: `bg/surface`, `bg/primary`, `preset/tint-green`, `preset/tint-blue`, `preset/tint-orange`, `preset/tint-lime`, `suggest/glow`, `button/tonal`, `gradient/when-chip`, `gradient/do-chip`, `stroke/subtle`, `stroke/medium`, `text/primary`, `text/secondary`, `text/action`, `button/primary`
+- Source: Preset Instruction design (For Review)
 
-Do: Write When as the situation and Do as the assistant's behaviour, in plain first person ("say I am not interested"). Use sentence-case When / Do on presets and uppercase WHEN / DO on active instructions (`upper`). Confirm with 👍 Confirm (unread) next to ✍️ Edit (read) under the preview. Show SuggestionsComingCard once every recommendation is applied.
+Do: Write When as the situation and Do as the assistant's behaviour, in plain first person ("say I am not interested"). Use the uppercase WHEN / DO pills on both preset and active instructions. Confirm with 👍 Confirm (unread) next to ✍️ Edit (read) under the preview. Show SuggestionsComingCard once every recommendation is applied.
 
-Don't: Don't delete an instruction straight from the ⋮ menu; confirm first. Don't use Material icons on preset or recommended cards; they lead with emoji. Don't put two filled buttons on a preset instruction; Apply is the only commit.
+Don't: Don't delete an instruction straight from the ⋮ menu; confirm first. Don't use Material icons or emoji on preset cards; they lead with their 3D art. Recommended cards lead with emoji. Don't put two filled buttons on a preset instruction; Apply is the only commit.
 
 Anatomy:
-1. RecommendedCard: Horizontal card with an emoji, + add, title and description. (188 wide · min 114 · radius 16 · 1dp stroke/subtle · padding 14/16 · Emoji 26 · add 30 circle icon-button/bg, add 20 text/action, 48 touch area · subheading 10 above · body1 text/secondary)
-2. SuggestionsComingCard: Shown once every recommendation is added. (gradient/suggestion-card · radius 16 · 1dp stroke/subtle · padding 16/12/12/16 · orb 18 + caption text/secondary · bodyLarge 12 above · illustration 112)
-3. PresetCard: Tappable preset with an emoji in a tinted circle and a chevron. (flow card, 1dp stroke/subtle · Emoji 16 in 26 circle (preset/tint-*) · chevron 22 text/placeholder · subheading 12 above + captionWrap text/secondary)
-4. PresetInstructionCard: Preset instruction with Apply, which becomes an 'Applied' pill. (flow card · title subheading (h3 web) · Button sm 24 with add icon · Applied pill 24 action-card/highlight + check 16 + buttonSmall text/action · gap 14)
-5. WhenDoRow: When / Do line: a flat chip on presets, a fading pill on active instructions. (preset chip 26 high, min 42, h10, chip/when-bg / chip/do-bg, caption Regular text/secondary · active pill 51×24 gradient/when-chip / do-chip, 13/16 caps text/secondary · text body1 text/primary (13/18 on active))
-6. InstructionCard: Active instruction: bold title + ⋮, source pill, divider, WHEN and DO. (bg/surface · radius 16 · 1dp stroke/subtle · padding 17 · title 17/20 Bold · source pill 24 high, 1dp stroke/subtle, Emoji 12 + caption text/secondary · divider 9 above, 17 below)
-7. InstructionPreview: Preview in the setup chat, with an optional ✅ reaction. (ActionCardBody in a bg/surface frame · radius 16 · padding 8 · max 280 · reaction 32 circle bg/surface, shadow/raised, Emoji 18)
+1. RecommendedCard: Horizontal card: emoji, the tinted + Apply pill, title and description. (191 wide · min 114 · radius 12 · bg/surface · 1dp stroke/subtle · padding 12 · Emoji 24 · ApplyButton · title 14 SemiBold · description 12/16 text/primary)
+2. ApplyButton: Tinted pill that starts the setup chat. (Button sm (24 high) · button/tonal (brand green 8 %, lime 12 % dark) · add 16 + buttonSmall text/action · 48 touch area)
+3. SuggestionsComingCard: Shown once every recommendation is applied or none exist. (116 high · radius 16 · bg/primary · 1dp stroke/medium · three suggest/glow circles (blur 50) · orb 18 + 12 Bold text/secondary · body2 13 below, max 184 · illustration-suggestions 140 top-right)
+4. ActiveInstructionsRow: Your instructions entry with the robot-with-wand art and the count. (min 76 · radius 16 · 1dp stroke/subtle · mascot-instructions 33 in a 44 preset/tint-lime circle · 14 SemiBold + 12 text/secondary · chevron 22 text/placeholder)
+5. PresetCard: Tappable preset: 3D art in a tinted circle, title, description, chevron. (min 85 · radius 16 · 1dp stroke/subtle · PresetIcon 44 (art 33, preset/tint-*) · gap 8 · title 16 SemiBold · description 12/16 text/secondary · chevron 22)
+6. PresetInstructionCard: Preset instruction with + Apply, which becomes an 'Applied' pill. (radius 16 · 1dp stroke/subtle · padding 12/16 · gap 16 · title 16/20 SemiBold (h3 web) · ApplyButton · Applied pill 24 action-card/highlight + check 16 + buttonSmall text/action)
+7. WhenDoRow: WHEN / DO line, the same on preset and active instructions. (52 × 24 pill gradient/when-chip / gradient/do-chip · 12 SemiBold caps text/secondary · gap 8 · text 14/18 text/primary)
+8. SourceBadge: Which preset an active instruction came from. (min 24 · padding 4/8 · bg/surface · 1dp stroke/medium · preset art 16 + 10 SemiBold text/secondary)
+9. InstructionCard: Active instruction: bold title + ⋮, source badge, WHEN and DO. No divider. (bg/surface · radius 16 · 1dp stroke/subtle · padding 16 · gap 16 · title 16/20 Bold · badge 6 below · rows gap 12)
+10. InstructionPreview: Preview in the setup chat, with an optional ✅ reaction. (ActionCardBody in a bg/surface frame · radius 16 · padding 8 · max 280 · reaction 32 circle bg/surface, shadow/raised, Emoji 18)
 
 Accessibility:
-- Role. Web: RecommendedCard is a div with an add <button>. PresetCard is a <button>. Instruction titles are h3. The overflow has aria-haspopup="menu" and aria-expanded. Emoji are aria-hidden. Android: Add, PresetCard and Apply are Role.Button. The overflow is Role.Button with Expanded / Collapsed. Titles have no heading(). EmojiGlyph is hidden from TalkBack.
-- Name. Web: Add is 'Add {title}'. Apply is 'Apply {title}'. PresetCard is named by its title and description. The overflow is '{title} options'. The ✅ reaction is role="img" 'Confirmed'. Android: Add's contentDescription is 'Add {title}'. Apply reads just 'Apply'. Overflow: '{title} options'. The ✅ reaction reads 'Confirmed'.
-- Keyboard. Web: Tab to add, the preset cards, Apply and ⋮, then Enter/Space. When Apply becomes 'Applied', focus moves to the pill (useFocusHandoff). Android: TalkBack: swipe through the cards, double-tap to act. Back closes the overflow popup.
-- Touch target. Web: Add (30) uses eq-touch for 48. The sm Apply button uses eq-touch. The overflow gets 48 through IconButton. Android: Add (30dp) and the overflow (32dp) use touchTarget() for 48dp. Apply (sm) gets 48 from EqualButton.
-- Contrast. Web: Titles 12.6:1, descriptions text/secondary 5.7:1, When/Do labels 5.5–5.8:1 in both themes. Below 3:1 in light: the add icon on icon-button/bg (2.55:1) and the Applied text on its highlight (2.59:1), both brand green, and the chevron in text/placeholder (2.85:1). Android: Same tokens. In dark, add and Applied are lime on dark tints, above 10:1.
+- Role. Web: RecommendedCard is a div with an Apply <button>. ActiveInstructionsRow is a <button>. Preset and badge art is decorative (alt ""). PresetCard is a <button>. Instruction titles are h3. The overflow has aria-haspopup="menu" and aria-expanded. Emoji are aria-hidden. Android: Apply, PresetCard and ActiveInstructionsRow are Role.Button. Preset art has no contentDescription. The overflow is Role.Button with Expanded / Collapsed. Titles have no heading(). EmojiGlyph is hidden from TalkBack.
+- Name. Web: Apply is 'Apply {title}' on recommended and preset cards. PresetCard is named by its title and description. The overflow is '{title} options'. The ✅ reaction is role="img" 'Confirmed'. Android: Apply's contentDescription is 'Apply {title}'. Overflow: '{title} options'. The ✅ reaction reads 'Confirmed'.
+- Keyboard. Web: Tab to Apply, the Active Instructions row, the preset cards, Apply and ⋮, then Enter/Space. When Apply becomes 'Applied', focus moves to the pill (useFocusHandoff). Android: TalkBack: swipe through the cards, double-tap to act. Back closes the overflow popup.
+- Touch target. Web: The sm Apply pill uses eq-touch for 48. The overflow gets 48 through IconButton. Android: The overflow (32dp) uses touchTarget() for 48dp. Apply (sm) gets 48 from EqualButton.
+- Contrast. Web: Titles 12.6:1, descriptions text/secondary 5.7:1, When/Do labels 5.5–5.8:1 in both themes. Below 3:1 in light: the Apply label on button/tonal (≈2.6:1, brand green, accepted) and the Applied text on its highlight (2.59:1), both brand green, and the chevron in text/placeholder (2.85:1). Android: Same tokens. In dark, add and Applied are lime on dark tints, above 10:1.
 - State. Web: Applied is shown by the check icon and the 'Applied' text, and a polite Announce says '{title} applied'. Android: Same visuals. The Apply/Applied slot is a polite liveRegion, so the change is announced.
 - Motion. Web: Press scale only, 0ms under reduced motion. Android: None.
 
 Known accessibility gaps:
 - PresetInstructionCard and InstructionCard in Flows.kt: titles have no heading() semantics (web uses h3).
-- PresetInstructionCard in Flows.kt: every Apply button reads just 'Apply', so in a list they can't be told apart (web uses 'Apply {title}').
-- The PresetCard chevron (text/placeholder) is 2.85:1 on white in light, below 3:1 (Flows.tsx / Flows.kt).
-- Accepted brand decision: the RecommendedCard add icon (text/action on icon-button/bg, 2.55:1) and the Applied pill (text/action on action-card/highlight, 2.59:1) are below 3:1 in light (Flows.css / Flows.kt).
+- The PresetCard and ActiveInstructionsRow chevron (text/placeholder) is 2.85:1 on white in light, below 3:1 (Flows.tsx / Flows.kt).
+- Accepted brand decision: the + Apply label (text/action on button/tonal, ≈2.6:1) and the Applied pill (text/action on action-card/highlight, 2.59:1) are below 3:1 in light (Flows.css / Flows.kt).
+- The SourceBadge label is 10sp, below the 12sp minimum the rest of the system keeps; it is supplementary (the preset art and the title carry the meaning).
 
 Example: Recommended for you
 ```tsx
@@ -2526,26 +2530,30 @@ if (added.size < 2) {
 }
 ```
 
-Example: Browse presets
+Example: Your instructions and browse presets
 ```tsx
-<PresetCard emoji="🛡️" tint="green" title="Screen & Protect"
+<ActiveInstructionsRow count={5} onClick={openActive} />
+
+<PresetCard art="preset-screen-protect" tint="green" title="Screen & Protect"
   description="Decline spam, hold the line on loan and payments call, close wrong call" onClick={open} />
-<PresetCard emoji="📞" tint="blue" title="Handle everyday calls"
+<PresetCard art="preset-everyday-calls" tint="blue" title="Handle everyday calls"
   description="Take message, guide deliveries, relay to family, start in your language" onClick={open} />
-<PresetCard emoji="💼" tint="orange" title="Run my business"
+<PresetCard art="preset-business" tint="orange" title="Run my business"
   description="Capture enquiries, orders, bookings, job, and supplier calls" onClick={open} />
 ```
 ```kotlin
+ActiveInstructionsRow(count = 5, onClick = {})
+
 PresetCard(
-    emoji = "🛡️", tint = PresetTint.Green, title = "Screen & Protect",
+    art = PresetArt.ScreenProtect, tint = PresetTint.Green, title = "Screen & Protect",
     description = "Decline spam, hold the line on loan and payments call, close wrong call", onClick = {},
 )
 PresetCard(
-    emoji = "📞", tint = PresetTint.Blue, title = "Handle everyday calls",
+    art = PresetArt.EverydayCalls, tint = PresetTint.Blue, title = "Handle everyday calls",
     description = "Take message, guide deliveries, relay to family, start in your language", onClick = {},
 )
 PresetCard(
-    emoji = "💼", tint = PresetTint.Orange, title = "Run my business",
+    art = PresetArt.Business, tint = PresetTint.Orange, title = "Run my business",
     description = "Capture enquiries, orders, bookings, job, and supplier calls", onClick = {},
 )
 ```
@@ -2569,7 +2577,7 @@ Example: Active instructions
 <InstructionCard instruction={{
   id: 'decline-sales',
   title: 'Decline sales, promo spam calls',
-  source: { emoji: '✨', label: 'Recommended for you' },
+  source: { art: 'preset-screen-protect', label: 'Screen & Protect' },
   when: 'The caller is selling loan, insurance, credit card, product, or another unsolicited offer',
   do: 'Politely say I am not interested and end the conversation without discussing the offer',
 }} onEdit={edit} onDelete={confirmDelete} />
@@ -2579,7 +2587,7 @@ InstructionCard(
     instruction = Instruction(
         id = "decline-sales",
         title = "Decline sales, promo spam calls",
-        source = InstructionSource(emoji = "✨", label = "Recommended for you"),
+        source = InstructionSource(art = PresetArt.ScreenProtect, label = "Screen & Protect"),
         whenText = "The caller is selling loan, insurance, credit card, product, or another unsolicited offer",
         doText = "Politely say I am not interested and end the conversation without discussing the offer",
     ),
@@ -6044,11 +6052,12 @@ The hub, presets, the “Setting up instruction” chat and Active Instructions.
 
 Source: Instructions
 
-1. Hub: horizontal recommended cards (or “New suggestions coming…” once they’re all applied), an Active Instructions row, three presets and a pinned “Add New Instruction”.
-2. Preset: the description plus instruction cards with When / Do rows and + Apply, which turns into Applied.
+1. Hub: horizontal recommended cards with a tinted + Apply (or “New suggestions coming…” once they’re all applied), the Active Instructions row with the robot-with-wand art, three presets led by their 3D art, and a pinned “Add New Instruction”.
+2. Preset: the description plus instruction cards with WHEN / DO pills and + Apply, which turns into Applied.
 3. Setup chat, no input: You → Equal AI “Got it! Here’s your instruction:” → preview → ✍️ Edit / 👍 Confirm. Confirm adds ✅ and saves.
 4. Setup chat, input needed: Equal AI asks each follow-up (the landmark, then the wait time); the answers are bolded in the preview → ✏️ Change something else / 👌 That’s all.
-5. Active: cards with a source chip, WHEN / DO, and ⋮ Edit / Delete instruction; plus an empty state.
+5. Active: cards with the preset’s source badge, WHEN / DO, and ⋮ Edit / Delete instruction; plus an empty state.
+6. In the chat: after a call, the summary says which instructions ran: “🪄 2 instructions applied in this call”.
 
 States:
 - `hub` Hub: `<InstructionsFlow initialActive={[]} />`
@@ -7029,6 +7038,7 @@ Alias colours (CSS `var(--eq-<name without component/>)`, TS `color.*`, Compose 
 - `text/on-action-disabled`  light {neutrals.grey08} · dark {neutrals.grey08}
 - `button/primary`  light {brand.green} · dark {brand.lime}
 - `button/secondary`  light {brand.lime} · dark {brand.lime}
+- `button/tonal`  light {brand.green} @ 8% · dark {brand.lime} @ 12%
 - `text/on-secondary`  light {brand.black} @ 80% · dark {brand.black} · derived
 - `button/danger`  light {red.red08} · dark #FF5151
 - `button/disabled`  light {neutrals.grey13} · dark {neutrals.grey04}
@@ -7037,6 +7047,8 @@ Alias colours (CSS `var(--eq-<name without component/>)`, TS `color.*`, Compose 
 - `stroke/dark`  light {brand.black} @ 32% · dark {brand.white} @ 32%
 - `action/stroke/unread`  light {brand.green} @ 36% · dark {brand.lime} @ 36%
 - `action/fill/unread`  light {brand.lime} @ 8% · dark {brand.lime} @ 8%
+- `component/chip/label-unread`  light #3C3C3C · dark #D3D4D1
+- `component/chip/label-read`  light #3C3C3C · dark {brand.white} @ 60%
 - `action/bottom-color`  light #EBEBEB · dark #191919
 - `component/chat-bubble/user-bg`  light #E8FFED · dark #272C1E
 - `component/chat-bubble/user-title`  light #006223 · dark {brand.lime}
@@ -7057,16 +7069,13 @@ Alias colours (CSS `var(--eq-<name without component/>)`, TS `color.*`, Compose 
 - `component/waveform/bar`  light #D9D9D9 · dark #D9D9D9 · derived
 - `component/waveform/bar-played`  light {brand.green} · dark {brand.lime} · derived
 - `component/notice/bg`  light #FAFFF4 · dark rgba(186,255,41,0.08) · derived
-- `component/chip/when-bg`  light rgba(0,0,0,0.05) · dark rgba(255,255,255,0.08) · derived
 - `component/plan-card/pattern`  light #C9A55A · dark #C9A55A · derived
 - `component/invite/bg`  light #F1FFF6 · dark #272C1E · derived
 - `component/invite/stroke`  light rgba(0,177,64,0.10) · dark rgba(186,255,41,0.10) · derived
-- `component/chip/do-bg`  light #F0FBF4 · dark #272C1E · derived
 - `component/chip/selected-bg`  light #313131 · dark #F7F7F7 · derived
 - `component/chip/selected-text`  light #F7F7F7 · dark #313131 · derived
 - `component/preset/tint-green`  light rgba(72,255,138,0.16) · dark rgba(186,255,41,0.16) · derived
 - `component/preset/tint-orange`  light rgba(255,153,8,0.16) · dark rgba(255,153,8,0.16) · derived
-- `component/icon-button/bg`  light #F2F2F2 · dark #333333 · derived
 - `component/chat/wallpaper-bg`  light #F5F5F6 · dark #141414 · derived
 - `component/voice/player-bg`  light {brand.white} · dark #141414 · derived
 - `component/voice/player-bg-sent`  light #E1F7E6 · dark #333926 · derived
@@ -7142,6 +7151,7 @@ Alias colours (CSS `var(--eq-<name without component/>)`, TS `color.*`, Compose 
 - `component/assistant-toggle/bg`  light #FAFFEE · dark #2B3120 · derived
 - `component/preset/tint-blue`  light rgba(131,224,255,0.16) · dark rgba(131,224,255,0.16) · derived
 - `component/preset/tint-lime`  light rgba(186,255,41,0.18) · dark rgba(186,255,41,0.18) · derived
+- `component/suggest/glow`  light {brand.green} @ 20% · dark {brand.lime} @ 12%
 - `component/gender/stroke`  light #F4F4F4 · dark rgba(255,255,255,0.08) · derived
 
 Gradients (CSS `var(--eq-gradient-<name>)`, Compose `EqualTheme.gradients.*`):
@@ -7156,7 +7166,6 @@ Gradients (CSS `var(--eq-gradient-<name>)`, Compose `EqualTheme.gradients.*`):
 - `gradient/profile-hero`  light 180deg: #F5E4AE 0%, #F7EBC0 25%, #F5EED8 50%, #F4F0EA 75%, #F7F7F7 100% · dark 180deg: #F5E4AE 0%, #F7EBC0 35%, #FBF5E8 100%
 - `gradient/ai-summary`  light 45deg: #F3FBF6 0%, #FFFFFF 25%, #F8FFEA 50%, #FFFFFF 75%, #EAF9EF 100% · dark 45deg: #272A1F 0%, #1F1F1F 25%, #2E3520 50%, #1F1F1F 75%, #2B3120 100%
 - `gradient/gender-selected`  light 135deg: rgba(186,255,41,0.08) 0%, rgba(186,255,41,0.08) 100% · dark 135deg: rgba(186,255,41,0.08) 0%, rgba(186,255,41,0.08) 100%
-- `gradient/suggestion-card`  light 120deg: #FFFFFF 0%, #F2FBEA 60%, #E9F8EC 100% · dark 120deg: #242424 0%, #2F3423 100%
 - `gradient/status-card`  light 120deg: #FEEBC8 0%, #FDF2DB 45%, #FBF9F4 100% · dark 120deg: #3A2E1A 0%, #2A2622 60%, #242424 100%
 - `gradient/meet-assistant`  light 135deg: #EBF9F0 0%, #EBF9F0 60%, #F2FCEE 100% · dark 120deg: #272C1E 0%, #2F3423 100%
 - `gradient/call-me`  light 90deg: {brand.green} 0%, {brand.green} 100% · dark 90deg: {brand.lime} 0%, {brand.lime} 100%
@@ -7220,7 +7229,11 @@ Web `<Asset name="…" size={dp} />`, Compose `EqualAssetImage(EqualAssets.<Pasc
 - `illustration-whatsapp`: WhatsApp Updates header + turn-off sheet (3D WhatsApp phone, 160 / 120dp)
 - `illustration-addresses-empty`: Addresses empty state (robot on a map, 200dp)
 - `illustration-instructions-empty`: Active Instructions empty state (robot on a book, 200dp)
-- `illustration-suggestions`: "New suggestions coming…" card (robot with call bubbles, 120dp)
+- `illustration-suggestions`: "New suggestions coming…" card: the robot reading, with call, contact, home and tag bubbles (140dp, top-right)
+- `mascot-instructions`: Instructions hub › Active Instructions row: the robot with a magic wand on the lime tint (40dp in a 44dp circle)
+- `preset-screen-protect`: Screen & Protect preset: 3D green shield with a tick (33dp on the green tint; 16dp in the source badge)
+- `preset-everyday-calls`: Handle everyday calls preset: 3D green receiver with a red question mark (33dp on the blue tint; 16dp in the source badge)
+- `preset-business`: Run my business preset: 3D brown briefcase (33dp on the orange tint; 16dp in the source badge)
 - `avatar-male-bust`: Gender card, male (bust without the ring). Falls back to avatar-male
 - `avatar-female-bust`: Gender card, female (bust without the ring). Falls back to avatar-female
 - `mascot-sleeping`: System status card: sleeping robot with its warm glow (104dp)

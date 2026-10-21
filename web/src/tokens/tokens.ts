@@ -170,6 +170,17 @@ export const aliases: AliasToken[] = [
     "why": "The lime accent used as the start of the brand gradients and secondary fills; inverts to green in dark per the Colours collection."
   },
   {
+    "name": "button/tonal",
+    "cssVar": "--eq-button-tonal",
+    "light": "rgba(0,177,64,0.08)",
+    "dark": "rgba(186,255,41,0.12)",
+    "lightRef": "brand/green · 8%",
+    "darkRef": "brand/lime · 12%",
+    "group": "button",
+    "derived": false,
+    "why": "The tinted “+ Apply” pill on recommended cards and preset instructions (Preset Instruction design): brand green at 8 % behind a green label."
+  },
+  {
     "name": "text/on-secondary",
     "cssVar": "--eq-text-on-secondary",
     "light": "rgba(0,0,0,0.8)",
@@ -500,17 +511,6 @@ export const aliases: AliasToken[] = [
     "why": "Figma's notice pill is a fainter lime tint than the token; dark mirrors the alpha variant in lime. Note Figma sets the notice text to text/primary while the web uses text/secondary."
   },
   {
-    "name": "component/chip/when-bg",
-    "cssVar": "--eq-chip-when-bg",
-    "light": "rgba(0,0,0,0.05)",
-    "dark": "rgba(255,255,255,0.08)",
-    "lightRef": "direct value",
-    "darkRef": "direct value",
-    "group": "component",
-    "derived": true,
-    "why": "The plain When chip is filled with the stroke/subtle variable (black 5%), so it takes that value and its dark value (white 8%) from the Colours collection; radius 50 means fully round."
-  },
-  {
     "name": "component/plan-card/pattern",
     "cssVar": "--eq-plan-card-pattern",
     "light": "#C9A55A",
@@ -544,17 +544,6 @@ export const aliases: AliasToken[] = [
     "why": "The outline is brand green at 10% alpha rather than a solid mint; dark uses lime at the same alpha per the dark-mode rule."
   },
   {
-    "name": "component/chip/do-bg",
-    "cssVar": "--eq-chip-do-bg",
-    "light": "#F0FBF4",
-    "dark": "#272C1E",
-    "lightRef": "direct value",
-    "darkRef": "direct value",
-    "group": "component",
-    "derived": true,
-    "why": "Figma's Do chip is #F0FBF4 (token had #EEF8EF); dark keeps the lime-re-hued surface."
-  },
-  {
     "name": "component/chip/selected-bg",
     "cssVar": "--eq-chip-selected-bg",
     "light": "#313131",
@@ -585,7 +574,7 @@ export const aliases: AliasToken[] = [
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Figma's green preset tint is #48FF8A at 16% alpha; use it for Screen & Protect (🛡️), and give Handle everyday calls (📞) the new blue tint. Dark re-hues to lime."
+    "why": "Behind the 3D shield of the Screen & Protect preset (#48FF8A at 16 %). Dark re-hues to lime."
   },
   {
     "name": "component/preset/tint-orange",
@@ -596,18 +585,7 @@ export const aliases: AliasToken[] = [
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "Figma's orange tint is #FF9908 at 16% alpha; the alpha tint also works on dark surfaces, so dark keeps it."
-  },
-  {
-    "name": "component/icon-button/bg",
-    "cssVar": "--eq-icon-button-bg",
-    "light": "#F2F2F2",
-    "dark": "#333333",
-    "lightRef": "direct value",
-    "darkRef": "direct value",
-    "group": "component",
-    "derived": true,
-    "why": "Grey circle behind the + on recommended cards; Profile section not checked."
+    "why": "Behind the 3D briefcase of the Run my business preset (#FF9908 at 16 %); the alpha tint also works on dark, so dark keeps it."
   },
   {
     "name": "component/chat/wallpaper-bg",
@@ -1421,7 +1399,7 @@ export const aliases: AliasToken[] = [
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "The everyday-calls preset uses a blue tint in Figma; flowData 'everyday' should switch from green to this."
+    "why": "Behind the 3D receiver of the Handle everyday calls preset (#83E0FF at 16 %)."
   },
   {
     "name": "component/preset/tint-lime",
@@ -1432,7 +1410,18 @@ export const aliases: AliasToken[] = [
     "darkRef": "direct value",
     "group": "component",
     "derived": true,
-    "why": "The Your Instructions › Active Instructions row has its own lime icon tint."
+    "why": "Behind the robot-with-wand art on the Your Instructions › Active Instructions row (lime #BAFF29 at 18 %)."
+  },
+  {
+    "name": "component/suggest/glow",
+    "cssVar": "--eq-suggest-glow",
+    "light": "rgba(0,177,64,0.2)",
+    "dark": "rgba(186,255,41,0.12)",
+    "lightRef": "brand/green · 20%",
+    "darkRef": "brand/lime · 12%",
+    "group": "component",
+    "derived": false,
+    "why": "The three soft blurred circles (blur 50) behind the “New suggestions coming…” card (Preset Instruction design: #00B140 at 20 %)."
   },
   {
     "name": "component/gender/stroke",
@@ -1461,6 +1450,7 @@ export const color = {
   textOnActionDisabled: 'var(--eq-text-on-action-disabled)',
   buttonPrimary: 'var(--eq-button-primary)',
   buttonSecondary: 'var(--eq-button-secondary)',
+  buttonTonal: 'var(--eq-button-tonal)',
   textOnSecondary: 'var(--eq-text-on-secondary)',
   buttonDanger: 'var(--eq-button-danger)',
   buttonDisabled: 'var(--eq-button-disabled)',
@@ -1491,16 +1481,13 @@ export const color = {
   waveformBar: 'var(--eq-waveform-bar)',
   waveformBarPlayed: 'var(--eq-waveform-bar-played)',
   noticeBg: 'var(--eq-notice-bg)',
-  chipWhenBg: 'var(--eq-chip-when-bg)',
   planCardPattern: 'var(--eq-plan-card-pattern)',
   inviteBg: 'var(--eq-invite-bg)',
   inviteStroke: 'var(--eq-invite-stroke)',
-  chipDoBg: 'var(--eq-chip-do-bg)',
   chipSelectedBg: 'var(--eq-chip-selected-bg)',
   chipSelectedText: 'var(--eq-chip-selected-text)',
   presetTintGreen: 'var(--eq-preset-tint-green)',
   presetTintOrange: 'var(--eq-preset-tint-orange)',
-  iconButtonBg: 'var(--eq-icon-button-bg)',
   chatWallpaperBg: 'var(--eq-chat-wallpaper-bg)',
   voicePlayerBg: 'var(--eq-voice-player-bg)',
   voicePlayerBgSent: 'var(--eq-voice-player-bg-sent)',
@@ -1576,6 +1563,7 @@ export const color = {
   assistantToggleBg: 'var(--eq-assistant-toggle-bg)',
   presetTintBlue: 'var(--eq-preset-tint-blue)',
   presetTintLime: 'var(--eq-preset-tint-lime)',
+  suggestGlow: 'var(--eq-suggest-glow)',
   genderStroke: 'var(--eq-gender-stroke)',
 } as const;
 
@@ -1659,14 +1647,6 @@ export const gradients = [
     "dark": "linear-gradient(135deg, rgba(186,255,41,0.08) 0%, rgba(186,255,41,0.08) 100%)",
     "derived": true,
     "why": "The selected gender card fill is flat lime at 8% (it can point to action/unread_fill), not a two-tone gradient; the green-to-lime look comes from its gradient stroke, added as gradient:gender-selected-stroke."
-  },
-  {
-    "name": "suggestion-card",
-    "cssVar": "--eq-gradient-suggestion-card",
-    "light": "linear-gradient(120deg, #FFFFFF 0%, #F2FBEA 60%, #E9F8EC 100%)",
-    "dark": "linear-gradient(120deg, #242424 0%, #2F3423 100%)",
-    "derived": true,
-    "why": "The 'New suggestions coming…' card is not in this Figma file; keep the current value until the owner decides whether the card stays."
   },
   {
     "name": "status-card",

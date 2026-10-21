@@ -192,9 +192,9 @@ fun VoiceNotePlayer(
 /**
  * Voice note + call summary bubble (SPEC §11). Width 268, `bg/surface`, radius 16.
  * [voiceNote] (usually a [VoiceNotePlayer]) sits with an 8dp margin; then h8: "Call Summary"
- * `caption` `text/secondary` → summary `body1` → a row with the optional [tag] pill on the left and
- * the timestamp `micro` on the right (6 above); the row is skipped when both are null. The tag pill is 24 high, h10, 1dp `stroke/subtle`,
- * `bg/surface`, emoji 12 + `caption` `text/secondary` (e.g. 🪄 Instruction Applied).
+ * `caption` `text/secondary` → summary `body1` → the optional [tag] line (8 above, padding 4: emoji 12
+ * + 12 Regular `text/secondary`, e.g. 🪄 2 instructions applied in this call) → the timestamp `micro`
+ * at the right.
  * With [onShareClick] a footer appears: 1dp divider + 48-high centred "Share"
  * (`button` `text/action`, share icon 18).
  *
@@ -266,31 +266,24 @@ fun CallSummaryBubble(
             } else {
                 EqualText(text = summary, style = type.body1, color = colors.textPrimary)
             }
-            if (timestamp != null || tag != null) {
+            if (tag != null) {
+                // Which instructions ran in this call: a plain line under the summary (8 above, padding 4).
                 Row(
                     Modifier
-                        .fillMaxWidth()
-                        .padding(top = if (tag != null) 6.dp else 0.dp),
+                        .padding(top = 8.dp)
+                        .padding(4.dp),
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
-                    if (tag != null) {
-                        Row(
-                            Modifier
-                                .height(24.dp)
-                                .background(colors.bgSurface, CircleShape)
-                                .border(1.dp, colors.strokeSubtle, CircleShape)
-                                .padding(horizontal = 10.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                        ) {
-                            if (tag.emoji != null) {
-                                EmojiGlyph(emoji = tag.emoji, size = 12.dp)
-                                Spacer(Modifier.width(4.dp))
-                            }
-                            EqualText(text = tag.label, style = type.caption, color = colors.textSecondary, maxLines = 1)
-                        }
+                    if (tag.emoji != null) {
+                        EmojiGlyph(emoji = tag.emoji, size = 12.dp)
+                        Spacer(Modifier.width(4.dp))
                     }
-                    Spacer(Modifier.weight(1f))
-                    if (timestamp != null) EqualText(text = timestamp, style = type.micro, color = colors.textSecondary, maxLines = 1)
+                    EqualText(text = tag.label, style = type.captionRegular, color = colors.textSecondary, maxLines = 1)
+                }
+            }
+            if (timestamp != null) {
+                Row(Modifier.fillMaxWidth().padding(top = if (tag != null) 0.dp else 6.dp), horizontalArrangement = Arrangement.End) {
+                    EqualText(text = timestamp, style = type.micro, color = colors.textSecondary, maxLines = 1)
                 }
             }
         }
@@ -342,7 +335,7 @@ private fun CallSummaryPreview() {
                 )
             },
             onShareClick = {},
-            tag = CallSummaryTag("Instruction Applied", "🪄"),
+            tag = CallSummaryTag("2 instructions applied in this call", "🪄"),
         )
     }
 }

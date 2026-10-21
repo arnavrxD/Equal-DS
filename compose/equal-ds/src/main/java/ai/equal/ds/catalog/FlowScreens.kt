@@ -41,6 +41,7 @@ import ai.equal.ds.components.InstructionSource
 import ai.equal.ds.components.LargeActionChip
 import ai.equal.ds.components.LargeActionChipState
 import ai.equal.ds.components.PresetCard
+import ai.equal.ds.components.ActiveInstructionsRow
 import ai.equal.ds.components.PresetInstructionCard
 import ai.equal.ds.components.RecommendedCard
 import ai.equal.ds.components.RowGroup
@@ -713,7 +714,7 @@ fun InstructionsFlow(
                         PresetInstructionCard(
                             instruction = ins,
                             applied = isActive(ins.id),
-                            onApply = { startSetup(ins.copy(source = InstructionSource(p.emoji, p.title))) },
+                            onApply = { startSetup(ins.copy(source = InstructionSource(p.art, p.title))) },
                         )
                     }
                 }
@@ -771,7 +772,7 @@ fun InstructionsFlow(
                         .fillMaxWidth()
                         .horizontalScroll(rememberScrollState())
                         .padding(start = 20.dp, end = 20.dp, bottom = 4.dp),
-                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    horizontalArrangement = Arrangement.spacedBy(4.dp),
                 ) {
                     recs.forEach { r ->
                         RecommendedCard(
@@ -786,23 +787,19 @@ fun InstructionsFlow(
                 SuggestionsComingCard(Modifier.padding(horizontal = 20.dp))
             }
             SectionHeader(title = "Your instructions")
-            RowGroup {
-                SettingsRow(
-                    label = "Active Instructions",
-                    description = if (active.isNotEmpty()) "${active.size} Active" else "Manage how your assistant handles calls",
-                    leadingIcon = EqualIcons.Instructions,
-                    leadingIconBg = EqualTheme.colors.presetTintLime,
-                    onClick = { view = InstructionsView.Active },
-                )
-            }
+            ActiveInstructionsRow(
+                count = active.size,
+                onClick = { view = InstructionsView.Active },
+                modifier = Modifier.padding(horizontal = 20.dp),
+            )
             SectionHeader(title = "Browse presets")
             Column(
                 Modifier.padding(start = 20.dp, end = 20.dp, bottom = 24.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
+                verticalArrangement = Arrangement.spacedBy(6.dp),
             ) {
                 Presets.forEach { p ->
                     PresetCard(
-                        emoji = p.emoji,
+                        art = p.art,
                         tint = p.tint,
                         title = p.title,
                         description = p.description,

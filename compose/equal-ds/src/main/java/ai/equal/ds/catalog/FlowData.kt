@@ -2,6 +2,7 @@ package ai.equal.ds.catalog
 
 import ai.equal.ds.components.Instruction
 import ai.equal.ds.components.InstructionSource
+import ai.equal.ds.components.PresetArt
 import ai.equal.ds.components.PresetTint
 import ai.equal.ds.components.SavedAddress
 import androidx.compose.ui.text.AnnotatedString
@@ -31,16 +32,16 @@ val SampleAddresses: List<SavedAddress> = listOf(
 /** A preset bundle of instructions ("Browse presets"). */
 data class Preset(
     val id: String,
-    val emoji: String,
+    val art: PresetArt,
     val tint: PresetTint,
     val title: String,
     val description: String,
     val instructions: List<Instruction>,
 )
 
-private val Screen = InstructionSource("🛡️", "Screen & Protect")
-private val Everyday = InstructionSource("📞", "Handle everyday calls")
-private val Business = InstructionSource("💼", "Run my business")
+private val Screen = InstructionSource(PresetArt.ScreenProtect, "Screen & Protect")
+private val Everyday = InstructionSource(PresetArt.EverydayCalls, "Handle everyday calls")
+private val Business = InstructionSource(PresetArt.Business, "Run my business")
 
 object InstructionLibrary {
     val declineSales = Instruction(
@@ -90,7 +91,7 @@ object InstructionLibrary {
 val Presets: List<Preset> = listOf(
     Preset(
         id = "screen",
-        emoji = "🛡️",
+        art = PresetArt.ScreenProtect,
         tint = PresetTint.Green,
         title = "Screen & Protect",
         description = "Decline spam, hold the line on loan and payments call, close wrong call",
@@ -98,7 +99,7 @@ val Presets: List<Preset> = listOf(
     ),
     Preset(
         id = "everyday",
-        emoji = "📞",
+        art = PresetArt.EverydayCalls,
         tint = PresetTint.Blue,
         title = "Handle everyday calls",
         description = "Take message, guide deliveries, relay to family, start in your language",
@@ -106,7 +107,7 @@ val Presets: List<Preset> = listOf(
     ),
     Preset(
         id = "business",
-        emoji = "💼",
+        art = PresetArt.Business,
         tint = PresetTint.Orange,
         title = "Run my business",
         description = "Capture enquiries, orders, bookings, job, and supplier calls",

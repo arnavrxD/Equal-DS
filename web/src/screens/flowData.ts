@@ -1,5 +1,5 @@
 // Sample content for the Profile / Addresses / Instructions flows (copy from the flow designs).
-import type { Instruction, PresetTint, SavedAddress } from '../components/Flows';
+import type { Instruction, PresetArt, PresetTint, SavedAddress } from '../components/Flows';
 
 export const sampleAddresses: SavedAddress[] = [
   { id: 'a1', label: 'Home', line1: 'House no. 4, Tony Street', line2: 'Financial District', city: 'Hyderabad', pincode: '500032' },
@@ -8,11 +8,11 @@ export const sampleAddresses: SavedAddress[] = [
   { id: 'a4', label: 'Work', line1: 'Flat 4B, Block C, Skyline Towers, Phase 2, HITECH city', line2: 'MG Road, Opposite City Center Mall, Banjara Hills', city: 'Hyderabad', pincode: '500034', direction: 'Near City Center Mall' },
 ];
 
-export type Preset = { id: string; emoji: string; tint: PresetTint; title: string; description: string; instructions: Instruction[] };
+export type Preset = { id: string; art: PresetArt; tint: PresetTint; title: string; description: string; instructions: Instruction[] };
 
-const SCREEN = { emoji: '🛡️', label: 'Screen & Protect' };
-const EVERYDAY = { emoji: '📞', label: 'Handle everyday calls' };
-const BUSINESS = { emoji: '💼', label: 'Run my business' };
+const SCREEN = { art: 'preset-screen-protect', label: 'Screen & Protect' } as const;
+const EVERYDAY = { art: 'preset-everyday-calls', label: 'Handle everyday calls' } as const;
+const BUSINESS = { art: 'preset-business', label: 'Run my business' } as const;
 
 export const instructionLibrary = {
   declineSales: { id: 'decline-sales', title: 'Decline sales, promo spam calls', source: SCREEN, when: 'The caller is selling loan, insurance, credit card, product, or another unsolicited offer', do: 'Politely say I am not interested and end the conversation without discussing the offer' },
@@ -24,9 +24,9 @@ export const instructionLibrary = {
 } satisfies Record<string, Instruction>;
 
 export const presets: Preset[] = [
-  { id: 'screen', emoji: '🛡️', tint: 'green', title: 'Screen & Protect', description: 'Decline spam, hold the line on loan and payments call, close wrong call', instructions: [instructionLibrary.declineSales, instructionLibrary.loanEmi, instructionLibrary.difficult] },
-  { id: 'everyday', emoji: '📞', tint: 'blue', title: 'Handle everyday calls', description: 'Take message, guide deliveries, relay to family, start in your language', instructions: [instructionLibrary.takeMessage, instructionLibrary.delivery, instructionLibrary.difficult] },
-  { id: 'business', emoji: '💼', tint: 'orange', title: 'Run my business', description: 'Capture enquiries, orders, bookings, job, and supplier calls', instructions: [instructionLibrary.loanEmi, instructionLibrary.takeMessage] },
+  { id: 'screen', art: 'preset-screen-protect', tint: 'green', title: 'Screen & Protect', description: 'Decline spam, hold the line on loan and payments call, close wrong call', instructions: [instructionLibrary.declineSales, instructionLibrary.loanEmi, instructionLibrary.difficult] },
+  { id: 'everyday', art: 'preset-everyday-calls', tint: 'blue', title: 'Handle everyday calls', description: 'Take message, guide deliveries, relay to family, start in your language', instructions: [instructionLibrary.takeMessage, instructionLibrary.delivery, instructionLibrary.difficult] },
+  { id: 'business', art: 'preset-business', tint: 'orange', title: 'Run my business', description: 'Capture enquiries, orders, bookings, job, and supplier calls', instructions: [instructionLibrary.loanEmi, instructionLibrary.takeMessage] },
 ];
 
 /** Recommended cards → the instruction they set up, and the short preview shown in the chat. */

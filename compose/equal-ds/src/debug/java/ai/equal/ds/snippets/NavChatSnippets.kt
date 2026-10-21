@@ -314,7 +314,7 @@ internal fun CallSummaryInstructionAppliedSnippet() {
     CallSummaryBubble(
         summary = "Priya from Dr. Mehta's clinic confirmed your appointment for tomorrow at 10 AM. Bring your previous reports.",
         timestamp = "03:32",
-        tag = CallSummaryTag(label = "Instruction Applied", emoji = "🪄"),
+        tag = CallSummaryTag(label = "2 instructions applied in this call", emoji = "🪄"),
         modifier = Modifier.width(264.dp),
     )
 }

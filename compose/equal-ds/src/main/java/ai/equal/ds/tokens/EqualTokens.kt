@@ -57,6 +57,8 @@ data class EqualColors(
     val buttonPrimary: Color,
     /** button/secondary */
     val buttonSecondary: Color,
+    /** button/tonal */
+    val buttonTonal: Color,
     /** text/on-secondary — derived from the screens */
     val textOnSecondary: Color,
     /** button/danger */
@@ -117,16 +119,12 @@ data class EqualColors(
     val waveformBarPlayed: Color,
     /** component/notice/bg — derived from the screens */
     val noticeBg: Color,
-    /** component/chip/when-bg — derived from the screens */
-    val chipWhenBg: Color,
     /** component/plan-card/pattern — derived from the screens */
     val planCardPattern: Color,
     /** component/invite/bg — derived from the screens */
     val inviteBg: Color,
     /** component/invite/stroke — derived from the screens */
     val inviteStroke: Color,
-    /** component/chip/do-bg — derived from the screens */
-    val chipDoBg: Color,
     /** component/chip/selected-bg — derived from the screens */
     val chipSelectedBg: Color,
     /** component/chip/selected-text — derived from the screens */
@@ -135,8 +133,6 @@ data class EqualColors(
     val presetTintGreen: Color,
     /** component/preset/tint-orange — derived from the screens */
     val presetTintOrange: Color,
-    /** component/icon-button/bg — derived from the screens */
-    val iconButtonBg: Color,
     /** component/chat/wallpaper-bg — derived from the screens */
     val chatWallpaperBg: Color,
     /** component/voice/player-bg — derived from the screens */
@@ -287,6 +283,8 @@ data class EqualColors(
     val presetTintBlue: Color,
     /** component/preset/tint-lime — derived from the screens */
     val presetTintLime: Color,
+    /** component/suggest/glow */
+    val suggestGlow: Color,
     /** component/gender/stroke — derived from the screens */
     val genderStroke: Color,
     val isDark: Boolean,
@@ -305,6 +303,7 @@ val LightEqualColors = EqualColors(
     textOnActionDisabled = Color(0xFF888888), // neutrals/grey08
     buttonPrimary = Color(0xFF00B140), // brand/green
     buttonSecondary = Color(0xFFBAFF29), // brand/lime
+    buttonTonal = Color(0x1400B140), // brand/green · 8%
     textOnSecondary = Color(0xCC000000), // brand/black · 80%
     buttonDanger = Color(0xFFC50000), // red/red08
     buttonDisabled = Color(0xFFDDDDDD), // neutrals/grey13
@@ -335,16 +334,13 @@ val LightEqualColors = EqualColors(
     waveformBar = Color(0xFFD9D9D9), // direct value
     waveformBarPlayed = Color(0xFF00B140), // brand/green
     noticeBg = Color(0xFFFAFFF4), // direct value
-    chipWhenBg = Color(0x0D000000), // direct value
     planCardPattern = Color(0xFFC9A55A), // direct value
     inviteBg = Color(0xFFF1FFF6), // direct value
     inviteStroke = Color(0x1A00B140), // direct value
-    chipDoBg = Color(0xFFF0FBF4), // direct value
     chipSelectedBg = Color(0xFF313131), // direct value
     chipSelectedText = Color(0xFFF7F7F7), // direct value
     presetTintGreen = Color(0x2948FF8A), // direct value
     presetTintOrange = Color(0x29FF9908), // direct value
-    iconButtonBg = Color(0xFFF2F2F2), // direct value
     chatWallpaperBg = Color(0xFFF5F5F6), // direct value
     voicePlayerBg = Color(0xFFFFFFFF), // brand/white
     voicePlayerBgSent = Color(0xFFE1F7E6), // direct value
@@ -420,6 +416,7 @@ val LightEqualColors = EqualColors(
     assistantToggleBg = Color(0xFFFAFFEE), // direct value
     presetTintBlue = Color(0x2983E0FF), // direct value
     presetTintLime = Color(0x2EBAFF29), // direct value
+    suggestGlow = Color(0x3300B140), // brand/green · 20%
     genderStroke = Color(0xFFF4F4F4), // direct value
     isDark = false,
 )
@@ -437,6 +434,7 @@ val DarkEqualColors = EqualColors(
     textOnActionDisabled = Color(0xFF888888), // neutrals/grey08
     buttonPrimary = Color(0xFFBAFF29), // brand/lime
     buttonSecondary = Color(0xFFBAFF29), // brand/lime
+    buttonTonal = Color(0x1FBAFF29), // brand/lime · 12%
     textOnSecondary = Color(0xFF000000), // brand/black
     buttonDanger = Color(0xFFFF5151), // direct value
     buttonDisabled = Color(0xFF444444), // neutrals/grey04
@@ -467,16 +465,13 @@ val DarkEqualColors = EqualColors(
     waveformBar = Color(0xFFD9D9D9), // direct value
     waveformBarPlayed = Color(0xFFBAFF29), // brand/lime
     noticeBg = Color(0x14BAFF29), // direct value
-    chipWhenBg = Color(0x14FFFFFF), // direct value
     planCardPattern = Color(0xFFC9A55A), // direct value
     inviteBg = Color(0xFF272C1E), // direct value
     inviteStroke = Color(0x1ABAFF29), // direct value
-    chipDoBg = Color(0xFF272C1E), // direct value
     chipSelectedBg = Color(0xFFF7F7F7), // direct value
     chipSelectedText = Color(0xFF313131), // direct value
     presetTintGreen = Color(0x29BAFF29), // direct value
     presetTintOrange = Color(0x29FF9908), // direct value
-    iconButtonBg = Color(0xFF333333), // direct value
     chatWallpaperBg = Color(0xFF141414), // direct value
     voicePlayerBg = Color(0xFF141414), // direct value
     voicePlayerBgSent = Color(0xFF333926), // direct value
@@ -552,6 +547,7 @@ val DarkEqualColors = EqualColors(
     assistantToggleBg = Color(0xFF2B3120), // direct value
     presetTintBlue = Color(0x2983E0FF), // direct value
     presetTintLime = Color(0x2EBAFF29), // direct value
+    suggestGlow = Color(0x1FBAFF29), // brand/lime · 12%
     genderStroke = Color(0x14FFFFFF), // direct value
     isDark = true,
 )
@@ -576,7 +572,6 @@ data class EqualGradients(
     val profileHero: EqualGradientSpec,
     val aiSummary: EqualGradientSpec,
     val genderSelected: EqualGradientSpec,
-    val suggestionCard: EqualGradientSpec,
     val statusCard: EqualGradientSpec,
     val meetAssistant: EqualGradientSpec,
     val callMe: EqualGradientSpec,
@@ -613,7 +608,6 @@ val LightEqualGradients = EqualGradients(
     profileHero = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFF5E4AE), 0.25f to Color(0xFFF7EBC0), 0.5f to Color(0xFFF5EED8), 0.75f to Color(0xFFF4F0EA), 1f to Color(0xFFF7F7F7))),
     aiSummary = EqualGradientSpec(angle = 45f, stops = listOf(0f to Color(0xFFF3FBF6), 0.25f to Color(0xFFFFFFFF), 0.5f to Color(0xFFF8FFEA), 0.75f to Color(0xFFFFFFFF), 1f to Color(0xFFEAF9EF))),
     genderSelected = EqualGradientSpec(angle = 135f, stops = listOf(0f to Color(0x14BAFF29), 1f to Color(0x14BAFF29))),
-    suggestionCard = EqualGradientSpec(angle = 120f, stops = listOf(0f to Color(0xFFFFFFFF), 0.6f to Color(0xFFF2FBEA), 1f to Color(0xFFE9F8EC))),
     statusCard = EqualGradientSpec(angle = 120f, stops = listOf(0f to Color(0xFFFEEBC8), 0.45f to Color(0xFFFDF2DB), 1f to Color(0xFFFBF9F4))),
     meetAssistant = EqualGradientSpec(angle = 135f, stops = listOf(0f to Color(0xFFEBF9F0), 0.6f to Color(0xFFEBF9F0), 1f to Color(0xFFF2FCEE))),
     callMe = EqualGradientSpec(angle = 90f, stops = listOf(0f to Color(0xFF00B140), 1f to Color(0xFF00B140))),
@@ -650,7 +644,6 @@ val DarkEqualGradients = EqualGradients(
     profileHero = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFF5E4AE), 0.35f to Color(0xFFF7EBC0), 1f to Color(0xFFFBF5E8))),
     aiSummary = EqualGradientSpec(angle = 45f, stops = listOf(0f to Color(0xFF272A1F), 0.25f to Color(0xFF1F1F1F), 0.5f to Color(0xFF2E3520), 0.75f to Color(0xFF1F1F1F), 1f to Color(0xFF2B3120))),
     genderSelected = EqualGradientSpec(angle = 135f, stops = listOf(0f to Color(0x14BAFF29), 1f to Color(0x14BAFF29))),
-    suggestionCard = EqualGradientSpec(angle = 120f, stops = listOf(0f to Color(0xFF242424), 1f to Color(0xFF2F3423))),
     statusCard = EqualGradientSpec(angle = 120f, stops = listOf(0f to Color(0xFF3A2E1A), 0.6f to Color(0xFF2A2622), 1f to Color(0xFF242424))),
     meetAssistant = EqualGradientSpec(angle = 120f, stops = listOf(0f to Color(0xFF272C1E), 1f to Color(0xFF2F3423))),
     callMe = EqualGradientSpec(angle = 90f, stops = listOf(0f to Color(0xFFBAFF29), 1f to Color(0xFFBAFF29))),

@@ -166,96 +166,124 @@ export function AddressForm({ initial, onSave }: { initial?: Partial<SavedAddres
 
 // ================================================================ Instructions flow
 
-/** Horizontal "Recommended for you" card — emoji, + add, title, description. */
+/**
+ * Tinted "+ Apply" pill (Preset Instruction design): brand green at 8 % with a green + and label,
+ * 24dp high. Used on recommended cards and preset instructions.
+ */
+export function ApplyButton({ label = 'Apply', 'aria-label': ariaLabel, onClick }: { label?: string; 'aria-label'?: string; onClick?: () => void }) {
+  return (
+    <Button size="sm" variant="tonal" leadingIcon="add" aria-label={ariaLabel} onClick={onClick}>{label}</Button>
+  );
+}
+
+/** Horizontal "Recommended for you" card (191 × 114): emoji 24, + Apply pill, title 14 semibold, description 12/16. */
 export function RecommendedCard({ emoji, title, description, onAdd }: { emoji: string; title: string; description: string; onAdd?: () => void }) {
   return (
-    <div className="eq-flow-card eq-rec">
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-        <Emoji char={emoji} size={26} />
-        {onAdd && (
-          <button type="button" className="eq-reset-btn eq-pressable eq-touch eq-rec__add" aria-label={`Add ${title}`} onClick={onAdd}>
-            <Icon name="add" size={20} />
-          </button>
-        )}
+    <div className="eq-rec">
+      <div className="eq-rec__top">
+        <Emoji char={emoji} size={24} />
+        {onAdd && <ApplyButton aria-label={`Apply ${title}`} onClick={onAdd} />}
       </div>
-      <Text as="div" variant="subheading" style={{ marginTop: 10 }}>{title}</Text>
-      <Text as="p" variant="body1" color="secondary">{description}</Text>
+      <div>
+        <Text as="div" variant="body2" style={{ fontWeight: 600, lineHeight: '18px' }}>{title}</Text>
+        <Text as="p" variant="caption" style={{ fontWeight: 400 }}>{description}</Text>
+      </div>
     </div>
   );
 }
 
-/** Shown in place of recommendations when all are applied or none exist. */
+/**
+ * Shown in place of recommendations when all are applied or none exist: a grey card with three soft
+ * green glows, the orb + "New suggestions coming…", a 14 medium line and the 140dp robot top-right.
+ */
 export function SuggestionsComingCard() {
   return (
     <div className="eq-suggest">
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <AiAvatar size={18} />
-          <Text variant="caption" color="secondary">New suggestions coming…</Text>
-        </div>
-        <Text as="p" variant="bodyLarge" style={{ marginTop: 12 }}>More suggestions will show up here as I learn your calls</Text>
+      <span className="eq-suggest__glow" style={{ left: 290, top: 150, width: 89, height: 89 }} />
+      <span className="eq-suggest__glow" style={{ left: -12, top: 167, width: 68, height: 68 }} />
+      <span className="eq-suggest__glow" style={{ left: 107, top: 45, width: 130, height: 130 }} />
+      <div className="eq-suggest__art"><Asset name="illustration-suggestions" size={140} /></div>
+      <div style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 4, height: 24 }}>
+        <AiAvatar size={18} label="" />
+        <Text variant="caption" color="secondary" style={{ fontWeight: 700 }}>New suggestions coming…</Text>
       </div>
-      <Asset name="illustration-suggestions" size={112} />
+      <Text as="p" variant="body2" style={{ position: 'relative', marginTop: 13, maxWidth: 184, lineHeight: '18px' }}>More suggestions will show up here as I learn your calls</Text>
     </div>
   );
 }
 
 export type PresetTint = 'green' | 'blue' | 'orange';
+export type PresetArt = 'preset-screen-protect' | 'preset-everyday-calls' | 'preset-business';
 
-/** "Browse presets" card — emoji in a tinted circle, chevron, title, description. */
-export function PresetCard({ emoji, tint, title, description, onClick }: { emoji: string; tint: PresetTint; title: string; description: string; onClick?: () => void }) {
+/** 3D preset art in its tinted circle (44dp circle, 33dp art). */
+export function PresetIcon({ art, tint, size = 44 }: { art: AssetName; tint: PresetTint | 'lime'; size?: number }) {
   return (
-    <button type="button" className="eq-reset-btn eq-flow-card eq-preset" onClick={onClick}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span className="eq-preset__icon" style={{ background: `var(--eq-preset-tint-${tint})` }}><Emoji char={emoji} size={16} /></span>
-        <Icon name="chevron-right" size={22} color="var(--eq-text-placeholder)" />
+    <span className="eq-preset__icon" style={{ width: size, height: size, background: `var(--eq-preset-tint-${tint})` }}>
+      <Asset name={art} size={Math.round(size * 0.75)} />
+    </span>
+  );
+}
+
+/** "Browse presets" card (320 × 85): art in a tinted circle, title 16 semibold, description 12/16, chevron. */
+export function PresetCard({ art, tint, title, description, onClick }: { art: PresetArt; tint: PresetTint; title: string; description: string; onClick?: () => void }) {
+  return (
+    <button type="button" className="eq-reset-btn eq-preset" onClick={onClick}>
+      <PresetIcon art={art} tint={tint} />
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <Text as="div" variant="subheading" style={{ fontWeight: 600, lineHeight: '19px' }}>{title}</Text>
+        <Text as="p" variant="caption" color="secondary" style={{ fontWeight: 400, marginTop: 2 }}>{description}</Text>
       </div>
-      <Text as="div" variant="subheading" style={{ marginTop: 12 }}>{title}</Text>
-      <Text as="p" variant="captionWrap" color="secondary">{description}</Text>
+      <Icon name="chevron-right" size={22} color="var(--eq-text-placeholder)" />
     </button>
   );
 }
 
 /**
- * When / Do line of an instruction. Presets: sentence-case label on a flat chip. Active
- * instructions (`upper`): WHEN / DO 13sp medium caps in a 24dp pill that fades from the tint
- * (`gradient/when-chip`, `gradient/do-chip`) to transparent, text 13/18 beside it.
+ * "Your instructions" entry (319 × 76): the robot-with-wand on the lime tint, Active Instructions
+ * (14 semibold) and "N active instructions" (12 secondary), chevron.
  */
-export function WhenDoRow({ kind, children, upper = false }: { kind: 'when' | 'do'; children: ReactNode; upper?: boolean }) {
-  const label = kind === 'when' ? 'When' : 'Do';
-  if (upper) {
-    return (
-      <div className="eq-whendo eq-whendo--active">
-        <span className={`eq-whendo__pill eq-whendo__pill--${kind}`}>
-          <Text variant="caption" color="secondary" style={{ fontSize: 13, lineHeight: '16px', letterSpacing: '0.02em' }}>{label.toUpperCase()}</Text>
-        </span>
-        <Text as="p" variant="body1" color="primary" style={{ flex: 1, fontSize: 13, lineHeight: '18px' }}>{children}</Text>
+export function ActiveInstructionsRow({ count, onClick }: { count: number; onClick?: () => void }) {
+  return (
+    <button type="button" className="eq-reset-btn eq-preset eq-preset--entry" onClick={onClick}>
+      <PresetIcon art="mascot-instructions" tint="lime" />
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <Text as="div" variant="body2" style={{ fontWeight: 600 }}>Active Instructions</Text>
+        <Text as="div" variant="caption" color="secondary" style={{ fontWeight: 400 }}>{count ? `${count} active instruction${count === 1 ? '' : 's'}` : 'Manage how your assistant handles calls'}</Text>
       </div>
-    );
-  }
+      <Icon name="chevron-right" size={22} color="var(--eq-text-placeholder)" />
+    </button>
+  );
+}
+
+/**
+ * When / Do line of an instruction: WHEN / DO 12 semibold caps in a 52dp pill that fades from the
+ * tint (`gradient/when-chip`, `gradient/do-chip`) to the card colour, text 14/18 beside it.
+ * Used by preset instructions and active instructions alike.
+ */
+export function WhenDoRow({ kind, children }: { kind: 'when' | 'do'; children: ReactNode }) {
   return (
     <div className="eq-whendo">
-      <span className={`eq-whendo__chip eq-whendo__chip--${kind}`}>
-        <Text variant="caption" color="secondary" style={{ fontWeight: 400 }}>{label}</Text>
+      <span className={`eq-whendo__pill eq-whendo__pill--${kind}`}>
+        <Text variant="caption" color="secondary" style={{ fontWeight: 600 }}>{kind === 'when' ? 'WHEN' : 'DO'}</Text>
       </span>
-      <Text as="p" variant="body1" color="primary" style={{ flex: 1 }}>{children}</Text>
+      <Text as="p" variant="body1" color="primary" style={{ flex: 1, lineHeight: '18px' }}>{children}</Text>
     </div>
   );
 }
 
-export type Instruction = { id: string; title: string; when: string; do: string; source?: { emoji: string; label: string } };
+export type Instruction = { id: string; title: string; when: string; do: string; source?: { art: PresetArt; label: string } };
 
-/** Preset instruction with an Apply action (preset detail screen). */
+/** Preset instruction with an Apply action (preset detail screen): title 16 semibold, + Apply pill, WHEN / DO. */
 export function PresetInstructionCard({ instruction, applied, onApply }: { instruction: Instruction; applied?: boolean; onApply?: () => void }) {
   const handoff = useFocusHandoff<HTMLSpanElement>(!!applied);
   return (
-    <div className="eq-flow-card" style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+    <div className="eq-instruction-card eq-instruction-card--preset">
       <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-        <Text as="h3" variant="subheading" style={{ flex: 1 }}>{instruction.title}</Text>
+        <Text as="h3" variant="subheading" style={{ flex: 1, fontWeight: 600, lineHeight: '20px' }}>{instruction.title}</Text>
         {applied ? (
           <span ref={handoff.targetRef} tabIndex={-1} className="eq-applied"><Icon name="check" size={16} /><Text variant="buttonSmall" color="none">Applied</Text></span>
         ) : (
-          <Button size="sm" leadingIcon="add" aria-label={`Apply ${instruction.title}`} onClick={() => { handoff.markFocus(); onApply?.(); }}>Apply</Button>
+          <ApplyButton aria-label={`Apply ${instruction.title}`} onClick={() => { handoff.markFocus(); onApply?.(); }} />
         )}
         <Announce message={applied ? `${instruction.title} applied` : ''} />
       </div>
@@ -265,38 +293,43 @@ export function PresetInstructionCard({ instruction, applied, onApply }: { instr
   );
 }
 
+/** Source badge on an active instruction: the preset's 3D art (16) and its name, outlined pill. */
+export function SourceBadge({ art, label }: { art: PresetArt; label: string }) {
+  return (
+    <span className="eq-source">
+      <Asset name={art} size={16} />
+      <Text variant="caption" color="secondary" style={{ fontSize: 10, lineHeight: '12px', fontWeight: 600 }}>{label}</Text>
+    </span>
+  );
+}
+
 /**
- * Active instruction (Instructions screenshot, 328dp card): outlined card (radius 16, padding 17).
- * Header: title 17/20 Bold + ⋮ overflow (Edit / Delete instruction); below it the outlined source
- * pill (24 high: emoji 14 + `caption` text/secondary). Full-width divider, then WHEN and DO rows.
+ * Active instruction (328dp card, padding 16, gap 16): title 16/20 bold + ⋮ overflow (Edit / Delete
+ * instruction), the source badge under it, then the WHEN and DO rows. No divider.
  */
 export function InstructionCard({ instruction, onEdit, onDelete }: { instruction: Instruction; onEdit?: () => void; onDelete?: () => void }) {
   return (
     <div className="eq-instruction-card">
-      <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
-        <Text as="h3" variant="subheading" style={{ flex: 1, minWidth: 0, fontSize: 17, lineHeight: '20px', fontWeight: 700, paddingTop: 2 }}>{instruction.title}</Text>
-        {(onEdit || onDelete) && (
-          <div style={{ margin: '-8px -12px 0 0' }}>
-            <OverflowMenu
-              label={`${instruction.title} options`}
-              items={[
-                ...(onEdit ? [{ label: 'Edit', icon: 'edit' as const, onSelect: onEdit }] : []),
-                ...(onDelete ? [{ label: 'Delete instruction', icon: 'delete' as const, danger: true, onSelect: onDelete }] : []),
-              ]}
-            />
-          </div>
-        )}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 6, alignItems: 'flex-start' }}>
+        <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start', alignSelf: 'stretch' }}>
+          <Text as="h3" variant="subheading" style={{ flex: 1, minWidth: 0, lineHeight: '20px', fontWeight: 700 }}>{instruction.title}</Text>
+          {(onEdit || onDelete) && (
+            <div style={{ margin: '-10px -14px 0 0' }}>
+              <OverflowMenu
+                label={`${instruction.title} options`}
+                items={[
+                  ...(onEdit ? [{ label: 'Edit', icon: 'edit' as const, onSelect: onEdit }] : []),
+                  ...(onDelete ? [{ label: 'Delete instruction', icon: 'delete' as const, danger: true, onSelect: onDelete }] : []),
+                ]}
+              />
+            </div>
+          )}
+        </div>
+        {instruction.source && <SourceBadge art={instruction.source.art} label={instruction.source.label} />}
       </div>
-      {instruction.source && (
-        <span className="eq-source">
-          <Emoji char={instruction.source.emoji} size={12} />
-          <Text variant="caption" color="secondary">{instruction.source.label}</Text>
-        </span>
-      )}
-      <hr className="eq-divider" style={{ margin: '9px 0 17px' }} />
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
-        <WhenDoRow kind="when" upper>{instruction.when}</WhenDoRow>
-        <WhenDoRow kind="do" upper>{instruction.do}</WhenDoRow>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <WhenDoRow kind="when">{instruction.when}</WhenDoRow>
+        <WhenDoRow kind="do">{instruction.do}</WhenDoRow>
       </div>
     </div>
   );

@@ -26,7 +26,8 @@ SIZES = {
     'avatar-male': 75, 'avatar-female': 75, 'avatar-male-bust': 80, 'avatar-female-bust': 80,
     'illustration-high-five': 113, 'illustration-trash': 72, 'whats-new-illustration': 125,
     'illustration-silent-mode': 160, 'illustration-whatsapp': 160,
-    'illustration-addresses-empty': 200, 'illustration-instructions-empty': 200, 'illustration-suggestions': 120,
+    'illustration-addresses-empty': 200, 'illustration-instructions-empty': 200, 'illustration-suggestions': 140,
+    'preset-screen-protect': 34, 'preset-everyday-calls': 34, 'preset-business': 34, 'mascot-instructions': 44,
     # monetization
     'crown-gold': 100, 'crown-lock': 24, 'coupon-seal': 32, 'star-gold': 24,
     'status-waiting': 100, 'status-waiting-cash': 100, 'status-confirmed': 100, 'status-pending': 100, 'status-failed': 100,

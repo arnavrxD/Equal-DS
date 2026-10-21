@@ -16,6 +16,7 @@ import {
   FullSheet,
   GenderSelector,
   IllustrationHeader,
+  ActiveInstructionsRow,
   InstructionCard,
   InstructionPreview,
   LargeActionChip,
@@ -345,10 +346,10 @@ export function InstructionsFlow({ onBack, initialActive = [instructionLibrary.d
     const p = presets.find((x) => x.id === view.preset) as Preset;
     return (
       <Screen header={header(p.title, () => setView('hub'))} overlay={overlay}>
-        <Text as="p" variant="body1" color="secondary" style={{ padding: '0 20px 12px' }}>{p.description}</Text>
-        <div style={{ padding: '0 20px 24px', display: 'flex', flexDirection: 'column', gap: 12 }}>
+        <Text as="p" variant="body2" color="secondary" style={{ padding: '0 20px 16px', lineHeight: '18px' }}>{p.description}</Text>
+        <div style={{ padding: '0 16px 24px', display: 'flex', flexDirection: 'column', gap: 12 }}>
           {p.instructions.map((ins) => (
-            <PresetInstructionCard key={ins.id} instruction={ins} applied={isActive(ins.id)} onApply={() => startSetup({ ...ins, source: { emoji: p.emoji, label: p.title } })} />
+            <PresetInstructionCard key={ins.id} instruction={ins} applied={isActive(ins.id)} onApply={() => startSetup({ ...ins, source: { art: p.art, label: p.title } })} />
           ))}
         </div>
       </Screen>
@@ -368,8 +369,8 @@ export function InstructionsFlow({ onBack, initialActive = [instructionLibrary.d
           </div>
         ) : (
           <>
-            <SectionHeader>{`Active instructions - ${active.length}`}</SectionHeader>
-            <div style={{ padding: '0 20px 24px', display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <SectionHeader inset={16}>{`Active - ${active.length}`}</SectionHeader>
+            <div style={{ padding: '0 16px 24px', display: 'flex', flexDirection: 'column', gap: 12 }}>
               {active.map((ins) => (
                 <InstructionCard key={ins.id} instruction={ins} onEdit={() => startSetup(ins, `Edit: ${ins.title}`)} onDelete={() => (setActive((a) => a.filter((x) => x.id !== ins.id)), flash('Instruction deleted'))} />
               ))}
@@ -384,7 +385,7 @@ export function InstructionsFlow({ onBack, initialActive = [instructionLibrary.d
     <Screen header={header('Instructions', onBack)} footer={addButton} overlay={overlay}>
       <SectionHeader>Recommended for you</SectionHeader>
       {recs.length ? (
-        <div className="eq-hscroll" style={{ gap: 10, padding: '0 20px 4px' }}>
+        <div className="eq-hscroll" style={{ gap: 4, padding: '0 20px 4px' }}>
           {recs.map((r) => (
             <RecommendedCard key={r.id} emoji={r.emoji} title={r.title} description={r.description} onAdd={() => startSetup(r.instruction, r.ask)} />
           ))}
@@ -396,13 +397,13 @@ export function InstructionsFlow({ onBack, initialActive = [instructionLibrary.d
         </div>
       )}
       <SectionHeader>Your instructions</SectionHeader>
-      <RowGroup>
-        <SettingsRow icon="instructions" iconBg="var(--eq-preset-tint-lime)" label="Active Instructions" description={active.length ? `${active.length} Active` : 'Manage how your assistant handles calls'} onClick={() => setView('active')} />
-      </RowGroup>
+      <div style={{ padding: '0 20px' }}>
+        <ActiveInstructionsRow count={active.length} onClick={() => setView('active')} />
+      </div>
       <SectionHeader>Browse presets</SectionHeader>
-      <div style={{ padding: '0 20px 24px', display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <div style={{ padding: '0 20px 24px', display: 'flex', flexDirection: 'column', gap: 6 }}>
         {presets.map((p) => (
-          <PresetCard key={p.id} emoji={p.emoji} tint={p.tint} title={p.title} description={p.description} onClick={() => setView({ preset: p.id })} />
+          <PresetCard key={p.id} art={p.art} tint={p.tint} title={p.title} description={p.description} onClick={() => setView({ preset: p.id })} />
         ))}
       </div>
     </Screen>

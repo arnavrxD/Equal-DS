@@ -105,7 +105,7 @@ export type CallSummaryProps = {
   /** Hide the recording (summary only). */
   noRecording?: boolean;
   width?: number | string;
-  /** Pill left of the timestamp, e.g. { emoji: '🪄', label: 'Instruction Applied' }. */
+  /** Line under the summary saying which instructions ran, e.g. { emoji: '🪄', label: '2 instructions applied in this call' }. */
   tag?: { emoji?: string; label: string };
   /**
    * Monetization. 'audio': the recording is blurred under a 🔒 Unlock Audio pill. 'all': the
@@ -138,15 +138,15 @@ export function CallSummary({ duration = 157, summary, time, label = 'Call Summa
       <div style={{ padding: noRecording ? '10px 10px 6px' : '0 10px 6px' }}>
         <Text as="div" variant="caption" color="secondary">{label}</Text>
         {locked === 'all' ? <Locked><Text as="div" variant="body1">{summary}</Text></Locked> : <Text as="div" variant="body1">{summary}</Text>}
-        {(time || tag) && (
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8, marginTop: 6 }}>
-            {tag ? (
-              <span className="eq-summary__tag">
-                {tag.emoji && <Emoji char={tag.emoji} size={12} />}
-                <Text variant="caption" color="none">{tag.label}</Text>
-              </span>
-            ) : <span />}
-            {time && <Text variant="micro" color="secondary">{time}</Text>}
+        {tag && (
+          <div className="eq-summary__tag">
+            {tag.emoji && <Emoji char={tag.emoji} size={12} />}
+            <Text variant="caption" color="none" style={{ fontWeight: 400 }}>{tag.label}</Text>
+          </div>
+        )}
+        {time && (
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: tag ? 0 : 6 }}>
+            <Text variant="micro" color="secondary">{time}</Text>
           </div>
         )}
       </div>

@@ -8,7 +8,11 @@ const MASCOTS = [
   { name: 'whats-new-illustration', use: 'What’s New: Language Preference (125dp)' },
   { name: 'illustration-addresses-empty', use: 'Addresses empty state (200dp)' },
   { name: 'illustration-instructions-empty', use: 'Active Instructions empty state (200dp)' },
-  { name: 'illustration-suggestions', use: '“New suggestions coming…” card (120dp)' },
+  { name: 'illustration-suggestions', use: '“New suggestions coming…” card (140dp)' },
+  { name: 'mascot-instructions', use: 'Instructions hub: Active Instructions row (40dp on lime)' },
+  { name: 'preset-screen-protect', use: 'Preset: Screen & Protect (33dp; 16dp badge)' },
+  { name: 'preset-everyday-calls', use: 'Preset: Handle everyday calls (33dp; 16dp badge)' },
+  { name: 'preset-business', use: 'Preset: Run my business (33dp; 16dp badge)' },
 ] as const;
 
 export default function Brand() {

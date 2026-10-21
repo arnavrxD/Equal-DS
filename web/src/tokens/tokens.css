@@ -90,6 +90,7 @@
   --eq-text-on-action-disabled: #888888;
   --eq-button-primary: #00B140;
   --eq-button-secondary: #BAFF29;
+  --eq-button-tonal: rgba(0,177,64,0.08);
   --eq-text-on-secondary: rgba(0,0,0,0.8); /* derived */
   --eq-button-danger: #C50000;
   --eq-button-disabled: #DDDDDD;
@@ -120,16 +121,13 @@
   --eq-waveform-bar: #D9D9D9; /* derived */
   --eq-waveform-bar-played: #00B140; /* derived */
   --eq-notice-bg: #FAFFF4; /* derived */
-  --eq-chip-when-bg: rgba(0,0,0,0.05); /* derived */
   --eq-plan-card-pattern: #C9A55A; /* derived */
   --eq-invite-bg: #F1FFF6; /* derived */
   --eq-invite-stroke: rgba(0,177,64,0.10); /* derived */
-  --eq-chip-do-bg: #F0FBF4; /* derived */
   --eq-chip-selected-bg: #313131; /* derived */
   --eq-chip-selected-text: #F7F7F7; /* derived */
   --eq-preset-tint-green: rgba(72,255,138,0.16); /* derived */
   --eq-preset-tint-orange: rgba(255,153,8,0.16); /* derived */
-  --eq-icon-button-bg: #F2F2F2; /* derived */
   --eq-chat-wallpaper-bg: #F5F5F6; /* derived */
   --eq-voice-player-bg: #FFFFFF; /* derived */
   --eq-voice-player-bg-sent: #E1F7E6; /* derived */
@@ -205,6 +203,7 @@
   --eq-assistant-toggle-bg: #FAFFEE; /* derived */
   --eq-preset-tint-blue: rgba(131,224,255,0.16); /* derived */
   --eq-preset-tint-lime: rgba(186,255,41,0.18); /* derived */
+  --eq-suggest-glow: rgba(0,177,64,0.2);
   --eq-gender-stroke: #F4F4F4; /* derived */
   --eq-gradient-fab: linear-gradient(180deg, #BAFF29 -28%, #00B140 100%);
   --eq-gradient-send-disabled: linear-gradient(180deg, rgba(186,255,41,0.2) -28%, rgba(0,177,64,0.2) 100%);
@@ -216,7 +215,6 @@
   --eq-gradient-profile-hero: linear-gradient(180deg, #F5E4AE 0%, #F7EBC0 25%, #F5EED8 50%, #F4F0EA 75%, #F7F7F7 100%);
   --eq-gradient-ai-summary: linear-gradient(45deg, #F3FBF6 0%, #FFFFFF 25%, #F8FFEA 50%, #FFFFFF 75%, #EAF9EF 100%);
   --eq-gradient-gender-selected: linear-gradient(135deg, rgba(186,255,41,0.08) 0%, rgba(186,255,41,0.08) 100%);
-  --eq-gradient-suggestion-card: linear-gradient(120deg, #FFFFFF 0%, #F2FBEA 60%, #E9F8EC 100%);
   --eq-gradient-status-card: linear-gradient(120deg, #FEEBC8 0%, #FDF2DB 45%, #FBF9F4 100%);
   --eq-gradient-meet-assistant: linear-gradient(135deg, #EBF9F0 0%, #EBF9F0 60%, #F2FCEE 100%);
   --eq-gradient-call-me: linear-gradient(90deg, #00B140 0%, #00B140 100%);
@@ -256,6 +254,7 @@
   --eq-text-on-action-disabled: #888888;
   --eq-button-primary: #BAFF29;
   --eq-button-secondary: #BAFF29;
+  --eq-button-tonal: rgba(186,255,41,0.12);
   --eq-text-on-secondary: #000000; /* derived */
   --eq-button-danger: #FF5151;
   --eq-button-disabled: #444444;
@@ -286,16 +285,13 @@
   --eq-waveform-bar: #D9D9D9; /* derived */
   --eq-waveform-bar-played: #BAFF29; /* derived */
   --eq-notice-bg: rgba(186,255,41,0.08); /* derived */
-  --eq-chip-when-bg: rgba(255,255,255,0.08); /* derived */
   --eq-plan-card-pattern: #C9A55A; /* derived */
   --eq-invite-bg: #272C1E; /* derived */
   --eq-invite-stroke: rgba(186,255,41,0.10); /* derived */
-  --eq-chip-do-bg: #272C1E; /* derived */
   --eq-chip-selected-bg: #F7F7F7; /* derived */
   --eq-chip-selected-text: #313131; /* derived */
   --eq-preset-tint-green: rgba(186,255,41,0.16); /* derived */
   --eq-preset-tint-orange: rgba(255,153,8,0.16); /* derived */
-  --eq-icon-button-bg: #333333; /* derived */
   --eq-chat-wallpaper-bg: #141414; /* derived */
   --eq-voice-player-bg: #141414; /* derived */
   --eq-voice-player-bg-sent: #333926; /* derived */
@@ -371,6 +367,7 @@
   --eq-assistant-toggle-bg: #2B3120; /* derived */
   --eq-preset-tint-blue: rgba(131,224,255,0.16); /* derived */
   --eq-preset-tint-lime: rgba(186,255,41,0.18); /* derived */
+  --eq-suggest-glow: rgba(186,255,41,0.12);
   --eq-gender-stroke: rgba(255,255,255,0.08); /* derived */
   --eq-gradient-fab: linear-gradient(180deg, #C9FF5C 0%, #BAFF29 100%);
   --eq-gradient-send-disabled: linear-gradient(180deg, rgba(186,255,41,0.2) 0%, rgba(186,255,41,0.2) 100%);
@@ -382,7 +379,6 @@
   --eq-gradient-profile-hero: linear-gradient(180deg, #F5E4AE 0%, #F7EBC0 35%, #FBF5E8 100%);
   --eq-gradient-ai-summary: linear-gradient(45deg, #272A1F 0%, #1F1F1F 25%, #2E3520 50%, #1F1F1F 75%, #2B3120 100%);
   --eq-gradient-gender-selected: linear-gradient(135deg, rgba(186,255,41,0.08) 0%, rgba(186,255,41,0.08) 100%);
-  --eq-gradient-suggestion-card: linear-gradient(120deg, #242424 0%, #2F3423 100%);
   --eq-gradient-status-card: linear-gradient(120deg, #3A2E1A 0%, #2A2622 60%, #242424 100%);
   --eq-gradient-meet-assistant: linear-gradient(120deg, #272C1E 0%, #2F3423 100%);
   --eq-gradient-call-me: linear-gradient(90deg, #BAFF29 0%, #BAFF29 100%);

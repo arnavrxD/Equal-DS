@@ -31,7 +31,9 @@ import ai.equal.ds.components.InstructionSource
 import ai.equal.ds.components.InviteCard
 import ai.equal.ds.components.PlanCard
 import ai.equal.ds.components.PresetCard
+import ai.equal.ds.components.ActiveInstructionsRow
 import ai.equal.ds.components.PresetInstructionCard
+import ai.equal.ds.components.PresetArt
 import ai.equal.ds.components.PresetTint
 import ai.equal.ds.components.ProfileAvatar
 import ai.equal.ds.components.ProfileAvatarVariant
@@ -300,19 +302,21 @@ internal fun InstructionRecommendedSnippet() {
     }
 }
 
-// snippet: instruction-cards / Browse presets
+// snippet: instruction-cards / Your instructions and browse presets
 @Composable
 internal fun InstructionBrowsePresetsSnippet() {
+    ActiveInstructionsRow(count = 5, onClick = {})
+
     PresetCard(
-        emoji = "🛡️", tint = PresetTint.Green, title = "Screen & Protect",
+        art = PresetArt.ScreenProtect, tint = PresetTint.Green, title = "Screen & Protect",
         description = "Decline spam, hold the line on loan and payments call, close wrong call", onClick = {},
     )
     PresetCard(
-        emoji = "📞", tint = PresetTint.Blue, title = "Handle everyday calls",
+        art = PresetArt.EverydayCalls, tint = PresetTint.Blue, title = "Handle everyday calls",
         description = "Take message, guide deliveries, relay to family, start in your language", onClick = {},
     )
     PresetCard(
-        emoji = "💼", tint = PresetTint.Orange, title = "Run my business",
+        art = PresetArt.Business, tint = PresetTint.Orange, title = "Run my business",
         description = "Capture enquiries, orders, bookings, job, and supplier calls", onClick = {},
     )
 }
@@ -335,7 +339,7 @@ internal fun InstructionActiveSnippet() {
         instruction = Instruction(
             id = "decline-sales",
             title = "Decline sales, promo spam calls",
-            source = InstructionSource(emoji = "✨", label = "Recommended for you"),
+            source = InstructionSource(art = PresetArt.ScreenProtect, label = "Screen & Protect"),
             whenText = "The caller is selling loan, insurance, credit card, product, or another unsolicited offer",
             doText = "Politely say I am not interested and end the conversation without discussing the offer",
         ),

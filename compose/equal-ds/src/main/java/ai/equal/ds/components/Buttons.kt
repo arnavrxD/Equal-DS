@@ -63,7 +63,7 @@ import androidx.compose.ui.unit.dp
  * action next to a commit, e.g. Cancel). [GoldOutline] (`bg/surface`, 1.5dp `text/gold` inset
  * border, `text/gold` label) is the quiet plan action on the gold pages: Cancel Subscription.
  */
-enum class EqualButtonVariant { Primary, Secondary, Danger, Gold, Outline, GoldOutline }
+enum class EqualButtonVariant { Primary, Secondary, Tonal, Danger, Gold, Outline, GoldOutline }
 
 /** Filled button sizes (SPEC §19). [Block] = `lg` metrics at full width. */
 enum class EqualButtonSize { Sm, Md, Lg, Block }
@@ -105,6 +105,7 @@ fun EqualButton(
         !enabled -> colors.buttonDisabled to colors.textOnActionDisabled
         variant == EqualButtonVariant.Primary -> colors.buttonPrimary to colors.textOnAction
         variant == EqualButtonVariant.Secondary -> colors.buttonSecondary to colors.textOnSecondary
+        variant == EqualButtonVariant.Tonal -> colors.buttonTonal to colors.textAction
         variant == EqualButtonVariant.Gold -> Color.Transparent to EqualPrimitives.white
         variant == EqualButtonVariant.Outline -> Color.Transparent to colors.textAction
         variant == EqualButtonVariant.GoldOutline -> colors.bgSurface to colors.textGold

@@ -1250,8 +1250,8 @@
       },
       {
         "part": "Tag and time",
-        "description": "Optional pill (e.g. 🪄 Instruction Applied) and the timestamp.",
-        "spec": "6 above · tag 24 high · padding 0 10 · radius full · 1 px stroke/subtle · bg/surface · Emoji 12 · Text caption text/secondary · time Text micro text/secondary"
+        "description": "Optional line under the summary saying which instructions ran (🪄 2 instructions applied in this call), then the timestamp on the right.",
+        "spec": "8 above · padding 4 · Emoji 12 + 12 Regular text/secondary · time Text micro text/secondary, right-aligned"
       },
       {
         "part": "Share footer",
@@ -4569,33 +4569,48 @@
     "anatomy": [
       {
         "part": "RecommendedCard",
-        "description": "Horizontal card with an emoji, + add, title and description.",
-        "spec": "188 wide · min 114 · radius 16 · 1dp stroke/subtle · padding 14/16 · Emoji 26 · add 30 circle icon-button/bg, add 20 text/action, 48 touch area · subheading 10 above · body1 text/secondary"
+        "description": "Horizontal card: emoji, the tinted + Apply pill, title and description.",
+        "spec": "191 wide · min 114 · radius 12 · bg/surface · 1dp stroke/subtle · padding 12 · Emoji 24 · ApplyButton · title 14 SemiBold · description 12/16 text/primary"
+      },
+      {
+        "part": "ApplyButton",
+        "description": "Tinted pill that starts the setup chat.",
+        "spec": "Button sm (24 high) · button/tonal (brand green 8 %, lime 12 % dark) · add 16 + buttonSmall text/action · 48 touch area"
       },
       {
         "part": "SuggestionsComingCard",
-        "description": "Shown once every recommendation is added.",
-        "spec": "gradient/suggestion-card · radius 16 · 1dp stroke/subtle · padding 16/12/12/16 · orb 18 + caption text/secondary · bodyLarge 12 above · illustration 112"
+        "description": "Shown once every recommendation is applied or none exist.",
+        "spec": "116 high · radius 16 · bg/primary · 1dp stroke/medium · three suggest/glow circles (blur 50) · orb 18 + 12 Bold text/secondary · body2 13 below, max 184 · illustration-suggestions 140 top-right"
+      },
+      {
+        "part": "ActiveInstructionsRow",
+        "description": "Your instructions entry with the robot-with-wand art and the count.",
+        "spec": "min 76 · radius 16 · 1dp stroke/subtle · mascot-instructions 33 in a 44 preset/tint-lime circle · 14 SemiBold + 12 text/secondary · chevron 22 text/placeholder"
       },
       {
         "part": "PresetCard",
-        "description": "Tappable preset with an emoji in a tinted circle and a chevron.",
-        "spec": "flow card, 1dp stroke/subtle · Emoji 16 in 26 circle (preset/tint-*) · chevron 22 text/placeholder · subheading 12 above + captionWrap text/secondary"
+        "description": "Tappable preset: 3D art in a tinted circle, title, description, chevron.",
+        "spec": "min 85 · radius 16 · 1dp stroke/subtle · PresetIcon 44 (art 33, preset/tint-*) · gap 8 · title 16 SemiBold · description 12/16 text/secondary · chevron 22"
       },
       {
         "part": "PresetInstructionCard",
-        "description": "Preset instruction with Apply, which becomes an 'Applied' pill.",
-        "spec": "flow card · title subheading (h3 web) · Button sm 24 with add icon · Applied pill 24 action-card/highlight + check 16 + buttonSmall text/action · gap 14"
+        "description": "Preset instruction with + Apply, which becomes an 'Applied' pill.",
+        "spec": "radius 16 · 1dp stroke/subtle · padding 12/16 · gap 16 · title 16/20 SemiBold (h3 web) · ApplyButton · Applied pill 24 action-card/highlight + check 16 + buttonSmall text/action"
       },
       {
         "part": "WhenDoRow",
-        "description": "When / Do line: a flat chip on presets, a fading pill on active instructions.",
-        "spec": "preset chip 26 high, min 42, h10, chip/when-bg / chip/do-bg, caption Regular text/secondary · active pill 51×24 gradient/when-chip / do-chip, 13/16 caps text/secondary · text body1 text/primary (13/18 on active)"
+        "description": "WHEN / DO line, the same on preset and active instructions.",
+        "spec": "52 × 24 pill gradient/when-chip / gradient/do-chip · 12 SemiBold caps text/secondary · gap 8 · text 14/18 text/primary"
+      },
+      {
+        "part": "SourceBadge",
+        "description": "Which preset an active instruction came from.",
+        "spec": "min 24 · padding 4/8 · bg/surface · 1dp stroke/medium · preset art 16 + 10 SemiBold text/secondary"
       },
       {
         "part": "InstructionCard",
-        "description": "Active instruction: bold title + ⋮, source pill, divider, WHEN and DO.",
-        "spec": "bg/surface · radius 16 · 1dp stroke/subtle · padding 17 · title 17/20 Bold · source pill 24 high, 1dp stroke/subtle, Emoji 12 + caption text/secondary · divider 9 above, 17 below"
+        "description": "Active instruction: bold title + ⋮, source badge, WHEN and DO. No divider.",
+        "spec": "bg/surface · radius 16 · 1dp stroke/subtle · padding 16 · gap 16 · title 16/20 Bold · badge 6 below · rows gap 12"
       },
       {
         "part": "InstructionPreview",
@@ -4606,27 +4621,27 @@
     "accessibility": [
       {
         "topic": "Role",
-        "web": "RecommendedCard is a div with an add <button>. PresetCard is a <button>. Instruction titles are h3. The overflow has aria-haspopup=\"menu\" and aria-expanded. Emoji are aria-hidden.",
-        "android": "Add, PresetCard and Apply are Role.Button. The overflow is Role.Button with Expanded / Collapsed. Titles have no heading(). EmojiGlyph is hidden from TalkBack."
+        "web": "RecommendedCard is a div with an Apply <button>. ActiveInstructionsRow is a <button>. Preset and badge art is decorative (alt \"\"). PresetCard is a <button>. Instruction titles are h3. The overflow has aria-haspopup=\"menu\" and aria-expanded. Emoji are aria-hidden.",
+        "android": "Apply, PresetCard and ActiveInstructionsRow are Role.Button. Preset art has no contentDescription. The overflow is Role.Button with Expanded / Collapsed. Titles have no heading(). EmojiGlyph is hidden from TalkBack."
       },
       {
         "topic": "Name",
-        "web": "Add is 'Add {title}'. Apply is 'Apply {title}'. PresetCard is named by its title and description. The overflow is '{title} options'. The ✅ reaction is role=\"img\" 'Confirmed'.",
-        "android": "Add's contentDescription is 'Add {title}'. Apply reads just 'Apply'. Overflow: '{title} options'. The ✅ reaction reads 'Confirmed'."
+        "web": "Apply is 'Apply {title}' on recommended and preset cards. PresetCard is named by its title and description. The overflow is '{title} options'. The ✅ reaction is role=\"img\" 'Confirmed'.",
+        "android": "Apply's contentDescription is 'Apply {title}'. Overflow: '{title} options'. The ✅ reaction reads 'Confirmed'."
       },
       {
         "topic": "Keyboard",
-        "web": "Tab to add, the preset cards, Apply and ⋮, then Enter/Space. When Apply becomes 'Applied', focus moves to the pill (useFocusHandoff).",
+        "web": "Tab to Apply, the Active Instructions row, the preset cards, Apply and ⋮, then Enter/Space. When Apply becomes 'Applied', focus moves to the pill (useFocusHandoff).",
         "android": "TalkBack: swipe through the cards, double-tap to act. Back closes the overflow popup."
       },
       {
         "topic": "Touch target",
-        "web": "Add (30) uses eq-touch for 48. The sm Apply button uses eq-touch. The overflow gets 48 through IconButton.",
-        "android": "Add (30dp) and the overflow (32dp) use touchTarget() for 48dp. Apply (sm) gets 48 from EqualButton."
+        "web": "The sm Apply pill uses eq-touch for 48. The overflow gets 48 through IconButton.",
+        "android": "The overflow (32dp) uses touchTarget() for 48dp. Apply (sm) gets 48 from EqualButton."
       },
       {
         "topic": "Contrast",
-        "web": "Titles 12.6:1, descriptions text/secondary 5.7:1, When/Do labels 5.5–5.8:1 in both themes. Below 3:1 in light: the add icon on icon-button/bg (2.55:1) and the Applied text on its highlight (2.59:1), both brand green, and the chevron in text/placeholder (2.85:1).",
+        "web": "Titles 12.6:1, descriptions text/secondary 5.7:1, When/Do labels 5.5–5.8:1 in both themes. Below 3:1 in light: the Apply label on button/tonal (≈2.6:1, brand green, accepted) and the Applied text on its highlight (2.59:1), both brand green, and the chevron in text/placeholder (2.85:1).",
         "android": "Same tokens. In dark, add and Applied are lime on dark tints, above 10:1."
       },
       {
@@ -4642,9 +4657,9 @@
     ],
     "gaps": [
       "PresetInstructionCard and InstructionCard in Flows.kt: titles have no heading() semantics (web uses h3).",
-      "PresetInstructionCard in Flows.kt: every Apply button reads just 'Apply', so in a list they can't be told apart (web uses 'Apply {title}').",
-      "The PresetCard chevron (text/placeholder) is 2.85:1 on white in light, below 3:1 (Flows.tsx / Flows.kt).",
-      "Accepted brand decision: the RecommendedCard add icon (text/action on icon-button/bg, 2.55:1) and the Applied pill (text/action on action-card/highlight, 2.59:1) are below 3:1 in light (Flows.css / Flows.kt)."
+      "The PresetCard and ActiveInstructionsRow chevron (text/placeholder) is 2.85:1 on white in light, below 3:1 (Flows.tsx / Flows.kt).",
+      "Accepted brand decision: the + Apply label (text/action on button/tonal, ≈2.6:1) and the Applied pill (text/action on action-card/highlight, 2.59:1) are below 3:1 in light (Flows.css / Flows.kt).",
+      "The SourceBadge label is 10sp, below the 12sp minimum the rest of the system keeps; it is supplementary (the preset art and the title carry the meaning)."
     ]
   }
 }

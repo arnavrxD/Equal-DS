@@ -4,7 +4,7 @@ import { Icon } from '../foundations/Icon';
 import type { IconName } from '../foundations/icons';
 import './Button.css';
 
-export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'gold' | 'outline' | 'gold-outline';
+export type ButtonVariant = 'primary' | 'secondary' | 'tonal' | 'danger' | 'gold' | 'outline' | 'gold-outline';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
 export type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children'> & {
