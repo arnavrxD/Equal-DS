@@ -37,7 +37,7 @@ When a design and the system disagree, check it first; when a rule changes, upda
 **Icons and images**
 - **Action cards:** the grey body sits on a white card (never a green card), and every CTA row is
   emoji + label (📤 Send, ✏️ Edit, 👍 Confirm, 🗑️ Delete).
-- **Icons:** flat icons are Material Symbols (`scripts/build-icons.mjs`, then `npm run icons`). Action
+- **Icons:** flat icons are Material Symbols, Outlined weight 400 (`scripts/build-icons.mjs`, then `npm run icons`). Every outlined icon has the same 1.5dp stroke at 24dp; a glyph Symbols lacks (e.g. WhatsApp) is drawn on the 960 grid at that stroke, never taken from another icon set. Action
   chips use emoji, sized to the label font size.
 - **Images:** the only images are supplied assets in `assets/`. Everything else is code: logos, seals,
   patterns, rings, progress bars, badges. Never crop an image; trimming transparent margins is fine.

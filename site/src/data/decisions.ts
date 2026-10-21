@@ -85,6 +85,7 @@ export const decisions: DecisionGroup[] = [
       { rule: 'All actions in a card have the same weight; Confirm is not a filled button.', why: 'Two actions at equal weight let the user choose; a filled Confirm pushes them. The commit goes first, the revise second, both as text rows.', source: 'Typography v3 / handoff' },
       { rule: 'Instructions use the note_stack icon with When / Do lines, never a category avatar.', why: 'An instruction is a rule the user set, not a caller. The icon and When / Do structure make that obvious.', source: 'Design review' },
       { rule: 'Flat icons are Material Symbols (Material 3); actions use emoji.', why: 'One icon family keeps line weight consistent. Emoji on actions add warmth and are easier to recognise in a crowded chat.', source: 'Design direction', where: 'npm run icons' },
+      { rule: 'Every outlined icon has one stroke: 1.5 dp at 24 dp (Symbols Outlined, weight 400).', why: 'Mixed weights make a list look uneven: the WhatsApp brand glyph drew a 2.3 dp ring next to 1.5 dp pins and shields on the You tab. A glyph Symbols lacks is drawn on the 960 grid at the 60-unit stroke instead of taken from another set.', source: 'Product owner', where: 'scripts/build-icons.mjs (CUSTOM)' },
       { rule: 'Premium (monetization) perk icons are filled, 16 dp, in the gold radial gradient.', why: 'Filled gold marks a paid perk apart from everyday UI icons, which are outlined.', source: 'Design spec', where: 'PremiumIcon' },
     ],
   },

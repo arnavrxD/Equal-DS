@@ -14,7 +14,7 @@ export default function Icons() {
   return (
     <Page
       title="Icons"
-      lead="Every flat icon is a Material Symbol (Outlined, weight 400; filled where the design fills it), plus the WhatsApp brand glyph. One manifest generates web and Compose with identical paths."
+      lead="Every flat icon is a Material Symbol (Outlined, weight 400; filled where the design fills it), plus a few glyphs Symbols lacks (WhatsApp, call + sparkle), drawn on the same 960 grid with the same 1.5dp stroke so every icon has one weight. One manifest generates web and Compose with identical paths."
       meta={<><CopyTag k="React" value={'<Icon name="call" size={24} />'} /><CopyTag k="Kotlin" value="EqualSymbols.call" /><CopyTag k="Add one" value="npm run icons" /></>}
     >
       <H2>The set</H2>
