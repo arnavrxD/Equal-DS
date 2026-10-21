@@ -258,6 +258,28 @@ export const aliases: AliasToken[] = [
     "why": "The faint lime wash for unread chips and selected choice cards; lime at 8% in both themes."
   },
   {
+    "name": "component/chip/label-unread",
+    "cssVar": "--eq-chip-label-unread",
+    "light": "#3C3C3C",
+    "dark": "#D3D4D1",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": false,
+    "why": "Label and chevron of an unread action pill (Call Back, Update Address…). Figma: #3C3C3C in light, #D3D4D1 in dark; 10.3:1 and 12.4:1."
+  },
+  {
+    "name": "component/chip/label-read",
+    "cssVar": "--eq-chip-label-read",
+    "light": "#3C3C3C",
+    "dark": "rgba(255,255,255,0.6)",
+    "lightRef": "direct value",
+    "darkRef": "brand/white · 60%",
+    "group": "component",
+    "derived": false,
+    "why": "Label and chevron of a read action pill. Figma: #3C3C3C in light; dark keeps text secondary (white 60%)."
+  },
+  {
     "name": "action/bottom-color",
     "cssVar": "--eq-action-bottom-color",
     "light": "#EBEBEB",
@@ -1447,6 +1469,8 @@ export const color = {
   strokeDark: 'var(--eq-stroke-dark)',
   actionStrokeUnread: 'var(--eq-action-stroke-unread)',
   actionFillUnread: 'var(--eq-action-fill-unread)',
+  chipLabelUnread: 'var(--eq-chip-label-unread)',
+  chipLabelRead: 'var(--eq-chip-label-read)',
   actionBottomColor: 'var(--eq-action-bottom-color)',
   chatBubbleUserBg: 'var(--eq-chat-bubble-user-bg)',
   chatBubbleUserTitle: 'var(--eq-chat-bubble-user-title)',
@@ -1941,6 +1965,8 @@ export const shadow = {
   "fab": "0 6px 16px rgba(0,177,64,0.30)",
   "glass": "inset 0 -2px 0 var(--eq-action-bottom-color), 0 1px 2px rgba(0,0,0,0.06)",
   "header": "0 2px 6px rgba(0,0,0,0.08)",
-  "focusRing": "0 0 0 2px var(--eq-bg-surface), 0 0 0 4px var(--eq-text-primary)"
+  "focusRing": "0 0 0 2px var(--eq-bg-surface), 0 0 0 4px var(--eq-text-primary)",
+  "chipUnread": "0 3px 4px rgba(0,0,0,0.04)",
+  "chipRead": "0 0 1px rgba(0,0,0,0.25)"
 } as const;
 export const motion = {"duration":{"fast":120,"base":200,"slow":320,"switchToggle":500,"couponSpring":590,"couponDelay":300,"priceDrop":600,"priceDelay":800,"shimmer":600,"shimmerDelay":1200,"buttonGlow":300,"buttonGlowDelay":800,"paymentStatus":1022,"paymentDelay":2400,"reward":6000},"easing":{"standard":"cubic-bezier(0.2, 0, 0, 1)","emphasized":"cubic-bezier(0.3, 0, 0, 1.3)","easeInOut":"cubic-bezier(0.42, 0, 0.58, 1)","spring":"cubic-bezier(0.34, 1.56, 0.64, 1)","gentle":"cubic-bezier(0.25, 0.8, 0.25, 1)","linear":"linear"},"$source":"Monetization prototype (Figma): Switch 500ms ease-in-out; Coupon spring 590ms after 300ms; Pricing / Coupon Pricing 600ms after 800ms; Shimmer 600ms after 1.2s; Button Glow 300ms after 800ms; Payment Status 1022ms gentle after 2.4s; Reward Animation 6s linear."} as const;

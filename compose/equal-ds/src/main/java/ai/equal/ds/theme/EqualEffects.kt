@@ -64,6 +64,12 @@ object EqualShadows {
     /** Drop part of `glass` (0 1 2 black/6%). Pair with [eqGlassInset] for the inset bottom edge. */
     val glass = EqualShadow(listOf(EqualShadowLayer(0.dp, 1.dp, 2.dp, black.copy(alpha = 0.06f))))
 
+    /** Action pill, unread: 0 3 4 black/4% (Figma, outer only). */
+    val chipUnread = EqualShadow(listOf(EqualShadowLayer(0.dp, 3.dp, 4.dp, black.copy(alpha = 0.04f))))
+
+    /** Action pill, read: 0 0 1 black/25% (Figma, outer only). */
+    val chipRead = EqualShadow(listOf(EqualShadowLayer(0.dp, 0.dp, 1.dp, black.copy(alpha = 0.25f))))
+
     /** 0 2 6 black/8% */
     val header = EqualShadow(listOf(EqualShadowLayer(0.dp, 2.dp, 6.dp, black.copy(alpha = 0.08f))))
 

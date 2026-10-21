@@ -34,7 +34,7 @@
 .eq-paywall-sheet__card > *:not(.eq-paywall-sheet__rings) { position: relative; }
 .eq-paywall-sheet__support { position: absolute !important; top: 8px; right: 8px; }
 .eq-paywall-sheet__footer { padding: 14px 16px 18px; }
-.eq-coupon-row { align-self: stretch; display: flex; align-items: center; gap: 10px; margin-top: 12px; padding: 10px 14px; border-radius: 14px; background: var(--eq-bg-surface); border: 1px solid var(--eq-paywall-card-stroke); }
+.eq-coupon-row { align-self: stretch; display: flex; align-items: center; gap: 10px; margin-top: 12px; padding: 10px 14px; border-radius: 12px; background: var(--eq-bg-surface); border: 1px solid var(--eq-paywall-card-stroke); }
 .eq-coupon-row__apply { color: var(--eq-text-gold); font-weight: 700; padding: 4px 8px; border-radius: 999px; }
 [data-theme='dark'] .eq-coupon-row__apply { background: color-mix(in srgb, var(--eq-text-gold) 18%, transparent); }
 

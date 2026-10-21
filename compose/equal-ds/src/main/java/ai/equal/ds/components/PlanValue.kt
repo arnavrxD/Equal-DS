@@ -526,7 +526,7 @@ private fun CircuitLayer() {
 private fun ValuePerksList(perks: List<ValuePerk>?) {
     if (perks.isNullOrEmpty()) return
     val colors = EqualTheme.colors
-    val perksShape = RoundedCornerShape(14.dp)
+    val perksShape = RoundedCornerShape(12.dp)
     Column(
         Modifier
             .padding(horizontal = 16.dp)

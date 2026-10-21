@@ -73,6 +73,10 @@ data class EqualColors(
     val actionStrokeUnread: Color,
     /** action/fill/unread */
     val actionFillUnread: Color,
+    /** component/chip/label-unread */
+    val chipLabelUnread: Color,
+    /** component/chip/label-read */
+    val chipLabelRead: Color,
     /** action/bottom-color */
     val actionBottomColor: Color,
     /** component/chat-bubble/user-bg */
@@ -309,6 +313,8 @@ val LightEqualColors = EqualColors(
     strokeDark = Color(0x52000000), // brand/black · 32%
     actionStrokeUnread = Color(0x5C00B140), // brand/green · 36%
     actionFillUnread = Color(0x14BAFF29), // brand/lime · 8%
+    chipLabelUnread = Color(0xFF3C3C3C), // direct value
+    chipLabelRead = Color(0xFF3C3C3C), // direct value
     actionBottomColor = Color(0xFFEBEBEB), // direct value
     chatBubbleUserBg = Color(0xFFE8FFED), // direct value
     chatBubbleUserTitle = Color(0xFF006223), // direct value
@@ -439,6 +445,8 @@ val DarkEqualColors = EqualColors(
     strokeDark = Color(0x52FFFFFF), // brand/white · 32%
     actionStrokeUnread = Color(0x5CBAFF29), // brand/lime · 36%
     actionFillUnread = Color(0x14BAFF29), // brand/lime · 8%
+    chipLabelUnread = Color(0xFFD3D4D1), // direct value
+    chipLabelRead = Color(0x99FFFFFF), // brand/white · 60%
     actionBottomColor = Color(0xFF191919), // direct value
     chatBubbleUserBg = Color(0xFF272C1E), // direct value
     chatBubbleUserTitle = Color(0xFFBAFF29), // brand/lime

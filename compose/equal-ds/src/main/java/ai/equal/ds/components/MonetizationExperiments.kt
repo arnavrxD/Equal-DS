@@ -663,7 +663,7 @@ fun CouponRow(
 ) {
     val colors = EqualTheme.colors
     val type = EqualTheme.type
-    val shape = RoundedCornerShape(14.dp)
+    val shape = RoundedCornerShape(12.dp)
     val state = type.body2.copy(fontWeight = FontWeight.Bold)
     Row(
         modifier

@@ -13,14 +13,15 @@
 .eq-chip-sm--unread {
   background: var(--eq-gradient-chip-small-unread);
   border-color: var(--eq-action-stroke-unread);
-  box-shadow: var(--eq-shadow-glass);
-  color: var(--eq-text-action);
+  /* Figma: a soft outer shadow only, no inner bottom edge. */
+  box-shadow: var(--eq-shadow-chip-unread);
+  color: var(--eq-chip-label-unread);
 }
 .eq-chip-sm--read {
   background: var(--eq-gradient-chip-small-read);
   border-color: var(--eq-stroke-subtle);
-  box-shadow: var(--eq-shadow-glass);
-  color: var(--eq-text-secondary);
+  box-shadow: var(--eq-shadow-chip-read);
+  color: var(--eq-chip-label-read);
 }
 .eq-chip-sm--outlined {
   background: transparent;

@@ -69,22 +69,22 @@ fun SmallActionChip(
             .background(lerp(colors.bgSurface, colors.paywallHeroTop, 0.45f), shape)
             .border(1.dp, colors.paywallCardStroke, shape)
     } else when (style) {
+        // Figma: a soft outer shadow only, no inner bottom edge.
         SmallActionChipStyle.Unread -> Modifier
-            .eqShadow(EqualShadows.glass, shape)
+            .eqShadow(EqualShadows.chipUnread, shape)
             .background(gradients.chipSmallUnread.toBrush(), shape)
-            .eqGlassInset(colors.actionBottomColor, shape)
             .border(1.dp, colors.actionStrokeUnread, shape)
         SmallActionChipStyle.Read -> Modifier
-            .eqShadow(EqualShadows.glass, shape)
+            .eqShadow(EqualShadows.chipRead, shape)
             .background(gradients.chipSmallRead.toBrush(), shape)
-            .eqGlassInset(colors.actionBottomColor, shape)
             .border(1.dp, colors.strokeSubtle, shape)
         SmallActionChipStyle.Outlined -> Modifier
             .border(1.dp, colors.actionStrokeUnread, shape)
     }
     val content = when {
         locked -> colors.textGold
-        style == SmallActionChipStyle.Unread -> colors.textAction
+        style == SmallActionChipStyle.Unread -> colors.chipLabelUnread
+        style == SmallActionChipStyle.Read -> colors.chipLabelRead
         else -> colors.textSecondary
     }
     Row(

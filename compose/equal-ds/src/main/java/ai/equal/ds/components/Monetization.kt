@@ -769,7 +769,7 @@ fun LockedPreviewCard(
 ) {
     val colors = EqualTheme.colors
     val outer = RoundedCornerShape(20.dp)
-    val inner = RoundedCornerShape(14.dp)
+    val inner = RoundedCornerShape(12.dp)
     Box(
         modifier
             .fillMaxWidth()
@@ -1536,7 +1536,7 @@ fun HelpContactRow(
     onClick: () -> Unit = {},
 ) {
     val colors = EqualTheme.colors
-    val shape = RoundedCornerShape(14.dp)
+    val shape = RoundedCornerShape(12.dp)
     Row(
         modifier
             .fillMaxWidth()
@@ -1764,7 +1764,7 @@ fun RatingPill(
 ) {
     val colors = EqualTheme.colors
     val type = EqualTheme.type
-    val shape = RoundedCornerShape(10.dp)
+    val shape = RoundedCornerShape(12.dp)
     val shown = if (rating % 1f == 0f) rating.toInt().toString() else rating.toString()
     Row(
         modifier
