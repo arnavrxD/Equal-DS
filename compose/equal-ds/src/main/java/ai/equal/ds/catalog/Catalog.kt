@@ -528,7 +528,7 @@ private fun CatalogContent(modifier: Modifier) {
 
         CatalogSection("19 · Buttons") {
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-                EqualButton("Small", onClick = {}, size = EqualButtonSize.Sm)
+                EqualButton("Small", onClick = {}, size = EqualButtonSize.Xs)
                 EqualButton("Medium", onClick = {})
                 EqualButton("Large", onClick = {}, size = EqualButtonSize.Lg)
             }

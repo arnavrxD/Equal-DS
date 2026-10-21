@@ -181,6 +181,39 @@ export const aliases: AliasToken[] = [
     "why": "The tinted “+ Apply” pill on recommended cards and preset instructions (Preset Instruction design): brand green at 8 % behind a green label."
   },
   {
+    "name": "button/secondary-label",
+    "cssVar": "--eq-button-secondary-label",
+    "light": "#009837",
+    "dark": "#BAFF29",
+    "lightRef": "direct value",
+    "darkRef": "brand/lime",
+    "group": "button",
+    "derived": true,
+    "why": "Label of the Secondary button (Default appearance): Figma Button \"Secondary\" uses #009837 on the pale-green gradient."
+  },
+  {
+    "name": "button/secondary-stroke",
+    "cssVar": "--eq-button-secondary-stroke",
+    "light": "rgba(255,255,255,0.7)",
+    "dark": "rgba(255,255,255,0.08)",
+    "lightRef": "brand/white · 70%",
+    "darkRef": "brand/white · 8%",
+    "group": "button",
+    "derived": true,
+    "why": "Inner edge of the Secondary button: Figma strokes it white at 70 % over the gradient."
+  },
+  {
+    "name": "button/critical-stroke",
+    "cssVar": "--eq-button-critical-stroke",
+    "light": "rgba(255,224,224,0.7)",
+    "dark": "rgba(255,81,81,0.24)",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "button",
+    "derived": true,
+    "why": "Inner edge of the Critical Secondary button (Figma #FFE0E0 at 70 %)."
+  },
+  {
     "name": "text/on-secondary",
     "cssVar": "--eq-text-on-secondary",
     "light": "rgba(0,0,0,0.8)",
@@ -1444,6 +1477,116 @@ export const aliases: AliasToken[] = [
     "group": "component",
     "derived": true,
     "why": "The unselected gender card has a very light grey outline; dark uses stroke/subtle's dark value."
+  },
+  {
+    "name": "component/skeleton/base",
+    "cssVar": "--eq-skeleton-base",
+    "light": "rgba(0,0,0,0.06)",
+    "dark": "rgba(255,255,255,0.08)",
+    "lightRef": "brand/black · 6%",
+    "darkRef": "brand/white · 8%",
+    "group": "component",
+    "derived": true,
+    "why": "Skeleton placeholder fill while content loads (neutral surfaces)."
+  },
+  {
+    "name": "component/skeleton/highlight",
+    "cssVar": "--eq-skeleton-highlight",
+    "light": "rgba(255,255,255,0.7)",
+    "dark": "rgba(255,255,255,0.1)",
+    "lightRef": "brand/white · 70%",
+    "darkRef": "brand/white · 10%",
+    "group": "component",
+    "derived": true,
+    "why": "The highlight band that sweeps across a skeleton."
+  },
+  {
+    "name": "component/skeleton/gold-base",
+    "cssVar": "--eq-skeleton-gold-base",
+    "light": "rgba(255,255,255,0.16)",
+    "dark": "rgba(255,255,255,0.08)",
+    "lightRef": "brand/white · 16%",
+    "darkRef": "brand/white · 8%",
+    "group": "component",
+    "derived": true,
+    "why": "Figma \"Shimmer\" on gold surfaces: white at 16 % over the cream-gold card."
+  },
+  {
+    "name": "component/skeleton/gold-highlight",
+    "cssVar": "--eq-skeleton-gold-highlight",
+    "light": "#FDEFC6",
+    "dark": "#4A3C1C",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": true,
+    "why": "Figma \"Shimmer\" highlight: the paywall cream #FDEFC6 fading to transparent."
+  },
+  {
+    "name": "component/radio/ring",
+    "cssVar": "--eq-radio-ring",
+    "light": "rgba(0,0,0,0.6)",
+    "dark": "rgba(255,255,255,0.6)",
+    "lightRef": "brand/black · 60%",
+    "darkRef": "brand/white · 60%",
+    "group": "component",
+    "derived": true,
+    "why": "Unselected radio ring. Figma draws #C2C2C2 (1.8:1, below the 3:1 a control boundary needs), so the ring takes text/secondary like the checkbox."
+  },
+  {
+    "name": "button/end-call",
+    "cssVar": "--eq-button-end-call",
+    "light": "#E11D48",
+    "dark": "#FF5C7A",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "button",
+    "derived": true,
+    "why": "The round End call button on in-app calls (Figma #E11D48): a rose red distinct from button/danger so hanging up never reads as delete. White icon 4.7:1; black icon on the dark #FF5C7A 7.1:1."
+  },
+  {
+    "name": "text/on-end-call",
+    "cssVar": "--eq-text-on-end-call",
+    "light": "#FFFFFF",
+    "dark": "#000000",
+    "lightRef": "brand/white",
+    "darkRef": "brand/black",
+    "group": "text",
+    "derived": true,
+    "why": "The call_end glyph on button/end-call."
+  },
+  {
+    "name": "component/call-control/bg",
+    "cssVar": "--eq-call-control-bg",
+    "light": "#EDEFF1",
+    "dark": "#2E2E2E",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": true,
+    "why": "Resting fill of the round speaker and mute buttons (Figma #EDEFF1); text/primary icon on it 11:1."
+  },
+  {
+    "name": "component/call-control/active-bg",
+    "cssVar": "--eq-call-control-active-bg",
+    "light": "#1F2937",
+    "dark": "#F2F2F2",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": true,
+    "why": "A toggled-on call control (speaker on, muted): the inverse of the resting fill so the state reads without colour; icon text/on-action."
+  },
+  {
+    "name": "component/call-control/active-icon",
+    "cssVar": "--eq-call-control-active-icon",
+    "light": "#FFFFFF",
+    "dark": "#000000",
+    "lightRef": "brand/white",
+    "darkRef": "brand/black",
+    "group": "component",
+    "derived": true,
+    "why": "Icon on a toggled-on call control."
   }
 ];
 
@@ -1462,6 +1605,9 @@ export const color = {
   buttonPrimary: 'var(--eq-button-primary)',
   buttonSecondary: 'var(--eq-button-secondary)',
   buttonTonal: 'var(--eq-button-tonal)',
+  buttonSecondaryLabel: 'var(--eq-button-secondary-label)',
+  buttonSecondaryStroke: 'var(--eq-button-secondary-stroke)',
+  buttonCriticalStroke: 'var(--eq-button-critical-stroke)',
   textOnSecondary: 'var(--eq-text-on-secondary)',
   buttonDanger: 'var(--eq-button-danger)',
   buttonDisabled: 'var(--eq-button-disabled)',
@@ -1577,6 +1723,16 @@ export const color = {
   presetTintLime: 'var(--eq-preset-tint-lime)',
   suggestGlow: 'var(--eq-suggest-glow)',
   genderStroke: 'var(--eq-gender-stroke)',
+  skeletonBase: 'var(--eq-skeleton-base)',
+  skeletonHighlight: 'var(--eq-skeleton-highlight)',
+  skeletonGoldBase: 'var(--eq-skeleton-gold-base)',
+  skeletonGoldHighlight: 'var(--eq-skeleton-gold-highlight)',
+  radioRing: 'var(--eq-radio-ring)',
+  buttonEndCall: 'var(--eq-button-end-call)',
+  textOnEndCall: 'var(--eq-text-on-end-call)',
+  callControlBg: 'var(--eq-call-control-bg)',
+  callControlActiveBg: 'var(--eq-call-control-active-bg)',
+  callControlActiveIcon: 'var(--eq-call-control-active-icon)',
 } as const;
 
 export const gradients = [
@@ -1843,10 +1999,42 @@ export const gradients = [
     "dark": "linear-gradient(86deg, #BAFF29 0%, #BAFF29 51%, rgba(186,255,41,0.94) 100%)",
     "derived": true,
     "why": "The selected gender card's border is a green-lime-green gradient (web uses solid button-primary); in dark every green becomes lime."
+  },
+  {
+    "name": "button-secondary",
+    "cssVar": "--eq-gradient-button-secondary",
+    "light": "linear-gradient(180deg, #FFFFFF 0%, #E4FFED 100%)",
+    "dark": "linear-gradient(180deg, #1F1F1F 0%, #2F3423 100%)",
+    "derived": true,
+    "why": "Default Secondary button fill (Figma Button \"Secondary\": white to #E4FFED)."
+  },
+  {
+    "name": "button-critical-secondary",
+    "cssVar": "--eq-gradient-button-critical-secondary",
+    "light": "linear-gradient(180deg, #FFFFFF 0%, #FFE0E0 100%)",
+    "dark": "linear-gradient(180deg, #1F1F1F 0%, #3A2224 100%)",
+    "derived": true,
+    "why": "Critical Secondary button fill (Figma: white to #FFE0E0)."
+  },
+  {
+    "name": "button-premium-secondary",
+    "cssVar": "--eq-gradient-button-premium-secondary",
+    "light": "linear-gradient(180deg, #FFFFFF 0%, #FFF9EC 100%)",
+    "dark": "linear-gradient(180deg, #1F1F1F 0%, #33291A 100%)",
+    "derived": true,
+    "why": "Premium Secondary button fill (Figma: white to #FFF9EC) under the gold gradient stroke and label."
+  },
+  {
+    "name": "assistant-call",
+    "cssVar": "--eq-gradient-assistant-call",
+    "light": "linear-gradient(180deg, #00B140 19%, #73D095 59%, #FFFFFF 100%)",
+    "dark": "linear-gradient(180deg, #BAFF29 19%, rgba(186,255,41,0.45) 59%, #141414 100%)",
+    "derived": true,
+    "why": "The disc behind the assistant on the call screen: green at the top fading to white (Figma Ellipse 353, stops 0.19 / 0.59 / 1)."
   }
 ];
 
-export type TypeToken = { size: number; lineHeight: number; weight: 400 | 500 | 700; tracking: number; italic?: boolean; uppercase?: boolean; tabular?: boolean };
+export type TypeToken = { size: number; lineHeight: number; weight: 400 | 500 | 600 | 700; tracking: number; italic?: boolean; uppercase?: boolean; tabular?: boolean };
 export const typography = {
   "headline": {
     "size": 24,
@@ -1897,10 +2085,16 @@ export const typography = {
     "weight": 500,
     "tracking": -0.026
   },
+  "buttonLarge": {
+    "size": 16,
+    "lineHeight": 24,
+    "weight": 600,
+    "tracking": -0.026
+  },
   "buttonSmall": {
     "size": 12,
     "lineHeight": 16,
-    "weight": 500,
+    "weight": 600,
     "tracking": -0.026
   },
   "caption": {
@@ -1959,6 +2153,9 @@ export const shadow = {
   "header": "0 2px 6px rgba(0,0,0,0.08)",
   "focusRing": "0 0 0 2px var(--eq-bg-surface), 0 0 0 4px var(--eq-text-primary)",
   "chipUnread": "0 3px 4px rgba(0,0,0,0.04)",
-  "chipRead": "0 0 1px rgba(0,0,0,0.25)"
+  "chipRead": "0 0 1px rgba(0,0,0,0.25)",
+  "buttonSecondary": "0 0 0 1px rgba(188,188,188,0.35), 0 2px 4px rgba(70,70,70,0.10)",
+  "buttonCritical": "0 0 0 1px rgba(255,224,224,0.35), 0 2px 4px rgba(70,70,70,0.10)",
+  "buttonPremium": "0 0 0 1px rgba(209,168,92,0.35), 0 1px 2px rgba(160,98,31,0.10)"
 } as const;
 export const motion = {"duration":{"fast":120,"base":200,"slow":320,"switchToggle":500,"couponSpring":590,"couponDelay":300,"priceDrop":600,"priceDelay":800,"shimmer":600,"shimmerDelay":1200,"buttonGlow":300,"buttonGlowDelay":800,"paymentStatus":1022,"paymentDelay":2400,"reward":6000},"easing":{"standard":"cubic-bezier(0.2, 0, 0, 1)","emphasized":"cubic-bezier(0.3, 0, 0, 1.3)","easeInOut":"cubic-bezier(0.42, 0, 0.58, 1)","spring":"cubic-bezier(0.34, 1.56, 0.64, 1)","gentle":"cubic-bezier(0.25, 0.8, 0.25, 1)","linear":"linear"},"$source":"Monetization prototype (Figma): Switch 500ms ease-in-out; Coupon spring 590ms after 300ms; Pricing / Coupon Pricing 600ms after 800ms; Shimmer 600ms after 1.2s; Button Glow 300ms after 800ms; Payment Status 1022ms gentle after 2.4s; Reward Animation 6s linear."} as const;

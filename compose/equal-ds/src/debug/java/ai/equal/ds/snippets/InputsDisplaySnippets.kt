@@ -6,6 +6,15 @@
 
 package ai.equal.ds.snippets
 
+import ai.equal.ds.components.EqualSkeletonTone
+import ai.equal.ds.components.EqualSkeletonText
+import ai.equal.ds.components.EqualSkeletonShape
+import ai.equal.ds.components.EqualSkeleton
+import ai.equal.ds.components.EqualRadioOption
+import ai.equal.ds.components.EqualRadioGroup
+import ai.equal.ds.components.EqualRadio
+import ai.equal.ds.components.EqualControlSize
+import ai.equal.ds.components.EqualCheckboxField
 import ai.equal.ds.assets.EqualCategory
 import ai.equal.ds.components.AiAvatar
 import ai.equal.ds.components.AiAvatarSize
@@ -181,13 +190,49 @@ internal fun CheckboxInteractiveSnippet() {
 // snippet: checkbox / Sizes and bare
 @Composable
 internal fun CheckboxSizesSnippet() {
-    Row(horizontalArrangement = Arrangement.spacedBy(20.dp)) {
-        EqualCheckbox(checked = true, onCheckedChange = {}, size = 18.dp)
-        EqualCheckbox(checked = false, onCheckedChange = {}, size = 18.dp)
-        // Compose: default size is 18.dp (web defaults to 22), so pass 22.dp explicitly.
-        EqualCheckbox(checked = true, onCheckedChange = {}, size = 22.dp)
-        EqualCheckbox(checked = false, onCheckedChange = {}, size = 22.dp)
+    EqualCheckboxField(checked = true, onCheckedChange = {}, label = "Label", size = EqualControlSize.S)
+    EqualCheckboxField(checked = true, onCheckedChange = {}, label = "Label", size = EqualControlSize.M)
+    EqualCheckboxField(checked = true, onCheckedChange = {}, label = "Label", size = EqualControlSize.L)
+    EqualCheckboxField(checked = false, onCheckedChange = {}, label = "Label", support = "Support text")
+}
+
+// snippet: radio / Group
+@Composable
+internal fun RadioGroupSnippet() {
+    var v by remember { mutableStateOf<String?>(null) }
+    EqualRadioGroup(
+        options = listOf(
+            EqualRadioOption("30m", "30 minutes"),
+            EqualRadioOption("1h", "1 hour"),
+            EqualRadioOption("tomorrow", "Until tomorrow morning", support = "Back at 9:00 AM"),
+        ),
+        selected = v,
+        onSelect = { v = it },
+    )
+}
+
+// snippet: radio / Sizes
+@Composable
+internal fun RadioSizesSnippet() {
+    EqualRadio(selected = true, onClick = {}, label = "Label", size = EqualControlSize.S)
+    EqualRadio(selected = true, onClick = {}, label = "Label", size = EqualControlSize.M)
+    EqualRadio(selected = true, onClick = {}, label = "Label", size = EqualControlSize.L)
+    EqualRadio(selected = false, onClick = {}, label = "Label", size = EqualControlSize.L)
+}
+
+// snippet: skeleton / Loading a chat row
+@Composable
+internal fun SkeletonRowSnippet() {
+    Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+        EqualSkeleton(shape = EqualSkeletonShape.Circle, height = 48.dp)
+        EqualSkeletonText(lines = 2, modifier = Modifier.weight(1f))
     }
+}
+
+// snippet: skeleton / Gold (locked summary)
+@Composable
+internal fun SkeletonGoldSnippet() {
+    EqualSkeletonText(lines = 3, tone = EqualSkeletonTone.Gold)
 }
 
 // snippet: checkbox / In the selection header

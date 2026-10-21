@@ -69,7 +69,7 @@ export function NewContactForm({ value, variant = 'grouped', onClose, onSave, on
     <div className="eq-contact-form__bar">
       <IconButton icon="close" label="Close" onClick={onClose} />
       <Text as="h2" variant="title" style={{ fontWeight: 500, flex: 1, textAlign: 'center' }}>New contact</Text>
-      <Button size="sm" onClick={onSave}>Save</Button>
+      <Button size="xs" onClick={onSave}>Save</Button>
     </div>
   );
   if (variant === 'grouped') {
@@ -126,17 +126,24 @@ export function NewContactForm({ value, variant = 'grouped', onClose, onSave, on
 }
 
 /** Centered permission dialog over a dimmed chat (no permission yet): art, title, why, one action, close. */
-export function PermissionDialog({ art = 'permission-contacts', title, body, cta, onAction, onClose }: { art?: AssetName; title: string; body: ReactNode; cta: string; onAction?: () => void; onClose?: () => void }) {
+export function PermissionDialog({ art = 'permission-contacts', title, body, cta, onAction, onClose, secondary, onSecondary, closable = true }: { art?: AssetName; title: string; body: ReactNode; cta: string; onAction?: () => void; onClose?: () => void; /** Second action beside the CTA, e.g. "Not now" (vOIP mic prompt). */ secondary?: string; onSecondary?: () => void; /** Show the close button (the vOIP mic prompt has none). */ closable?: boolean }) {
   const modal = useModal({ open: true, onClose });
   return (
     <div className="eq-dialog-layer">
       <div className="eq-status-sheet-layer__scrim" style={{ background: 'rgba(0,0,0,0.45)' }} onClick={onClose} />
       <div className="eq-permission-dialog" role="dialog" aria-label={title} {...modal}>
-        <IconButton icon="close" label="Close" variant="neutral" size={36} iconSize={18} onClick={onClose} className="eq-permission-dialog__close" />
+        {closable && <IconButton icon="close" label="Close" variant="neutral" size={36} iconSize={18} onClick={onClose} className="eq-permission-dialog__close" />}
         <Asset name={art} size={84} alt="" />
         <Text as="h2" variant="title" align="center" style={{ fontWeight: 500, marginTop: 12 }}>{title}</Text>
         <Text as="p" variant="body1" color="secondary" align="center" style={{ fontWeight: 400, margin: '4px 0 16px' }}>{body}</Text>
-        <Button size="lg" block onClick={onAction}>{cta}</Button>
+        {secondary ? (
+          <div style={{ display: 'flex', gap: 12, width: '100%' }}>
+            <Button size="md" emphasis="secondary" onClick={onSecondary ?? onClose}>{secondary}</Button>
+            <span style={{ flex: 1, display: 'flex' }}><Button size="md" block onClick={onAction}>{cta}</Button></span>
+          </div>
+        ) : (
+          <Button size="lg" block onClick={onAction}>{cta}</Button>
+        )}
       </div>
     </div>
   );

@@ -178,6 +178,12 @@ object EqualSymbols {
     val thumbUpFill: ImageVector by lazy { build("thumb-up-fill", 960f, 960f, 0f, 960f, "M721-120H254v-512l278-288 33 26q11 8 14.5 18t3.5 23v10l-45 211h322q23 0 41.5 18.5T920-572v82q0 11-2.5 25.5T910-439L794-171q-9 21-29.5 36T721-120ZM194-632v512H80v-512h114Z") }
     /** material-symbols/outlined/thumb_down-fill */
     val thumbDownFill: ImageVector by lazy { build("thumb-down-fill", 960f, 960f, 0f, 960f, "M239-840h467v512L428-40l-33-26q-11-8-14.5-18t-3.5-23v-10l45-211H100q-23 0-41.5-18.5T40-388v-82q0-11 2.5-25.5T50-521l116-268q9-21 29.5-36t43.5-15Zm527 512v-512h114v512H766Z") }
+    /** material-symbols/outlined/volume_up */
+    val volumeUp: ImageVector by lazy { build("volume-up", 960f, 960f, 0f, 960f, "M560-131v-62q97-28 158.5-107.5T780-481q0-101-61-181T560-769v-62q124 28 202 125.5T840-481q0 127-78 224.5T560-131ZM120-360v-240h160l200-200v640L280-360H120Zm420 48v-337q55 17 87.5 64T660-480q0 57-33 104t-87 64ZM420-648 307-540H180v120h127l113 109v-337Zm-94 168Z") }
+    /** material-symbols/outlined/mic_off */
+    val micOff: ImageVector by lazy { build("mic-off", 960f, 960f, 0f, 960f, "m686-361-43-43q21-26 31-58.5t10-66.5h60q0 46-15 89t-43 79ZM461-586Zm97 97-53-52v-238q0-17-12-29t-29-12q-17 0-29 12t-12 29v155l-60-60v-95q0-42 29.5-71.5T464-880q42 0 71.5 29.5T565-779v250q0 8-1.5 20t-5.5 20ZM434-120v-136q-106-11-178-89t-72-184h60q0 91 64.5 153T464-314q38 0 73-12.5t64-34.5l43 43q-31 26-69 41.5T494-256v136h-60Zm397 65L36-850l38-38L869-93l-38 38Z") }
+    /** material-symbols/outlined/call_end-fill */
+    val callEnd: ImageVector by lazy { build("call-end", 960f, 960f, 0f, 960f, "M480-640q126 0 241 50.5T918-443q8 10 8.5 22t-8.5 21l-94 94q-8 8-23 9t-24-6l-114-85q-6-5-9-11t-3-13v-139q-42-16-85.5-22.5T480-580q-42 0-85.5 6.5T309-551v139q0 7-3 13t-9 11l-114 85q-12 9-24.5 8T136-306l-94-94q-9-9-8.5-21t8.5-22q82-96 197-146.5T480-640Z") }
 
     private fun build(name: String, vw: Float, vh: Float, tx: Float, ty: Float, vararg paths: String): ImageVector {
         val b = ImageVector.Builder(name = name, defaultWidth = 24.dp, defaultHeight = 24.dp, viewportWidth = vw, viewportHeight = vh)

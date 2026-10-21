@@ -135,6 +135,6 @@ internal fun PriceDropSnippet() {
         key(replay) {
             PriceTag(price = "149", was = 249, badge = "Special Coupon Applied!", animate = true)
         }
-        EqualButton(text = "Replay", onClick = { replay++ }, variant = EqualButtonVariant.Secondary, size = EqualButtonSize.Sm)
+        EqualButton(text = "Replay", onClick = { replay++ }, variant = EqualButtonVariant.Secondary, size = EqualButtonSize.Xs)
     }
 }

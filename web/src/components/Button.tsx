@@ -4,11 +4,20 @@ import { Icon } from '../foundations/Icon';
 import type { IconName } from '../foundations/icons';
 import './Button.css';
 
+/** Legacy single-name variants; each maps onto an appearance × emphasis pair (see `resolveButton`). */
 export type ButtonVariant = 'primary' | 'secondary' | 'tonal' | 'danger' | 'gold' | 'outline' | 'gold-outline';
-export type ButtonSize = 'sm' | 'md' | 'lg';
+/** Figma Button "Appearance": brand green, red for destructive, gold for subscription surfaces. */
+export type ButtonAppearance = 'default' | 'critical' | 'premium';
+/** Figma Button "State": filled, gradient-with-edge, or text only. Disabled is the `disabled` attribute. */
+export type ButtonEmphasis = 'primary' | 'secondary' | 'tertiary';
+/** Figma Button "Size": XS 24 · S 32 · M 40 · L 48. */
+export type ButtonSize = 'xs' | 'sm' | 'md' | 'lg';
 
 export type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children'> & {
   children: ReactNode;
+  appearance?: ButtonAppearance;
+  emphasis?: ButtonEmphasis;
+  /** Shorthand for an appearance × emphasis pair (older call sites). Ignored when `appearance` or `emphasis` is set. */
   variant?: ButtonVariant;
   size?: ButtonSize;
   /** Full width. */
@@ -17,23 +26,48 @@ export type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'childre
   trailingIcon?: IconName;
   /** 'full' pill (default) or 'rounded' 8dp — the typography specimens show rounded block buttons. */
   shape?: 'pill' | 'rounded';
+  /** Premium primary only: the soft gold halo behind the button (Figma "Button Glow"). */
+  glow?: boolean;
+  /** Premium primary only: the sweeping sheen (Figma "Buton", Animated). On by default. */
+  sheen?: boolean;
 };
 
+const LEGACY: Record<ButtonVariant, [ButtonAppearance, ButtonEmphasis] | 'secondary-lime' | 'tonal'> = {
+  primary: ['default', 'primary'],
+  danger: ['critical', 'primary'],
+  gold: ['premium', 'primary'],
+  outline: ['default', 'secondary'],
+  'gold-outline': ['premium', 'secondary'],
+  secondary: 'secondary-lime',
+  tonal: 'tonal',
+};
+
+/** The CSS modifier for a button: `default-primary` … `premium-tertiary`, or the two system extras. */
+export function resolveButton(appearance?: ButtonAppearance, emphasis?: ButtonEmphasis, variant: ButtonVariant = 'primary'): string {
+  if (appearance || emphasis) return `${appearance ?? 'default'}-${emphasis ?? 'primary'}`;
+  const v = LEGACY[variant];
+  return Array.isArray(v) ? v.join('-') : v;
+}
+
 /**
- * Filled button — the one commit action in a surface (Typography rule 4).
- * Sentence case, `button` token (sm uses `buttonSmall`).
+ * The one Button (Figma "Button", with "Buton" and "Button Glow" folded in): appearance × emphasis ×
+ * size. Labels are sentence case: xs / sm use `buttonSmall` (12 SemiBold), md / lg `buttonLarge`
+ * (16 SemiBold). Premium primary is the gold subscription CTA with its sheen and optional glow.
  */
-export function Button({ children, variant = 'primary', size = 'md', block, leadingIcon, trailingIcon, shape = 'pill', disabled, className, type = 'button', ...rest }: ButtonProps) {
-  const iconSize = size === 'sm' ? 14 : 18;
+export function Button({ children, appearance, emphasis, variant = 'primary', size = 'md', block, leadingIcon, trailingIcon, shape = 'pill', glow, sheen = true, disabled, className, type = 'button', ...rest }: ButtonProps) {
+  const kind = resolveButton(appearance, emphasis, variant);
+  const small = size === 'xs' || size === 'sm';
+  const iconSize = { xs: 14, sm: 16, md: 20, lg: 24 }[size];
+  const premiumPrimary = kind === 'premium-primary';
   return (
     <button
       type={type}
       disabled={disabled}
-      className={['eq-reset-btn eq-pressable eq-btn', `eq-btn--${variant}`, `eq-btn--${size}`, `eq-btn--${shape}`, block && 'eq-btn--block', 'eq-touch', className].filter(Boolean).join(' ')}
+      className={['eq-reset-btn eq-pressable eq-btn', `eq-btn--${kind}`, `eq-btn--${size}`, `eq-btn--${shape}`, block && 'eq-btn--block', premiumPrimary && sheen && 'has-sheen', premiumPrimary && glow && 'has-glow', 'eq-touch', className].filter(Boolean).join(' ')}
       {...rest}
     >
       {leadingIcon && <Icon name={leadingIcon} size={iconSize} />}
-      <Text variant={size === 'sm' ? 'buttonSmall' : 'button'} color="none">{children}</Text>
+      <Text variant={small ? 'buttonSmall' : 'buttonLarge'} color="none" className={kind === 'premium-secondary' || kind === 'premium-tertiary' ? 'eq-btn__gold-label' : undefined}>{children}</Text>
       {trailingIcon && <Icon name={trailingIcon} size={iconSize} />}
     </button>
   );

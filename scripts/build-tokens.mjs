@@ -158,7 +158,7 @@ export const gradients = ${JSON.stringify(
   2,
 )};
 
-export type TypeToken = { size: number; lineHeight: number; weight: 400 | 500 | 700; tracking: number; italic?: boolean; uppercase?: boolean; tabular?: boolean };
+export type TypeToken = { size: number; lineHeight: number; weight: 400 | 500 | 600 | 700; tracking: number; italic?: boolean; uppercase?: boolean; tabular?: boolean };
 export const typography = ${JSON.stringify(Object.fromEntries(typeEntries), null, 2)} as const satisfies Record<string, TypeToken>;
 export type TypeName = keyof typeof typography;
 
@@ -206,7 +206,7 @@ const ktStops = ([head, ...stops]) => {
   if (r) return `EqualGradientSpec(angle = 0f, stops = listOf(${parsed}), radial = EqualRadial(${r.slice(1).map((n) => `${+(parseFloat(n) / 100).toFixed(4)}f`).join(', ')}))`;
   return `EqualGradientSpec(angle = ${parseFloat(head)}f, stops = listOf(${parsed}))`;
 };
-const weightName = (w) => ({ 400: 'FontWeight.W400', 500: 'FontWeight.W500', 700: 'FontWeight.W700' })[w];
+const weightName = (w) => ({ 400: 'FontWeight.W400', 500: 'FontWeight.W500', 600: 'FontWeight.W600', 700: 'FontWeight.W700' })[w];
 
 const kt = `// ${HEADER}
 @file:Suppress("unused", "MemberVisibilityCanBePrivate")

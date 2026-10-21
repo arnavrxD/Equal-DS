@@ -99,6 +99,10 @@ import {
   ChatListItem,
   ChatWallpaper,
   Checkbox,
+  Radio,
+  RadioGroup,
+  Skeleton,
+  SkeletonText,
   ChipRow,
   Composer,
   ConfirmSheetContent,
@@ -203,7 +207,7 @@ function PriceDropDemo() {
   return (
     <div style={{ width: '100%', padding: 16, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 12 }}>
       <PriceTag key={n} price={149} was={249} badge="Special Coupon Applied!" animate />
-      <Button size="sm" variant="secondary" onClick={() => setN((x) => x + 1)}>Replay</Button>
+      <Button size="xs" variant="secondary" onClick={() => setN((x) => x + 1)}>Replay</Button>
     </div>
   );
 }
@@ -211,6 +215,15 @@ function PriceDropDemo() {
 function SwitchDemo() {
   const [on, setOn] = useState(true);
   return <Switch checked={on} onChange={setOn} label="AI Assistant" />;
+}
+
+function RadioDemo() {
+  const [v, setV] = useState<'30m' | '1h' | 'tomorrow' | null>(null);
+  return (
+    <div style={pad16}>
+      <RadioGroup label="Snooze for" value={v} onChange={setV} options={[{ value: '30m', label: '30 minutes' }, { value: '1h', label: '1 hour' }, { value: 'tomorrow', label: 'Until tomorrow morning', support: 'Back at 9:00 AM' }]} />
+    </div>
+  );
 }
 
 function CheckboxDemo() {
@@ -580,53 +593,73 @@ export const componentDocs: ComponentDoc[] = [
     id: 'button',
     name: 'Button',
     group: 'Actions',
-    summary: 'Filled, text and icon buttons: use a filled Button for the one commit action on a surface, a TextButton for revise or secondary actions, and an IconButton for icon-only controls like back, close and call.',
+    summary: 'One Button (Figma "Button", with "Buton" and "Button Glow" folded in): appearance (default, critical, premium) × emphasis (primary, secondary, tertiary) × size (xs 24, sm 32, md 40, lg 48). Use one primary per surface; premium only on subscription surfaces. TextButton and IconButton cover text-only and icon-only controls.',
     components: ['Button', 'TextButton', 'IconButton'],
     importLine: "import { Button, TextButton, IconButton } from '@equal/ds';",
     compose: ['EqualButton', 'EqualTextButton', 'EqualIconButton'],
-    spec: '§19 Buttons',
-    tokens: ['button/primary', 'button/secondary', 'button/danger', 'button/disabled', 'text/on-action', 'text/on-danger', 'text/on-action-disabled', 'text/action', 'text/danger', 'bg/surface', 'shadow/raised', 'glass-button/default', 'shadow/focusRing'],
+    spec: 'Local Components · Button (48 variants), Monetization · Buton, Button Glow',
+    tokens: ['gradient/button-secondary', 'gradient/button-critical-secondary', 'gradient/button-premium-secondary', 'gradient/cta-gold', 'gradient/cta-renew', 'button/secondary-label', 'button/secondary-stroke', 'button/critical-stroke', 'text/gold', 'shadow/buttonSecondary', 'shadow/buttonCritical', 'shadow/buttonPremium', 'button/tonal', 'button/primary', 'button/secondary', 'button/danger', 'button/disabled', 'text/on-action', 'text/on-danger', 'text/on-action-disabled', 'text/action', 'text/danger', 'bg/surface', 'shadow/raised', 'glass-button/default', 'shadow/focusRing'],
     examples: [
       {
-        title: 'Variants',
-        note: 'Primary is the default commit. Secondary and danger are for the rare surfaces that need them.',
+        title: 'Appearance × emphasis',
+        note: 'The Figma matrix. Primary is filled, secondary is a soft gradient with an inner edge, tertiary is text only. Disabled is the same for all.',
         width: 'wide',
         render: () => (
-          <Row gap={12}>
-            <Button>Save</Button>
-            <Button variant="secondary">Try Voices</Button>
-            <Button variant="danger" leadingIcon="delete">Delete</Button>
-            <Button disabled>Save</Button>
-          </Row>
+          <Col gap={14}>
+            {(['default', 'critical', 'premium'] as const).map((a) => (
+              <Row key={a} gap={12}>
+                {(['primary', 'secondary', 'tertiary'] as const).map((e) => (
+                  <Button key={e} appearance={a} emphasis={e} size="md" sheen={false}>{a === 'critical' ? 'Delete' : a === 'premium' ? 'Unlock' : 'Submit'}</Button>
+                ))}
+                <Button appearance={a} size="md" disabled>Submit</Button>
+              </Row>
+            ))}
+          </Col>
         ),
-        code: `<Button>Save</Button>
-<Button variant="secondary">Try Voices</Button>
-<Button variant="danger" leadingIcon="delete">Delete</Button>
-<Button disabled>Save</Button>`,
+        code: `<Button appearance="default" emphasis="primary">Submit</Button>
+<Button appearance="default" emphasis="secondary">Submit</Button>
+<Button appearance="default" emphasis="tertiary">Submit</Button>
+<Button appearance="critical" emphasis="primary">Delete</Button>
+<Button appearance="premium" emphasis="secondary">Unlock</Button>
+<Button disabled>Submit</Button>`,
       },
       {
         title: 'Sizes',
-        note: 'sm 24 · md 36 · lg 45. `block` fills the container; sheets use block lg.',
+        note: 'xs 24 · sm 32 · md 40 · lg 48 (Figma XS / S / M / L). xs and sm use buttonSmall (12 SemiBold), md and lg buttonLarge (16 SemiBold). `block` fills the container; sheets use block lg.',
         width: 'wide',
         render: () => (
           <Col gap={16}>
             <Row gap={12}>
-              <Button size="sm" leadingIcon="add">Apply</Button>
-              <Button size="md">Save</Button>
-              <Button size="lg">Save</Button>
-              <Button shape="rounded">Save</Button>
+              <Button size="xs" leadingIcon="add">Apply</Button>
+              <Button size="sm">Submit</Button>
+              <Button size="md">Submit</Button>
+              <Button size="lg">Submit</Button>
             </Row>
             <div style={{ maxWidth: 328 }}>
               <Button block size="lg" leadingIcon="add">Add New Instruction</Button>
             </div>
           </Col>
         ),
-        code: `<Button size="sm" leadingIcon="add">Apply</Button>
-<Button size="md">Save</Button>
-<Button size="lg">Save</Button>
-<Button shape="rounded">Save</Button>
+        code: `<Button size="xs" leadingIcon="add">Apply</Button>
+<Button size="sm">Submit</Button>
+<Button size="md">Submit</Button>
+<Button size="lg">Submit</Button>
 
 <Button block size="lg" leadingIcon="add">Add New Instruction</Button>`,
+      },
+      {
+        title: 'Premium: the gold CTA with sheen and glow',
+        note: 'Figma "Buton" (sheen) and "Button Glow" (the halo) are now props of Button. Subscription surfaces only.',
+        render: () => (
+          <div style={{ maxWidth: 328, padding: 16 }}>
+            <Col gap={16}>
+              <Button appearance="premium" size="lg" block glow>Unlock Unlimited</Button>
+              <Button appearance="premium" size="lg" block disabled>Unlock Unlimited</Button>
+            </Col>
+          </div>
+        ),
+        code: `<Button appearance="premium" size="lg" block glow>Unlock Unlimited</Button>
+<Button appearance="premium" size="lg" block disabled>Unlock Unlimited</Button>`,
       },
       {
         title: 'Text and icon buttons',
@@ -682,10 +715,14 @@ export const componentDocs: ComponentDoc[] = [
         component: 'Button',
         props: [
           req('children', 'ReactNode', 'Label, sentence case.'),
-          opt('variant', "'primary' | 'secondary' | 'danger'", "'primary'", 'Fill colour: button/primary, button/secondary or button/danger.'),
-          opt('size', "'sm' | 'md' | 'lg'", "'md'", 'Height 24 / 36 / 45. sm uses the buttonSmall token and keeps a 48dp touch target.'),
+          opt('appearance', "'default' | 'critical' | 'premium'", "'default'", 'Brand green, destructive red, or subscription gold.'),
+          opt('emphasis', "'primary' | 'secondary' | 'tertiary'", "'primary'", 'Filled, soft gradient with an inner edge, or text only.'),
+          opt('variant', "'primary' | 'danger' | 'gold' | 'outline' | 'gold-outline' | 'secondary' | 'tonal'", "'primary'", 'Shorthand used by older call sites: gold = premium primary, danger = critical primary, outline = default secondary, gold-outline = premium secondary; secondary (lime) and tonal (+ Apply) are system extras.'),
+          opt('size', "'xs' | 'sm' | 'md' | 'lg'", "'md'", 'Height 24 / 32 / 40 / 48, padding 8 / 12 / 16 / 32. Every size keeps a 48dp touch target.'),
+          opt('glow', 'boolean', undefined, 'Premium primary only: the soft gold halo (Figma Button Glow).'),
+          opt('sheen', 'boolean', 'true', 'Premium primary only: the sweeping sheen (two runs, none under reduced motion).'),
           opt('block', 'boolean', undefined, 'Full width.'),
-          opt('leadingIcon', 'IconName', undefined, 'Icon before the label (14 on sm, 18 otherwise).'),
+          opt('leadingIcon', 'IconName', undefined, 'Icon before the label (14 / 16 / 20 / 24 by size), gap 6.'),
           opt('trailingIcon', 'IconName', undefined, 'Icon after the label.'),
           opt('shape', "'pill' | 'rounded'", "'pill'", "Fully rounded pill, or 8dp 'rounded' (typography specimens)."),
           opt('disabled', 'boolean', undefined, 'button/disabled fill, text/on-action-disabled label.'),
@@ -923,7 +960,7 @@ export const componentDocs: ComponentDoc[] = [
     id: 'checkbox',
     name: 'Checkbox',
     group: 'Inputs',
-    summary: 'A coded checkbox with an optional label, used for multi-select such as "Select All" in chat-list selection mode.',
+    summary: 'Checkbox (Figma "Checkbox"): a 16 / 20 / 24 box with an optional label and support text, for multi-select such as "Select All" in chat-list selection mode.',
     components: ['Checkbox'],
     importLine: "import { Checkbox } from '@equal/ds';",
     compose: ['EqualCheckbox'],
@@ -944,18 +981,17 @@ export const componentDocs: ComponentDoc[] = [
       },
       {
         title: 'Sizes and bare',
+        note: "Figma S / M / L. The label follows the size (12 / 14 / 16 Medium) and turns green when checked.",
         render: () => (
-          <Row gap={20} style={{ padding: 16 }}>
-            <Checkbox checked size={18} />
-            <Checkbox checked={false} size={18} />
-            <Checkbox checked />
-            <Checkbox checked={false} />
-          </Row>
+          <Col gap={14} style={{ padding: 16 }}>
+            <Row gap={20}><Checkbox checked size="s" label="Label" /><Checkbox checked size="m" label="Label" /><Checkbox checked size="l" label="Label" /></Row>
+            <Row gap={20}><Checkbox checked={false} size="s" label="Label" /><Checkbox checked={false} size="m" label="Label" /><Checkbox checked={false} size="l" label="Label" support="Support text" /></Row>
+          </Col>
         ),
-        code: `<Checkbox checked size={18} />
-<Checkbox checked={false} size={18} />
-<Checkbox checked />
-<Checkbox checked={false} />`,
+        code: `<Checkbox checked size="s" label="Label" />
+<Checkbox checked size="m" label="Label" />
+<Checkbox checked size="l" label="Label" />
+<Checkbox checked={false} size="l" label="Label" support="Support text" />`,
       },
       {
         title: 'In the selection header',
@@ -971,7 +1007,8 @@ export const componentDocs: ComponentDoc[] = [
           req('checked', 'boolean', 'Controlled state. Checked uses button/primary, unchecked text/secondary.'),
           opt('onChange', '(checked: boolean) => void', undefined, 'Called with the next value on tap.'),
           opt('label', 'string', undefined, 'Label beside the box (text/primary).'),
-          opt('size', 'number', '22', 'Box size in dp.'),
+          opt('size', "'s' | 'm' | 'l' | number", "'l'", 'Box 16 / 20 / 24 (a number picks the nearest size).'),
+          opt('support', 'string', undefined, 'Support text under the label (captionWrap, text/secondary).'),
           opt('labelVariant', "'bodyLarge' | 'body1'", "'bodyLarge'", 'Type token for the label.'),
         ],
       },
@@ -984,6 +1021,121 @@ export const componentDocs: ComponentDoc[] = [
       "Don't use a checkbox for an instant on/off setting; that is a Switch.",
       "Don't replace the coded box with an image; checkboxes are coded, never images.",
     ],
+  },
+  {
+    id: 'radio',
+    name: 'Radio',
+    group: 'Inputs',
+    summary: 'Radio (Figma "Radio Button"): pick exactly one option. A 16 / 20 / 24 ring that fills brand green with a white inner ring; RadioGroup adds roving focus and arrow keys.',
+    components: ['Radio', 'RadioGroup'],
+    importLine: "import { Radio, RadioGroup } from '@equal/ds';",
+    compose: ['EqualRadio', 'EqualRadioGroup', 'EqualRadioMark'],
+    spec: 'Local Components · Radio Button (S / M / L × Default / Active)',
+    tokens: ['button/primary', 'radio/ring', 'bg/surface', 'text/action', 'text/primary', 'text/secondary'],
+    examples: [
+      {
+        title: 'Group',
+        note: 'Snooze uses this to pick how long the assistant stays off.',
+        render: () => <RadioDemo />,
+        code: `const [v, setV] = useState<'30m' | '1h' | 'tomorrow' | null>(null);
+
+<RadioGroup label="Snooze for" value={v} onChange={setV} options={[
+  { value: '30m', label: '30 minutes' },
+  { value: '1h', label: '1 hour' },
+  { value: 'tomorrow', label: 'Until tomorrow morning', support: 'Back at 9:00 AM' },
+]} />`,
+      },
+      {
+        title: 'Sizes',
+        render: () => (
+          <Col gap={14} style={{ padding: 16 }}>
+            <Row gap={20}><Radio checked size="s" label="Label" /><Radio checked size="m" label="Label" /><Radio checked size="l" label="Label" /></Row>
+            <Row gap={20}><Radio checked={false} size="s" label="Label" /><Radio checked={false} size="m" label="Label" /><Radio checked={false} size="l" label="Label" /></Row>
+          </Col>
+        ),
+        code: `<Radio checked size="s" label="Label" />
+<Radio checked size="m" label="Label" />
+<Radio checked size="l" label="Label" />
+<Radio checked={false} size="l" label="Label" />`,
+      },
+    ],
+    props: [
+      {
+        component: 'Radio',
+        props: [
+          req('checked', 'boolean', 'Selected state.'),
+          opt('onChange', '() => void', undefined, 'Called when tapped.'),
+          opt('label', 'ReactNode', undefined, 'Label (12 / 14 / 16 Medium by size), text/action when selected.'),
+          opt('support', 'ReactNode', undefined, 'Support text under the label.'),
+          opt('size', "'s' | 'm' | 'l'", "'m'", 'Ring 16 / 20 / 24.'),
+          opt('disabled', 'boolean', undefined, '40 % opacity, not focusable.'),
+          opt('ariaLabel', 'string', undefined, 'Accessible name when there is no label.'),
+        ],
+      },
+      {
+        component: 'RadioGroup',
+        props: [
+          req('label', 'string', 'Accessible name of the group.'),
+          req('options', 'RadioOption[]', '{ value, label, support?, disabled? }.'),
+          req('value', 'T | null', 'The selected value (null = nothing yet; keep the confirm button disabled).'),
+          req('onChange', '(v: T) => void', 'Called with the new value.'),
+          opt('size', "'s' | 'm' | 'l'", "'m'", 'Size of every radio.'),
+          opt('gap', 'number', '16', 'Space between options.'),
+        ],
+      },
+    ],
+    dos: ['Use a radio when exactly one option must be chosen and all options fit on screen.', 'Keep the confirm button disabled until a selection is made (Snooze does this).'],
+    donts: ["Don't use radios for a single on/off choice; that's a Switch.", "Don't preselect a choice that costs the user something."],
+  },
+  {
+    id: 'skeleton',
+    name: 'Skeleton',
+    group: 'Display',
+    summary: 'Skeleton (Figma "Shimmer"): a placeholder line, circle or block with a highlight sweeping across while content loads. Neutral on app surfaces, gold on the cream-gold subscription cards.',
+    components: ['Skeleton', 'SkeletonText'],
+    importLine: "import { Skeleton, SkeletonText } from '@equal/ds';",
+    compose: ['EqualSkeleton', 'EqualSkeletonText'],
+    spec: 'Monetization · Shimmer (15dp lines on the gold summary card)',
+    tokens: ['skeleton/base', 'skeleton/highlight', 'skeleton/gold-base', 'skeleton/gold-highlight'],
+    examples: [
+      {
+        title: 'Loading a chat row',
+        render: () => (
+          <div style={{ padding: 16, background: 'var(--eq-bg-surface)', borderRadius: 16, display: 'flex', gap: 12, alignItems: 'center' }} aria-busy="true">
+            <Skeleton shape="circle" height={48} />
+            <div style={{ flex: 1 }}><SkeletonText lines={2} /></div>
+          </div>
+        ),
+        code: `<div aria-busy="true">
+  <Skeleton shape="circle" height={48} />
+  <SkeletonText lines={2} />
+</div>`,
+      },
+      {
+        title: 'Gold (locked summary)',
+        render: () => (
+          <div style={{ padding: 16, background: 'var(--eq-gradient-status-gold)', borderRadius: 16 }} aria-busy="true">
+            <SkeletonText lines={3} tone="gold" />
+          </div>
+        ),
+        code: `<SkeletonText lines={3} tone="gold" />`,
+      },
+    ],
+    props: [
+      {
+        component: 'Skeleton',
+        props: [
+          opt('shape', "'line' | 'circle' | 'rect'", "'line'", 'Line radius 4 · circle · rect radius 12.'),
+          opt('width', 'number | string', "'100%'", 'Width (circles use the height).'),
+          opt('height', 'number', '15 · 40 · 80', 'Height by shape.'),
+          opt('tone', "'neutral' | 'gold'", "'neutral'", 'Gold on subscription cards.'),
+          opt('radius', 'number', undefined, 'Override the corner radius.'),
+        ],
+      },
+      { component: 'SkeletonText', props: [opt('lines', 'number', '3', 'Number of lines; the last is 62 % wide.'), opt('tone', "'neutral' | 'gold'", "'neutral'", 'Tone.'), opt('gap', 'number', '8', 'Gap between lines.')] },
+    ],
+    dos: ['Match the shape of the content that will load, so nothing jumps.', 'Put aria-busy on the loading region; skeletons are hidden from screen readers.'],
+    donts: ["Don't show a skeleton for less than ~300 ms content; it flickers.", "Don't use the gold tone outside subscription surfaces."],
   },
   {
     id: 'text-field',

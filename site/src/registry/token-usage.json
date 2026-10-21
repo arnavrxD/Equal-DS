@@ -306,6 +306,10 @@
     "name": "Call history"
    },
    {
+    "id": "radio",
+    "name": "Radio"
+   },
+   {
     "id": "search",
     "name": "Search"
    },
@@ -455,10 +459,6 @@
    {
     "id": "chat-header",
     "name": "Chat header"
-   },
-   {
-    "id": "checkbox",
-    "name": "Checkbox"
    },
    {
     "id": "composer",
@@ -849,6 +849,10 @@
     "name": "Call history"
    },
    {
+    "id": "radio",
+    "name": "Radio"
+   },
+   {
     "id": "search",
     "name": "Search"
    },
@@ -1098,6 +1102,10 @@
     "name": "Chat actions"
    },
    {
+    "id": "checkbox",
+    "name": "Checkbox"
+   },
+   {
     "id": "composer",
     "name": "Composer"
    },
@@ -1208,10 +1216,6 @@
     "name": "Chat actions"
    },
    {
-    "id": "checkbox",
-    "name": "Checkbox"
-   },
-   {
     "id": "locked-content",
     "name": "Locked content"
    },
@@ -1266,6 +1270,10 @@
    {
     "id": "monetization-experiments",
     "name": "Paywall experiments"
+   },
+   {
+    "id": "radio",
+    "name": "Radio"
    },
    {
     "id": "search",
@@ -1332,6 +1340,33 @@
   "screens": []
  },
  "button/tonal": {
+  "pages": [
+   {
+    "id": "button",
+    "name": "Button"
+   }
+  ],
+  "screens": []
+ },
+ "button/secondary-label": {
+  "pages": [
+   {
+    "id": "button",
+    "name": "Button"
+   }
+  ],
+  "screens": []
+ },
+ "button/secondary-stroke": {
+  "pages": [
+   {
+    "id": "button",
+    "name": "Button"
+   }
+  ],
+  "screens": []
+ },
+ "button/critical-stroke": {
   "pages": [
    {
     "id": "button",
@@ -4495,6 +4530,51 @@
   ],
   "screens": []
  },
+ "component/skeleton/base": {
+  "pages": [
+   {
+    "id": "skeleton",
+    "name": "Skeleton"
+   }
+  ],
+  "screens": []
+ },
+ "component/skeleton/highlight": {
+  "pages": [
+   {
+    "id": "skeleton",
+    "name": "Skeleton"
+   }
+  ],
+  "screens": []
+ },
+ "component/skeleton/gold-base": {
+  "pages": [
+   {
+    "id": "skeleton",
+    "name": "Skeleton"
+   }
+  ],
+  "screens": []
+ },
+ "component/skeleton/gold-highlight": {
+  "pages": [
+   {
+    "id": "skeleton",
+    "name": "Skeleton"
+   }
+  ],
+  "screens": []
+ },
+ "component/radio/ring": {
+  "pages": [
+   {
+    "id": "radio",
+    "name": "Radio"
+   }
+  ],
+  "screens": []
+ },
  "gradient/fab": {
   "pages": [
    {
@@ -5416,6 +5496,10 @@
  "gradient/cta-renew": {
   "pages": [
    {
+    "id": "button",
+    "name": "Button"
+   },
+   {
     "id": "locked-content",
     "name": "Locked content"
    },
@@ -5524,6 +5608,33 @@
    {
     "id": "bottom-sheet",
     "name": "Bottom sheet"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/button-secondary": {
+  "pages": [
+   {
+    "id": "button",
+    "name": "Button"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/button-critical-secondary": {
+  "pages": [
+   {
+    "id": "button",
+    "name": "Button"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/button-premium-secondary": {
+  "pages": [
+   {
+    "id": "button",
+    "name": "Button"
    }
   ],
   "screens": []

@@ -112,6 +112,10 @@ const MANIFEST = {
   'thumb-down': 'thumb_down',
   'thumb-up-fill': 'thumb_up-fill',
   'thumb-down-fill': 'thumb_down-fill',
+  // In-app calls (vOIP, Equal to Equal)
+  'volume-up': 'volume_up',
+  'mic-off': 'mic_off',
+  'call-end': 'call_end-fill',
 };
 
 const SYMBOL_VB = '0 -960 960 960';

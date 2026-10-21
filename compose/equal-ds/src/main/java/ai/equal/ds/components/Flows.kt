@@ -562,7 +562,7 @@ fun ApplyButton(
         onClick = onClick,
         modifier = if (contentDescription != null) modifier.semantics { this.contentDescription = contentDescription } else modifier,
         variant = EqualButtonVariant.Tonal,
-        size = EqualButtonSize.Sm,
+        size = EqualButtonSize.Xs,
         leadingIcon = EqualIcons.Add,
     )
 }

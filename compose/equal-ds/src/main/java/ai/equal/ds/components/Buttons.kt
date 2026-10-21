@@ -65,25 +65,37 @@ import androidx.compose.ui.unit.dp
  */
 enum class EqualButtonVariant { Primary, Secondary, Tonal, Danger, Gold, Outline, GoldOutline }
 
-/** Filled button sizes (SPEC §19). [Block] = `lg` metrics at full width. */
-enum class EqualButtonSize { Sm, Md, Lg, Block }
+/** Figma Button "Appearance": brand green, red for destructive, gold for subscription surfaces only. */
+enum class EqualButtonAppearance { Default, Critical, Premium }
+
+/** Figma Button "State": filled, gradient with an inner edge, or text only. Disabled is `enabled = false`. */
+enum class EqualButtonEmphasis { Primary, Secondary, Tertiary }
+
+/** Figma Button "Size": [Xs] 24 · [Sm] 32 · [Md] 40 · [Lg] 48. [Block] = [Lg] at full width. */
+enum class EqualButtonSize { Xs, Sm, Md, Lg, Block }
+
+private fun EqualButtonVariant.pair(): Pair<EqualButtonAppearance, EqualButtonEmphasis>? = when (this) {
+    EqualButtonVariant.Primary -> EqualButtonAppearance.Default to EqualButtonEmphasis.Primary
+    EqualButtonVariant.Danger -> EqualButtonAppearance.Critical to EqualButtonEmphasis.Primary
+    EqualButtonVariant.Gold -> EqualButtonAppearance.Premium to EqualButtonEmphasis.Primary
+    EqualButtonVariant.Outline -> EqualButtonAppearance.Default to EqualButtonEmphasis.Secondary
+    EqualButtonVariant.GoldOutline -> EqualButtonAppearance.Premium to EqualButtonEmphasis.Secondary
+    EqualButtonVariant.Secondary, EqualButtonVariant.Tonal -> null
+}
 
 /**
- * Filled pill button (SPEC §19).
+ * The one button (Figma "Button", with "Buton" and "Button Glow" folded in): [appearance] ×
+ * [emphasis] × [size]. [variant] is shorthand for a pair (Gold = Premium Primary, Danger =
+ * Critical Primary, Outline = Default Secondary, GoldOutline = Premium Secondary) plus two system
+ * extras with no Figma pair: [EqualButtonVariant.Secondary] (lime) and [EqualButtonVariant.Tonal]
+ * (the "+ Apply" pill).
  *
- * Sizes: `sm` 24 high / h14 / `buttonSmall`; `md` 36 / h20 / `button`; `lg` 45 / h24 / `button`;
- * `block` = lg at full width. Optional leading/trailing icon (16, gap 6). Pressed = scale 0.97 +
- * 8% overlay; keyboard focus shows `focusRing`. The touch target is always ≥ 48dp.
- * Labels are sentence case — pass them as such.
- * [EqualButtonVariant.Gold] paints `gradient/cta-gold` with a white Bold label, a sheen and a
- * glow (Figma monetization prototype): a white 35% band (110°, transparent 30% → 48% → 66%)
- * sweeps from −120% to +120% of the width over `motion.shimmer` (600ms) after a
- * `motion.shimmerDelay` (1200ms) hold, repeating; and a `text/gold` glow eases from
- * 0 4 12 / 18% up to 0 6 22 / 45% over `motion.buttonGlow` (300ms) after `motion.buttonGlowDelay`
- * (800ms), then back the same way (standard easing). None when disabled or animations are off.
- * [EqualButtonVariant.Outline] draws a 1.5dp `button/primary` border (inside the pill) with a
- * `text/action` label; [EqualButtonVariant.GoldOutline] a 1.5dp `text/gold` border on
- * `bg/surface` with a `text/gold` label. All fall back to `button/disabled` when `enabled = false`.
+ * Sizes: Xs 24 / h8 / `buttonSmall` · Sm 32 / h12 / `buttonSmall` · Md 40 / h16 / `buttonLarge` ·
+ * Lg 48 / h32 / `buttonLarge`. Gap 6. Secondary paints its gradient (`gradient/button-secondary`,
+ * `button-critical-secondary`, `button-premium-secondary`) with a 1dp inner edge; Tertiary is text
+ * only. Premium Primary is the gold subscription CTA: `gradient/cta-gold`, white label, the sweeping
+ * sheen (two runs, none under reduced motion) and, with [glow], the soft gold halo (Button Glow).
+ * Pressed = scale 0.97 + overlay; keyboard focus shows `focusRing`; touch target ≥ 48dp.
  */
 @Composable
 fun EqualButton(
@@ -95,44 +107,77 @@ fun EqualButton(
     enabled: Boolean = true,
     leadingIcon: ImageVector? = null,
     trailingIcon: ImageVector? = null,
-    iconSize: Dp = 16.dp,
-    /** [EqualButtonVariant.Gold] only: replaces `gradient/cta-gold` (e.g. `gradient/cta-renew`). */
+    iconSize: Dp? = null,
+    /** Premium Primary only: replaces `gradient/cta-gold` (e.g. `gradient/cta-renew`). */
     goldBrush: Brush? = null,
+    appearance: EqualButtonAppearance? = null,
+    emphasis: EqualButtonEmphasis? = null,
+    /** Premium Primary only: the soft gold halo behind the button (Figma "Button Glow"). */
+    glow: Boolean = false,
 ) {
     val colors = EqualTheme.colors
     val type = EqualTheme.type
-    val (fill: Color, content: Color) = when {
-        !enabled -> colors.buttonDisabled to colors.textOnActionDisabled
-        variant == EqualButtonVariant.Primary -> colors.buttonPrimary to colors.textOnAction
-        variant == EqualButtonVariant.Secondary -> colors.buttonSecondary to colors.textOnSecondary
-        variant == EqualButtonVariant.Tonal -> colors.buttonTonal to colors.textAction
-        variant == EqualButtonVariant.Gold -> Color.Transparent to EqualPrimitives.white
-        variant == EqualButtonVariant.Outline -> Color.Transparent to colors.textAction
-        variant == EqualButtonVariant.GoldOutline -> colors.bgSurface to colors.textGold
-        else -> colors.buttonDanger to colors.textOnDanger
-    }
-    val fillModifier = when {
-        enabled && variant == EqualButtonVariant.Gold -> Modifier.background(goldBrush ?: EqualTheme.gradients.ctaGold.toBrush())
-        enabled && variant == EqualButtonVariant.Outline -> Modifier.border(1.5.dp, colors.buttonPrimary, CircleShape)
-        enabled && variant == EqualButtonVariant.GoldOutline -> Modifier.background(fill).border(1.5.dp, colors.textGold, CircleShape)
-        else -> Modifier.background(fill)
-    }
-    val metrics: Triple<Dp, Dp, TextStyle> = when (size) {
-        EqualButtonSize.Sm -> Triple(24.dp, 14.dp, type.buttonSmall)
-        EqualButtonSize.Md -> Triple(36.dp, 20.dp, type.button)
-        EqualButtonSize.Lg, EqualButtonSize.Block -> Triple(45.dp, 24.dp, type.button)
-    }
-    val buttonHeight = metrics.first
-    val paddingH = metrics.second
-    val textStyle = if (enabled && variant == EqualButtonVariant.Gold) {
-        metrics.third.copy(fontWeight = FontWeight.Bold)
+    val gradients = EqualTheme.gradients
+    val pair = if (appearance != null || emphasis != null) {
+        (appearance ?: EqualButtonAppearance.Default) to (emphasis ?: EqualButtonEmphasis.Primary)
     } else {
-        metrics.third
+        variant.pair()
+    }
+    val premiumPrimary = pair == EqualButtonAppearance.Premium to EqualButtonEmphasis.Primary
+    val content: Color = when {
+        !enabled -> colors.textOnActionDisabled
+        pair == null && variant == EqualButtonVariant.Secondary -> colors.textOnSecondary
+        pair == null -> colors.textAction
+        else -> when (pair.second) {
+            EqualButtonEmphasis.Primary -> when (pair.first) {
+                EqualButtonAppearance.Default -> colors.textOnAction
+                EqualButtonAppearance.Critical -> colors.textOnDanger
+                EqualButtonAppearance.Premium -> EqualPrimitives.white
+            }
+            EqualButtonEmphasis.Secondary -> when (pair.first) {
+                EqualButtonAppearance.Default -> colors.buttonSecondaryLabel
+                EqualButtonAppearance.Critical -> colors.textDanger
+                EqualButtonAppearance.Premium -> colors.textGold
+            }
+            EqualButtonEmphasis.Tertiary -> when (pair.first) {
+                EqualButtonAppearance.Default -> colors.textAction
+                EqualButtonAppearance.Critical -> colors.textDanger
+                EqualButtonAppearance.Premium -> colors.textGold
+            }
+        }
+    }
+    val fillModifier: Modifier = when {
+        !enabled -> Modifier.background(colors.buttonDisabled)
+        pair == null && variant == EqualButtonVariant.Secondary -> Modifier.background(colors.buttonSecondary)
+        pair == null -> Modifier.background(colors.buttonTonal)
+        pair.second == EqualButtonEmphasis.Tertiary -> Modifier
+        pair.second == EqualButtonEmphasis.Primary -> when (pair.first) {
+            EqualButtonAppearance.Default -> Modifier.background(colors.buttonPrimary)
+            EqualButtonAppearance.Critical -> Modifier.background(colors.buttonDanger)
+            EqualButtonAppearance.Premium -> Modifier.background(goldBrush ?: gradients.ctaGold.toBrush())
+        }
+        else -> when (pair.first) {
+            EqualButtonAppearance.Default -> Modifier.background(gradients.buttonSecondary.toBrush()).border(1.dp, colors.buttonSecondaryStroke, CircleShape)
+            EqualButtonAppearance.Critical -> Modifier.background(gradients.buttonCriticalSecondary.toBrush()).border(1.dp, colors.buttonCriticalStroke, CircleShape)
+            EqualButtonAppearance.Premium -> Modifier.background(gradients.buttonPremiumSecondary.toBrush()).border(1.dp, colors.textGold, CircleShape)
+        }
+    }
+    val (buttonHeight, paddingH, labelStyle) = when (size) {
+        EqualButtonSize.Xs -> Triple(24.dp, 8.dp, type.buttonSmall)
+        EqualButtonSize.Sm -> Triple(32.dp, 12.dp, type.buttonSmall)
+        EqualButtonSize.Md -> Triple(40.dp, 16.dp, type.buttonLarge)
+        EqualButtonSize.Lg, EqualButtonSize.Block -> Triple(48.dp, 32.dp, type.buttonLarge)
+    }
+    val icon = iconSize ?: when (size) {
+        EqualButtonSize.Xs -> 14.dp
+        EqualButtonSize.Sm -> 16.dp
+        EqualButtonSize.Md -> 20.dp
+        else -> 24.dp
     }
     val interaction = rememberInteraction()
     val focused by interaction.collectIsFocusedAsState()
-    val sheen = if (enabled && variant == EqualButtonVariant.Gold) rememberSheenShift() else null
-    val glow = if (enabled && variant == EqualButtonVariant.Gold) rememberGoldGlow() else null
+    val sheen = if (enabled && premiumPrimary) rememberSheenShift() else null
+    val glowState = if (enabled && premiumPrimary && glow) rememberGoldGlow() else null
     val widthModifier = if (size == EqualButtonSize.Block) Modifier.fillMaxWidth() else Modifier
 
     Row(
@@ -142,7 +187,7 @@ fun EqualButton(
             .eqPressFeedback(interaction, CircleShape)
             .eqFocusRing(focused, CircleShape)
             .height(buttonHeight)
-            .then(if (glow != null) Modifier.goldGlow(glow, colors.textGold) else Modifier)
+            .then(if (glowState != null) Modifier.goldGlow(glowState, colors.textGold) else Modifier)
             .clip(CircleShape)
             .then(fillModifier)
             .then(if (sheen != null) Modifier.goldSheen(sheen) else Modifier)
@@ -158,13 +203,13 @@ fun EqualButton(
         horizontalArrangement = Arrangement.Center,
     ) {
         if (leadingIcon != null) {
-            EqualIcon(imageVector = leadingIcon, contentDescription = null, tint = content, size = iconSize)
+            EqualIcon(imageVector = leadingIcon, contentDescription = null, tint = content, size = icon)
             Spacer(Modifier.width(6.dp))
         }
-        EqualText(text = text, style = textStyle, color = content, maxLines = 1, overflow = TextOverflow.Ellipsis)
+        EqualText(text = text, style = labelStyle, color = content, maxLines = 1, overflow = TextOverflow.Ellipsis)
         if (trailingIcon != null) {
             Spacer(Modifier.width(6.dp))
-            EqualIcon(imageVector = trailingIcon, contentDescription = null, tint = content, size = iconSize)
+            EqualIcon(imageVector = trailingIcon, contentDescription = null, tint = content, size = icon)
         }
     }
 }
@@ -392,7 +437,7 @@ fun EqualIconButton(
 private fun ButtonsPreview() {
     PreviewFrame {
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-            EqualButton("Small", onClick = {}, size = EqualButtonSize.Sm)
+            EqualButton("Small", onClick = {}, size = EqualButtonSize.Xs)
             EqualButton("Medium", onClick = {})
             EqualButton("Large", onClick = {}, size = EqualButtonSize.Lg)
         }

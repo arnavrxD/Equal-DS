@@ -66,8 +66,9 @@
     "Full sheet": "var open by remember { mutableStateOf(false) }\nFullSheet(\n    visible = open,\n    onDismissRequest = { open = false },\n    title = \"Setting up instruction\",\n    footer = {\n        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {\n            LargeActionChip(label = \"Edit\", emoji = \"✍️\", onClick = {}, state = LargeActionChipState.Read)\n            LargeActionChip(label = \"Confirm\", emoji = \"👍\", onClick = { open = false })\n        }\n    },\n) {\n    // Compose: no MessageList; stack bubbles in a Column\n    Column(Modifier.padding(horizontal = 12.dp, vertical = 16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {\n        ChatBubble(message = \"Take a message & Callback request\", timestamp = \"03:21\", type = ChatBubbleType.Outgoing, sender = \"You\")\n        ChatBubble(message = \"Got it! Here's your instruction:\", timestamp = \"03:21\", type = ChatBubbleType.Assistant, sender = \"Equal AI\")\n    }\n}"
   },
   "button": {
-    "Variants": "EqualButton(text = \"Save\", onClick = {})\nEqualButton(text = \"Try Voices\", onClick = {}, variant = EqualButtonVariant.Secondary)\nEqualButton(text = \"Delete\", onClick = {}, variant = EqualButtonVariant.Danger, leadingIcon = EqualIcons.Delete)\nEqualButton(text = \"Save\", onClick = {}, enabled = false)",
-    "Sizes": "EqualButton(text = \"Apply\", onClick = {}, size = EqualButtonSize.Sm, leadingIcon = EqualIcons.Add)\nEqualButton(text = \"Save\", onClick = {}, size = EqualButtonSize.Md)\nEqualButton(text = \"Save\", onClick = {}, size = EqualButtonSize.Lg)\n// Block = lg metrics at full width\nEqualButton(text = \"Add New Instruction\", onClick = {}, size = EqualButtonSize.Block, leadingIcon = EqualIcons.Add)",
+    "Appearance × emphasis": "EqualButton(text = \"Submit\", onClick = {}, appearance = EqualButtonAppearance.Default, emphasis = EqualButtonEmphasis.Primary)\nEqualButton(text = \"Submit\", onClick = {}, appearance = EqualButtonAppearance.Default, emphasis = EqualButtonEmphasis.Secondary)\nEqualButton(text = \"Submit\", onClick = {}, appearance = EqualButtonAppearance.Default, emphasis = EqualButtonEmphasis.Tertiary)\nEqualButton(text = \"Delete\", onClick = {}, appearance = EqualButtonAppearance.Critical)\nEqualButton(text = \"Unlock\", onClick = {}, appearance = EqualButtonAppearance.Premium, emphasis = EqualButtonEmphasis.Secondary)\nEqualButton(text = \"Submit\", onClick = {}, enabled = false)",
+    "Sizes": "EqualButton(text = \"Apply\", onClick = {}, size = EqualButtonSize.Xs, leadingIcon = EqualIcons.Add)\nEqualButton(text = \"Submit\", onClick = {}, size = EqualButtonSize.Sm)\nEqualButton(text = \"Submit\", onClick = {}, size = EqualButtonSize.Md)\nEqualButton(text = \"Submit\", onClick = {}, size = EqualButtonSize.Lg)\n// Block = Lg metrics at full width\nEqualButton(text = \"Add New Instruction\", onClick = {}, size = EqualButtonSize.Block, leadingIcon = EqualIcons.Add)",
+    "Premium: the gold CTA with sheen and glow": "EqualButton(text = \"Unlock Unlimited\", onClick = {}, appearance = EqualButtonAppearance.Premium, size = EqualButtonSize.Block, glow = true)\nEqualButton(text = \"Unlock Unlimited\", onClick = {}, appearance = EqualButtonAppearance.Premium, size = EqualButtonSize.Block, enabled = false)",
     "Text and icon buttons": "Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {\n    EqualTextButton(text = \"Edit\", onClick = {})\n    EqualTextButton(text = \"Share\", onClick = {}, leadingIcon = EqualIcons.Share)\n    EqualTextButton(text = \"Share Feedback\", onClick = {}, trailingIcon = EqualIcons.ChevronRight)\n    EqualTextButton(text = \"Delete address\", onClick = {}, danger = true)\n}\nRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {\n    EqualIconButton(icon = EqualIcons.Back, contentDescription = \"Back\", onClick = {})\n    EqualIconButton(icon = EqualIcons.Check, contentDescription = \"Confirm\", onClick = {}, variant = EqualIconButtonVariant.Primary)\n}",
     "Commit + revise": "Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {\n    EqualTextButton(text = \"Cancel\", onClick = {})\n    EqualButton(text = \"Turn off\", onClick = {})\n}"
   },
@@ -128,7 +129,7 @@
   },
   "checkbox": {
     "Interactive": "var all by remember { mutableStateOf(false) }\nvar loanOffers by remember { mutableStateOf(false) }\n\n// Compose: no label / labelVariant params; put an EqualText beside the box.\nRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {\n    EqualCheckbox(checked = all, onCheckedChange = { all = it })\n    EqualText(text = \"Select All\", style = EqualTheme.type.bodyLarge, color = EqualTheme.colors.textPrimary)\n}\nRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {\n    EqualCheckbox(checked = loanOffers, onCheckedChange = { loanOffers = it })\n    EqualText(text = \"Loan Offers\", style = EqualTheme.type.body1, color = EqualTheme.colors.textPrimary)\n}",
-    "Sizes and bare": "Row(horizontalArrangement = Arrangement.spacedBy(20.dp)) {\n    EqualCheckbox(checked = true, onCheckedChange = {}, size = 18.dp)\n    EqualCheckbox(checked = false, onCheckedChange = {}, size = 18.dp)\n    // Compose: default size is 18.dp (web defaults to 22), so pass 22.dp explicitly.\n    EqualCheckbox(checked = true, onCheckedChange = {}, size = 22.dp)\n    EqualCheckbox(checked = false, onCheckedChange = {}, size = 22.dp)\n}",
+    "Sizes and bare": "EqualCheckboxField(checked = true, onCheckedChange = {}, label = \"Label\", size = EqualControlSize.S)\nEqualCheckboxField(checked = true, onCheckedChange = {}, label = \"Label\", size = EqualControlSize.M)\nEqualCheckboxField(checked = true, onCheckedChange = {}, label = \"Label\", size = EqualControlSize.L)\nEqualCheckboxField(checked = false, onCheckedChange = {}, label = \"Label\", support = \"Support text\")",
     "In the selection header": "val ids = listOf(\"arnav\", \"amit\", \"priya\")\nvar selected by remember { mutableStateOf(setOf<String>()) }\n\nSelectionChatHeader(\n    selectedCount = selected.size,\n    allSelected = selected.size == ids.size,\n    onSelectAllChange = { all -> selected = if (all) ids.toSet() else emptySet() },\n    onBackClick = {},\n    onMarkReadClick = {},\n    onDeleteClick = {},\n)"
   },
   "composer": {
@@ -155,7 +156,7 @@
   },
   "discount-badge": {
     "Badges": "Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {\n    DiscountBadge()\n    DiscountBadge(label = \"Special Coupon Applied!\")\n}",
-    "Price drop": "var replay by remember { mutableIntStateOf(0) }\nColumn(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(12.dp)) {\n    // Strike the old price → land the new one with \"Saved ₹100\" → pop the badge\n    key(replay) {\n        PriceTag(price = \"149\", was = 249, badge = \"Special Coupon Applied!\", animate = true)\n    }\n    EqualButton(text = \"Replay\", onClick = { replay++ }, variant = EqualButtonVariant.Secondary, size = EqualButtonSize.Sm)\n}"
+    "Price drop": "var replay by remember { mutableIntStateOf(0) }\nColumn(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(12.dp)) {\n    // Strike the old price → land the new one with \"Saved ₹100\" → pop the badge\n    key(replay) {\n        PriceTag(price = \"149\", was = 249, badge = \"Special Coupon Applied!\", animate = true)\n    }\n    EqualButton(text = \"Replay\", onClick = { replay++ }, variant = EqualButtonVariant.Secondary, size = EqualButtonSize.Xs)\n}"
   },
   "empty-state": {
     "Addresses empty": "EmptyState(\n    title = \"Never explain your address again\",\n    body = \"Save frequently used addresses, and your assistant will use them to handle delivery, pickup calls, etc. more naturally.\",\n    // Compose: the illustration is a slot, not an asset name\n    illustration = { EqualAssetImage(EqualAssets.IllustrationAddressesEmpty, 96.dp) },\n    actionLabel = \"Add new Address\",\n    onActionClick = {},\n)",
@@ -373,6 +374,17 @@
     "back": "EqualTheme {\n    SystemStatusFlowSample(stage = SystemStatusStage.BackOn)\n}",
     "live": "EqualTheme {\n    // No stage: tap Notify, and the system recovers after recoverAfterMillis\n    SystemStatusFlowSample(recoverAfterMillis = 2500)\n}"
   },
+  "flow-voip": {
+    "home": "EqualTheme {\n    VoipFlowSample()\n}",
+    "mic-prompt": "EqualTheme {\n    VoipFlowSample(stage = VoipStage.MicPrompt)\n}",
+    "mic-system": "EqualTheme {\n    VoipFlowSample(stage = VoipStage.MicSystem)\n}",
+    "connecting": "EqualTheme {\n    VoipFlowSample(stage = VoipStage.Connecting)\n}",
+    "connected": "EqualTheme {\n    VoipFlowSample(stage = VoipStage.Connected, seconds = 1)\n}",
+    "speaker": "EqualTheme {\n    VoipFlowSample(stage = VoipStage.Connected, speaker = true, seconds = 1)\n}",
+    "muted": "EqualTheme {\n    VoipFlowSample(stage = VoipStage.Connected, muted = true, seconds = 5)\n}",
+    "ended": "EqualTheme {\n    VoipFlowSample(stage = VoipStage.Ended, seconds = 155)\n}",
+    "pstn": "EqualTheme {\n    VoipFlowSample(stage = VoipStage.Pstn)\n}"
+  },
   "foundations": {
     "colour": "// Wrap the app once; colours switch with the system theme (or pass darkTheme = …)\nEqualTheme {\n    val colors = EqualTheme.colors\n    Box(\n        Modifier\n            .background(colors.bgSurface, RoundedCornerShape(EqualRadius.rLg))\n            .padding(EqualSpacing.s16),\n    ) {\n        EqualText(text = \"Equal AI\", style = EqualTheme.type.subheading, color = colors.textAction)\n    }\n    // Gradients are tokens too\n    Box(Modifier.size(64.dp).background(EqualTheme.gradients.fab.toBrush(), RoundedCornerShape(EqualRadius.r2xl)))\n}",
     "typography": "val type = EqualTheme.type\nval colors = EqualTheme.colors\nColumn {\n    EqualText(text = \"Amit Nanda\", style = type.headline, color = colors.textPrimary)\n    EqualText(text = \"Assistant Health Check\", style = type.subheading, color = colors.textPrimary)\n    EqualText(text = \"Check Real-Time Assistant Connectivity\", style = type.caption, color = colors.textSecondary)\n    EqualText(text = \"CALL HISTORY\", style = type.overline, color = colors.textSecondary)\n}",
@@ -457,6 +469,10 @@
     "Female avatar, no plan": "ProfileHero(\n    name = \"Priya Sharma\",\n    phone = \"+91 99100 22114\",\n    avatar = ProfileAvatarVariant.Female,\n    plan = null,\n    onEdit = {},\n)",
     "Compact header": "ProfileHeader(name = \"Keshav\", phone = \"+91 98789 56749\")"
   },
+  "radio": {
+    "Group": "var v by remember { mutableStateOf<String?>(null) }\nEqualRadioGroup(\n    options = listOf(\n        EqualRadioOption(\"30m\", \"30 minutes\"),\n        EqualRadioOption(\"1h\", \"1 hour\"),\n        EqualRadioOption(\"tomorrow\", \"Until tomorrow morning\", support = \"Back at 9:00 AM\"),\n    ),\n    selected = v,\n    onSelect = { v = it },\n)",
+    "Sizes": "EqualRadio(selected = true, onClick = {}, label = \"Label\", size = EqualControlSize.S)\nEqualRadio(selected = true, onClick = {}, label = \"Label\", size = EqualControlSize.M)\nEqualRadio(selected = true, onClick = {}, label = \"Label\", size = EqualControlSize.L)\nEqualRadio(selected = false, onClick = {}, label = \"Label\", size = EqualControlSize.L)"
+  },
   "screens": {
     "home": "EqualTheme {\n    HomeScreenSample()\n}",
     "live": "EqualTheme {\n    // Compose: ChatScreenSample renders the live-call thread; the after-call variant is a web-only sample\n    ChatScreenSample()\n}",
@@ -486,6 +502,10 @@
     "You tab group": "SectionHeader(title = \"Your assistant\")\nRowGroup {\n    SettingsRow(\n        label = \"Instructions\",\n        description = \"Tell assistant how you'd like it to help\",\n        leadingIcon = EqualIcons.Instructions,\n        showNewBadge = true,\n        onClick = {},\n    )\n    SettingsRow(label = \"Assistant Health Check\", description = \"Check Real-Time Assistant Connectivity\", leadingIcon = EqualIcons.HealthCheck, onClick = {})\n    SettingsRow(label = \"Silent Mode\", description = \"Mute promotional calls\", leadingIcon = EqualIcons.SilentMode, onClick = {})\n    SettingsRow(label = \"Voice & Language\", description = \"How your assistant sounds\", leadingIcon = EqualIcons.VoiceLanguage, onClick = {})\n}",
     "Toggle rows": "var mute by remember { mutableStateOf(true) }\nRowGroup {\n    ToggleRow(\n        label = \"Mute Promotional Calls\",\n        description = \"Equal AI Assistant can identify Promotional Calls and automatically mute them\",\n        descriptionWraps = true,\n        checked = mute,\n        onCheckedChange = { mute = it },\n    )\n}",
     "Trailing variants": "RowGroup {\n    SettingsRow(label = \"Active Instructions\", description = \"3 Active\", onClick = {})\n    SettingsRow(label = \"Muted Contacts\", onClick = {}, trailing = {\n        EqualText(text = \"4\", style = EqualTheme.type.body1, color = EqualTheme.colors.textSecondary)\n    })\n    SettingsRow(label = \"Version\", description = \"2.4.0\", trailing = null) // null = no chevron\n}"
+  },
+  "skeleton": {
+    "Loading a chat row": "Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {\n    EqualSkeleton(shape = EqualSkeletonShape.Circle, height = 48.dp)\n    EqualSkeletonText(lines = 2, modifier = Modifier.weight(1f))\n}",
+    "Gold (locked summary)": "EqualSkeletonText(lines = 3, tone = EqualSkeletonTone.Gold)"
   },
   "social-proof": {
     "Stat and rating": "Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(16.dp)) {\n    StatBlock(value = \"400k+\", label = \"People never miss a call\")\n    RatingPill(rating = 4.5f)\n}",

@@ -1,0 +1,20 @@
+/* Radio (Figma "Radio Button"): S 16 · M 20 · L 24. */
+.eq-radio { display: inline-flex; align-items: flex-start; gap: 8px; text-align: left; min-height: 24px; }
+.eq-radio:disabled { opacity: 0.4; cursor: default; }
+.eq-radio__control { position: relative; flex-shrink: 0; width: var(--eq-radio-size); height: var(--eq-radio-size); border-radius: 50%; box-shadow: inset 0 0 0 2px var(--eq-radio-ring); transition: background-color var(--eq-duration-fast) var(--eq-easing-standard); }
+.eq-radio--s { --eq-radio-size: 16px; --eq-radio-dot: 8px; --eq-radio-gap: 2px; }
+.eq-radio--m { --eq-radio-size: 20px; --eq-radio-dot: 12px; --eq-radio-gap: 3px; }
+.eq-radio--l { --eq-radio-size: 24px; --eq-radio-dot: 16px; --eq-radio-gap: 4px; }
+/* Selected: green disc with a white inner ring (Figma: 16dp green dot, 4px white stroke, on a green 24dp pill). */
+.eq-radio.is-on .eq-radio__control { background: var(--eq-button-primary); box-shadow: none; }
+.eq-radio.is-on .eq-radio__control::after { content: ''; position: absolute; inset: calc((var(--eq-radio-size) - var(--eq-radio-dot)) / 2); border-radius: 50%; background: var(--eq-button-primary); box-shadow: 0 0 0 var(--eq-radio-gap) var(--eq-bg-surface) inset; }
+.eq-radio__text { display: flex; flex-direction: column; gap: 2px; min-height: var(--eq-radio-size); justify-content: center; }
+.eq-radio:focus-visible { outline: none; }
+.eq-radio:focus-visible .eq-radio__control { box-shadow: var(--eq-shadow-focus-ring); }
+.eq-radio-group { display: flex; flex-direction: column; }
+
+/* Checkbox (Figma "Checkbox"): same sizes, radius 4, 1.5px edge; checked = brand green + white check. */
+.eq-checkbox__box { display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; width: var(--eq-radio-size); height: var(--eq-radio-size); border-radius: 4px; box-shadow: inset 0 0 0 1.5px var(--eq-radio-ring); transition: background-color var(--eq-duration-fast) var(--eq-easing-standard); }
+.eq-checkbox.is-on .eq-checkbox__box { background: var(--eq-button-primary); box-shadow: none; }
+.eq-checkbox:focus-visible { outline: none; }
+.eq-checkbox:focus-visible .eq-checkbox__box { box-shadow: var(--eq-shadow-focus-ring); }

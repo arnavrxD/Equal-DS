@@ -59,6 +59,12 @@ data class EqualColors(
     val buttonSecondary: Color,
     /** button/tonal */
     val buttonTonal: Color,
+    /** button/secondary-label — derived from the screens */
+    val buttonSecondaryLabel: Color,
+    /** button/secondary-stroke — derived from the screens */
+    val buttonSecondaryStroke: Color,
+    /** button/critical-stroke — derived from the screens */
+    val buttonCriticalStroke: Color,
     /** text/on-secondary — derived from the screens */
     val textOnSecondary: Color,
     /** button/danger */
@@ -289,6 +295,26 @@ data class EqualColors(
     val suggestGlow: Color,
     /** component/gender/stroke — derived from the screens */
     val genderStroke: Color,
+    /** component/skeleton/base — derived from the screens */
+    val skeletonBase: Color,
+    /** component/skeleton/highlight — derived from the screens */
+    val skeletonHighlight: Color,
+    /** component/skeleton/gold-base — derived from the screens */
+    val skeletonGoldBase: Color,
+    /** component/skeleton/gold-highlight — derived from the screens */
+    val skeletonGoldHighlight: Color,
+    /** component/radio/ring — derived from the screens */
+    val radioRing: Color,
+    /** button/end-call — derived from the screens */
+    val buttonEndCall: Color,
+    /** text/on-end-call — derived from the screens */
+    val textOnEndCall: Color,
+    /** component/call-control/bg — derived from the screens */
+    val callControlBg: Color,
+    /** component/call-control/active-bg — derived from the screens */
+    val callControlActiveBg: Color,
+    /** component/call-control/active-icon — derived from the screens */
+    val callControlActiveIcon: Color,
     val isDark: Boolean,
 )
 
@@ -306,6 +332,9 @@ val LightEqualColors = EqualColors(
     buttonPrimary = Color(0xFF00B140), // brand/green
     buttonSecondary = Color(0xFFBAFF29), // brand/lime
     buttonTonal = Color(0x1400B140), // brand/green · 8%
+    buttonSecondaryLabel = Color(0xFF009837), // direct value
+    buttonSecondaryStroke = Color(0xB3FFFFFF), // brand/white · 70%
+    buttonCriticalStroke = Color(0xB3FFE0E0), // direct value
     textOnSecondary = Color(0xCC000000), // brand/black · 80%
     buttonDanger = Color(0xFFC50000), // red/red08
     buttonDisabled = Color(0xFFDDDDDD), // neutrals/grey13
@@ -421,6 +450,16 @@ val LightEqualColors = EqualColors(
     presetTintLime = Color(0x2EBAFF29), // direct value
     suggestGlow = Color(0x3300B140), // brand/green · 20%
     genderStroke = Color(0xFFF4F4F4), // direct value
+    skeletonBase = Color(0x0F000000), // brand/black · 6%
+    skeletonHighlight = Color(0xB3FFFFFF), // brand/white · 70%
+    skeletonGoldBase = Color(0x29FFFFFF), // brand/white · 16%
+    skeletonGoldHighlight = Color(0xFFFDEFC6), // direct value
+    radioRing = Color(0x99000000), // brand/black · 60%
+    buttonEndCall = Color(0xFFE11D48), // direct value
+    textOnEndCall = Color(0xFFFFFFFF), // brand/white
+    callControlBg = Color(0xFFEDEFF1), // direct value
+    callControlActiveBg = Color(0xFF1F2937), // direct value
+    callControlActiveIcon = Color(0xFFFFFFFF), // brand/white
     isDark = false,
 )
 
@@ -438,6 +477,9 @@ val DarkEqualColors = EqualColors(
     buttonPrimary = Color(0xFFBAFF29), // brand/lime
     buttonSecondary = Color(0xFFBAFF29), // brand/lime
     buttonTonal = Color(0x1FBAFF29), // brand/lime · 12%
+    buttonSecondaryLabel = Color(0xFFBAFF29), // brand/lime
+    buttonSecondaryStroke = Color(0x14FFFFFF), // brand/white · 8%
+    buttonCriticalStroke = Color(0x3DFF5151), // direct value
     textOnSecondary = Color(0xFF000000), // brand/black
     buttonDanger = Color(0xFFFF5151), // direct value
     buttonDisabled = Color(0xFF444444), // neutrals/grey04
@@ -553,6 +595,16 @@ val DarkEqualColors = EqualColors(
     presetTintLime = Color(0x2EBAFF29), // direct value
     suggestGlow = Color(0x1FBAFF29), // brand/lime · 12%
     genderStroke = Color(0x14FFFFFF), // direct value
+    skeletonBase = Color(0x14FFFFFF), // brand/white · 8%
+    skeletonHighlight = Color(0x1AFFFFFF), // brand/white · 10%
+    skeletonGoldBase = Color(0x14FFFFFF), // brand/white · 8%
+    skeletonGoldHighlight = Color(0xFF4A3C1C), // direct value
+    radioRing = Color(0x99FFFFFF), // brand/white · 60%
+    buttonEndCall = Color(0xFFFF5C7A), // direct value
+    textOnEndCall = Color(0xFF000000), // brand/black
+    callControlBg = Color(0xFF2E2E2E), // direct value
+    callControlActiveBg = Color(0xFFF2F2F2), // direct value
+    callControlActiveIcon = Color(0xFF000000), // brand/black
     isDark = true,
 )
 
@@ -599,6 +651,10 @@ data class EqualGradients(
     val ctaRenew: EqualGradientSpec,
     val expiredBadge: EqualGradientSpec,
     val genderSelectedStroke: EqualGradientSpec,
+    val buttonSecondary: EqualGradientSpec,
+    val buttonCriticalSecondary: EqualGradientSpec,
+    val buttonPremiumSecondary: EqualGradientSpec,
+    val assistantCall: EqualGradientSpec,
 )
 
 val LightEqualGradients = EqualGradients(
@@ -635,6 +691,10 @@ val LightEqualGradients = EqualGradients(
     ctaRenew = EqualGradientSpec(angle = 0f, stops = listOf(0f to Color(0xFFD1A85C), 1f to Color(0xFFA0621F)), radial = EqualRadial(1.06f, 1f, 0.5f, 0f)),
     expiredBadge = EqualGradientSpec(angle = 90f, stops = listOf(0f to Color(0xFFBF3D28), 0.5f to Color(0xFFE4918C), 1f to Color(0xFFA43129))),
     genderSelectedStroke = EqualGradientSpec(angle = 86f, stops = listOf(0f to Color(0xFF00B140), 0.51f to Color(0xFFBAFF29), 1f to Color(0xF007AA42))),
+    buttonSecondary = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFFFFFFF), 1f to Color(0xFFE4FFED))),
+    buttonCriticalSecondary = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFFFFFFF), 1f to Color(0xFFFFE0E0))),
+    buttonPremiumSecondary = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFFFFFFF), 1f to Color(0xFFFFF9EC))),
+    assistantCall = EqualGradientSpec(angle = 180f, stops = listOf(0.19f to Color(0xFF00B140), 0.59f to Color(0xFF73D095), 1f to Color(0xFFFFFFFF))),
 )
 
 val DarkEqualGradients = EqualGradients(
@@ -671,6 +731,10 @@ val DarkEqualGradients = EqualGradients(
     ctaRenew = EqualGradientSpec(angle = 0f, stops = listOf(0f to Color(0xFFD1A85C), 1f to Color(0xFFA0621F)), radial = EqualRadial(1.06f, 1f, 0.5f, 0f)),
     expiredBadge = EqualGradientSpec(angle = 90f, stops = listOf(0f to Color(0xFFBF3D28), 0.5f to Color(0xFFE4918C), 1f to Color(0xFFA43129))),
     genderSelectedStroke = EqualGradientSpec(angle = 86f, stops = listOf(0f to Color(0xFFBAFF29), 0.51f to Color(0xFFBAFF29), 1f to Color(0xF0BAFF29))),
+    buttonSecondary = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFF1F1F1F), 1f to Color(0xFF2F3423))),
+    buttonCriticalSecondary = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFF1F1F1F), 1f to Color(0xFF3A2224))),
+    buttonPremiumSecondary = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFF1F1F1F), 1f to Color(0xFF33291A))),
+    assistantCall = EqualGradientSpec(angle = 180f, stops = listOf(0.19f to Color(0xFFBAFF29), 0.59f to Color(0x73BAFF29), 1f to Color(0xFF141414))),
 )
 
 /** Twelve type tokens (+ captionWrap, body1Italic, badgeCount). Font family is applied by EqualTheme. */
@@ -688,7 +752,8 @@ object EqualTypeTokens {
     val body1 = TextStyle(fontSize = 14.sp, lineHeight = 22.sp, fontWeight = FontWeight.W400, letterSpacing = T)
     val body1Italic = TextStyle(fontSize = 14.sp, lineHeight = 22.sp, fontWeight = FontWeight.W400, letterSpacing = T, fontStyle = FontStyle.Italic)
     val button = TextStyle(fontSize = 14.sp, lineHeight = 20.sp, fontWeight = FontWeight.W500, letterSpacing = T)
-    val buttonSmall = TextStyle(fontSize = 12.sp, lineHeight = 16.sp, fontWeight = FontWeight.W500, letterSpacing = T)
+    val buttonLarge = TextStyle(fontSize = 16.sp, lineHeight = 24.sp, fontWeight = FontWeight.W600, letterSpacing = T)
+    val buttonSmall = TextStyle(fontSize = 12.sp, lineHeight = 16.sp, fontWeight = FontWeight.W600, letterSpacing = T)
     val caption = TextStyle(fontSize = 12.sp, lineHeight = 16.sp, fontWeight = FontWeight.W500, letterSpacing = T)
     val captionWrap = TextStyle(fontSize = 12.sp, lineHeight = 18.sp, fontWeight = FontWeight.W400, letterSpacing = T)
     val micro = TextStyle(fontSize = 12.sp, lineHeight = 16.sp, fontWeight = FontWeight.W500, letterSpacing = T, fontFeatureSettings = TNUM)

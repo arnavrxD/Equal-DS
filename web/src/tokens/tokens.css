@@ -52,6 +52,9 @@
   --eq-shadow-focus-ring: 0 0 0 2px var(--eq-bg-surface), 0 0 0 4px var(--eq-text-primary);
   --eq-shadow-chip-unread: 0 3px 4px rgba(0,0,0,0.04);
   --eq-shadow-chip-read: 0 0 1px rgba(0,0,0,0.25);
+  --eq-shadow-button-secondary: 0 0 0 1px rgba(188,188,188,0.35), 0 2px 4px rgba(70,70,70,0.10);
+  --eq-shadow-button-critical: 0 0 0 1px rgba(255,224,224,0.35), 0 2px 4px rgba(70,70,70,0.10);
+  --eq-shadow-button-premium: 0 0 0 1px rgba(209,168,92,0.35), 0 1px 2px rgba(160,98,31,0.10);
   --eq-duration-fast: 120ms;
   --eq-duration-base: 200ms;
   --eq-duration-slow: 320ms;
@@ -91,6 +94,9 @@
   --eq-button-primary: #00B140;
   --eq-button-secondary: #BAFF29;
   --eq-button-tonal: rgba(0,177,64,0.08);
+  --eq-button-secondary-label: #009837; /* derived */
+  --eq-button-secondary-stroke: rgba(255,255,255,0.7); /* derived */
+  --eq-button-critical-stroke: rgba(255,224,224,0.7); /* derived */
   --eq-text-on-secondary: rgba(0,0,0,0.8); /* derived */
   --eq-button-danger: #C50000;
   --eq-button-disabled: #DDDDDD;
@@ -206,6 +212,16 @@
   --eq-preset-tint-lime: rgba(186,255,41,0.18); /* derived */
   --eq-suggest-glow: rgba(0,177,64,0.2);
   --eq-gender-stroke: #F4F4F4; /* derived */
+  --eq-skeleton-base: rgba(0,0,0,0.06); /* derived */
+  --eq-skeleton-highlight: rgba(255,255,255,0.7); /* derived */
+  --eq-skeleton-gold-base: rgba(255,255,255,0.16); /* derived */
+  --eq-skeleton-gold-highlight: #FDEFC6; /* derived */
+  --eq-radio-ring: rgba(0,0,0,0.6); /* derived */
+  --eq-button-end-call: #E11D48; /* derived */
+  --eq-text-on-end-call: #FFFFFF; /* derived */
+  --eq-call-control-bg: #EDEFF1; /* derived */
+  --eq-call-control-active-bg: #1F2937; /* derived */
+  --eq-call-control-active-icon: #FFFFFF; /* derived */
   --eq-gradient-fab: linear-gradient(180deg, #BAFF29 -28%, #00B140 100%);
   --eq-gradient-send-disabled: linear-gradient(180deg, rgba(186,255,41,0.2) -28%, rgba(0,177,64,0.2) 100%);
   --eq-gradient-gold: radial-gradient(125% 250% at 2% 9%, #A37236 9%, #B58D55 66%, #A97B41 100%);
@@ -239,6 +255,10 @@
   --eq-gradient-cta-renew: radial-gradient(106% 100% at 50% 0%, #D1A85C 0%, #A0621F 100%);
   --eq-gradient-expired-badge: linear-gradient(90deg, #BF3D28 0%, #E4918C 50%, #A43129 100%);
   --eq-gradient-gender-selected-stroke: linear-gradient(86deg, #00B140 0%, #BAFF29 51%, rgba(7,170,66,0.94) 100%);
+  --eq-gradient-button-secondary: linear-gradient(180deg, #FFFFFF 0%, #E4FFED 100%);
+  --eq-gradient-button-critical-secondary: linear-gradient(180deg, #FFFFFF 0%, #FFE0E0 100%);
+  --eq-gradient-button-premium-secondary: linear-gradient(180deg, #FFFFFF 0%, #FFF9EC 100%);
+  --eq-gradient-assistant-call: linear-gradient(180deg, #00B140 19%, #73D095 59%, #FFFFFF 100%);
 }
 
 [data-theme='dark'] {
@@ -256,6 +276,9 @@
   --eq-button-primary: #BAFF29;
   --eq-button-secondary: #BAFF29;
   --eq-button-tonal: rgba(186,255,41,0.12);
+  --eq-button-secondary-label: #BAFF29; /* derived */
+  --eq-button-secondary-stroke: rgba(255,255,255,0.08); /* derived */
+  --eq-button-critical-stroke: rgba(255,81,81,0.24); /* derived */
   --eq-text-on-secondary: #000000; /* derived */
   --eq-button-danger: #FF5151;
   --eq-button-disabled: #444444;
@@ -371,6 +394,16 @@
   --eq-preset-tint-lime: rgba(186,255,41,0.18); /* derived */
   --eq-suggest-glow: rgba(186,255,41,0.12);
   --eq-gender-stroke: rgba(255,255,255,0.08); /* derived */
+  --eq-skeleton-base: rgba(255,255,255,0.08); /* derived */
+  --eq-skeleton-highlight: rgba(255,255,255,0.1); /* derived */
+  --eq-skeleton-gold-base: rgba(255,255,255,0.08); /* derived */
+  --eq-skeleton-gold-highlight: #4A3C1C; /* derived */
+  --eq-radio-ring: rgba(255,255,255,0.6); /* derived */
+  --eq-button-end-call: #FF5C7A; /* derived */
+  --eq-text-on-end-call: #000000; /* derived */
+  --eq-call-control-bg: #2E2E2E; /* derived */
+  --eq-call-control-active-bg: #F2F2F2; /* derived */
+  --eq-call-control-active-icon: #000000; /* derived */
   --eq-gradient-fab: linear-gradient(180deg, #C9FF5C 0%, #BAFF29 100%);
   --eq-gradient-send-disabled: linear-gradient(180deg, rgba(186,255,41,0.2) 0%, rgba(186,255,41,0.2) 100%);
   --eq-gradient-gold: radial-gradient(125% 250% at 2% 9%, #A37236 9%, #B58D55 66%, #A97B41 100%);
@@ -404,6 +437,10 @@
   --eq-gradient-cta-renew: radial-gradient(106% 100% at 50% 0%, #D1A85C 0%, #A0621F 100%);
   --eq-gradient-expired-badge: linear-gradient(90deg, #BF3D28 0%, #E4918C 50%, #A43129 100%);
   --eq-gradient-gender-selected-stroke: linear-gradient(86deg, #BAFF29 0%, #BAFF29 51%, rgba(186,255,41,0.94) 100%);
+  --eq-gradient-button-secondary: linear-gradient(180deg, #1F1F1F 0%, #2F3423 100%);
+  --eq-gradient-button-critical-secondary: linear-gradient(180deg, #1F1F1F 0%, #3A2224 100%);
+  --eq-gradient-button-premium-secondary: linear-gradient(180deg, #1F1F1F 0%, #33291A 100%);
+  --eq-gradient-assistant-call: linear-gradient(180deg, #BAFF29 19%, rgba(186,255,41,0.45) 59%, #141414 100%);
 }
 
 .eq-t-headline {
@@ -463,11 +500,18 @@
   font-weight: 500;
   letter-spacing: -0.026em;
 }
+.eq-t-button-large {
+  font-family: var(--eq-font-family);
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 600;
+  letter-spacing: -0.026em;
+}
 .eq-t-button-small {
   font-family: var(--eq-font-family);
   font-size: 12px;
   line-height: 16px;
-  font-weight: 500;
+  font-weight: 600;
   letter-spacing: -0.026em;
 }
 .eq-t-caption {

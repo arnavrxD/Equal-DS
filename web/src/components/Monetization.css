@@ -145,13 +145,13 @@
 
 /* Gold CTA: a sheen sweeps across every few seconds. */
 /* The sheen is a moving background on ::before (no overflow clipping), so ::after stays free for the 48px eq-touch hit area. */
-.eq-btn--gold { position: relative; }
-.eq-btn--gold::before { content: ''; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(110deg, transparent 43%, rgba(255, 255, 255, 0.35) 50%, transparent 57%) no-repeat; background-size: 300% 100%; background-position: 100% 0; animation: eq-sheen calc(var(--eq-duration-shimmerDelay) + var(--eq-duration-shimmer)) var(--eq-easing-standard) 2; /* 2 runs ≈ 3.6 s: motion stops within 5 s (WCAG 2.2.2) */ pointer-events: none; }
-.eq-btn--gold > * { position: relative; }
+.eq-btn--premium-primary { position: relative; }
+.eq-btn--premium-primary.has-sheen::before { content: ''; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(110deg, transparent 43%, rgba(255, 255, 255, 0.35) 50%, transparent 57%) no-repeat; background-size: 300% 100%; background-position: 100% 0; animation: eq-sheen calc(var(--eq-duration-shimmerDelay) + var(--eq-duration-shimmer)) var(--eq-easing-standard) 2; /* 2 runs ≈ 3.6 s: motion stops within 5 s (WCAG 2.2.2) */ pointer-events: none; }
+.eq-btn--premium-primary > * { position: relative; }
 /* Button Glow (prototype): the glow eases up over 300ms after 800ms, then back. */
-.eq-btn--gold { animation: eq-gold-glow calc(2 * (var(--eq-duration-buttonGlowDelay) + var(--eq-duration-buttonGlow))) var(--eq-easing-standard) 2; /* 2 runs ≈ 4.4 s (WCAG 2.2.2) */ }
+.eq-btn--premium-primary.has-glow { animation: eq-gold-glow calc(2 * (var(--eq-duration-buttonGlowDelay) + var(--eq-duration-buttonGlow))) var(--eq-easing-standard) 2; /* 2 runs ≈ 4.4 s (WCAG 2.2.2) */ }
 @keyframes eq-gold-glow { 0%, 36% { box-shadow: 0 4px 12px rgba(140, 88, 23, 0.18); } 50%, 86% { box-shadow: 0 6px 22px rgba(184, 138, 69, 0.45); } 100% { box-shadow: 0 4px 12px rgba(140, 88, 23, 0.18); } }
-.eq-btn--gold:disabled::before { display: none; }
+.eq-btn--premium-primary:disabled::before { display: none; }
 @keyframes eq-sheen { 0%, 66% { background-position: 100% 0; } 100% { background-position: 0% 0; } }
 
 /* Payment progress: each step's title rises in. */
@@ -167,8 +167,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .eq-price__now, .eq-discount-badge.is-animated, .eq-discount-badge.is-animated .eq-off-seal, .eq-status-sheet .eq-status-card__title { animation: none; }
-  .eq-btn--gold::before, .eq-sunburst, .eq-btn--gold { animation: none; }
-  .eq-btn--gold::before { display: none; }
+  .eq-btn--premium-primary::before, .eq-sunburst, .eq-btn--premium-primary { animation: none; }
+  .eq-btn--premium-primary.has-sheen::before { display: none; }
 }
 
 /* ---------------------------------------------------------------- plan value & renewal (Monetization value design) */
@@ -209,7 +209,7 @@
 .eq-value-sheet.is-flush.is-inline .eq-value-sheet__body .eq-value-card { border-radius: 24px 24px 0 0; }
 .eq-value-sheet__footer { padding: 16px; }
 /* "Renew your Equal AI" has its own radial, distinct from the paywall's gold CTA. */
-.eq-value-sheet__footer.is-renew .eq-btn--gold { background: var(--eq-gradient-cta-renew); }
+.eq-value-sheet__footer.is-renew .eq-btn--premium-primary { background: var(--eq-gradient-cta-renew); }
 .eq-value-sheet.is-flush .eq-value-sheet__footer { background: var(--eq-bg-surface); border-top: 1px solid var(--eq-stroke-subtle); border-radius: 0 0 24px 24px; }
 .eq-status-sheet-layer .eq-value-sheet.is-flush .eq-value-sheet__footer { border-radius: 0; }
 

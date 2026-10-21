@@ -821,7 +821,7 @@ fun PaywallFooter(
             above()
             Spacer(Modifier.height(10.dp))
         }
-        EqualButton(text = cta, onClick = onClick, variant = variant, size = EqualButtonSize.Block, enabled = !disabled)
+        EqualButton(text = cta, onClick = onClick, variant = variant, size = EqualButtonSize.Block, enabled = !disabled, glow = variant == EqualButtonVariant.Gold)
         if (note != null) {
             Spacer(Modifier.height(8.dp))
             EqualText(

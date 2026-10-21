@@ -233,7 +233,7 @@ Done means: typecheck clean, `--check` passes, Gradle BUILD SUCCESSFUL, and lint
 - **Silent Mode is titled “Silent Mode” everywhere.** Why: The dark mock said “Call Preferences”; design confirmed “Silent Mode” to match the You-tab row. (Source: Design decision)
 - **Auto-rickshaw, paper bag and delivery rider are not caller categories.** Why: They appeared in a design as decoration; product confirmed they shouldn’t become categories. (Source: Product decision)
 
-## Components (62 docs pages)
+## Components (64 docs pages)
 
 ### Group: Actions
 
@@ -338,12 +338,12 @@ Row(
 
 #### Button (`button`)
 
-Filled, text and icon buttons: use a filled Button for the one commit action on a surface, a TextButton for revise or secondary actions, and an IconButton for icon-only controls like back, close and call.
+One Button (Figma "Button", with "Buton" and "Button Glow" folded in): appearance (default, critical, premium) × emphasis (primary, secondary, tertiary) × size (xs 24, sm 32, md 40, lg 48). Use one primary per surface; premium only on subscription surfaces. TextButton and IconButton cover text-only and icon-only controls.
 
 - React: `import { Button, TextButton, IconButton } from '@equal/ds';`
 - Compose: `EqualButton`, `EqualTextButton`, `EqualIconButton`
-- Tokens: `button/primary`, `button/secondary`, `button/danger`, `button/disabled`, `text/on-action`, `text/on-danger`, `text/on-action-disabled`, `text/action`, `text/danger`, `bg/surface`, `shadow/raised`, `glass-button/default`, `shadow/focusRing`
-- Source: §19 Buttons
+- Tokens: `gradient/button-secondary`, `gradient/button-critical-secondary`, `gradient/button-premium-secondary`, `gradient/cta-gold`, `gradient/cta-renew`, `button/secondary-label`, `button/secondary-stroke`, `button/critical-stroke`, `text/gold`, `shadow/buttonSecondary`, `shadow/buttonCritical`, `shadow/buttonPremium`, `button/tonal`, `button/primary`, `button/secondary`, `button/danger`, `button/disabled`, `text/on-action`, `text/on-danger`, `text/on-action-disabled`, `text/action`, `text/danger`, `bg/surface`, `shadow/raised`, `glass-button/default`, `shadow/focusRing`
+- Source: Local Components · Button (48 variants), Monetization · Buton, Button Glow
 
 Do: Use exactly one filled Button per surface for the commit action (Save, Delete, Turn off); pair it with a TextButton for revise or cancel. Write labels in sentence case ("Add new Address", "Share Feedback" as shipped) and keep the same verb from control to confirmation: Turn off → "Call learning turned off". Use the danger variant only for destructive commits, with the trash icon (the delete sheet does this for you). Always pass a `label` to IconButton; it is the accessible name and the tooltip.
 
@@ -373,35 +373,50 @@ Known accessibility gaps:
 - Buttons.kt: EqualTextButton and EqualIconButton use indication = null with no eqFocusRing, so hardware-keyboard focus is invisible (only EqualButton draws a ring).
 - Buttons.kt: EqualIconButton Neutral and Glass ignore enabled = false visually (same fill and tint), while web dims IconButton to 40%.
 
-Example: Variants
+Example: Appearance × emphasis
 ```tsx
-<Button>Save</Button>
-<Button variant="secondary">Try Voices</Button>
-<Button variant="danger" leadingIcon="delete">Delete</Button>
-<Button disabled>Save</Button>
+<Button appearance="default" emphasis="primary">Submit</Button>
+<Button appearance="default" emphasis="secondary">Submit</Button>
+<Button appearance="default" emphasis="tertiary">Submit</Button>
+<Button appearance="critical" emphasis="primary">Delete</Button>
+<Button appearance="premium" emphasis="secondary">Unlock</Button>
+<Button disabled>Submit</Button>
 ```
 ```kotlin
-EqualButton(text = "Save", onClick = {})
-EqualButton(text = "Try Voices", onClick = {}, variant = EqualButtonVariant.Secondary)
-EqualButton(text = "Delete", onClick = {}, variant = EqualButtonVariant.Danger, leadingIcon = EqualIcons.Delete)
-EqualButton(text = "Save", onClick = {}, enabled = false)
+EqualButton(text = "Submit", onClick = {}, appearance = EqualButtonAppearance.Default, emphasis = EqualButtonEmphasis.Primary)
+EqualButton(text = "Submit", onClick = {}, appearance = EqualButtonAppearance.Default, emphasis = EqualButtonEmphasis.Secondary)
+EqualButton(text = "Submit", onClick = {}, appearance = EqualButtonAppearance.Default, emphasis = EqualButtonEmphasis.Tertiary)
+EqualButton(text = "Delete", onClick = {}, appearance = EqualButtonAppearance.Critical)
+EqualButton(text = "Unlock", onClick = {}, appearance = EqualButtonAppearance.Premium, emphasis = EqualButtonEmphasis.Secondary)
+EqualButton(text = "Submit", onClick = {}, enabled = false)
 ```
 
 Example: Sizes
 ```tsx
-<Button size="sm" leadingIcon="add">Apply</Button>
-<Button size="md">Save</Button>
-<Button size="lg">Save</Button>
-<Button shape="rounded">Save</Button>
+<Button size="xs" leadingIcon="add">Apply</Button>
+<Button size="sm">Submit</Button>
+<Button size="md">Submit</Button>
+<Button size="lg">Submit</Button>
 
 <Button block size="lg" leadingIcon="add">Add New Instruction</Button>
 ```
 ```kotlin
-EqualButton(text = "Apply", onClick = {}, size = EqualButtonSize.Sm, leadingIcon = EqualIcons.Add)
-EqualButton(text = "Save", onClick = {}, size = EqualButtonSize.Md)
-EqualButton(text = "Save", onClick = {}, size = EqualButtonSize.Lg)
-// Block = lg metrics at full width
+EqualButton(text = "Apply", onClick = {}, size = EqualButtonSize.Xs, leadingIcon = EqualIcons.Add)
+EqualButton(text = "Submit", onClick = {}, size = EqualButtonSize.Sm)
+EqualButton(text = "Submit", onClick = {}, size = EqualButtonSize.Md)
+EqualButton(text = "Submit", onClick = {}, size = EqualButtonSize.Lg)
+// Block = Lg metrics at full width
 EqualButton(text = "Add New Instruction", onClick = {}, size = EqualButtonSize.Block, leadingIcon = EqualIcons.Add)
+```
+
+Example: Premium: the gold CTA with sheen and glow
+```tsx
+<Button appearance="premium" size="lg" block glow>Unlock Unlimited</Button>
+<Button appearance="premium" size="lg" block disabled>Unlock Unlimited</Button>
+```
+```kotlin
+EqualButton(text = "Unlock Unlimited", onClick = {}, appearance = EqualButtonAppearance.Premium, size = EqualButtonSize.Block, glow = true)
+EqualButton(text = "Unlock Unlimited", onClick = {}, appearance = EqualButtonAppearance.Premium, size = EqualButtonSize.Block, enabled = false)
 ```
 
 Example: Text and icon buttons
@@ -2119,6 +2134,46 @@ Example: Original colours, play once
 EqualLottie(rawRes = R.raw.lottie_typing_dots, width = 120.dp, height = 40.dp, iterations = 1)
 ```
 
+#### Skeleton (`skeleton`)
+
+Skeleton (Figma "Shimmer"): a placeholder line, circle or block with a highlight sweeping across while content loads. Neutral on app surfaces, gold on the cream-gold subscription cards.
+
+- React: `import { Skeleton, SkeletonText } from '@equal/ds';`
+- Compose: `EqualSkeleton`, `EqualSkeletonText`
+- Tokens: `skeleton/base`, `skeleton/highlight`, `skeleton/gold-base`, `skeleton/gold-highlight`
+- Source: Monetization · Shimmer (15dp lines on the gold summary card)
+
+Props of `SkeletonText`:
+- `lines?`: `number` = 3. Number of lines; the last is 62 % wide.
+- `tone?`: `'neutral' | 'gold'` = 'neutral'. Tone.
+- `gap?`: `number` = 8. Gap between lines.
+
+Do: Match the shape of the content that will load, so nothing jumps. Put aria-busy on the loading region; skeletons are hidden from screen readers.
+
+Don't: Don't show a skeleton for less than ~300 ms content; it flickers. Don't use the gold tone outside subscription surfaces.
+
+Example: Loading a chat row
+```tsx
+<div aria-busy="true">
+  <Skeleton shape="circle" height={48} />
+  <SkeletonText lines={2} />
+</div>
+```
+```kotlin
+Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+    EqualSkeleton(shape = EqualSkeletonShape.Circle, height = 48.dp)
+    EqualSkeletonText(lines = 2, modifier = Modifier.weight(1f))
+}
+```
+
+Example: Gold (locked summary)
+```tsx
+<SkeletonText lines={3} tone="gold" />
+```
+```kotlin
+EqualSkeletonText(lines = 3, tone = EqualSkeletonTone.Gold)
+```
+
 ### Group: Flows
 
 #### Address (`address`)
@@ -2629,7 +2684,7 @@ InstructionPreview(
 
 #### Checkbox (`checkbox`)
 
-A coded checkbox with an optional label, used for multi-select such as "Select All" in chat-list selection mode.
+Checkbox (Figma "Checkbox"): a 16 / 20 / 24 box with an optional label and support text, for multi-select such as "Select All" in chat-list selection mode.
 
 - React: `import { Checkbox } from '@equal/ds';`
 - Compose: `EqualCheckbox`
@@ -2681,19 +2736,16 @@ Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alig
 
 Example: Sizes and bare
 ```tsx
-<Checkbox checked size={18} />
-<Checkbox checked={false} size={18} />
-<Checkbox checked />
-<Checkbox checked={false} />
+<Checkbox checked size="s" label="Label" />
+<Checkbox checked size="m" label="Label" />
+<Checkbox checked size="l" label="Label" />
+<Checkbox checked={false} size="l" label="Label" support="Support text" />
 ```
 ```kotlin
-Row(horizontalArrangement = Arrangement.spacedBy(20.dp)) {
-    EqualCheckbox(checked = true, onCheckedChange = {}, size = 18.dp)
-    EqualCheckbox(checked = false, onCheckedChange = {}, size = 18.dp)
-    // Compose: default size is 18.dp (web defaults to 22), so pass 22.dp explicitly.
-    EqualCheckbox(checked = true, onCheckedChange = {}, size = 22.dp)
-    EqualCheckbox(checked = false, onCheckedChange = {}, size = 22.dp)
-}
+EqualCheckboxField(checked = true, onCheckedChange = {}, label = "Label", size = EqualControlSize.S)
+EqualCheckboxField(checked = true, onCheckedChange = {}, label = "Label", size = EqualControlSize.M)
+EqualCheckboxField(checked = true, onCheckedChange = {}, label = "Label", size = EqualControlSize.L)
+EqualCheckboxField(checked = false, onCheckedChange = {}, label = "Label", support = "Support text")
 ```
 
 Example: In the selection header
@@ -2780,6 +2832,56 @@ Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
     // Compose: no forceFocus; the focused look appears when the field has focus.
     VoiceInputBar(value = text, onValueChange = { text = it }, onSend = {})
 }
+```
+
+#### Radio (`radio`)
+
+Radio (Figma "Radio Button"): pick exactly one option. A 16 / 20 / 24 ring that fills brand green with a white inner ring; RadioGroup adds roving focus and arrow keys.
+
+- React: `import { Radio, RadioGroup } from '@equal/ds';`
+- Compose: `EqualRadio`, `EqualRadioGroup`, `EqualRadioMark`
+- Tokens: `button/primary`, `radio/ring`, `bg/surface`, `text/action`, `text/primary`, `text/secondary`
+- Source: Local Components · Radio Button (S / M / L × Default / Active)
+
+Do: Use a radio when exactly one option must be chosen and all options fit on screen. Keep the confirm button disabled until a selection is made (Snooze does this).
+
+Don't: Don't use radios for a single on/off choice; that's a Switch. Don't preselect a choice that costs the user something.
+
+Example: Group
+```tsx
+const [v, setV] = useState<'30m' | '1h' | 'tomorrow' | null>(null);
+
+<RadioGroup label="Snooze for" value={v} onChange={setV} options={[
+  { value: '30m', label: '30 minutes' },
+  { value: '1h', label: '1 hour' },
+  { value: 'tomorrow', label: 'Until tomorrow morning', support: 'Back at 9:00 AM' },
+]} />
+```
+```kotlin
+var v by remember { mutableStateOf<String?>(null) }
+EqualRadioGroup(
+    options = listOf(
+        EqualRadioOption("30m", "30 minutes"),
+        EqualRadioOption("1h", "1 hour"),
+        EqualRadioOption("tomorrow", "Until tomorrow morning", support = "Back at 9:00 AM"),
+    ),
+    selected = v,
+    onSelect = { v = it },
+)
+```
+
+Example: Sizes
+```tsx
+<Radio checked size="s" label="Label" />
+<Radio checked size="m" label="Label" />
+<Radio checked size="l" label="Label" />
+<Radio checked={false} size="l" label="Label" />
+```
+```kotlin
+EqualRadio(selected = true, onClick = {}, label = "Label", size = EqualControlSize.S)
+EqualRadio(selected = true, onClick = {}, label = "Label", size = EqualControlSize.M)
+EqualRadio(selected = true, onClick = {}, label = "Label", size = EqualControlSize.L)
+EqualRadio(selected = false, onClick = {}, label = "Label", size = EqualControlSize.L)
 ```
 
 #### Search (`search`)
@@ -3697,7 +3799,7 @@ Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement =
     key(replay) {
         PriceTag(price = "149", was = 249, badge = "Special Coupon Applied!", animate = true)
     }
-    EqualButton(text = "Replay", onClick = { replay++ }, variant = EqualButtonVariant.Secondary, size = EqualButtonSize.Sm)
+    EqualButton(text = "Replay", onClick = { replay++ }, variant = EqualButtonVariant.Secondary, size = EqualButtonSize.Xs)
 }
 ```
 
@@ -7050,6 +7152,9 @@ Alias colours (CSS `var(--eq-<name without component/>)`, TS `color.*`, Compose 
 - `button/primary`  light {brand.green} · dark {brand.lime}
 - `button/secondary`  light {brand.lime} · dark {brand.lime}
 - `button/tonal`  light {brand.green} @ 8% · dark {brand.lime} @ 12%
+- `button/secondary-label`  light #009837 · dark {brand.lime} · derived
+- `button/secondary-stroke`  light {brand.white} @ 70% · dark {brand.white} @ 8% · derived
+- `button/critical-stroke`  light #FFE0E0 @ 70% · dark #FF5151 @ 24% · derived
 - `text/on-secondary`  light {brand.black} @ 80% · dark {brand.black} · derived
 - `button/danger`  light {red.red08} · dark #FF5151
 - `button/disabled`  light {neutrals.grey13} · dark {neutrals.grey04}
@@ -7165,6 +7270,11 @@ Alias colours (CSS `var(--eq-<name without component/>)`, TS `color.*`, Compose 
 - `component/preset/tint-lime`  light rgba(186,255,41,0.18) · dark rgba(186,255,41,0.18) · derived
 - `component/suggest/glow`  light {brand.green} @ 20% · dark {brand.lime} @ 12%
 - `component/gender/stroke`  light #F4F4F4 · dark rgba(255,255,255,0.08) · derived
+- `component/skeleton/base`  light {brand.black} @ 6% · dark {brand.white} @ 8% · derived
+- `component/skeleton/highlight`  light {brand.white} @ 70% · dark {brand.white} @ 10% · derived
+- `component/skeleton/gold-base`  light {brand.white} @ 16% · dark {brand.white} @ 8% · derived
+- `component/skeleton/gold-highlight`  light #FDEFC6 · dark #4A3C1C · derived
+- `component/radio/ring`  light {brand.black} @ 60% · dark {brand.white} @ 60% · derived
 
 Gradients (CSS `var(--eq-gradient-<name>)`, Compose `EqualTheme.gradients.*`):
 
@@ -7201,6 +7311,9 @@ Gradients (CSS `var(--eq-gradient-<name>)`, Compose `EqualTheme.gradients.*`):
 - `gradient/cta-renew`  light radial 106% 100% at 50% 0%: #D1A85C 0%, #A0621F 100% · dark radial 106% 100% at 50% 0%: #D1A85C 0%, #A0621F 100%
 - `gradient/expired-badge`  light 90deg: #BF3D28 0%, #E4918C 50%, #A43129 100% · dark 90deg: #BF3D28 0%, #E4918C 50%, #A43129 100%
 - `gradient/gender-selected-stroke`  light 86deg: #00B140 0%, #BAFF29 51%, rgba(7,170,66,0.94) 100% · dark 86deg: #BAFF29 0%, #BAFF29 51%, rgba(186,255,41,0.94) 100%
+- `gradient/button-secondary`  light 180deg: #FFFFFF 0%, #E4FFED 100% · dark 180deg: #1F1F1F 0%, #2F3423 100%
+- `gradient/button-critical-secondary`  light 180deg: #FFFFFF 0%, #FFE0E0 100% · dark 180deg: #1F1F1F 0%, #3A2224 100%
+- `gradient/button-premium-secondary`  light 180deg: #FFFFFF 0%, #FFF9EC 100% · dark 180deg: #1F1F1F 0%, #33291A 100%
 
 Typography (DM Sans; `<Text variant>`, `.eq-t-<name>`, `EqualTheme.type.<name>`):
 
@@ -7212,7 +7325,8 @@ Typography (DM Sans; `<Text variant>`, `.eq-t-<name>`, `EqualTheme.type.<name>`)
 - `body1`  14/22 weight 400
 - `body1Italic`  14/22 weight 400
 - `button`  14/20 weight 500
-- `buttonSmall`  12/16 weight 500
+- `buttonLarge`  16/24 weight 600
+- `buttonSmall`  12/16 weight 600
 - `caption`  12/16 weight 500
 - `captionWrap`  12/18 weight 400
 - `micro`  12/16 weight 500

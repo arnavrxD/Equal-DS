@@ -268,7 +268,7 @@ export function PaywallFooter({ cta = 'Unlock Unlimited', note = 'Cancel Anytime
   return (
     <div className={`eq-paywall-footer ${flat ? 'is-flat' : ''}`}>
       {above && <div style={{ marginBottom: 10 }}>{above}</div>}
-      <Button variant={variant} size="lg" block disabled={disabled} onClick={onClick}>{cta}</Button>
+      <Button variant={variant} size="lg" block glow={variant === 'gold'} disabled={disabled} onClick={onClick}>{cta}</Button>
       {note && <Text as="div" variant="caption" color="secondary" align="center" style={{ fontWeight: 400, marginTop: 8 }}>{note}</Text>}
     </div>
   );

@@ -1,0 +1,7 @@
+/* Skeleton (Figma "Shimmer"): base fill + a highlight band sweeping left to right every 1.4s. */
+.eq-skeleton { display: block; flex-shrink: 0; position: relative; overflow: hidden; }
+.eq-skeleton--neutral { background: var(--eq-skeleton-base); --eq-skeleton-band: var(--eq-skeleton-highlight); }
+.eq-skeleton--gold { background: var(--eq-skeleton-gold-base); --eq-skeleton-band: var(--eq-skeleton-gold-highlight); }
+.eq-skeleton::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent 0%, var(--eq-skeleton-band) 50%, transparent 100%); transform: translateX(-100%); animation: eq-skeleton-sweep 1400ms var(--eq-easing-standard) infinite; }
+@keyframes eq-skeleton-sweep { to { transform: translateX(100%); } }
+@media (prefers-reduced-motion: reduce) { .eq-skeleton::after { animation: none; opacity: 0; } }

@@ -70,6 +70,7 @@ export const sections: Section[] = [
           { path: '/flows/paywall-sheet', label: 'Sheet paywall & payment', hint: 'Sheet paywall, exit offer, payment results, processing' },
           { path: '/flows/plan-renewal', label: 'Plan value & renewal', hint: 'Expiry banners, value sheet, renew' },
           { path: '/flows/system-status', label: 'Temporarily unavailable', hint: 'System status card, notify, back on' },
+          { path: '/flows/voip', label: 'Call your assistant (vOIP)', hint: 'Call me, mic permission, in-call controls' },
         ],
       },
     ],

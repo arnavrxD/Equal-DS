@@ -172,7 +172,7 @@ export function AddressForm({ initial, onSave }: { initial?: Partial<SavedAddres
  */
 export function ApplyButton({ label = 'Apply', 'aria-label': ariaLabel, onClick }: { label?: string; 'aria-label'?: string; onClick?: () => void }) {
   return (
-    <Button size="sm" variant="tonal" leadingIcon="add" aria-label={ariaLabel} onClick={onClick}>{label}</Button>
+    <Button size="xs" variant="tonal" leadingIcon="add" aria-label={ariaLabel} onClick={onClick}>{label}</Button>
   );
 }
 

@@ -79,6 +79,9 @@ object EqualIcons {
     val Pause: ImageVector get() = EqualSymbols.pause
     val Search: ImageVector get() = EqualSymbols.search
     val Add: ImageVector get() = EqualSymbols.add
+    val VolumeUp: ImageVector get() = EqualSymbols.volumeUp
+    val MicOff: ImageVector get() = EqualSymbols.micOff
+    val CallEnd: ImageVector get() = EqualSymbols.callEnd
     val Mic: ImageVector get() = EqualSymbols.mic
     val Home: ImageVector get() = EqualSymbols.home
     val Work: ImageVector get() = EqualSymbols.work

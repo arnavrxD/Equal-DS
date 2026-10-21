@@ -32,6 +32,8 @@ data class EqualTypography(
     val body1: TextStyle,
     val body1Italic: TextStyle,
     val button: TextStyle,
+    /** Figma Button M / L label: 16 SemiBold. */
+    val buttonLarge: TextStyle,
     val buttonSmall: TextStyle,
     val caption: TextStyle,
     val captionWrap: TextStyle,
@@ -62,6 +64,7 @@ fun equalTypography(fontFamily: FontFamily = DmSans): EqualTypography {
         body1 = EqualTypeTokens.body1.f(),
         body1Italic = EqualTypeTokens.body1Italic.f(),
         button = EqualTypeTokens.button.f(),
+        buttonLarge = EqualTypeTokens.buttonLarge.f(),
         buttonSmall = EqualTypeTokens.buttonSmall.f(),
         caption = EqualTypeTokens.caption.f(),
         captionWrap = EqualTypeTokens.captionWrap.f(),

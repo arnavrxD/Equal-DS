@@ -291,7 +291,7 @@ fun NewContactForm(
                 textAlign = TextAlign.Center,
                 modifier = Modifier.weight(1f),
             )
-            EqualButton(text = "Save", onClick = onSave, size = EqualButtonSize.Sm)
+            EqualButton(text = "Save", onClick = onSave, size = EqualButtonSize.Xs)
         }
     }
     Column(
@@ -468,6 +468,11 @@ fun PermissionDialog(
     art: EqualAssets = EqualAssets.PermissionContacts,
     onAction: () -> Unit = {},
     onClose: (() -> Unit)? = null,
+    /** Second action beside the CTA, e.g. "Not now" (vOIP mic prompt). */
+    secondary: String? = null,
+    onSecondary: (() -> Unit)? = null,
+    /** Show the close button (the vOIP mic prompt has none). */
+    closable: Boolean = true,
 ) {
     val colors = EqualTheme.colors
     val type = EqualTheme.type
@@ -521,9 +526,16 @@ fun PermissionDialog(
                     textAlign = TextAlign.Center,
                     modifier = Modifier.padding(top = 4.dp, bottom = 16.dp),
                 )
-                EqualButton(text = cta, onClick = onAction, size = EqualButtonSize.Block, modifier = Modifier.fillMaxWidth())
+                if (secondary != null) {
+                    Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                        EqualButton(text = secondary, onClick = onSecondary ?: close, emphasis = EqualButtonEmphasis.Secondary)
+                        EqualButton(text = cta, onClick = onAction, modifier = Modifier.weight(1f))
+                    }
+                } else {
+                    EqualButton(text = cta, onClick = onAction, size = EqualButtonSize.Block, modifier = Modifier.fillMaxWidth())
+                }
             }
-            SmallCloseButton(close, Modifier.align(Alignment.TopEnd).padding(top = 12.dp, end = 12.dp))
+            if (closable) SmallCloseButton(close, Modifier.align(Alignment.TopEnd).padding(top = 12.dp, end = 12.dp))
         }
     }
 }

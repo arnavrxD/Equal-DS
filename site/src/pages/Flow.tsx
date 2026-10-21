@@ -9,6 +9,7 @@ import { AlwaysRingScreen, CallHandlingScreen, DirectCallsEmptyScreen, KnownCall
 import { H2, Page } from '../ui/kit';
 import { TraceStage, type StagePhone } from '../ui/TraceStage';
 import { StageCode } from '../ui/StageCode';
+import { VoipFlow } from '../../../web/src/screens/CallScreens';
 import NotFound from './NotFound';
 
 type FlowDef = { title: string; lead: string; states: StagePhone[]; steps: ReactNode[]; source: string };
@@ -61,6 +62,28 @@ const flows: Record<string, FlowDef> = {
       <><b>Cancel</b>: tell us why (Proceed disabled until there is text) → are you really sure (Cancel / Confirm) → request submitted (redirect in 3s). Access stays until the end date; the page then offers Re-Subscribe.</>,
       <><b>Lapsed</b>: the You tab shows Restore Plan or Reactivate plan with the amber banner; chats show “Reactivate your current Plan to keep using Equal Unlimited”.</>,
       <><b>Experiments</b> (props, not forks): <code>price</code> / <code>discountedPrice</code> (₹249, ₹149), <code>coupon</code> (none · available · applied), <code>subtitle</code> (“Unlock Summaries…” · “Get Unlimited Summaries…”), <code>touchpoint</code> (chat-list · chat · audio), <code>waitingArt</code> (coin · cash), HomeScreen <code>lockedFrom</code> (how many free chats).</>,
+    ],
+  },
+  voip: {
+    title: 'Call your assistant (vOIP)',
+    lead: 'Meet Your Assistant → “Call me” starts an in-app call with the assistant over the internet. The mic is asked for in two steps; if the user says no at either, the assistant phones them the normal way instead.',
+    source: 'vOIP',
+    states: [
+      { key: 'home', label: 'Home: Call me', render: () => <VoipFlow />, code: '<VoipFlow />' },
+      { key: 'mic-prompt', label: 'Mic, in-app prompt', render: () => <VoipFlow stage="mic-prompt" />, code: '<VoipFlow stage="mic-prompt" />' },
+      { key: 'mic-system', label: 'Mic, Android dialog', render: () => <VoipFlow stage="mic-system" />, code: '<VoipFlow stage="mic-system" />' },
+      { key: 'connecting', label: 'Connecting', render: () => <VoipFlow stage="connecting" />, code: '<VoipFlow stage="connecting" />' },
+      { key: 'connected', label: 'Connected', render: () => <VoipFlow stage="connected" seconds={1} />, code: '<VoipFlow stage="connected" seconds={1} />' },
+      { key: 'speaker', label: 'Speaker on', render: () => <VoipFlow stage="connected" speaker seconds={1} />, code: '<VoipFlow stage="connected" speaker seconds={1} />' },
+      { key: 'muted', label: 'On mute', render: () => <VoipFlow stage="connected" muted seconds={5} />, code: '<VoipFlow stage="connected" muted seconds={5} />' },
+      { key: 'ended', label: 'Call ended', render: () => <VoipFlow stage="ended" seconds={155} />, code: '<VoipFlow stage="ended" seconds={155} />' },
+      { key: 'pstn', label: 'Fallback: phone call', render: () => <VoipFlow stage="pstn" />, code: '<VoipFlow stage="pstn" />' },
+    ],
+    steps: [
+      <><b>Call me</b>: the Meet Your Assistant card on Home. If the mic is already allowed, the call connects straight away.</>,
+      <><b>Mic</b>: an in-app prompt first (“Talk to your assistant”, Not now / Allow microphone), then Android’s own dialog. Not now or Deny → the assistant calls on the phone network (PSTN) instead.</>,
+      <><b>On the call</b>: the assistant on the green disc with ripples, “Connected” and a running timer. Speaker and mute are independent switches; mute changes the status to “On mute”.</>,
+      <><b>End</b>: “Call ended” with the final time, then back to Home after 2 s. Not designed yet: back during a call, connect failure, and the action card left in the chat.</>,
     ],
   },
   'system-status': {

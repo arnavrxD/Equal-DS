@@ -6,8 +6,9 @@
 package ai.equal.ds.snippets
 
 import ai.equal.ds.components.EqualButton
+import ai.equal.ds.components.EqualButtonAppearance
+import ai.equal.ds.components.EqualButtonEmphasis
 import ai.equal.ds.components.EqualButtonSize
-import ai.equal.ds.components.EqualButtonVariant
 import ai.equal.ds.components.EqualIconButton
 import ai.equal.ds.components.EqualIconButtonVariant
 import ai.equal.ds.components.EqualTextButton
@@ -18,23 +19,33 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.dp
 
-// snippet: button / Variants
+// snippet: button / Appearance × emphasis
 @Composable
-internal fun ButtonVariantsSnippet() {
-    EqualButton(text = "Save", onClick = {})
-    EqualButton(text = "Try Voices", onClick = {}, variant = EqualButtonVariant.Secondary)
-    EqualButton(text = "Delete", onClick = {}, variant = EqualButtonVariant.Danger, leadingIcon = EqualIcons.Delete)
-    EqualButton(text = "Save", onClick = {}, enabled = false)
+internal fun ButtonMatrixSnippet() {
+    EqualButton(text = "Submit", onClick = {}, appearance = EqualButtonAppearance.Default, emphasis = EqualButtonEmphasis.Primary)
+    EqualButton(text = "Submit", onClick = {}, appearance = EqualButtonAppearance.Default, emphasis = EqualButtonEmphasis.Secondary)
+    EqualButton(text = "Submit", onClick = {}, appearance = EqualButtonAppearance.Default, emphasis = EqualButtonEmphasis.Tertiary)
+    EqualButton(text = "Delete", onClick = {}, appearance = EqualButtonAppearance.Critical)
+    EqualButton(text = "Unlock", onClick = {}, appearance = EqualButtonAppearance.Premium, emphasis = EqualButtonEmphasis.Secondary)
+    EqualButton(text = "Submit", onClick = {}, enabled = false)
 }
 
 // snippet: button / Sizes
 @Composable
 internal fun ButtonSizesSnippet() {
-    EqualButton(text = "Apply", onClick = {}, size = EqualButtonSize.Sm, leadingIcon = EqualIcons.Add)
-    EqualButton(text = "Save", onClick = {}, size = EqualButtonSize.Md)
-    EqualButton(text = "Save", onClick = {}, size = EqualButtonSize.Lg)
-    // Block = lg metrics at full width
+    EqualButton(text = "Apply", onClick = {}, size = EqualButtonSize.Xs, leadingIcon = EqualIcons.Add)
+    EqualButton(text = "Submit", onClick = {}, size = EqualButtonSize.Sm)
+    EqualButton(text = "Submit", onClick = {}, size = EqualButtonSize.Md)
+    EqualButton(text = "Submit", onClick = {}, size = EqualButtonSize.Lg)
+    // Block = Lg metrics at full width
     EqualButton(text = "Add New Instruction", onClick = {}, size = EqualButtonSize.Block, leadingIcon = EqualIcons.Add)
+}
+
+// snippet: button / Premium: the gold CTA with sheen and glow
+@Composable
+internal fun ButtonPremiumSnippet() {
+    EqualButton(text = "Unlock Unlimited", onClick = {}, appearance = EqualButtonAppearance.Premium, size = EqualButtonSize.Block, glow = true)
+    EqualButton(text = "Unlock Unlimited", onClick = {}, appearance = EqualButtonAppearance.Premium, size = EqualButtonSize.Block, enabled = false)
 }
 
 // snippet: button / Text and icon buttons

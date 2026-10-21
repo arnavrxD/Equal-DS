@@ -14,7 +14,7 @@ Read llms-full.txt before designing or building: rules, the recipe for a new flo
 ## Components
 
 - [Action chips](#/components/action-chips): Emoji-led glass chips for the next step after a call: small chips in the chat list, large chips inside a conversation or the AI panel.
-- [Button](#/components/button): Filled, text and icon buttons: use a filled Button for the one commit action on a surface, a TextButton for revise or secondary actions, and an IconButton for icon-only controls like back, close and call.
+- [Button](#/components/button): One Button (Figma "Button", with "Buton" and "Button Glow" folded in): appearance (default, critical, premium) × emphasis (primary, secondary, tertiary) × size (xs 24, sm 32, md 40, lg 48). Use one primary per surface; premium only on subscription surfaces. TextButton and IconButton cover text-only and icon-only controls.
 - [Assistant sheet (Global MYA)](#/components/assistant-sheet): The sheet the green orb opens on any screen: greeting, quick-action tiles, suggestion chips and a text or voice input. A request turns it into a short task conversation (voice note → Thinking… → result card → Edit / Confirm).
 - [Chat actions](#/components/chat-actions): What the AI layer uses to carry out a task in a chat and to fail well: the assistant’s turn, Hold to speak, the edit-in-place bubble, the new contact form (two parity options), the permission dialog and the offline sheet and screen.
 - [Action card](#/components/action-card): A card for something the assistant did or proposes (a WhatsApp reply, an appointment, a saved rule), with stacked actions underneath.
@@ -33,12 +33,14 @@ Read llms-full.txt before designing or building: rules, the recipe for a new flo
 - [Avatars](#/components/avatars): Every face in the app: caller category art or initials for contacts, the Equal orb for the assistant, the ringed 3D profile avatar for the user, and the robot mascot.
 - [Badges](#/components/badges): Small uppercase markers: NEW on settings rows, unread counts, the NEW FEATURE pill on announcements, and the gold UNLIMITED plan marker.
 - [Lottie animation](#/components/lottie): Plays illustrative animations shipped as Lottie JSON: mascot moments, celebrations, typing. The same file plays on web and Android.
+- [Skeleton](#/components/skeleton): Skeleton (Figma "Shimmer"): a placeholder line, circle or block with a highlight sweeping across while content loads. Neutral on app surfaces, gold on the cream-gold subscription cards.
 - [Address](#/components/address): Saved address cards with an Edit / Delete overflow, and the add/edit form (label chips, address lines, city, pincode, guiding direction, Save).
 - [Call Handling](#/components/call-handling): Pieces of the Call Handling setup and the known-call notification: radio choice cards, contact pickers with an A–Z index, the setup takeover, permission sheets, the done wash, the Android ongoing-call notification and the ongoing-call strip.
 - [Gender selector](#/components/gender-selector): The two-card Male / Female picker in Personal Details; the choice sets the profile avatar across the app.
 - [Instruction cards](#/components/instruction-cards): The pieces of the Instructions flow: recommended cards with a tinted + Apply pill, the New suggestions card, the Active Instructions entry and 3D-art preset cards on the hub, preset and active instruction cards with WHEN / DO rows, and the preview shown in the setup chat.
-- [Checkbox](#/components/checkbox): A coded checkbox with an optional label, used for multi-select such as "Select All" in chat-list selection mode.
+- [Checkbox](#/components/checkbox): Checkbox (Figma "Checkbox"): a 16 / 20 / 24 box with an optional label and support text, for multi-select such as "Select All" in chat-list selection mode.
 - [Composer](#/components/composer): The message input bar with a send button that stays disabled until there is text, used at the bottom of a chat and in the AI panel.
+- [Radio](#/components/radio): Radio (Figma "Radio Button"): pick exactly one option. A 16 / 20 / 24 ring that fills brand green with a white inner ring; RadioGroup adds roving focus and arrow keys.
 - [Search](#/components/search): The search screen’s pieces: the outlined search bar with back inside, section labels with Clear all, recent searches as avatar tiles, message hits with the match in bold, loading dots and the three illustration states.
 - [Search field](#/components/search-field): A pill search input with a leading search icon and a clear button, used to filter chats.
 - [Segmented chips](#/components/segmented-chips): A single-select row of pill chips for a short, fixed set of options, like the Home / Work / Other address label.

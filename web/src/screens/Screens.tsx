@@ -124,6 +124,8 @@ export type HomeScreenProps = {
   assistantOff?: boolean;
   /** Toggle art experiment (Component 25). */
   assistantArt?: 'robot' | 'phone';
+  /** Meet Your Assistant → Call me (starts the in-app call, vOIP design). */
+  onCallMe?: () => void;
   /** Card under the header: Plan Expired (option 2) or the weekly usage meter (Usage Cap option 2). */
   homeNotice?: 'plan-expired' | { callsLeft: number; limit: number };
   /** Equal AI's own chat on top with its notice (Plan Expired / Usage Cap option 1). */
@@ -139,7 +141,7 @@ export type HomeScreenProps = {
   offerStrip?: boolean;
 };
 
-export function HomeScreen({ chats = sampleChats, onOpenChat, onTab, onDeleteSelected, onSearch, showWhatsNew = true, avatar = 'male', tier = 'paid', systemStatus = 'ok', onNotify, promo = 'whats-new', lockedFrom, onLockedChat, planExpiry, valueSheet, onRenew, quotaSheet, assistant, assistantResult, callSetup, onCallSetup, assistantDescription, planExpired, assistantOff, assistantArt, homeNotice, official, onOfficialChat, lockedActions, paymentProcessing, paywallSheet, offerStrip }: HomeScreenProps) {
+export function HomeScreen({ chats = sampleChats, onOpenChat, onTab, onDeleteSelected, onSearch, showWhatsNew = true, avatar = 'male', tier = 'paid', systemStatus = 'ok', onNotify, promo = 'whats-new', lockedFrom, onLockedChat, planExpiry, valueSheet, onRenew, quotaSheet, assistant, assistantResult, callSetup, onCallSetup, assistantDescription, planExpired, assistantOff, assistantArt, onCallMe, homeNotice, official, onOfficialChat, lockedActions, paymentProcessing, paywallSheet, offerStrip }: HomeScreenProps) {
   const [assistantOn, setAssistantOn] = useState(!assistantOff);
   const [pw, setPw] = useState<PaywallSheetStage | null>(typeof paywallSheet === 'string' ? paywallSheet : null);
   useEffect(() => setPw(typeof paywallSheet === 'string' ? paywallSheet : null), [paywallSheet]);
@@ -205,11 +207,11 @@ export function HomeScreen({ chats = sampleChats, onOpenChat, onTab, onDeleteSel
             <MeetAssistantCard layout="hero" title="Talk With Your Assistant" body={'Explore the app, check out features, ask questions, or just say "Hi"!'} />
           ) : promo === 'meet-assistant-carousel' ? (
             <div style={{ width: '100%' }}>
-              <MeetAssistantCard layout="banner" onDismiss={() => setWhatsNew(false)} />
+              <MeetAssistantCard layout="banner" onCall={onCallMe} onDismiss={() => setWhatsNew(false)} />
               <CarouselDots count={3} active={0} />
             </div>
           ) : promo === 'meet-assistant' ? (
-            <MeetAssistantCard onDismiss={() => setWhatsNew(false)} />
+            <MeetAssistantCard onCall={onCallMe} onDismiss={() => setWhatsNew(false)} />
           ) : (
             <WhatsNewCard width="100%" heading="Language Preference" body="Set your preferred language and choose how your assistant sounds" ctaLabel="Try Voices" ctaIcon="translate" onDismiss={() => setWhatsNew(false)} />
           )}

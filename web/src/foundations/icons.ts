@@ -87,6 +87,9 @@ export const icons = {
   "thumb-down": { viewBox: "0 -960 960 960", paths: ["M242-840h444v512L408-40l-39-31q-6-5-9-14t-3-22v-10l45-211H103q-24 0-42-18t-18-42v-81.84q0-7.16-1.5-14.66T43-499l126-290q8.88-21.25 29.59-36.13Q219.31-840 242-840Zm384 60H229L103-481v93h373l-53 249 203-214v-427Zm0 427v-427 427Zm60 25v-60h133v-392H686v-60h193v512H686Z"] },
   "thumb-up-fill": { viewBox: "0 -960 960 960", paths: ["M721-120H254v-512l278-288 33 26q11 8 14.5 18t3.5 23v10l-45 211h322q23 0 41.5 18.5T920-572v82q0 11-2.5 25.5T910-439L794-171q-9 21-29.5 36T721-120ZM194-632v512H80v-512h114Z"] },
   "thumb-down-fill": { viewBox: "0 -960 960 960", paths: ["M239-840h467v512L428-40l-33-26q-11-8-14.5-18t-3.5-23v-10l45-211H100q-23 0-41.5-18.5T40-388v-82q0-11 2.5-25.5T50-521l116-268q9-21 29.5-36t43.5-15Zm527 512v-512h114v512H766Z"] },
+  "volume-up": { viewBox: "0 -960 960 960", paths: ["M560-131v-62q97-28 158.5-107.5T780-481q0-101-61-181T560-769v-62q124 28 202 125.5T840-481q0 127-78 224.5T560-131ZM120-360v-240h160l200-200v640L280-360H120Zm420 48v-337q55 17 87.5 64T660-480q0 57-33 104t-87 64ZM420-648 307-540H180v120h127l113 109v-337Zm-94 168Z"] },
+  "mic-off": { viewBox: "0 -960 960 960", paths: ["m686-361-43-43q21-26 31-58.5t10-66.5h60q0 46-15 89t-43 79ZM461-586Zm97 97-53-52v-238q0-17-12-29t-29-12q-17 0-29 12t-12 29v155l-60-60v-95q0-42 29.5-71.5T464-880q42 0 71.5 29.5T565-779v250q0 8-1.5 20t-5.5 20ZM434-120v-136q-106-11-178-89t-72-184h60q0 91 64.5 153T464-314q38 0 73-12.5t64-34.5l43 43q-31 26-69 41.5T494-256v136h-60Zm397 65L36-850l38-38L869-93l-38 38Z"] },
+  "call-end": { viewBox: "0 -960 960 960", paths: ["M480-640q126 0 241 50.5T918-443q8 10 8.5 22t-8.5 21l-94 94q-8 8-23 9t-24-6l-114-85q-6-5-9-11t-3-13v-139q-42-16-85.5-22.5T480-580q-42 0-85.5 6.5T309-551v139q0 7-3 13t-9 11l-114 85q-12 9-24.5 8T136-306l-94-94q-9-9-8.5-21t8.5-22q82-96 197-146.5T480-640Z"] },
 } as const satisfies Record<string, IconDef>;
 
 /** DS icon name -> source glyph, for design / Compose parity. */
@@ -174,6 +177,9 @@ export const iconSource = {
   "thumb-down": "material-symbols/outlined/thumb_down",
   "thumb-up-fill": "material-symbols/outlined/thumb_up-fill",
   "thumb-down-fill": "material-symbols/outlined/thumb_down-fill",
+  "volume-up": "material-symbols/outlined/volume_up",
+  "mic-off": "material-symbols/outlined/mic_off",
+  "call-end": "material-symbols/outlined/call_end-fill",
 } as const;
 
 export type IconName = keyof typeof icons;

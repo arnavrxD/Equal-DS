@@ -64,6 +64,12 @@ enum class EqualAssets(val assetName: String, @DrawableRes val resId: Int) {
     /** Run my business preset: 3D briefcase (33dp; 16dp in the source badge). */
     PresetBusiness("preset-business", R.drawable.ds_asset_preset_business),
 
+    /** Mic permission dialog: 3D studio mic with sound waves (84dp). */
+    PermissionMicrophone("permission-microphone", R.drawable.ds_asset_permission_microphone),
+
+    /** In-app call: the assistant persona on a transparent background, on the gradient call disc (200dp). */
+    AvatarAssistantBust("avatar-assistant-bust", R.drawable.ds_asset_avatar_assistant_bust),
+
     /** Gender selector bust, male (60 × 56). Falls back to ProfileAvatar while a placeholder. */
     AvatarMaleBust("avatar-male-bust", R.drawable.ds_asset_avatar_male_bust),
 

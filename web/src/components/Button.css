@@ -8,19 +8,33 @@
   transition: background-color var(--eq-duration-base) var(--eq-easing-standard), transform var(--eq-duration-fast) var(--eq-easing-standard);
 }
 .eq-btn--rounded { border-radius: var(--eq-radius-sm); }
-.eq-btn--sm { height: 24px; padding: 0 14px; gap: 4px; }
-.eq-btn--md { height: 36px; padding: 0 20px; }
-.eq-btn--lg { height: 45px; padding: 0 24px; }
+/* Figma Button sizes: XS 24 · S 32 · M 40 · L 48, gap 6. */
+.eq-btn--xs { height: 24px; padding: 0 8px; gap: 4px; }
+.eq-btn--sm { height: 32px; padding: 0 12px; }
+.eq-btn--md { height: 40px; padding: 0 16px; }
+.eq-btn--lg { height: 48px; padding: 0 32px; }
 .eq-btn--block { display: flex; width: 100%; }
 
-.eq-btn--primary { background: var(--eq-button-primary); color: var(--eq-text-on-action); }
-.eq-btn--secondary { background: var(--eq-button-secondary); color: var(--eq-text-on-secondary); }
-.eq-btn--danger { background: var(--eq-button-danger); color: var(--eq-text-on-danger); }
-/* Monetization: gold commit (Unlock Unlimited, Re-Subscribe) and outline revise (Cancel). */
-.eq-btn--gold { background: var(--eq-gradient-cta-gold); color: var(--eq-text-on-dark); font-weight: 700; }
-.eq-btn--gold-outline { background: var(--eq-bg-surface); color: var(--eq-text-gold); box-shadow: inset 0 0 0 1.5px var(--eq-text-gold); }
-.eq-btn--outline { background: transparent; color: var(--eq-text-action); box-shadow: inset 0 0 0 1.5px var(--eq-button-primary); }
-.eq-btn:disabled { background: var(--eq-button-disabled); color: var(--eq-text-on-action-disabled); }
+/* Default (brand green) */
+.eq-btn--default-primary { background: var(--eq-button-primary); color: var(--eq-text-on-action); }
+.eq-btn--default-secondary { background: var(--eq-gradient-button-secondary); color: var(--eq-button-secondary-label); box-shadow: inset 0 0 0 1px var(--eq-button-secondary-stroke), var(--eq-shadow-button-secondary); }
+.eq-btn--default-tertiary { background: transparent; color: var(--eq-text-action); }
+/* Critical (destructive) */
+.eq-btn--critical-primary { background: var(--eq-button-danger); color: var(--eq-text-on-danger); }
+.eq-btn--critical-secondary { background: var(--eq-gradient-button-critical-secondary); color: var(--eq-text-danger); box-shadow: inset 0 0 0 1px var(--eq-button-critical-stroke), var(--eq-shadow-button-critical); }
+.eq-btn--critical-tertiary { background: transparent; color: var(--eq-text-danger); }
+/* Premium (subscription surfaces only): the Buton gold CTA, its outline and text forms. */
+.eq-btn--premium-primary { background: var(--eq-gradient-cta-gold); color: var(--eq-text-on-dark); }
+.eq-btn--premium-secondary { background: var(--eq-gradient-button-premium-secondary); color: var(--eq-text-gold); box-shadow: inset 0 0 0 1px var(--eq-text-gold), var(--eq-shadow-button-premium); }
+.eq-btn--premium-tertiary { background: transparent; color: var(--eq-text-gold); }
+.eq-btn__gold-label { background: var(--eq-gradient-cta-renew); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+/* Button Glow: a blurred copy of the gold fill behind the pill at 70 %. */
+/* Button Glow: the gold halo (animated by eq-gold-glow in Monetization.css; static when motion is reduced). */
+.eq-btn--premium-primary.has-glow { box-shadow: 0 6px 22px color-mix(in srgb, var(--eq-text-gold) 45%, transparent); }
+/* System extras (not in the Figma Button set): the lime button and the tinted "+ Apply" pill. */
+.eq-btn--secondary-lime { background: var(--eq-button-secondary); color: var(--eq-text-on-secondary); }
+.eq-btn:disabled { background: var(--eq-button-disabled); color: var(--eq-text-on-action-disabled); box-shadow: none; }
+.eq-btn:disabled .eq-btn__gold-label { background: none; -webkit-text-fill-color: currentColor; }
 
 .eq-text-btn {
   display: inline-flex;

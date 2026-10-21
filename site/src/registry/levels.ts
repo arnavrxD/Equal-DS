@@ -9,6 +9,8 @@ export const docLevel: Record<string, Level> = {
   button: 'atom',
   switch: 'atom',
   checkbox: 'atom',
+  radio: 'atom',
+  skeleton: 'atom',
   'text-field': 'atom',
   badges: 'atom',
   avatars: 'atom',
