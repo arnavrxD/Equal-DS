@@ -70,7 +70,13 @@ When a design and the system disagree, check it first; when a rule changes, upda
 - **Dark-mode You tab:** the cream-gold profile header stays light (its content renders with light
   tokens) as a panel with rounded bottom corners; the status bar sits on the gold.
 
-- **Text inputs that can send:** show the mic while empty and the send arrow as soon as there is text.
+- **Text inputs that can send:** show the mic while empty and the send arrow as soon as there is text. The send icon is Material `arrow_upward`, upright (never a rotated paper plane).
+- **Focused text inputs** (composer, text field, search, assistant field) get a solid 1.5dp `stroke/focus`
+  outline (#00B140, lime in dark) and nothing else: no black focus ring.
+- **Chat bubbles:** radius 12. The first bubble of a group (the one beside the avatar / logo) squares its
+  top-outer corner: top-left on the left side, top-right on the right. Consecutive bubbles from the same
+  side round all four corners. A one-line message keeps the time beside it, a little below the text; a
+  longer message puts the time on its own row, right-aligned.
 
 **Engineering**
 - **Stack:** business logic is Kotlin, UI is Compose, and animations are Lottie JSON (`assets/lottie/`,
@@ -189,6 +195,10 @@ Done means: typecheck clean, `--check` passes, Gradle BUILD SUCCESSFUL, and lint
 - **Every action-card CTA has an emoji (📤 Send, ✏️ Edit, 👍 Confirm, 🗑️ Delete).** Why: Emoji make the action recognisable at a glance and match the chip language used everywhere else in chat. (Source: Design review)
 - **All actions in a card have the same weight; Confirm is not a filled button.** Why: Two actions at equal weight let the user choose; a filled Confirm pushes them. The commit goes first, the revise second, both as text rows. (Source: Typography v3 / handoff)
 - **Instructions use the note_stack icon with When / Do lines, never a category avatar.** Why: An instruction is a rule the user set, not a caller. The icon and When / Do structure make that obvious. (Source: Design review)
+- **A chat bubble beside the avatar squares its top-outer corner; follow-ups round all four.** Why: The square corner points at who is speaking, so it only belongs on the bubble next to the avatar or logo: top-left on the left side, top-right on the right. Consecutive bubbles from the same side are clearly the same speaker, so they keep 12 on every corner. (Source: Product owner)
+- **One-line messages keep the time beside the text, a little lower; longer ones put it on its own row.** Why: A one-line bubble stays compact (a single row instead of two); in a longer message the time would crowd the last line, so it gets its own right-aligned row. (Source: Product owner)
+- **A focused text input shows only a solid green outline.** Why: The 1.5 dp stroke/focus outline (#00B140, lime in dark) is the design’s selected state; the black two-ring focus indicator meant for buttons doubled it up on fields. (Source: Product owner)
+- **The send button uses Material arrow_upward, upright.** Why: Matches the design and every other upright Material Symbol; the rotated paper plane looked tilted next to them. (Source: Product owner)
 - **Flat icons are Material Symbols (Material 3); actions use emoji.** Why: One icon family keeps line weight consistent. Emoji on actions add warmth and are easier to recognise in a crowded chat. (Source: Design direction)
 - **Every outlined icon has one stroke: 1.5 dp at 24 dp (Symbols Outlined, weight 400).** Why: Mixed weights make a list look uneven: the WhatsApp brand glyph drew a 2.3 dp ring next to 1.5 dp pins and shields on the You tab. A glyph Symbols lacks is drawn on the 960 grid at the 60-unit stroke instead of taken from another set. (Source: Product owner)
 - **Premium (monetization) perk icons are filled, 16 dp, in the gold radial gradient.** Why: Filled gold marks a paid perk apart from everyday UI icons, which are outlined. (Source: Design spec)
@@ -251,7 +261,7 @@ Anatomy:
 Accessibility:
 - Role. Web: Native <button>; the emoji and chevron are aria-hidden. Android: clickable(role = Role.Button) on the Row.
 - Name. Web: The visible label; a locked chip reads 'Locked' (crown-lock alt) followed by the label. Android: Merged text of the chip; EmojiGlyph is cleared from semantics, so only the label is read, with 'Locked' first on a locked chip.
-- Keyboard. Web: Tab to each chip, Enter or Space to activate; ChipRow scrolls horizontally as focus moves. Focus draws shadow/focusRing. Android: TalkBack: swipe through chips in order, double-tap to activate; the row scrolls to the focused chip. No visible hardware-keyboard focus indicator.
+- Keyboard. Web: Tab to each chip, Enter or Space to activate; ChipRow scrolls horizontally as focus moves. Focus draws the solid 1.5 px stroke/focus outline (no black ring). Android: TalkBack: swipe through chips in order, double-tap to activate; the row scrolls to the focused chip. No visible hardware-keyboard focus indicator.
 - Touch target. Web: Both chips use .eq-touch, so the 30px and 40px pills get a 48px hit area. Android: minimumInteractiveComponentSize() on both, so the 30dp and 40dp pills get a 48dp target.
 - Contrast. Web: Small unread label text/action #00B140 on gradient/chip-small-unread is about 2.7:1 in light (accepted brand green); read and outlined text/secondary 5.6:1, large text/primary 12.2:1, locked text/gold 4.4:1. Dark lime on the lime-tinted fill is 8.2:1. Android: Same tokens as web; the 1dp action/stroke/unread border is decorative, the label carries the meaning.
 - State. Web: unread / read / outlined are visual emphasis only (colour and fill), with no ARIA state; the row's unread count and selection carry the real state. LargeActionChip disabled has no style of its own outside the Meet Your Assistant card. Android: Style is not exposed in semantics. LargeActionChip enabled = false sets disabled semantics and draws at 45%.
@@ -1223,7 +1233,7 @@ Accessibility:
 - Keyboard. Web: Tab through chips, input and send; Enter submits; send is disabled while the input is empty. Android: TalkBack: swipe to chips, field and send; the IME Send action submits when there is text.
 - Touch target. Web: Chips and send use eq-touch for a 48 px hit area, but the chip row scrolls (overflow-x: auto), which clips the chip area to about 46 px high. Android: Chips use minimumInteractiveComponentSize (48 dp); send uses touchTarget() for 48 dp around the 45 dp circle.
 - Contrast. Web: Prompt text/secondary 5.7:1 on white; chip label text/primary 12.2:1 on the lime-washed fill; placeholder text/secondary 5.7:1. The chip border (green @ 36%) is 1.5:1, but the label marks the control. Android: Same tokens, same ratios.
-- State. Web: Send uses the native disabled attribute while empty; the focused input gets the green border and focus ring. Android: Send is clickable(enabled = false) while empty; disabled chips draw at 45% and are exposed as disabled.
+- State. Web: Send uses the native disabled attribute while empty; the focused input gets only the solid 1.5 px stroke/focus outline (no black ring). Android: Send is clickable(enabled = false) while empty; disabled chips draw at 45% and are exposed as disabled.
 - Motion. Web: eq-pressable press scale and composer border / shadow transitions go to 0 ms under prefers-reduced-motion. Android: Press feedback only.
 
 Known accessibility gaps:
@@ -1510,11 +1520,11 @@ Don't: Don't mix up outgoing and assistant; the green byline means Equal AI is a
 Anatomy:
 1. Avatar: Caller category art (incoming) or the Equal orb (assistant), shown on the first bubble of a group only. (CategoryAvatar 28 dp · AiAvatar 24 dp · 28 dp column (web) / 28 or 24 dp spacer on follow-ups (Compose) · gap 8 · outgoing has none)
 2. Bubble container: Rounded fill whose colour and side tell outgoing, incoming and assistant apart. (max width 264 · min width 72 (web) · radius md (12) · padding 8 / 10 / 6 · chat-bubble/user-bg · chat-bubble/other-bg · bg/surface)
-3. Tail: Optional notch on the top outer corner of the first bubble. (web: tail + first, 10 × 12 notch, square top-outer corner · Compose: tail (defaults to isFirstInGroup), 8 dp gutter always reserved on the tail side)
+3. Corners: The first bubble of a group squares its top-outer corner; follow-ups round all four. (radius 12 · first: top-left 0 (incoming, assistant) or top-right 0 (outgoing) · first={false} / isFirstInGroup = false: 12 on all four · no notch)
 4. Sender line: Who is speaking, on the first bubble of a group. (Text body2 · chat-bubble/user-title (outgoing) · chat-bubble/contact-title (incoming) · text/action (assistant) · one line on Compose)
 5. Attachment: Optional content such as a voice note, between the sender and the message (Compose). (Compose attachment slot · 2 dp above, 4 dp below (plus the 2 dp column gap))
 6. Message: The message text, or custom content with bare; locked blurs it under the crown-lock badge. (Text body1 · text/primary · bare removes padding, sender and time (web) · locked wraps it in Locked / LockedContent)
-7. Timestamp: Time of the message, right-aligned. (Text micro · text/secondary · 2 dp above)
+7. Timestamp: Time of the message: beside a one-line message, on its own row under a longer one. (Text micro · text/secondary · one line: same row, gap 8, 4 dp below the text line · more than one line: own row, right-aligned, 2 dp above)
 8. MessageList: Vertical list that applies the group rhythm (web; on Compose the caller stacks bubbles). (role=log · gap 4 · 8 dp extra before a new group · padding 12)
 
 Accessibility:
@@ -1558,28 +1568,28 @@ Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
 }
 ```
 
-Example: Tails and grouping
+Example: Corners and grouping
 ```tsx
-<ChatBubble kind="incoming" category="real-estate" sender="Vijay · NoBroker" time="03:21" tail>
+<ChatBubble kind="incoming" category="real-estate" sender="Vijay · NoBroker" time="03:21">
   I have an offer on a 2BHK flat in Sector 12.
 </ChatBubble>
 <ChatBubble kind="incoming" category="real-estate" first={false} time="03:21">
   Are you free for a site visit this weekend?
 </ChatBubble>
-<ChatBubble kind="outgoing" sender="Equal AI" time="03:22" tail>
+<ChatBubble kind="outgoing" sender="Equal AI" time="03:22">
   Thanks, but Keshav is not interested right now.
 </ChatBubble>
 ```
 ```kotlin
 Column {
     ChatBubble(type = ChatBubbleType.Incoming, incomingCategory = EqualCategory.RealEstate,
-        sender = "Vijay · NoBroker", timestamp = "03:21", tail = true,
+        sender = "Vijay · NoBroker", timestamp = "03:21",
         message = "I have an offer on a 2BHK flat in Sector 12.")
     // Follow-up in the same group: 4dp gap, no avatar, no sender line.
     ChatBubble(type = ChatBubbleType.Incoming, incomingCategory = EqualCategory.RealEstate,
         isFirstInGroup = false, timestamp = "03:21", modifier = Modifier.padding(top = 4.dp),
         message = "Are you free for a site visit this weekend?")
-    ChatBubble(type = ChatBubbleType.Outgoing, sender = "Equal AI", timestamp = "03:22", tail = true,
+    ChatBubble(type = ChatBubbleType.Outgoing, sender = "Equal AI", timestamp = "03:22",
         modifier = Modifier.padding(top = 12.dp), message = "Thanks, but Keshav is not interested right now.")
 }
 ```
@@ -2637,7 +2647,7 @@ Anatomy:
 Accessibility:
 - Role. Web: <button role='checkbox'> with aria-checked; the icon is aria-hidden. Android: toggleable(role = Role.Checkbox) when onCheckedChange is set; with null the row (e.g. SelectionChatHeader Select All) owns it.
 - Name. Web: The visible label inside the button; with no label pass ariaLabel (e.g. 'Select Arnav Raj'). Android: contentDescription parameter when nothing beside it names it; otherwise the parent row's merged text.
-- Keyboard. Web: Tab to focus, Space or Enter toggles. Focus draws shadow/focusRing. Android: TalkBack: swipe to focus, double-tap to toggle; announces 'checked' or 'not checked'.
+- Keyboard. Web: Tab to focus, Space or Enter toggles. Focus draws the solid 1.5 px stroke/focus outline (no black ring). Android: TalkBack: swipe to focus, double-tap to toggle; announces 'checked' or 'not checked'.
 - Touch target. Web: .eq-touch gives at least a 48px hit area around the 40px-high button (22 × 40 with no label). Android: minimumInteractiveComponentSize() gives 48dp around the 18dp glyph.
 - Contrast. Web: Unchecked text/secondary on white is 5.7:1; checked button/primary #00B140 is 2.85:1 in light (accepted brand green, below 3:1); lime in dark passes. Android: Same tokens as web.
 - State. Web: aria-checked; the glyph changes from an empty box to a filled box with a tick, so state is not colour alone. There is no disabled prop. Android: toggleableState from toggleable; the glyph changes shape. No enabled parameter.
@@ -2716,18 +2726,18 @@ The message input bar with a send button that stays disabled until there is text
 
 Do: Pin the composer to the bottom of the chat or AI panel. Leave send disabled on empty input; the component does this for you.
 
-Don't: Don't add attachment or emoji buttons inside the bar; the spec is input + send only. Don't change the send glyph; it is the coded send icon rotated −35°.
+Don't: Don't add attachment or emoji buttons inside the bar; the spec is input + send only. Don't swap or rotate the send glyph; it is Material arrow_upward, upright.
 
 Anatomy:
-1. Input: Pill text field where the user types a message. (45 high · radius full · padding h20 · bg/surface · 1px stroke/subtle · focus action/stroke/unread + shadow/focusRing · body1 14/400 text/primary)
+1. Input: Pill text field where the user types a message. (45 high · radius full · padding h20 · bg/surface · 1px stroke/subtle · focus 1.5 px stroke/focus only (no ring) · body1 14/400 text/primary)
 2. Placeholder: Hint shown while empty. (web 'Type a message...' · Compose 'Type a message' · body1 · text/secondary)
 3. Send button: Circle that sends the message; enabled only when there is text. (45 circle · gap 10 · disabled gradient/send-disabled · active gradient/fab + shadow/fab · 48 touch target)
-4. Send icon: Paper-plane glyph rotated −35°. (Icon atom · send 20 · active text/on-action · disabled text/on-dark)
+4. Send icon: Material arrow_upward, upright. (Icon atom · send 20 · active text/on-action · disabled text/on-dark)
 
 Accessibility:
 - Role. Web: <form> with a native <input> and a <button type='submit'>. Android: BasicTextField plus a Box with clickable(role = Role.Button).
 - Name. Web: Input aria-label 'Message'; send button aria-label 'Send'. Android: Input contentDescription 'Message'; send uses sendContentDescription ('Send') as both onClickLabel and icon description.
-- Keyboard. Web: Enter submits the form; Tab moves to Send, which is skipped while disabled. Focus draws shadow/focusRing. Android: IME action Send calls onSend when there is text; TalkBack double-tap on the send button. The send button has no visible hardware-keyboard focus.
+- Keyboard. Web: Enter submits the form; Tab moves to Send, which is skipped while disabled. Focus draws the solid 1.5 px stroke/focus outline (no black ring). Android: IME action Send calls onSend when there is text; TalkBack double-tap on the send button. The send button has no visible hardware-keyboard focus.
 - Touch target. Web: Send is 45px with .eq-touch for a 48px hit area; the input is 45px high, full width. Android: touchTarget() gives the 45dp send circle a 48dp area without changing the layout.
 - Contrast. Web: Text 12.6:1, placeholder text/secondary 5.7:1. Active send icon is white on gradient/fab (#BAFF29 → #00B140), 1.2–2.85:1 in light (accepted brand gradient); dark is black on lime (about 17:1). Android: Same tokens as web.
 - State. Web: Send uses the native disabled attribute until there is text; the fill also changes. Android: clickable(enabled = canSend) exposes disabled; enabled = false on the bar disables both.
@@ -2901,7 +2911,7 @@ Do: Say what is being searched in the placeholder ("Search chats"). Show an Empt
 Don't: Don't add a separate search button; results filter as you type. Don't use it as a general form field; use TextField.
 
 Anatomy:
-1. Container: Full-width pill that holds the search input. (48 high · radius full · bg/surface · web 1px stroke/subtle border, focus action/stroke/unread + shadow/focusRing · padding web 16 start / 14 end, Compose h16 · Compose no border)
+1. Container: Full-width pill that holds the search input. (48 high · radius full · bg/surface · web 1px stroke/subtle border, focus 1.5 px stroke/focus only (no ring) · padding web 16 start / 14 end, Compose h16 · Compose no border)
 2. Search icon: Leading magnifier that marks the field as search. (Icon atom · search 20 · text/secondary · gap web 10, Compose 8 · decorative)
 3. Input / placeholder: The query text, or 'Search for names' while empty. (bodyLarge 16/400 · text/primary · placeholder web text/secondary, Compose text/placeholder)
 4. Clear button: Web only: appears once there is text and empties the field. (close 18 · text/secondary · .eq-touch 48 hit area · aria-label 'Clear')
@@ -2988,7 +2998,7 @@ Anatomy:
 Accessibility:
 - Role. Web: role='radiogroup' on the row and <button role='radio'> per chip. Android: selectableGroup() on the Row and selectable(role = Role.RadioButton) per chip.
 - Name. Web: Each chip is named by its label; the group by `label` (aria-label) or `labelledBy`. Android: Each chip by its text; the group by the contentDescription parameter.
-- Keyboard. Web: One Tab stop (roving tabindex on the checked chip); arrow keys and Home / End move focus and selection, wrapping. Focus draws shadow/focusRing. Android: TalkBack: swipe between options, double-tap to select; announces 'selected' and position in the group.
+- Keyboard. Web: One Tab stop (roving tabindex on the checked chip); arrow keys and Home / End move focus and selection, wrapping. Focus draws the solid 1.5 px stroke/focus outline (no black ring). Android: TalkBack: swipe between options, double-tap to select; announces 'selected' and position in the group.
 - Touch target. Web: .eq-touch gives each 36px chip a 48px hit area. Android: minimumInteractiveComponentSize() gives 48dp around the 36dp chip.
 - Contrast. Web: Unselected text/secondary on white 5.7:1; selected #F7F7F7 on #313131 12.1:1 (inverted in dark). The stroke/medium border is 1.2:1; the label identifies each chip. Android: Same tokens as web.
 - State. Web: aria-checked on the selected radio; selection is a full fill swap, not just a hue change. Android: selected = true is exposed by selectable.
@@ -3042,7 +3052,7 @@ Anatomy:
 Accessibility:
 - Role. Web: <button role='switch'> with aria-checked. Android: toggleable(role = Role.Switch) when onCheckedChange is set; with null the parent row (AssistantToggleCard, ToggleRow) owns the semantics.
 - Name. Web: Required `label` prop set as aria-label (match the visible row label, e.g. 'AI Assistant'); `describedBy` links the description. Android: contentDescription parameter for a standalone switch; inside a row pass onCheckedChange = null and the row's merged text names it.
-- Keyboard. Web: Tab to focus, Space or Enter toggles; disabled removes it from the tab order. Focus draws shadow/focusRing. Android: TalkBack: swipe to focus, double-tap to toggle; it announces 'on' or 'off'.
+- Keyboard. Web: Tab to focus, Space or Enter toggles; disabled removes it from the tab order. Focus draws the solid 1.5 px stroke/focus outline (no black ring). Android: TalkBack: swipe to focus, double-tap to toggle; it announces 'on' or 'off'.
 - Touch target. Web: .eq-touch gives a 48px hit area around the 40 × 24 track. Android: minimumInteractiveComponentSize() on the toggleable gives 48dp; a parent row usually supplies a larger target.
 - Contrast. Web: On track #00B140 on white is 2.85:1 (accepted brand green); off track #DDDDDD is 1.36:1, both below 3:1. Dark: lime on #1F1F1F 13.7:1, off #444444 1.7:1. Thumb position also shows state. Android: Same tokens as web.
 - State. Web: aria-checked true/false; the thumb moves right as well as changing colour, so state is not colour alone. Disabled uses the disabled attribute and 50% opacity. Android: toggleableState is announced; enabled = false sets disabled semantics but draws no visual change.
@@ -3124,7 +3134,7 @@ Don't: Don't add a border in light mode; fields are borderless white on bg/prima
 Anatomy:
 1. Label: Uppercase overline that names the field, with * when required. (Text atom · overline 11/500 · text/secondary · margin-bottom 8)
 2. Optional marker: '(Optional)' after the label for fields the user may skip. (caption Regular 12/400 · text/secondary · gap 6)
-3. Input container: The surface the user types into. (min height 48 · radius/md 12 · padding 12 / 14 · bg/surface · 1px border transparent in light, stroke/subtle in dark · focus action/stroke/unread + shadow/focusRing · error text/danger border)
+3. Input container: The surface the user types into. (min height 48 · radius/md 12 · padding 12 / 14 · bg/surface · 1px border transparent in light, stroke/subtle in dark · focus 1.5 px stroke/focus only (no ring) · error text/danger border)
 4. Value / placeholder: The entered text, or a hint while empty. (bodyLarge 16/400 · text/primary · placeholder text/placeholder · multiline 2 rows · optional centre align and tabular figures (Compose))
 5. Helper or error: One line below the field: guidance, or the error that replaces it. (captionWrap 12/400 · margin-top 6 · helper text/secondary · error text/danger)
 
@@ -3135,7 +3145,7 @@ Accessibility:
 - Touch target. Web: Input min height 48px, full width. Android: heightIn(min = 48.dp), full width.
 - Contrast. Web: Value text/primary 12.6:1; label text/secondary on bg/primary 5.7:1; error text/danger 6.0:1; placeholder text/placeholder 2.85:1. In light the field edge is white on #FAFAFA (1.04:1) and the focus border action/stroke/unread is 1.5:1. Android: Same tokens; dark mode adds a stroke/subtle border (1.3:1 on #1F1F1F).
 - State. Web: Error sets aria-invalid and a red border, and aria-describedby links the error or helper text; required sets aria-required and shows '*'. Android: enabled maps to disabled semantics; error is set with semantics { error(...) }, so TalkBack announces it on focus. Required is only the '*' in the label text.
-- Motion. Web: Border and focus ring fade over 200ms; zeroed under prefers-reduced-motion. Android: No animation; border colour switches instantly.
+- Motion. Web: The focus outline fades in over 200ms; zeroed under prefers-reduced-motion. Android: No animation; border colour switches instantly.
 
 Known accessibility gaps:
 - Inputs.tsx: aria-label={label} overrides the <label>, so the accessible name drops '(Optional)'.
@@ -4751,7 +4761,7 @@ Anatomy:
 Accessibility:
 - Role. Web: <nav aria-label='Main'> with <button> items; the current one has aria-current='page'. Fab is a <button>. Android: selectableGroup() on the pill and selectable(role = Role.Tab) per item; EqualFab is clickable(role = Role.Button).
 - Name. Web: Item text plus contents: 'Chats' plus visually hidden 'N unread', and 'You' (the avatar is decorative). Fab aria-label 'Talk to Equal AI'. Android: Merged text: 'N unread' then 'Chats'; the You avatar has contentDescription = null. Fab 'Ask Equal AI'.
-- Keyboard. Web: Tab through Chats, You, Fab; Enter or Space activates. Focus draws shadow/focusRing. Android: TalkBack: swipe between tabs, announces 'selected', 'tab' and the position; double-tap to switch.
+- Keyboard. Web: Tab through Chats, You, Fab; Enter or Space activates. Focus draws the solid 1.5 px stroke/focus outline (no black ring). Android: TalkBack: swipe between tabs, announces 'selected', 'tab' and the position; double-tap to switch.
 - Touch target. Web: Items 84 × 56, Fab 58. Android: Items 99 × 52, Fab 58.
 - Contrast. Web: Unselected label text/secondary on white 5.7:1; selected text/action #00B140 on nav/selected-bg (green at 4%) is 2.7:1 in light; dark lime on the lime-tinted capsule is 11.2:1. Android: Same tokens as web.
 - State. Web: aria-current='page'; selection also fills the capsule and switches the chat icon to filled, not colour alone. Android: selected semantics from selectable; the capsule fill and icon change too.
@@ -4827,7 +4837,7 @@ Anatomy:
 Accessibility:
 - Role. Web: <header> with IconButtons; the name is an <h1>. Takeover and Mark read are <button>s. Android: Row with PlainIconButtons (Role.Button); the name has semantics { heading() }.
 - Name. Web: 'Back', 'Call', 'More options'; Takeover and Mark read use visible text; selection back is 'Exit selection'; the home toggle switch is 'AI Assistant'. Android: 'Back', 'Call', 'More options', 'Delete'; Takeover and Mark read by text; selection back is 'Back'; the home toggle card reads its title and description as one switch.
-- Keyboard. Web: Tab order: Back, Call, More (or Takeover); in selection mode Back, Mark read, Delete, Select All. Focus draws shadow/focusRing. Android: TalkBack: swipe in the same order; the Select All row is one checkbox node. Takeover and Mark read show no hardware-keyboard focus.
+- Keyboard. Web: Tab order: Back, Call, More (or Takeover); in selection mode Back, Mark read, Delete, Select All. Focus draws the solid 1.5 px stroke/focus outline (no black ring). Android: TalkBack: swipe in the same order; the Select All row is one checkbox node. Takeover and Mark read show no hardware-keyboard focus.
 - Touch target. Web: 36px buttons get 48px via .eq-touch, but with a 4px gap the Call and More hit areas overlap by 8px; Takeover, Mark read and Select All use .eq-touch. Android: Icon buttons 48dp; TakeoverPill and MarkReadPill use minimumInteractiveComponentSize(); the Select All row is 40dp with a 48dp touch area.
 - Contrast. Web: Name 12.6:1, subtitle text/secondary 5.7:1; Takeover takeover/text #009837 on #E4FFED is 3.6:1 in light, white on #212615 in dark 15.5:1; delete #C50000 6.2:1. Android: Same tokens as web.
 - State. Web: Live call is shown by Takeover replacing Call and More; the 'N Selected' count has role='status', so changes are announced. Android: Select All exposes checked state via toggleable(Role.Checkbox); the count is a polite live region.
@@ -7046,6 +7056,7 @@ Alias colours (CSS `var(--eq-<name without component/>)`, TS `color.*`, Compose 
 - `stroke/subtle`  light {brand.black} @ 5% · dark {brand.white} @ 8%
 - `stroke/medium`  light {brand.black} @ 8% · dark {brand.white} @ 16%
 - `stroke/dark`  light {brand.black} @ 32% · dark {brand.white} @ 32%
+- `stroke/focus`  light {brand.green} · dark {brand.lime}
 - `action/stroke/unread`  light {brand.green} @ 36% · dark {brand.lime} @ 36%
 - `action/fill/unread`  light {brand.lime} @ 8% · dark {brand.lime} @ 8%
 - `component/chip/label-unread`  light #3C3C3C · dark #D3D4D1
@@ -7275,4 +7286,4 @@ Web `<Asset name="…" size={dp} />`, Compose `EqualAssetImage(EqualAssets.<Pasc
 
 Web `<Icon name="…" />`, Compose `EqualIcon(EqualIcons.<PascalName>)`.
 
-`arrow-back` (arrow_back) · `call` (call) · `call-filled` (call-fill) · `more-vert` (more_vert) · `send` (send-fill) · `check` (check) · `done-all` (done_all) · `close` (close) · `delete` (delete) · `star` (star-fill) · `star-outline` (star) · `share` (share) · `chevron-right` (chevron_right) · `chevron-down` (keyboard_arrow_down) · `checkbox-blank` (check_box_outline_blank) · `checkbox-checked` (check_box-fill) · `play` (play_arrow-fill) · `pause` (pause-fill) · `chat` (chat_bubble-fill) · `chat-outline` (chat_bubble) · `search` (search) · `edit` (edit) · `edit-profile` (border_color) · `add` (add) · `mic` (mic) · `mute` (volume_off) · `person-add` (person_add) · `calendar` (calendar_month) · `place` (location_on) · `call-received` (call_received) · `call-made` (call_made) · `call-missed` (call_missed) · `phone-incoming` (phone_callback) · `phone-missed` (phone_missed) · `phone-outgoing` (phone_forwarded) · `info` (info) · `settings` (settings) · `home` (home) · `work` (work) · `bolt` (bolt) · `instructions` (note_stack) · `health-check` (health_metrics) · `silent-mode` (notifications_off) · `voice-language` (mic) · `address-pin` (pin_drop) · `account-data` (shield) · `help-center` (question_exchange) · `whatsapp` (custom:whatsapp) · `menu` (menu) · `arrow-forward` (arrow_forward) · `content-copy` (content_copy) · `light-mode` (light_mode) · `dark-mode` (dark_mode) · `contrast` (contrast) · `touch` (touch_app) · `notify-me` (notifications_active) · `translate` (translate_indic) · `call-sparkle` (custom:call-sparkle) · `help-circle` (help-fill) · `lock` (lock-fill) · `mail` (mail-fill) · `info-fill` (info-fill) · `signal` (signal_cellular_4_bar-fill) · `wifi` (wifi-fill) · `battery` (battery_full-fill) · `timer` (timer-fill) · `person` (person-fill) · `call-log` (call_log-fill) · `call-sparkle-fill` (custom:call-sparkle-fill) · `auto-fix` (wand_stars-fill) · `keyboard` (keyboard) · `mic-fill` (mic-fill) · `navigation` (navigation-fill) · `slide-left` (keyboard_double_arrow_left) · `globe` (public-fill) · `verified` (verified-fill) · `refresh` (refresh) · `graphic-eq` (graphic_eq) · `phone-missed-fill` (phone_missed-fill) · `thumb-up` (thumb_up) · `thumb-down` (thumb_down) · `thumb-up-fill` (thumb_up-fill) · `thumb-down-fill` (thumb_down-fill)
+`arrow-back` (arrow_back) · `call` (call) · `call-filled` (call-fill) · `more-vert` (more_vert) · `send` (arrow_upward) · `check` (check) · `done-all` (done_all) · `close` (close) · `delete` (delete) · `star` (star-fill) · `star-outline` (star) · `share` (share) · `chevron-right` (chevron_right) · `chevron-down` (keyboard_arrow_down) · `checkbox-blank` (check_box_outline_blank) · `checkbox-checked` (check_box-fill) · `play` (play_arrow-fill) · `pause` (pause-fill) · `chat` (chat_bubble-fill) · `chat-outline` (chat_bubble) · `search` (search) · `edit` (edit) · `edit-profile` (border_color) · `add` (add) · `mic` (mic) · `mute` (volume_off) · `person-add` (person_add) · `calendar` (calendar_month) · `place` (location_on) · `call-received` (call_received) · `call-made` (call_made) · `call-missed` (call_missed) · `phone-incoming` (phone_callback) · `phone-missed` (phone_missed) · `phone-outgoing` (phone_forwarded) · `info` (info) · `settings` (settings) · `home` (home) · `work` (work) · `bolt` (bolt) · `instructions` (note_stack) · `health-check` (health_metrics) · `silent-mode` (notifications_off) · `voice-language` (mic) · `address-pin` (pin_drop) · `account-data` (shield) · `help-center` (question_exchange) · `whatsapp` (custom:whatsapp) · `menu` (menu) · `arrow-forward` (arrow_forward) · `content-copy` (content_copy) · `light-mode` (light_mode) · `dark-mode` (dark_mode) · `contrast` (contrast) · `touch` (touch_app) · `notify-me` (notifications_active) · `translate` (translate_indic) · `call-sparkle` (custom:call-sparkle) · `help-circle` (help-fill) · `lock` (lock-fill) · `mail` (mail-fill) · `info-fill` (info-fill) · `signal` (signal_cellular_4_bar-fill) · `wifi` (wifi-fill) · `battery` (battery_full-fill) · `timer` (timer-fill) · `person` (person-fill) · `call-log` (call_log-fill) · `call-sparkle-fill` (custom:call-sparkle-fill) · `auto-fix` (wand_stars-fill) · `keyboard` (keyboard) · `mic-fill` (mic-fill) · `navigation` (navigation-fill) · `slide-left` (keyboard_double_arrow_left) · `globe` (public-fill) · `verified` (verified-fill) · `refresh` (refresh) · `graphic-eq` (graphic_eq) · `phone-missed-fill` (phone_missed-fill) · `thumb-up` (thumb_up) · `thumb-down` (thumb_down) · `thumb-up-fill` (thumb_up-fill) · `thumb-down-fill` (thumb_down-fill)

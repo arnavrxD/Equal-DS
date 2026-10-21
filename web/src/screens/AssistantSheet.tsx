@@ -105,19 +105,19 @@ export function AssistantSheet({ name = 'Keshav', stage, onClose, onDone, mode =
       >
         <ChatWallpaper style={{ minHeight: '100%' }}>
           <MessageList>
-            <ChatBubble kind="outgoing" sender="You" time="03:21" tail>
+            <ChatBubble kind="outgoing" sender="You" time="03:21">
               {voice && <div style={{ margin: '4px 0 8px' }}><VoicePlayer duration={157} tone="sent" /></div>}
               {voice ? REQUEST : text}
             </ChatBubble>
             {s === 'thinking' && <AssistantThinking />}
             {(s === 'reminder' || s === 'confirmed') && (
               <>
-                <ChatBubble kind="assistant" sender="Equal AI" time="03:21" tail>Got it! Here’s your remainder:</ChatBubble>
+                <ChatBubble kind="assistant" sender="Equal AI" time="03:21">Got it! Here’s your remainder:</ChatBubble>
                 <div style={{ position: 'relative', marginLeft: 36, maxWidth: 300, background: 'var(--eq-bg-surface)', borderRadius: 16, padding: 8 }}>
                   <ActionCardBody source="whatsapp" title="Reminder · Dr. Mehta’s Clinic" details={[{ text: 'Tomorrow, 9:00 AM' }, { text: 'Bring previous medical reports' }]} time="03:21" />
                   {s === 'confirmed' && <span className="eq-mya-done" role="img" aria-label="Confirmed">✅</span>}
                 </div>
-                {s === 'confirmed' && <ChatBubble kind="outgoing" sender="You" time="03:21" tail>Confirm</ChatBubble>}
+                {s === 'confirmed' && <ChatBubble kind="outgoing" sender="You" time="03:21">Confirm</ChatBubble>}
               </>
             )}
           </MessageList>
@@ -233,7 +233,7 @@ export function ChatTaskSheet({ contact, request, stage, onClose, onSend, mode =
     >
       <ChatWallpaper style={{ minHeight: '100%' }}>
         <MessageList>
-          <ChatBubble kind="outgoing" sender="You" time="03:21" tail>{request}</ChatBubble>
+          <ChatBubble kind="outgoing" sender="You" time="03:21">{request}</ChatBubble>
           <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
             <AiAvatar size={28} />
             <AssistantReplyCard
@@ -248,7 +248,7 @@ export function ChatTaskSheet({ contact, request, stage, onClose, onSend, mode =
           </div>
           {sending && (
             <>
-              <ChatBubble kind="outgoing" sender="You" time="03:21" tail>{confirm ?? 'send as is'}</ChatBubble>
+              <ChatBubble kind="outgoing" sender="You" time="03:21">{confirm ?? 'send as is'}</ChatBubble>
               <AssistantThinking label="Opening WhatsApp" />
             </>
           )}

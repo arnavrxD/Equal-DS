@@ -12,8 +12,9 @@
   transition: border-color var(--eq-duration-base), box-shadow var(--eq-duration-base);
 }
 .eq-composer__input::placeholder { color: var(--eq-text-secondary); }
+/* Focused (selected) input: a solid 1.5 px stroke/focus outline only, no black ring. */
 .eq-composer__input:focus,
-.eq-composer.is-focus .eq-composer__input { border-color: var(--eq-action-stroke-unread); box-shadow: var(--eq-shadow-focus-ring); }
+.eq-composer.is-focus .eq-composer__input { border-color: var(--eq-stroke-focus); box-shadow: inset 0 0 0 0.5px var(--eq-stroke-focus); }
 .eq-composer__send {
   width: 45px;
   height: 45px;
@@ -25,6 +26,5 @@
   background: var(--eq-gradient-send-disabled);
   transition: box-shadow var(--eq-duration-base);
 }
-.eq-composer__send svg { margin: -2px 0 0 2px; }
 .eq-composer.can-send .eq-composer__send,
 .eq-composer.is-focus .eq-composer__send { background: var(--eq-gradient-fab); box-shadow: var(--eq-shadow-fab); }

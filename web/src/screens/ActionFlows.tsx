@@ -73,7 +73,7 @@ function CallHistory({ action }: { action: ChatAction }) {
   return (
     <>
       <ThreadEvent label="Call Ended 4:37 PM" />
-      <ChatBubble kind="assistant" sender="Equal AI" time="03:21" tail>Hey Keshav! Here is the summary of your call</ChatBubble>
+      <ChatBubble kind="assistant" sender="Equal AI" time="03:21">Hey Keshav! Here is the summary of your call</ChatBubble>
       <div style={{ paddingLeft: 36 }}>
         <CallSummary summary={SUMMARY[action]} time="03:21" footer={<SummaryActions actions={[{ label: 'Call Back', icon: 'call-filled' }]} />} />
       </div>
@@ -183,7 +183,7 @@ export function ChatActionScreen({ action, step, keyboard, missed, onBack }: Cha
   const sendChips: [string, string, (() => void)?][] = [['📤', 'Send'], ['✏️', 'Edit draft'], ['🖋️', 'Custom']];
   if (action === 'call-back' && s === 'ask') overlay = (
     <TaskSheet title={`Calling ${c.company}`} onClose={close} footer={<><Chips items={sendChips} /><div style={{ marginTop: 12 }}><Composer /></div></>}>
-      <ChatBubble kind="outgoing" sender="You" time="03:21" tail>Call Back</ChatBubble>
+      <ChatBubble kind="outgoing" sender="You" time="03:21">Call Back</ChatBubble>
       <AiTurn actions={[{ label: 'Call Back', emoji: '📞', onClick: () => go('dialer') }]}>
         {missed === 'reason' ? 'Kuldeep usually calls to promote L&T Realty residential projects. Want to call back anyway?' : missed ? 'I couldn’t pick this call, so I don’t know what it was about. Call back to find out?' : 'Try asking the following:\n\n•  what reports to bring\n•  confirm location or parking\n•  consultation charge\n•  insurance coverage'}
       </AiTurn>
@@ -191,15 +191,15 @@ export function ChatActionScreen({ action, step, keyboard, missed, onBack }: Cha
   );
   if (action === 'mute' && s === 'confirm') overlay = (
     <TaskSheet title={`Muting ${c.name}`} onClose={close} footer={<><Chips items={sendChips} /><div style={{ marginTop: 12 }}><Composer /></div></>}>
-      <ChatBubble kind="outgoing" sender="You" time="03:21" tail>Mute</ChatBubble>
+      <ChatBubble kind="outgoing" sender="You" time="03:21">Mute</ChatBubble>
       <AiTurn actions={[{ label: 'Mute', emoji: '🔕', onClick: () => go('done') }]}>Are you sure? You’ll not get any call from them even if it’s important</AiTurn>
     </TaskSheet>
   );
   if (action === 'reply-whatsapp' && (s === 'draft' || s === 'sending')) overlay = (
     <TaskSheet title="Replying Amit on WhatsApp" onClose={close} footer={<><Chips items={sendChips} disabled={s === 'sending'} /><div style={{ marginTop: 12 }}><Composer /></div></>}>
-      <ChatBubble kind="outgoing" sender="You" time="03:21" tail>Reply on whatsapp</ChatBubble>
+      <ChatBubble kind="outgoing" sender="You" time="03:21">Reply on whatsapp</ChatBubble>
       <AiTurn actions={[{ label: 'Edit', emoji: '✏️', onClick: () => go('edit') }, { label: 'Send', emoji: '📤', onClick: () => (go('sending'), setTimeout(() => go('done'), 1400)) }]}>{`Sure! Here’s a draft for Amit:\n\n${text}`}</AiTurn>
-      {s === 'sending' && <><ChatBubble kind="outgoing" sender="You" time="03:21" tail>send as is</ChatBubble><AssistantThinking label="Opening WhatsApp" /></>}
+      {s === 'sending' && <><ChatBubble kind="outgoing" sender="You" time="03:21">send as is</ChatBubble><AssistantThinking label="Opening WhatsApp" /></>}
     </TaskSheet>
   );
   const contactCard = (actions: { label: string; emoji: string; onClick?: () => void }[]) => (
@@ -211,22 +211,22 @@ export function ChatActionScreen({ action, step, keyboard, missed, onBack }: Cha
       <TaskSheet title="Saving contact" onClose={close} footer={<><Chips items={sendChips} /><div style={{ marginTop: 12 }}>{voice ? <HoldToSpeakBar /> : <Composer />}</div></>}>
         {s === 'review' || s === 'edit-ask' ? (
           <>
-            <ChatBubble kind="outgoing" sender="You" time="03:21" tail>Save contact</ChatBubble>
+            <ChatBubble kind="outgoing" sender="You" time="03:21">Save contact</ChatBubble>
             <AiTurn width={110}>Here you go</AiTurn>
             {contactCard([{ label: 'Edit', emoji: '✏️', onClick: () => go('edit-ask') }, { label: 'Save', emoji: '💾', onClick: () => go('saved') }])}
             <AiTurn width={220}>{'Looks right?\nTap Save to add them.'}</AiTurn>
-            {voice && <><ChatBubble kind="outgoing" sender="You" time="03:21" tail>Edit</ChatBubble><AiTurn width={200}>What should I change?</AiTurn></>}
+            {voice && <><ChatBubble kind="outgoing" sender="You" time="03:21">Edit</ChatBubble><AiTurn width={200}>What should I change?</AiTurn></>}
           </>
         ) : s === 'granted' ? (
           <>
-            <ChatBubble kind="outgoing" sender="You" time="03:21" tail>Continue Saving</ChatBubble>
+            <ChatBubble kind="outgoing" sender="You" time="03:21">Continue Saving</ChatBubble>
             <AiTurn width={240}>Here’s the contact, pre-filled from the call:</AiTurn>
             {contactCard([{ label: 'Edit', emoji: '✏️', onClick: () => go('form') }, { label: 'Confirm', emoji: '👍', onClick: () => go('saved') }])}
             <AiTurn width={260}>Does this look right? Tap Confirm to save, or let me know what to change</AiTurn>
           </>
         ) : (
           <>
-            <ChatBubble kind="outgoing" sender="You" time="03:21" tail>{s === 'denied' ? 'Continue Saving' : 'Save contact'}</ChatBubble>
+            <ChatBubble kind="outgoing" sender="You" time="03:21">{s === 'denied' ? 'Continue Saving' : 'Save contact'}</ChatBubble>
             <AiTurn width={260}>To save a contact, I need contact permission on your phone</AiTurn>
             <div style={{ paddingLeft: 36 }}><ActionCard icon="person-add" title="Contact Permission Required" details={[{ text: 'Allow Equal AI to create and manage known contacts' }]} actions={[{ label: 'Open Settings', emoji: '⚙️', onClick: () => go('resume') }]} width={280} /></div>
           </>
@@ -318,13 +318,13 @@ export function ChatErrorScreen({ state, onRetry }: { state: ErrorState; onRetry
     return (
       <Screen header={<ChatHeader statusBar name={unknown.name} avatar={{ category: 'na' }} onCall={() => {}} onMore={() => {}} />} overlay={
         <TaskSheet title="Mute promotional calls from +91-99536 72604" footer={<><Chips items={voiceChips} /><div style={{ marginTop: 12 }}><HoldToSpeakBar /></div></>}>
-          {state === 'generation' && <ChatBubble kind="outgoing" sender="You" time="03:21" tail>Mute</ChatBubble>}
+          {state === 'generation' && <ChatBubble kind="outgoing" sender="You" time="03:21">Mute</ChatBubble>}
           <AiTurn width={260} actions={[{ label: 'Retry', emoji: '🔄', onClick: onRetry }]}>
             {state === 'generation' ? 'Sorry, I couldn’t do that just now. Please try again.' : 'It looks like you’re offline.\nTry again once you’re back online.'}
           </AiTurn>
         </TaskSheet>
       }>
-        <ChatWallpaper style={{ minHeight: '100%' }}><MessageList><ThreadEvent label="Call Ended 4:37 PM" /><ChatBubble kind="assistant" sender="Equal AI" time="03:21" tail>Hey Keshav! Here is the summary of your call</ChatBubble></MessageList></ChatWallpaper>
+        <ChatWallpaper style={{ minHeight: '100%' }}><MessageList><ThreadEvent label="Call Ended 4:37 PM" /><ChatBubble kind="assistant" sender="Equal AI" time="03:21">Hey Keshav! Here is the summary of your call</ChatBubble></MessageList></ChatWallpaper>
       </Screen>
     );
   }

@@ -113,7 +113,7 @@
 .eq-dots span.is-on { background: var(--eq-text-gold); }
 
 .eq-cancel-reason { width: 100%; box-sizing: border-box; resize: none; border-radius: 12px; border: 1px solid var(--eq-stroke-subtle); background: var(--eq-bg-surface); color: var(--eq-text-primary); padding: 12px 14px; font: inherit; }
-.eq-cancel-reason:focus { outline: none; border-color: var(--eq-action-stroke-unread); }
+.eq-cancel-reason:focus { outline: none; border-color: var(--eq-stroke-focus); box-shadow: inset 0 0 0 0.5px var(--eq-stroke-focus); }
 
 
 /* Animated crown: turntable sway + float (stand-in for the rotating-crown video). */

@@ -22,7 +22,7 @@ const MANIFEST = {
   call: 'call',
   'call-filled': 'call-fill',
   'more-vert': 'more_vert',
-  send: 'send-fill',
+  send: 'arrow_upward',
   check: 'check',
   'done-all': 'done_all',
   close: 'close',

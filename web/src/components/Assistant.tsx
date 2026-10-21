@@ -116,7 +116,7 @@ export function AssistantInput({ mode, value = '', onChange, onSubmit, onFocus, 
       {/* Mic while empty; as soon as there is text it becomes Send. */}
       {value.trim() ? (
         <button type="submit" className="eq-reset-btn eq-pressable eq-mya-mic" aria-label="Send">
-          <Icon name="send" size={22} rotate={-35} style={{ margin: '-2px 0 0 2px' }} />
+          <Icon name="send" size={22} />
         </button>
       ) : (
         <button type="button" className="eq-reset-btn eq-pressable eq-mya-mic" aria-label="Voice note" onClick={onMic}>

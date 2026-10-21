@@ -106,9 +106,9 @@ export default function Home() {
           <div style={{ width: 340, borderRadius: 18, overflow: 'hidden' }}>
             <ChatWallpaper>
               <MessageList>
-                <ChatBubble kind="outgoing" sender="Equal AI" time="03:21" tail>Hi, who is this?</ChatBubble>
-                <ChatBubble kind="incoming" sender="Dr Mehta Clinic" time="03:21" tail>This is Priya from Dr. Mehta’s clinic. Your appointment is confirmed for tomorrow.</ChatBubble>
-                <ChatBubble kind="outgoing" sender="Equal AI" time="03:21" tail>Yes, I’ll be there at 10 AM</ChatBubble>
+                <ChatBubble kind="outgoing" sender="Equal AI" time="03:21">Hi, who is this?</ChatBubble>
+                <ChatBubble kind="incoming" sender="Dr Mehta Clinic" time="03:21">This is Priya from Dr. Mehta’s clinic. Your appointment is confirmed for tomorrow.</ChatBubble>
+                <ChatBubble kind="outgoing" sender="Equal AI" time="03:21">Yes, I’ll be there at 10 AM</ChatBubble>
                 <ThreadNotice>Call has ended. You are now talking to your AI assistant.</ThreadNotice>
               </MessageList>
             </ChatWallpaper>

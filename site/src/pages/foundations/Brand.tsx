@@ -101,8 +101,8 @@ export default function Brand() {
         <div style={{ width: 390, borderRadius: 16, overflow: 'hidden' }}>
           <ChatWallpaper style={{ height: 300 }}>
             <MessageList>
-              <ChatBubble kind="outgoing" sender="Equal AI" time="03:21" tail>Hi, who is this?</ChatBubble>
-              <ChatBubble kind="incoming" sender="Dr Mehta Clinic" time="03:21" tail>This is Priya from Dr. Mehta’s clinic. Your appointment is confirmed for tomorrow.</ChatBubble>
+              <ChatBubble kind="outgoing" sender="Equal AI" time="03:21">Hi, who is this?</ChatBubble>
+              <ChatBubble kind="incoming" sender="Dr Mehta Clinic" time="03:21">This is Priya from Dr. Mehta’s clinic. Your appointment is confirmed for tomorrow.</ChatBubble>
             </MessageList>
           </ChatWallpaper>
         </div>

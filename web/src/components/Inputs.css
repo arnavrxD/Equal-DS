@@ -11,7 +11,8 @@
   transition: border-color var(--eq-duration-base), box-shadow var(--eq-duration-base);
 }
 .eq-field__input::placeholder { color: var(--eq-text-placeholder); }
-.eq-field__input:focus { border-color: var(--eq-action-stroke-unread); box-shadow: var(--eq-shadow-focus-ring); }
+/* Focused text input: a solid 1.5 px stroke/focus outline only (1px border + 0.5px inset), no black ring. */
+.eq-field .eq-field__input:focus { border-color: var(--eq-stroke-focus); box-shadow: inset 0 0 0 0.5px var(--eq-stroke-focus); }
 .eq-field.has-error .eq-field__input { border-color: var(--eq-text-danger); }
 .eq-field--center .eq-field__input { text-align: center; }
 [data-theme='dark'] .eq-field__input { border-color: var(--eq-stroke-subtle); }
@@ -27,7 +28,7 @@
   border: 1px solid var(--eq-stroke-subtle);
   transition: border-color var(--eq-duration-base), box-shadow var(--eq-duration-base);
 }
-.eq-search:focus-within { border-color: var(--eq-action-stroke-unread); box-shadow: var(--eq-shadow-focus-ring); }
+.eq-search:focus-within { border-color: var(--eq-stroke-focus); box-shadow: inset 0 0 0 0.5px var(--eq-stroke-focus); }
 .eq-search input { flex: 1; min-width: 0; border: 0; outline: none; background: transparent; color: var(--eq-text-primary); padding: 0; }
 .eq-search input::placeholder { color: var(--eq-text-secondary); }
 

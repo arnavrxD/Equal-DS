@@ -123,7 +123,7 @@
       },
       {
         "topic": "Keyboard",
-        "web": "Tab to each chip, Enter or Space to activate; ChipRow scrolls horizontally as focus moves. Focus draws shadow/focusRing.",
+        "web": "Tab to each chip, Enter or Space to activate; ChipRow scrolls horizontally as focus moves. Focus draws the solid 1.5 px stroke/focus outline (no black ring).",
         "android": "TalkBack: swipe through chips in order, double-tap to activate; the row scrolls to the focused chip. No visible hardware-keyboard focus indicator."
       },
       {
@@ -179,7 +179,7 @@
       },
       {
         "topic": "Keyboard",
-        "web": "Tab to focus, Space or Enter toggles; disabled removes it from the tab order. Focus draws shadow/focusRing.",
+        "web": "Tab to focus, Space or Enter toggles; disabled removes it from the tab order. Focus draws the solid 1.5 px stroke/focus outline (no black ring).",
         "android": "TalkBack: swipe to focus, double-tap to toggle; it announces 'on' or 'off'."
       },
       {
@@ -235,7 +235,7 @@
       },
       {
         "topic": "Keyboard",
-        "web": "Tab to focus, Space or Enter toggles. Focus draws shadow/focusRing.",
+        "web": "Tab to focus, Space or Enter toggles. Focus draws the solid 1.5 px stroke/focus outline (no black ring).",
         "android": "TalkBack: swipe to focus, double-tap to toggle; announces 'checked' or 'not checked'."
       },
       {
@@ -279,7 +279,7 @@
       {
         "part": "Input container",
         "description": "The surface the user types into.",
-        "spec": "min height 48 · radius/md 12 · padding 12 / 14 · bg/surface · 1px border transparent in light, stroke/subtle in dark · focus action/stroke/unread + shadow/focusRing · error text/danger border"
+        "spec": "min height 48 · radius/md 12 · padding 12 / 14 · bg/surface · 1px border transparent in light, stroke/subtle in dark · focus 1.5 px stroke/focus only (no ring) · error text/danger border"
       },
       {
         "part": "Value / placeholder",
@@ -325,7 +325,7 @@
       },
       {
         "topic": "Motion",
-        "web": "Border and focus ring fade over 200ms; zeroed under prefers-reduced-motion.",
+        "web": "The focus outline fades in over 200ms; zeroed under prefers-reduced-motion.",
         "android": "No animation; border colour switches instantly."
       }
     ],
@@ -341,7 +341,7 @@
       {
         "part": "Container",
         "description": "Full-width pill that holds the search input.",
-        "spec": "48 high · radius full · bg/surface · web 1px stroke/subtle border, focus action/stroke/unread + shadow/focusRing · padding web 16 start / 14 end, Compose h16 · Compose no border"
+        "spec": "48 high · radius full · bg/surface · web 1px stroke/subtle border, focus 1.5 px stroke/focus only (no ring) · padding web 16 start / 14 end, Compose h16 · Compose no border"
       },
       {
         "part": "Search icon",
@@ -438,7 +438,7 @@
       },
       {
         "topic": "Keyboard",
-        "web": "One Tab stop (roving tabindex on the checked chip); arrow keys and Home / End move focus and selection, wrapping. Focus draws shadow/focusRing.",
+        "web": "One Tab stop (roving tabindex on the checked chip); arrow keys and Home / End move focus and selection, wrapping. Focus draws the solid 1.5 px stroke/focus outline (no black ring).",
         "android": "TalkBack: swipe between options, double-tap to select; announces 'selected' and position in the group."
       },
       {
@@ -469,7 +469,7 @@
       {
         "part": "Input",
         "description": "Pill text field where the user types a message.",
-        "spec": "45 high · radius full · padding h20 · bg/surface · 1px stroke/subtle · focus action/stroke/unread + shadow/focusRing · body1 14/400 text/primary"
+        "spec": "45 high · radius full · padding h20 · bg/surface · 1px stroke/subtle · focus 1.5 px stroke/focus only (no ring) · body1 14/400 text/primary"
       },
       {
         "part": "Placeholder",
@@ -483,7 +483,7 @@
       },
       {
         "part": "Send icon",
-        "description": "Paper-plane glyph rotated −35°.",
+        "description": "Material arrow_upward, upright.",
         "spec": "Icon atom · send 20 · active text/on-action · disabled text/on-dark"
       }
     ],
@@ -500,7 +500,7 @@
       },
       {
         "topic": "Keyboard",
-        "web": "Enter submits the form; Tab moves to Send, which is skipped while disabled. Focus draws shadow/focusRing.",
+        "web": "Enter submits the form; Tab moves to Send, which is skipped while disabled. Focus draws the solid 1.5 px stroke/focus outline (no black ring).",
         "android": "IME action Send calls onSend when there is text; TalkBack double-tap on the send button. The send button has no visible hardware-keyboard focus."
       },
       {
@@ -927,7 +927,7 @@
       },
       {
         "topic": "Keyboard",
-        "web": "Tab through Chats, You, Fab; Enter or Space activates. Focus draws shadow/focusRing.",
+        "web": "Tab through Chats, You, Fab; Enter or Space activates. Focus draws the solid 1.5 px stroke/focus outline (no black ring).",
         "android": "TalkBack: swipe between tabs, announces 'selected', 'tab' and the position; double-tap to switch."
       },
       {
@@ -1013,7 +1013,7 @@
       },
       {
         "topic": "Keyboard",
-        "web": "Tab order: Back, Call, More (or Takeover); in selection mode Back, Mark read, Delete, Select All. Focus draws shadow/focusRing.",
+        "web": "Tab order: Back, Call, More (or Takeover); in selection mode Back, Mark read, Delete, Select All. Focus draws the solid 1.5 px stroke/focus outline (no black ring).",
         "android": "TalkBack: swipe in the same order; the Select All row is one checkbox node. Takeover and Mark read show no hardware-keyboard focus."
       },
       {
@@ -1138,9 +1138,9 @@
         "spec": "max width 264 · min width 72 (web) · radius md (12) · padding 8 / 10 / 6 · chat-bubble/user-bg · chat-bubble/other-bg · bg/surface"
       },
       {
-        "part": "Tail",
-        "description": "Optional notch on the top outer corner of the first bubble.",
-        "spec": "web: tail + first, 10 × 12 notch, square top-outer corner · Compose: tail (defaults to isFirstInGroup), 8 dp gutter always reserved on the tail side"
+        "part": "Corners",
+        "description": "The first bubble of a group squares its top-outer corner; follow-ups round all four.",
+        "spec": "radius 12 · first: top-left 0 (incoming, assistant) or top-right 0 (outgoing) · first={false} / isFirstInGroup = false: 12 on all four · no notch"
       },
       {
         "part": "Sender line",
@@ -1159,8 +1159,8 @@
       },
       {
         "part": "Timestamp",
-        "description": "Time of the message, right-aligned.",
-        "spec": "Text micro · text/secondary · 2 dp above"
+        "description": "Time of the message: beside a one-line message, on its own row under a longer one.",
+        "spec": "Text micro · text/secondary · one line: same row, gap 8, 4 dp below the text line · more than one line: own row, right-aligned, 2 dp above"
       },
       {
         "part": "MessageList",
@@ -1494,7 +1494,7 @@
       },
       {
         "topic": "State",
-        "web": "Send uses the native disabled attribute while empty; the focused input gets the green border and focus ring.",
+        "web": "Send uses the native disabled attribute while empty; the focused input gets only the solid 1.5 px stroke/focus outline (no black ring).",
         "android": "Send is clickable(enabled = false) while empty; disabled chips draw at 45% and are exposed as disabled."
       },
       {

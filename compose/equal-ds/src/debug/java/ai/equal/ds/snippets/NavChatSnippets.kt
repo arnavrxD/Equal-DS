@@ -257,18 +257,18 @@ internal fun ChatBubbleCallThreadSnippet() {
     }
 }
 
-// snippet: chat-bubble / Tails and grouping
+// snippet: chat-bubble / Corners and grouping
 @Composable
 internal fun ChatBubbleTailsGroupingSnippet() {
     Column {
         ChatBubble(type = ChatBubbleType.Incoming, incomingCategory = EqualCategory.RealEstate,
-            sender = "Vijay · NoBroker", timestamp = "03:21", tail = true,
+            sender = "Vijay · NoBroker", timestamp = "03:21",
             message = "I have an offer on a 2BHK flat in Sector 12.")
         // Follow-up in the same group: 4dp gap, no avatar, no sender line.
         ChatBubble(type = ChatBubbleType.Incoming, incomingCategory = EqualCategory.RealEstate,
             isFirstInGroup = false, timestamp = "03:21", modifier = Modifier.padding(top = 4.dp),
             message = "Are you free for a site visit this weekend?")
-        ChatBubble(type = ChatBubbleType.Outgoing, sender = "Equal AI", timestamp = "03:22", tail = true,
+        ChatBubble(type = ChatBubbleType.Outgoing, sender = "Equal AI", timestamp = "03:22",
             modifier = Modifier.padding(top = 12.dp), message = "Thanks, but Keshav is not interested right now.")
     }
 }

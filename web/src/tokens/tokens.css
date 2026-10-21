@@ -97,6 +97,7 @@
   --eq-stroke-subtle: rgba(0,0,0,0.05);
   --eq-stroke-medium: rgba(0,0,0,0.08);
   --eq-stroke-dark: rgba(0,0,0,0.32);
+  --eq-stroke-focus: #00B140;
   --eq-action-stroke-unread: rgba(0,177,64,0.36);
   --eq-action-fill-unread: rgba(186,255,41,0.08);
   --eq-chip-label-unread: #3C3C3C;
@@ -261,6 +262,7 @@
   --eq-stroke-subtle: rgba(255,255,255,0.08);
   --eq-stroke-medium: rgba(255,255,255,0.16);
   --eq-stroke-dark: rgba(255,255,255,0.32);
+  --eq-stroke-focus: #BAFF29;
   --eq-action-stroke-unread: rgba(186,255,41,0.36);
   --eq-action-fill-unread: rgba(186,255,41,0.08);
   --eq-chip-label-unread: #D3D4D1;

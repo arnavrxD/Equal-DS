@@ -247,6 +247,17 @@ export const aliases: AliasToken[] = [
     "why": "Strong outlines such as unchecked radios and checkboxes."
   },
   {
+    "name": "stroke/focus",
+    "cssVar": "--eq-stroke-focus",
+    "light": "#00B140",
+    "dark": "#BAFF29",
+    "lightRef": "brand/green",
+    "darkRef": "brand/lime",
+    "group": "stroke",
+    "derived": false,
+    "why": "A focused text input (composer, text field, search, assistant field): a solid 1.5 px brand-green outline and nothing else, no black focus ring (Figma composer, selected empty state)."
+  },
+  {
     "name": "action/stroke/unread",
     "cssVar": "--eq-action-stroke-unread",
     "light": "rgba(0,177,64,0.36)",
@@ -1457,6 +1468,7 @@ export const color = {
   strokeSubtle: 'var(--eq-stroke-subtle)',
   strokeMedium: 'var(--eq-stroke-medium)',
   strokeDark: 'var(--eq-stroke-dark)',
+  strokeFocus: 'var(--eq-stroke-focus)',
   actionStrokeUnread: 'var(--eq-action-stroke-unread)',
   actionFillUnread: 'var(--eq-action-fill-unread)',
   chipLabelUnread: 'var(--eq-chip-label-unread)',

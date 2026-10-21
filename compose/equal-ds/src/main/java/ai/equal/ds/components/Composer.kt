@@ -4,7 +4,6 @@ import ai.equal.ds.icons.EqualIcon
 import ai.equal.ds.icons.EqualIcons
 import ai.equal.ds.theme.EqualShadows
 import ai.equal.ds.theme.EqualTheme
-import ai.equal.ds.theme.eqFocusRing
 import ai.equal.ds.theme.eqPressFeedback
 import ai.equal.ds.theme.eqShadow
 import ai.equal.ds.theme.toBrush
@@ -37,7 +36,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
@@ -53,7 +51,7 @@ import androidx.compose.foundation.horizontalScroll
  * 1dp `stroke/subtle`, h20, `body1`; placeholder `text/secondary`) → 10 → 45dp send button.
  *
  * - Empty: send uses `gradient/send-disabled` and is disabled.
- * - Focused / typing: input border `action/stroke/unread` + `focusRing`; send uses
+ * - Focused / typing: input border 1.5dp `stroke/focus` (brand green; lime in dark), no focus ring; send uses
  *   `gradient/fab` + shadow `fab`.
  *
  * Send is enabled only when [value] is non-empty.
@@ -86,9 +84,9 @@ fun VoiceInputBar(
                 .height(45.dp)
                 // The placeholder disappears once there is text, so the field needs its own name.
                 .semantics { this.contentDescription = contentDescription }
-                .eqFocusRing(active, CircleShape)
                 .background(colors.bgSurface, CircleShape)
-                .border(1.dp, if (active) colors.actionStrokeUnread else colors.strokeSubtle, CircleShape),
+                // Selected: a solid 1.5dp stroke/focus outline only, no focus ring.
+                .border(if (active) 1.5.dp else 1.dp, if (active) colors.strokeFocus else colors.strokeSubtle, CircleShape),
             enabled = enabled,
             singleLine = true,
             textStyle = type.body1.copy(color = colors.textPrimary),
@@ -154,13 +152,11 @@ private fun SendButton(enabled: Boolean, onClick: () -> Unit, contentDescription
                 .clip(CircleShape),
             contentAlignment = Alignment.Center,
         ) {
-            // Material Send rotated −35° to match the reference paper plane.
             EqualIcon(
                 EqualIcons.Send,
                 contentDescription = contentDescription,
                 tint = if (enabled) EqualTheme.colors.textOnAction else EqualTheme.colors.textOnDark,
                 size = 20.dp,
-                modifier = Modifier.rotate(-35f),
             )
         }
     }

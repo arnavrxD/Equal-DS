@@ -22,7 +22,7 @@
 .eq-ofield { position: relative; flex: 1; min-width: 0; display: block; }
 .eq-ofield > span { position: absolute; top: -8px; left: 10px; padding: 0 4px; font-size: 12px; line-height: 16px; color: var(--eq-text-secondary); background: var(--eq-bg-surface); }
 .eq-ofield input { width: 100%; box-sizing: border-box; height: 48px; padding: 0 14px; border-radius: 8px; border: 1px solid var(--eq-stroke-dark); background: transparent; color: var(--eq-text-primary); font: 400 16px/24px var(--eq-font-family); outline: none; }
-.eq-ofield input:focus { border-color: var(--eq-button-primary); }
+.eq-ofield input:focus { border-color: var(--eq-stroke-focus); box-shadow: inset 0 0 0 0.5px var(--eq-stroke-focus); }
 
 .eq-dialog-layer { position: absolute; inset: 0; z-index: 45; display: flex; align-items: center; justify-content: center; padding: 20px; }
 .eq-permission-dialog { position: relative; width: 100%; display: flex; flex-direction: column; align-items: center; padding: 24px 16px 16px; border-radius: 24px; background: var(--eq-bg-surface); box-shadow: 0 12px 40px rgba(0, 0, 0, 0.22); animation: eq-exit-in var(--eq-duration-couponSpring) var(--eq-easing-spring) both; }

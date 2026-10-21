@@ -71,6 +71,8 @@ data class EqualColors(
     val strokeMedium: Color,
     /** stroke/dark */
     val strokeDark: Color,
+    /** stroke/focus */
+    val strokeFocus: Color,
     /** action/stroke/unread */
     val actionStrokeUnread: Color,
     /** action/fill/unread */
@@ -310,6 +312,7 @@ val LightEqualColors = EqualColors(
     strokeSubtle = Color(0x0D000000), // brand/black · 5%
     strokeMedium = Color(0x14000000), // brand/black · 8%
     strokeDark = Color(0x52000000), // brand/black · 32%
+    strokeFocus = Color(0xFF00B140), // brand/green
     actionStrokeUnread = Color(0x5C00B140), // brand/green · 36%
     actionFillUnread = Color(0x14BAFF29), // brand/lime · 8%
     chipLabelUnread = Color(0xFF3C3C3C), // direct value
@@ -441,6 +444,7 @@ val DarkEqualColors = EqualColors(
     strokeSubtle = Color(0x14FFFFFF), // brand/white · 8%
     strokeMedium = Color(0x29FFFFFF), // brand/white · 16%
     strokeDark = Color(0x52FFFFFF), // brand/white · 32%
+    strokeFocus = Color(0xFFBAFF29), // brand/lime
     actionStrokeUnread = Color(0x5CBAFF29), // brand/lime · 36%
     actionFillUnread = Color(0x14BAFF29), // brand/lime · 8%
     chipLabelUnread = Color(0xFFD3D4D1), // direct value

@@ -1242,7 +1242,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     ],
     donts: [
       "Don't add attachment or emoji buttons inside the bar; the spec is input + send only.",
-      "Don't change the send glyph; it is the coded send icon rotated −35°.",
+      "Don't swap or rotate the send glyph; it is Material arrow_upward, upright.",
     ],
   },
 
@@ -1957,24 +1957,24 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
 </MessageList>`,
       },
       {
-        title: 'Tails and grouping',
-        note: 'Follow-ups set first={false}: 4dp gap, no avatar, no sender line.',
+        title: 'Corners and grouping',
+        note: 'The first bubble of a group squares its top-outer corner (top-left on the left, top-right on the right); follow-ups set first={false} and round all four corners at 12, with a 4dp gap and no avatar or sender line. A one-line message keeps the time beside it, a little lower; a longer one puts the time on its own row.',
         render: () => (
           <div style={{ padding: '16px 0' }}>
             <MessageList>
-              <ChatBubble kind="incoming" category="real-estate" sender="Vijay · NoBroker" time="03:21" tail>I have an offer on a 2BHK flat in Sector 12.</ChatBubble>
+              <ChatBubble kind="incoming" category="real-estate" sender="Vijay · NoBroker" time="03:21">I have an offer on a 2BHK flat in Sector 12.</ChatBubble>
               <ChatBubble kind="incoming" category="real-estate" first={false} time="03:21">Are you free for a site visit this weekend?</ChatBubble>
-              <ChatBubble kind="outgoing" sender="Equal AI" time="03:22" tail>Thanks, but Keshav is not interested right now.</ChatBubble>
+              <ChatBubble kind="outgoing" sender="Equal AI" time="03:22">Thanks, but Keshav is not interested right now.</ChatBubble>
             </MessageList>
           </div>
         ),
-        code: `<ChatBubble kind="incoming" category="real-estate" sender="Vijay · NoBroker" time="03:21" tail>
+        code: `<ChatBubble kind="incoming" category="real-estate" sender="Vijay · NoBroker" time="03:21">
   I have an offer on a 2BHK flat in Sector 12.
 </ChatBubble>
 <ChatBubble kind="incoming" category="real-estate" first={false} time="03:21">
   Are you free for a site visit this weekend?
 </ChatBubble>
-<ChatBubble kind="outgoing" sender="Equal AI" time="03:22" tail>
+<ChatBubble kind="outgoing" sender="Equal AI" time="03:22">
   Thanks, but Keshav is not interested right now.
 </ChatBubble>`,
       },
@@ -2003,8 +2003,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
           opt('sender', 'string', undefined, 'Sender line (body2), shown on the first bubble of a group.'),
           opt('time', 'string', undefined, 'Timestamp (micro, right-aligned).'),
           req('children', 'ReactNode', 'Message text (body1), or custom content with `bare`.'),
-          opt('first', 'boolean', 'true', 'First bubble of a group: gets the sender line, avatar and (with tail) the tail.'),
-          opt('tail', 'boolean', 'false', 'Draws the tail on the first bubble.'),
+          opt('first', 'boolean', 'true', 'First bubble of a group: sender line, avatar and the square top-outer corner. false = follow-up, all corners 12.'),
           opt('category', 'Category', "'others'", 'Caller category for the incoming avatar.'),
           opt('bare', 'boolean', undefined, 'Removes inner padding, sender and time for custom content.'),
           opt('maxWidth', 'number', '264', 'Max bubble width in dp (from the 360-wide designs; ≈ 68% of the 390 frame).'),

@@ -381,7 +381,7 @@ fun AssistantInput(
                         .weight(1f)
                         .height(48.dp)
                         .background(colors.bgSurface, shape)
-                        .border(if (active) 1.5.dp else 1.dp, if (active) colors.buttonPrimary else colors.strokeSubtle, shape)
+                        .border(if (active) 1.5.dp else 1.dp, if (active) colors.strokeFocus else colors.strokeSubtle, shape)
                         .onFocusChanged {
                             if (it.isFocused && !hasFocus) onFocus()
                             hasFocus = it.isFocused
@@ -403,7 +403,7 @@ fun AssistantInput(
                 )
                 // Mic while empty; as soon as there is text it becomes Send.
                 if (value.isNotBlank()) {
-                    VoiceCircleButton(EqualIcons.Send, 22.dp, "Send", { onSubmit(value.trim()) }, rotation = -35f)
+                    VoiceCircleButton(EqualIcons.Send, 22.dp, "Send", { onSubmit(value.trim()) })
                 } else {
                     VoiceCircleButton(EqualIcons.MicFill, 24.dp, "Voice note", onMic)
                 }

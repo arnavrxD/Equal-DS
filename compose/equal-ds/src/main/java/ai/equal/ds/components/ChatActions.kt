@@ -425,7 +425,7 @@ private fun OutlinedField(label: String, initial: String, modifier: Modifier, ta
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp)
-                .border(1.dp, if (focused) colors.buttonPrimary else colors.strokeDark, shape)
+                .border(if (focused) 1.5.dp else 1.dp, if (focused) colors.strokeFocus else colors.strokeDark, shape)
                 .semantics { contentDescription = label },
             decorationBox = { inner ->
                 Box(Modifier.fillMaxSize().padding(horizontal = 14.dp), contentAlignment = Alignment.CenterStart) { inner() }

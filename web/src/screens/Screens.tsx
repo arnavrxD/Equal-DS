@@ -351,13 +351,13 @@ export function ChatScreen({ chat = sampleChats[0], live = false, lock, onUnlock
       <MessageList>
         <DayDivider label="Today" />
         <ThreadEvent label="Call Started 03:31" />
-        <ChatBubble kind="outgoing" sender="Equal AI" time="03:21" tail locked={locked}>Hi, who is this?</ChatBubble>
-        <ChatBubble kind="incoming" category="others" sender="Dr Mehta Clinic" time="03:21" tail locked={locked}>This is Priya from Dr. Mehta's clinic. Your appointment is confirmed for tomorrow.</ChatBubble>
-        <ChatBubble kind="outgoing" sender="Equal AI" time="03:21" tail locked={locked}>Yes, I'll be there at 10 AM</ChatBubble>
-        <ChatBubble kind="incoming" category="others" sender="Dr Mehta Clinic" time="03:22" tail locked={locked}>Great. Please bring your previous reports too.</ChatBubble>
+        <ChatBubble kind="outgoing" sender="Equal AI" time="03:21" locked={locked}>Hi, who is this?</ChatBubble>
+        <ChatBubble kind="incoming" category="others" sender="Dr Mehta Clinic" time="03:21" locked={locked}>This is Priya from Dr. Mehta's clinic. Your appointment is confirmed for tomorrow.</ChatBubble>
+        <ChatBubble kind="outgoing" sender="Equal AI" time="03:21" locked={locked}>Yes, I'll be there at 10 AM</ChatBubble>
+        <ChatBubble kind="incoming" category="others" sender="Dr Mehta Clinic" time="03:22" locked={locked}>Great. Please bring your previous reports too.</ChatBubble>
         <ThreadEvent label="Call Ended 03:31" />
         <ThreadNotice>Call has ended. You are now talking to your AI assistant.</ThreadNotice>
-        <ChatBubble kind="assistant" sender="Equal AI" time="03:32" tail>Hey Keshav! Here is the summary of your call</ChatBubble>
+        <ChatBubble kind="assistant" sender="Equal AI" time="03:32">Hey Keshav! Here is the summary of your call</ChatBubble>
         <div style={{ paddingLeft: 36 }}>
           {locked || withActions ? (
             <CallSummary
@@ -375,7 +375,7 @@ export function ChatScreen({ chat = sampleChats[0], live = false, lock, onUnlock
           <FeedbackCard />
         </div>
         {sent.map((t, i) => (
-          <ChatBubble key={i} kind="outgoing" sender="You" time="now" first={i === 0} tail={i === 0}>{t}</ChatBubble>
+          <ChatBubble key={i} kind="outgoing" sender="You" time="now" first={i === 0}>{t}</ChatBubble>
         ))}
       </MessageList>
       </ChatWallpaper>

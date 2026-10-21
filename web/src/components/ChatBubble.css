@@ -18,16 +18,14 @@
 .eq-bubble--incoming { background: var(--eq-chat-bubble-other-bg); }
 .eq-bubble--assistant { background: var(--eq-bg-surface); }
 
-/* Tail: squared top-outer corner + a small curved notch outside it. */
-.eq-bubble.has-tail.eq-bubble--outgoing { border-top-right-radius: 0; }
-.eq-bubble.has-tail:not(.eq-bubble--outgoing) { border-top-left-radius: 0; }
-.eq-bubble.has-tail::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  width: 10px;
-  height: 12px;
-  background: inherit;
-}
-.eq-bubble.has-tail.eq-bubble--outgoing::before { right: -8px; clip-path: path('M0 0 H10 C6 2 3 6 0 12 Z'); }
-.eq-bubble.has-tail:not(.eq-bubble--outgoing)::before { left: -8px; clip-path: path('M10 0 H0 C4 2 7 6 10 12 Z'); }
+/* First of a group: the top-outer corner is square (left side: top-left, right side: top-right);
+   follow-ups keep 12 on all four corners. */
+.eq-bubble.is-lead.eq-bubble--outgoing { border-top-right-radius: 0; }
+.eq-bubble.is-lead:not(.eq-bubble--outgoing) { border-top-left-radius: 0; }
+
+/* Message + time: one line keeps the time beside it, 4 below the text; longer messages put it on
+   its own row, right-aligned, 2 below. */
+.eq-bubble__body { display: flex; flex-wrap: wrap; align-items: flex-end; column-gap: 8px; }
+.eq-bubble__text { flex: 0 1 auto; min-width: 0; }
+.eq-bubble__time { margin-left: auto; margin-top: 2px; line-height: 16px; }
+.eq-bubble__body.is-inline .eq-bubble__time { margin-top: 0; transform: translateY(4px); }

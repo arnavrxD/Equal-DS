@@ -66,7 +66,13 @@ When a design and the system disagree, check it first; when a rule changes, upda
 - **Dark-mode You tab:** the cream-gold profile header stays light (its content renders with light
   tokens) as a panel with rounded bottom corners; the status bar sits on the gold.
 
-- **Text inputs that can send:** show the mic while empty and the send arrow as soon as there is text.
+- **Text inputs that can send:** show the mic while empty and the send arrow as soon as there is text. The send icon is Material `arrow_upward`, upright (never a rotated paper plane).
+- **Focused text inputs** (composer, text field, search, assistant field) get a solid 1.5dp `stroke/focus`
+  outline (#00B140, lime in dark) and nothing else: no black focus ring.
+- **Chat bubbles:** radius 12. The first bubble of a group (the one beside the avatar / logo) squares its
+  top-outer corner: top-left on the left side, top-right on the right. Consecutive bubbles from the same
+  side round all four corners. A one-line message keeps the time beside it, a little below the text; a
+  longer message puts the time on its own row, right-aligned.
 
 **Engineering**
 - **Stack:** business logic is Kotlin, UI is Compose, and animations are Lottie JSON (`assets/lottie/`,

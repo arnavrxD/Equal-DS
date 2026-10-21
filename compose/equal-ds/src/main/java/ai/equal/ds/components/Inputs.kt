@@ -4,7 +4,6 @@ import androidx.compose.foundation.clickable
 import ai.equal.ds.icons.EqualIcon
 import ai.equal.ds.icons.EqualIcons
 import ai.equal.ds.theme.EqualTheme
-import ai.equal.ds.theme.eqFocusRing
 import ai.equal.ds.tokens.EqualRadius
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -91,7 +90,7 @@ fun EqualTextField(
     val fieldShape = RoundedCornerShape(EqualRadius.rMd)
     val borderColor = when {
         error != null -> colors.textDanger
-        focused -> colors.actionStrokeUnread
+        focused -> colors.strokeFocus
         colors.isDark -> colors.strokeSubtle
         else -> Color.Transparent
     }
@@ -120,9 +119,9 @@ fun EqualTextField(
             modifier = Modifier
                 .fillMaxWidth()
                 .heightIn(min = 48.dp)
-                .eqFocusRing(focused && error == null, fieldShape)
                 .background(colors.bgSurface, fieldShape)
-                .border(1.dp, borderColor, fieldShape)
+                // Focused: a solid 1.5dp stroke/focus outline only, no focus ring.
+                .border(if (focused && error == null) 1.5.dp else 1.dp, borderColor, fieldShape)
                 .semantics {
                     if (a11y != null) this.contentDescription = a11y
                     // TalkBack announces the error when the field is focused.

@@ -1665,31 +1665,15 @@
   ],
   "screens": []
  },
- "action/stroke/unread": {
+ "stroke/focus": {
   "pages": [
-   {
-    "id": "action-chips",
-    "name": "Action chips"
-   },
    {
     "id": "assistant-sheet",
     "name": "Assistant sheet (Global MYA)"
    },
    {
-    "id": "assistant-toggle",
-    "name": "Assistant toggle"
-   },
-   {
-    "id": "call-handling",
-    "name": "Call Handling"
-   },
-   {
     "id": "chat-actions",
     "name": "Chat actions"
-   },
-   {
-    "id": "chat-header",
-    "name": "Chat header"
    },
    {
     "id": "composer",
@@ -1758,6 +1742,35 @@
    {
     "id": "feature-list",
     "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "action/stroke/unread": {
+  "pages": [
+   {
+    "id": "action-chips",
+    "name": "Action chips"
+   },
+   {
+    "id": "assistant-sheet",
+    "name": "Assistant sheet (Global MYA)"
+   },
+   {
+    "id": "assistant-toggle",
+    "name": "Assistant toggle"
+   },
+   {
+    "id": "call-handling",
+    "name": "Call Handling"
+   },
+   {
+    "id": "chat-actions",
+    "name": "Chat actions"
+   },
+   {
+    "id": "chat-header",
+    "name": "Chat header"
    }
   ],
   "screens": []

@@ -2030,7 +2030,7 @@ private fun CancelReasonField(value: String, onValueChange: (String) -> Unit) {
             .fillMaxWidth()
             .clip(shape)
             .background(colors.bgSurface)
-            .border(1.dp, if (focused) colors.actionStrokeUnread else colors.strokeSubtle, shape)
+            .border(if (focused) 1.5.dp else 1.dp, if (focused) colors.strokeFocus else colors.strokeSubtle, shape)
             .semantics { contentDescription = "Why are you cancelling?" }
             .padding(horizontal = 14.dp, vertical = 12.dp),
         textStyle = type.body1.copy(color = colors.textPrimary),

@@ -1,5 +1,8 @@
 package ai.equal.ds.components
 
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.layout.Layout
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import ai.equal.ds.assets.EqualCategory
@@ -42,21 +45,22 @@ enum class ChatBubbleType {
     Assistant,
 }
 
-private val BubbleTailWidth = 8.dp
 private val BubbleMaxWidth = 264.dp
 
 /**
  * Chat bubble (SPEC §11). Max width 264, radius 12, padding 8 top / 10 h / 6 bottom.
  * Sender `body2` (first of group only) → message `body1` `text/primary` → timestamp `micro`
- * `text/secondary` right-aligned, gap 2.
+ * `text/secondary`.
  *
- * Grouping: for consecutive bubbles from the same sender pass `isFirstInGroup = false` and lay
- * them out with a 4dp gap; the avatar and sender line appear only on the first. [tail] draws an
- * 8dp tail on the top-outer corner (defaults to the first bubble of a group). An 8dp gutter is
- * always reserved on the tail side so grouped bubbles stay aligned.
+ * Corners: the first bubble of a group squares its top-outer corner (top-start for incoming and
+ * assistant, top-end for outgoing); follow-ups (`isFirstInGroup = false`) round all four at 12.
+ * Lay consecutive bubbles out with a 4dp gap; the avatar and sender line appear only on the first.
+ *
+ * Timestamp: a one-line message keeps the time on the same row (gap 8), set 4dp below the text
+ * line; a longer message puts it on its own row, right-aligned, 2dp below ([MessageWithTime]).
  *
  * Incoming bubbles show a 28dp [CategoryAvatar] ([incomingCategory], default
- * [EqualCategory.Others]); assistant bubbles show the 24dp [AiAvatar] orb.
+ * [EqualCategory.Others]); assistant bubbles show the 24dp [AiAvatar] orb, 8dp from the bubble.
  * [locked] (monetization): the message is wrapped in [LockedContent] (blurred + crown-lock badge).
  * [attachment] (e.g. a [VoiceNotePlayer] for a voice note the user sent) sits between the sender
  * and the message, with 4dp above and 6dp below.
@@ -69,7 +73,6 @@ fun ChatBubble(
     modifier: Modifier = Modifier,
     sender: String? = null,
     isFirstInGroup: Boolean = true,
-    tail: Boolean = isFirstInGroup,
     incomingCategory: EqualCategory = EqualCategory.Others,
     locked: Boolean = false,
     attachment: (@Composable () -> Unit)? = null,
@@ -86,8 +89,7 @@ fun ChatBubble(
         ChatBubbleType.Incoming -> colors.chatBubbleContactTitle
         ChatBubbleType.Assistant -> colors.textAction
     }
-    val tailOnStart = type != ChatBubbleType.Outgoing
-    val shape = BubbleShape(tailOnStart = tailOnStart, hasTail = tail, tailWidth = BubbleTailWidth, radius = 12.dp)
+    val shape = bubbleShape(outgoing = type == ChatBubbleType.Outgoing, lead = isFirstInGroup)
 
     // One TalkBack stop per bubble (sender, message, time). Follow-up bubbles hide the sender
     // visually, so it is added back as the description; controls inside (a voice note) stay separate.
@@ -108,23 +110,19 @@ fun ChatBubble(
                 } else {
                     Spacer(Modifier.width(28.dp))
                 }
-                // 8dp avatar gap is provided by the tail gutter.
+                Spacer(Modifier.width(8.dp))
             }
             ChatBubbleType.Assistant -> {
                 if (isFirstInGroup) AiAvatar(size = AiAvatarSize.Small, contentDescription = null) else Spacer(Modifier.width(24.dp))
+                Spacer(Modifier.width(8.dp))
             }
             ChatBubbleType.Outgoing -> Unit
         }
         Column(
             Modifier
-                .widthIn(max = BubbleMaxWidth + BubbleTailWidth)
+                .widthIn(max = BubbleMaxWidth)
                 .background(fill, shape)
-                .padding(
-                    start = 10.dp + if (tailOnStart) BubbleTailWidth else 0.dp,
-                    end = 10.dp + if (tailOnStart) 0.dp else BubbleTailWidth,
-                    top = 8.dp,
-                    bottom = 6.dp,
-                ),
+                .padding(start = 10.dp, end = 10.dp, top = 8.dp, bottom = 6.dp),
             verticalArrangement = Arrangement.spacedBy(2.dp),
         ) {
             if (isFirstInGroup && sender != null) {
@@ -133,90 +131,67 @@ fun ChatBubble(
             if (attachment != null) {
                 Box(Modifier.padding(top = 2.dp, bottom = 4.dp)) { attachment() }
             }
-            if (locked) {
-                LockedContent { EqualText(text = message, style = typeScale.body1, color = colors.textPrimary) }
-            } else {
-                EqualText(text = message, style = typeScale.body1, color = colors.textPrimary)
-            }
-            EqualText(
-                text = timestamp,
-                style = typeScale.micro,
-                color = colors.textSecondary,
-                maxLines = 1,
-                modifier = Modifier.align(Alignment.End),
+            MessageWithTime(
+                timestamp = timestamp,
+                message = {
+                    if (locked) {
+                        LockedContent { EqualText(text = message, style = typeScale.body1, color = colors.textPrimary) }
+                    } else {
+                        EqualText(text = message, style = typeScale.body1, color = colors.textPrimary)
+                    }
+                },
             )
         }
     }
 }
 
-/**
- * Rounded bubble with an optional tail. The tail lives in a [tailWidth] gutter on the tail side:
- * the top-outer corner becomes square and a small curved notch extends into the gutter.
- */
-@Immutable
-class BubbleShape(
-    private val tailOnStart: Boolean,
-    private val hasTail: Boolean,
-    private val tailWidth: Dp = 8.dp,
-    private val radius: Dp = 12.dp,
-) : Shape {
-    override fun createOutline(size: Size, layoutDirection: LayoutDirection, density: Density): Outline {
-        val gutter = with(density) { tailWidth.toPx() }
-        val r = with(density) { radius.toPx() }
-        val tailLeft = if (layoutDirection == LayoutDirection.Ltr) tailOnStart else !tailOnStart
-        val bodyLeft = if (tailLeft) gutter else 0f
-        val bodyRight = if (tailLeft) size.width else size.width - gutter
-        val round = CornerRadius(r, r)
-        val sharp = CornerRadius.Zero
-        val body = Path().apply {
-            addRoundRect(
-                RoundRect(
-                    left = bodyLeft,
-                    top = 0f,
-                    right = bodyRight,
-                    bottom = size.height,
-                    topLeftCornerRadius = if (hasTail && tailLeft) sharp else round,
-                    topRightCornerRadius = if (hasTail && !tailLeft) sharp else round,
-                    bottomRightCornerRadius = round,
-                    bottomLeftCornerRadius = round,
-                ),
-            )
-        }
-        if (!hasTail) return Outline.Generic(body)
+/** Bubble outline: radius 12, the top-outer corner square on the first bubble of a group. */
+fun bubbleShape(outgoing: Boolean, lead: Boolean): Shape {
+    val r = 12.dp
+    val square = if (lead) 0.dp else r
+    return if (outgoing) RoundedCornerShape(topStart = r, topEnd = square, bottomEnd = r, bottomStart = r)
+    else RoundedCornerShape(topStart = square, topEnd = r, bottomEnd = r, bottomStart = r)
+}
 
-        val depth = (gutter * 1.5f).coerceAtMost(size.height)
-        val tail = Path().apply {
-            if (tailLeft) {
-                moveTo(bodyLeft + 1f, 0f)
-                lineTo(0f, 0f)
-                quadraticTo(bodyLeft - gutter * 0.2f, depth * 0.33f, bodyLeft, depth)
-                lineTo(bodyLeft + 1f, depth)
-                close()
-            } else {
-                moveTo(bodyRight - 1f, 0f)
-                lineTo(size.width, 0f)
-                quadraticTo(bodyRight + gutter * 0.2f, depth * 0.33f, bodyRight, depth)
-                lineTo(bodyRight - 1f, depth)
-                close()
+/**
+ * Message and its time. When the message is one line and message + 8 + time fit the width, the
+ * time sits on the same row, its bottom 4dp below the text line's; otherwise it goes on its own
+ * row, right-aligned, 2dp below.
+ */
+@Composable
+fun MessageWithTime(timestamp: String, message: @Composable () -> Unit, modifier: Modifier = Modifier) {
+    val type = EqualTheme.type
+    val colors = EqualTheme.colors
+    val density = LocalDensity.current
+    Layout(
+        modifier = modifier,
+        content = {
+            Box { message() }
+            EqualText(text = timestamp, style = type.micro, color = colors.textSecondary, maxLines = 1)
+        },
+    ) { measurables, constraints ->
+        val loose = constraints.copy(minWidth = 0, minHeight = 0)
+        val time = measurables[1].measure(loose)
+        val gap = with(density) { 8.dp.roundToPx() }
+        val drop = with(density) { 4.dp.roundToPx() }
+        val stackGap = with(density) { 2.dp.roundToPx() }
+        val text = measurables[0].measure(loose)
+        val lineHeight = with(density) { type.body1.lineHeight.toPx() }
+        val oneLine = text.height <= lineHeight * 1.5f
+        if (oneLine && text.width + gap + time.width <= constraints.maxWidth) {
+            val w = text.width + gap + time.width
+            val h = maxOf(text.height, text.height - time.height + drop + time.height)
+            layout(w.coerceAtLeast(constraints.minWidth), h) {
+                text.place(0, 0)
+                time.place(w - time.width, text.height - time.height + drop)
+            }
+        } else {
+            val w = maxOf(text.width, time.width).coerceAtLeast(constraints.minWidth)
+            layout(w, text.height + stackGap + time.height) {
+                text.place(0, 0)
+                time.place(w - time.width, text.height + stackGap)
             }
         }
-        val combined = Path().apply { op(body, tail, PathOperation.Union) }
-        return Outline.Generic(combined)
-    }
-
-    override fun equals(other: Any?): Boolean =
-        other is BubbleShape &&
-            other.tailOnStart == tailOnStart &&
-            other.hasTail == hasTail &&
-            other.tailWidth == tailWidth &&
-            other.radius == radius
-
-    override fun hashCode(): Int {
-        var result = tailOnStart.hashCode()
-        result = 31 * result + hasTail.hashCode()
-        result = 31 * result + tailWidth.hashCode()
-        result = 31 * result + radius.hashCode()
-        return result
     }
 }
 
