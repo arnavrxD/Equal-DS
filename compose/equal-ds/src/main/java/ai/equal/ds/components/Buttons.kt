@@ -2,6 +2,14 @@ package ai.equal.ds.components
 
 import ai.equal.ds.icons.EqualIcon
 import ai.equal.ds.icons.EqualIcons
+import ai.equal.ds.icons.EqualSymbols
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import ai.equal.ds.theme.EqualShadows
 import ai.equal.ds.theme.EqualTheme
 import ai.equal.ds.theme.eqFocusRing
@@ -114,6 +122,8 @@ fun EqualButton(
     emphasis: EqualButtonEmphasis? = null,
     /** Premium Primary only: the soft gold halo behind the button (Figma "Button Glow"). */
     glow: Boolean = false,
+    /** Shows a spinning `progress-activity` in place of the leading icon and ignores clicks; announced as busy. */
+    loading: Boolean = false,
 ) {
     val colors = EqualTheme.colors
     val type = EqualTheme.type
@@ -196,13 +206,17 @@ fun EqualButton(
                 indication = null,
                 enabled = enabled,
                 role = Role.Button,
-                onClick = onClick,
+                onClick = { if (!loading) onClick() },
             )
+            .then(if (loading) Modifier.semantics { stateDescription = "Busy" } else Modifier)
             .padding(horizontal = paddingH),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center,
     ) {
-        if (leadingIcon != null) {
+        if (loading) {
+            EqualIcon(imageVector = EqualSymbols.progressActivity, contentDescription = null, tint = content, size = icon, modifier = Modifier.rotate(rememberButtonSpin()))
+            Spacer(Modifier.width(6.dp))
+        } else if (leadingIcon != null) {
             EqualIcon(imageVector = leadingIcon, contentDescription = null, tint = content, size = icon)
             Spacer(Modifier.width(6.dp))
         }
@@ -212,6 +226,15 @@ fun EqualButton(
             EqualIcon(imageVector = trailingIcon, contentDescription = null, tint = content, size = icon)
         }
     }
+}
+
+/** One turn per second (web `eq-spin`); still under reduced motion. */
+@Composable
+private fun rememberButtonSpin(): Float {
+    if (rememberReduceMotion()) return 0f
+    val t = rememberInfiniteTransition(label = "button-spin")
+    val a by t.animateFloat(0f, 360f, infiniteRepeatable(tween(1000, easing = LinearEasing)), label = "angle")
+    return a
 }
 
 /** Sheen: hold `motion.shimmerDelay`, then sweep over `motion.shimmer` (web `eq-sheen`: 66% → 100%). */

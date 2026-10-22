@@ -72,10 +72,12 @@ export type SystemNotificationProps = {
   title: ReactNode;
   body: ReactNode;
   width?: number | string;
+  /** Expanded notification actions (Assistant Healthcheck: Fix Now · Notify Later). */
+  actions?: { label: string; onClick?: () => void }[];
 };
 
 /** Android heads-up notification, drawn over the status bar (Temporarily Unavailable design, state 3). */
-export function SystemNotification({ app = 'Equal AI', time = 'Now', title, body, width = '100%' }: SystemNotificationProps) {
+export function SystemNotification({ app = 'Equal AI', time = 'Now', title, body, width = '100%', actions }: SystemNotificationProps) {
   return (
     <div role="status" style={{ width, boxSizing: 'border-box', borderRadius: 20, padding: '12px 16px 16px', background: 'var(--eq-notification-bg)', boxShadow: '0 8px 28px rgba(0,0,0,0.14), 0 1px 3px rgba(0,0,0,0.08)' }}>
       <Text as="div" variant="micro" style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 10 }}>
@@ -90,6 +92,11 @@ export function SystemNotification({ app = 'Equal AI', time = 'Now', title, body
           <Text as="div" variant="caption" color="secondary" style={{ fontWeight: 400 }}>{body}</Text>
         </div>
       </div>
+      {actions && (
+        <div style={{ display: 'flex', gap: 24, marginTop: 12, paddingLeft: 42 }}>
+          {actions.map((a) => <button key={a.label} type="button" className="eq-reset-btn eq-touch" onClick={a.onClick}><Text variant="buttonSmall" color="action">{a.label}</Text></button>)}
+        </div>
+      )}
     </div>
   );
 }

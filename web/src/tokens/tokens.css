@@ -113,6 +113,7 @@
   --eq-chat-bubble-user-title: #006223;
   --eq-action-card-highlight: #D3FEE3; /* derived */
   --eq-text-danger: #C50000; /* derived */
+  --eq-text-success: #00762B; /* derived */
   --eq-text-on-danger: #FFFFFF; /* derived */
   --eq-text-on-dark: #FFFFFF; /* derived */
   --eq-text-on-dark-secondary: #AAAAAA; /* derived */
@@ -222,6 +223,7 @@
   --eq-call-control-bg: #EDEFF1; /* derived */
   --eq-call-control-active-bg: #1F2937; /* derived */
   --eq-call-control-active-icon: #FFFFFF; /* derived */
+  --eq-health-check-icon-bg: rgba(0,0,0,0.04); /* derived */
   --eq-gradient-fab: linear-gradient(180deg, #BAFF29 -28%, #00B140 100%);
   --eq-gradient-send-disabled: linear-gradient(180deg, rgba(186,255,41,0.2) -28%, rgba(0,177,64,0.2) 100%);
   --eq-gradient-gold: radial-gradient(125% 250% at 2% 9%, #A37236 9%, #B58D55 66%, #A97B41 100%);
@@ -295,6 +297,7 @@
   --eq-chat-bubble-user-title: #BAFF29;
   --eq-action-card-highlight: #2F3423; /* derived */
   --eq-text-danger: #FF5151; /* derived */
+  --eq-text-success: #BAFF29; /* derived */
   --eq-text-on-danger: #000000; /* derived */
   --eq-text-on-dark: #FFFFFF; /* derived */
   --eq-text-on-dark-secondary: #AAAAAA; /* derived */
@@ -404,6 +407,7 @@
   --eq-call-control-bg: #2E2E2E; /* derived */
   --eq-call-control-active-bg: #F2F2F2; /* derived */
   --eq-call-control-active-icon: #000000; /* derived */
+  --eq-health-check-icon-bg: rgba(255,255,255,0.08); /* derived */
   --eq-gradient-fab: linear-gradient(180deg, #C9FF5C 0%, #BAFF29 100%);
   --eq-gradient-send-disabled: linear-gradient(180deg, rgba(186,255,41,0.2) 0%, rgba(186,255,41,0.2) 100%);
   --eq-gradient-gold: radial-gradient(125% 250% at 2% 9%, #A37236 9%, #B58D55 66%, #A97B41 100%);

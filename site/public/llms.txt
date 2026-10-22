@@ -17,6 +17,7 @@ Read llms-full.txt before designing or building: rules, the recipe for a new flo
 - [Button](#/components/button): One Button (Figma "Button", with "Buton" and "Button Glow" folded in): appearance (default, critical, premium) × emphasis (primary, secondary, tertiary) × size (xs 24, sm 32, md 40, lg 48). Use one primary per surface; premium only on subscription surfaces. TextButton and IconButton cover text-only and icon-only controls.
 - [Assistant sheet (Global MYA)](#/components/assistant-sheet): The sheet the green orb opens on any screen: greeting, quick-action tiles, suggestion chips and a text or voice input. A request turns it into a short task conversation (voice note → Thinking… → result card → Edit / Confirm).
 - [Chat actions](#/components/chat-actions): What the AI layer uses to carry out a task in a chat and to fail well: the assistant’s turn, Hold to speak, the edit-in-place bubble, the new contact form (two parity options), the permission dialog and the offline sheet and screen.
+- [Health check](#/components/health-check): The parts of Assistant Health Check: the animated shield hero (the supplied Lotties, chained by state), check cards with a status and one fix action, permission rows with a 48 status ring, and the status label.
 - [Action card](#/components/action-card): A card for something the assistant did or proposes (a WhatsApp reply, an appointment, a saved rule), with stacked actions underneath.
 - [Assistant toggle](#/components/assistant-toggle): The card at the top of Chats and the You tab that turns the AI assistant on or off, with the mascot dimming when it is off.
 - [Feedback card](#/components/feedback-card): The post-call card that asks the user to rate the call from one to five stars and share feedback.
@@ -24,6 +25,7 @@ Read llms-full.txt before designing or building: rules, the recipe for a new flo
 - [System status card](#/components/system-status-card): Takes the assistant toggle’s place on Chats while Equal AI is down: a SYSTEM STATUS pill, the sleeping robot, and a “Notify me when ready” pill that turns into a confirmation.
 - [What's New card](#/components/whats-new-card): A dismissible announcement card with the NEW FEATURE badge, a heading, body copy and one CTA. Built in three layers: a flat fill, a blurred circle in the bottom-right corner, and the illustration on top of the circle.
 - [AI panel](#/components/ai-panel): The assistant's bottom panel inside a conversation: a suggestion from the orb, large action chips and a composer; AiSuggestion is the avatar-plus-prompt line on its own.
+- [Call controls](#/components/call-controls): The in-call parts of the VoIP "Call me" screen (vOIP design): the 52 control buttons (speaker and mute are independent switches, end is the rose pill), the running timer, the assistant avatar with its ripples, and the status line.
 - [Call status](#/components/call-status): Centred thread markers: the day divider, call start/end events, and a notice when the thread switches to the assistant.
 - [Call summary](#/components/call-summary): The post-call card in a thread: a recording player with a coded waveform and speed pill, the assistant's summary, and an optional share footer or "2 instructions applied in this call" tag.
 - [Chat bubble](#/components/chat-bubble): Message bubbles for a call thread: outgoing (Equal AI or you on the call), incoming (the caller) and assistant (Equal AI talking to you), stacked with MessageList.
@@ -81,6 +83,8 @@ Read llms-full.txt before designing or building: rules, the recipe for a new flo
 ## Flows
 
 - [Monetization](#/flows/monetization): Equal Unlimited: the free-plan touchpoints that open the paywall, the paywall itself, payment results, managing and cancelling the plan, and lapsed plans. The Android team experiments here, so every screen takes the experiment knobs (price, coupon, copy, entry touchpoint) as props.
+- [Assistant health check](#/flows/health-check): Checks that calls really reach the assistant: app permissions, phone settings and the carrier. Every failure comes with the one action that fixes it. Switch to Try it and run the live check.
+- [Call your assistant (vOIP)](#/flows/voip): Meet Your Assistant → “Call me” starts an in-app call with the assistant over the internet. The mic is asked for in two steps; if the user says no at either, the assistant phones them the normal way instead.
 - [Temporarily unavailable](#/flows/system-status): What Chats shows while Equal AI is down, and how it tells you it’s back. Switch to Try it and tap “Notify me when ready” to run the whole flow.
 - [Profile flow](#/flows/profile): Personal Details, Silent Mode and WhatsApp Updates: the nested screens behind the You tab.
 - [Addresses flow](#/flows/addresses): Empty state, the saved list with an overflow menu, the Edit Address sheet and the delete confirm.

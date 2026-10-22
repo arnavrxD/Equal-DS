@@ -18,6 +18,10 @@
     "name": "Bottom sheet"
    },
    {
+    "id": "call-controls",
+    "name": "Call controls"
+   },
+   {
     "id": "call-handling",
     "name": "Call Handling"
    },
@@ -158,6 +162,10 @@
     "name": "Button"
    },
    {
+    "id": "call-controls",
+    "name": "Call controls"
+   },
+   {
     "id": "call-handling",
     "name": "Call Handling"
    },
@@ -220,6 +228,10 @@
    {
     "id": "bottom-sheet",
     "name": "Bottom sheet"
+   },
+   {
+    "id": "health-check",
+    "name": "Health check"
    },
    {
     "id": "text-field",
@@ -445,6 +457,10 @@
     "name": "Button"
    },
    {
+    "id": "call-controls",
+    "name": "Call controls"
+   },
+   {
     "id": "call-handling",
     "name": "Call Handling"
    },
@@ -495,6 +511,10 @@
    {
     "id": "bottom-sheet",
     "name": "Bottom sheet"
+   },
+   {
+    "id": "health-check",
+    "name": "Health check"
    },
    {
     "id": "text-field",
@@ -632,6 +652,10 @@
     "name": "Bottom sheet"
    },
    {
+    "id": "health-check",
+    "name": "Health check"
+   },
+   {
     "id": "text-field",
     "name": "Text field"
    },
@@ -705,6 +729,10 @@
     "name": "Button"
    },
    {
+    "id": "call-controls",
+    "name": "Call controls"
+   },
+   {
     "id": "call-handling",
     "name": "Call Handling"
    },
@@ -763,6 +791,10 @@
    {
     "id": "instruction-cards",
     "name": "Instruction cards"
+   },
+   {
+    "id": "health-check",
+    "name": "Health check"
    },
    {
     "id": "text-field",
@@ -900,6 +932,10 @@
    {
     "id": "button",
     "name": "Button"
+   },
+   {
+    "id": "health-check",
+    "name": "Health check"
    }
   ],
   "screens": []
@@ -925,6 +961,10 @@
    {
     "id": "button",
     "name": "Button"
+   },
+   {
+    "id": "call-controls",
+    "name": "Call controls"
    },
    {
     "id": "call-handling",
@@ -973,6 +1013,10 @@
    {
     "id": "bottom-sheet",
     "name": "Bottom sheet"
+   },
+   {
+    "id": "health-check",
+    "name": "Health check"
    },
    {
     "id": "lottie",
@@ -1110,6 +1154,10 @@
     "name": "Composer"
    },
    {
+    "id": "health-check",
+    "name": "Health check"
+   },
+   {
     "id": "locked-content",
     "name": "Locked content"
    },
@@ -1185,6 +1233,10 @@
    {
     "id": "button",
     "name": "Button"
+   },
+   {
+    "id": "health-check",
+    "name": "Health check"
    }
   ],
   "screens": []
@@ -1206,6 +1258,10 @@
    {
     "id": "button",
     "name": "Button"
+   },
+   {
+    "id": "call-controls",
+    "name": "Call controls"
    },
    {
     "id": "call-handling",
@@ -1380,6 +1436,10 @@
    {
     "id": "button",
     "name": "Button"
+   },
+   {
+    "id": "health-check",
+    "name": "Health check"
    }
   ],
   "screens": []
@@ -1463,6 +1523,10 @@
    {
     "id": "bottom-sheet",
     "name": "Bottom sheet"
+   },
+   {
+    "id": "health-check",
+    "name": "Health check"
    },
    {
     "id": "text-field",
@@ -1577,6 +1641,10 @@
     "name": "Assistant sheet (Global MYA)"
    },
    {
+    "id": "call-controls",
+    "name": "Call controls"
+   },
+   {
     "id": "empty-state",
     "name": "Empty state"
    },
@@ -1603,6 +1671,10 @@
    {
     "id": "bottom-sheet",
     "name": "Bottom sheet"
+   },
+   {
+    "id": "health-check",
+    "name": "Health check"
    },
    {
     "id": "text-field",
@@ -1713,6 +1785,10 @@
    {
     "id": "composer",
     "name": "Composer"
+   },
+   {
+    "id": "health-check",
+    "name": "Health check"
    },
    {
     "id": "text-field",
@@ -1959,12 +2035,20 @@
     "name": "Assistant sheet (Global MYA)"
    },
    {
+    "id": "assistant-toggle",
+    "name": "Assistant toggle"
+   },
+   {
     "id": "button",
     "name": "Button"
    },
    {
     "id": "context-menu",
     "name": "Context menu"
+   },
+   {
+    "id": "health-check",
+    "name": "Health check"
    },
    {
     "id": "text-field",
@@ -1993,11 +2077,24 @@
   ],
   "screens": []
  },
+ "text/success": {
+  "pages": [
+   {
+    "id": "health-check",
+    "name": "Health check"
+   }
+  ],
+  "screens": []
+ },
  "text/on-danger": {
   "pages": [
    {
     "id": "button",
     "name": "Button"
+   },
+   {
+    "id": "health-check",
+    "name": "Health check"
    }
   ],
   "screens": []
@@ -2015,6 +2112,10 @@
    {
     "id": "composer",
     "name": "Composer"
+   },
+   {
+    "id": "health-check",
+    "name": "Health check"
    },
    {
     "id": "monetization-experiments",
@@ -2046,6 +2147,10 @@
  "text/on-dark-secondary": {
   "pages": [
    {
+    "id": "health-check",
+    "name": "Health check"
+   },
+   {
     "id": "profile-hero",
     "name": "Profile hero"
    },
@@ -2066,6 +2171,10 @@
  },
  "text/accent-gold": {
   "pages": [
+   {
+    "id": "health-check",
+    "name": "Health check"
+   },
    {
     "id": "profile-hero",
     "name": "Profile hero"
@@ -2545,6 +2654,10 @@
    {
     "id": "button",
     "name": "Button"
+   },
+   {
+    "id": "health-check",
+    "name": "Health check"
    },
    {
     "id": "locked-content",
@@ -3079,6 +3192,10 @@
  },
  "component/expiry-banner/danger-bg": {
   "pages": [
+   {
+    "id": "assistant-toggle",
+    "name": "Assistant toggle"
+   },
    {
     "id": "locked-content",
     "name": "Locked content"
@@ -3920,6 +4037,10 @@
    {
     "id": "avatars",
     "name": "Avatars"
+   },
+   {
+    "id": "call-controls",
+    "name": "Call controls"
    }
   ],
   "screens": []
@@ -3929,6 +4050,10 @@
    {
     "id": "avatars",
     "name": "Avatars"
+   },
+   {
+    "id": "call-controls",
+    "name": "Call controls"
    }
   ],
   "screens": []
@@ -4571,6 +4696,64 @@
    {
     "id": "radio",
     "name": "Radio"
+   }
+  ],
+  "screens": []
+ },
+ "button/end-call": {
+  "pages": [
+   {
+    "id": "call-controls",
+    "name": "Call controls"
+   }
+  ],
+  "screens": []
+ },
+ "text/on-end-call": {
+  "pages": [
+   {
+    "id": "call-controls",
+    "name": "Call controls"
+   },
+   {
+    "id": "health-check",
+    "name": "Health check"
+   }
+  ],
+  "screens": []
+ },
+ "component/call-control/bg": {
+  "pages": [
+   {
+    "id": "call-controls",
+    "name": "Call controls"
+   }
+  ],
+  "screens": []
+ },
+ "component/call-control/active-bg": {
+  "pages": [
+   {
+    "id": "call-controls",
+    "name": "Call controls"
+   }
+  ],
+  "screens": []
+ },
+ "component/call-control/active-icon": {
+  "pages": [
+   {
+    "id": "call-controls",
+    "name": "Call controls"
+   }
+  ],
+  "screens": []
+ },
+ "component/health-check/icon-bg": {
+  "pages": [
+   {
+    "id": "health-check",
+    "name": "Health check"
    }
   ],
   "screens": []
@@ -5635,6 +5818,15 @@
    {
     "id": "button",
     "name": "Button"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/assistant-call": {
+  "pages": [
+   {
+    "id": "call-controls",
+    "name": "Call controls"
    }
   ],
   "screens": []

@@ -4,6 +4,7 @@ import android.provider.Settings
 import androidx.annotation.RawRes
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -41,17 +42,26 @@ fun EqualLottie(
     iterations: Int = LottieConstants.IterateForever,
     tint: Color? = null,
     contentDescription: String? = null,
+    /** Called once a finite play reaches its last frame (it then holds that frame). */
+    onComplete: (() -> Unit)? = null,
+    /** Under reduced motion, show the last frame instead of the first (end states such as a check). */
+    stillAtEnd: Boolean = false,
+    /** Don't play: hold the first frame (or the last with [stillAtEnd]), e.g. a settled end state. */
+    still: Boolean = false,
 ) {
     val context = LocalContext.current
     val reduceMotion = remember(context) {
         Settings.Global.getFloat(context.contentResolver, Settings.Global.ANIMATOR_DURATION_SCALE, 1f) == 0f
     }
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(rawRes))
-    val progress by animateLottieCompositionAsState(
+    val state = animateLottieCompositionAsState(
         composition = composition,
         iterations = iterations,
-        isPlaying = !reduceMotion,
+        isPlaying = !reduceMotion && !still,
     )
+    val progress by state
+    val finished = composition != null && (reduceMotion || still || (iterations != LottieConstants.IterateForever && state.isAtEnd && !state.isPlaying))
+    LaunchedEffect(finished) { if (finished) onComplete?.invoke() }
     val dynamicProperties = if (tint != null) {
         val argb = tint.toArgb()
         rememberLottieDynamicProperties(
@@ -63,7 +73,7 @@ fun EqualLottie(
     }
     LottieAnimation(
         composition = composition,
-        progress = { if (reduceMotion) 0f else progress },
+        progress = { if (reduceMotion || still) (if (stillAtEnd) 1f else 0f) else progress },
         dynamicProperties = dynamicProperties,
         modifier = modifier
             .size(width = width, height = height)

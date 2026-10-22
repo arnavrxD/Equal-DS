@@ -15,7 +15,7 @@ When a design and the system disagree, check it first; when a rule changes, upda
 **Type and colour**
 - **Typography:** DM Sans only, through the 12 type tokens (`<Text variant>` / `EqualTheme.type`).
   Nothing is set in Lora, Roboto, the system font or any other font, not even in system mocks (status
-  bar clock, dialer). Weights: 400, 500, 600 (SemiBold) and 700.
+  bar clock, dialer). Weights: 400, 500, 600 (SemiBold) and 700. Button labels are SemiBold: 16 (`buttonLarge`, md/lg) and 12 (`buttonSmall`, xs/sm), from the Figma Button component.
 - **Colour:** only tokens. Never put a hex value in a component. Colours follow the Figma library’s
   “Colours” set: text black 80 / 60 / 40 / 20 % (primary, secondary, placeholder, disabled), strokes
   black 5 / 8 / 32 %, page `#FAFAFA`. A colour at x % is written as the colour-guide colour plus
@@ -32,7 +32,7 @@ When a design and the system disagree, check it first; when a rule changes, upda
 - **Atoms first:** every visible leaf is an atom (`Text`, `Icon`, `Emoji`, `Asset`, `Button`…), never
   raw markup with a typography class. Molecules combine atoms; organisms combine molecules. Set a new
   component's level in `site/src/registry/levels.ts` so Trace can show it.
-- **Radii:** whole numbers only (2, 4, 6, 8, 12, 16, 18, 20, 24, 28, 32, 36, 50, 54, 80, 100, full). The Experiments page is not a source for anything.
+- **Radii:** whole numbers only (2, 4, 6, 8, 12, 16, 18, 20, 24, 28, 32, 36, 50, 54, 80, 100, full). The Figma "Experiments" and "🎨 Foundations" pages are not a source for anything; every other page is.
 
 **Icons and images**
 - **Action cards:** the grey body sits on a white card (never a green card), and every CTA row is

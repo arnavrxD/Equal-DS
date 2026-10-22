@@ -10,6 +10,7 @@ import { H2, Page } from '../ui/kit';
 import { TraceStage, type StagePhone } from '../ui/TraceStage';
 import { StageCode } from '../ui/StageCode';
 import { VoipFlow } from '../../../web/src/screens/CallScreens';
+import { HealthCheckEntry, HealthCheckFlow } from '../../../web/src/screens/HealthCheckScreens';
 import NotFound from './NotFound';
 
 type FlowDef = { title: string; lead: string; states: StagePhone[]; steps: ReactNode[]; source: string };
@@ -62,6 +63,41 @@ const flows: Record<string, FlowDef> = {
       <><b>Cancel</b>: tell us why (Proceed disabled until there is text) → are you really sure (Cancel / Confirm) → request submitted (redirect in 3s). Access stays until the end date; the page then offers Re-Subscribe.</>,
       <><b>Lapsed</b>: the You tab shows Restore Plan or Reactivate plan with the amber banner; chats show “Reactivate your current Plan to keep using Equal Unlimited”.</>,
       <><b>Experiments</b> (props, not forks): <code>price</code> / <code>discountedPrice</code> (₹249, ₹149), <code>coupon</code> (none · available · applied), <code>subtitle</code> (“Unlock Summaries…” · “Get Unlimited Summaries…”), <code>touchpoint</code> (chat-list · chat · audio), <code>waitingArt</code> (coin · cash), HomeScreen <code>lockedFrom</code> (how many free chats).</>,
+    ],
+  },
+  'health-check': {
+    title: 'Assistant health check',
+    lead: 'Checks that calls really reach the assistant: app permissions, phone settings and the carrier. Every failure comes with the one action that fixes it. Switch to Try it and run the live check.',
+    source: 'Assistant Healthcheck',
+    states: [
+      { key: 'entry-notification', label: 'Entry: notification', render: () => <HealthCheckEntry entry="notification" />, code: '<HealthCheckEntry entry="notification" />' },
+      { key: 'entry-actions', label: 'Entry: notification actions', render: () => <HealthCheckEntry entry="notification-actions" />, code: '<HealthCheckEntry entry="notification-actions" />' },
+      { key: 'entry-home', label: 'Entry: Home, poor health', render: () => <HealthCheckEntry entry="home" />, code: '<HealthCheckEntry entry="home" />' },
+      { key: 'idle', label: 'Idle', render: () => <HealthCheckFlow state="idle" />, code: '<HealthCheckFlow state="idle" />' },
+      { key: 'expanded', label: 'Idle, expanded', render: () => <HealthCheckFlow state="expanded" />, code: '<HealthCheckFlow state="expanded" />', height: 1040 },
+      { key: 'phone-checking', label: 'Checking Phone', render: () => <HealthCheckFlow state="phone-checking" />, code: '<HealthCheckFlow state="phone-checking" />', height: 980 },
+      { key: 'notification-checking', label: 'Checking Notification', render: () => <HealthCheckFlow state="notification-checking" />, code: '<HealthCheckFlow state="notification-checking" />', height: 980 },
+      { key: 'contacts-checking', label: 'Checking Contacts', render: () => <HealthCheckFlow state="contacts-checking" />, code: '<HealthCheckFlow state="contacts-checking" />', height: 980 },
+      { key: 'permissions-failed', label: 'Permissions missing', render: () => <HealthCheckFlow state="permissions-failed" />, code: '<HealthCheckFlow state="permissions-failed" />', height: 1020 },
+      { key: 'overlay-pending', label: 'Phone settings pending', render: () => <HealthCheckFlow state="overlay-pending" />, code: '<HealthCheckFlow state="overlay-pending" />' },
+      { key: 'overlay-checking', label: 'Checking Overlay', render: () => <HealthCheckFlow state="overlay-checking" />, code: '<HealthCheckFlow state="overlay-checking" />' },
+      { key: 'overlay-failed', label: 'Overlay missing', render: () => <HealthCheckFlow state="overlay-failed" />, code: '<HealthCheckFlow state="overlay-failed" />', height: 860 },
+      { key: 'carrier-pending', label: 'Carrier pending', render: () => <HealthCheckFlow state="carrier-pending" />, code: '<HealthCheckFlow state="carrier-pending" />' },
+      { key: 'carrier-checking', label: 'Checking carrier', render: () => <HealthCheckFlow state="carrier-checking" />, code: '<HealthCheckFlow state="carrier-checking" />' },
+      { key: 'carrier-issues', label: 'Carrier issues: Fix Now', render: () => <HealthCheckFlow state="carrier-issues" />, code: '<HealthCheckFlow state="carrier-issues" />' },
+      { key: 'fixing', label: 'Fixing', render: () => <HealthCheckFlow state="fixing" />, code: '<HealthCheckFlow state="fixing" />' },
+      { key: 'fix-failed', label: 'Fix failed: Try Again', render: () => <HealthCheckFlow state="fix-failed" />, code: '<HealthCheckFlow state="fix-failed" />', height: 860 },
+      { key: 'fixing-again', label: 'Fixing again', render: () => <HealthCheckFlow state="fixing-again" />, code: '<HealthCheckFlow state="fixing-again" />', height: 860 },
+      { key: 'check-failed', label: 'Carrier check failed', render: () => <HealthCheckFlow state="check-failed" />, code: '<HealthCheckFlow state="check-failed" />', height: 860 },
+      { key: 'all-good', label: 'All good', render: () => <HealthCheckFlow state="all-good" />, code: '<HealthCheckFlow state="all-good" />' },
+      { key: 'live', label: 'Live run (Try it)', render: () => <HealthCheckFlow />, code: '<HealthCheckFlow />', height: 1040 },
+    ],
+    steps: [
+      <><b>Entry</b>: a notification (“Calls are bypassing Equal AI. Fix now.”, with Fix Now / Notify Later), the pink “Poor Assistant Health · Fix Now →” strip under the assistant toggle on Home, or You → Assistant Health Check.</>,
+      <><b>Permissions</b>: Start Health Check runs Phone, Notification and Contacts one at a time. A missing one turns its ring red; the group then offers Grant Permission, which opens Android’s page for each.</>,
+      <><b>Phone settings</b>: the same for Overlay (display over other apps).</>,
+      <><b>Carrier</b>: checks calls reach the assistant. Issues Found → Fix Now → Fixing; if the fix fails, the reasons and Try Again; if the check itself fails, Check Failed and Try Again.</>,
+      <><b>All good</b>: the shield gets its check, “Check complete. Your assistant is good to go”, Back To Home. The hero is the supplied Lottie set (loading, check, cross and every transition between them).</>,
     ],
   },
   voip: {

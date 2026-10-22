@@ -390,6 +390,17 @@ export const aliases: AliasToken[] = [
     "why": "Destructive text actions such as 'Delete instruction'; same red as the danger button."
   },
   {
+    "name": "text/success",
+    "cssVar": "--eq-text-success",
+    "light": "#00762B",
+    "dark": "#BAFF29",
+    "lightRef": "direct value",
+    "darkRef": "brand/lime",
+    "group": "text",
+    "derived": true,
+    "why": "A passed check (\"Granted\", \"All Good\" and their check icons): the Health Check design's own green #00762B, 5.8:1 on white, so status text reads without breaking the rule that text/action is only for tappable text."
+  },
+  {
     "name": "text/on-danger",
     "cssVar": "--eq-text-on-danger",
     "light": "#FFFFFF",
@@ -1587,6 +1598,17 @@ export const aliases: AliasToken[] = [
     "group": "component",
     "derived": true,
     "why": "Icon on a toggled-on call control."
+  },
+  {
+    "name": "component/health-check/icon-bg",
+    "cssVar": "--eq-health-check-icon-bg",
+    "light": "rgba(0,0,0,0.04)",
+    "dark": "rgba(255,255,255,0.08)",
+    "lightRef": "brand/black · 4%",
+    "darkRef": "brand/white · 8%",
+    "group": "component",
+    "derived": true,
+    "why": "The 40dp disc behind each permission icon inside its status ring (Figma #F3F3F3)."
   }
 ];
 
@@ -1624,6 +1646,7 @@ export const color = {
   chatBubbleUserTitle: 'var(--eq-chat-bubble-user-title)',
   actionCardHighlight: 'var(--eq-action-card-highlight)',
   textDanger: 'var(--eq-text-danger)',
+  textSuccess: 'var(--eq-text-success)',
   textOnDanger: 'var(--eq-text-on-danger)',
   textOnDark: 'var(--eq-text-on-dark)',
   textOnDarkSecondary: 'var(--eq-text-on-dark-secondary)',
@@ -1733,6 +1756,7 @@ export const color = {
   callControlBg: 'var(--eq-call-control-bg)',
   callControlActiveBg: 'var(--eq-call-control-active-bg)',
   callControlActiveIcon: 'var(--eq-call-control-active-icon)',
+  healthCheckIconBg: 'var(--eq-health-check-icon-bg)',
 } as const;
 
 export const gradients = [

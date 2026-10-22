@@ -102,6 +102,14 @@ import {
   Radio,
   RadioGroup,
   Skeleton,
+  CallControlBar,
+  CallTimer,
+  CallAvatar,
+  CallStatusLine,
+  HealthHero,
+  HealthStatusLabel,
+  PermissionRow,
+  HealthCheckCard,
   SkeletonText,
   ChipRow,
   Composer,
@@ -215,6 +223,16 @@ function PriceDropDemo() {
 function SwitchDemo() {
   const [on, setOn] = useState(true);
   return <Switch checked={on} onChange={setOn} label="AI Assistant" />;
+}
+
+function CallControlsDemo() {
+  const [speaker, setSpeaker] = useState(false);
+  const [muted, setMuted] = useState(false);
+  return (
+    <div style={{ padding: 16, background: 'var(--eq-gradient-assistant-call)', borderRadius: 16 }}>
+      <CallControlBar speaker={speaker} muted={muted} onSpeaker={() => setSpeaker((v) => !v)} onMute={() => setMuted((v) => !v)} />
+    </div>
+  );
 }
 
 function RadioDemo() {
@@ -1136,6 +1154,172 @@ export const componentDocs: ComponentDoc[] = [
     ],
     dos: ['Match the shape of the content that will load, so nothing jumps.', 'Put aria-busy on the loading region; skeletons are hidden from screen readers.'],
     donts: ["Don't show a skeleton for less than ~300 ms content; it flickers.", "Don't use the gold tone outside subscription surfaces."],
+  },
+  {
+    id: 'call-controls',
+    name: 'Call controls',
+    group: 'Chat',
+    summary: 'The in-call parts of the VoIP "Call me" screen (vOIP design): the 52 control buttons (speaker and mute are independent switches, end is the rose pill), the running timer, the assistant avatar with its ripples, and the status line.',
+    components: ['CallControlButton', 'CallControlBar', 'CallTimer', 'CallAvatar', 'CallStatusLine', 'CallScreen'],
+    importLine: "import { CallControlBar, CallTimer, CallAvatar, CallStatusLine } from '@equal/ds';",
+    compose: ['CallControlButton', 'CallControlBar', 'CallTimer', 'CallAvatar', 'CallStatusLine', 'CallScreen'],
+    spec: 'vOIP · Call screen (Connecting / Connected / Call ended)',
+    tokens: ['call-control/bg', 'call-control/active-bg', 'call-control/active-icon', 'button/end-call', 'text/on-end-call', 'gradient/assistant-call'],
+    examples: [
+      {
+        title: 'Control bar',
+        note: 'Speaker and mute toggle independently; tap them to see the active state.',
+        render: () => <CallControlsDemo />,
+        code: `const [speaker, setSpeaker] = useState(false);
+const [muted, setMuted] = useState(false);
+
+<CallControlBar
+  speaker={speaker}
+  muted={muted}
+  onSpeaker={() => setSpeaker((v) => !v)}
+  onMute={() => setMuted((v) => !v)}
+  onEnd={endCall}
+/>`,
+      },
+      {
+        title: 'Avatar, status and timer',
+        render: () => (
+          <Col gap={12} style={{ padding: 16, alignItems: 'center' }}>
+            <CallAvatar ripples size={160} />
+            <CallStatusLine phase="connected" />
+            <CallTimer seconds={83} />
+          </Col>
+        ),
+        code: `<CallAvatar ripples size={160} />
+<CallStatusLine phase="connected" />
+<CallTimer seconds={83} />`,
+      },
+    ],
+    props: [
+      {
+        component: 'CallControlButton',
+        props: [
+          req('kind', "'speaker' | 'mute' | 'end'", 'Which control.'),
+          opt('active', 'boolean', 'false', 'Speaker on / muted: call-control/active-bg with the active icon.'),
+          opt('onClick', '() => void', undefined, 'Called when tapped.'),
+          opt('size', 'number', '52', 'Diameter (the end pill is wider).'),
+        ],
+      },
+      {
+        component: 'CallControlBar',
+        props: [
+          opt('speaker', 'boolean', 'false', 'Speaker on.'),
+          opt('muted', 'boolean', 'false', 'Microphone muted.'),
+          opt('onSpeaker', '() => void', undefined, 'Speaker toggled.'),
+          opt('onMute', '() => void', undefined, 'Mute toggled.'),
+          opt('onEnd', '() => void', undefined, 'End the call.'),
+          opt('controls', 'CallControlKind[]', "['speaker', 'mute', 'end']", 'Which buttons to show, in order.'),
+        ],
+      },
+      { component: 'CallTimer', props: [req('seconds', 'number', 'Elapsed seconds, shown as m:ss (h:mm:ss past an hour). Use useCallTimer to run it.')] },
+      {
+        component: 'CallAvatar',
+        props: [
+          opt('art', 'AssetName', "'avatar-assistant-bust'", 'The assistant bust; or pass initials for a person.'),
+          opt('initials', 'string', undefined, 'Initials on the light-blue disc (Equal-to-Equal calls).'),
+          opt('ripples', 'boolean', 'false', 'Expanding rings while connecting / connected (still under reduced motion).'),
+          opt('pulse', 'boolean', 'false', 'A soft pulse while ringing.'),
+          opt('size', 'number', '200', 'Diameter.'),
+        ],
+      },
+      { component: 'CallStatusLine', props: [req('phase', "'connecting' | 'calling' | 'ringing' | 'connected' | 'ended'", 'Phase text, announced politely.'), opt('muted', 'boolean', undefined, 'Connected and muted: "On mute" with the mic-off icon.')] },
+    ],
+    dos: ['Keep speaker and mute as separate switches: each says its own state.', 'Ask for the microphone at the moment the user taps Call me, never earlier.'],
+    donts: ["Don't use the rose end-call colour for anything but ending a call.", "Don't hide the timer once connected; it is how the user knows the line is live."],
+  },
+  {
+    id: 'health-check',
+    name: 'Health check',
+    group: 'Assistant',
+    summary: 'The parts of Assistant Health Check: the animated shield hero (the supplied Lotties, chained by state), check cards with a status and one fix action, permission rows with a 48 status ring, and the status label.',
+    components: ['HealthHero', 'HealthCheckCard', 'PermissionRow', 'StatusRing', 'HealthStatusLabel'],
+    importLine: "import { HealthHero, HealthCheckCard, PermissionRow, HealthStatusLabel } from '@equal/ds';",
+    compose: ['HealthHero', 'HealthCheckCard', 'PermissionRow', 'StatusRing', 'HealthStatusLabel'],
+    spec: 'Assistant Healthcheck · Health Check screen',
+    tokens: ['health-check/icon-bg', 'stroke/focus', 'stroke/medium', 'text/success', 'text/danger', 'bg/surface', 'stroke/subtle'],
+    examples: [
+      {
+        title: 'Hero states',
+        note: 'Idle holds the first frame, loading loops, pass and fail hold the end of their transition.',
+        render: () => (
+          <Row gap={16} style={{ padding: 16, flexWrap: 'wrap' }}>
+            <HealthHero state="idle" size={120} />
+            <HealthHero state="loading" size={120} />
+            <HealthHero state="pass" size={120} />
+            <HealthHero state="fail" size={120} />
+          </Row>
+        ),
+        code: `<HealthHero state="idle" size={120} />
+<HealthHero state="loading" size={120} />
+<HealthHero state="pass" size={120} />
+<HealthHero state="fail" size={120} />`,
+      },
+      {
+        title: 'Check card with permission rows',
+        render: () => (
+          <div style={{ padding: 16, maxWidth: 360 }}>
+            <HealthCheckCard title="App permissions" status="issues" expandable expanded action={{ label: 'Grant Permission' }}>
+              <PermissionRow icon="phone-incoming" title="Phone" description="Your assistant needs this to handle calls" status="granted" />
+              <PermissionRow icon="notifications" title="Notification" description="Required to send you call alerts" status="notGranted" />
+              <PermissionRow icon="contacts" title="Contacts" description="Required to skip calls from saved contacts" status="checking" />
+            </HealthCheckCard>
+          </div>
+        ),
+        code: `<HealthCheckCard title="App permissions" status="issues" expandable expanded action={{ label: 'Grant Permission', onClick: grant }}>
+  <PermissionRow icon="phone-incoming" title="Phone" description="Your assistant needs this to handle calls" status="granted" />
+  <PermissionRow icon="notifications" title="Notification" description="Required to send you call alerts" status="notGranted" />
+  <PermissionRow icon="contacts" title="Contacts" description="Required to skip calls from saved contacts" status="checking" />
+</HealthCheckCard>`,
+      },
+      {
+        title: 'Status labels',
+        render: () => (
+          <Row gap={16} style={{ padding: 16, flexWrap: 'wrap' }}>
+            <HealthStatusLabel tone="neutral" label="Pending" />
+            <HealthStatusLabel tone="progress" label="Checking" />
+            <HealthStatusLabel tone="success" label="Granted" />
+            <HealthStatusLabel tone="danger" label="Not Granted" />
+          </Row>
+        ),
+        code: `<HealthStatusLabel tone="neutral" label="Pending" />
+<HealthStatusLabel tone="progress" label="Checking" />
+<HealthStatusLabel tone="success" label="Granted" />
+<HealthStatusLabel tone="danger" label="Not Granted" />`,
+      },
+    ],
+    props: [
+      { component: 'HealthHero', props: [req('state', "'idle' | 'loading' | 'pass' | 'fail'", 'Plays the transition from the previous state, then holds or loops.'), opt('size', 'number', '200', 'Height; width is 0.8 × size.')] },
+      {
+        component: 'HealthCheckCard',
+        props: [
+          req('title', 'string', 'Card title (subheading).'),
+          opt('status', "'none' | 'pending' | 'checking' | 'passed' | 'issues' | 'failed'", "'none'", 'Header status label.'),
+          opt('subtitle', 'string', undefined, 'Line under the title.'),
+          opt('expandable', 'boolean', undefined, 'Shows the caret; the header toggles the rows.'),
+          opt('expanded', 'boolean', undefined, 'Rows visible.'),
+          opt('onToggle', '() => void', undefined, 'Header tapped.'),
+          opt('reasons', '{ lead: string; items: string[] }', undefined, 'Why the check failed.'),
+          opt('action', '{ label; onClick?; loading? }', undefined, 'One md block button; loading shows "Fixing".'),
+        ],
+      },
+      {
+        component: 'PermissionRow',
+        props: [
+          req('icon', 'IconName', 'Outlined glyph; the filled one shows when not granted.'),
+          req('title', 'string', 'Permission name.'),
+          req('description', 'string', 'Why the assistant needs it.'),
+          req('status', "'idle' | 'pending' | 'checking' | 'granted' | 'notGranted'", 'Ring colour and label.'),
+        ],
+      },
+      { component: 'HealthStatusLabel', props: [req('tone', "'neutral' | 'progress' | 'success' | 'danger'", 'Icon and colour.'), req('label', 'string', 'The status word.')] },
+    ],
+    dos: ['Give every failure the one action that fixes it, on the same card.', 'Check items one at a time so the user can see what is being checked.'],
+    donts: ["Don't show a failure without a next step.", "Don't rely on colour alone: every status has an icon and a word."],
   },
   {
     id: 'text-field',

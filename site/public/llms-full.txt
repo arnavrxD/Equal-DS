@@ -19,7 +19,7 @@ When a design and the system disagree, check it first; when a rule changes, upda
 **Type and colour**
 - **Typography:** DM Sans only, through the 12 type tokens (`<Text variant>` / `EqualTheme.type`).
   Nothing is set in Lora, Roboto, the system font or any other font, not even in system mocks (status
-  bar clock, dialer). Weights: 400, 500, 600 (SemiBold) and 700.
+  bar clock, dialer). Weights: 400, 500, 600 (SemiBold) and 700. Button labels are SemiBold: 16 (`buttonLarge`, md/lg) and 12 (`buttonSmall`, xs/sm), from the Figma Button component.
 - **Colour:** only tokens. Never put a hex value in a component. Colours follow the Figma library’s
   “Colours” set: text black 80 / 60 / 40 / 20 % (primary, secondary, placeholder, disabled), strokes
   black 5 / 8 / 32 %, page `#FAFAFA`. A colour at x % is written as the colour-guide colour plus
@@ -36,7 +36,7 @@ When a design and the system disagree, check it first; when a rule changes, upda
 - **Atoms first:** every visible leaf is an atom (`Text`, `Icon`, `Emoji`, `Asset`, `Button`…), never
   raw markup with a typography class. Molecules combine atoms; organisms combine molecules. Set a new
   component's level in `site/src/registry/levels.ts` so Trace can show it.
-- **Radii:** whole numbers only (2, 4, 6, 8, 12, 16, 18, 20, 24, 28, 32, 36, 50, 54, 80, 100, full). The Experiments page is not a source for anything.
+- **Radii:** whole numbers only (2, 4, 6, 8, 12, 16, 18, 20, 24, 28, 32, 36, 50, 54, 80, 100, full). The Figma "Experiments" and "🎨 Foundations" pages are not a source for anything; every other page is.
 
 **Icons and images**
 - **Action cards:** the grey body sits on a white card (never a green card), and every CTA row is
@@ -154,7 +154,7 @@ Done means: typecheck clean, `--check` passes, Gradle BUILD SUCCESSFUL, and lint
 
 ### Colour & type
 
-- **Nothing comes from the Figma “Experiments” page.** Why: It holds explorations that are not decided. Colours, radii, type and components are taken only from the other pages (Updated UI, Monetization, Global MYA, Preset Instruction…). (Source: Product owner)
+- **Nothing comes from the Figma “Experiments” or “🎨 Foundations” pages; every other page is a source.** Why: It holds explorations that are not decided. Colours, radii, type and components are taken only from the other pages (Updated UI, Monetization, Global MYA, Preset Instruction…). (Source: Product owner)
 - **Colours come from the Figma library’s “Colours” set: text is black at 80 / 60 / 40 / 20%.** Why: The app file binds its colours to a shared library with two sets of the same names; the newer “Colours” set (alpha black and white) is the one the revamped screens use. Primary text is black 80%, secondary 60%, placeholder 40%, disabled 20%; strokes are black 5 / 8 / 32%; the page is #FAFAFA and the dark surface #1F1F1F. (Source: Figma: 📱 EQAI Android · library “Colours”)
 - **A colour at x% is the colour-guide colour at 100% with x% opacity.** Why: Figma paints the same brand and neutral colours at different opacities (green at 36% for unread strokes, lime at 8% for unread fills). Writing them as “{brand.green} @ 36%” keeps one source colour per hue, so a brand change flows to every tint. (Source: Product owner)
 - **One-off greys snap to the text colours; readable text never drops below 4.5:1.** Why: Figma has about 20 hand-picked greys (#3C3C3C names, #858484 previews, #9F9F9F dates…). Snapping them to primary / secondary keeps new screens to four text colours. Black 40% is 2.85:1 on white, so it is only for placeholders and disabled text; dates and captions use secondary (60%, 5.7:1). Figma colours that fail AA for text are darkened in the same hue and the reason is written on the token. (Source: Product owner + accessibility)
@@ -233,7 +233,7 @@ Done means: typecheck clean, `--check` passes, Gradle BUILD SUCCESSFUL, and lint
 - **Silent Mode is titled “Silent Mode” everywhere.** Why: The dark mock said “Call Preferences”; design confirmed “Silent Mode” to match the You-tab row. (Source: Design decision)
 - **Auto-rickshaw, paper bag and delivery rider are not caller categories.** Why: They appeared in a design as decoration; product confirmed they shouldn’t become categories. (Source: Product decision)
 
-## Components (64 docs pages)
+## Components (66 docs pages)
 
 ### Group: Actions
 
@@ -792,6 +792,93 @@ EqualTheme {
 }
 ```
 
+#### Health check (`health-check`)
+
+The parts of Assistant Health Check: the animated shield hero (the supplied Lotties, chained by state), check cards with a status and one fix action, permission rows with a 48 status ring, and the status label.
+
+- React: `import { HealthHero, HealthCheckCard, PermissionRow, HealthStatusLabel } from '@equal/ds';`
+- Compose: `HealthHero`, `HealthCheckCard`, `PermissionRow`, `StatusRing`, `HealthStatusLabel`
+- Tokens: `health-check/icon-bg`, `stroke/focus`, `stroke/medium`, `text/success`, `text/danger`, `bg/surface`, `stroke/subtle`
+- Source: Assistant Healthcheck · Health Check screen
+
+Props of `HealthHero`:
+- `state`: `'idle' | 'loading' | 'pass' | 'fail'`. Plays the transition from the previous state, then holds or loops.
+- `size?`: `number` = 200. Height; width is 0.8 × size.
+
+Props of `HealthStatusLabel`:
+- `tone`: `'neutral' | 'progress' | 'success' | 'danger'`. Icon and colour.
+- `label`: `string`. The status word.
+
+Do: Give every failure the one action that fixes it, on the same card. Check items one at a time so the user can see what is being checked.
+
+Don't: Don't show a failure without a next step. Don't rely on colour alone: every status has an icon and a word.
+
+Anatomy:
+1. Hero: The shield with a status coin. (Lottie 0.8 × size wide · idle first frame · loading loops · pass / fail hold the last frame · decorative)
+2. Card: One check: app permissions, phone settings or carrier. (radius 16 · bg/surface · 1 stroke/subtle · header 56 min, padding 16 · title subheading)
+3. Status label: Pending, Checking, Granted, All Good, Issues Found, Not Granted, Check Failed. (caption · 14 icon (progress-activity spinning, check-circle-fill, warning-fill) · text/secondary, text/primary, text/success, text/danger)
+4. Permission row: Ring, title over description, status. (48 ring 2dp (stroke/medium, stroke/focus granted, text/danger not granted) around a 40 health-check/icon-bg disc · body2 + captionWrap · 64 min)
+5. Action: The one fix for the failure. (md block Button · Grant Permission / Fix Now / Try Again · loading shows "Fixing")
+
+Accessibility:
+- Role. Web: The card header is a button with aria-expanded when expandable; the action is a Button. Android: clickable(role = Role.Button) with stateDescription Expanded / Collapsed.
+- Name. Web: Header reads the title and status; each row reads "Phone, Granted". Android: Row merges descendants with stateDescription = the status word.
+- Keyboard. Web: Tab to each expandable header and action; Enter / Space toggles. Android: D-pad focus in reading order.
+- Touch target. Web: Header 56 min; action 48 (Button). Android: Header 56dp; Button 48dp.
+- Contrast. Web: text/success #00762B on white is 5.9:1; text/danger passes 4.5:1; lime in dark. Android: Same tokens.
+- State. Web: Every status has an icon and a word, never colour alone; the screen's card list is aria-busy while a check runs. Android: Status labels sit in a polite liveRegion.
+- Motion. Web: The hero Lottie and the spinner stop under reduced motion (pass / fail show their end frame). Android: EqualLottie and the spinner respect rememberReduceMotion().
+
+Example: Hero states
+```tsx
+<HealthHero state="idle" size={120} />
+<HealthHero state="loading" size={120} />
+<HealthHero state="pass" size={120} />
+<HealthHero state="fail" size={120} />
+```
+```kotlin
+HealthHero(HealthHeroState.Idle, height = 120.dp)
+HealthHero(HealthHeroState.Loading, height = 120.dp)
+HealthHero(HealthHeroState.Pass, height = 120.dp)
+HealthHero(HealthHeroState.Fail, height = 120.dp)
+```
+
+Example: Check card with permission rows
+```tsx
+<HealthCheckCard title="App permissions" status="issues" expandable expanded action={{ label: 'Grant Permission', onClick: grant }}>
+  <PermissionRow icon="phone-incoming" title="Phone" description="Your assistant needs this to handle calls" status="granted" />
+  <PermissionRow icon="notifications" title="Notification" description="Required to send you call alerts" status="notGranted" />
+  <PermissionRow icon="contacts" title="Contacts" description="Required to skip calls from saved contacts" status="checking" />
+</HealthCheckCard>
+```
+```kotlin
+HealthCheckCard(
+    title = "App permissions",
+    status = HealthCardStatus.Issues,
+    expandable = true,
+    expanded = true,
+    action = HealthCardAction("Grant Permission", onClick = { /* open settings */ }),
+) {
+    PermissionRow(EqualSymbols.phoneIncoming, "Phone", "Your assistant needs this to handle calls", PermissionStatus.Granted)
+    PermissionRow(EqualSymbols.notifications, "Notification", "Required to send you call alerts", PermissionStatus.NotGranted, filledIcon = EqualSymbols.notificationsFill)
+    PermissionRow(EqualSymbols.contacts, "Contacts", "Required to skip calls from saved contacts", PermissionStatus.Checking)
+}
+```
+
+Example: Status labels
+```tsx
+<HealthStatusLabel tone="neutral" label="Pending" />
+<HealthStatusLabel tone="progress" label="Checking" />
+<HealthStatusLabel tone="success" label="Granted" />
+<HealthStatusLabel tone="danger" label="Not Granted" />
+```
+```kotlin
+HealthStatusLabel(HealthTone.Neutral, "Pending")
+HealthStatusLabel(HealthTone.Progress, "Checking")
+HealthStatusLabel(HealthTone.Success, "Granted")
+HealthStatusLabel(HealthTone.Danger, "Not Granted")
+```
+
 ### Group: Cards
 
 #### Action card (`action-card`)
@@ -1318,6 +1405,81 @@ Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
     // Compose: no `tone`; AiSuggestion is always text/primary.
     AiSuggestion("I can also add Sunday dinner to your calendar.")
 }
+```
+
+#### Call controls (`call-controls`)
+
+The in-call parts of the VoIP "Call me" screen (vOIP design): the 52 control buttons (speaker and mute are independent switches, end is the rose pill), the running timer, the assistant avatar with its ripples, and the status line.
+
+- React: `import { CallControlBar, CallTimer, CallAvatar, CallStatusLine } from '@equal/ds';`
+- Compose: `CallControlButton`, `CallControlBar`, `CallTimer`, `CallAvatar`, `CallStatusLine`, `CallScreen`
+- Tokens: `call-control/bg`, `call-control/active-bg`, `call-control/active-icon`, `button/end-call`, `text/on-end-call`, `gradient/assistant-call`
+- Source: vOIP · Call screen (Connecting / Connected / Call ended)
+
+Props of `CallTimer`:
+- `seconds`: `number`. Elapsed seconds, shown as m:ss (h:mm:ss past an hour). Use useCallTimer to run it.
+
+Props of `CallStatusLine`:
+- `phase`: `'connecting' | 'calling' | 'ringing' | 'connected' | 'ended'`. Phase text, announced politely.
+- `muted?`: `boolean`. Connected and muted: "On mute" with the mic-off icon.
+
+Do: Keep speaker and mute as separate switches: each says its own state. Ask for the microphone at the moment the user taps Call me, never earlier.
+
+Don't: Don't use the rose end-call colour for anything but ending a call. Don't hide the timer once connected; it is how the user knows the line is live.
+
+Anatomy:
+1. Avatar: Who the call is with. (200 disc gradient/assistant-call with the assistant bust or initials · ripple rings 280 / 360 / 440)
+2. Status line: Connecting, Calling, Ringing, Connected or Call ended. (title · text/secondary · "On mute" with mic-off when muted)
+3. Timer: Elapsed time once connected. (body2 tabular figures · m:ss)
+4. Control bar: Speaker, mute and end. (52 circles call-control/bg · active call-control/active-bg + active-icon · end pill button/end-call with text/on-end-call icon · gap 24)
+
+Accessibility:
+- Role. Web: Speaker and mute are role='switch' with aria-checked; end is a button; the bar is role='group' named "Call controls". Android: Speaker and mute use toggleable(role = Role.Switch); end is Role.Button.
+- Name. Web: "Speaker", "Mute", "End call" (icon-only, so aria-label). Android: contentDescription on each control.
+- Keyboard. Web: Tab through speaker, mute, end; Space / Enter activates. Android: D-pad focus in the same order.
+- Touch target. Web: 52 circles, above 44. Android: 52dp, above 48.
+- Contrast. Web: Icons on call-control/bg meet 3:1; the end icon on rose meets 4.5:1. Android: Same tokens.
+- State. Web: aria-checked plus the active fill; the mute icon changes to mic-off. Android: Toggle state plus a glyph change.
+- Motion. Web: Ripples and pulse stop under reduced motion. Android: rememberReduceMotion() stops the ripples.
+
+Known accessibility gaps:
+- The status line is role='status' on web; on Android the status text has no liveRegion yet, so phase changes aren't announced.
+
+Example: Control bar
+```tsx
+const [speaker, setSpeaker] = useState(false);
+const [muted, setMuted] = useState(false);
+
+<CallControlBar
+  speaker={speaker}
+  muted={muted}
+  onSpeaker={() => setSpeaker((v) => !v)}
+  onMute={() => setMuted((v) => !v)}
+  onEnd={endCall}
+/>
+```
+```kotlin
+var speaker by remember { mutableStateOf(false) }
+var muted by remember { mutableStateOf(false) }
+CallControlBar(
+    speaker = speaker,
+    muted = muted,
+    onSpeaker = { speaker = !speaker },
+    onMute = { muted = !muted },
+    onEnd = { /* end the call */ },
+)
+```
+
+Example: Avatar, status and timer
+```tsx
+<CallAvatar ripples size={160} />
+<CallStatusLine phase="connected" />
+<CallTimer seconds={83} />
+```
+```kotlin
+CallAvatar(ripples = true, size = 160.dp)
+CallStatusLine(phase = CallPhase.Connected)
+CallTimer(seconds = 83)
 ```
 
 #### Call status (`call-status`)
@@ -2152,6 +2314,19 @@ Do: Match the shape of the content that will load, so nothing jumps. Put aria-bu
 
 Don't: Don't show a skeleton for less than ~300 ms content; it flickers. Don't use the gold tone outside subscription surfaces.
 
+Anatomy:
+1. Shape: A line, circle or block where content will appear. (line 12 high radius full · circle · rect radius 8 · skeleton/base (gold: skeleton/gold-base))
+2. Highlight: A band that sweeps across while loading. (skeleton/highlight (gold: skeleton/gold-highlight) · 1.4 s sweep on easing/standard, looping)
+
+Accessibility:
+- Role. Web: aria-hidden on every shape; put aria-busy on the region that is loading. Android: Shapes have no semantics; set a contentDescription such as "Loading" on the container.
+- Name. Web: None; the loading region carries the announcement. Android: None on the shapes.
+- Keyboard. Web: Not focusable. Android: Not focusable.
+- Touch target. Web: Not interactive. Android: Not interactive.
+- Contrast. Web: Decorative; no text. Android: Decorative.
+- State. Web: aria-busy on the container while loading. Android: Container stateDescription while loading.
+- Motion. Web: The sweep is removed under prefers-reduced-motion; the shape stays at its base colour. Android: rememberReduceMotion() stops the sweep.
+
 Example: Loading a chat row
 ```tsx
 <div aria-busy="true">
@@ -2846,6 +3021,23 @@ Radio (Figma "Radio Button"): pick exactly one option. A 16 / 20 / 24 ring that 
 Do: Use a radio when exactly one option must be chosen and all options fit on screen. Keep the confirm button disabled until a selection is made (Snooze does this).
 
 Don't: Don't use radios for a single on/off choice; that's a Switch. Don't preselect a choice that costs the user something.
+
+Anatomy:
+1. Ring: The circle that shows selection. (s 16 · m 20 · l 24 · unselected 1.5 radio/ring (black 60 %) · selected button/primary fill with a white inner ring)
+2. Label: The option name. (Text atom · 12 / 14 / 16 Medium by size · text/primary, text/action when selected · gap 8)
+3. Support text: Optional detail under the label. (captionWrap · text/secondary)
+
+Accessibility:
+- Role. Web: role='radiogroup' on RadioGroup, role='radio' per option. Android: Modifier.selectableGroup() on the group, selectable(role = Role.RadioButton) per row.
+- Name. Web: The label text; RadioGroup takes label as the group name; ariaLabel when there is no visible label. Android: Row merges descendants so the label is the name.
+- Keyboard. Web: Roving tabindex: Tab enters the group at the selected option, arrow keys move and select. Android: D-pad / Tab focuses each row; Enter selects.
+- Touch target. Web: The whole row is the target, at least 44 high. Android: minimumInteractiveComponentSize() gives 48dp.
+- Contrast. Web: Unselected ring radio/ring (black 60 %) on white is 5.7:1; the selected green fill is 2.85:1 in light (accepted brand green); lime in dark passes. Android: Same tokens as web.
+- State. Web: aria-checked; selection changes the ring shape (filled with inner ring), not colour alone. Android: selected state from selectable; shape changes.
+- Motion. Web: No animation. Android: No animation.
+
+Known accessibility gaps:
+- Accepted brand decision: the selected ring button/primary #00B140 on white is 2.85:1 in light mode, below 3:1.
 
 Example: Group
 ```tsx
@@ -5872,7 +6064,7 @@ ProfileHeader(name = "Keshav", phone = "+91 98789 56749")
   }
   ```
 
-## Flows (18)
+## Flows (20)
 
 ### Monetization (`/flows/monetization`)
 
@@ -6046,6 +6238,213 @@ States:
   EqualTheme {
       // Plan lapsed: readable, Reactivate banner under the header
       ChatScreenSample(lock = ChatLock.Lapsed, onUnlock = { /* open SubscriptionScreen() */ })
+  }
+  ```
+
+### Assistant health check (`/flows/health-check`)
+
+Checks that calls really reach the assistant: app permissions, phone settings and the carrier. Every failure comes with the one action that fixes it. Switch to Try it and run the live check.
+
+Source: Assistant Healthcheck
+
+1. Entry: a notification (“Calls are bypassing Equal AI. Fix now.”, with Fix Now / Notify Later), the pink “Poor Assistant Health · Fix Now →” strip under the assistant toggle on Home, or You → Assistant Health Check.
+2. Permissions: Start Health Check runs Phone, Notification and Contacts one at a time. A missing one turns its ring red; the group then offers Grant Permission, which opens Android’s page for each.
+3. Phone settings: the same for Overlay (display over other apps).
+4. Carrier: checks calls reach the assistant. Issues Found → Fix Now → Fixing; if the fix fails, the reasons and Try Again; if the check itself fails, Check Failed and Try Again.
+5. All good: the shield gets its check, “Check complete. Your assistant is good to go”, Back To Home. The hero is the supplied Lottie set (loading, check, cross and every transition between them).
+
+States:
+- `entry-notification` Entry: notification: `<HealthCheckEntry entry="notification" />`
+  ```kotlin
+  EqualTheme {
+      HealthCheckEntry(entry = HealthCheckEntryKind.Notification, onFix = { /* open Health Check */ })
+  }
+  ```
+- `entry-actions` Entry: notification actions: `<HealthCheckEntry entry="notification-actions" />`
+  ```kotlin
+  EqualTheme {
+      HealthCheckEntry(entry = HealthCheckEntryKind.NotificationActions, onFix = { /* open Health Check */ })
+  }
+  ```
+- `entry-home` Entry: Home, poor health: `<HealthCheckEntry entry="home" />`
+  ```kotlin
+  EqualTheme {
+      HealthCheckEntry(entry = HealthCheckEntryKind.Home, onFix = { /* open Health Check */ })
+  }
+  ```
+- `idle` Idle: `<HealthCheckFlow state="idle" />`
+  ```kotlin
+  EqualTheme {
+      HealthCheckFlowSample(initial = "idle", onBack = { /* pop */ })
+  }
+  ```
+- `expanded` Idle, expanded: `<HealthCheckFlow state="expanded" />`
+  ```kotlin
+  EqualTheme {
+      HealthCheckFlowSample(initial = "expanded", onBack = { /* pop */ })
+  }
+  ```
+- `phone-checking` Checking Phone: `<HealthCheckFlow state="phone-checking" />`
+  ```kotlin
+  EqualTheme {
+      HealthCheckFlowSample(initial = "phone-checking", onBack = { /* pop */ })
+  }
+  ```
+- `notification-checking` Checking Notification: `<HealthCheckFlow state="notification-checking" />`
+  ```kotlin
+  EqualTheme {
+      HealthCheckFlowSample(initial = "notification-checking", onBack = { /* pop */ })
+  }
+  ```
+- `contacts-checking` Checking Contacts: `<HealthCheckFlow state="contacts-checking" />`
+  ```kotlin
+  EqualTheme {
+      HealthCheckFlowSample(initial = "contacts-checking", onBack = { /* pop */ })
+  }
+  ```
+- `permissions-failed` Permissions missing: `<HealthCheckFlow state="permissions-failed" />`
+  ```kotlin
+  EqualTheme {
+      HealthCheckFlowSample(initial = "permissions-failed", onBack = { /* pop */ })
+  }
+  ```
+- `overlay-pending` Phone settings pending: `<HealthCheckFlow state="overlay-pending" />`
+  ```kotlin
+  EqualTheme {
+      HealthCheckFlowSample(initial = "overlay-pending", onBack = { /* pop */ })
+  }
+  ```
+- `overlay-checking` Checking Overlay: `<HealthCheckFlow state="overlay-checking" />`
+  ```kotlin
+  EqualTheme {
+      HealthCheckFlowSample(initial = "overlay-checking", onBack = { /* pop */ })
+  }
+  ```
+- `overlay-failed` Overlay missing: `<HealthCheckFlow state="overlay-failed" />`
+  ```kotlin
+  EqualTheme {
+      HealthCheckFlowSample(initial = "overlay-failed", onBack = { /* pop */ })
+  }
+  ```
+- `carrier-pending` Carrier pending: `<HealthCheckFlow state="carrier-pending" />`
+  ```kotlin
+  EqualTheme {
+      HealthCheckFlowSample(initial = "carrier-pending", onBack = { /* pop */ })
+  }
+  ```
+- `carrier-checking` Checking carrier: `<HealthCheckFlow state="carrier-checking" />`
+  ```kotlin
+  EqualTheme {
+      HealthCheckFlowSample(initial = "carrier-checking", onBack = { /* pop */ })
+  }
+  ```
+- `carrier-issues` Carrier issues: Fix Now: `<HealthCheckFlow state="carrier-issues" />`
+  ```kotlin
+  EqualTheme {
+      HealthCheckFlowSample(initial = "carrier-issues", onBack = { /* pop */ })
+  }
+  ```
+- `fixing` Fixing: `<HealthCheckFlow state="fixing" />`
+  ```kotlin
+  EqualTheme {
+      HealthCheckFlowSample(initial = "fixing", onBack = { /* pop */ })
+  }
+  ```
+- `fix-failed` Fix failed: Try Again: `<HealthCheckFlow state="fix-failed" />`
+  ```kotlin
+  EqualTheme {
+      HealthCheckFlowSample(initial = "fix-failed", onBack = { /* pop */ })
+  }
+  ```
+- `fixing-again` Fixing again: `<HealthCheckFlow state="fixing-again" />`
+  ```kotlin
+  EqualTheme {
+      HealthCheckFlowSample(initial = "fixing-again", onBack = { /* pop */ })
+  }
+  ```
+- `check-failed` Carrier check failed: `<HealthCheckFlow state="check-failed" />`
+  ```kotlin
+  EqualTheme {
+      HealthCheckFlowSample(initial = "check-failed", onBack = { /* pop */ })
+  }
+  ```
+- `all-good` All good: `<HealthCheckFlow state="all-good" />`
+  ```kotlin
+  EqualTheme {
+      HealthCheckFlowSample(initial = "all-good", onBack = { /* pop */ })
+  }
+  ```
+- `live` Live run (Try it): `<HealthCheckFlow />`
+  ```kotlin
+  EqualTheme {
+      HealthCheckFlowSample(onBack = { /* pop */ })
+  }
+  ```
+
+### Call your assistant (vOIP) (`/flows/voip`)
+
+Meet Your Assistant → “Call me” starts an in-app call with the assistant over the internet. The mic is asked for in two steps; if the user says no at either, the assistant phones them the normal way instead.
+
+Source: vOIP
+
+1. Call me: the Meet Your Assistant card on Home. If the mic is already allowed, the call connects straight away.
+2. Mic: an in-app prompt first (“Talk to your assistant”, Not now / Allow microphone), then Android’s own dialog. Not now or Deny → the assistant calls on the phone network (PSTN) instead.
+3. On the call: the assistant on the green disc with ripples, “Connected” and a running timer. Speaker and mute are independent switches; mute changes the status to “On mute”.
+4. End: “Call ended” with the final time, then back to Home after 2 s. Not designed yet: back during a call, connect failure, and the action card left in the chat.
+
+States:
+- `home` Home: Call me: `<VoipFlow />`
+  ```kotlin
+  EqualTheme {
+      VoipFlowSample()
+  }
+  ```
+- `mic-prompt` Mic, in-app prompt: `<VoipFlow stage="mic-prompt" />`
+  ```kotlin
+  EqualTheme {
+      VoipFlowSample(stage = VoipStage.MicPrompt)
+  }
+  ```
+- `mic-system` Mic, Android dialog: `<VoipFlow stage="mic-system" />`
+  ```kotlin
+  EqualTheme {
+      VoipFlowSample(stage = VoipStage.MicSystem)
+  }
+  ```
+- `connecting` Connecting: `<VoipFlow stage="connecting" />`
+  ```kotlin
+  EqualTheme {
+      VoipFlowSample(stage = VoipStage.Connecting)
+  }
+  ```
+- `connected` Connected: `<VoipFlow stage="connected" seconds={1} />`
+  ```kotlin
+  EqualTheme {
+      VoipFlowSample(stage = VoipStage.Connected, seconds = 1)
+  }
+  ```
+- `speaker` Speaker on: `<VoipFlow stage="connected" speaker seconds={1} />`
+  ```kotlin
+  EqualTheme {
+      VoipFlowSample(stage = VoipStage.Connected, speaker = true, seconds = 1)
+  }
+  ```
+- `muted` On mute: `<VoipFlow stage="connected" muted seconds={5} />`
+  ```kotlin
+  EqualTheme {
+      VoipFlowSample(stage = VoipStage.Connected, muted = true, seconds = 5)
+  }
+  ```
+- `ended` Call ended: `<VoipFlow stage="ended" seconds={155} />`
+  ```kotlin
+  EqualTheme {
+      VoipFlowSample(stage = VoipStage.Ended, seconds = 155)
+  }
+  ```
+- `pstn` Fallback: phone call: `<VoipFlow stage="pstn" />`
+  ```kotlin
+  EqualTheme {
+      VoipFlowSample(stage = VoipStage.Pstn)
   }
   ```
 
@@ -7171,6 +7570,7 @@ Alias colours (CSS `var(--eq-<name without component/>)`, TS `color.*`, Compose 
 - `component/chat-bubble/user-title`  light #006223 · dark {brand.lime}
 - `component/action-card/highlight`  light #D3FEE3 · dark #2F3423 · derived
 - `text/danger`  light {red.red08} · dark #FF5151 · derived
+- `text/success`  light #00762B · dark {brand.lime} · derived
 - `text/on-danger`  light {brand.white} · dark {brand.black} · derived
 - `text/on-dark`  light {brand.white} · dark {brand.white} · derived
 - `text/on-dark-secondary`  light {neutrals.grey10} · dark {neutrals.grey10} · derived
@@ -7275,6 +7675,12 @@ Alias colours (CSS `var(--eq-<name without component/>)`, TS `color.*`, Compose 
 - `component/skeleton/gold-base`  light {brand.white} @ 16% · dark {brand.white} @ 8% · derived
 - `component/skeleton/gold-highlight`  light #FDEFC6 · dark #4A3C1C · derived
 - `component/radio/ring`  light {brand.black} @ 60% · dark {brand.white} @ 60% · derived
+- `button/end-call`  light #E11D48 · dark #FF5C7A · derived
+- `text/on-end-call`  light {brand.white} · dark {brand.black} · derived
+- `component/call-control/bg`  light #EDEFF1 · dark #2E2E2E · derived
+- `component/call-control/active-bg`  light #1F2937 · dark #F2F2F2 · derived
+- `component/call-control/active-icon`  light {brand.white} · dark {brand.black} · derived
+- `component/health-check/icon-bg`  light {brand.black} @ 4% · dark {brand.white} @ 8% · derived
 
 Gradients (CSS `var(--eq-gradient-<name>)`, Compose `EqualTheme.gradients.*`):
 
@@ -7314,6 +7720,7 @@ Gradients (CSS `var(--eq-gradient-<name>)`, Compose `EqualTheme.gradients.*`):
 - `gradient/button-secondary`  light 180deg: #FFFFFF 0%, #E4FFED 100% · dark 180deg: #1F1F1F 0%, #2F3423 100%
 - `gradient/button-critical-secondary`  light 180deg: #FFFFFF 0%, #FFE0E0 100% · dark 180deg: #1F1F1F 0%, #3A2224 100%
 - `gradient/button-premium-secondary`  light 180deg: #FFFFFF 0%, #FFF9EC 100% · dark 180deg: #1F1F1F 0%, #33291A 100%
+- `gradient/assistant-call`  light 180deg: {brand.green} 19%, #73D095 59%, #FFFFFF 100% · dark 180deg: {brand.lime} 19%, {brand.lime} @ 45% 59%, #141414 100%
 
 Typography (DM Sans; `<Text variant>`, `.eq-t-<name>`, `EqualTheme.type.<name>`):
 
@@ -7359,6 +7766,8 @@ Web `<Asset name="…" size={dp} />`, Compose `EqualAssetImage(EqualAssets.<Pasc
 - `mascot-instructions`: Instructions hub › Active Instructions row: the robot with a magic wand on the lime tint (40dp in a 44dp circle)
 - `preset-screen-protect`: Screen & Protect preset: 3D green shield with a tick (33dp on the green tint; 16dp in the source badge)
 - `preset-everyday-calls`: Handle everyday calls preset: 3D green receiver with a red question mark (33dp on the blue tint; 16dp in the source badge)
+- `permission-microphone`: Mic permission dialog: 3D studio mic with green sound waves; "Talk to your assistant" (84dp)
+- `avatar-assistant-bust`: In-app call: the assistant persona on a transparent background, set on the gradient call disc (200dp)
 - `preset-business`: Run my business preset: 3D brown briefcase (33dp on the orange tint; 16dp in the source badge)
 - `avatar-male-bust`: Gender card, male (bust without the ring). Falls back to avatar-male
 - `avatar-female-bust`: Gender card, female (bust without the ring). Falls back to avatar-female
@@ -7400,4 +7809,4 @@ Web `<Asset name="…" size={dp} />`, Compose `EqualAssetImage(EqualAssets.<Pasc
 
 Web `<Icon name="…" />`, Compose `EqualIcon(EqualIcons.<PascalName>)`.
 
-`arrow-back` (arrow_back) · `call` (call) · `call-filled` (call-fill) · `more-vert` (more_vert) · `send` (arrow_upward) · `check` (check) · `done-all` (done_all) · `close` (close) · `delete` (delete) · `star` (star-fill) · `star-outline` (star) · `share` (share) · `chevron-right` (chevron_right) · `chevron-down` (keyboard_arrow_down) · `checkbox-blank` (check_box_outline_blank) · `checkbox-checked` (check_box-fill) · `play` (play_arrow-fill) · `pause` (pause-fill) · `chat` (chat_bubble-fill) · `chat-outline` (chat_bubble) · `search` (search) · `edit` (edit) · `edit-profile` (border_color) · `add` (add) · `mic` (mic) · `mute` (volume_off) · `person-add` (person_add) · `calendar` (calendar_month) · `place` (location_on) · `call-received` (call_received) · `call-made` (call_made) · `call-missed` (call_missed) · `phone-incoming` (phone_callback) · `phone-missed` (phone_missed) · `phone-outgoing` (phone_forwarded) · `info` (info) · `settings` (settings) · `home` (home) · `work` (work) · `bolt` (bolt) · `instructions` (note_stack) · `health-check` (health_metrics) · `silent-mode` (notifications_off) · `voice-language` (mic) · `address-pin` (pin_drop) · `account-data` (shield) · `help-center` (question_exchange) · `whatsapp` (custom:whatsapp) · `menu` (menu) · `arrow-forward` (arrow_forward) · `content-copy` (content_copy) · `light-mode` (light_mode) · `dark-mode` (dark_mode) · `contrast` (contrast) · `touch` (touch_app) · `notify-me` (notifications_active) · `translate` (translate_indic) · `call-sparkle` (custom:call-sparkle) · `help-circle` (help-fill) · `lock` (lock-fill) · `mail` (mail-fill) · `info-fill` (info-fill) · `signal` (signal_cellular_4_bar-fill) · `wifi` (wifi-fill) · `battery` (battery_full-fill) · `timer` (timer-fill) · `person` (person-fill) · `call-log` (call_log-fill) · `call-sparkle-fill` (custom:call-sparkle-fill) · `auto-fix` (wand_stars-fill) · `keyboard` (keyboard) · `mic-fill` (mic-fill) · `navigation` (navigation-fill) · `slide-left` (keyboard_double_arrow_left) · `globe` (public-fill) · `verified` (verified-fill) · `refresh` (refresh) · `graphic-eq` (graphic_eq) · `phone-missed-fill` (phone_missed-fill) · `thumb-up` (thumb_up) · `thumb-down` (thumb_down) · `thumb-up-fill` (thumb_up-fill) · `thumb-down-fill` (thumb_down-fill)
+`arrow-back` (arrow_back) · `call` (call) · `call-filled` (call-fill) · `more-vert` (more_vert) · `send` (arrow_upward) · `check` (check) · `done-all` (done_all) · `close` (close) · `delete` (delete) · `star` (star-fill) · `star-outline` (star) · `share` (share) · `chevron-right` (chevron_right) · `chevron-down` (keyboard_arrow_down) · `checkbox-blank` (check_box_outline_blank) · `checkbox-checked` (check_box-fill) · `play` (play_arrow-fill) · `pause` (pause-fill) · `chat` (chat_bubble-fill) · `chat-outline` (chat_bubble) · `search` (search) · `edit` (edit) · `edit-profile` (border_color) · `add` (add) · `mic` (mic) · `mute` (volume_off) · `person-add` (person_add) · `calendar` (calendar_month) · `place` (location_on) · `call-received` (call_received) · `call-made` (call_made) · `call-missed` (call_missed) · `phone-incoming` (phone_callback) · `phone-missed` (phone_missed) · `phone-outgoing` (phone_forwarded) · `info` (info) · `settings` (settings) · `home` (home) · `work` (work) · `bolt` (bolt) · `instructions` (note_stack) · `health-check` (health_metrics) · `silent-mode` (notifications_off) · `voice-language` (mic) · `address-pin` (pin_drop) · `account-data` (shield) · `help-center` (question_exchange) · `whatsapp` (custom:whatsapp) · `menu` (menu) · `arrow-forward` (arrow_forward) · `content-copy` (content_copy) · `light-mode` (light_mode) · `dark-mode` (dark_mode) · `contrast` (contrast) · `touch` (touch_app) · `notify-me` (notifications_active) · `translate` (translate_indic) · `call-sparkle` (custom:call-sparkle) · `help-circle` (help-fill) · `lock` (lock-fill) · `mail` (mail-fill) · `info-fill` (info-fill) · `signal` (signal_cellular_4_bar-fill) · `wifi` (wifi-fill) · `battery` (battery_full-fill) · `timer` (timer-fill) · `person` (person-fill) · `call-log` (call_log-fill) · `call-sparkle-fill` (custom:call-sparkle-fill) · `auto-fix` (wand_stars-fill) · `keyboard` (keyboard) · `mic-fill` (mic-fill) · `navigation` (navigation-fill) · `slide-left` (keyboard_double_arrow_left) · `globe` (public-fill) · `verified` (verified-fill) · `refresh` (refresh) · `graphic-eq` (graphic_eq) · `phone-missed-fill` (phone_missed-fill) · `thumb-up` (thumb_up) · `thumb-down` (thumb_down) · `thumb-up-fill` (thumb_up-fill) · `thumb-down-fill` (thumb_down-fill) · `volume-up` (volume_up) · `mic-off` (mic_off) · `call-end` (call_end-fill) · `notifications` (notifications) · `notifications-fill` (notifications-fill) · `contacts` (contacts) · `contacts-fill` (contacts-fill) · `layers` (layers) · `layers-fill` (layers-fill) · `arrow-drop-down` (arrow_drop_down) · `progress-activity` (progress_activity) · `check-circle-fill` (check_circle-fill) · `warning-fill` (warning-fill)

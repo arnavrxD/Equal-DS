@@ -79,3 +79,8 @@
 /* Chat list rows (role=button divs): an inset focus ring that rows above and below can't cover. */
 .eq-chat-row { outline: none; }
 .eq-chat-row:focus-visible { outline: 2px solid var(--eq-text-primary); outline-offset: -2px; }
+
+/* Spinner glyph (progress_activity): one turn per second; still under reduced motion. */
+.eq-spin { animation: eq-spin 1000ms linear infinite; }
+@keyframes eq-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .eq-spin { animation: none; } }

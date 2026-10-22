@@ -1,5 +1,6 @@
 package ai.equal.ds.components
 
+import androidx.compose.material3.minimumInteractiveComponentSize
 import ai.equal.ds.assets.EqualAssetImage
 import ai.equal.ds.assets.EqualAssets
 import ai.equal.ds.icons.EqualIcon
@@ -162,6 +163,8 @@ fun SystemNotificationPreview(
     modifier: Modifier = Modifier,
     app: String = "Equal AI",
     time: String = "Now",
+    /** Expanded notification actions (Assistant Healthcheck: Fix Now · Notify Later). */
+    actions: List<Pair<String, () -> Unit>> = emptyList(),
 ) {
     val colors = EqualTheme.colors
     val type = EqualTheme.type
@@ -184,6 +187,15 @@ fun SystemNotificationPreview(
             Column {
                 EqualText(text = title, style = type.caption.copy(fontWeight = FontWeight.Bold), color = colors.textPrimary, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 EqualText(text = body, style = type.captionRegular, color = colors.textSecondary)
+            }
+        }
+        if (actions.isNotEmpty()) {
+            Row(Modifier.padding(start = 42.dp, top = 12.dp), horizontalArrangement = Arrangement.spacedBy(24.dp)) {
+                actions.forEach { (label, onClick) ->
+                    Box(Modifier.minimumInteractiveComponentSize().clickable(role = Role.Button, onClick = onClick), contentAlignment = Alignment.Center) {
+                        EqualText(text = label, style = type.buttonSmall, color = colors.textAction)
+                    }
+                }
             }
         }
     }

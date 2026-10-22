@@ -4661,5 +4661,247 @@
       "Accepted brand decision: the + Apply label (text/action on button/tonal, ≈2.6:1) and the Applied pill (text/action on action-card/highlight, 2.59:1) are below 3:1 in light (Flows.css / Flows.kt).",
       "The SourceBadge label is 10sp, below the 12sp minimum the rest of the system keeps; it is supplementary (the preset art and the title carry the meaning)."
     ]
+  },
+  "radio": {
+    "anatomy": [
+      {
+        "part": "Ring",
+        "description": "The circle that shows selection.",
+        "spec": "s 16 · m 20 · l 24 · unselected 1.5 radio/ring (black 60 %) · selected button/primary fill with a white inner ring"
+      },
+      {
+        "part": "Label",
+        "description": "The option name.",
+        "spec": "Text atom · 12 / 14 / 16 Medium by size · text/primary, text/action when selected · gap 8"
+      },
+      {
+        "part": "Support text",
+        "description": "Optional detail under the label.",
+        "spec": "captionWrap · text/secondary"
+      }
+    ],
+    "accessibility": [
+      {
+        "topic": "Role",
+        "web": "role='radiogroup' on RadioGroup, role='radio' per option.",
+        "android": "Modifier.selectableGroup() on the group, selectable(role = Role.RadioButton) per row."
+      },
+      {
+        "topic": "Name",
+        "web": "The label text; RadioGroup takes label as the group name; ariaLabel when there is no visible label.",
+        "android": "Row merges descendants so the label is the name."
+      },
+      {
+        "topic": "Keyboard",
+        "web": "Roving tabindex: Tab enters the group at the selected option, arrow keys move and select.",
+        "android": "D-pad / Tab focuses each row; Enter selects."
+      },
+      {
+        "topic": "Touch target",
+        "web": "The whole row is the target, at least 44 high.",
+        "android": "minimumInteractiveComponentSize() gives 48dp."
+      },
+      {
+        "topic": "Contrast",
+        "web": "Unselected ring radio/ring (black 60 %) on white is 5.7:1; the selected green fill is 2.85:1 in light (accepted brand green); lime in dark passes.",
+        "android": "Same tokens as web."
+      },
+      {
+        "topic": "State",
+        "web": "aria-checked; selection changes the ring shape (filled with inner ring), not colour alone.",
+        "android": "selected state from selectable; shape changes."
+      },
+      {
+        "topic": "Motion",
+        "web": "No animation.",
+        "android": "No animation."
+      }
+    ],
+    "gaps": [
+      "Accepted brand decision: the selected ring button/primary #00B140 on white is 2.85:1 in light mode, below 3:1."
+    ]
+  },
+  "skeleton": {
+    "anatomy": [
+      {
+        "part": "Shape",
+        "description": "A line, circle or block where content will appear.",
+        "spec": "line 12 high radius full · circle · rect radius 8 · skeleton/base (gold: skeleton/gold-base)"
+      },
+      {
+        "part": "Highlight",
+        "description": "A band that sweeps across while loading.",
+        "spec": "skeleton/highlight (gold: skeleton/gold-highlight) · 1.4 s sweep on easing/standard, looping"
+      }
+    ],
+    "accessibility": [
+      {
+        "topic": "Role",
+        "web": "aria-hidden on every shape; put aria-busy on the region that is loading.",
+        "android": "Shapes have no semantics; set a contentDescription such as \"Loading\" on the container."
+      },
+      {
+        "topic": "Name",
+        "web": "None; the loading region carries the announcement.",
+        "android": "None on the shapes."
+      },
+      {
+        "topic": "Keyboard",
+        "web": "Not focusable.",
+        "android": "Not focusable."
+      },
+      {
+        "topic": "Touch target",
+        "web": "Not interactive.",
+        "android": "Not interactive."
+      },
+      {
+        "topic": "Contrast",
+        "web": "Decorative; no text.",
+        "android": "Decorative."
+      },
+      {
+        "topic": "State",
+        "web": "aria-busy on the container while loading.",
+        "android": "Container stateDescription while loading."
+      },
+      {
+        "topic": "Motion",
+        "web": "The sweep is removed under prefers-reduced-motion; the shape stays at its base colour.",
+        "android": "rememberReduceMotion() stops the sweep."
+      }
+    ],
+    "gaps": []
+  },
+  "call-controls": {
+    "anatomy": [
+      {
+        "part": "Avatar",
+        "description": "Who the call is with.",
+        "spec": "200 disc gradient/assistant-call with the assistant bust or initials · ripple rings 280 / 360 / 440"
+      },
+      {
+        "part": "Status line",
+        "description": "Connecting, Calling, Ringing, Connected or Call ended.",
+        "spec": "title · text/secondary · \"On mute\" with mic-off when muted"
+      },
+      {
+        "part": "Timer",
+        "description": "Elapsed time once connected.",
+        "spec": "body2 tabular figures · m:ss"
+      },
+      {
+        "part": "Control bar",
+        "description": "Speaker, mute and end.",
+        "spec": "52 circles call-control/bg · active call-control/active-bg + active-icon · end pill button/end-call with text/on-end-call icon · gap 24"
+      }
+    ],
+    "accessibility": [
+      {
+        "topic": "Role",
+        "web": "Speaker and mute are role='switch' with aria-checked; end is a button; the bar is role='group' named \"Call controls\".",
+        "android": "Speaker and mute use toggleable(role = Role.Switch); end is Role.Button."
+      },
+      {
+        "topic": "Name",
+        "web": "\"Speaker\", \"Mute\", \"End call\" (icon-only, so aria-label).",
+        "android": "contentDescription on each control."
+      },
+      {
+        "topic": "Keyboard",
+        "web": "Tab through speaker, mute, end; Space / Enter activates.",
+        "android": "D-pad focus in the same order."
+      },
+      {
+        "topic": "Touch target",
+        "web": "52 circles, above 44.",
+        "android": "52dp, above 48."
+      },
+      {
+        "topic": "Contrast",
+        "web": "Icons on call-control/bg meet 3:1; the end icon on rose meets 4.5:1.",
+        "android": "Same tokens."
+      },
+      {
+        "topic": "State",
+        "web": "aria-checked plus the active fill; the mute icon changes to mic-off.",
+        "android": "Toggle state plus a glyph change."
+      },
+      {
+        "topic": "Motion",
+        "web": "Ripples and pulse stop under reduced motion.",
+        "android": "rememberReduceMotion() stops the ripples."
+      }
+    ],
+    "gaps": [
+      "The status line is role='status' on web; on Android the status text has no liveRegion yet, so phase changes aren't announced."
+    ]
+  },
+  "health-check": {
+    "anatomy": [
+      {
+        "part": "Hero",
+        "description": "The shield with a status coin.",
+        "spec": "Lottie 0.8 × size wide · idle first frame · loading loops · pass / fail hold the last frame · decorative"
+      },
+      {
+        "part": "Card",
+        "description": "One check: app permissions, phone settings or carrier.",
+        "spec": "radius 16 · bg/surface · 1 stroke/subtle · header 56 min, padding 16 · title subheading"
+      },
+      {
+        "part": "Status label",
+        "description": "Pending, Checking, Granted, All Good, Issues Found, Not Granted, Check Failed.",
+        "spec": "caption · 14 icon (progress-activity spinning, check-circle-fill, warning-fill) · text/secondary, text/primary, text/success, text/danger"
+      },
+      {
+        "part": "Permission row",
+        "description": "Ring, title over description, status.",
+        "spec": "48 ring 2dp (stroke/medium, stroke/focus granted, text/danger not granted) around a 40 health-check/icon-bg disc · body2 + captionWrap · 64 min"
+      },
+      {
+        "part": "Action",
+        "description": "The one fix for the failure.",
+        "spec": "md block Button · Grant Permission / Fix Now / Try Again · loading shows \"Fixing\""
+      }
+    ],
+    "accessibility": [
+      {
+        "topic": "Role",
+        "web": "The card header is a button with aria-expanded when expandable; the action is a Button.",
+        "android": "clickable(role = Role.Button) with stateDescription Expanded / Collapsed."
+      },
+      {
+        "topic": "Name",
+        "web": "Header reads the title and status; each row reads \"Phone, Granted\".",
+        "android": "Row merges descendants with stateDescription = the status word."
+      },
+      {
+        "topic": "Keyboard",
+        "web": "Tab to each expandable header and action; Enter / Space toggles.",
+        "android": "D-pad focus in reading order."
+      },
+      {
+        "topic": "Touch target",
+        "web": "Header 56 min; action 48 (Button).",
+        "android": "Header 56dp; Button 48dp."
+      },
+      {
+        "topic": "Contrast",
+        "web": "text/success #00762B on white is 5.9:1; text/danger passes 4.5:1; lime in dark.",
+        "android": "Same tokens."
+      },
+      {
+        "topic": "State",
+        "web": "Every status has an icon and a word, never colour alone; the screen's card list is aria-busy while a check runs.",
+        "android": "Status labels sit in a polite liveRegion."
+      },
+      {
+        "topic": "Motion",
+        "web": "The hero Lottie and the spinner stop under reduced motion (pass / fail show their end frame).",
+        "android": "EqualLottie and the spinner respect rememberReduceMotion()."
+      }
+    ],
+    "gaps": []
   }
 }

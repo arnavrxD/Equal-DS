@@ -97,6 +97,8 @@ data class EqualColors(
     val actionCardHighlight: Color,
     /** text/danger — derived from the screens */
     val textDanger: Color,
+    /** text/success — derived from the screens */
+    val textSuccess: Color,
     /** text/on-danger — derived from the screens */
     val textOnDanger: Color,
     /** text/on-dark — derived from the screens */
@@ -315,6 +317,8 @@ data class EqualColors(
     val callControlActiveBg: Color,
     /** component/call-control/active-icon — derived from the screens */
     val callControlActiveIcon: Color,
+    /** component/health-check/icon-bg — derived from the screens */
+    val healthCheckIconBg: Color,
     val isDark: Boolean,
 )
 
@@ -351,6 +355,7 @@ val LightEqualColors = EqualColors(
     chatBubbleUserTitle = Color(0xFF006223), // direct value
     actionCardHighlight = Color(0xFFD3FEE3), // direct value
     textDanger = Color(0xFFC50000), // red/red08
+    textSuccess = Color(0xFF00762B), // direct value
     textOnDanger = Color(0xFFFFFFFF), // brand/white
     textOnDark = Color(0xFFFFFFFF), // brand/white
     textOnDarkSecondary = Color(0xFFAAAAAA), // neutrals/grey10
@@ -460,6 +465,7 @@ val LightEqualColors = EqualColors(
     callControlBg = Color(0xFFEDEFF1), // direct value
     callControlActiveBg = Color(0xFF1F2937), // direct value
     callControlActiveIcon = Color(0xFFFFFFFF), // brand/white
+    healthCheckIconBg = Color(0x0A000000), // brand/black · 4%
     isDark = false,
 )
 
@@ -496,6 +502,7 @@ val DarkEqualColors = EqualColors(
     chatBubbleUserTitle = Color(0xFFBAFF29), // brand/lime
     actionCardHighlight = Color(0xFF2F3423), // direct value
     textDanger = Color(0xFFFF5151), // direct value
+    textSuccess = Color(0xFFBAFF29), // brand/lime
     textOnDanger = Color(0xFF000000), // brand/black
     textOnDark = Color(0xFFFFFFFF), // brand/white
     textOnDarkSecondary = Color(0xFFAAAAAA), // neutrals/grey10
@@ -605,6 +612,7 @@ val DarkEqualColors = EqualColors(
     callControlBg = Color(0xFF2E2E2E), // direct value
     callControlActiveBg = Color(0xFFF2F2F2), // direct value
     callControlActiveIcon = Color(0xFF000000), // brand/black
+    healthCheckIconBg = Color(0x14FFFFFF), // brand/white · 8%
     isDark = true,
 )
 

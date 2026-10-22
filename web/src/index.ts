@@ -19,6 +19,7 @@ export * from './components/Checkbox';
 export * from './components/Radio';
 export * from './components/Skeleton';
 export * from './components/Call';
+export * from './components/HealthCheck';
 export * from './components/StatusBar';
 export * from './components/TopBar';
 export * from './components/AssistantToggle';

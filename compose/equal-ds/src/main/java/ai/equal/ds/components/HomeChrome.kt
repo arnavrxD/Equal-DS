@@ -4,6 +4,11 @@ import androidx.compose.ui.semantics.clearAndSetSemantics
 import ai.equal.ds.assets.EqualAssetImage
 import ai.equal.ds.assets.EqualAssets
 import ai.equal.ds.icons.EqualIcon
+import ai.equal.ds.icons.EqualSymbols
+import androidx.compose.material3.minimumInteractiveComponentSize
+import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.clickable
 import ai.equal.ds.icons.EqualIcons
 import ai.equal.ds.theme.DmSans
 import ai.equal.ds.theme.EqualShadows
@@ -153,7 +158,30 @@ fun AssistantToggleCard(
     descriptionOff: String = "Unknown calls will ring normally",
     /** Leading art: the robot (default) or the phone experiment. */
     art: AssistantToggleArt = AssistantToggleArt.Robot,
+    /** Assistant Healthcheck: a pink strip under the card ("Poor Assistant Health · Fix Now →"). */
+    healthAlert: HealthAlert? = null,
 ) {
+    if (healthAlert != null) {
+        val colors = EqualTheme.colors
+        Column(modifier.fillMaxWidth().clip(RoundedCornerShape(EqualRadius.rXl)).background(colors.expiryBannerDangerBg)) {
+            AssistantToggleCard(checked, onCheckedChange, Modifier, titleOn, titleOff, description, descriptionOff, art)
+            Row(
+                Modifier.fillMaxWidth().defaultMinSize(minHeight = 44.dp).padding(start = 16.dp, end = 8.dp, top = 4.dp, bottom = 4.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                EqualText(text = healthAlert.label, style = EqualTheme.type.body2, color = colors.textPrimary, modifier = Modifier.weight(1f))
+                Row(
+                    Modifier.minimumInteractiveComponentSize().clip(CircleShape).clickable(role = Role.Button, onClick = healthAlert.onFix).padding(8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    EqualText(text = healthAlert.cta, style = EqualTheme.type.buttonSmall, color = colors.textDanger)
+                    Spacer(Modifier.width(4.dp))
+                    EqualIcon(EqualSymbols.arrowForward, contentDescription = null, tint = colors.textDanger, size = 16.dp)
+                }
+            }
+        }
+        return
+    }
     val colors = EqualTheme.colors
     val shape = RoundedCornerShape(EqualRadius.rXl)
     val fillModifier = if (checked) {
@@ -215,6 +243,9 @@ fun AssistantToggleCard(
     }
 }
 
+/** The Home health strip under [AssistantToggleCard]. */
+data class HealthAlert(val onFix: () -> Unit, val label: String = "Poor Assistant Health", val cta: String = "Fix Now")
+
 /**
  * Home header (SPEC §5 "Home"): [StatusBar] + [TopBar] + [AssistantToggleCard] stacked on
  * `bg/primary` with the `header` shadow below. Give it `Modifier.zIndex(1f)` inside a Column so
@@ -242,6 +273,10 @@ fun HomeHeader(
     assistantArt: AssistantToggleArt = AssistantToggleArt.Robot,
     /** Under the toggle, e.g. `ProcessingStrip(variant = ProcessingStripVariant.Card)`. */
     below: (@Composable () -> Unit)? = null,
+    /** The toggle's line while off; null keeps the default. */
+    assistantOffDescription: String? = null,
+    /** Assistant Healthcheck: the pink "Poor Assistant Health · Fix Now" strip under the toggle. */
+    healthAlert: HealthAlert? = null,
 ) {
     val colors = EqualTheme.colors
     Column(
@@ -256,11 +291,14 @@ fun HomeHeader(
             if (status != null) {
                 status()
             } else {
-                if (assistantDescription != null) {
-                    AssistantToggleCard(checked = assistantOn, onCheckedChange = onAssistantChange, description = assistantDescription, art = assistantArt)
-                } else {
-                    AssistantToggleCard(checked = assistantOn, onCheckedChange = onAssistantChange, art = assistantArt)
-                }
+                AssistantToggleCard(
+                    checked = assistantOn,
+                    onCheckedChange = onAssistantChange,
+                    description = assistantDescription ?: "Equal is managing your unknown calls!",
+                    descriptionOff = assistantOffDescription ?: "Unknown calls will ring normally",
+                    art = assistantArt,
+                    healthAlert = healthAlert,
+                )
             }
         }
         below?.invoke()

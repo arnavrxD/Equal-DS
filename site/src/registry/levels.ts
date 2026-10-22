@@ -11,6 +11,8 @@ export const docLevel: Record<string, Level> = {
   checkbox: 'atom',
   radio: 'atom',
   skeleton: 'atom',
+  'call-controls': 'molecule',
+  'health-check': 'molecule',
   'text-field': 'atom',
   badges: 'atom',
   avatars: 'atom',

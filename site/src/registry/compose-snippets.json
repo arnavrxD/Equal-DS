@@ -72,6 +72,10 @@
     "Text and icon buttons": "Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {\n    EqualTextButton(text = \"Edit\", onClick = {})\n    EqualTextButton(text = \"Share\", onClick = {}, leadingIcon = EqualIcons.Share)\n    EqualTextButton(text = \"Share Feedback\", onClick = {}, trailingIcon = EqualIcons.ChevronRight)\n    EqualTextButton(text = \"Delete address\", onClick = {}, danger = true)\n}\nRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {\n    EqualIconButton(icon = EqualIcons.Back, contentDescription = \"Back\", onClick = {})\n    EqualIconButton(icon = EqualIcons.Check, contentDescription = \"Confirm\", onClick = {}, variant = EqualIconButtonVariant.Primary)\n}",
     "Commit + revise": "Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {\n    EqualTextButton(text = \"Cancel\", onClick = {})\n    EqualButton(text = \"Turn off\", onClick = {})\n}"
   },
+  "call-controls": {
+    "Control bar": "var speaker by remember { mutableStateOf(false) }\nvar muted by remember { mutableStateOf(false) }\nCallControlBar(\n    speaker = speaker,\n    muted = muted,\n    onSpeaker = { speaker = !speaker },\n    onMute = { muted = !muted },\n    onEnd = { /* end the call */ },\n)",
+    "Avatar, status and timer": "CallAvatar(ripples = true, size = 160.dp)\nCallStatusLine(phase = CallPhase.Connected)\nCallTimer(seconds = 83)"
+  },
   "call-handling": {
     "Choice cards": "var mode by remember { mutableStateOf(CallMode.All) }\nColumn(Modifier.selectableGroup(), verticalArrangement = Arrangement.spacedBy(16.dp)) {\n    ChoiceCard(\n        icon = EqualIcons.Globe,\n        title = \"All calls, except a few\",\n        description = \"I answer everyone. You pick who I skip.\",\n        selected = mode == CallMode.All,\n        onSelect = { mode = CallMode.All },\n    )\n    ChoiceCard(\n        icon = EqualIcons.Call,\n        title = \"Only unknown numbers\",\n        description = \"I answer numbers that are not saved in your phone.\",\n        selected = mode == CallMode.Unknown,\n        onSelect = { mode = CallMode.Unknown },\n    )\n    InfoNote(\n        title = \"Contact access needed\",\n        body = \"Without it, the assistant can’t handle all calls.\",\n        link = \"Give contacts permission\",\n        onLink = { /* ask for READ_CONTACTS */ },\n    )\n}",
     "Contact pickers": "var picked by remember { mutableStateOf(true) }\nColumn {\n    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {\n        ContactPick(initials = \"SU\", name = \"Mom\", onClick = { /* add */ })\n        ContactPick(initials = \"VC\", name = \"Vijay Cousin\", onClick = { /* remove */ }, mark = ContactPickMark.Remove)\n    }\n    Box(Modifier.fillMaxWidth()) {\n        ContactCheckRow(initials = \"AR\", name = \"Arnav Raj\", phone = \"+91 8986461540\", checked = picked, onCheckedChange = { picked = it })\n        AlphabetIndex(Modifier.align(Alignment.CenterEnd).padding(end = 2.dp), onPick = { /* jump to letter */ })\n    }\n}",
@@ -236,6 +240,29 @@
     "chat-task": "EqualTheme {\n    ChatScreenSample(name = \"Amit Nanda\", initials = \"AN\", category = EqualCategory.NA, subtitle = \"+91 98717 46113\", aiTask = ChatTaskStage.Draft)\n}",
     "chat-sending": "EqualTheme {\n    ChatScreenSample(name = \"Amit Nanda\", initials = \"AN\", category = EqualCategory.NA, subtitle = \"+91 98717 46113\", aiTask = ChatTaskStage.Sending)\n}"
   },
+  "flow-health-check": {
+    "entry-notification": "EqualTheme {\n    HealthCheckEntry(entry = HealthCheckEntryKind.Notification, onFix = { /* open Health Check */ })\n}",
+    "entry-actions": "EqualTheme {\n    HealthCheckEntry(entry = HealthCheckEntryKind.NotificationActions, onFix = { /* open Health Check */ })\n}",
+    "entry-home": "EqualTheme {\n    HealthCheckEntry(entry = HealthCheckEntryKind.Home, onFix = { /* open Health Check */ })\n}",
+    "idle": "EqualTheme {\n    HealthCheckFlowSample(initial = \"idle\", onBack = { /* pop */ })\n}",
+    "expanded": "EqualTheme {\n    HealthCheckFlowSample(initial = \"expanded\", onBack = { /* pop */ })\n}",
+    "phone-checking": "EqualTheme {\n    HealthCheckFlowSample(initial = \"phone-checking\", onBack = { /* pop */ })\n}",
+    "notification-checking": "EqualTheme {\n    HealthCheckFlowSample(initial = \"notification-checking\", onBack = { /* pop */ })\n}",
+    "contacts-checking": "EqualTheme {\n    HealthCheckFlowSample(initial = \"contacts-checking\", onBack = { /* pop */ })\n}",
+    "permissions-failed": "EqualTheme {\n    HealthCheckFlowSample(initial = \"permissions-failed\", onBack = { /* pop */ })\n}",
+    "overlay-pending": "EqualTheme {\n    HealthCheckFlowSample(initial = \"overlay-pending\", onBack = { /* pop */ })\n}",
+    "overlay-checking": "EqualTheme {\n    HealthCheckFlowSample(initial = \"overlay-checking\", onBack = { /* pop */ })\n}",
+    "overlay-failed": "EqualTheme {\n    HealthCheckFlowSample(initial = \"overlay-failed\", onBack = { /* pop */ })\n}",
+    "carrier-pending": "EqualTheme {\n    HealthCheckFlowSample(initial = \"carrier-pending\", onBack = { /* pop */ })\n}",
+    "carrier-checking": "EqualTheme {\n    HealthCheckFlowSample(initial = \"carrier-checking\", onBack = { /* pop */ })\n}",
+    "carrier-issues": "EqualTheme {\n    HealthCheckFlowSample(initial = \"carrier-issues\", onBack = { /* pop */ })\n}",
+    "fixing": "EqualTheme {\n    HealthCheckFlowSample(initial = \"fixing\", onBack = { /* pop */ })\n}",
+    "fix-failed": "EqualTheme {\n    HealthCheckFlowSample(initial = \"fix-failed\", onBack = { /* pop */ })\n}",
+    "fixing-again": "EqualTheme {\n    HealthCheckFlowSample(initial = \"fixing-again\", onBack = { /* pop */ })\n}",
+    "check-failed": "EqualTheme {\n    HealthCheckFlowSample(initial = \"check-failed\", onBack = { /* pop */ })\n}",
+    "all-good": "EqualTheme {\n    HealthCheckFlowSample(initial = \"all-good\", onBack = { /* pop */ })\n}",
+    "live": "EqualTheme {\n    HealthCheckFlowSample(onBack = { /* pop */ })\n}"
+  },
   "flow-instructions": {
     "hub": "EqualTheme {\n    InstructionsFlow(onBack = {}, initialActive = emptyList())\n}",
     "preset": "EqualTheme {\n    InstructionsFlow(initialActive = emptyList(), initialView = InstructionsView.PresetDetail(\"screen\"))\n}",
@@ -397,6 +424,11 @@
     "Interactive": "var gender by remember { mutableStateOf(Gender.Male) }\nGenderSelector(value = gender, onValueChange = { gender = it })\nProfileAvatar(\n    variant = if (gender == Gender.Male) ProfileAvatarVariant.Male else ProfileAvatarVariant.Female,\n    width = 56.dp,\n)",
     "In Personal Details": "var name by remember { mutableStateOf(\"Keshav\") }\nvar gender by remember { mutableStateOf(Gender.Female) }\nEqualAppBar(title = \"Personal Details\", onBackClick = {})\nEqualTextField(\n    value = name,\n    onValueChange = { name = it },\n    label = \"Name\",\n    helper = AnnotatedString(\"Your AI will call you '$name'\"),\n)\nSectionHeader(title = \"Gender\", inset = 0.dp)\nGenderSelector(value = gender, onValueChange = { gender = it })",
     "Free vs paid": "var gender by remember { mutableStateOf(Gender.Male) }\nColumn(verticalArrangement = Arrangement.spacedBy(16.dp)) {\n    GenderSelector(value = gender, onValueChange = { gender = it }, tier = PlanTier.Free)\n    GenderSelector(value = gender, onValueChange = { gender = it }, tier = PlanTier.Paid)\n}"
+  },
+  "health-check": {
+    "Hero states": "HealthHero(HealthHeroState.Idle, height = 120.dp)\nHealthHero(HealthHeroState.Loading, height = 120.dp)\nHealthHero(HealthHeroState.Pass, height = 120.dp)\nHealthHero(HealthHeroState.Fail, height = 120.dp)",
+    "Check card with permission rows": "HealthCheckCard(\n    title = \"App permissions\",\n    status = HealthCardStatus.Issues,\n    expandable = true,\n    expanded = true,\n    action = HealthCardAction(\"Grant Permission\", onClick = { /* open settings */ }),\n) {\n    PermissionRow(EqualSymbols.phoneIncoming, \"Phone\", \"Your assistant needs this to handle calls\", PermissionStatus.Granted)\n    PermissionRow(EqualSymbols.notifications, \"Notification\", \"Required to send you call alerts\", PermissionStatus.NotGranted, filledIcon = EqualSymbols.notificationsFill)\n    PermissionRow(EqualSymbols.contacts, \"Contacts\", \"Required to skip calls from saved contacts\", PermissionStatus.Checking)\n}",
+    "Status labels": "HealthStatusLabel(HealthTone.Neutral, \"Pending\")\nHealthStatusLabel(HealthTone.Progress, \"Checking\")\nHealthStatusLabel(HealthTone.Success, \"Granted\")\nHealthStatusLabel(HealthTone.Danger, \"Not Granted\")"
   },
   "help-center-sheet": {
     "Default": "HelpCenterSheet(phone = \"+91 9876 543210\", email = \"hello@equal.in\", onCall = {}, onMail = {}, inline = true)"

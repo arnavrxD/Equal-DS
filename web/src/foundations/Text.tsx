@@ -14,6 +14,7 @@ export type TextColor =
   | 'on-dark'
   | 'on-dark-secondary'
   | 'danger'
+  | 'success'
   | 'accent-gold'
   | 'inherit';
 

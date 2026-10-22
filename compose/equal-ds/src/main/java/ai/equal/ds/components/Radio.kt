@@ -40,7 +40,7 @@ private fun controlLabel(size: EqualControlSize): TextStyle = when (size) {
 
 /** The radio mark alone: a 2dp `radio/ring` ring, or a `button/primary` disc with a `bg/surface` inner ring when [selected]. */
 @Composable
-fun EqualRadioMark(selected: Boolean, size: EqualControlSize = EqualControlSize.M, modifier: Modifier = Modifier) {
+fun EqualRadioMark(selected: Boolean, modifier: Modifier = Modifier, size: EqualControlSize = EqualControlSize.M) {
     val colors = EqualTheme.colors
     if (selected) {
         Box(modifier.size(size.box).background(colors.buttonPrimary, CircleShape), contentAlignment = Alignment.Center) {
@@ -73,7 +73,7 @@ fun EqualRadio(
     } else Modifier
     val described = if (contentDescription != null) Modifier.semantics { this.contentDescription = contentDescription } else Modifier
     Row(modifier.then(clickable).then(described), verticalAlignment = Alignment.Top) {
-        EqualRadioMark(selected, size)
+        EqualRadioMark(selected, size = size)
         if (label != null || support != null) {
             Spacer(Modifier.width(8.dp))
             Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {

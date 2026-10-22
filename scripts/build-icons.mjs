@@ -116,6 +116,17 @@ const MANIFEST = {
   'volume-up': 'volume_up',
   'mic-off': 'mic_off',
   'call-end': 'call_end-fill',
+  // Assistant Health Check
+  notifications: 'notifications',
+  'notifications-fill': 'notifications-fill',
+  contacts: 'contacts',
+  'contacts-fill': 'contacts-fill',
+  layers: 'layers',
+  'layers-fill': 'layers-fill',
+  'arrow-drop-down': 'arrow_drop_down',
+  'progress-activity': 'progress_activity',
+  'check-circle-fill': 'check_circle-fill',
+  'warning-fill': 'warning-fill',
 };
 
 const SYMBOL_VB = '0 -960 960 960';

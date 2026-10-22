@@ -124,6 +124,8 @@ export type HomeScreenProps = {
   assistantOff?: boolean;
   /** Toggle art experiment (Component 25). */
   assistantArt?: 'robot' | 'phone';
+  /** Assistant Healthcheck design: assistant off with "Check assistant health" and the Fix Now strip. */
+  healthAlert?: { onFix?: () => void };
   /** Meet Your Assistant → Call me (starts the in-app call, vOIP design). */
   onCallMe?: () => void;
   /** Card under the header: Plan Expired (option 2) or the weekly usage meter (Usage Cap option 2). */
@@ -141,8 +143,8 @@ export type HomeScreenProps = {
   offerStrip?: boolean;
 };
 
-export function HomeScreen({ chats = sampleChats, onOpenChat, onTab, onDeleteSelected, onSearch, showWhatsNew = true, avatar = 'male', tier = 'paid', systemStatus = 'ok', onNotify, promo = 'whats-new', lockedFrom, onLockedChat, planExpiry, valueSheet, onRenew, quotaSheet, assistant, assistantResult, callSetup, onCallSetup, assistantDescription, planExpired, assistantOff, assistantArt, onCallMe, homeNotice, official, onOfficialChat, lockedActions, paymentProcessing, paywallSheet, offerStrip }: HomeScreenProps) {
-  const [assistantOn, setAssistantOn] = useState(!assistantOff);
+export function HomeScreen({ chats = sampleChats, onOpenChat, onTab, onDeleteSelected, onSearch, showWhatsNew = true, avatar = 'male', tier = 'paid', systemStatus = 'ok', onNotify, promo = 'whats-new', lockedFrom, onLockedChat, planExpiry, valueSheet, onRenew, quotaSheet, assistant, assistantResult, callSetup, onCallSetup, assistantDescription, planExpired, assistantOff, assistantArt, onCallMe, healthAlert, homeNotice, official, onOfficialChat, lockedActions, paymentProcessing, paywallSheet, offerStrip }: HomeScreenProps) {
+  const [assistantOn, setAssistantOn] = useState(!assistantOff && !healthAlert);
   const [pw, setPw] = useState<PaywallSheetStage | null>(typeof paywallSheet === 'string' ? paywallSheet : null);
   useEffect(() => setPw(typeof paywallSheet === 'string' ? paywallSheet : null), [paywallSheet]);
   const [offer, setOffer] = useState(!!offerStrip);
@@ -185,6 +187,8 @@ export function HomeScreen({ chats = sampleChats, onOpenChat, onTab, onDeleteSel
             below={paymentProcessing ? <ProcessingStrip variant="card" /> : undefined}
             status={systemStatus === 'ok' ? undefined : <SystemStatusCard state={systemStatus} onNotify={onNotify} />}
             assistantDescription={assistantDescription}
+            assistantOffDescription={healthAlert ? 'Check assistant health' : undefined}
+            healthAlert={healthAlert && !assistantOn ? healthAlert : undefined}
           />
         )
       }

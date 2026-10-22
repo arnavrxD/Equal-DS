@@ -30,6 +30,8 @@ export type ButtonProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'childre
   glow?: boolean;
   /** Premium primary only: the sweeping sheen (Figma "Buton", Animated). On by default. */
   sheen?: boolean;
+  /** Working ("Fixing"): a spinner replaces the leading icon, the fill stays, presses are ignored. */
+  loading?: boolean;
 };
 
 const LEGACY: Record<ButtonVariant, [ButtonAppearance, ButtonEmphasis] | 'secondary-lime' | 'tonal'> = {
@@ -54,7 +56,7 @@ export function resolveButton(appearance?: ButtonAppearance, emphasis?: ButtonEm
  * size. Labels are sentence case: xs / sm use `buttonSmall` (12 SemiBold), md / lg `buttonLarge`
  * (16 SemiBold). Premium primary is the gold subscription CTA with its sheen and optional glow.
  */
-export function Button({ children, appearance, emphasis, variant = 'primary', size = 'md', block, leadingIcon, trailingIcon, shape = 'pill', glow, sheen = true, disabled, className, type = 'button', ...rest }: ButtonProps) {
+export function Button({ children, appearance, emphasis, variant = 'primary', size = 'md', block, leadingIcon, trailingIcon, shape = 'pill', glow, sheen = true, loading, disabled, className, type = 'button', onClick, ...rest }: ButtonProps) {
   const kind = resolveButton(appearance, emphasis, variant);
   const small = size === 'xs' || size === 'sm';
   const iconSize = { xs: 14, sm: 16, md: 20, lg: 24 }[size];
@@ -63,10 +65,12 @@ export function Button({ children, appearance, emphasis, variant = 'primary', si
     <button
       type={type}
       disabled={disabled}
-      className={['eq-reset-btn eq-pressable eq-btn', `eq-btn--${kind}`, `eq-btn--${size}`, `eq-btn--${shape}`, block && 'eq-btn--block', premiumPrimary && sheen && 'has-sheen', premiumPrimary && glow && 'has-glow', 'eq-touch', className].filter(Boolean).join(' ')}
+      aria-busy={loading || undefined}
+      onClick={loading ? undefined : onClick}
+      className={['eq-reset-btn eq-pressable eq-btn', `eq-btn--${kind}`, loading && 'is-loading', `eq-btn--${size}`, `eq-btn--${shape}`, block && 'eq-btn--block', premiumPrimary && sheen && 'has-sheen', premiumPrimary && glow && 'has-glow', 'eq-touch', className].filter(Boolean).join(' ')}
       {...rest}
     >
-      {leadingIcon && <Icon name={leadingIcon} size={iconSize} />}
+      {loading ? <Icon name="progress-activity" size={iconSize} className="eq-spin" /> : leadingIcon && <Icon name={leadingIcon} size={iconSize} />}
       <Text variant={small ? 'buttonSmall' : 'buttonLarge'} color="none" className={kind === 'premium-secondary' || kind === 'premium-tertiary' ? 'eq-btn__gold-label' : undefined}>{children}</Text>
       {trailingIcon && <Icon name={trailingIcon} size={iconSize} />}
     </button>

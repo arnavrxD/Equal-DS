@@ -1,5 +1,6 @@
 package ai.equal.ds.catalog
 
+import ai.equal.ds.components.HealthAlert
 import ai.equal.ds.components.SampleSummaryActions
 import ai.equal.ds.components.SummaryActions
 import ai.equal.ds.components.LockedRecording
@@ -938,9 +939,11 @@ fun HomeScreenSample(
     paywallSheetStage: PaywallSheetStage? = null,
     /** "Go unlimited for ₹149 with EQUAL25 · Claim Now" strip (shown after the exit offer is declined). */
     offerStrip: Boolean = false,
+    /** Assistant Healthcheck: the "Poor Assistant Health · Fix Now" strip under the toggle. */
+    healthAlert: HealthAlert? = null,
 ) {
     val colors = EqualTheme.colors
-    var assistantOn by remember(assistantOff) { mutableStateOf(!assistantOff) }
+    var assistantOn by remember(assistantOff, healthAlert != null) { mutableStateOf(!assistantOff && healthAlert == null) }
     var pw by remember(paywallSheetStage) { mutableStateOf(paywallSheetStage) }
     var offer by remember(offerStrip) { mutableStateOf(offerStrip) }
     val sheetOn = paywallSheet || paywallSheetStage != null
@@ -970,6 +973,8 @@ fun HomeScreenSample(
                 planTone = if (planExpired) PlanBadgeTone.Expired else PlanBadgeTone.Paid,
                 assistantArt = assistantArt,
                 below = if (paymentProcessing) ({ ProcessingStrip(variant = ProcessingStripVariant.Card) }) else null,
+                assistantOffDescription = if (healthAlert != null) "Check assistant health" else null,
+                healthAlert = if (!assistantOn) healthAlert else null,
             )
             Column(
                 Modifier

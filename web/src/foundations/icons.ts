@@ -90,6 +90,16 @@ export const icons = {
   "volume-up": { viewBox: "0 -960 960 960", paths: ["M560-131v-62q97-28 158.5-107.5T780-481q0-101-61-181T560-769v-62q124 28 202 125.5T840-481q0 127-78 224.5T560-131ZM120-360v-240h160l200-200v640L280-360H120Zm420 48v-337q55 17 87.5 64T660-480q0 57-33 104t-87 64ZM420-648 307-540H180v120h127l113 109v-337Zm-94 168Z"] },
   "mic-off": { viewBox: "0 -960 960 960", paths: ["m686-361-43-43q21-26 31-58.5t10-66.5h60q0 46-15 89t-43 79ZM461-586Zm97 97-53-52v-238q0-17-12-29t-29-12q-17 0-29 12t-12 29v155l-60-60v-95q0-42 29.5-71.5T464-880q42 0 71.5 29.5T565-779v250q0 8-1.5 20t-5.5 20ZM434-120v-136q-106-11-178-89t-72-184h60q0 91 64.5 153T464-314q38 0 73-12.5t64-34.5l43 43q-31 26-69 41.5T494-256v136h-60Zm397 65L36-850l38-38L869-93l-38 38Z"] },
   "call-end": { viewBox: "0 -960 960 960", paths: ["M480-640q126 0 241 50.5T918-443q8 10 8.5 22t-8.5 21l-94 94q-8 8-23 9t-24-6l-114-85q-6-5-9-11t-3-13v-139q-42-16-85.5-22.5T480-580q-42 0-85.5 6.5T309-551v139q0 7-3 13t-9 11l-114 85q-12 9-24.5 8T136-306l-94-94q-9-9-8.5-21t8.5-22q82-96 197-146.5T480-640Z"] },
+  "notifications": { viewBox: "0 -960 960 960", paths: ["M160-200v-60h80v-304q0-84 49.5-150.5T420-798v-22q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v22q81 17 130.5 83.5T720-564v304h80v60H160Zm320-302Zm0 422q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80ZM300-260h360v-304q0-75-52.5-127.5T480-744q-75 0-127.5 52.5T300-564v304Z"] },
+  "notifications-fill": { viewBox: "0 -960 960 960", paths: ["M160-200v-60h80v-304q0-84 49.5-150.5T420-798v-22q0-25 17.5-42.5T480-880q25 0 42.5 17.5T540-820v22q81 17 130.5 83.5T720-564v304h80v60H160ZM480-80q-33 0-56.5-23.5T400-160h160q0 33-23.5 56.5T480-80Z"] },
+  "contacts": { viewBox: "0 -960 960 960", paths: ["M144-40v-60h672v60H144Zm0-820v-60h672v60H144Zm336 416q50 0 84-34t34-84q0-50-34-84t-84-34q-50 0-84 34t-34 84q0 50 34 84t84 34ZM132-160q-24 0-42-18t-18-42v-520q0-26 18-43t42-17h696q24 0 42 18t18 42v520q0 24-18 42t-42 18H132Zm88-60q51-63 121-94.5T479.5-346q68.5 0 140 31.5T740-220h88v-520H132v520h88Zm94 0h334q-31-30-72.5-48T480-286q-54 0-94.5 18T314-220Zm125.5-301Q423-538 423-562t16.34-41q16.34-17 40.5-17t40.66 17q16.5 17 16.5 41t-16.34 41q-16.34 17-40.5 17t-40.66-17Zm40.5 41Z"] },
+  "contacts-fill": { viewBox: "0 -960 960 960", paths: ["M144-40v-60h672v60H144Zm0-820v-60h672v60H144Zm336 416q50 0 84-34t34-84q0-50-34-84t-84-34q-50 0-84 34t-34 84q0 50 34 84t84 34ZM132-160q-24 0-42-18t-18-42v-520q0-26 18-43t42-17h696q24 0 42 18t18 42v520q0 24-18 42t-42 18H132Zm88-60h520q-49-63-120.5-94.5T480-346q-69 0-139 31.5T220-220Z"] },
+  "layers": { viewBox: "0 -960 960 960", paths: ["M480-130 120-410l50-37 310 241 310-241 50 37-360 280Zm0-152L120-562l360-280 360 280-360 280Zm0-301Zm0 225 262-204-262-204-262 204 262 204Z"] },
+  "layers-fill": { viewBox: "0 -960 960 960", paths: ["M480-130 120-410l50-37 310 241 310-241 50 37-360 280Zm0-152L120-562l360-280 360 280-360 280Z"] },
+  "arrow-drop-down": { viewBox: "0 -960 960 960", paths: ["M480-360 280-559h400L480-360Z"] },
+  "progress-activity": { viewBox: "0 -960 960 960", paths: ["M323-111q-73-31-127-85t-85-127q-31-73-31-157t31-157q31-73 85-127t127-85q73-31 157-31 12 0 21 9t9 21q0 12-9 21t-21 9q-141 0-240.5 99.5T140-480q0 141 99.5 240.5T480-140q141 0 240.5-99.5T820-480q0-12 9-21t21-9q12 0 21 9t9 21q0 84-31 157t-85 127q-54 54-127 85T480-80q-84 0-157-31Z"] },
+  "check-circle-fill": { viewBox: "0 -960 960 960", paths: ["m421-298 283-283-46-45-237 237-120-120-45 45 165 166Zm59 218q-82 0-155-31.5t-127.5-86Q143-252 111.5-325T80-480q0-83 31.5-156t86-127Q252-817 325-848.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 82-31.5 155T763-197.5q-54 54.5-127 86T480-80Z"] },
+  "warning-fill": { viewBox: "0 -960 960 960", paths: ["m40-120 440-760 440 760H40Zm465.5-125.68q8.5-8.67 8.5-21.5 0-12.82-8.68-21.32-8.67-8.5-21.5-8.5-12.82 0-21.32 8.68-8.5 8.67-8.5 21.5 0 12.82 8.68 21.32 8.67 8.5 21.5 8.5 12.82 0 21.32-8.68ZM454-348h60v-224h-60v224Z"] },
 } as const satisfies Record<string, IconDef>;
 
 /** DS icon name -> source glyph, for design / Compose parity. */
@@ -180,6 +190,16 @@ export const iconSource = {
   "volume-up": "material-symbols/outlined/volume_up",
   "mic-off": "material-symbols/outlined/mic_off",
   "call-end": "material-symbols/outlined/call_end-fill",
+  "notifications": "material-symbols/outlined/notifications",
+  "notifications-fill": "material-symbols/outlined/notifications-fill",
+  "contacts": "material-symbols/outlined/contacts",
+  "contacts-fill": "material-symbols/outlined/contacts-fill",
+  "layers": "material-symbols/outlined/layers",
+  "layers-fill": "material-symbols/outlined/layers-fill",
+  "arrow-drop-down": "material-symbols/outlined/arrow_drop_down",
+  "progress-activity": "material-symbols/outlined/progress_activity",
+  "check-circle-fill": "material-symbols/outlined/check_circle-fill",
+  "warning-fill": "material-symbols/outlined/warning-fill",
 } as const;
 
 export type IconName = keyof typeof icons;
