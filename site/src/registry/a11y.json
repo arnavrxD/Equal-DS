@@ -4857,7 +4857,7 @@
       {
         "part": "Permission row",
         "description": "Ring, title over description, status.",
-        "spec": "48 ring 2dp (stroke/medium, stroke/focus granted, text/danger not granted) around a 40 health-check/icon-bg disc · icon outlined text/placeholder, filled text/secondary while checking, never red · body2 + captionWrap · 64 min"
+        "spec": "48 ring 2dp (stroke/medium, stroke/focus granted, text/danger not granted) around a 40 health-check/icon-bg disc · icon outlined text/placeholder until checked, then filled text/secondary (kept after the result), never red · body2 + captionWrap · 64 min"
       },
       {
         "part": "Action",

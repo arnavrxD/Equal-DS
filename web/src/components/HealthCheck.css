@@ -14,7 +14,7 @@
 
 .eq-perm-row { display: flex; align-items: center; gap: 12px; min-height: 64px; padding: 8px 16px 8px 0; }
 .eq-ring { position: relative; flex-shrink: 0; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; box-shadow: inset 0 0 0 2px var(--eq-stroke-medium); color: var(--eq-text-placeholder); }
-.eq-ring--checking { color: var(--eq-text-secondary); }
+.eq-ring--checking, .eq-ring--granted, .eq-ring--notGranted { color: var(--eq-text-secondary); }
 .eq-ring--granted { box-shadow: inset 0 0 0 2px var(--eq-stroke-focus); }
 .eq-ring--notGranted { box-shadow: inset 0 0 0 2px var(--eq-text-danger); }
 .eq-ring__disc { width: 40px; height: 40px; border-radius: 50%; background: var(--eq-health-check-icon-bg); display: inline-flex; align-items: center; justify-content: center; }

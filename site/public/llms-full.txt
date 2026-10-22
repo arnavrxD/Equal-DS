@@ -817,7 +817,7 @@ Anatomy:
 1. Hero: The shield with a status coin. (Lottie 0.8 × size wide · idle first frame · loading loops · pass / fail hold the last frame · decorative)
 2. Card: One check: app permissions, phone settings or carrier. (radius 16 · bg/surface · 1 stroke/subtle · header 56 min, padding 16 · title subheading)
 3. Status label: Pending, Checking, Granted, All Good, Issues Found, Not Granted, Check Failed. (caption · 14 icon (progress-activity spinning, check-circle-fill, warning-fill) · text/secondary, text/primary, text/success, text/danger)
-4. Permission row: Ring, title over description, status. (48 ring 2dp (stroke/medium, stroke/focus granted, text/danger not granted) around a 40 health-check/icon-bg disc · icon outlined text/placeholder, filled text/secondary while checking, never red · body2 + captionWrap · 64 min)
+4. Permission row: Ring, title over description, status. (48 ring 2dp (stroke/medium, stroke/focus granted, text/danger not granted) around a 40 health-check/icon-bg disc · icon outlined text/placeholder until checked, then filled text/secondary (kept after the result), never red · body2 + captionWrap · 64 min)
 5. Action: The one fix for the failure. (md block Button · Grant Permission / Fix Now / Try Again · loading shows "Fixing")
 
 Accessibility:

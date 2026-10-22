@@ -1347,7 +1347,7 @@ const [muted, setMuted] = useState(false);
       {
         component: 'PermissionRow',
         props: [
-          req('icon', 'IconName', 'Outlined in text/placeholder; filled in text/secondary only while that row is checked. Never red.'),
+          req('icon', 'IconName', 'Outlined in text/placeholder until its check starts, then filled in text/secondary and kept filled (granted or not). Never red.'),
           req('title', 'string', 'Permission name.'),
           req('description', 'string', 'Why the assistant needs it.'),
           req('status', "'idle' | 'pending' | 'checking' | 'granted' | 'notGranted'", 'Ring colour and label.'),
