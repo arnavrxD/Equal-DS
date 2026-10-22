@@ -25,6 +25,7 @@ const Assets = lazy(() => import('../pages/reference/Assets'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 const Claude = lazy(() => import('../pages/Claude'));
 const Decisions = lazy(() => import('../pages/reference/Decisions'));
+const FigmaMap = lazy(() => import('../pages/reference/FigmaMap'));
 
 function pageFor(path: string): ReactNode {
   if (path === '/') return <Home />;
@@ -48,6 +49,7 @@ function pageFor(path: string): ReactNode {
   if (path === '/reference/conflicts') return <Conflicts />;
   if (path === '/reference/assets') return <Assets />;
   if (path === '/reference/decisions') return <Decisions />;
+  if (path === '/reference/figma-map') return <FigmaMap />;
   return <NotFound />;
 }
 

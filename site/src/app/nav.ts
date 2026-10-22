@@ -36,6 +36,7 @@ export const sections: Section[] = [
         pages: [
           { path: '/reference/decisions', label: 'Rules & decisions', hint: 'Every rule and why it was decided' },
           { path: '/patterns', label: 'Patterns', hint: 'Threads, selection, confirm-then-undo' },
+          { path: '/reference/figma-map', label: 'Figma → code', hint: 'Unnamed Figma components and the rebuild' },
           { path: '/reference/conflicts', label: 'Spec conflicts', hint: 'Where the designs disagree' },
           { path: '/reference/assets', label: 'Image assets', hint: 'Supplied vs still needed' },
         ],
