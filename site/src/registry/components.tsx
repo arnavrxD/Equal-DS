@@ -110,6 +110,14 @@ import {
   HealthStatusLabel,
   PermissionRow,
   HealthCheckCard,
+  AlertSheet,
+  alertSheets,
+  activationFixes,
+  SnoozeDurationDialog,
+  TroubleshootList,
+  UpdateArt,
+  Spinner,
+  type SnoozeDuration,
   SkeletonText,
   ChipRow,
   Composer,
@@ -223,6 +231,11 @@ function PriceDropDemo() {
 function SwitchDemo() {
   const [on, setOn] = useState(true);
   return <Switch checked={on} onChange={setOn} label="AI Assistant" />;
+}
+
+function SnoozeDialogDemo() {
+  const [v, setV] = useState<SnoozeDuration | null>(null);
+  return <div style={{ padding: 16 }}><SnoozeDurationDialog mode="inline" value={v} onChange={setV} /></div>;
 }
 
 function CallControlsDemo() {
@@ -1320,6 +1333,86 @@ const [muted, setMuted] = useState(false);
     ],
     dos: ['Give every failure the one action that fixes it, on the same card.', 'Check items one at a time so the user can see what is being checked.'],
     donts: ["Don't show a failure without a next step.", "Don't rely on colour alone: every status has an icon and a word."],
+  },
+  {
+    id: 'snooze',
+    name: 'Snooze & update',
+    group: 'Overlays',
+    summary: 'Assistant Snooze and Force Update parts: the duration dialog (OK disabled until a choice is made), the alert sheet with its art straddling the top edge, the troubleshooting list, the update art and the spinner that replaces the assistant switch while it turns on or off.',
+    components: ['SnoozeDurationDialog', 'AlertSheet', 'TroubleshootList', 'UpdateArt', 'ForceUpdateScreen', 'Spinner'],
+    importLine: "import { SnoozeDurationDialog, AlertSheet, alertSheets, TroubleshootList, UpdateArt, Spinner } from '@equal/ds';",
+    compose: ['SnoozeDurationDialogContent', 'AlertSheet', 'AlertSheets', 'TroubleshootList', 'UpdateArt', 'ForceUpdateScreen', 'EqualSpinner'],
+    spec: 'Assistant Snooze · Fore Update',
+    tokens: ['bg/surface', 'bg/primary', 'bg/overlay', 'button/primary', 'stroke/medium', 'stroke/dark', 'suggest/glow', 'text/secondary'],
+    examples: [
+      {
+        title: 'Duration dialog',
+        note: 'Nothing is preselected; OK stays disabled until a duration is chosen.',
+        render: () => <SnoozeDialogDemo />,
+        code: `const [v, setV] = useState<SnoozeDuration | null>(null);
+
+<SnoozeDurationDialog value={v} onChange={setV} onConfirm={snooze} onCancel={close} />`,
+      },
+      {
+        title: 'Alert sheet',
+        render: () => (
+          <div style={{ padding: '72px 16px 16px', maxWidth: 390 }}>
+            <AlertSheet {...alertSheets['activation-failed']}>
+              <TroubleshootList items={activationFixes} />
+            </AlertSheet>
+          </div>
+        ),
+        code: `<AlertSheet {...alertSheets['activation-failed']} onCta={retry} onSecondary={openSupport} onClose={close}>
+  <TroubleshootList items={activationFixes} />
+</AlertSheet>`,
+      },
+      {
+        title: 'Update art and spinner',
+        render: () => (
+          <Row gap={32} style={{ padding: 24, alignItems: 'center' }}>
+            <UpdateArt size={144} />
+            <Spinner size={20} />
+            <Spinner size={32} />
+          </Row>
+        ),
+        code: `<UpdateArt size={144} />
+<Spinner size={20} />
+<Spinner size={32} />`,
+      },
+    ],
+    props: [
+      {
+        component: 'SnoozeDurationDialog',
+        props: [
+          req('value', 'SnoozeDuration | null', "'15m' | '1h' | '6h' | 'rest-of-day' | 'manual'; null disables OK."),
+          opt('onChange', '(v) => void', undefined, 'Option tapped.'),
+          opt('onConfirm', '(v) => void', undefined, 'OK with the chosen duration.'),
+          opt('onCancel', '() => void', undefined, 'Cancel, scrim, Escape or Back.'),
+          opt('confirmLabel', 'string', "'OK'", 'Commit label.'),
+        ],
+      },
+      {
+        component: 'AlertSheet',
+        props: [
+          req('art', 'AssetName | ReactNode', 'Straddles the top edge (its centre on the edge).'),
+          opt('artSize', 'number', '96', 'Art size; the sheet pads its top by half of it.'),
+          req('title', 'string', 'title, centred.'),
+          req('body', 'ReactNode', 'body1 text/secondary, max 292 wide.'),
+          req('cta', 'string', 'Block lg Button.'),
+          opt('ctaIcon', 'IconName', undefined, 'Leading icon (download on Update Now).'),
+          opt('secondary', 'string', undefined, 'Neutral TextButton under the CTA.'),
+          opt('secondaryIcon', 'IconName', undefined, 'Leading icon (phone-in-talk on Contact Support).'),
+          opt('secondaryUnderline', 'boolean', undefined, 'Underlined secondary (Maybe Later).'),
+          opt('onClose', '() => void', undefined, 'Shows the floating close; Escape calls it.'),
+          opt('children', 'ReactNode', undefined, 'Between the body and the CTA, e.g. a TroubleshootList.'),
+        ],
+      },
+      { component: 'TroubleshootList', props: [req('items', '{ icon: IconName; label: string }[]', 'Information-only rows.')] },
+      { component: 'UpdateArt', props: [opt('size', 'number', '160', '160 on the hard update, 144 on the sheet.')] },
+      { component: 'Spinner', props: [opt('size', 'number', '20', 'Diameter.'), opt('label', 'string', undefined, 'Accessible name; omit when nearby text says what is loading.')] },
+    ],
+    dos: ['Keep OK disabled until a duration is picked.', 'Say why it failed and give the next step on the same sheet.', 'Turning the assistant back on needs no dialog.'],
+    donts: ["Don't preselect a duration.", "Don't give the hard update a close button; Back exits the app."],
   },
   {
     id: 'text-field',

@@ -4,6 +4,11 @@ import androidx.compose.ui.semantics.clearAndSetSemantics
 import ai.equal.ds.assets.EqualAssetImage
 import ai.equal.ds.assets.EqualAssets
 import ai.equal.ds.icons.EqualIcon
+import androidx.compose.ui.semantics.LiveRegionMode
+import androidx.compose.ui.semantics.liveRegion
+import androidx.compose.ui.semantics.stateDescription
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.AnnotatedString
 import ai.equal.ds.icons.EqualSymbols
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.foundation.layout.defaultMinSize
@@ -160,11 +165,15 @@ fun AssistantToggleCard(
     art: AssistantToggleArt = AssistantToggleArt.Robot,
     /** Assistant Healthcheck: a pink strip under the card ("Poor Assistant Health · Fix Now →"). */
     healthAlert: HealthAlert? = null,
+    /** Assistant Snooze: a spinner replaces the switch while the request runs; the card isn't interactive. */
+    busy: AssistantBusy? = null,
+    /** Rich off line (snooze: "Equal will be back **Today 6:45pm**"); wins over [descriptionOff]. */
+    descriptionOffRich: AnnotatedString? = null,
 ) {
     if (healthAlert != null) {
         val colors = EqualTheme.colors
         Column(modifier.fillMaxWidth().clip(RoundedCornerShape(EqualRadius.rXl)).background(colors.expiryBannerDangerBg)) {
-            AssistantToggleCard(checked, onCheckedChange, Modifier, titleOn, titleOff, description, descriptionOff, art)
+            AssistantToggleCard(checked, onCheckedChange, Modifier, titleOn, titleOff, description, descriptionOff, art, busy = busy, descriptionOffRich = descriptionOffRich)
             Row(
                 Modifier.fillMaxWidth().defaultMinSize(minHeight = 44.dp).padding(start = 16.dp, end = 8.dp, top = 4.dp, bottom = 4.dp),
                 verticalAlignment = Alignment.CenterVertically,
@@ -184,7 +193,9 @@ fun AssistantToggleCard(
     }
     val colors = EqualTheme.colors
     val shape = RoundedCornerShape(EqualRadius.rXl)
-    val fillModifier = if (checked) {
+    // Deactivating keeps the on look; activating keeps the off look until the request succeeds.
+    val lit = if (busy != null) busy == AssistantBusy.Deactivating else checked
+    val fillModifier = if (lit) {
         // Figma: the flat `assistant-toggle/bg` fill with a soft `action/stroke/unread` glow at each end.
         val glow = colors.actionStrokeUnread.copy(alpha = colors.actionStrokeUnread.alpha * 0.4f)
         Modifier
@@ -212,36 +223,51 @@ fun AssistantToggleCard(
             .fillMaxWidth()
             .height(64.dp)
             .then(fillModifier)
-            .toggleable(value = checked, role = Role.Switch, onValueChange = onCheckedChange)
+            .then(
+                if (busy == null) Modifier.toggleable(value = checked, role = Role.Switch, onValueChange = onCheckedChange)
+                else Modifier.semantics { stateDescription = "Busy" },
+            )
             .padding(start = 12.dp, end = 10.dp, top = 12.dp, bottom = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (art == AssistantToggleArt.Phone) {
-            EqualAssetImage(EqualAssets.AssistantPhone, size = 36.dp, modifier = Modifier.alpha(if (checked) 1f else 0.5f))
+            EqualAssetImage(EqualAssets.AssistantPhone, size = 36.dp, modifier = Modifier.alpha(if (lit) 1f else 0.5f))
         } else {
-            EqualMascot(size = 36.dp, dimmed = !checked)
+            EqualMascot(size = 36.dp, dimmed = !lit)
         }
         Spacer(Modifier.width(10.dp))
-        Column(Modifier.weight(1f)) {
+        Column(Modifier.weight(1f).semantics { liveRegion = LiveRegionMode.Polite }) {
             EqualText(
-                text = if (checked) titleOn else titleOff,
+                text = when (busy) { AssistantBusy.Deactivating -> "Deactivating your assistant"; AssistantBusy.Activating -> "Activating your assistant"; null -> if (checked) titleOn else titleOff },
                 style = EqualTheme.type.subheading,
                 color = colors.textPrimary,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
-            EqualText(
-                text = if (checked) description else descriptionOff,
-                style = EqualTheme.type.captionRegular,
-                color = colors.textSecondary,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
+            val line = when (busy) { AssistantBusy.Deactivating -> "This will take just a moment…"; AssistantBusy.Activating -> "Resuming on your Equal AI Assistant"; null -> null }
+            if (line == null && !checked && descriptionOffRich != null) {
+                EqualText(text = descriptionOffRich, style = EqualTheme.type.captionRegular, color = colors.textSecondary, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            } else {
+                EqualText(
+                    text = line ?: if (checked) description else descriptionOff,
+                    style = EqualTheme.type.captionRegular,
+                    color = colors.textSecondary,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
         }
         Spacer(Modifier.width(12.dp))
-        EqualSwitch(checked = checked, onCheckedChange = null)
+        if (busy != null) {
+            Box(Modifier.size(width = 40.dp, height = 24.dp), contentAlignment = Alignment.Center) { EqualSpinner(size = 20.dp) }
+        } else {
+            EqualSwitch(checked = checked, onCheckedChange = null)
+        }
     }
 }
+
+/** [AssistantToggleCard] while a snooze request runs. */
+enum class AssistantBusy { Deactivating, Activating }
 
 /** The Home health strip under [AssistantToggleCard]. */
 data class HealthAlert(val onFix: () -> Unit, val label: String = "Poor Assistant Health", val cta: String = "Fix Now")
@@ -277,6 +303,10 @@ fun HomeHeader(
     assistantOffDescription: String? = null,
     /** Assistant Healthcheck: the pink "Poor Assistant Health · Fix Now" strip under the toggle. */
     healthAlert: HealthAlert? = null,
+    /** Assistant Snooze: spinner in place of the switch. */
+    assistantBusy: AssistantBusy? = null,
+    /** Assistant Snooze: "Equal will be back **Today 6:45pm**". */
+    assistantOffRich: AnnotatedString? = null,
 ) {
     val colors = EqualTheme.colors
     Column(
@@ -298,6 +328,8 @@ fun HomeHeader(
                     descriptionOff = assistantOffDescription ?: "Unknown calls will ring normally",
                     art = assistantArt,
                     healthAlert = healthAlert,
+                    busy = assistantBusy,
+                    descriptionOffRich = assistantOffRich,
                 )
             }
         }

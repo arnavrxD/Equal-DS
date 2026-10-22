@@ -1,6 +1,7 @@
 package ai.equal.ds.catalog
 
 import ai.equal.ds.components.HealthAlert
+import ai.equal.ds.components.AssistantBusy
 import ai.equal.ds.components.SampleSummaryActions
 import ai.equal.ds.components.SummaryActions
 import ai.equal.ds.components.LockedRecording
@@ -941,6 +942,10 @@ fun HomeScreenSample(
     offerStrip: Boolean = false,
     /** Assistant Healthcheck: the "Poor Assistant Health · Fix Now" strip under the toggle. */
     healthAlert: HealthAlert? = null,
+    /** Assistant Snooze: drive the toggle from outside (on, busy spinner, off copy). */
+    assistantControl: AssistantControl? = null,
+    /** Anything drawn over Home (Snooze dialog, error sheets, soft update, a heads-up). */
+    overlay: (@Composable () -> Unit)? = null,
 ) {
     val colors = EqualTheme.colors
     var assistantOn by remember(assistantOff, healthAlert != null) { mutableStateOf(!assistantOff && healthAlert == null) }
@@ -960,8 +965,8 @@ fun HomeScreenSample(
     ) {
         Column(Modifier.fillMaxSize()) {
             HomeHeader(
-                assistantOn = assistantOn,
-                onAssistantChange = { assistantOn = it },
+                assistantOn = assistantControl?.on ?: assistantOn,
+                onAssistantChange = { v -> if (assistantControl != null) assistantControl.onChange(v) else assistantOn = v },
                 modifier = Modifier.zIndex(1f),
                 planLabel = when {
                     planExpired -> "Plan Expired"
@@ -973,7 +978,9 @@ fun HomeScreenSample(
                 planTone = if (planExpired) PlanBadgeTone.Expired else PlanBadgeTone.Paid,
                 assistantArt = assistantArt,
                 below = if (paymentProcessing) ({ ProcessingStrip(variant = ProcessingStripVariant.Card) }) else null,
-                assistantOffDescription = if (healthAlert != null) "Check assistant health" else null,
+                assistantOffDescription = assistantControl?.offDescription ?: if (healthAlert != null) "Check assistant health" else null,
+                assistantBusy = assistantControl?.busy,
+                assistantOffRich = assistantControl?.offRich,
                 healthAlert = if (!assistantOn) healthAlert else null,
             )
             Column(
@@ -1094,8 +1101,18 @@ fun HomeScreenSample(
                 onRenew = onRenew,
             )
         }
+        overlay?.invoke()
     }
 }
+
+/** Outside control of the Home assistant toggle (Assistant Snooze). */
+data class AssistantControl(
+    val on: Boolean,
+    val busy: AssistantBusy? = null,
+    val offDescription: String? = null,
+    val offRich: AnnotatedString? = null,
+    val onChange: (Boolean) -> Unit = {},
+)
 
 /** Call Handling overlay on [HomeScreenSample] for a new user. */
 enum class CallSetupOverlay {

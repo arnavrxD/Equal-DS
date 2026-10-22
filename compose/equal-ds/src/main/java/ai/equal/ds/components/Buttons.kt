@@ -60,6 +60,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -349,11 +350,16 @@ fun EqualTextButton(
     enabled: Boolean = true,
     leadingIcon: ImageVector? = null,
     trailingIcon: ImageVector? = null,
+    /** `text/secondary` label (web `tone="neutral"`): Cancel, Try Again, Maybe Later. */
+    neutral: Boolean = false,
+    /** Underlined label (Maybe Later). */
+    underline: Boolean = false,
 ) {
     val colors = EqualTheme.colors
     val content = when {
         !enabled -> colors.textActionDisabled
         danger -> colors.textDanger
+        neutral -> colors.textSecondary
         else -> colors.textAction
     }
     val interaction = rememberInteraction()
@@ -379,7 +385,7 @@ fun EqualTextButton(
             EqualIcon(imageVector = leadingIcon, contentDescription = null, tint = content, size = 16.dp)
             Spacer(Modifier.width(6.dp))
         }
-        EqualText(text = text, style = EqualTheme.type.button, color = content, maxLines = 1)
+        EqualText(text = text, style = if (underline) EqualTheme.type.button.copy(textDecoration = TextDecoration.Underline) else EqualTheme.type.button, color = content, maxLines = 1)
         if (trailingIcon != null) {
             Spacer(Modifier.width(4.dp))
             EqualIcon(imageVector = trailingIcon, contentDescription = null, tint = content, size = 16.dp)

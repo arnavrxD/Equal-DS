@@ -25,6 +25,8 @@ const flows = [
   { id: 'plan-renewal', name: 'Plan value & renewal', body: 'Expiry banners, the What Unlimited saved you sheet, the expired plan and renewing.' },
   { id: 'system-status', name: 'Temporarily unavailable', body: 'System status card, Notify me, and the back-on notification.' },
   { id: 'health-check', name: 'Assistant health check', body: 'The entry points, the permission and carrier checks with their fixes, and the all-good state.' },
+  { id: 'snooze', name: 'Assistant snooze', body: 'The duration dialog, deactivating and activating, the off copy, and every error sheet.' },
+  { id: 'force-update', name: 'Force update', body: 'The full-screen hard update and the dismissible soft-update sheet.' },
   { id: 'voip', name: 'Call your assistant (vOIP)', body: 'Call me, the mic permission, the in-app call with speaker / mute / end, and the phone-call fallback.' },
 ];
 import { TraceStage, type StagePhone } from '../ui/TraceStage';

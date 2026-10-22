@@ -13,6 +13,7 @@ export const docLevel: Record<string, Level> = {
   skeleton: 'atom',
   'call-controls': 'molecule',
   'health-check': 'molecule',
+  snooze: 'organism',
   'text-field': 'atom',
   badges: 'atom',
   avatars: 'atom',

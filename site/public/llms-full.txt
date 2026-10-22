@@ -233,7 +233,7 @@ Done means: typecheck clean, `--check` passes, Gradle BUILD SUCCESSFUL, and lint
 - **Silent Mode is titled “Silent Mode” everywhere.** Why: The dark mock said “Call Preferences”; design confirmed “Silent Mode” to match the You-tab row. (Source: Design decision)
 - **Auto-rickshaw, paper bag and delivery rider are not caller categories.** Why: They appeared in a design as decoration; product confirmed they shouldn’t become categories. (Source: Product decision)
 
-## Components (66 docs pages)
+## Components (67 docs pages)
 
 ### Group: Actions
 
@@ -5652,6 +5652,93 @@ Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
 }
 ```
 
+#### Snooze & update (`snooze`)
+
+Assistant Snooze and Force Update parts: the duration dialog (OK disabled until a choice is made), the alert sheet with its art straddling the top edge, the troubleshooting list, the update art and the spinner that replaces the assistant switch while it turns on or off.
+
+- React: `import { SnoozeDurationDialog, AlertSheet, alertSheets, TroubleshootList, UpdateArt, Spinner } from '@equal/ds';`
+- Compose: `SnoozeDurationDialogContent`, `AlertSheet`, `AlertSheets`, `TroubleshootList`, `UpdateArt`, `ForceUpdateScreen`, `EqualSpinner`
+- Tokens: `bg/surface`, `bg/primary`, `bg/overlay`, `button/primary`, `stroke/medium`, `stroke/dark`, `suggest/glow`, `text/secondary`
+- Source: Assistant Snooze · Fore Update
+
+Props of `TroubleshootList`:
+- `items`: `{ icon: IconName; label: string }[]`. Information-only rows.
+
+Props of `UpdateArt`:
+- `size?`: `number` = 160. 160 on the hard update, 144 on the sheet.
+
+Props of `Spinner`:
+- `size?`: `number` = 20. Diameter.
+- `label?`: `string`. Accessible name; omit when nearby text says what is loading.
+
+Do: Keep OK disabled until a duration is picked. Say why it failed and give the next step on the same sheet. Turning the assistant back on needs no dialog.
+
+Don't: Don't preselect a duration. Don't give the hard update a close button; Back exits the app.
+
+Anatomy:
+1. Duration dialog: Pick how long the assistant stays off. (Dialog 312, radius 24, padding 24 · title · body1 secondary · RadioGroup m, gap 20 · Cancel (neutral) + OK md, disabled until a choice)
+2. Busy toggle: The assistant card while it turns off or on. (AssistantToggle · 20 Spinner in the 40×24 switch slot · deactivating keeps the on fill, activating the off fill)
+3. Alert sheet: Why it failed, and the next step. (radius 32 top · bg/primary · padding 24 / 28 · art centred on the top edge · title · body1 secondary max 292 · lg block CTA · neutral secondary)
+4. Troubleshooting list: Things the user can try. (max 272 · radius 12 · 1 stroke/dark · rows 44, icon 18 + body1 · stroke/medium dividers)
+5. Update art: The update robot and its badge. (mascot-update 160 / 144 · badge 22.5 % button/primary with a 3 bg/primary ring and arrow_upward · suggest/glow disc behind)
+
+Accessibility:
+- Role. Web: Dialog is role='alertdialog' with a radiogroup; sheets are role='dialog' named by their title; the troubleshooting list is a list. Android: Dialog pane with selectableGroup; sheets set paneTitle; list rows merge descendants.
+- Name. Web: Each radio reads its duration; the busy card reads its title ("Deactivating your assistant"). Android: Same; the busy toggle's stateDescription is Busy.
+- Keyboard. Web: Arrow keys move through the durations; Tab reaches Cancel and OK; Escape closes dialogs and sheets. Android: D-pad through options and actions; Back closes (except the hard update, where Back exits the app).
+- Touch target. Web: Radio rows, buttons and the 44 close are at least 44. Android: 48dp via minimumInteractiveComponentSize; close 44 in a 48 target.
+- Contrast. Web: Body text/secondary on bg/primary passes 4.5:1; disabled OK is text/on-action-disabled on button/disabled (disabled is exempt). Android: Same tokens.
+- State. Web: OK has the disabled attribute until a choice is made; the busy card is aria-busy with a polite live region on its text. Android: OK enabled = false; the toggle text sits in a polite liveRegion.
+- Motion. Web: The spinner and sheet slide-in stop under reduced motion. Android: EqualSpinner and the sheet's enter animation respect rememberReduceMotion().
+
+Known accessibility gaps:
+- The heads-up notification in docs is drawn by the DS; on device it is a real NotificationCompat, so its accessibility is the system's.
+
+Example: Duration dialog
+```tsx
+const [v, setV] = useState<SnoozeDuration | null>(null);
+
+<SnoozeDurationDialog value={v} onChange={setV} onConfirm={snooze} onCancel={close} />
+```
+```kotlin
+var v by remember { mutableStateOf<SnoozeDuration?>(null) }
+SnoozeDurationDialogContent(
+    selected = v,
+    onSelect = { v = it },
+    onConfirm = { /* snooze */ },
+    onCancel = { /* close */ },
+)
+```
+
+Example: Alert sheet
+```tsx
+<AlertSheet {...alertSheets['activation-failed']} onCta={retry} onSecondary={openSupport} onClose={close}>
+  <TroubleshootList items={activationFixes} />
+</AlertSheet>
+```
+```kotlin
+AlertSheet(
+    spec = AlertSheets.ActivationFailed,
+    onCta = { /* retry */ },
+    onSecondary = { /* support */ },
+    onClose = { /* close */ },
+) {
+    TroubleshootList(ActivationFixes)
+}
+```
+
+Example: Update art and spinner
+```tsx
+<UpdateArt size={144} />
+<Spinner size={20} />
+<Spinner size={32} />
+```
+```kotlin
+UpdateArt(size = 144.dp)
+EqualSpinner(size = 20.dp)
+EqualSpinner(size = 32.dp)
+```
+
 #### System notification (`system-notification`)
 
 The Android heads-up notification Equal AI posts, drawn over the status bar in mocks and flows (e.g. “Equal AI Assistant is back on”).
@@ -6064,7 +6151,7 @@ ProfileHeader(name = "Keshav", phone = "+91 98789 56749")
   }
   ```
 
-## Flows (20)
+## Flows (22)
 
 ### Monetization (`/flows/monetization`)
 
@@ -6378,6 +6465,132 @@ States:
   ```kotlin
   EqualTheme {
       HealthCheckFlowSample(onBack = { /* pop */ })
+  }
+  ```
+
+### Assistant snooze (`/flows/snooze`)
+
+Turning the assistant off asks how long for; it comes back on by itself at that time, or when the user turns it on. Every failure says why and offers the next step. Switch to Try it and run it live.
+
+Source: Assistant Snooze
+
+1. Turn off: tapping the switch while On opens “Want to deactivate assistant?”. Nothing is preselected and OK stays disabled until a duration is chosen. Cancel, the scrim or Back leaves it On.
+2. Deactivating: the switch becomes a spinner (“This will take just a moment…”), then Off with “Equal will be back Today 6:45pm” and the heads-up “Equal AI Assistant is off”.
+3. Turn back on: no dialog. Activating (“Resuming on your Equal AI Assistant”), then On.
+4. Errors: airplane mode or no internet (Go to settings · Try Again), any other snooze failure (Try again), and activation failure with the troubleshooting list (Try now · Contact Support). Closing a sheet leaves the assistant as it was.
+
+States:
+- `on` On: `<SnoozeFlow state="on" />`
+  ```kotlin
+  EqualTheme {
+      SnoozeFlowSample(initial = "on")
+  }
+  ```
+- `dialog-empty` Duration dialog, nothing selected: `<SnoozeFlow state="dialog-empty" />`
+  ```kotlin
+  EqualTheme {
+      SnoozeFlowSample(initial = "dialog-empty")
+  }
+  ```
+- `dialog-selected` Duration dialog, 15 Minutes: `<SnoozeFlow state="dialog-selected" />`
+  ```kotlin
+  EqualTheme {
+      SnoozeFlowSample(initial = "dialog-selected")
+  }
+  ```
+- `deactivating` Deactivating: `<SnoozeFlow state="deactivating" />`
+  ```kotlin
+  EqualTheme {
+      SnoozeFlowSample(initial = "deactivating")
+  }
+  ```
+- `off-notification` Off, with the notification: `<SnoozeFlow state="off-notification" />`
+  ```kotlin
+  EqualTheme {
+      SnoozeFlowSample(initial = "off-notification")
+  }
+  ```
+- `off` Off until 6:45pm: `<SnoozeFlow state="off" />`
+  ```kotlin
+  EqualTheme {
+      SnoozeFlowSample(initial = "off")
+  }
+  ```
+- `off-resting` Off until turned back on: `<SnoozeFlow state="off-resting" />`
+  ```kotlin
+  EqualTheme {
+      SnoozeFlowSample(initial = "off-resting")
+  }
+  ```
+- `activating` Activating: `<SnoozeFlow state="activating" />`
+  ```kotlin
+  EqualTheme {
+      SnoozeFlowSample(initial = "activating")
+  }
+  ```
+- `on-again` On again: `<SnoozeFlow state="on-again" />`
+  ```kotlin
+  EqualTheme {
+      SnoozeFlowSample(initial = "on-again")
+  }
+  ```
+- `error-airplane` Error: airplane mode: `<SnoozeFlow state="error-airplane" />`
+  ```kotlin
+  EqualTheme {
+      SnoozeFlowSample(initial = "error-airplane")
+  }
+  ```
+- `error-snooze-failed` Error: snooze failed: `<SnoozeFlow state="error-snooze-failed" />`
+  ```kotlin
+  EqualTheme {
+      SnoozeFlowSample(initial = "error-snooze-failed")
+  }
+  ```
+- `error-offline` Error: no internet: `<SnoozeFlow state="error-offline" />`
+  ```kotlin
+  EqualTheme {
+      SnoozeFlowSample(initial = "error-offline")
+  }
+  ```
+- `error-activation-failed` Error: activation failed: `<SnoozeFlow state="error-activation-failed" />`
+  ```kotlin
+  EqualTheme {
+      SnoozeFlowSample(initial = "error-activation-failed")
+  }
+  ```
+- `live` Live (Try it): `<SnoozeFlow />`
+  ```kotlin
+  EqualTheme {
+      SnoozeFlowSample()
+  }
+  ```
+- `live-fail` Live, first snooze fails (Try it): `<SnoozeFlow fail="snooze-failed" />`
+  ```kotlin
+  EqualTheme {
+      SnoozeFlowSample(fail = AlertSheets.SnoozeFailed)
+  }
+  ```
+
+### Force update (`/flows/force-update`)
+
+On start or resume the app checks its version. Below the minimum supported version it blocks with a full-screen update; when a newer version exists it offers a dismissible sheet.
+
+Source: Fore Update
+
+1. Hard: installed &lt; minimum supported. Full screen, no close; Back exits the app. Update Equal AI opens the Play Store (or an in-app IMMEDIATE update).
+2. Soft: a newer version exists. “A new version is here” over Chats; Update Now (in-app FLEXIBLE update) or Maybe Later / ✕ / scrim / Back to dismiss it for this version.
+
+States:
+- `hard` Hard update: `<ForceUpdateScreen onUpdate={openPlayStore} />`
+  ```kotlin
+  EqualTheme {
+      ForceUpdateSample(hard = true, onUpdate = { /* open the Play Store / IMMEDIATE update */ })
+  }
+  ```
+- `soft` Soft update: `<AlertSheet {...alertSheets['update-available']} onCta={update} onSecondary={later} onClose={later} />`
+  ```kotlin
+  EqualTheme {
+      ForceUpdateSample(hard = false, onUpdate = { /* FLEXIBLE update */ }, onLater = { /* snooze this version */ })
   }
   ```
 
@@ -7799,6 +8012,10 @@ Web `<Asset name="…" size={dp} />`, Compose `EqualAssetImage(EqualAssets.<Pasc
 - `status-pending`: Monetization: orange ! seal, Payment Pending (100dp)
 - `status-failed`: Monetization: red ✕ seal, Payment Failed (100dp)
 - `emoji-sad`: Monetization: 3D sad face, cancellation feedback / Are you sure (100dp)
+- `illustration-airplane`: Snooze: Airplane mode is on sheet (116dp)
+- `illustration-warning`: Snooze: Assistant snooze failed sheet (88dp)
+- `illustration-error-sad`: Snooze: Assistant activation failed sheet, red sad face (88dp)
+- `mascot-update`: Force update: the update robot, with the coded upload badge (160dp hard / 144dp soft)
 - `thumbs-up`: Monetization: 3D thumbs up, Your Request is Submitted (100dp)
 - `star-gold`: Monetization: 3D star in the “Rated 4.5/5” pill (20dp)
 - `avatar-testimonial-1`: Subscription page: testimonial avatar (36dp)
@@ -7809,4 +8026,4 @@ Web `<Asset name="…" size={dp} />`, Compose `EqualAssetImage(EqualAssets.<Pasc
 
 Web `<Icon name="…" />`, Compose `EqualIcon(EqualIcons.<PascalName>)`.
 
-`arrow-back` (arrow_back) · `call` (call) · `call-filled` (call-fill) · `more-vert` (more_vert) · `send` (arrow_upward) · `check` (check) · `done-all` (done_all) · `close` (close) · `delete` (delete) · `star` (star-fill) · `star-outline` (star) · `share` (share) · `chevron-right` (chevron_right) · `chevron-down` (keyboard_arrow_down) · `checkbox-blank` (check_box_outline_blank) · `checkbox-checked` (check_box-fill) · `play` (play_arrow-fill) · `pause` (pause-fill) · `chat` (chat_bubble-fill) · `chat-outline` (chat_bubble) · `search` (search) · `edit` (edit) · `edit-profile` (border_color) · `add` (add) · `mic` (mic) · `mute` (volume_off) · `person-add` (person_add) · `calendar` (calendar_month) · `place` (location_on) · `call-received` (call_received) · `call-made` (call_made) · `call-missed` (call_missed) · `phone-incoming` (phone_callback) · `phone-missed` (phone_missed) · `phone-outgoing` (phone_forwarded) · `info` (info) · `settings` (settings) · `home` (home) · `work` (work) · `bolt` (bolt) · `instructions` (note_stack) · `health-check` (health_metrics) · `silent-mode` (notifications_off) · `voice-language` (mic) · `address-pin` (pin_drop) · `account-data` (shield) · `help-center` (question_exchange) · `whatsapp` (custom:whatsapp) · `menu` (menu) · `arrow-forward` (arrow_forward) · `content-copy` (content_copy) · `light-mode` (light_mode) · `dark-mode` (dark_mode) · `contrast` (contrast) · `touch` (touch_app) · `notify-me` (notifications_active) · `translate` (translate_indic) · `call-sparkle` (custom:call-sparkle) · `help-circle` (help-fill) · `lock` (lock-fill) · `mail` (mail-fill) · `info-fill` (info-fill) · `signal` (signal_cellular_4_bar-fill) · `wifi` (wifi-fill) · `battery` (battery_full-fill) · `timer` (timer-fill) · `person` (person-fill) · `call-log` (call_log-fill) · `call-sparkle-fill` (custom:call-sparkle-fill) · `auto-fix` (wand_stars-fill) · `keyboard` (keyboard) · `mic-fill` (mic-fill) · `navigation` (navigation-fill) · `slide-left` (keyboard_double_arrow_left) · `globe` (public-fill) · `verified` (verified-fill) · `refresh` (refresh) · `graphic-eq` (graphic_eq) · `phone-missed-fill` (phone_missed-fill) · `thumb-up` (thumb_up) · `thumb-down` (thumb_down) · `thumb-up-fill` (thumb_up-fill) · `thumb-down-fill` (thumb_down-fill) · `volume-up` (volume_up) · `mic-off` (mic_off) · `call-end` (call_end-fill) · `notifications` (notifications) · `notifications-fill` (notifications-fill) · `contacts` (contacts) · `contacts-fill` (contacts-fill) · `layers` (layers) · `layers-fill` (layers-fill) · `arrow-drop-down` (arrow_drop_down) · `progress-activity` (progress_activity) · `check-circle-fill` (check_circle-fill) · `warning-fill` (warning-fill)
+`arrow-back` (arrow_back) · `call` (call) · `call-filled` (call-fill) · `more-vert` (more_vert) · `send` (arrow_upward) · `check` (check) · `done-all` (done_all) · `close` (close) · `delete` (delete) · `star` (star-fill) · `star-outline` (star) · `share` (share) · `chevron-right` (chevron_right) · `chevron-down` (keyboard_arrow_down) · `checkbox-blank` (check_box_outline_blank) · `checkbox-checked` (check_box-fill) · `play` (play_arrow-fill) · `pause` (pause-fill) · `chat` (chat_bubble-fill) · `chat-outline` (chat_bubble) · `search` (search) · `edit` (edit) · `edit-profile` (border_color) · `add` (add) · `mic` (mic) · `mute` (volume_off) · `person-add` (person_add) · `calendar` (calendar_month) · `place` (location_on) · `call-received` (call_received) · `call-made` (call_made) · `call-missed` (call_missed) · `phone-incoming` (phone_callback) · `phone-missed` (phone_missed) · `phone-outgoing` (phone_forwarded) · `info` (info) · `settings` (settings) · `home` (home) · `work` (work) · `bolt` (bolt) · `instructions` (note_stack) · `health-check` (health_metrics) · `silent-mode` (notifications_off) · `voice-language` (mic) · `address-pin` (pin_drop) · `account-data` (shield) · `help-center` (question_exchange) · `whatsapp` (custom:whatsapp) · `menu` (menu) · `arrow-forward` (arrow_forward) · `content-copy` (content_copy) · `light-mode` (light_mode) · `dark-mode` (dark_mode) · `contrast` (contrast) · `touch` (touch_app) · `notify-me` (notifications_active) · `translate` (translate_indic) · `call-sparkle` (custom:call-sparkle) · `help-circle` (help-fill) · `lock` (lock-fill) · `mail` (mail-fill) · `info-fill` (info-fill) · `signal` (signal_cellular_4_bar-fill) · `wifi` (wifi-fill) · `battery` (battery_full-fill) · `timer` (timer-fill) · `person` (person-fill) · `call-log` (call_log-fill) · `call-sparkle-fill` (custom:call-sparkle-fill) · `auto-fix` (wand_stars-fill) · `keyboard` (keyboard) · `mic-fill` (mic-fill) · `navigation` (navigation-fill) · `slide-left` (keyboard_double_arrow_left) · `globe` (public-fill) · `verified` (verified-fill) · `refresh` (refresh) · `graphic-eq` (graphic_eq) · `phone-missed-fill` (phone_missed-fill) · `thumb-up` (thumb_up) · `thumb-down` (thumb_down) · `thumb-up-fill` (thumb_up-fill) · `thumb-down-fill` (thumb_down-fill) · `volume-up` (volume_up) · `mic-off` (mic_off) · `call-end` (call_end-fill) · `notifications` (notifications) · `notifications-fill` (notifications-fill) · `contacts` (contacts) · `contacts-fill` (contacts-fill) · `layers` (layers) · `layers-fill` (layers-fill) · `arrow-drop-down` (arrow_drop_down) · `progress-activity` (progress_activity) · `check-circle-fill` (check_circle-fill) · `warning-fill` (warning-fill) · `download` (download) · `flight` (flight) · `cell-tower` (cell_tower) · `power-settings` (power_settings_circle) · `phone-in-talk` (phone_in_talk)

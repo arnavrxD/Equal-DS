@@ -4,11 +4,15 @@
 
 package ai.equal.ds.snippets
 
+import ai.equal.ds.components.ActivationFixes
+import ai.equal.ds.components.AlertSheet
+import ai.equal.ds.components.AlertSheets
 import ai.equal.ds.components.CallAvatar
 import ai.equal.ds.components.CallControlBar
 import ai.equal.ds.components.CallPhase
 import ai.equal.ds.components.CallStatusLine
 import ai.equal.ds.components.CallTimer
+import ai.equal.ds.components.EqualSpinner
 import ai.equal.ds.components.HealthCardAction
 import ai.equal.ds.components.HealthCardStatus
 import ai.equal.ds.components.HealthCheckCard
@@ -18,6 +22,10 @@ import ai.equal.ds.components.HealthStatusLabel
 import ai.equal.ds.components.HealthTone
 import ai.equal.ds.components.PermissionRow
 import ai.equal.ds.components.PermissionStatus
+import ai.equal.ds.components.SnoozeDuration
+import ai.equal.ds.components.SnoozeDurationDialogContent
+import ai.equal.ds.components.TroubleshootList
+import ai.equal.ds.components.UpdateArt
 import ai.equal.ds.icons.EqualSymbols
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -80,4 +88,37 @@ internal fun HealthStatusLabelsSnippet() {
     HealthStatusLabel(HealthTone.Progress, "Checking")
     HealthStatusLabel(HealthTone.Success, "Granted")
     HealthStatusLabel(HealthTone.Danger, "Not Granted")
+}
+
+// snippet: snooze / Duration dialog
+@Composable
+internal fun SnoozeDialogSnippet() {
+    var v by remember { mutableStateOf<SnoozeDuration?>(null) }
+    SnoozeDurationDialogContent(
+        selected = v,
+        onSelect = { v = it },
+        onConfirm = { /* snooze */ },
+        onCancel = { /* close */ },
+    )
+}
+
+// snippet: snooze / Alert sheet
+@Composable
+internal fun AlertSheetSnippet() {
+    AlertSheet(
+        spec = AlertSheets.ActivationFailed,
+        onCta = { /* retry */ },
+        onSecondary = { /* support */ },
+        onClose = { /* close */ },
+    ) {
+        TroubleshootList(ActivationFixes)
+    }
+}
+
+// snippet: snooze / Update art and spinner
+@Composable
+internal fun UpdateArtSpinnerSnippet() {
+    UpdateArt(size = 144.dp)
+    EqualSpinner(size = 20.dp)
+    EqualSpinner(size = 32.dp)
 }

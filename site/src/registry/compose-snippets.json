@@ -221,6 +221,10 @@
     "offline-sheet": "EqualTheme {\n    ChatErrorScreen(state = ErrorState.OfflineSheet, onRetry = { /* refresh */ })\n}",
     "offline-screen": "EqualTheme {\n    ChatErrorScreen(state = ErrorState.OfflineScreen, onRetry = { /* retry */ })\n}"
   },
+  "flow-force-update": {
+    "hard": "EqualTheme {\n    ForceUpdateSample(hard = true, onUpdate = { /* open the Play Store / IMMEDIATE update */ })\n}",
+    "soft": "EqualTheme {\n    ForceUpdateSample(hard = false, onUpdate = { /* FLEXIBLE update */ }, onLater = { /* snooze this version */ })\n}"
+  },
   "flow-global-mya": {
     "home": "EqualTheme {\n    // Home: tap the green orb (nav FAB) to open the live sheet\n    HomeScreenSample(chats = MyaSampleChats, promo = { MeetAssistantCarousel(onDismiss = {}) })\n}",
     "greeting": "EqualTheme {\n    HomeScreenSample(chats = MyaSampleChats, promo = { MeetAssistantCarousel(onDismiss = {}) }, assistant = MyaStage.Greeting)\n}",
@@ -395,6 +399,23 @@
     "messages-loading": "EqualTheme {\n    SearchScreen(state = SearchState.MessagesLoading, query = \"S\", keyboard = true)\n}",
     "messages": "EqualTheme {\n    SearchScreen(state = SearchState.Messages, query = \"Sa\", keyboard = true)\n}"
   },
+  "flow-snooze": {
+    "on": "EqualTheme {\n    SnoozeFlowSample(initial = \"on\")\n}",
+    "dialog-empty": "EqualTheme {\n    SnoozeFlowSample(initial = \"dialog-empty\")\n}",
+    "dialog-selected": "EqualTheme {\n    SnoozeFlowSample(initial = \"dialog-selected\")\n}",
+    "deactivating": "EqualTheme {\n    SnoozeFlowSample(initial = \"deactivating\")\n}",
+    "off-notification": "EqualTheme {\n    SnoozeFlowSample(initial = \"off-notification\")\n}",
+    "off": "EqualTheme {\n    SnoozeFlowSample(initial = \"off\")\n}",
+    "off-resting": "EqualTheme {\n    SnoozeFlowSample(initial = \"off-resting\")\n}",
+    "activating": "EqualTheme {\n    SnoozeFlowSample(initial = \"activating\")\n}",
+    "on-again": "EqualTheme {\n    SnoozeFlowSample(initial = \"on-again\")\n}",
+    "error-airplane": "EqualTheme {\n    SnoozeFlowSample(initial = \"error-airplane\")\n}",
+    "error-snooze-failed": "EqualTheme {\n    SnoozeFlowSample(initial = \"error-snooze-failed\")\n}",
+    "error-offline": "EqualTheme {\n    SnoozeFlowSample(initial = \"error-offline\")\n}",
+    "error-activation-failed": "EqualTheme {\n    SnoozeFlowSample(initial = \"error-activation-failed\")\n}",
+    "live": "EqualTheme {\n    SnoozeFlowSample()\n}",
+    "live-fail": "EqualTheme {\n    SnoozeFlowSample(fail = AlertSheets.SnoozeFailed)\n}"
+  },
   "flow-system-status": {
     "down": "EqualTheme {\n    SystemStatusFlowSample(stage = SystemStatusStage.Unavailable)\n}",
     "notified": "EqualTheme {\n    SystemStatusFlowSample(stage = SystemStatusStage.Notified)\n}",
@@ -538,6 +559,11 @@
   "skeleton": {
     "Loading a chat row": "Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {\n    EqualSkeleton(shape = EqualSkeletonShape.Circle, height = 48.dp)\n    EqualSkeletonText(lines = 2, modifier = Modifier.weight(1f))\n}",
     "Gold (locked summary)": "EqualSkeletonText(lines = 3, tone = EqualSkeletonTone.Gold)"
+  },
+  "snooze": {
+    "Duration dialog": "var v by remember { mutableStateOf<SnoozeDuration?>(null) }\nSnoozeDurationDialogContent(\n    selected = v,\n    onSelect = { v = it },\n    onConfirm = { /* snooze */ },\n    onCancel = { /* close */ },\n)",
+    "Alert sheet": "AlertSheet(\n    spec = AlertSheets.ActivationFailed,\n    onCta = { /* retry */ },\n    onSecondary = { /* support */ },\n    onClose = { /* close */ },\n) {\n    TroubleshootList(ActivationFixes)\n}",
+    "Update art and spinner": "UpdateArt(size = 144.dp)\nEqualSpinner(size = 20.dp)\nEqualSpinner(size = 32.dp)"
   },
   "social-proof": {
     "Stat and rating": "Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(16.dp)) {\n    StatBlock(value = \"400k+\", label = \"People never miss a call\")\n    RatingPill(rating = 4.5f)\n}",

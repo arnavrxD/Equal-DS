@@ -1,5 +1,5 @@
 // Screen templates — composed ONLY from DS components. Use these as starting points for new flows.
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import {
   type PlanTier,
   AddressCard,
@@ -141,9 +141,13 @@ export type HomeScreenProps = {
   paywallSheet?: boolean | PaywallSheetStage;
   /** "Go unlimited for ₹149 with EQUAL25 · Claim Now" strip (shown after the exit offer is declined). */
   offerStrip?: boolean;
+  /** Assistant Snooze: drive the toggle from outside (on, busy spinner, off copy); onChange gets the tapped value. */
+  assistantControl?: { on: boolean; busy?: 'deactivating' | 'activating'; offDescription?: ReactNode; onChange?: (on: boolean) => void };
+  /** Any overlay on top of Home (Snooze dialog, error sheets, the soft update, a heads-up notification). */
+  overlay?: ReactNode;
 };
 
-export function HomeScreen({ chats = sampleChats, onOpenChat, onTab, onDeleteSelected, onSearch, showWhatsNew = true, avatar = 'male', tier = 'paid', systemStatus = 'ok', onNotify, promo = 'whats-new', lockedFrom, onLockedChat, planExpiry, valueSheet, onRenew, quotaSheet, assistant, assistantResult, callSetup, onCallSetup, assistantDescription, planExpired, assistantOff, assistantArt, onCallMe, healthAlert, homeNotice, official, onOfficialChat, lockedActions, paymentProcessing, paywallSheet, offerStrip }: HomeScreenProps) {
+export function HomeScreen({ chats = sampleChats, onOpenChat, onTab, onDeleteSelected, onSearch, showWhatsNew = true, avatar = 'male', tier = 'paid', systemStatus = 'ok', onNotify, promo = 'whats-new', lockedFrom, onLockedChat, planExpiry, valueSheet, onRenew, quotaSheet, assistant, assistantResult, callSetup, onCallSetup, assistantDescription, planExpired, assistantOff, assistantArt, onCallMe, healthAlert, homeNotice, official, onOfficialChat, lockedActions, paymentProcessing, paywallSheet, offerStrip, assistantControl, overlay }: HomeScreenProps) {
   const [assistantOn, setAssistantOn] = useState(!assistantOff && !healthAlert);
   const [pw, setPw] = useState<PaywallSheetStage | null>(typeof paywallSheet === 'string' ? paywallSheet : null);
   useEffect(() => setPw(typeof paywallSheet === 'string' ? paywallSheet : null), [paywallSheet]);
@@ -179,21 +183,22 @@ export function HomeScreen({ chats = sampleChats, onOpenChat, onTab, onDeleteSel
           />
         ) : (
           <HomeHeader
-            assistantOn={assistantOn}
-            onAssistantChange={setAssistantOn}
+            assistantOn={assistantControl ? assistantControl.on : assistantOn}
+            onAssistantChange={assistantControl ? (v) => assistantControl.onChange?.(v) : setAssistantOn}
+            assistantBusy={assistantControl?.busy}
             plan={planExpired ? 'Plan Expired' : tier === 'paid' ? 'Unlimited' : null}
             planTone={planExpired ? 'expired' : 'paid'}
             assistantArt={assistantArt}
             below={paymentProcessing ? <ProcessingStrip variant="card" /> : undefined}
             status={systemStatus === 'ok' ? undefined : <SystemStatusCard state={systemStatus} onNotify={onNotify} />}
             assistantDescription={assistantDescription}
-            assistantOffDescription={healthAlert ? 'Check assistant health' : undefined}
+            assistantOffDescription={assistantControl?.offDescription ?? (healthAlert ? 'Check assistant health' : undefined)}
             healthAlert={healthAlert && !assistantOn ? healthAlert : undefined}
           />
         )
       }
       floating={selecting ? undefined : <BottomNav active="chats" unread={unreadTotal} onChange={onTab} avatar={avatar} tier={tier} onFabClick={() => setMya(true)} />}
-      overlay={pw ? <PaywallSheetFlow stage={pw} onClose={() => setPw(null)} onDecline={() => setOffer(true)} /> : callSetup === 'prompt' ? <SetupPrompt onStart={onCallSetup} /> : callSetup === 'finish' ? <div className="eq-status-sheet-layer"><div className="eq-status-sheet-layer__scrim" /><PermissionSheet art="call-handling-all" title="Finish your setup?" body={<>You chose all calls. One thing is left.<br />Tell me who should always ring you.</>} cta="Finish" onAllow={onCallSetup} onClose={() => {}} secondary="Skip, answer everyone" /></div> : assistant ? <AssistantSheet stage={assistant} /> : mya ? <AssistantSheet onClose={() => setMya(false)} onDone={() => (setMya(false), setResult({ chatId: 'c3', preview: 'Reminder added' }))} /> : sheet && quotaSheet ? <ValueSheet quota={quotaSheet} onClose={() => setSheet(false)} onRenew={onRenew} /> : sheet && planExpiry ? <ValueSheet expiry={planExpiry} variant={valueSheet === 'flush' ? 'flush' : 'card'} onClose={() => setSheet(false)} onRenew={onRenew} /> : undefined}
+      overlay={overlay ? overlay : pw ? <PaywallSheetFlow stage={pw} onClose={() => setPw(null)} onDecline={() => setOffer(true)} /> : callSetup === 'prompt' ? <SetupPrompt onStart={onCallSetup} /> : callSetup === 'finish' ? <div className="eq-status-sheet-layer"><div className="eq-status-sheet-layer__scrim" /><PermissionSheet art="call-handling-all" title="Finish your setup?" body={<>You chose all calls. One thing is left.<br />Tell me who should always ring you.</>} cta="Finish" onAllow={onCallSetup} onClose={() => {}} secondary="Skip, answer everyone" /></div> : assistant ? <AssistantSheet stage={assistant} /> : mya ? <AssistantSheet onClose={() => setMya(false)} onDone={() => (setMya(false), setResult({ chatId: 'c3', preview: 'Reminder added' }))} /> : sheet && quotaSheet ? <ValueSheet quota={quotaSheet} onClose={() => setSheet(false)} onRenew={onRenew} /> : sheet && planExpiry ? <ValueSheet expiry={planExpiry} variant={valueSheet === 'flush' ? 'flush' : 'card'} onClose={() => setSheet(false)} onRenew={onRenew} /> : undefined}
     >
       {planExpiry && !selecting && <PlanExpiryBanner expiry={planExpiry} onRenew={onRenew} />}
       {offer && !selecting && <OfferStrip onClick={() => setPw('claimed')} />}

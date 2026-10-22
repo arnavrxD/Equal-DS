@@ -46,6 +46,10 @@ fun EqualDialogContent(
     dismissLabel: String? = "Cancel",
     onDismiss: (() -> Unit)? = null,
     destructive: Boolean = false,
+    /** Commit disabled (Snooze: until a duration is chosen). */
+    confirmEnabled: Boolean = true,
+    /** Between the body and the actions, e.g. the Snooze radio group. */
+    content: (@Composable () -> Unit)? = null,
 ) {
     val colors = EqualTheme.colors
     val type = EqualTheme.type
@@ -63,6 +67,10 @@ fun EqualDialogContent(
         }
         Spacer(Modifier.height(8.dp))
         EqualText(text = body, style = type.body1, color = colors.textSecondary)
+        if (content != null) {
+            Spacer(Modifier.height(20.dp))
+            content()
+        }
         Spacer(Modifier.height(24.dp))
         Row(
             Modifier.fillMaxWidth(),
@@ -70,12 +78,13 @@ fun EqualDialogContent(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             if (dismissLabel != null) {
-                EqualTextButton(text = dismissLabel, onClick = onDismiss ?: {})
+                EqualTextButton(text = dismissLabel, onClick = onDismiss ?: {}, neutral = true)
             }
             EqualButton(
                 text = confirmLabel,
                 onClick = onConfirm,
                 variant = if (destructive) EqualButtonVariant.Danger else EqualButtonVariant.Primary,
+                enabled = confirmEnabled,
             )
         }
     }
@@ -92,6 +101,8 @@ fun EqualDialog(
     subject: String? = null,
     dismissLabel: String? = "Cancel",
     destructive: Boolean = false,
+    confirmEnabled: Boolean = true,
+    content: (@Composable () -> Unit)? = null,
 ) {
     Dialog(
         onDismissRequest = onDismissRequest,
@@ -106,6 +117,8 @@ fun EqualDialog(
             dismissLabel = dismissLabel,
             onDismiss = onDismissRequest,
             destructive = destructive,
+            confirmEnabled = confirmEnabled,
+            content = content,
         )
     }
 }

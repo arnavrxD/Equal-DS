@@ -71,6 +71,8 @@ export const sections: Section[] = [
           { path: '/flows/plan-renewal', label: 'Plan value & renewal', hint: 'Expiry banners, value sheet, renew' },
           { path: '/flows/system-status', label: 'Temporarily unavailable', hint: 'System status card, notify, back on' },
           { path: '/flows/health-check', label: 'Assistant health check', hint: 'Permissions, phone settings, carrier, fixes' },
+          { path: '/flows/snooze', label: 'Assistant snooze', hint: 'Turn off for a while, errors, turn back on' },
+          { path: '/flows/force-update', label: 'Force update', hint: 'Hard block and soft sheet' },
           { path: '/flows/voip', label: 'Call your assistant (vOIP)', hint: 'Call me, mic permission, in-call controls' },
         ],
       },

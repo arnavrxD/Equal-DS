@@ -1,0 +1,4 @@
+.eq-spinner { display: inline-flex; flex-shrink: 0; }
+.eq-spinner svg { animation: eq-spinner-turn 900ms linear infinite; transform-origin: center; }
+@keyframes eq-spinner-turn { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .eq-spinner svg { animation: none; } }

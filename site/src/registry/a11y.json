@@ -4903,5 +4903,74 @@
       }
     ],
     "gaps": []
+  },
+  "snooze": {
+    "anatomy": [
+      {
+        "part": "Duration dialog",
+        "description": "Pick how long the assistant stays off.",
+        "spec": "Dialog 312, radius 24, padding 24 · title · body1 secondary · RadioGroup m, gap 20 · Cancel (neutral) + OK md, disabled until a choice"
+      },
+      {
+        "part": "Busy toggle",
+        "description": "The assistant card while it turns off or on.",
+        "spec": "AssistantToggle · 20 Spinner in the 40×24 switch slot · deactivating keeps the on fill, activating the off fill"
+      },
+      {
+        "part": "Alert sheet",
+        "description": "Why it failed, and the next step.",
+        "spec": "radius 32 top · bg/primary · padding 24 / 28 · art centred on the top edge · title · body1 secondary max 292 · lg block CTA · neutral secondary"
+      },
+      {
+        "part": "Troubleshooting list",
+        "description": "Things the user can try.",
+        "spec": "max 272 · radius 12 · 1 stroke/dark · rows 44, icon 18 + body1 · stroke/medium dividers"
+      },
+      {
+        "part": "Update art",
+        "description": "The update robot and its badge.",
+        "spec": "mascot-update 160 / 144 · badge 22.5 % button/primary with a 3 bg/primary ring and arrow_upward · suggest/glow disc behind"
+      }
+    ],
+    "accessibility": [
+      {
+        "topic": "Role",
+        "web": "Dialog is role='alertdialog' with a radiogroup; sheets are role='dialog' named by their title; the troubleshooting list is a list.",
+        "android": "Dialog pane with selectableGroup; sheets set paneTitle; list rows merge descendants."
+      },
+      {
+        "topic": "Name",
+        "web": "Each radio reads its duration; the busy card reads its title (\"Deactivating your assistant\").",
+        "android": "Same; the busy toggle's stateDescription is Busy."
+      },
+      {
+        "topic": "Keyboard",
+        "web": "Arrow keys move through the durations; Tab reaches Cancel and OK; Escape closes dialogs and sheets.",
+        "android": "D-pad through options and actions; Back closes (except the hard update, where Back exits the app)."
+      },
+      {
+        "topic": "Touch target",
+        "web": "Radio rows, buttons and the 44 close are at least 44.",
+        "android": "48dp via minimumInteractiveComponentSize; close 44 in a 48 target."
+      },
+      {
+        "topic": "Contrast",
+        "web": "Body text/secondary on bg/primary passes 4.5:1; disabled OK is text/on-action-disabled on button/disabled (disabled is exempt).",
+        "android": "Same tokens."
+      },
+      {
+        "topic": "State",
+        "web": "OK has the disabled attribute until a choice is made; the busy card is aria-busy with a polite live region on its text.",
+        "android": "OK enabled = false; the toggle text sits in a polite liveRegion."
+      },
+      {
+        "topic": "Motion",
+        "web": "The spinner and sheet slide-in stop under reduced motion.",
+        "android": "EqualSpinner and the sheet's enter animation respect rememberReduceMotion()."
+      }
+    ],
+    "gaps": [
+      "The heads-up notification in docs is drawn by the DS; on device it is a real NotificationCompat, so its accessibility is the system's."
+    ]
   }
 }

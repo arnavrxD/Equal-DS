@@ -112,18 +112,20 @@ export type HomeHeaderProps = {
   /** Toggle art experiment (Component 25): the robot (default) or the phone with sparkles. */
   assistantArt?: 'robot' | 'phone';
   /** Off line under the toggle title, and the Healthcheck strip. */
-  assistantOffDescription?: string;
+  assistantOffDescription?: ReactNode;
+  /** Assistant Snooze: spinner in place of the switch while (de)activating. */
+  assistantBusy?: 'deactivating' | 'activating';
   healthAlert?: { onFix?: () => void };
 };
 
 /** Home header: status bar + logo/plan + assistant toggle, on bg/primary with bottom shadow. */
-export function HomeHeader({ assistantOn, onAssistantChange, plan = 'Unlimited', statusBar = true, trailing, status, assistantDescription, planTone, below, assistantArt, assistantOffDescription, healthAlert }: HomeHeaderProps) {
+export function HomeHeader({ assistantOn, onAssistantChange, plan = 'Unlimited', statusBar = true, trailing, status, assistantDescription, planTone, below, assistantArt, assistantOffDescription, healthAlert, assistantBusy }: HomeHeaderProps) {
   return (
     <header className="eq-home-header">
       {statusBar && <StatusBar />}
       <TopBar plan={plan} trailing={trailing} planTone={planTone} />
       <div style={{ padding: '0 12px 12px' }}>
-        {status ?? <AssistantToggle on={assistantOn} onChange={onAssistantChange} description={assistantDescription} art={assistantArt} offDescription={assistantOffDescription} healthAlert={healthAlert} />}
+        {status ?? <AssistantToggle on={assistantOn} onChange={onAssistantChange} description={assistantDescription} art={assistantArt} offDescription={assistantOffDescription} healthAlert={healthAlert} busy={assistantBusy} />}
       </div>
       {below}
     </header>

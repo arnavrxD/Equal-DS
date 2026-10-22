@@ -14,22 +14,27 @@ export type DialogProps = {
   destructive?: boolean;
   onConfirm?: () => void;
   onCancel?: () => void;
+  /** Content between the body and the actions, e.g. the Snooze RadioGroup. */
+  children?: ReactNode;
+  /** Commit button disabled (Snooze: until an option is selected). */
+  confirmDisabled?: boolean;
   /** overlay covers nearest positioned ancestor; inline renders statically for docs. */
   mode?: 'overlay' | 'inline';
 };
 
 /** Decision dialog — title token, body1, text revise + filled commit (rule 4). */
-export function Dialog({ open, title, subject, body, confirmLabel, cancelLabel = 'Cancel', destructive, onConfirm, onCancel, mode = 'overlay' }: DialogProps) {
+export function Dialog({ open, title, subject, body, confirmLabel, cancelLabel = 'Cancel', destructive, onConfirm, onCancel, mode = 'overlay', children, confirmDisabled }: DialogProps) {
   const modal = useModal({ open, onClose: onCancel, enabled: mode === 'overlay' });
   const bodyId = useId();
   const box = (
     <div role="alertdialog" aria-label={title} aria-describedby={body ? bodyId : undefined} {...modal} style={{ width: 312, maxWidth: 'calc(100% - 48px)', background: 'var(--eq-bg-surface)', borderRadius: 24, padding: 24, boxShadow: 'var(--eq-shadow-nav)' }}>
       <Text as="h2" variant="title">{title}</Text>
       {subject && <Text as="div" variant="caption" color="secondary" style={{ marginTop: 2 }}>{subject}</Text>}
-      {body && <Text as="p" id={bodyId} variant="body1" color="secondary" style={{ marginTop: 12 }}>{body}</Text>}
+      {body && <Text as="p" id={bodyId} variant="body1" color="secondary" style={{ marginTop: children ? 8 : 12 }}>{body}</Text>}
+      {children && <div style={{ marginTop: 20 }}>{children}</div>}
       <div style={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center', gap: 20, marginTop: 24 }}>
         <TextButton tone="neutral" onClick={onCancel}>{cancelLabel}</TextButton>
-        <Button variant={destructive ? 'danger' : 'primary'} onClick={onConfirm}>{confirmLabel}</Button>
+        <Button variant={destructive ? 'danger' : 'primary'} disabled={confirmDisabled} onClick={onConfirm}>{confirmLabel}</Button>
       </div>
     </div>
   );

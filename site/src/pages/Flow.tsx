@@ -11,6 +11,7 @@ import { TraceStage, type StagePhone } from '../ui/TraceStage';
 import { StageCode } from '../ui/StageCode';
 import { VoipFlow } from '../../../web/src/screens/CallScreens';
 import { HealthCheckEntry, HealthCheckFlow } from '../../../web/src/screens/HealthCheckScreens';
+import { ForceUpdate, SnoozeFlow } from '../../../web/src/screens/SnoozeScreens';
 import NotFound from './NotFound';
 
 type FlowDef = { title: string; lead: string; states: StagePhone[]; steps: ReactNode[]; source: string };
@@ -98,6 +99,47 @@ const flows: Record<string, FlowDef> = {
       <><b>Phone settings</b>: the same for Overlay (display over other apps).</>,
       <><b>Carrier</b>: checks calls reach the assistant. Issues Found → Fix Now → Fixing; if the fix fails, the reasons and Try Again; if the check itself fails, Check Failed and Try Again.</>,
       <><b>All good</b>: the shield gets its check, “Check complete. Your assistant is good to go”, Back To Home. The hero is the supplied Lottie set (loading, check, cross and every transition between them).</>,
+    ],
+  },
+  snooze: {
+    title: 'Assistant snooze',
+    lead: 'Turning the assistant off asks how long for; it comes back on by itself at that time, or when the user turns it on. Every failure says why and offers the next step. Switch to Try it and run it live.',
+    source: 'Assistant Snooze',
+    states: [
+      { key: 'on', label: 'On', render: () => <SnoozeFlow state="on" />, code: '<SnoozeFlow state="on" />' },
+      { key: 'dialog-empty', label: 'Duration dialog, nothing selected', render: () => <SnoozeFlow state="dialog-empty" />, code: '<SnoozeFlow state="dialog-empty" />' },
+      { key: 'dialog-selected', label: 'Duration dialog, 15 Minutes', render: () => <SnoozeFlow state="dialog-selected" />, code: '<SnoozeFlow state="dialog-selected" />' },
+      { key: 'deactivating', label: 'Deactivating', render: () => <SnoozeFlow state="deactivating" />, code: '<SnoozeFlow state="deactivating" />' },
+      { key: 'off-notification', label: 'Off, with the notification', render: () => <SnoozeFlow state="off-notification" />, code: '<SnoozeFlow state="off-notification" />' },
+      { key: 'off', label: 'Off until 6:45pm', render: () => <SnoozeFlow state="off" />, code: '<SnoozeFlow state="off" />' },
+      { key: 'off-resting', label: 'Off until turned back on', render: () => <SnoozeFlow state="off-resting" />, code: '<SnoozeFlow state="off-resting" />' },
+      { key: 'activating', label: 'Activating', render: () => <SnoozeFlow state="activating" />, code: '<SnoozeFlow state="activating" />' },
+      { key: 'on-again', label: 'On again', render: () => <SnoozeFlow state="on-again" />, code: '<SnoozeFlow state="on-again" />' },
+      { key: 'error-airplane', label: 'Error: airplane mode', render: () => <SnoozeFlow state="error-airplane" />, code: '<SnoozeFlow state="error-airplane" />' },
+      { key: 'error-snooze-failed', label: 'Error: snooze failed', render: () => <SnoozeFlow state="error-snooze-failed" />, code: '<SnoozeFlow state="error-snooze-failed" />' },
+      { key: 'error-offline', label: 'Error: no internet', render: () => <SnoozeFlow state="error-offline" />, code: '<SnoozeFlow state="error-offline" />' },
+      { key: 'error-activation-failed', label: 'Error: activation failed', render: () => <SnoozeFlow state="error-activation-failed" />, code: '<SnoozeFlow state="error-activation-failed" />' },
+      { key: 'live', label: 'Live (Try it)', render: () => <SnoozeFlow />, code: '<SnoozeFlow />' },
+      { key: 'live-fail', label: 'Live, first snooze fails (Try it)', render: () => <SnoozeFlow fail="snooze-failed" />, code: '<SnoozeFlow fail="snooze-failed" />' },
+    ],
+    steps: [
+      <><b>Turn off</b>: tapping the switch while On opens “Want to deactivate assistant?”. Nothing is preselected and OK stays disabled until a duration is chosen. Cancel, the scrim or Back leaves it On.</>,
+      <><b>Deactivating</b>: the switch becomes a spinner (“This will take just a moment…”), then Off with “Equal will be back <b>Today 6:45pm</b>” and the heads-up “Equal AI Assistant is off”.</>,
+      <><b>Turn back on</b>: no dialog. Activating (“Resuming on your Equal AI Assistant”), then On.</>,
+      <><b>Errors</b>: airplane mode or no internet (Go to settings · Try Again), any other snooze failure (Try again), and activation failure with the troubleshooting list (Try now · Contact Support). Closing a sheet leaves the assistant as it was.</>,
+    ],
+  },
+  'force-update': {
+    title: 'Force update',
+    lead: 'On start or resume the app checks its version. Below the minimum supported version it blocks with a full-screen update; when a newer version exists it offers a dismissible sheet.',
+    source: 'Fore Update',
+    states: [
+      { key: 'hard', label: 'Hard update', render: () => <ForceUpdate kind="hard" />, code: '<ForceUpdateScreen onUpdate={openPlayStore} />' },
+      { key: 'soft', label: 'Soft update', render: () => <ForceUpdate kind="soft" />, code: "<AlertSheet {...alertSheets['update-available']} onCta={update} onSecondary={later} onClose={later} />" },
+    ],
+    steps: [
+      <><b>Hard</b>: installed &lt; minimum supported. Full screen, no close; Back exits the app. Update Equal AI opens the Play Store (or an in-app IMMEDIATE update).</>,
+      <><b>Soft</b>: a newer version exists. “A new version is here” over Chats; Update Now (in-app FLEXIBLE update) or Maybe Later / ✕ / scrim / Back to dismiss it for this version.</>,
     ],
   },
   voip: {

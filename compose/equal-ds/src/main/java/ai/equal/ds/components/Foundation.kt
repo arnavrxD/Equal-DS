@@ -58,6 +58,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
@@ -87,6 +88,26 @@ fun EqualText(
         style = resolved,
         overflow = overflow,
         softWrap = softWrap,
+        maxLines = maxLines,
+    )
+}
+
+/** [EqualText] for styled spans (e.g. the bold "Today 6:45pm" in the snooze line). */
+@Composable
+fun EqualText(
+    text: AnnotatedString,
+    style: TextStyle,
+    color: Color,
+    modifier: Modifier = Modifier,
+    maxLines: Int = Int.MAX_VALUE,
+    overflow: TextOverflow = TextOverflow.Clip,
+    textAlign: TextAlign? = null,
+) {
+    BasicText(
+        text = text,
+        modifier = modifier,
+        style = if (textAlign != null) style.copy(color = color, textAlign = textAlign) else style.copy(color = color),
+        overflow = overflow,
         maxLines = maxLines,
     )
 }

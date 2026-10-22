@@ -127,6 +127,12 @@ const MANIFEST = {
   'progress-activity': 'progress_activity',
   'check-circle-fill': 'check_circle-fill',
   'warning-fill': 'warning-fill',
+  // snooze + force update
+  download: 'download',
+  flight: 'flight',
+  'cell-tower': 'cell_tower',
+  'power-settings': 'power_settings_circle',
+  'phone-in-talk': 'phone_in_talk',
 };
 
 const SYMBOL_VB = '0 -960 960 960';

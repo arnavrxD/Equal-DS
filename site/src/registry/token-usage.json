@@ -114,6 +114,10 @@
     "name": "Paywall experiments"
    },
    {
+    "id": "snooze",
+    "name": "Snooze & update"
+   },
+   {
     "id": "status-bar",
     "name": "Status bar"
    }
@@ -893,6 +897,10 @@
     "name": "Settings row"
    },
    {
+    "id": "snooze",
+    "name": "Snooze & update"
+   },
+   {
     "id": "system-status-card",
     "name": "System status card"
    },
@@ -1210,6 +1218,10 @@
     "name": "Feature list"
    },
    {
+    "id": "snooze",
+    "name": "Snooze & update"
+   },
+   {
     "id": "switch",
     "name": "Switch"
    },
@@ -1334,6 +1346,10 @@
    {
     "id": "search",
     "name": "Search"
+   },
+   {
+    "id": "snooze",
+    "name": "Snooze & update"
    },
    {
     "id": "switch",
@@ -1755,6 +1771,10 @@
    {
     "id": "call-history",
     "name": "Call history"
+   },
+   {
+    "id": "snooze",
+    "name": "Snooze & update"
    }
   ],
   "screens": []
@@ -1768,6 +1788,10 @@
    {
     "id": "chat-actions",
     "name": "Chat actions"
+   },
+   {
+    "id": "snooze",
+    "name": "Snooze & update"
    }
   ],
   "screens": []
@@ -4618,6 +4642,10 @@
    {
     "id": "bottom-sheet",
     "name": "Bottom sheet"
+   },
+   {
+    "id": "snooze",
+    "name": "Snooze & update"
    }
   ],
   "screens": []

@@ -33,6 +33,7 @@ SIZES = {
     'crown-gold': 100, 'crown-lock': 24, 'coupon-seal': 32, 'star-gold': 24,
     'status-waiting': 100, 'status-waiting-cash': 100, 'status-confirmed': 100, 'status-pending': 100, 'status-failed': 100,
     'emoji-sad': 100, 'thumbs-up': 100,
+    'illustration-airplane': 116, 'illustration-warning': 88, 'illustration-error-sad': 88, 'mascot-update': 160,
     'premium-glow': 360,
     # call handling (Known Calls Flow)
     'call-handling-all': 280, 'call-handling-exclude': 280, 'call-handling-done': 300, 'call-setup': 240,
