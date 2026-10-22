@@ -81,7 +81,7 @@ export function HealthCheckScreen({ state, onStart, onHome, onBack, onGrantApp, 
  * Live run (Try it): Start → Phone ✓, Notification ✗, Contacts ✗ → Grant Permission → re-check ✓ →
  * Overlay ✗ → Grant → ✓ → carrier finds issues → Fix Now → the first fix fails → Try Again → All good.
  */
-export function HealthCheckFlow({ state: initial = 'idle', onBack = () => {} }: { state?: keyof typeof healthCheckStates; onBack?: () => void }) {
+export function HealthCheckFlow({ state: initial = 'idle', onBack = () => {}, onHome }: { state?: keyof typeof healthCheckStates; onBack?: () => void; /** Back To Home after the check; default restarts at idle. */ onHome?: () => void }) {
   const [s, setS] = useState<HcState>(healthCheckStates[initial]);
   const timers = useRef<number[]>([]);
   const fixes = useRef(0);
@@ -97,7 +97,7 @@ export function HealthCheckFlow({ state: initial = 'idle', onBack = () => {} }: 
       state={s}
       onBack={onBack}
       onStart={start}
-      onHome={() => { fixes.current = 0; setS(H.idle); }}
+      onHome={() => { fixes.current = 0; if (onHome) onHome(); else setS(H.idle); }}
       onGrantApp={grantApp}
       onGrantPhone={grantPhone}
       onFix={fix}

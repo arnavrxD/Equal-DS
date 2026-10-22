@@ -7,6 +7,8 @@ const tryThis = [
   'Long-press (or right-click) a chat to select it → trash → confirm sheet → Undo.',
   'Switch to You: the edit pencil opens Personal Details, and choosing Female changes your avatar everywhere.',
   'You → Instructions: apply a preset or a recommendation and finish the setup chat.',
+  'You → Assistant Health Check: Start Health Check, grant the permissions, fix the carrier, Back To Home.',
+  'You → Account Data → Call Learning & Consent (turning learning off asks first).',
   'You → Silent Mode, Your Addresses and WhatsApp Updates.',
   'The search icon on Chats filters by name.',
 ];

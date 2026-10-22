@@ -446,7 +446,7 @@ export function ChatScreen({ chat = sampleChats[0], live = false, lock, onUnlock
 
 // ---------------------------------------------------------------- You tab (You (Settings) design)
 
-export type YouPage = 'addresses' | 'instructions' | 'personal' | 'silent' | 'whatsapp' | 'call-handling';
+export type YouPage = 'addresses' | 'instructions' | 'personal' | 'silent' | 'whatsapp' | 'call-handling' | 'health-check' | 'account-data';
 
 export type YouScreenProps = {
   onTab?: (t: NavTab) => void;
@@ -515,7 +515,7 @@ export function YouScreen({ onTab, onOpen, summary = 'ready', avatar = 'male', n
       <RowGroup>
         {!none && <SettingsRow icon="call" label="Call Handling" description="Choose which calls I answer" isNew onClick={() => onOpen?.('call-handling')} />}
         <SettingsRow icon="instructions" label="Instructions" description="Tell assistant how you'd like it to help" isNew={!none} onClick={() => onOpen?.('instructions')} />
-        <SettingsRow icon="health-check" label="Assistant Health Check" description="Check Real-Time Assistant Connectivity" onClick={() => {}} />
+        <SettingsRow icon="health-check" label="Assistant Health Check" description="Check Real-Time Assistant Connectivity" onClick={() => onOpen?.('health-check')} />
         <SettingsRow icon="silent-mode" label="Silent Mode" description="Mute promotional calls automatically" onClick={() => onOpen?.('silent')} />
         <SettingsRow icon="voice-language" label="Voice & Language" description="Choose assistant's voice and languages" onClick={() => {}} />
       </RowGroup>
@@ -554,7 +554,7 @@ export function YouScreen({ onTab, onOpen, summary = 'ready', avatar = 'male', n
       <SectionHeader>Settings &amp; support</SectionHeader>
       <RowGroup>
         <SettingsRow icon="whatsapp" label="WhatsApp Updates" description="Assistant and App Updates" onClick={() => onOpen?.('whatsapp')} />
-        <SettingsRow icon="account-data" label="Account Data" description="Your account and data management" onClick={() => {}} />
+        <SettingsRow icon="account-data" label="Account Data" description="Your account and data management" onClick={() => onOpen?.('account-data')} />
         <SettingsRow icon="help-center" label="Help Center" description="Your What, Why and How" onClick={() => {}} />
       </RowGroup>
 

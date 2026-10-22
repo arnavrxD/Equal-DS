@@ -305,7 +305,7 @@ export function InstructionSetupSheet({ setup, open, onClose, onDone }: { setup:
 export type InstructionsView = 'hub' | 'active' | { preset: string };
 
 /** The whole Instructions flow: hub → preset → apply (setup chat), and Active Instructions with edit / delete. */
-export function InstructionsFlow({ onBack, initialActive = [instructionLibrary.declineSales, instructionLibrary.loanEmi, instructionLibrary.difficult, instructionLibrary.takeMessage], initialView = 'hub', noRecommendations = false }: { onBack?: () => void; initialActive?: Instruction[]; initialView?: InstructionsView; noRecommendations?: boolean }) {
+export function InstructionsFlow({ onBack, initialActive = [instructionLibrary.loanEmi, instructionLibrary.difficult, instructionLibrary.wrongNumber], initialView = 'hub', noRecommendations = false }: { onBack?: () => void; initialActive?: Instruction[]; initialView?: InstructionsView; noRecommendations?: boolean }) {
   const [view, setView] = useState<InstructionsView>(initialView);
   const [active, setActive] = useState<Instruction[]>(initialActive);
   const [setup, setSetup] = useState<Setup | null>(null);

@@ -4,6 +4,8 @@ import { BottomSheet, ConfirmSheetContent, Snackbar } from '../index';
 import { sampleChats, type SampleChat } from './data';
 import { ChatScreen, ContactInfoScreen, HomeScreen, SearchScreen, YouScreen } from './Screens';
 import { CallHandlingScreen } from './CallHandlingScreens';
+import { HealthCheckFlow } from './HealthCheckScreens';
+import { AccountDataFlow } from './SettingsScreens';
 import { AddressesScreen, InstructionsFlow, PersonalDetailsScreen, SilentModeScreen, WhatsAppUpdatesScreen } from './FlowScreens';
 import type { Gender } from '../components/Flows';
 
@@ -18,7 +20,9 @@ type Route =
   | { name: 'silent' }
   | { name: 'call-handling' }
   | { name: 'whatsapp' }
-  | { name: 'search' };
+  | { name: 'search' }
+  | { name: 'health-check' }
+  | { name: 'account-data' };
 
 export function EqualPrototype() {
   const [stack, setStack] = useState<Route[]>([{ name: 'home' }]);
@@ -49,6 +53,8 @@ export function EqualPrototype() {
       {route.name === 'silent' && <SilentModeScreen onBack={back} />}
       {route.name === 'call-handling' && <CallHandlingScreen onBack={back} onDone={back} />}
       {route.name === 'whatsapp' && <WhatsAppUpdatesScreen onBack={back} />}
+      {route.name === 'health-check' && <HealthCheckFlow onBack={back} onHome={() => tab('chats')} />}
+      {route.name === 'account-data' && <AccountDataFlow onBack={back} />}
       {route.name === 'search' && <SearchScreen onBack={back} onOpenChat={(c) => push({ name: 'chat', chat: c })} />}
 
       <BottomSheet open={!!pendingDelete} onClose={() => setPendingDelete(null)}>

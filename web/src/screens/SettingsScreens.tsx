@@ -71,9 +71,9 @@ export function AccountDataScreen({ onBack, onCallLearning }: { onBack?: () => v
 }
 
 /** Account & Data → Call Learning & Consent, live. */
-export function AccountDataFlow() {
+export function AccountDataFlow({ onBack }: { onBack?: () => void }) {
   const [page, setPage] = useState<'account' | 'learning'>('account');
-  return page === 'account' ? <AccountDataScreen onCallLearning={() => setPage('learning')} /> : <CallLearningScreen onBack={() => setPage('account')} />;
+  return page === 'account' ? <AccountDataScreen onBack={onBack} onCallLearning={() => setPage('learning')} /> : <CallLearningScreen onBack={() => setPage('account')} />;
 }
 
 const loanInstruction = { id: 'loan', title: 'Loan offers', when: 'I get a loan offer call', do: 'Say I’m not interested and ask them to remove my number' };
