@@ -1,6 +1,10 @@
 package ai.equal.ds.catalog
 
 import ai.equal.ds.components.HealthAlert
+import ai.equal.ds.icons.EqualSymbols
+import ai.equal.ds.components.NoticedState
+import ai.equal.ds.components.NoticedCoach
+import ai.equal.ds.components.NoticedCard
 import ai.equal.ds.components.PlanRenew
 import ai.equal.ds.components.EqualButtonEmphasis
 import ai.equal.ds.components.EqualButtonAppearance
@@ -206,6 +210,25 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.ui.text.AnnotatedString
+import ai.equal.ds.components.ChatListItemStatus
+import ai.equal.ds.components.CarouselDots
+import ai.equal.ds.components.InfoNote
+import ai.equal.ds.components.InstructionsPromoCard
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.widthIn
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.addPathNodes
+import androidx.compose.ui.semantics.LiveRegionMode
+import androidx.compose.ui.semantics.clearAndSetSemantics
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.liveRegion
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.zIndex
 
 private val SampleChips = listOf(
@@ -825,6 +848,10 @@ class HomeSampleChat(
     val chips: List<ActionChipData> = emptyList(),
     val initials: String? = null,
     val id: String = name,
+    /** Updated UI row state: missed by the assistant, on a call, or the summary loading. */
+    val status: ChatListItemStatus? = null,
+    /** Muted from the list (the notifications-off glyph after the name). */
+    val muted: Boolean = false,
 )
 
 /** The default Home rows. */
@@ -836,6 +863,18 @@ val HomeSampleChats: List<HomeSampleChat> = listOf(
     HomeSampleChat("Vijay · NoBroker", "Offer on a 2BHK flat in Sector 12", "10 July", EqualCategory.RealEstate),
     HomeSampleChat("Swiggy Delivery", "Your order is at the gate", "09 July", EqualCategory.Delivery),
     HomeSampleChat("Amazon", "OTP for your delivery is 4821", "07 July", EqualCategory.OTP),
+)
+
+/**
+ * Updated UI row states (web `rowStateChats`): on a call, missed (unread and read), loading the
+ * summary, and muted. Use with [HomeScreenSample]'s `chats`.
+ */
+val RowStateChats: List<HomeSampleChat> = listOf(
+    HomeSampleChat("Unknown caller", "Asked for Arnav, didn't leave a message", "12:30", EqualCategory.NA, chips = SampleChips, id = "r1", status = ChatListItemStatus.OnCall),
+    HomeSampleChat("+91 98765 43210", "Delivery partner called about a parcel", "12:30", EqualCategory.Delivery, unread = 1, id = "r2", status = ChatListItemStatus.Missed),
+    HomeSampleChat("HDFC Bank", "Asked about a loan offer", "Yesterday", EqualCategory.Financial, id = "r3", status = ChatListItemStatus.Missed),
+    HomeSampleChat("AX-SWIGGY", "Your OTP is 4821", "Mon", EqualCategory.OTP, id = "r4", status = ChatListItemStatus.Loading),
+    HomeSampleChat("Vijay · NoBroker", "Offer on a 2BHK flat in Sector 12", "10 July", EqualCategory.RealEstate, id = "r5", muted = true),
 )
 
 /** Id of the saved contact the Global MYA sample acts on (Amit Nanda). */
@@ -886,6 +925,12 @@ val MyaReminderResult: AssistantResult = AssistantResult(chatId = MyaChatId, pre
  * for ₹149" strip; also shown once the exit offer is declined; Claim Now reopens the sheet with
  * EQUAL25 applied). The notice CTAs and the official chip open the sheet when it is on, otherwise
  * they call [onRenew].
+ *
+ * Updated UI: [offline] replaces the search field, promo and rows with the no-internet state;
+ * empty [chats] (and no [promo]) shows "Your chats will appear here" with the update mascot.
+ * [instructionsPromo] puts the Teach Your Assistant [InstructionsPromoCard] (with [CarouselDots],
+ * second active) above the list; Try Instructions calls [onPromo] and the close dismisses it.
+ * Rows carry [HomeSampleChat.status] and [HomeSampleChat.muted] (see [RowStateChats]).
  */
 @Composable
 fun HomeScreenSample(
@@ -960,6 +1005,12 @@ fun HomeScreenSample(
     upgradePill: Boolean = false,
     /** Equal-to-Equal: the incoming or ongoing call strip under the status bar. */
     callStrip: (@Composable () -> Unit)? = null,
+    /** No internet: the list is replaced by the no-internet state. */
+    offline: Boolean = false,
+    /** The Teach Your Assistant promo above the list (instead of [promo]). */
+    instructionsPromo: Boolean = false,
+    /** The promo card's CTA (Try Instructions). */
+    onPromo: () -> Unit = {},
 ) {
     val colors = EqualTheme.colors
     var assistantOn by remember(assistantOff, healthAlert != null) { mutableStateOf(!assistantOff && healthAlert == null) }
@@ -972,6 +1023,7 @@ fun HomeScreenSample(
     var sheetOpen by remember(valueSheet, quotaSheet) { mutableStateOf(valueSheet != null || quotaSheet != null) }
     var myaOpen by remember { mutableStateOf(false) }
     var result by remember(assistantResult) { mutableStateOf(assistantResult) }
+    var promoOpen by remember(instructionsPromo) { mutableStateOf(true) }
     Box(
         modifier
             .fillMaxSize()
@@ -1037,7 +1089,12 @@ fun HomeScreenSample(
                     )
                     null -> Unit
                 }
-                if (chats.isNotEmpty()) {
+                if (offline) {
+                    HomeOfflineState()
+                } else if (chats.isEmpty() && promo == null) {
+                    HomeEmptyState()
+                }
+                if (!offline && chats.isNotEmpty()) {
                     SearchField(
                         value = "",
                         onValueChange = {},
@@ -1045,7 +1102,12 @@ fun HomeScreenSample(
                         modifier = Modifier.padding(start = 16.dp, top = 12.dp, end = 16.dp),
                     )
                 }
-                if (promo != null && systemStatus == null) {
+                if (!offline && instructionsPromo && promoOpen && chats.isNotEmpty() && systemStatus == null) {
+                    Column(Modifier.padding(start = 12.dp, top = 12.dp, end = 12.dp, bottom = 4.dp)) {
+                        InstructionsPromoCard(onCta = onPromo, onDismiss = { promoOpen = false })
+                        CarouselDots(count = 3, active = 1)
+                    }
+                } else if (!offline && promo != null && systemStatus == null) {
                     Box(Modifier.padding(start = 12.dp, top = 12.dp, end = 12.dp, bottom = 4.dp)) { promo() }
                 }
                 if (official != null) {
@@ -1060,9 +1122,9 @@ fun HomeScreenSample(
                         onClick = onOfficialChat,
                         official = true,
                     )
-                    if (chats.isNotEmpty()) EqualDivider()
+                    if (chats.isNotEmpty() && !offline) EqualDivider()
                 }
-                chats.forEachIndexed { i, chat ->
+                if (!offline) chats.forEachIndexed { i, chat ->
                     if (i > 0) EqualDivider()
                     val locked = lockedFrom != null && i >= lockedFrom
                     val acted = result?.takeIf { it.chatId == chat.id }
@@ -1080,6 +1142,8 @@ fun HomeScreenSample(
                         onClick = if (locked) openPaywall else ({}),
                         lockedActions = lockedActions,
                         onLockedAction = openPaywall,
+                        status = chat.status,
+                        muted = chat.muted,
                     )
                 }
             }
@@ -1137,6 +1201,91 @@ fun HomeScreenSample(
             )
         }
         overlay?.invoke()
+    }
+}
+
+/** No internet on Home: the 112dp no-internet art, headline and why (padding 180 / 24 / 120). */
+@Composable
+private fun HomeOfflineState() {
+    val colors = EqualTheme.colors
+    val type = EqualTheme.type
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .padding(start = 24.dp, top = 180.dp, end = 24.dp, bottom = 120.dp)
+            .semantics(mergeDescendants = true) { liveRegion = LiveRegionMode.Polite },
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        EqualAssetImage(EqualAssets.IllustrationNoInternet, 112.dp)
+        Spacer(Modifier.height(16.dp))
+        EqualText(
+            text = "No internet connection",
+            style = type.headline.copy(fontWeight = FontWeight.SemiBold),
+            color = colors.textPrimary,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.semantics { heading() },
+        )
+        Spacer(Modifier.height(8.dp))
+        EqualText(
+            text = "We could not connect to a stable internet. Check your connection and try again.",
+            style = type.body1,
+            color = colors.textSecondary,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.widthIn(max = 340.dp),
+        )
+    }
+}
+
+/** Four-point spark (24 grid) around the empty-home mascot. */
+private val HomeSparkNodes = addPathNodes("M12 0c.6 6.4 5 11 12 12-7 1-11.4 5.6-12 12-.6-6.4-5-11-12-12C7 11 11.4 6.4 12 0Z")
+
+/** Spark x, y (on the 171 × 143 art grid) and size, as on web. */
+private val HomeSparks = listOf(Triple(0, 72, 19), Triple(88, 76, 14), Triple(96, 54, 19), Triple(64, 12, 11))
+
+/** A new user's Home with no chats: the update mascot with sparks, title and line (padding 120 / 24 / 120). */
+@Composable
+private fun HomeEmptyState() {
+    val colors = EqualTheme.colors
+    val type = EqualTheme.type
+    val spark = remember {
+        ImageVector.Builder(name = "home-spark", defaultWidth = 24.dp, defaultHeight = 24.dp, viewportWidth = 24f, viewportHeight = 24f)
+            .addPath(pathData = HomeSparkNodes, fill = SolidColor(Color.Black))
+            .build()
+    }
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .padding(start = 24.dp, top = 120.dp, end = 24.dp, bottom = 120.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        Box(Modifier.size(width = 171.dp, height = 160.dp).clearAndSetSemantics {}) {
+            EqualAssetImage(EqualAssets.MascotUpdate, 160.dp, modifier = Modifier.align(Alignment.TopCenter))
+            HomeSparks.forEach { (x, y, sz) ->
+                EqualIcon(
+                    spark,
+                    contentDescription = null,
+                    tint = colors.buttonPrimary,
+                    size = sz.dp,
+                    modifier = Modifier.offset(x = x.dp, y = (y * 160f / 143f).dp),
+                )
+            }
+        }
+        Spacer(Modifier.height(8.dp))
+        EqualText(
+            text = "Your chats will appear here",
+            style = type.title.copy(fontWeight = FontWeight.SemiBold),
+            color = colors.textPrimary,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.semantics { heading() },
+        )
+        Spacer(Modifier.height(8.dp))
+        EqualText(
+            text = "Assistant will answer calls, summarise them and help you take actions afterwards",
+            style = type.body1,
+            color = colors.textSecondary,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.widthIn(max = 300.dp),
+        )
     }
 }
 
@@ -1472,6 +1621,15 @@ private fun ChatThread(
     }
 }
 
+/** [YouScreenSample]'s Equal Noticed states. */
+enum class YouNoticed { Ready, Reveal, Coach, Multiple }
+
+/** The sample Equal Noticed paragraphs. */
+val NoticedSummary = listOf(
+    "You’re a Logistics Legend. You navigate a constant stream of courier updates from FedEx and Blue Dart while I filter out the noise from banks and real estate.",
+    "Whether it is confirming a driver is waiting at the airport or managing delivery details, I keep the important pieces ready for you. We make it happen.",
+)
+
 private const val SampleSummary =
     "Your family calls you a lot. They always say it's urgent. They almost never say why. " +
         "Everyone wants you, not me. You keep me on anyway, and let me be the one who asks."
@@ -1496,8 +1654,15 @@ fun YouScreenSample(
     /** Plan Expired option 3: the plan card asks to renew (use with [YouPlan.Expired]). */
     planRenew: Boolean = false,
     onOpenCallHandling: () -> Unit = {},
+    /** "Settings live here now": the card or one-line notice above the plan card, dismissible. */
+    notice: YouNotice? = null,
+    /** AI Personalisation: Equal Noticed replaces the AI summary. */
+    noticed: YouNoticed? = null,
+    onPersonalisation: () -> Unit = {},
 ) {
     val colors = EqualTheme.colors
+    var noticeOpen by remember(notice) { mutableStateOf(notice != null) }
+    var noticedState by remember(noticed) { mutableStateOf(noticed) }
     var assistantOn by remember { mutableStateOf(true) }
     var tab by remember { mutableStateOf(EqualTab.You) }
     Box(
@@ -1525,6 +1690,21 @@ fun YouScreenSample(
                     tier = tier,
                     onEdit = {},
                 ) {
+                    if (noticeOpen && notice != null) {
+                        when (notice) {
+                            YouNotice.Line -> InfoNote(
+                                title = "Settings, plan and assistant controls all moved here.",
+                                onDismiss = { noticeOpen = false },
+                                modifier = Modifier.padding(bottom = 12.dp),
+                            )
+                            YouNotice.Card -> InfoNote(
+                                title = "Settings live here now",
+                                body = "Your profile, plan and assistant controls all moved into You.",
+                                onDismiss = { noticeOpen = false },
+                                modifier = Modifier.padding(bottom = 12.dp),
+                            )
+                        }
+                    }
                     PlanCard(onManageClick = onManagePlan, manageLabel = plan.manageLabel, expired = plan == YouPlan.Expired, renew = if (planRenew) PlanRenew(onRenew = onManagePlan) else null)
                     if (plan == YouPlan.Reactivate) {
                         PlanBanner(text = "Reactivate your current Plan to use Equal Unlimited", attached = true)
@@ -1575,12 +1755,41 @@ fun YouScreenSample(
                 }
 
                 SectionHeader(title = "About you")
-                AiSummaryCard(
-                    status = if (none) AiSummaryStatus.Empty else summary,
-                    summary = SampleSummary,
-                    modifier = Modifier.padding(start = 20.dp, end = 20.dp, bottom = 12.dp),
-                )
+                val ns = noticedState
+                if (ns == null) {
+                    AiSummaryCard(
+                        status = if (none) AiSummaryStatus.Empty else summary,
+                        summary = SampleSummary,
+                        modifier = Modifier.padding(start = 20.dp, end = 20.dp, bottom = 12.dp),
+                    )
+                } else {
+                    Column(Modifier.padding(start = 20.dp, end = 20.dp, bottom = 12.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                        when (ns) {
+                            YouNoticed.Ready -> NoticedCard(summary = NoticedSummary)
+                            YouNoticed.Multiple -> {
+                                Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                                    NoticedCard(summary = NoticedSummary, modifier = Modifier.width(306.dp))
+                                    NoticedCard(summary = listOf("Most calls come in after 6 PM, and you rarely pick up while driving. I keep those short and save the details for later."), modifier = Modifier.width(306.dp))
+                                }
+                                CarouselDots(count = 2, active = 0)
+                            }
+                            YouNoticed.Coach, YouNoticed.Reveal -> {
+                                if (ns == YouNoticed.Coach) NoticedCoach(onDismiss = { noticedState = YouNoticed.Reveal })
+                                NoticedCard(summary = NoticedSummary, state = NoticedState.Reveal, onReveal = { noticedState = YouNoticed.Ready })
+                            }
+                        }
+                    }
+                }
                 RowGroup {
+                    if (noticed != null) {
+                        SettingsRow(
+                            label = "AI Personalisation",
+                            description = "See how Equal personalises your calls",
+                            leadingIcon = EqualSymbols.autoFix,
+                            showNewBadge = true,
+                            onClick = onPersonalisation,
+                        )
+                    }
                     SettingsRow(
                         label = "Your Addresses",
                         description = "Add addresses your assistant should know",
@@ -1628,6 +1837,47 @@ fun YouScreenSample(
                 .navigationBarsPadding()
                 .padding(bottom = 16.dp),
         )
+    }
+}
+
+/** The "Settings live here now" notice on [YouScreenSample]. */
+enum class YouNotice {
+    /** Title and line. */
+    Card,
+
+    /** One line. */
+    Line,
+}
+
+/**
+ * Splash (Splash Screen design): full-bleed `button/primary` (lime in dark), the status bar, the
+ * 42dp Equal AI logo and the [tagline] `title`, both `text/on-action`. Read as one image.
+ */
+@Composable
+fun SplashScreenSample(
+    modifier: Modifier = Modifier,
+    tagline: String = "Your personal AI call assistant",
+) {
+    val colors = EqualTheme.colors
+    Column(
+        modifier
+            .fillMaxSize()
+            .background(colors.buttonPrimary)
+            .clearAndSetSemantics { contentDescription = "Equal AI. $tagline" },
+    ) {
+        StatusBar(background = colors.buttonPrimary, color = colors.textOnAction)
+        Column(
+            Modifier
+                .weight(1f)
+                .fillMaxWidth()
+                .padding(bottom = 48.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+        ) {
+            EqualLogo(height = 42.dp, color = colors.textOnAction, contentDescription = null)
+            Spacer(Modifier.height(16.dp))
+            EqualText(text = tagline, style = EqualTheme.type.title, color = colors.textOnAction, textAlign = TextAlign.Center)
+        }
     }
 }
 

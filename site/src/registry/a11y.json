@@ -5110,5 +5110,190 @@
     "gaps": [
       "Incoming strip options 2 and 3 fail AA in light (green on #F7F7F7, 2.66:1); keep option 1 as the default."
     ]
+  },
+  "personalisation": {
+    "anatomy": [
+      {
+        "part": "Equal Noticed",
+        "description": "What Equal noticed about you.",
+        "spec": "radius 16 · bg/primary + stroke/subtle · 18 orb + caption 700 · body1 paragraphs · thumbs 20 · caption footer"
+      },
+      {
+        "part": "Reveal card",
+        "description": "A new summary waiting.",
+        "spec": "gradient/noticed-reveal · title 600 + bodyLarge 500 in text/on-action · twinkling dots"
+      },
+      {
+        "part": "Caller context",
+        "description": "Equal's context for one caller.",
+        "spec": "caller-context/bg (paused …/paused-bg) · radius 16 · caption 600 head · overline Personalising… · body1 clamped to 3 lines · Read more · menu"
+      },
+      {
+        "part": "What stays / What goes",
+        "description": "What a stop or delete keeps and removes.",
+        "spec": "body1 600 labels · 16 check (text/action) / close (text/secondary)"
+      }
+    ],
+    "accessibility": [
+      {
+        "topic": "Role",
+        "web": "The reveal card is a button; thumbs are buttons with aria-pressed; the context menu is a menu; the coach mark is a dialog.",
+        "android": "Same roles; thumbs carry stateDescription Selected."
+      },
+      {
+        "topic": "Name",
+        "web": "\"Equal Noticed\" region; the context card is named \"Equal's context for Amit Nanda\".",
+        "android": "Headings on the card titles."
+      },
+      {
+        "topic": "Keyboard",
+        "web": "Tab to reveal, share, thumbs and the menu; Escape closes the menu.",
+        "android": "D-pad in reading order; Back closes the menu."
+      },
+      {
+        "topic": "Touch target",
+        "web": "32 icon buttons sit in 44 targets.",
+        "android": "48dp via minimumInteractiveComponentSize."
+      },
+      {
+        "topic": "Contrast",
+        "web": "Reveal title (20 SemiBold, large) is white on #00B140 3.1:1; body text/secondary passes 4.5:1.",
+        "android": "Same tokens."
+      },
+      {
+        "topic": "State",
+        "web": "Votes are aria-pressed; the paused card says so with Resume personalising.",
+        "android": "stateDescription on votes."
+      },
+      {
+        "topic": "Motion",
+        "web": "The reveal sparkles hold still under reduced motion.",
+        "android": "Dots hold still under rememberReduceMotion()."
+      }
+    ],
+    "gaps": [
+      "The reveal card's white title on the green gradient is 3:1 (large text only); keep the title at 20 SemiBold or larger."
+    ]
+  },
+  "list-actions": {
+    "anatomy": [
+      {
+        "part": "Single-select header",
+        "description": "Actions on one chat.",
+        "spec": "64 high · back · count subheading · mark-chat-read · mute / unmute · delete (button/danger) · more"
+      },
+      {
+        "part": "Multi-select header",
+        "description": "Actions on several chats.",
+        "spec": "N Selected · Mark read pill · delete · Select All checkbox row"
+      },
+      {
+        "part": "Toast",
+        "description": "What just happened.",
+        "spec": "text/primary surface radius 12 · optional spinner 20 · body1 in bg/surface · optional × or action"
+      }
+    ],
+    "accessibility": [
+      {
+        "topic": "Role",
+        "web": "Icon buttons with labels; the count is role='status'; the overflow is a menu.",
+        "android": "Same; the count is a polite liveRegion."
+      },
+      {
+        "topic": "Name",
+        "web": "\"Mark as read\", \"Mute\" / \"Unmute\", \"Delete\", \"More options\".",
+        "android": "Same contentDescriptions."
+      },
+      {
+        "topic": "Keyboard",
+        "web": "Long-press is also the context-menu key on a row; Tab through the header actions.",
+        "android": "Long-press with TalkBack's actions."
+      },
+      {
+        "topic": "Touch target",
+        "web": "40 icon buttons in 44 targets.",
+        "android": "48dp."
+      },
+      {
+        "topic": "Contrast",
+        "web": "Icons text/primary; delete button/danger passes 3:1.",
+        "android": "Same."
+      },
+      {
+        "topic": "State",
+        "web": "Toasts are role='status' so they're announced.",
+        "android": "liveRegion Polite."
+      },
+      {
+        "topic": "Motion",
+        "web": "The toast spinner stops under reduced motion.",
+        "android": "EqualSpinner holds still."
+      }
+    ],
+    "gaps": [
+      "Long-press is the only way into selection on web; a visible Select entry would help pointer users."
+    ]
+  },
+  "settings-promos": {
+    "anatomy": [
+      {
+        "part": "Learning card",
+        "description": "One thing the assistant learns.",
+        "spec": "radius 16 · preset tint · 56 emoji tile · body2 600 title · caption body · italic example in glass-button/default"
+      },
+      {
+        "part": "Trust strip",
+        "description": "Why to trust Equal.",
+        "spec": "radius 20 · trust-strip/bg · three 40 art stats with stroke/medium dividers"
+      },
+      {
+        "part": "Promo",
+        "description": "Teach Your Assistant.",
+        "spec": "radius 18 · instructions-promo/bg · title 700 instructions-promo/title · 32 pill CTA · 96 mascot"
+      },
+      {
+        "part": "Feature intro sheet",
+        "description": "A new feature explained.",
+        "spec": "radius 28 top · tinted hero · soft badge · headline 600 · 20 icon bullets · lg CTA + text secondary"
+      }
+    ],
+    "accessibility": [
+      {
+        "topic": "Role",
+        "web": "Cards are articles; the sheet is a dialog; the promo CTA and close are buttons.",
+        "android": "Same; the sheet sets paneTitle."
+      },
+      {
+        "topic": "Name",
+        "web": "Card titles are headings; the sheet is named by its title.",
+        "android": "Headings on titles."
+      },
+      {
+        "topic": "Keyboard",
+        "web": "The carousel scrolls with Shift+wheel or Tab into each card; Escape closes the sheet.",
+        "android": "D-pad; Back closes the sheet."
+      },
+      {
+        "topic": "Touch target",
+        "web": "Promo CTA 32 high in a 44 target.",
+        "android": "48dp."
+      },
+      {
+        "topic": "Contrast",
+        "web": "Promo title #0F766E on #EAF7F5 5.0:1; CTA white on #0F766E 5.5:1.",
+        "android": "Same tokens."
+      },
+      {
+        "topic": "State",
+        "web": "None.",
+        "android": "None."
+      },
+      {
+        "topic": "Motion",
+        "web": "The sheet slide is off under reduced motion.",
+        "android": "Same."
+      }
+    ],
+    "gaps": []
   }
 }

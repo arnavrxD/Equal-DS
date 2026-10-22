@@ -1,0 +1,30 @@
+/* Call Learning cards. */
+.eq-learning-card { flex-shrink: 0; box-sizing: border-box; min-height: 210px; padding: 16px; border-radius: 16px; scroll-snap-align: start; }
+.eq-learning-card.is-orange { background: var(--eq-preset-tint-orange); }
+.eq-learning-card.is-lime { background: var(--eq-preset-tint-lime); }
+.eq-learning-card.is-green { background: var(--eq-preset-tint-green); }
+.eq-learning-card__tile { display: inline-flex; align-items: center; justify-content: center; width: 56px; height: 56px; border-radius: 16px; background: var(--eq-bg-surface); }
+.eq-learning-card__example { margin: 12px 0 0; padding: 10px 12px; border-radius: 16px; background: var(--eq-glass-button-default); font-style: italic; }
+.eq-learning-carousel { display: flex; gap: 12px; overflow-x: auto; scroll-snap-type: x mandatory; padding: 0 16px; scrollbar-width: none; }
+.eq-learning-carousel::-webkit-scrollbar { display: none; }
+
+/* Account & Data trust strip. */
+.eq-trust-strip { list-style: none; margin: 0; padding: 16px 12px; display: flex; border-radius: 20px; background: var(--eq-trust-strip-bg); }
+.eq-trust-strip li { flex: 1; display: flex; flex-direction: column; align-items: center; }
+.eq-trust-strip li + li { border-left: 1px solid var(--eq-stroke-medium); }
+
+/* Teach Your Assistant promo. */
+.eq-instr-promo { position: relative; display: flex; align-items: center; gap: 8px; padding: 20px 16px 20px 18px; border-radius: 18px; background: var(--eq-instructions-promo-bg); }
+.eq-instr-promo__cta { display: inline-flex; align-items: center; gap: 6px; height: 32px; margin-top: 14px; padding: 0 14px; border-radius: var(--eq-radius-full); background: var(--eq-instructions-promo-cta); color: var(--eq-instructions-promo-cta-text); }
+.eq-instr-promo__close { position: absolute; top: 6px; right: 6px; color: var(--eq-text-placeholder); }
+
+/* Feature intro sheet. */
+.eq-feature-intro { position: relative; overflow: hidden; background: var(--eq-bg-primary); border-radius: 28px 28px 0 0; box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.12); }
+.eq-feature-intro.is-inline { border-radius: 28px; }
+.eq-status-sheet-layer .eq-feature-intro { animation: eq-sheet-up var(--eq-duration-slow) var(--eq-easing-standard) both; }
+@media (prefers-reduced-motion: reduce) { .eq-status-sheet-layer .eq-feature-intro { animation: none; } }
+.eq-feature-intro__hero { padding: 28px 16px 20px; background: var(--eq-instructions-promo-bg); display: flex; justify-content: center; }
+.eq-feature-intro__close { position: absolute; top: 12px; right: 12px; }
+.eq-feature-intro__body { padding: 20px 16px 24px; }
+.eq-feature-intro__bullets { list-style: none; margin: 16px 0 24px; padding: 0; display: flex; flex-direction: column; gap: 20px; }
+.eq-feature-intro__bullets li { display: flex; align-items: center; gap: 12px; min-height: 36px; }

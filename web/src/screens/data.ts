@@ -2,7 +2,7 @@
 import type { ChatAction } from '../components/ChatListItem';
 import type { Category } from '../foundations/Asset';
 
-export type SampleChat = { id: string; name: string; preview: string; date: string; unread: number; actions: ChatAction[]; initials?: string; phone: string; category: Category };
+export type SampleChat = { id: string; name: string; preview: string; date: string; unread: number; actions: ChatAction[]; initials?: string; phone: string; category: Category; /** Updated UI row states. */ status?: 'missed' | 'on-call' | 'loading'; muted?: boolean };
 
 export const sampleChats: SampleChat[] = [
   {
@@ -83,4 +83,13 @@ export const sampleChats: SampleChat[] = [
     phone: '+91 80471 11111',
     actions: [],
   },
+];
+
+/** Updated UI rows: missed by assistant (unread and read), the assistant on a call, a row without chips and one still loading its summary. */
+export const rowStateChats: SampleChat[] = [
+  { ...sampleChats[0], id: 'r1', status: 'on-call', unread: 0 },
+  { ...sampleChats[1], id: 'r2', status: 'missed', unread: 1, date: '12:30', actions: [] },
+  { ...sampleChats[2], id: 'r3', status: 'missed', unread: 0, date: 'Yesterday', actions: [] },
+  { ...sampleChats[3], id: 'r4', status: 'loading', unread: 0, actions: [] },
+  { ...sampleChats[4], id: 'r5', unread: 0, actions: [], muted: true },
 ];

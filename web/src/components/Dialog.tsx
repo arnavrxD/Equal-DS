@@ -1,6 +1,7 @@
 import { useId, type ReactNode } from 'react';
 import { useModal } from '../foundations/a11y';
 import { Asset, type AssetName } from '../foundations/Asset';
+import { Icon } from '../foundations/Icon';
 import { Text } from '../foundations/Text';
 import { Button, TextButton } from './Button';
 
@@ -48,13 +49,19 @@ export function Dialog({ open, title, subject, body, confirmLabel, cancelLabel =
 }
 
 /** Snackbar / toast — inverse surface. */
-export function Snackbar({ message, actionLabel, onAction }: { message: string; actionLabel?: string; onAction?: () => void }) {
+export function Snackbar({ message, actionLabel, onAction, busy, onClose }: { message: string; actionLabel?: string; onAction?: () => void; /** A spinner before the message ("Deleting Conversation"). */ busy?: boolean; /** A trailing × ("Add to favourites"). */ onClose?: () => void }) {
   return (
     <div role="status" style={{ display: 'flex', alignItems: 'center', gap: 12, padding: '12px 16px', borderRadius: 12, background: 'var(--eq-text-primary)', boxShadow: 'var(--eq-shadow-nav)' }}>
+      {busy && <Icon name="progress-activity" size={20} className="eq-spin" color="var(--eq-bg-surface)" />}
       <Text variant="body1" color="none" style={{ flex: 1, color: 'var(--eq-bg-surface)' }}>{message}</Text>
       {actionLabel && (
         <button type="button" className="eq-reset-btn eq-touch eq-t-button" style={{ color: 'var(--eq-button-secondary)' }} onClick={onAction}>
           <Text variant="inherit" color="none">{actionLabel}</Text>
+        </button>
+      )}
+      {onClose && (
+        <button type="button" className="eq-reset-btn eq-touch" aria-label="Dismiss" onClick={onClose} style={{ display: 'inline-flex', color: 'var(--eq-bg-surface)' }}>
+          <Icon name="close" size={20} />
         </button>
       )}
     </div>

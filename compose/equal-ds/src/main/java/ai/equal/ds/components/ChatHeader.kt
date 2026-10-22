@@ -1,5 +1,6 @@
 package ai.equal.ds.components
 
+import ai.equal.ds.icons.EqualSymbols
 import ai.equal.ds.assets.EqualCategory
 import ai.equal.ds.icons.EqualIcon
 import ai.equal.ds.icons.EqualIcons
@@ -182,8 +183,34 @@ fun SelectionChatHeader(
     markReadLabel: String = "Mark read",
     selectAllLabel: String = "Select All",
     selectedLabel: (Int) -> String = { "$it Selected" },
+    /** One chat selected (Updated UI): back · "1" · mark read · mute · delete · more, no Select All. */
+    single: Boolean = false,
+    /** The selected chat is muted (the mute button unmutes). */
+    muted: Boolean = false,
+    onMuteClick: () -> Unit = {},
+    /** The overflow menu (Mark as read · Add to favourite · Share contact). */
+    menuItems: List<ContextMenuItem> = emptyList(),
 ) {
     val colors = EqualTheme.colors
+    if (single) {
+        var menu by remember { mutableStateOf(false) }
+        Row(
+            modifier.fillMaxWidth().eqShadow(EqualShadows.header).background(colors.bgSurface).height(64.dp).padding(horizontal = 12.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            PlainIconButton(EqualIcons.Back, "Back", onBackClick, tint = colors.textPrimary)
+            Spacer(Modifier.width(4.dp))
+            EqualText(text = "$selectedCount", style = EqualTheme.type.subheading, color = colors.textPrimary, maxLines = 1, modifier = Modifier.weight(1f).semantics { liveRegion = LiveRegionMode.Polite })
+            PlainIconButton(EqualSymbols.markChatRead, "Mark as read", onMarkReadClick, tint = colors.textPrimary)
+            PlainIconButton(if (muted) EqualSymbols.notifyMe else EqualSymbols.silentMode, if (muted) "Unmute" else "Mute", onMuteClick, tint = colors.textPrimary)
+            PlainIconButton(EqualIcons.Delete, "Delete", onDeleteClick, tint = colors.buttonDanger)
+            Box {
+                PlainIconButton(EqualIcons.MoreVert, "More options", { menu = true }, tint = colors.textPrimary)
+                ContextMenuPopup(expanded = menu, onDismissRequest = { menu = false }, items = menuItems.map { it.copy(onClick = { menu = false; it.onClick() }) }, alignment = Alignment.TopEnd)
+            }
+        }
+        return
+    }
     Column(
         modifier
             .fillMaxWidth()

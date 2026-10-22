@@ -125,6 +125,19 @@ import {
   Spinner,
   type SnoozeDuration,
   UsageMeterCard,
+  NoticedCard,
+  LearningCard,
+  learningCards,
+  TrustStrip,
+  trustStats,
+  InstructionsPromoCard,
+  FeatureIntroSheet,
+  NoticedCoach,
+  CallerContextCard,
+  KeepLoseList,
+  TraitOrbHero,
+  InfoRows,
+  AvatarStack,
   UsageLimitCard,
   UsageDetailsSheet,
   SegmentedMeter,
@@ -1602,6 +1615,154 @@ const [muted, setMuted] = useState(false);
     ],
     dos: ['Say who is calling and that Equal identified them.', 'Keep the in-app strip option a prop.', 'Let the assistant strip (OngoingCallBar) and the user call strip (CallStrip) stay separate.'],
     donts: ["Don't draw the heads-up or the permission dialog in the app; the OS does.", "Don't make the call icon tappable while a call is live."],
+  },
+  {
+    id: 'personalisation',
+    name: 'Personalisation',
+    group: 'Assistant',
+    summary: 'AI Personalisation parts: Equal Noticed (ready and the tap-to-reveal card), the first-time coach mark, the caller context card in Contact Info, What stays / What goes, the FYI orb hero, icon info rows and the avatar stack.',
+    components: ['NoticedCard', 'NoticedCoach', 'CallerContextCard', 'KeepLoseList', 'TraitOrbHero', 'InfoRows', 'AvatarStack', 'ChatPreviewCard'],
+    importLine: "import { NoticedCard, CallerContextCard, KeepLoseList, TraitOrbHero } from '@equal/ds';",
+    compose: ['NoticedCard', 'NoticedCoach', 'CallerContextCard', 'KeepLoseList', 'TraitOrbHero', 'InfoRows', 'AvatarStack', 'ChatPreviewCard'],
+    spec: 'About Me (Notice Card) & AI personalization',
+    tokens: ['gradient/noticed-reveal', 'caller-context/bg', 'caller-context/paused-bg', 'initials-disc/bg', 'text/action'],
+    examples: [
+      {
+        title: 'Equal Noticed',
+        render: () => (
+          <Col gap={12} style={{ padding: 16, maxWidth: 380 }}>
+            <NoticedCoach />
+            <NoticedCard state="reveal" summary="" />
+            <NoticedCard summary="You’re a Logistics Legend. You navigate a constant stream of courier updates while I filter out the noise from banks and real estate." />
+          </Col>
+        ),
+        code: `<NoticedCoach onDismiss={dismiss} />
+<NoticedCard state="reveal" summary={summary} onReveal={reveal} />
+<NoticedCard summary={summary} onShare={share} />`,
+      },
+      {
+        title: 'Caller context',
+        note: 'Open the menu for Share · Stop personalising · Delete all learning.',
+        render: () => (
+          <Col gap={12} style={{ padding: 16, maxWidth: 380 }}>
+            <CallerContextCard name="Amit Nanda" state="empty" />
+            <CallerContextCard name="Amit Nanda" state="filled" summary="Amit manages your flat in Koramangala. He calls about rent and maintenance, almost always after 7 PM, and prefers a quick call to a message." />
+            <CallerContextCard name="Amit Nanda" state="paused" summary="Amit manages your flat in Koramangala." />
+          </Col>
+        ),
+        code: `<CallerContextCard name="Amit Nanda" state="empty" />
+<CallerContextCard name="Amit Nanda" state="filled" summary={summary} onStop={stop} onDelete={del} />
+<CallerContextCard name="Amit Nanda" state="paused" summary={summary} onResume={resume} />`,
+      },
+      {
+        title: 'Hero, rows and lists',
+        render: () => (
+          <Col gap={16} style={{ padding: 16, maxWidth: 380 }}>
+            <TraitOrbHero />
+            <InfoRows rows={[{ icon: 'auto-fix', title: 'It builds up over time', body: 'It gets a little sharper with every call.' }, { icon: 'privacy', title: 'Ignores sensitive topics', body: 'Health, finances, legal, family, religion never used.' }]} />
+            <KeepLoseList stays={['Everything it knows today']} goes={['Anything that changes ahead']} />
+            <AvatarStack initials={['AS', 'AM', 'BC']} />
+          </Col>
+        ),
+        code: `<TraitOrbHero />
+<InfoRows rows={rows} />
+<KeepLoseList stays={['Everything it knows today']} goes={['Anything that changes ahead']} />
+<AvatarStack initials={['AS', 'AM', 'BC']} />`,
+      },
+    ],
+    props: [
+      { component: 'NoticedCard', props: [req('summary', 'ReactNode', 'The paragraphs.'), opt('state', "'ready' | 'reveal'", "'ready'", 'Reveal covers it with the gradient.'), opt('updatesIn', 'string', "'21 days'", 'Footer.'), opt('onReveal / onShare', '() => void', undefined, 'Actions.')] },
+      { component: 'CallerContextCard', props: [req('name', 'string', 'The caller.'), req('state', "'empty' | 'learning' | 'filled' | 'paused'", 'What it shows.'), opt('summary', 'string', undefined, 'Clamped to 3 lines with Read more.'), opt('onStop / onDelete / onResume / onShare', '() => void', undefined, 'Menu and resume actions.')] },
+      { component: 'KeepLoseList', props: [req('stays', 'string[]', 'Kept (green checks).'), req('goes', 'string[]', 'Removed (grey crosses).')] },
+    ],
+    dos: ['Say what is never saved (OTPs, card numbers, UPI PINs, IDs).', 'Let the user stop or delete learning per caller.'],
+    donts: ["Don't show the reveal card without a way to read the summary.", "Don't hide What stays / What goes before deleting."],
+  },
+  {
+    id: 'list-actions',
+    name: 'List actions',
+    group: 'Lists & rows',
+    summary: 'Chat list selection: the single-select header (mark read · mute · delete · more), the multi-select header, and toasts with a spinner or a close.',
+    components: ['SelectionHeader', 'Snackbar'],
+    importLine: "import { SelectionHeader, Snackbar } from '@equal/ds';",
+    compose: ['SelectionChatHeader', 'EqualSnackbar'],
+    spec: 'Updated UI · Home Screen · All Bottom Sheets And Toasts',
+    tokens: ['bg/surface', 'button/danger', 'text/primary'],
+    examples: [
+      {
+        title: 'Selection headers',
+        render: () => (
+          <Col gap={12} style={{ maxWidth: 390 }}>
+            <SelectionHeader single count={1} allSelected={false} />
+            <SelectionHeader count={3} allSelected={false} />
+          </Col>
+        ),
+        code: `<SelectionHeader single count={1} muted={muted} onMute={toggleMute} onMarkRead={read} onDelete={del} onMore={openMenu} menu={menu} />
+<SelectionHeader count={3} allSelected={false} onSelectAll={selectAll} onMarkRead={read} onDelete={del} />`,
+      },
+      {
+        title: 'Toasts',
+        render: () => (
+          <Col gap={12} style={{ padding: 16, maxWidth: 380 }}>
+            <Snackbar busy message="Deleting Conversation" />
+            <Snackbar message="Add to favourites" onClose={() => {}} />
+          </Col>
+        ),
+        code: `<Snackbar busy message="Deleting Conversation" />
+<Snackbar message="Add to favourites" onClose={dismiss} />`,
+      },
+    ],
+    props: [
+      { component: 'SelectionHeader', props: [req('count', 'number', 'Selected rows.'), opt('single', 'boolean', undefined, 'One selected: icon actions and a menu, no Select All.'), opt('muted', 'boolean', undefined, 'The mute button unmutes.'), opt('menu', 'ReactNode', undefined, 'The overflow ContextMenu.')] },
+      { component: 'Snackbar', props: [req('message', 'string', 'Text.'), opt('busy', 'boolean', undefined, 'Spinner before it.'), opt('onClose', '() => void', undefined, 'Trailing ×.'), opt('actionLabel', 'string', undefined, 'e.g. Undo.')] },
+    ],
+    dos: ['Confirm delete and mute in a sheet.', 'Show the bell-off glyph on muted rows.'],
+    donts: ["Don't delete without a toast that says it's happening."],
+  },
+  {
+    id: 'settings-promos',
+    name: 'Settings & promos',
+    group: 'You tab',
+    summary: 'Call Learning cards (what the assistant learns, with an example), the Account & Data trust strip, the Teach Your Assistant promo and the generic new-feature sheet.',
+    components: ['LearningCard', 'TrustStrip', 'InstructionsPromoCard', 'FeatureIntroSheet'],
+    importLine: "import { LearningCard, TrustStrip, InstructionsPromoCard, FeatureIntroSheet } from '@equal/ds';",
+    compose: ['LearningCard', 'TrustStrip', 'InstructionsPromoCard', 'FeatureIntroSheet'],
+    spec: 'Profile · Preset Instruction',
+    tokens: ['preset/tint-orange', 'preset/tint-lime', 'preset/tint-green', 'glass-button/default', 'trust-strip/bg', 'instructions-promo/bg', 'instructions-promo/title', 'instructions-promo/cta'],
+    examples: [
+      {
+        title: 'Call Learning cards',
+        render: () => <div className="eq-learning-carousel" style={{ padding: 16 }}>{learningCards.map((c) => <LearningCard key={c.title} {...c} />)}</div>,
+        code: `{learningCards.map((c) => <LearningCard key={c.title} {...c} />)}`,
+      },
+      {
+        title: 'Trust strip',
+        render: () => <div style={{ padding: 16, maxWidth: 390 }}><TrustStrip stats={trustStats} /></div>,
+        code: `<TrustStrip stats={trustStats} />`,
+      },
+      {
+        title: 'Teach Your Assistant',
+        render: () => <div style={{ padding: 16, maxWidth: 390 }}><InstructionsPromoCard onDismiss={() => {}} /></div>,
+        code: `<InstructionsPromoCard onCta={openSheet} onDismiss={hide} />`,
+      },
+      {
+        title: 'Feature intro sheet',
+        render: () => (
+          <div style={{ padding: 16, maxWidth: 390 }}>
+            <FeatureIntroSheet mode="inline" hero={<InstructionCard instruction={{ id: 'loan', title: 'Loan offers', when: 'I get a loan offer call', do: 'Say I’m not interested and ask them to remove my number' }} />} title="Get every call handled your way with Instructions" bullets={[{ icon: 'edit', text: 'Tell your assistant what to do on any call, in your own words' }, { icon: 'touch', text: 'Start in one tap with presets for spam, loan and delivery calls' }]} cta="Try Instructions" secondary="Not now" />
+          </div>
+        ),
+        code: `<FeatureIntroSheet hero={<InstructionCard instruction={loan} />} title="Get every call handled your way with Instructions" bullets={bullets} cta="Try Instructions" secondary="Not now" onCta={go} onSecondary={close} onClose={close} />`,
+      },
+    ],
+    props: [
+      { component: 'LearningCard', props: [req('emoji', 'string', '56 tile.'), req('tint', "'orange' | 'lime' | 'green'", 'Card tint.'), req('title', 'string', 'body2 600.'), req('body', 'string', 'Why.'), req('example', 'ReactNode', 'Italic example in the glass box.')] },
+      { component: 'TrustStrip', props: [req('stats', '{ art; value; label }[]', 'Three stats.')] },
+      { component: 'InstructionsPromoCard', props: [opt('title / body / cta', 'string', 'Teach Your Assistant…', 'Copy (experiments).'), opt('onCta / onDismiss', '() => void', undefined, 'Actions.')] },
+      { component: 'FeatureIntroSheet', props: [req('hero', 'ReactNode', 'Tinted top.'), req('title', 'string', 'Headline.'), req('bullets', '{ icon; text }[]', 'Icon rows.'), req('cta', 'string', 'Primary.'), opt('secondary', 'string', undefined, 'Text button.'), opt('badge', 'string', "'New feature'", 'Soft badge.')] },
+    ],
+    dos: ['Give each learning card a concrete example.', 'Let the promo be dismissed.'],
+    donts: ["Don't use the teal promo tint for anything but Instructions."],
   },
   {
     id: 'text-field',

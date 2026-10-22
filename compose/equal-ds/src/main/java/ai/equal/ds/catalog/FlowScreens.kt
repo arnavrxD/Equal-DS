@@ -328,9 +328,13 @@ fun ContactInfoScreen(
     initials: String? = null,
     history: List<CallRecord> = SampleCallHistory,
     onBack: (() -> Unit)? = {},
+    /** AI Personalisation: the caller context card under the header. */
+    context: (@Composable () -> Unit)? = null,
+    /** Sheets over the screen (stop / delete learning). */
+    overlay: @Composable BoxScope.() -> Unit = {},
 ) {
     var muted by remember { mutableStateOf(false) }
-    FlowScaffold(title = "Contact Info", onBack = onBack, modifier = modifier) {
+    FlowScaffold(title = "Contact Info", onBack = onBack, modifier = modifier, overlay = overlay) {
         ContactInfoHeader(
             name = name,
             phone = phone,
@@ -344,6 +348,7 @@ fun ContactInfoScreen(
                 muted = muted,
             ),
         )
+        if (context != null) Box(Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp)) { context() }
         SectionHeader(title = "Call history", inset = 22.dp, size = SectionHeaderSize.Label)
         CallHistoryList {
             history.forEach { CallHistoryRow(direction = it.direction, meta = it.meta, time = it.time) }

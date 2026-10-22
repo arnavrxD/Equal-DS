@@ -14,6 +14,11 @@ import { HealthCheckEntry, HealthCheckFlow } from '../../../web/src/screens/Heal
 import { ForceUpdate, SnoozeFlow } from '../../../web/src/screens/SnoozeScreens';
 import { UsageCapHome } from '../../../web/src/screens/UsageCapScreens';
 import { EqualCallCallerFlow, EqualCallReceiverFlow } from '../../../web/src/screens/EqualCallScreens';
+import { AccountDataFlow, AccountDataScreen, CallLearningScreen, InstructionsPromoHome } from '../../../web/src/screens/SettingsScreens';
+import { SplashScreen } from '../../../web/src/screens/Screens';
+import { ChatListActions } from '../../../web/src/screens/ChatListActionsScreens';
+import { CallerContextScreen, PersonalisationFlow, PersonalisationFyiHome, PersonalisationScreen } from '../../../web/src/screens/PersonalisationScreens';
+import { rowStateChats } from '../../../web/src/screens/data';
 import NotFound from './NotFound';
 
 type FlowDef = { title: string; lead: string; states: StagePhone[]; steps: ReactNode[]; source: string };
@@ -217,6 +222,83 @@ const flows: Record<string, FlowDef> = {
       <><b>Connecting → Connected</b>: the initials disc gains ripples, “Connected” and the timer; speaker, mute and end in the bar. Minimise shows the ongoing strip (mute · name and time · end); tapping it returns.</>,
       <><b>Caller</b>: the call icon in the chat → “Let’s get you talking” the first time → Android’s dialog → Calling… → Ringing… → Connected. Not now or Deny stays in the chat.</>,
       <><b>After</b>: the chat shows the ongoing strip while the call is live (the call icon disabled), then a Voice Call card with the duration.</>,
+    ],
+  },
+  'home-you-updates': {
+    title: 'Home, You and settings updates',
+    lead: 'The Updated UI screens that were missing: an empty and an offline Home, the new chat-row states, the Settings notice on You, Splash, Call Learning & Consent, Account & Data, and the Teach Your Assistant promo.',
+    source: 'Updated UI · Profile · Preset Instruction',
+    states: [
+      { key: 'home-empty', label: 'Home: no chats yet', render: () => <HomeScreen chats={[]} />, code: '<HomeScreen chats={[]} />' },
+      { key: 'home-offline', label: 'Home: no internet', render: () => <HomeScreen offline />, code: '<HomeScreen offline />' },
+      { key: 'home-rows', label: 'Home: row states', render: () => <HomeScreen chats={rowStateChats} showWhatsNew={false} />, code: '<HomeScreen chats={rowStateChats} showWhatsNew={false} />' },
+      { key: 'home-resting', label: 'Home: assistant resting', render: () => <HomeScreen assistantControl={{ on: false, offDescription: 'Assistant is resting.' }} />, code: '<HomeScreen assistantControl={{ on: false, offDescription: \'Assistant is resting.\' }} />' },
+      { key: 'you-notice', label: 'You: Settings live here now', render: () => <YouScreen notice="card" />, code: '<YouScreen notice="card" />', height: 1400 },
+      { key: 'you-notice-line', label: 'You: one-line notice', render: () => <YouScreen notice="line" />, code: '<YouScreen notice="line" />', height: 1400 },
+      { key: 'splash', label: 'Splash', render: () => <SplashScreen />, code: '<SplashScreen />' },
+      { key: 'call-learning', label: 'Call Learning & Consent', render: () => <CallLearningScreen />, code: '<CallLearningScreen />' },
+      { key: 'call-learning-off', label: 'Call Learning: turn-off sheet', render: () => <CallLearningScreen sheet />, code: '<CallLearningScreen sheet />' },
+      { key: 'account-data', label: 'Account & Data', render: () => <AccountDataScreen />, code: '<AccountDataScreen />', height: 1100 },
+      { key: 'account-data-live', label: 'Account & Data → Call Learning (Try it)', render: () => <AccountDataFlow />, code: '<AccountDataFlow />', height: 1100 },
+      { key: 'instructions-promo', label: 'Home: Teach Your Assistant', render: () => <InstructionsPromoHome />, code: '<HomeScreen promo="instructions" onPromo={openSheet} />' },
+      { key: 'instructions-sheet', label: 'Instructions: new-feature sheet', render: () => <InstructionsPromoHome sheet />, code: '<FeatureIntroSheet hero={…} title="Get every call handled your way with Instructions" bullets={…} cta="Try Instructions" secondary="Not now" />' },
+    ],
+    steps: [
+      <><b>Home</b>: a new user sees “Your chats will appear here”; offline shows the no-internet state instead of the list. Rows can be missed by the assistant, on a call (the Ongoing call pill), without chips, loading their summary, or muted.</>,
+      <><b>Turning the assistant off</b> asks how long for: see the Assistant snooze flow. Indefinitely off reads “Assistant is resting.”</>,
+      <><b>You</b>: a dismissible notice says settings moved into You.</>,
+      <><b>Account & Data</b> builds trust (the shield and three stats) and leads to Call Learning & Consent, where turning learning off asks first. The Figma’s second red row reuses the Call Learning copy; it is shown here as Delete account (flag for design).</>,
+      <><b>Teach Your Assistant</b> sits in the home carousel; Try Instructions opens the new-feature sheet.</>,
+    ],
+  },
+  personalisation: {
+    title: 'AI personalisation',
+    lead: 'Equal learns how you handle each caller and says what it noticed. Home introduces it once, the You tab shows “Equal Noticed…”, AI Personalization explains what is and isn’t learned, and each caller has a context card you can pause or delete.',
+    source: 'About Me (Notice Card) & AI personalization',
+    states: [
+      { key: 'fyi', label: 'Home: FYI sheet', render: () => <PersonalisationFyiHome />, code: '<PersonalisationFyiHome />', height: 900 },
+      { key: 'you-coach', label: 'You: first reveal with the coach mark', render: () => <YouScreen noticed="coach" />, code: '<YouScreen noticed="coach" />', height: 1500 },
+      { key: 'you-reveal', label: 'You: updated summary ready', render: () => <YouScreen noticed="reveal" />, code: '<YouScreen noticed="reveal" />', height: 1500 },
+      { key: 'you-ready', label: 'You: Equal Noticed', render: () => <YouScreen noticed="ready" />, code: '<YouScreen noticed="ready" />', height: 1500 },
+      { key: 'you-multiple', label: 'You: several cards', render: () => <YouScreen noticed="multiple" />, code: '<YouScreen noticed="multiple" />', height: 1500 },
+      { key: 'screen', label: 'AI Personalization', render: () => <PersonalisationScreen />, code: '<PersonalisationScreen />', height: 1220 },
+      { key: 'screen-delete', label: 'Delete what Equal knows', render: () => <PersonalisationScreen sheet />, code: '<PersonalisationScreen sheet />', height: 1220 },
+      { key: 'caller-empty', label: 'Caller: no context yet', render: () => <CallerContextScreen state="empty" />, code: '<CallerContextCard name="Amit Nanda" state="empty" />' },
+      { key: 'caller-learning', label: 'Caller: learning', render: () => <CallerContextScreen state="learning" />, code: '<CallerContextCard name="Amit Nanda" state="learning" />' },
+      { key: 'caller-filled', label: 'Caller: context (Try it: open the menu)', render: () => <CallerContextScreen state="filled" />, code: '<CallerContextCard name="Amit Nanda" state="filled" summary={summary} onStop={stop} onDelete={del} />' },
+      { key: 'caller-stop', label: 'Caller: stop personalising', render: () => <CallerContextScreen sheet="stop" />, code: '<CallerContextScreen sheet="stop" />' },
+      { key: 'caller-paused', label: 'Caller: paused', render: () => <CallerContextScreen state="paused" />, code: '<CallerContextCard name="Amit Nanda" state="paused" onResume={resume} />' },
+      { key: 'caller-delete', label: 'Caller: delete learning', render: () => <CallerContextScreen sheet="delete" />, code: '<CallerContextScreen sheet="delete" />' },
+      { key: 'live', label: 'You → AI Personalization (Try it)', render: () => <PersonalisationFlow />, code: '<PersonalisationFlow />', height: 1500 },
+    ],
+    steps: [
+      <><b>Introduce</b>: a sheet on Home says Equal is getting to know your callers, what it ignores, and that it can be off for anyone.</>,
+      <><b>You tab</b>: the first time, a coach mark points at “Updated summary is ready · Tap to reveal”; then “Equal Noticed…” with thumbs and when it updates. Several summaries become a carousel. AI Personalisation opens the screen.</>,
+      <><b>AI Personalization</b>: what Equal picks up, what it never saves (OTPs, card numbers, UPI PINs, IDs), excluded contacts, and Delete all learning (What stays / What goes).</>,
+      <><b>Per caller</b>: Contact Info shows Equal’s context for that person. Its menu stops personalising (it keeps what it knows, learns nothing new; Resume brings it back) or deletes the learning.</>,
+    ],
+  },
+  'chat-list-actions': {
+    title: 'Chat list actions',
+    lead: 'Long-press a chat to act on it from the list: mark it read, mute or unmute the caller, delete it, add it to favourites or share the contact. Select more chats to act on several at once.',
+    source: 'Updated UI · Home Screen · All Bottom Sheets And Toasts',
+    states: [
+      { key: 'one', label: 'One selected', render: () => <ChatListActions stage="one" />, code: '<ChatListActions stage="one" />' },
+      { key: 'many', label: 'Several selected', render: () => <ChatListActions stage="many" />, code: '<ChatListActions stage="many" />' },
+      { key: 'menu', label: 'More: the menu', render: () => <ChatListActions stage="menu" />, code: '<ChatListActions stage="menu" />' },
+      { key: 'delete', label: 'Delete confirm', render: () => <ChatListActions stage="delete" />, code: '<ChatListActions stage="delete" />' },
+      { key: 'deleting', label: 'Deleting toast', render: () => <ChatListActions stage="deleting" />, code: '<ChatListActions stage="deleting" />' },
+      { key: 'mute', label: 'Mute from the list', render: () => <ChatListActions stage="mute" />, code: '<ChatListActions stage="mute" />' },
+      { key: 'unmute', label: 'Unmute from the list', render: () => <ChatListActions stage="unmute" />, code: '<ChatListActions stage="unmute" />' },
+      { key: 'muted', label: 'A muted row', render: () => <ChatListActions stage="muted" />, code: '<ChatListActions stage="muted" />' },
+      { key: 'favourite', label: 'Added to favourites', render: () => <ChatListActions stage="favourite" />, code: '<ChatListActions stage="favourite" />' },
+      { key: 'live', label: 'Live (Try it: long-press a row)', render: () => <ChatListActions />, code: '<ChatListActions />' },
+    ],
+    steps: [
+      <><b>Select</b>: long-press a row. One selected shows mark read, mute, delete and more (Mark as read · Add to favourite · Share contact); tapping more rows switches to the count with Select All.</>,
+      <><b>Delete</b> confirms in a sheet, then “Deleting Conversation” shows a spinner toast.</>,
+      <><b>Mute / Unmute</b> confirm in a sheet with the number; a muted row shows the bell-off glyph after the name.</>,
+      <><b>Favourite</b>: “Add to favourites” toast with a close.</>,
     ],
   },
   voip: {

@@ -1,5 +1,7 @@
 package ai.equal.ds.components
 
+import ai.equal.ds.icons.EqualIcons
+import ai.equal.ds.icons.EqualIcon
 import ai.equal.ds.theme.EqualTheme
 import ai.equal.ds.tokens.EqualRadius
 import androidx.compose.foundation.background
@@ -176,6 +178,10 @@ fun EqualSnackbar(
     modifier: Modifier = Modifier,
     actionLabel: String? = null,
     onActionClick: () -> Unit = {},
+    /** A spinner before the message ("Deleting Conversation"). */
+    busy: Boolean = false,
+    /** A trailing × ("Add to favourites"). */
+    onClose: (() -> Unit)? = null,
 ) {
     val colors = EqualTheme.colors
     val type = EqualTheme.type
@@ -187,6 +193,10 @@ fun EqualSnackbar(
             .padding(start = 16.dp, end = if (actionLabel != null) 4.dp else 16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
+        if (busy) {
+            EqualSpinner(size = 20.dp)
+            Spacer(Modifier.width(12.dp))
+        }
         EqualText(
             text = message,
             style = type.body1,
@@ -204,6 +214,11 @@ fun EqualSnackbar(
                 contentAlignment = Alignment.Center,
             ) {
                 EqualText(text = actionLabel, style = type.button, color = colors.textAction, maxLines = 1)
+            }
+        }
+        if (onClose != null) {
+            Box(Modifier.minimumInteractiveComponentSize().clickable(role = Role.Button, onClickLabel = "Dismiss", onClick = onClose), contentAlignment = Alignment.Center) {
+                EqualIcon(EqualIcons.Close, contentDescription = "Dismiss", tint = colors.bgSurface, size = 20.dp)
             }
         }
     }

@@ -78,10 +78,36 @@ export type SelectionHeaderProps = {
   onMarkRead?: () => void;
   onDelete?: () => void;
   statusBar?: boolean;
+  /** One chat selected (Updated UI): back · "1" · mark read · mute · delete · more, no Select All. */
+  single?: boolean;
+  /** The selected chat is muted (the mute button unmutes). */
+  muted?: boolean;
+  onMute?: () => void;
+  onMore?: () => void;
+  /** The overflow menu, positioned under the more button. */
+  menu?: ReactNode;
 };
 
 /** Selection-mode app bar for the chat list (Component ref #5, last variant). */
-export function SelectionHeader({ count, allSelected, onSelectAll, onBack, onMarkRead, onDelete, statusBar = false }: SelectionHeaderProps) {
+export function SelectionHeader({ count, allSelected, onSelectAll, onBack, onMarkRead, onDelete, statusBar = false, single, muted, onMute, onMore, menu }: SelectionHeaderProps) {
+  if (single) {
+    return (
+      <header className="eq-chat-header eq-chat-header--flat">
+        {statusBar && <StatusBar background="var(--eq-bg-surface)" />}
+        <div className="eq-chat-header__row">
+          <IconButton icon="arrow-back" label="Exit selection" onClick={onBack} />
+          <Text variant="subheading" role="status" style={{ flex: 1, marginLeft: 8 }} className="eq-tnum">{count}</Text>
+          <IconButton icon="mark-chat-read" label="Mark as read" onClick={onMarkRead} />
+          <IconButton icon={muted ? 'notify-me' : 'silent-mode'} label={muted ? 'Unmute' : 'Mute'} onClick={onMute} />
+          <IconButton icon="delete" label="Delete" variant="danger-ghost" onClick={onDelete} />
+          <span style={{ position: 'relative' }}>
+            <IconButton icon="more-vert" label="More options" aria-expanded={!!menu} onClick={onMore} />
+            {menu && <div style={{ position: 'absolute', right: 0, top: 44, zIndex: 20 }}>{menu}</div>}
+          </span>
+        </div>
+      </header>
+    );
+  }
   return (
     <header className="eq-chat-header eq-chat-header--flat">
       {statusBar && <StatusBar background="var(--eq-bg-surface)" />}

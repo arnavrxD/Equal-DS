@@ -1,0 +1,11 @@
+.eq-chat-row__oncall { flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; height: 32px; padding: 0 12px; border-radius: var(--eq-radius-full); background: var(--eq-button-primary); color: var(--eq-text-on-action); }
+
+/* Home with no rows: empty (new user) or offline. */
+.eq-home-state { display: flex; flex-direction: column; align-items: center; padding: 180px 24px 120px; }
+.eq-home-state.is-empty { padding-top: 120px; }
+.eq-home-state__art { position: relative; width: 171px; height: 160px; display: flex; justify-content: center; }
+.eq-home-state__spark { position: absolute; fill: var(--eq-button-primary); }
+
+/* Splash. */
+.eq-splash { flex: 1; display: flex; flex-direction: column; background: var(--eq-button-primary); color: var(--eq-text-on-action); }
+.eq-splash__body { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding-bottom: 48px; }

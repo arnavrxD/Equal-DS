@@ -138,6 +138,14 @@ const MANIFEST = {
   'chevron-up': 'keyboard_arrow_up',
   minimise: 'close_fullscreen',
   'call-end-outline': 'call_end',
+  // Updated UI gaps
+  'mark-chat-read': 'mark_chat_read',
+  favourite: 'favorite',
+  privacy: 'admin_panel_settings',
+  key: 'key',
+  article: 'article',
+  logout: 'logout',
+  'stop-circle': 'stop_circle',
 };
 
 const SYMBOL_VB = '0 -960 960 960';

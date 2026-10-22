@@ -1840,6 +1840,83 @@ export const aliases: AliasToken[] = [
     "group": "component",
     "derived": true,
     "why": "Docs stand-in only: the call-received badge disc on the heads-up avatar."
+  },
+  {
+    "name": "component/trust-strip/bg",
+    "cssVar": "--eq-trust-strip-bg",
+    "light": "#F0F6E5",
+    "dark": "rgba(186,255,41,0.08)",
+    "lightRef": "direct value",
+    "darkRef": "brand/lime · 8%",
+    "group": "component",
+    "derived": true,
+    "why": "The tinted stats strip on Account & Data (5L+ users, 4.4 star, 150 Mn+ calls), Figma #F0F6E5."
+  },
+  {
+    "name": "component/instructions-promo/bg",
+    "cssVar": "--eq-instructions-promo-bg",
+    "light": "#EAF7F5",
+    "dark": "rgba(15,118,110,0.24)",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": true,
+    "why": "The teal Teach Your Assistant promo card and the top of its feature sheet (Figma #EAF7F5)."
+  },
+  {
+    "name": "component/instructions-promo/title",
+    "cssVar": "--eq-instructions-promo-title",
+    "light": "#0F766E",
+    "dark": "#5EEAD4",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": true,
+    "why": "Title on the teal promo: #0F766E on #EAF7F5 is 5.0:1."
+  },
+  {
+    "name": "component/instructions-promo/cta",
+    "cssVar": "--eq-instructions-promo-cta",
+    "light": "#0F766E",
+    "dark": "#5EEAD4",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": true,
+    "why": "The promo pill CTA. Figma #0D9488 with white is 3.7:1, so it is deepened to #0F766E (white 5.5:1)."
+  },
+  {
+    "name": "component/instructions-promo/cta-text",
+    "cssVar": "--eq-instructions-promo-cta-text",
+    "light": "#FFFFFF",
+    "dark": "#000000",
+    "lightRef": "brand/white",
+    "darkRef": "brand/black",
+    "group": "component",
+    "derived": true,
+    "why": "Label on the promo CTA."
+  },
+  {
+    "name": "component/caller-context/bg",
+    "cssVar": "--eq-caller-context-bg",
+    "light": "#FCFFF8",
+    "dark": "rgba(186,255,41,0.06)",
+    "lightRef": "direct value",
+    "darkRef": "brand/lime · 6%",
+    "group": "component",
+    "derived": true,
+    "why": "The caller context card in Contact Info (\"Equal's Context for Amit\"), Figma #FCFFF8."
+  },
+  {
+    "name": "component/caller-context/paused-bg",
+    "cssVar": "--eq-caller-context-paused-bg",
+    "light": "#EEEEEE",
+    "dark": "#262626",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": true,
+    "why": "The same card while personalising is paused (Figma #EEEEEE)."
   }
 ];
 
@@ -2009,6 +2086,13 @@ export const color = {
   systemCallAnswer: 'var(--eq-system-call-answer)',
   systemCallAnswerText: 'var(--eq-system-call-answer-text)',
   systemCallBadge: 'var(--eq-system-call-badge)',
+  trustStripBg: 'var(--eq-trust-strip-bg)',
+  instructionsPromoBg: 'var(--eq-instructions-promo-bg)',
+  instructionsPromoTitle: 'var(--eq-instructions-promo-title)',
+  instructionsPromoCta: 'var(--eq-instructions-promo-cta)',
+  instructionsPromoCtaText: 'var(--eq-instructions-promo-cta-text)',
+  callerContextBg: 'var(--eq-caller-context-bg)',
+  callerContextPausedBg: 'var(--eq-caller-context-paused-bg)',
 } as const;
 
 export const gradients = [
@@ -2347,6 +2431,14 @@ export const gradients = [
     "dark": "linear-gradient(90deg, #000000 0%, #2E2E2E 100%)",
     "derived": true,
     "why": "The black sticky CTA on the iOS-parity paywall (Figma black → #2E2E2E pill)."
+  },
+  {
+    "name": "noticed-reveal",
+    "cssVar": "--eq-gradient-noticed-reveal",
+    "light": "linear-gradient(135deg, #00B140 0%, #3FBF45 100%)",
+    "dark": "linear-gradient(135deg, #BAFF29 0%, #8BD61F 100%)",
+    "derived": true,
+    "why": "The locked 'Updated summary is ready · Tap to reveal' Equal Noticed card. Figma runs #00B140 → #BAFF29; it stays in the deep greens so the white title (20 SemiBold, large text) keeps 3:1."
   }
 ];
 

@@ -38,6 +38,10 @@
     "name": "Chat header"
    },
    {
+    "id": "list-actions",
+    "name": "List actions"
+   },
+   {
     "id": "empty-state",
     "name": "Empty state"
    },
@@ -122,6 +126,14 @@
     "name": "Paywall experiments"
    },
    {
+    "id": "personalisation",
+    "name": "Personalisation"
+   },
+   {
+    "id": "settings-promos",
+    "name": "Settings & promos"
+   },
+   {
     "id": "snooze",
     "name": "Snooze & update"
    },
@@ -132,6 +144,7 @@
   ],
   "screens": [
    "ActionFlows",
+   "PersonalisationScreens",
    "Screens"
   ]
  },
@@ -200,6 +213,10 @@
    {
     "id": "chat-header",
     "name": "Chat header"
+   },
+   {
+    "id": "list-actions",
+    "name": "List actions"
    },
    {
     "id": "chat-list-item",
@@ -326,6 +343,10 @@
     "name": "Paywall experiments"
    },
    {
+    "id": "personalisation",
+    "name": "Personalisation"
+   },
+   {
     "id": "profile-hero",
     "name": "Profile hero"
    },
@@ -344,6 +365,10 @@
    {
     "id": "search",
     "name": "Search"
+   },
+   {
+    "id": "settings-promos",
+    "name": "Settings & promos"
    },
    {
     "id": "settings-row",
@@ -370,7 +395,9 @@
    "ActionFlows",
    "AssistantSheet",
    "CallHandlingScreens",
-   "FlowScreens"
+   "FlowScreens",
+   "PersonalisationScreens",
+   "SettingsScreens"
   ]
  },
  "bg/overlay": {
@@ -382,6 +409,10 @@
    {
     "id": "dialog",
     "name": "Dialog"
+   },
+   {
+    "id": "list-actions",
+    "name": "List actions"
    },
    {
     "id": "empty-state",
@@ -505,6 +536,10 @@
     "name": "Chat header"
    },
    {
+    "id": "list-actions",
+    "name": "List actions"
+   },
+   {
     "id": "composer",
     "name": "Composer"
    },
@@ -617,6 +652,10 @@
     "name": "Paywall experiments"
    },
    {
+    "id": "personalisation",
+    "name": "Personalisation"
+   },
+   {
     "id": "profile-hero",
     "name": "Profile hero"
    },
@@ -698,6 +737,10 @@
    {
     "id": "segmented-chips",
     "name": "Segmented chips"
+   },
+   {
+    "id": "settings-promos",
+    "name": "Settings & promos"
    },
    {
     "id": "settings-row",
@@ -787,6 +830,10 @@
    {
     "id": "chat-header",
     "name": "Chat header"
+   },
+   {
+    "id": "list-actions",
+    "name": "List actions"
    },
    {
     "id": "chat-list-item",
@@ -909,6 +956,10 @@
     "name": "Paywall experiments"
    },
    {
+    "id": "personalisation",
+    "name": "Personalisation"
+   },
+   {
     "id": "profile-hero",
     "name": "Profile hero"
    },
@@ -927,6 +978,10 @@
    {
     "id": "search",
     "name": "Search"
+   },
+   {
+    "id": "settings-promos",
+    "name": "Settings & promos"
    },
    {
     "id": "settings-row",
@@ -982,6 +1037,10 @@
     "name": "Chat header"
    },
    {
+    "id": "list-actions",
+    "name": "List actions"
+   },
+   {
     "id": "health-check",
     "name": "Health check"
    }
@@ -1033,6 +1092,10 @@
    {
     "id": "chat-header",
     "name": "Chat header"
+   },
+   {
+    "id": "list-actions",
+    "name": "List actions"
    },
    {
     "id": "chat-list-item",
@@ -1139,6 +1202,10 @@
     "name": "Paywall experiments"
    },
    {
+    "id": "personalisation",
+    "name": "Personalisation"
+   },
+   {
     "id": "profile-hero",
     "name": "Profile hero"
    },
@@ -1153,6 +1220,10 @@
    {
     "id": "search",
     "name": "Search"
+   },
+   {
+    "id": "settings-promos",
+    "name": "Settings & promos"
    },
    {
     "id": "system-status-card",
@@ -1208,6 +1279,10 @@
    {
     "id": "chat-actions",
     "name": "Chat actions"
+   },
+   {
+    "id": "chat-list-item",
+    "name": "Chat list item"
    },
    {
     "id": "checkbox",
@@ -1278,6 +1353,10 @@
     "name": "Feature list"
    },
    {
+    "id": "personalisation",
+    "name": "Personalisation"
+   },
+   {
     "id": "snooze",
     "name": "Snooze & update"
    },
@@ -1298,7 +1377,10 @@
     "name": "Meet Your Assistant card"
    }
   ],
-  "screens": []
+  "screens": [
+   "PersonalisationScreens",
+   "Screens"
+  ]
  },
  "text/on-action-disabled": {
   "pages": [
@@ -1346,6 +1428,10 @@
    {
     "id": "chat-actions",
     "name": "Chat actions"
+   },
+   {
+    "id": "chat-list-item",
+    "name": "Chat list item"
    },
    {
     "id": "locked-content",
@@ -1406,6 +1492,10 @@
    {
     "id": "monetization-experiments",
     "name": "Paywall experiments"
+   },
+   {
+    "id": "personalisation",
+    "name": "Personalisation"
    },
    {
     "id": "radio",
@@ -1471,6 +1561,10 @@
    {
     "id": "dialog",
     "name": "Dialog"
+   },
+   {
+    "id": "list-actions",
+    "name": "List actions"
    },
    {
     "id": "empty-state",
@@ -1697,6 +1791,10 @@
     "name": "Paywall experiments"
    },
    {
+    "id": "personalisation",
+    "name": "Personalisation"
+   },
+   {
     "id": "profile-hero",
     "name": "Profile hero"
    },
@@ -1726,6 +1824,7 @@
    }
   ],
   "screens": [
+   "ChatListActionsScreens",
    "MonetizationScreens",
    "Screens"
   ]
@@ -1859,6 +1958,10 @@
    {
     "id": "call-history",
     "name": "Call history"
+   },
+   {
+    "id": "settings-promos",
+    "name": "Settings & promos"
    },
    {
     "id": "snooze",
@@ -1998,6 +2101,10 @@
    {
     "id": "chat-header",
     "name": "Chat header"
+   },
+   {
+    "id": "list-actions",
+    "name": "List actions"
    }
   ],
   "screens": []
@@ -2038,6 +2145,10 @@
    {
     "id": "chat-bubble",
     "name": "Chat bubble"
+   },
+   {
+    "id": "personalisation",
+    "name": "Personalisation"
    }
   ],
   "screens": []
@@ -2408,6 +2519,10 @@
    {
     "id": "chat-bubble",
     "name": "Chat bubble"
+   },
+   {
+    "id": "personalisation",
+    "name": "Personalisation"
    }
   ],
   "screens": []
@@ -2647,6 +2762,10 @@
    {
     "id": "bottom-sheet",
     "name": "Bottom sheet"
+   },
+   {
+    "id": "settings-promos",
+    "name": "Settings & promos"
    }
   ],
   "screens": []
@@ -2680,6 +2799,10 @@
    {
     "id": "bottom-sheet",
     "name": "Bottom sheet"
+   },
+   {
+    "id": "settings-promos",
+    "name": "Settings & promos"
    }
   ],
   "screens": []
@@ -3612,6 +3735,10 @@
  "component/missed-call/icon": {
   "pages": [
    {
+    "id": "chat-list-item",
+    "name": "Chat list item"
+   },
+   {
     "id": "missed-call",
     "name": "Missed call card"
    }
@@ -3799,7 +3926,10 @@
     "name": "Feature list"
    }
   ],
-  "screens": []
+  "screens": [
+   "PersonalisationScreens",
+   "SettingsScreens"
+  ]
  },
  "component/expiry-chip/danger-text": {
   "pages": [
@@ -4502,6 +4632,10 @@
    {
     "id": "call-handling",
     "name": "Call Handling"
+   },
+   {
+    "id": "personalisation",
+    "name": "Personalisation"
    }
   ],
   "screens": []
@@ -4511,6 +4645,10 @@
    {
     "id": "call-handling",
     "name": "Call Handling"
+   },
+   {
+    "id": "personalisation",
+    "name": "Personalisation"
    }
   ],
   "screens": []
@@ -4520,6 +4658,10 @@
    {
     "id": "call-handling",
     "name": "Call Handling"
+   },
+   {
+    "id": "personalisation",
+    "name": "Personalisation"
    }
   ],
   "screens": []
@@ -4540,6 +4682,10 @@
    {
     "id": "chat-header",
     "name": "Chat header"
+   },
+   {
+    "id": "list-actions",
+    "name": "List actions"
    }
   ],
   "screens": []
@@ -4549,6 +4695,10 @@
    {
     "id": "chat-header",
     "name": "Chat header"
+   },
+   {
+    "id": "list-actions",
+    "name": "List actions"
    }
   ],
   "screens": []
@@ -4558,6 +4708,10 @@
    {
     "id": "button",
     "name": "Button"
+   },
+   {
+    "id": "settings-promos",
+    "name": "Settings & promos"
    }
   ],
   "screens": []
@@ -4889,6 +5043,10 @@
    {
     "id": "bottom-sheet",
     "name": "Bottom sheet"
+   },
+   {
+    "id": "settings-promos",
+    "name": "Settings & promos"
    },
    {
     "id": "settings-row",
@@ -5260,6 +5418,10 @@
  "component/info-note/title": {
   "pages": [
    {
+    "id": "call-handling",
+    "name": "Call Handling"
+   },
+   {
     "id": "usage-meter",
     "name": "Usage meter"
    }
@@ -5566,6 +5728,10 @@
    {
     "id": "chat-header",
     "name": "Chat header"
+   },
+   {
+    "id": "list-actions",
+    "name": "List actions"
    }
   ],
   "screens": []
@@ -5631,6 +5797,69 @@
    {
     "id": "equal-call",
     "name": "Equal call"
+   }
+  ],
+  "screens": []
+ },
+ "component/trust-strip/bg": {
+  "pages": [
+   {
+    "id": "settings-promos",
+    "name": "Settings & promos"
+   }
+  ],
+  "screens": []
+ },
+ "component/instructions-promo/bg": {
+  "pages": [
+   {
+    "id": "settings-promos",
+    "name": "Settings & promos"
+   }
+  ],
+  "screens": []
+ },
+ "component/instructions-promo/title": {
+  "pages": [
+   {
+    "id": "settings-promos",
+    "name": "Settings & promos"
+   }
+  ],
+  "screens": []
+ },
+ "component/instructions-promo/cta": {
+  "pages": [
+   {
+    "id": "settings-promos",
+    "name": "Settings & promos"
+   }
+  ],
+  "screens": []
+ },
+ "component/instructions-promo/cta-text": {
+  "pages": [
+   {
+    "id": "settings-promos",
+    "name": "Settings & promos"
+   }
+  ],
+  "screens": []
+ },
+ "component/caller-context/bg": {
+  "pages": [
+   {
+    "id": "personalisation",
+    "name": "Personalisation"
+   }
+  ],
+  "screens": []
+ },
+ "component/caller-context/paused-bg": {
+  "pages": [
+   {
+    "id": "personalisation",
+    "name": "Personalisation"
    }
   ],
   "screens": []
@@ -5706,6 +5935,10 @@
    {
     "id": "chat-header",
     "name": "Chat header"
+   },
+   {
+    "id": "list-actions",
+    "name": "List actions"
    }
   ],
   "screens": []
@@ -6953,6 +7186,15 @@
    {
     "id": "feature-list",
     "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/noticed-reveal": {
+  "pages": [
+   {
+    "id": "personalisation",
+    "name": "Personalisation"
    }
   ],
   "screens": []

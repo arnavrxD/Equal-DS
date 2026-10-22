@@ -1,3 +1,4 @@
+import './ChatListItem.css';
 import { Locked } from './Monetization';
 import { useRef, useState } from 'react';
 import { Text } from '../foundations/Text';
@@ -25,10 +26,14 @@ export type ChatListItemProps = {
   /** Actions touchpoint: the action chips are gold and crown-locked. */
   lockedActions?: boolean;
   onLockedAction?: () => void;
+  /** Updated UI rows: missed by the assistant, the assistant is on the call ("Ongoing call" pill), or the summary is still generating. */
+  status?: 'missed' | 'on-call' | 'loading';
+  /** Muted from the list: a 16 notifications-off glyph after the name. */
+  muted?: boolean;
 };
 
 /** Chat list row (Component ref #6). States derive from `unread` and `selected`. */
-export function ChatListItem({ name, preview, date, unread = 0, actions = [], selected, avatar, onClick, onLongPress, locked, official, lockedActions, onLockedAction }: ChatListItemProps) {
+export function ChatListItem({ name, preview, date, unread = 0, actions = [], selected, avatar, onClick, onLongPress, locked, official, lockedActions, onLockedAction, status, muted }: ChatListItemProps) {
   const isUnread = unread > 0;
   const chipState = selected ? 'outlined' : isUnread ? 'unread' : 'read';
   const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
@@ -76,20 +81,26 @@ export function ChatListItem({ name, preview, date, unread = 0, actions = [], se
           <span style={{ flex: 1, minWidth: 0, display: 'flex', alignItems: 'center', gap: 4 }}>
             <Text variant="subheading" truncate>{name}</Text>
             {official && <Icon name="verified" size={16} color="var(--eq-text-action)" label="Verified" />}
+            {muted && <Icon name="silent-mode" size={16} color="var(--eq-text-secondary)" label="Muted" />}
           </span>
-          <Text variant="micro" color={isUnread || selected ? 'action' : 'secondary'} style={{ flexShrink: 0 }}>{date}</Text>
+          {status === 'on-call'
+            ? <span className="eq-chat-row__oncall"><Text variant="buttonSmall" color="none">Ongoing call</Text></span>
+            : <Text variant="micro" color={isUnread || selected ? 'action' : 'secondary'} style={{ flexShrink: 0 }}>{date}</Text>}
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, paddingRight: 16, minHeight: 22 }}>
           {locked ? (
             <Locked inline><Text variant="body1" color="secondary">{preview}</Text></Locked>
           ) : (
             <>
-              <Text variant="body1" color="secondary" truncate style={{ flex: 1 }}>{preview}</Text>
-              <CountBadge count={unread} />
+              {status === 'missed' && <Icon name="call-missed" size={14} color="var(--eq-missed-call-icon)" />}
+              <Text variant="body1" color={status === 'on-call' ? 'action' : 'secondary'} truncate style={{ flex: 1, fontWeight: status === 'on-call' ? 500 : undefined }}>
+                {status === 'missed' ? 'Missed by assistant' : status === 'on-call' ? 'Assistant is on call' : status === 'loading' ? 'Loading Summary...' : preview}
+              </Text>
+              {status !== 'on-call' && <CountBadge count={unread} />}
             </>
           )}
         </div>
-        {actions.length > 0 && (
+        {actions.length > 0 && status !== 'on-call' && status !== 'loading' && (
           <div style={{ marginTop: 8 }}>
             <ChipRow>
               {actions.map((a) => (

@@ -2,6 +2,12 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import {
   type PlanTier,
+  Asset,
+  NoticedCard,
+  NoticedCoach,
+  InstructionsPromoCard,
+  EqualLogo,
+  InfoNote,
   type UsageMeterCardProps,
   UsageMeterCard,
   Icon,
@@ -98,7 +104,7 @@ export type HomeScreenProps = {
   systemStatus?: 'ok' | 'unavailable' | 'notified';
   onNotify?: () => void;
   /** Which promo card sits above the list. `meet-assistant-carousel`: the banner card (text left, mascot right) with carousel dots (Global MYA design). */
-  promo?: 'whats-new' | 'meet-assistant' | 'meet-assistant-carousel' | 'talk-hero';
+  promo?: 'whats-new' | 'meet-assistant' | 'meet-assistant-carousel' | 'talk-hero' | 'instructions';
   /** Monetization (free plan): rows from this index on are locked (blurred preview, crown-lock). */
   lockedFrom?: number;
   /** Tapping a locked row (the chat-list touchpoint). */
@@ -139,6 +145,10 @@ export type HomeScreenProps = {
   upgradePill?: boolean;
   /** Equal-to-Equal: the incoming or ongoing call strip under the status bar. */
   callStrip?: ReactNode;
+  /** No internet: the list is replaced by the no-internet state. */
+  offline?: boolean;
+  /** The promo card's CTA (Try Instructions). */
+  onPromo?: () => void;
   /** Equal AI's own chat on top with its notice (Plan Expired / Usage Cap option 1). */
   official?: 'plan-expired' | 'usage-cap' | 'recordings-locked';
   onOfficialChat?: () => void;
@@ -156,7 +166,7 @@ export type HomeScreenProps = {
   overlay?: ReactNode;
 };
 
-export function HomeScreen({ chats = sampleChats, onOpenChat, onTab, onDeleteSelected, onSearch, showWhatsNew = true, avatar = 'male', tier = 'paid', systemStatus = 'ok', onNotify, promo = 'whats-new', lockedFrom, onLockedChat, planExpiry, valueSheet, onRenew, quotaSheet, assistant, assistantResult, callSetup, onCallSetup, assistantDescription, planExpired, assistantOff, assistantArt, onCallMe, healthAlert, homeNotice, official, onOfficialChat, lockedActions, paymentProcessing, paywallSheet, offerStrip, assistantControl, overlay, usageMeter, upgradePill, callStrip }: HomeScreenProps) {
+export function HomeScreen({ chats = sampleChats, onOpenChat, onTab, onDeleteSelected, onSearch, showWhatsNew = true, avatar = 'male', tier = 'paid', systemStatus = 'ok', onNotify, promo = 'whats-new', lockedFrom, onLockedChat, planExpiry, valueSheet, onRenew, quotaSheet, assistant, assistantResult, callSetup, onCallSetup, assistantDescription, planExpired, assistantOff, assistantArt, onCallMe, healthAlert, homeNotice, official, onOfficialChat, lockedActions, paymentProcessing, paywallSheet, offerStrip, assistantControl, overlay, usageMeter, upgradePill, callStrip, offline, onPromo }: HomeScreenProps) {
   const [assistantOn, setAssistantOn] = useState(!assistantOff && !healthAlert);
   const [pw, setPw] = useState<PaywallSheetStage | null>(typeof paywallSheet === 'string' ? paywallSheet : null);
   useEffect(() => setPw(typeof paywallSheet === 'string' ? paywallSheet : null), [paywallSheet]);
@@ -219,12 +229,31 @@ export function HomeScreen({ chats = sampleChats, onOpenChat, onTab, onDeleteSel
         : homeNotice === 'recordings-locked' || homeNotice === 'recordings-locked-plain'
           ? <HomeNoticeCard lead={homeNotice === 'recordings-locked' ? <Icon name="call-filled" size={16} /> : undefined} title="Call Recordings Locked" subtitle="Subscribe to get unlimited recordings" cta="Get Unlimited" onCta={onRenew ?? openPaywall} />
           : <UsageCapCard left={homeNotice.callsLeft} limit={homeNotice.limit} lead={homeNotice.lead === false ? null : undefined} onUpgrade={onRenew ?? openPaywall} />)}
-      {!selecting && chats.length > 0 && (
+      {offline && (
+        <div className="eq-home-state" role="status">
+          <Asset name="illustration-no-internet" size={112} alt="" />
+          <Text as="h2" variant="headline" align="center" style={{ fontWeight: 600, marginTop: 16 }}>No internet connection</Text>
+          <Text as="p" variant="body1" color="secondary" align="center" style={{ margin: '8px 0 0', maxWidth: 340 }}>We could not connect to a stable internet. Check your connection and try again.</Text>
+        </div>
+      )}
+      {!offline && chats.length === 0 && promo !== 'talk-hero' && (
+        <div className="eq-home-state is-empty">
+          <span className="eq-home-state__art" aria-hidden>
+            <Asset name="mascot-update" size={160} alt="" />
+            {[[0, 72, 19], [88, 76, 14], [96, 54, 19], [64, 12, 11]].map(([x, y, sz], i) => (
+              <svg key={i} className="eq-home-state__spark" style={{ left: `${(x / 171) * 100}%`, top: `${(y / 143) * 100}%` }} width={sz} height={sz} viewBox="0 0 24 24"><path d="M12 0c.6 6.4 5 11 12 12-7 1-11.4 5.6-12 12-.6-6.4-5-11-12-12C7 11 11.4 6.4 12 0Z" /></svg>
+            ))}
+          </span>
+          <Text as="h2" variant="title" align="center" style={{ fontWeight: 600, marginTop: 8 }}>Your chats will appear here</Text>
+          <Text as="p" variant="body1" color="secondary" align="center" style={{ margin: '8px 0 0', maxWidth: 300 }}>Assistant will answer calls, summarise them and help you take actions afterwards</Text>
+        </div>
+      )}
+      {!offline && !selecting && chats.length > 0 && (
         <div style={{ padding: '12px 16px 0' }}>
           <SearchField value="" onActivate={onSearch ?? (() => {})} />
         </div>
       )}
-      {whatsNew && !selecting && systemStatus === 'ok' && (
+      {whatsNew && !offline && (chats.length > 0 || promo === 'talk-hero') && !selecting && systemStatus === 'ok' && (
         <div style={{ padding: '12px 12px 4px', display: 'flex', justifyContent: 'center' }}>
           {promo === 'talk-hero' ? (
             <MeetAssistantCard layout="hero" title="Talk With Your Assistant" body={'Explore the app, check out features, ask questions, or just say "Hi"!'} />
@@ -232,6 +261,11 @@ export function HomeScreen({ chats = sampleChats, onOpenChat, onTab, onDeleteSel
             <div style={{ width: '100%' }}>
               <MeetAssistantCard layout="banner" onCall={onCallMe} onDismiss={() => setWhatsNew(false)} />
               <CarouselDots count={3} active={0} />
+            </div>
+          ) : promo === 'instructions' ? (
+            <div style={{ width: '100%' }}>
+              <InstructionsPromoCard onCta={onPromo} onDismiss={() => setWhatsNew(false)} />
+              <CarouselDots count={3} active={1} />
             </div>
           ) : promo === 'meet-assistant' ? (
             <MeetAssistantCard onCall={onCallMe} onDismiss={() => setWhatsNew(false)} />
@@ -244,8 +278,10 @@ export function HomeScreen({ chats = sampleChats, onOpenChat, onTab, onDeleteSel
         {notice && !selecting && (
           <ChatListItem official name="Equal AI" preview={notice.preview} date="Now" unread={1} actions={[{ label: notice.chip, emoji: '👑', onClick: onRenew ?? openPaywall }]} onClick={onOfficialChat} />
         )}
-        {rows.map((c, i) => (
+        {!offline && rows.map((c, i) => (
           <ChatListItem
+            status={c.status}
+            muted={c.muted}
             key={c.id}
             name={c.name}
             preview={c.preview}
@@ -432,9 +468,25 @@ export type YouScreenProps = {
   onManagePlan?: () => void;
   /** Plan Expired option 3: the plan card asks to renew (use with plan="expired"). */
   planRenew?: boolean;
+  /** "Settings live here now": card (title + line) or the one-line variant, dismissible. */
+  notice?: 'card' | 'line';
+  /** AI Personalisation: Equal Noticed replaces the AI summary (ready, reveal, the first-time coach mark, or several cards). */
+  noticed?: 'ready' | 'reveal' | 'coach' | 'multiple';
+  onPersonalisation?: () => void;
 };
 
-export function YouScreen({ onTab, onOpen, summary = 'ready', avatar = 'male', name = 'Keshav', tier = 'paid', plan = 'active', onManagePlan, planRenew }: YouScreenProps) {
+const NOTICED_SUMMARY = (
+  <>
+    <p style={{ margin: 0 }}>You’re a Logistics Legend. You navigate a constant stream of courier updates from FedEx and Blue Dart while I filter out the noise from banks and real estate.</p>
+    <p style={{ margin: 0 }}>Whether it is confirming a driver is waiting at the airport or managing delivery details, I keep the important pieces ready for you. We make it happen.</p>
+  </>
+);
+
+export function YouScreen({ onTab, onOpen, summary = 'ready', avatar = 'male', name = 'Keshav', tier = 'paid', plan = 'active', onManagePlan, planRenew, notice, noticed, onPersonalisation }: YouScreenProps) {
+  const [noticedState, setNoticedState] = useState(noticed);
+  useEffect(() => setNoticedState(noticed), [noticed]);
+  const [noticeOpen, setNoticeOpen] = useState(!!notice);
+  useEffect(() => setNoticeOpen(!!notice), [notice]);
   const [assistantOn, setAssistantOn] = useState(true);
   // No subscription and no plan: mint header, plain avatar, no plan card, and the rows without NEW markers.
   const none = plan === 'none';
@@ -444,6 +496,13 @@ export function YouScreen({ onTab, onOpen, summary = 'ready', avatar = 'male', n
         <ProfileHero tone="plain" name={name} phone="+91 98789 56749" avatar={avatar} tier="free" onEdit={() => onOpen?.('personal')} />
       ) : (
       <ProfileHero name={name} phone="+91 98789 56749" avatar={avatar} tier={tier} plan={tier === 'paid' ? 'Unlimited' : null} onEdit={() => onOpen?.('personal')}>
+        {noticeOpen && (
+          <div style={{ marginBottom: 12 }}>
+            {notice === 'line'
+              ? <InfoNote title="Settings, plan and assistant controls all moved here." onDismiss={() => setNoticeOpen(false)} />
+              : <InfoNote title="Settings live here now" body="Your profile, plan and assistant controls all moved into You." onDismiss={() => setNoticeOpen(false)} />}
+          </div>
+        )}
         <PlanCard renew={planRenew ? { onRenew: onManagePlan } : undefined} onManage={onManagePlan ?? (() => {})} status={plan === 'expired' ? 'expired' : 'current'} actionLabel={plan === 'restore' ? 'Restore Plan' : plan === 'reactivate' ? 'Reactivate plan' : 'Manage plan'} />
         {plan === 'reactivate' && <PlanBanner attached>Reactivate your current Plan to use Equal Unlimited</PlanBanner>}
       </ProfileHero>
@@ -462,13 +521,33 @@ export function YouScreen({ onTab, onOpen, summary = 'ready', avatar = 'male', n
       </RowGroup>
 
       <SectionHeader>About you</SectionHeader>
-      <div style={{ padding: '0 20px 12px' }}>
-        <AiSummaryCard
-          status={none ? 'empty' : summary}
-          summary="Your family calls you a lot. They always say it's urgent. They almost never say why. Everyone wants you, not me. You keep me on anyway, and let me be the one who asks."
-        />
+      <div style={{ padding: '0 20px 12px', position: 'relative' }}>
+        {noticedState ? (
+          noticedState === 'multiple' ? (
+            <>
+              <div className="eq-noticed-carousel">
+                <NoticedCard summary={NOTICED_SUMMARY} />
+                <NoticedCard summary={<p style={{ margin: 0 }}>Most calls come in after 6 PM, and you rarely pick up while driving. I keep those short and save the details for later.</p>} />
+              </div>
+              <CarouselDots count={2} active={0} />
+            </>
+          ) : noticedState === 'ready' ? (
+            <NoticedCard summary={NOTICED_SUMMARY} />
+          ) : (
+            <>
+              {noticedState === 'coach' && <div style={{ marginBottom: 12 }}><NoticedCoach onDismiss={() => setNoticedState('reveal')} /></div>}
+              <NoticedCard state="reveal" summary={NOTICED_SUMMARY} onReveal={() => setNoticedState('ready')} />
+            </>
+          )
+        ) : (
+          <AiSummaryCard
+            status={none ? 'empty' : summary}
+            summary="Your family calls you a lot. They always say it's urgent. They almost never say why. Everyone wants you, not me. You keep me on anyway, and let me be the one who asks."
+          />
+        )}
       </div>
       <RowGroup>
+        {noticed && <SettingsRow icon="auto-fix" label="AI Personalisation" description="See how Equal personalises your calls" isNew onClick={onPersonalisation} />}
         <SettingsRow icon="address-pin" label="Your Addresses" description="Add addresses your assistant should know" isNew={!none} onClick={() => onOpen?.('addresses')} />
       </RowGroup>
 
@@ -611,5 +690,18 @@ export function SearchScreen({ onBack, onOpenChat, state, query, keyboard }: Sea
         </>
       )}
     </Screen>
+  );
+}
+
+/** Splash (Splash Screen design): full-bleed `button/primary` (lime in dark, logo black), the logo and the tagline. */
+export function SplashScreen({ tagline = 'Your personal AI call assistant' }: { tagline?: string }) {
+  return (
+    <div className="eq-splash" role="img" aria-label={`Equal AI. ${tagline}`}>
+      <StatusBar background="transparent" color="var(--eq-text-on-action)" />
+      <div className="eq-splash__body" aria-hidden>
+        <EqualLogo height={42} color="var(--eq-text-on-action)" />
+        <Text variant="title" color="none" style={{ marginTop: 16 }}>{tagline}</Text>
+      </div>
+    </div>
   );
 }

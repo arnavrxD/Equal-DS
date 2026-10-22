@@ -334,6 +334,29 @@ internal fun PlainIconButton(
     }
 }
 
+/** Unfilled icon button drawn at [size] (e.g. a 24dp close) with a 48dp touch area around it. */
+@Composable
+internal fun CompactIconButton(
+    icon: ImageVector,
+    contentDescription: String,
+    onClick: () -> Unit,
+    tint: Color,
+    modifier: Modifier = Modifier,
+    size: Dp = 32.dp,
+    iconSize: Dp = 20.dp,
+) {
+    Box(
+        modifier
+            .touchTarget()
+            .clip(CircleShape)
+            .clickable(role = Role.Button, onClick = onClick)
+            .size(size),
+        contentAlignment = Alignment.Center,
+    ) {
+        EqualIcon(imageVector = icon, contentDescription = contentDescription, tint = tint, size = iconSize)
+    }
+}
+
 @Composable
 internal fun rememberInteraction(): MutableInteractionSource = remember { MutableInteractionSource() }
 

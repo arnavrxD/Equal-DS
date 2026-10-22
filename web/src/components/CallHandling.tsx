@@ -69,7 +69,21 @@ export function SuggestedTag({ label = 'Suggested' }: { label?: string }) {
 }
 
 /** Blue info note with a link, e.g. "Contact access needed · Give contacts permission ›". */
-export function InfoNote({ title, body, link, onLink }: { title: string; body?: string; link?: string; onLink?: () => void }) {
+export function InfoNote({ title, body, link, onLink, onDismiss }: { title: string; body?: string; link?: string; onLink?: () => void; /** Dismissible notice (You: "Settings live here now"): left-aligned with a close. */ onDismiss?: () => void }) {
+  if (onDismiss) {
+    return (
+      <div className="eq-ch-info is-dismissible" role="note">
+        <span style={{ display: 'flex', alignItems: 'flex-start', gap: 8 }}>
+          <Icon name="info-fill" size={16} color="var(--eq-info-note-title)" style={{ marginTop: 4 }} />
+          <span style={{ flex: 1, minWidth: 0 }}>
+            <Text as="div" variant="subheading" style={{ fontWeight: 600 }}>{title}</Text>
+            {body && <Text as="div" variant="body1" color="secondary">{body}</Text>}
+          </span>
+          <IconButton icon="close" label="Dismiss" size={24} iconSize={16} onClick={onDismiss} />
+        </span>
+      </div>
+    );
+  }
   return (
     <div className="eq-ch-info" role="note">
       <Text as="div" variant="subheading" align="center" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6 }}>

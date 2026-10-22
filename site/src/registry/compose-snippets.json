@@ -217,6 +217,18 @@
     "no-contacts": "EqualTheme {\n    DirectCallsEmptyScreen(onBack = { /* pop */ }, onDone = { /* pop */ })\n}",
     "you": "EqualTheme {\n    YouScreenSample(onOpenCallHandling = { /* open CallHandlingScreen() */ })\n}"
   },
+  "flow-chat-list-actions": {
+    "one": "EqualTheme {\n    ChatListActionsSample(stage = ChatListActionsStage.One)\n}",
+    "many": "EqualTheme {\n    ChatListActionsSample(stage = ChatListActionsStage.Many)\n}",
+    "menu": "EqualTheme {\n    ChatListActionsSample(stage = ChatListActionsStage.One)\n}",
+    "delete": "EqualTheme {\n    ChatListActionsSample(stage = ChatListActionsStage.Delete)\n}",
+    "deleting": "EqualTheme {\n    ChatListActionsSample(stage = ChatListActionsStage.Deleting)\n}",
+    "mute": "EqualTheme {\n    ChatListActionsSample(stage = ChatListActionsStage.Mute)\n}",
+    "unmute": "EqualTheme {\n    ChatListActionsSample(stage = ChatListActionsStage.Unmute)\n}",
+    "muted": "EqualTheme {\n    ChatListActionsSample(stage = ChatListActionsStage.Muted)\n}",
+    "favourite": "EqualTheme {\n    ChatListActionsSample(stage = ChatListActionsStage.Favourite)\n}",
+    "live": "EqualTheme {\n    ChatListActionsSample()\n}"
+  },
   "flow-contact-info": {
     "contact": "EqualTheme {\n    ContactInfoScreen(name = \"Amit Nanda\", phone = \"+91 9871746113\", onBack = {})\n}"
   },
@@ -293,6 +305,21 @@
     "check-failed": "EqualTheme {\n    HealthCheckFlowSample(initial = \"check-failed\", onBack = { /* pop */ })\n}",
     "all-good": "EqualTheme {\n    HealthCheckFlowSample(initial = \"all-good\", onBack = { /* pop */ })\n}",
     "live": "EqualTheme {\n    HealthCheckFlowSample(onBack = { /* pop */ })\n}"
+  },
+  "flow-home-you-updates": {
+    "home-empty": "EqualTheme {\n    HomeScreenSample(chats = emptyList())\n}",
+    "home-offline": "EqualTheme {\n    HomeScreenSample(offline = true)\n}",
+    "home-rows": "EqualTheme {\n    HomeScreenSample(chats = RowStateChats)\n}",
+    "home-resting": "EqualTheme {\n    HomeScreenSample(\n        assistantControl = AssistantControl(on = false, offDescription = \"Assistant is resting.\"),\n    )\n}",
+    "you-notice": "EqualTheme {\n    YouScreenSample(notice = YouNotice.Card)\n}",
+    "you-notice-line": "EqualTheme {\n    YouScreenSample(notice = YouNotice.Line)\n}",
+    "splash": "EqualTheme {\n    SplashScreenSample(tagline = \"Your personal AI call assistant\")\n}",
+    "call-learning": "EqualTheme {\n    CallLearningScreen(onBack = {})\n}",
+    "call-learning-off": "EqualTheme {\n    CallLearningScreen(sheet = true, onBack = {})\n}",
+    "account-data": "EqualTheme {\n    AccountDataScreen(onBack = {}, onCallLearning = {})\n}",
+    "account-data-live": "EqualTheme {\n    AccountDataFlowSample()\n}",
+    "instructions-promo": "EqualTheme {\n    HomeScreenSample(\n        instructionsPromo = true,\n        onPromo = { /* open the Instructions sheet */ },\n    )\n}",
+    "instructions-sheet": "EqualTheme {\n    InstructionsPromoHomeSample(sheet = true)\n}"
   },
   "flow-instructions": {
     "hub": "EqualTheme {\n    InstructionsFlow(onBack = {}, initialActive = emptyList())\n}",
@@ -382,6 +409,22 @@
     "processing-chat": "EqualTheme {\n    ChatScreenSample(lock = ChatLock.Details, summaryActions = true, paymentProcessing = true)\n}",
     "processing-paywall": "EqualTheme {\n    PaywallScreen(touchpoint = PaywallTouchpoint.RecordingsActions, processing = true)\n}",
     "processing-home": "EqualTheme {\n    HomeScreenSample(paymentProcessing = true, promo = { MeetAssistantCard(onCallClick = {}, onDismiss = {}) })\n}"
+  },
+  "flow-personalisation": {
+    "fyi": "EqualTheme {\n    PersonalisationFyiHomeSample()\n}",
+    "you-coach": "EqualTheme {\n    YouScreenSample(noticed = YouNoticed.Coach)\n}",
+    "you-reveal": "EqualTheme {\n    YouScreenSample(noticed = YouNoticed.Reveal)\n}",
+    "you-ready": "EqualTheme {\n    YouScreenSample(noticed = YouNoticed.Ready)\n}",
+    "you-multiple": "EqualTheme {\n    YouScreenSample(noticed = YouNoticed.Multiple)\n}",
+    "screen": "EqualTheme {\n    PersonalisationScreen()\n}",
+    "screen-delete": "EqualTheme {\n    PersonalisationScreen(sheet = true)\n}",
+    "caller-empty": "EqualTheme {\n    CallerContextScreen(state = CallerContextState.Empty)\n}",
+    "caller-learning": "EqualTheme {\n    CallerContextScreen(state = CallerContextState.Learning)\n}",
+    "caller-filled": "EqualTheme {\n    CallerContextScreen(state = CallerContextState.Filled)\n}",
+    "caller-paused": "EqualTheme {\n    CallerContextScreen(state = CallerContextState.Paused)\n}",
+    "caller-stop": "EqualTheme {\n    CallerContextScreen(sheet = CallerContextSheet.Stop)\n}",
+    "caller-delete": "EqualTheme {\n    CallerContextScreen(sheet = CallerContextSheet.Delete)\n}",
+    "live": "EqualTheme {\n    PersonalisationFlowSample()\n}"
   },
   "flow-plan-renewal": {
     "home-expiring": "EqualTheme {\n    // Amber strip under the header; Renew Now opens the paywall\n    HomeScreenSample(\n        planExpiry = PlanExpiry.Expiring(days = 2),\n        promo = { MeetAssistantCard(onCallClick = {}, onDismiss = {}) },\n        onRenew = { /* open PaywallScreen(cta = \"Get Equal AI Unlimited\") */ },\n    )\n}",
@@ -535,6 +578,10 @@
     "Default": "InviteCard(onShare = {})",
     "Custom copy": "InviteCard(title = \"Give a month free\", subtitle = \"Share Equal AI with family\", onShare = {})"
   },
+  "list-actions": {
+    "Selection headers": "SelectionChatHeader(\n    selectedCount = 1,\n    allSelected = false,\n    onSelectAllChange = {},\n    onBackClick = {},\n    onMarkReadClick = {},\n    onDeleteClick = {},\n    single = true,\n    onMuteClick = { /* mute sheet */ },\n    menuItems = listOf(ContextMenuItem(\"Add to favourite\", EqualSymbols.favourite, { /* favourite */ })),\n)\nSelectionChatHeader(selectedCount = 3, allSelected = false, onSelectAllChange = {}, onBackClick = {}, onMarkReadClick = {}, onDeleteClick = {})",
+    "Toasts": "EqualSnackbar(message = \"Deleting Conversation\", busy = true)\nEqualSnackbar(message = \"Add to favourites\", onClose = { /* dismiss */ })"
+  },
   "locked-content": {
     "Locked chat rows": "Column {\n    ChatListItem(name = \"Amit Nanda\", preview = \"Amit is done with onboarding.\", date = \"Yesterday\",\n        category = EqualCategory.Career)\n    ChatListItem(name = \"Vijay CA\", preview = \"Your KYC is pending\", date = \"1 May\",\n        category = EqualCategory.Financial, locked = true, onClick = { /* open paywall */ })\n    ChatListItem(name = \"Vijay OLA\", preview = \"On the gate, need approval.\", date = \"1 Jul\",\n        category = EqualCategory.Ride, locked = true, onClick = { /* open paywall */ })\n}",
     "Locked bubbles and audio": "Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {\n    ChatBubble(type = ChatBubbleType.Outgoing, timestamp = \"03:21\", message = \"Hello, who is this?\", locked = true)\n    ChatBubble(type = ChatBubbleType.Incoming, incomingCategory = EqualCategory.RealEstate, timestamp = \"03:21\",\n        message = \"We have a 2BHK in Sector 12 with good offer\", locked = true)\n    CallSummaryBubble(\n        summary = \"Hey Keshav! Here is the summary of your call.\",\n        timestamp = \"03:22\",\n        locked = CallSummaryLock.Audio,\n        onUnlock = { /* open paywall */ },\n        voiceNote = {\n            VoiceNotePlayer(isPlaying = false, onPlayPauseClick = {}, progress = 0f, elapsed = \"0:00\",\n                total = \"2:37\", speed = PlaybackSpeed.X1, onSpeedChange = {})\n        },\n    )\n}",
@@ -575,6 +622,11 @@
     "Preview by touchpoint": "Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {\n    // Chat list\n    LockedPreviewCard {\n        ChatListItem(name = \"Vijay NoBroker\", preview = \"About miniature painting\", date = \"Yesterday\",\n            category = EqualCategory.RealEstate, locked = true)\n    }\n    // Chat\n    LockedPreviewCard {\n        Column(Modifier.padding(horizontal = 4.dp, vertical = 12.dp)) {\n            ChatBubble(type = ChatBubbleType.Outgoing, timestamp = \"03:21\", message = \"Hello, who is this?\")\n            ChatBubble(type = ChatBubbleType.Incoming, incomingCategory = EqualCategory.RealEstate,\n                timestamp = \"03:21\", message = \"Vijay from no broker\", modifier = Modifier.padding(top = 12.dp))\n            ChatBubble(type = ChatBubbleType.Incoming, incomingCategory = EqualCategory.RealEstate,\n                isFirstInGroup = false, timestamp = \"03:21\", locked = true, modifier = Modifier.padding(top = 4.dp),\n                message = \"Hey this is vijay calling from magicbrick a property advisor\")\n        }\n    }\n    // Audio\n    LockedPreviewCard {\n        CallSummaryBubble(\n            summary = \"Hey Keshav! Here is the summary of your call.\",\n            timestamp = \"03:21\",\n            locked = CallSummaryLock.Audio,\n            onUnlock = { /* open paywall */ },\n            voiceNote = {\n                VoiceNotePlayer(isPlaying = false, onPlayPauseClick = {}, progress = 0f, elapsed = \"0:00\",\n                    total = \"2:37\", speed = PlaybackSpeed.X1, onSpeedChange = {})\n            },\n            modifier = Modifier.padding(4.dp),\n        )\n    }\n}",
     "Animated crown": "// Turntable sway (4.8s loop); static when animations are off. Stands in for the crown video.\nAnimatedCrown(size = 64.dp)",
     "Sticky footer": "PaywallFooter(\n    onClick = { /* start payment */ },\n    cta = \"Unlock Unlimited\",\n    note = \"Cancel Anytime. Automatically renews\",\n)"
+  },
+  "personalisation": {
+    "Equal Noticed": "NoticedCoach(onDismiss = { /* dismiss */ })\nNoticedCard(summary = listOf(\"You’re a Logistics Legend…\"), state = NoticedState.Reveal, onReveal = { /* reveal */ })\nNoticedCard(summary = listOf(\"You’re a Logistics Legend…\"), onShare = { /* share */ })",
+    "Caller context": "CallerContextCard(name = \"Amit Nanda\", state = CallerContextState.Empty)\nCallerContextCard(name = \"Amit Nanda\", state = CallerContextState.Filled, summary = \"Amit manages your flat in Koramangala…\", onStop = { /* stop */ }, onDelete = { /* delete */ })\nCallerContextCard(name = \"Amit Nanda\", state = CallerContextState.Paused, summary = \"Amit manages your flat in Koramangala…\", onResume = { /* resume */ })",
+    "Hero, rows and lists": "TraitOrbHero()\nInfoRows(listOf(InfoRow(EqualSymbols.autoFix, \"It builds up over time\", \"It gets a little sharper with every call.\")))\nKeepLoseList(stays = listOf(\"Everything it knows today\"), goes = listOf(\"Anything that changes ahead\"))\nAvatarStack(listOf(\"AS\", \"AM\", \"BC\"))"
   },
   "plan-banner": {
     "Under the plan card": "Column {\n    PlanCard(onManageClick = { /* reactivate */ }, manageLabel = \"Reactivate plan\")\n    PlanBanner(text = \"Reactivate your current Plan to use Equal Unlimited\", attached = true)\n}",
@@ -620,6 +672,12 @@
   "segmented-chips": {
     "Address label": "val labels = listOf(\"Home\", \"Work\", \"Other\")\nvar selected by remember { mutableStateOf(0) }\n\nSegmentedChips(options = labels, selectedIndex = selected, onSelectedIndexChange = { selected = it })",
     "Any string union": "val speeds = listOf(\"Slow\", \"Normal\", \"Fast\")\nvar selected by remember { mutableStateOf(1) }\n\n// Compose: options are a List<String> addressed by index, not a typed union.\nSegmentedChips(options = speeds, selectedIndex = selected, onSelectedIndexChange = { selected = it })"
+  },
+  "settings-promos": {
+    "Call Learning cards": "LearningCards.forEach { LearningCard(it) }",
+    "Trust strip": "TrustStrip(TrustStats)",
+    "Teach Your Assistant": "InstructionsPromoCard(onCta = { /* open the sheet */ }, onDismiss = { /* hide */ })",
+    "Feature intro sheet": "FeatureIntroSheet(\n    title = \"Get every call handled your way with Instructions\",\n    bullets = listOf(FeatureBullet(EqualSymbols.edit, \"Tell your assistant what to do on any call, in your own words\")),\n    cta = \"Try Instructions\",\n    hero = { /* InstructionCard */ },\n    secondary = \"Not now\",\n    inline = true,\n)"
   },
   "settings-row": {
     "You tab group": "SectionHeader(title = \"Your assistant\")\nRowGroup {\n    SettingsRow(\n        label = \"Instructions\",\n        description = \"Tell assistant how you'd like it to help\",\n        leadingIcon = EqualIcons.Instructions,\n        showNewBadge = true,\n        onClick = {},\n    )\n    SettingsRow(label = \"Assistant Health Check\", description = \"Check Real-Time Assistant Connectivity\", leadingIcon = EqualIcons.HealthCheck, onClick = {})\n    SettingsRow(label = \"Silent Mode\", description = \"Mute promotional calls\", leadingIcon = EqualIcons.SilentMode, onClick = {})\n    SettingsRow(label = \"Voice & Language\", description = \"How your assistant sounds\", leadingIcon = EqualIcons.VoiceLanguage, onClick = {})\n}",

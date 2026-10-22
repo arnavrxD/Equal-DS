@@ -18,6 +18,7 @@ Read llms-full.txt before designing or building: rules, the recipe for a new flo
 - [Assistant sheet (Global MYA)](#/components/assistant-sheet): The sheet the green orb opens on any screen: greeting, quick-action tiles, suggestion chips and a text or voice input. A request turns it into a short task conversation (voice note → Thinking… → result card → Edit / Confirm).
 - [Chat actions](#/components/chat-actions): What the AI layer uses to carry out a task in a chat and to fail well: the assistant’s turn, Hold to speak, the edit-in-place bubble, the new contact form (two parity options), the permission dialog and the offline sheet and screen.
 - [Health check](#/components/health-check): The parts of Assistant Health Check: the animated shield hero (the supplied Lotties, chained by state), check cards with a status and one fix action, permission rows with a 48 status ring, and the status label.
+- [Personalisation](#/components/personalisation): AI Personalisation parts: Equal Noticed (ready and the tap-to-reveal card), the first-time coach mark, the caller context card in Contact Info, What stays / What goes, the FYI orb hero, icon info rows and the avatar stack.
 - [Action card](#/components/action-card): A card for something the assistant did or proposes (a WhatsApp reply, an appointment, a saved rule), with stacked actions underneath.
 - [Assistant toggle](#/components/assistant-toggle): The card at the top of Chats and the You tab that turns the AI assistant on or off, with the mascot dimming when it is off.
 - [Feedback card](#/components/feedback-card): The post-call card that asks the user to rate the call from one to five stars and share feedback.
@@ -51,6 +52,7 @@ Read llms-full.txt before designing or building: rules, the recipe for a new flo
 - [Text field](#/components/text-field): A borderless white form field with an uppercase overline label, bodyLarge value, helper and error text, used in the Personal Details and Address forms.
 - [Call history](#/components/call-history): The Contact Info call-history card (radius 16; outlined in dark) and its rows: direction icon, call type, meta line and time.
 - [Empty state](#/components/empty-state): A centred illustration, title, body and optional action for empty lists and no-results, plus IllustrationHeader for the art at the top of settings detail screens.
+- [List actions](#/components/list-actions): Chat list selection: the single-select header (mark read · mute · delete · more), the multi-select header, and toasts with a spinner or a close.
 - [Settings row](#/components/settings-row): The dense settings row (icon, subheading label, caption description, chevron or switch), grouped into rounded cards with RowGroup.
 - [Cancellation](#/components/cancel-sheet): Three steps to cancel: tell us why (Proceed stays disabled until there is text), confirm, and the request submitted with access kept until the end date.
 - [Coupon ticket](#/components/coupon-ticket): A notched ticket with the coupon code, what it saves, APPLY / APPLIED and the big discount line.
@@ -82,6 +84,7 @@ Read llms-full.txt before designing or building: rules, the recipe for a new flo
 - [Invite card](#/components/invite-card): The mint "Invite a Friend" pill at the bottom of the You tab, with the high-five art rising above it and a share button.
 - [Plan card](#/components/plan-card): The dark card showing the user's current plan (Equal AI UNLIMITED, ₹149/Monthly), with a Manage plan action and an expired state.
 - [Profile hero](#/components/profile-hero): The gold header at the top of the You tab (avatar, name, plan marker, edit, phone) that hosts the plan card, plus the compact ProfileHeader.
+- [Settings & promos](#/components/settings-promos): Call Learning cards (what the assistant learns, with an example), the Account & Data trust strip, the Teach Your Assistant promo and the generic new-feature sheet.
 
 ## Flows
 
@@ -91,6 +94,9 @@ Read llms-full.txt before designing or building: rules, the recipe for a new flo
 - [Force update](#/flows/force-update): On start or resume the app checks its version. Below the minimum supported version it blocks with a full-screen update; when a newer version exists it offers a dismissible sheet.
 - [Known call usage cap](#/flows/usage-cap): Free users share a weekly allowance between known and unknown calls, and each type has its own cap. Home shows what is left; a gold sheet rises once at 20 %, at 100 % and at each cap; View Details explains the split. The card has three experiment options (A, B, C).
 - [Equal to Equal call](#/flows/equal-call): An Equal user calls another Equal user over the internet. The receiver sees who is calling, identified by Equal, wherever the phone is; the caller calls from the chat and can minimise to a strip.
+- [Home, You and settings updates](#/flows/home-you-updates): The Updated UI screens that were missing: an empty and an offline Home, the new chat-row states, the Settings notice on You, Splash, Call Learning & Consent, Account & Data, and the Teach Your Assistant promo.
+- [AI personalisation](#/flows/personalisation): Equal learns how you handle each caller and says what it noticed. Home introduces it once, the You tab shows “Equal Noticed…”, AI Personalization explains what is and isn’t learned, and each caller has a context card you can pause or delete.
+- [Chat list actions](#/flows/chat-list-actions): Long-press a chat to act on it from the list: mark it read, mute or unmute the caller, delete it, add it to favourites or share the contact. Select more chats to act on several at once.
 - [Call your assistant (vOIP)](#/flows/voip): Meet Your Assistant → “Call me” starts an in-app call with the assistant over the internet. The mic is asked for in two steps; if the user says no at either, the assistant phones them the normal way instead.
 - [Temporarily unavailable](#/flows/system-status): What Chats shows while Equal AI is down, and how it tells you it’s back. Switch to Try it and tap “Notify me when ready” to run the whole flow.
 - [Profile flow](#/flows/profile): Personal Details, Silent Mode and WhatsApp Updates: the nested screens behind the You tab.

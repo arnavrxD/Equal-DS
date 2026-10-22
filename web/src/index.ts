@@ -23,6 +23,8 @@ export * from './components/HealthCheck';
 export * from './components/Snooze';
 export * from './components/Spinner';
 export * from './components/UsageCap';
+export * from './components/Settings';
+export * from './components/Personalisation';
 export * from './components/StatusBar';
 export * from './components/TopBar';
 export * from './components/AssistantToggle';

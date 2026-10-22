@@ -114,6 +114,9 @@ enum class EqualAssets(val assetName: String, @DrawableRes val resId: Int) {
     /** Cancellation feedback / confirm, sad face (100dp). */
     EmojiSad("emoji-sad", R.drawable.ds_asset_emoji_sad),
     IllustrationAirplane("illustration-airplane", R.drawable.ds_asset_illustration_airplane),
+    IllustrationShieldLock("illustration-shield-lock", R.drawable.ds_asset_illustration_shield_lock),
+    StatStar("stat-star", R.drawable.ds_asset_stat_star),
+    StatPhone("stat-phone", R.drawable.ds_asset_stat_phone),
     IllustrationWarning("illustration-warning", R.drawable.ds_asset_illustration_warning),
     IllustrationErrorSad("illustration-error-sad", R.drawable.ds_asset_illustration_error_sad),
     MascotUpdate("mascot-update", R.drawable.ds_asset_mascot_update),

@@ -233,7 +233,7 @@ Done means: typecheck clean, `--check` passes, Gradle BUILD SUCCESSFUL, and lint
 - **Silent Mode is titled “Silent Mode” everywhere.** Why: The dark mock said “Call Preferences”; design confirmed “Silent Mode” to match the You-tab row. (Source: Design decision)
 - **Auto-rickshaw, paper bag and delivery rider are not caller categories.** Why: They appeared in a design as decoration; product confirmed they shouldn’t become categories. (Source: Product decision)
 
-## Components (69 docs pages)
+## Components (72 docs pages)
 
 ### Group: Actions
 
@@ -877,6 +877,91 @@ HealthStatusLabel(HealthTone.Neutral, "Pending")
 HealthStatusLabel(HealthTone.Progress, "Checking")
 HealthStatusLabel(HealthTone.Success, "Granted")
 HealthStatusLabel(HealthTone.Danger, "Not Granted")
+```
+
+#### Personalisation (`personalisation`)
+
+AI Personalisation parts: Equal Noticed (ready and the tap-to-reveal card), the first-time coach mark, the caller context card in Contact Info, What stays / What goes, the FYI orb hero, icon info rows and the avatar stack.
+
+- React: `import { NoticedCard, CallerContextCard, KeepLoseList, TraitOrbHero } from '@equal/ds';`
+- Compose: `NoticedCard`, `NoticedCoach`, `CallerContextCard`, `KeepLoseList`, `TraitOrbHero`, `InfoRows`, `AvatarStack`, `ChatPreviewCard`
+- Tokens: `gradient/noticed-reveal`, `caller-context/bg`, `caller-context/paused-bg`, `initials-disc/bg`, `text/action`
+- Source: About Me (Notice Card) & AI personalization
+
+Props of `NoticedCard`:
+- `summary`: `ReactNode`. The paragraphs.
+- `state?`: `'ready' | 'reveal'` = 'ready'. Reveal covers it with the gradient.
+- `updatesIn?`: `string` = '21 days'. Footer.
+- `onReveal / onShare?`: `() => void`. Actions.
+
+Props of `CallerContextCard`:
+- `name`: `string`. The caller.
+- `state`: `'empty' | 'learning' | 'filled' | 'paused'`. What it shows.
+- `summary?`: `string`. Clamped to 3 lines with Read more.
+- `onStop / onDelete / onResume / onShare?`: `() => void`. Menu and resume actions.
+
+Props of `KeepLoseList`:
+- `stays`: `string[]`. Kept (green checks).
+- `goes`: `string[]`. Removed (grey crosses).
+
+Do: Say what is never saved (OTPs, card numbers, UPI PINs, IDs). Let the user stop or delete learning per caller.
+
+Don't: Don't show the reveal card without a way to read the summary. Don't hide What stays / What goes before deleting.
+
+Anatomy:
+1. Equal Noticed: What Equal noticed about you. (radius 16 · bg/primary + stroke/subtle · 18 orb + caption 700 · body1 paragraphs · thumbs 20 · caption footer)
+2. Reveal card: A new summary waiting. (gradient/noticed-reveal · title 600 + bodyLarge 500 in text/on-action · twinkling dots)
+3. Caller context: Equal's context for one caller. (caller-context/bg (paused …/paused-bg) · radius 16 · caption 600 head · overline Personalising… · body1 clamped to 3 lines · Read more · menu)
+4. What stays / What goes: What a stop or delete keeps and removes. (body1 600 labels · 16 check (text/action) / close (text/secondary))
+
+Accessibility:
+- Role. Web: The reveal card is a button; thumbs are buttons with aria-pressed; the context menu is a menu; the coach mark is a dialog. Android: Same roles; thumbs carry stateDescription Selected.
+- Name. Web: "Equal Noticed" region; the context card is named "Equal's context for Amit Nanda". Android: Headings on the card titles.
+- Keyboard. Web: Tab to reveal, share, thumbs and the menu; Escape closes the menu. Android: D-pad in reading order; Back closes the menu.
+- Touch target. Web: 32 icon buttons sit in 44 targets. Android: 48dp via minimumInteractiveComponentSize.
+- Contrast. Web: Reveal title (20 SemiBold, large) is white on #00B140 3.1:1; body text/secondary passes 4.5:1. Android: Same tokens.
+- State. Web: Votes are aria-pressed; the paused card says so with Resume personalising. Android: stateDescription on votes.
+- Motion. Web: The reveal sparkles hold still under reduced motion. Android: Dots hold still under rememberReduceMotion().
+
+Known accessibility gaps:
+- The reveal card's white title on the green gradient is 3:1 (large text only); keep the title at 20 SemiBold or larger.
+
+Example: Equal Noticed
+```tsx
+<NoticedCoach onDismiss={dismiss} />
+<NoticedCard state="reveal" summary={summary} onReveal={reveal} />
+<NoticedCard summary={summary} onShare={share} />
+```
+```kotlin
+NoticedCoach(onDismiss = { /* dismiss */ })
+NoticedCard(summary = listOf("You’re a Logistics Legend…"), state = NoticedState.Reveal, onReveal = { /* reveal */ })
+NoticedCard(summary = listOf("You’re a Logistics Legend…"), onShare = { /* share */ })
+```
+
+Example: Caller context
+```tsx
+<CallerContextCard name="Amit Nanda" state="empty" />
+<CallerContextCard name="Amit Nanda" state="filled" summary={summary} onStop={stop} onDelete={del} />
+<CallerContextCard name="Amit Nanda" state="paused" summary={summary} onResume={resume} />
+```
+```kotlin
+CallerContextCard(name = "Amit Nanda", state = CallerContextState.Empty)
+CallerContextCard(name = "Amit Nanda", state = CallerContextState.Filled, summary = "Amit manages your flat in Koramangala…", onStop = { /* stop */ }, onDelete = { /* delete */ })
+CallerContextCard(name = "Amit Nanda", state = CallerContextState.Paused, summary = "Amit manages your flat in Koramangala…", onResume = { /* resume */ })
+```
+
+Example: Hero, rows and lists
+```tsx
+<TraitOrbHero />
+<InfoRows rows={rows} />
+<KeepLoseList stays={['Everything it knows today']} goes={['Anything that changes ahead']} />
+<AvatarStack initials={['AS', 'AM', 'BC']} />
+```
+```kotlin
+TraitOrbHero()
+InfoRows(listOf(InfoRow(EqualSymbols.autoFix, "It builds up over time", "It gets a little sharper with every call.")))
+KeepLoseList(stays = listOf("Everything it knows today"), goes = listOf("Anything that changes ahead"))
+AvatarStack(listOf("AS", "AM", "BC"))
 ```
 
 ### Group: Cards
@@ -3773,6 +3858,78 @@ RowGroup {
 }
 ```
 
+#### List actions (`list-actions`)
+
+Chat list selection: the single-select header (mark read · mute · delete · more), the multi-select header, and toasts with a spinner or a close.
+
+- React: `import { SelectionHeader, Snackbar } from '@equal/ds';`
+- Compose: `SelectionChatHeader`, `EqualSnackbar`
+- Tokens: `bg/surface`, `button/danger`, `text/primary`
+- Source: Updated UI · Home Screen · All Bottom Sheets And Toasts
+
+Props of `SelectionHeader`:
+- `count`: `number`. Selected rows.
+- `single?`: `boolean`. One selected: icon actions and a menu, no Select All.
+- `muted?`: `boolean`. The mute button unmutes.
+- `menu?`: `ReactNode`. The overflow ContextMenu.
+
+Props of `Snackbar`:
+- `message`: `string`. Text.
+- `busy?`: `boolean`. Spinner before it.
+- `onClose?`: `() => void`. Trailing ×.
+- `actionLabel?`: `string`. e.g. Undo.
+
+Do: Confirm delete and mute in a sheet. Show the bell-off glyph on muted rows.
+
+Don't: Don't delete without a toast that says it's happening.
+
+Anatomy:
+1. Single-select header: Actions on one chat. (64 high · back · count subheading · mark-chat-read · mute / unmute · delete (button/danger) · more)
+2. Multi-select header: Actions on several chats. (N Selected · Mark read pill · delete · Select All checkbox row)
+3. Toast: What just happened. (text/primary surface radius 12 · optional spinner 20 · body1 in bg/surface · optional × or action)
+
+Accessibility:
+- Role. Web: Icon buttons with labels; the count is role='status'; the overflow is a menu. Android: Same; the count is a polite liveRegion.
+- Name. Web: "Mark as read", "Mute" / "Unmute", "Delete", "More options". Android: Same contentDescriptions.
+- Keyboard. Web: Long-press is also the context-menu key on a row; Tab through the header actions. Android: Long-press with TalkBack's actions.
+- Touch target. Web: 40 icon buttons in 44 targets. Android: 48dp.
+- Contrast. Web: Icons text/primary; delete button/danger passes 3:1. Android: Same.
+- State. Web: Toasts are role='status' so they're announced. Android: liveRegion Polite.
+- Motion. Web: The toast spinner stops under reduced motion. Android: EqualSpinner holds still.
+
+Known accessibility gaps:
+- Long-press is the only way into selection on web; a visible Select entry would help pointer users.
+
+Example: Selection headers
+```tsx
+<SelectionHeader single count={1} muted={muted} onMute={toggleMute} onMarkRead={read} onDelete={del} onMore={openMenu} menu={menu} />
+<SelectionHeader count={3} allSelected={false} onSelectAll={selectAll} onMarkRead={read} onDelete={del} />
+```
+```kotlin
+SelectionChatHeader(
+    selectedCount = 1,
+    allSelected = false,
+    onSelectAllChange = {},
+    onBackClick = {},
+    onMarkReadClick = {},
+    onDeleteClick = {},
+    single = true,
+    onMuteClick = { /* mute sheet */ },
+    menuItems = listOf(ContextMenuItem("Add to favourite", EqualSymbols.favourite, { /* favourite */ })),
+)
+SelectionChatHeader(selectedCount = 3, allSelected = false, onSelectAllChange = {}, onBackClick = {}, onMarkReadClick = {}, onDeleteClick = {})
+```
+
+Example: Toasts
+```tsx
+<Snackbar busy message="Deleting Conversation" />
+<Snackbar message="Add to favourites" onClose={dismiss} />
+```
+```kotlin
+EqualSnackbar(message = "Deleting Conversation", busy = true)
+EqualSnackbar(message = "Add to favourites", onClose = { /* dismiss */ })
+```
+
 #### Settings row (`settings-row`)
 
 The dense settings row (icon, subheading label, caption description, chevron or switch), grouped into rounded cards with RowGroup.
@@ -6270,6 +6427,95 @@ Example: Compact header
 ProfileHeader(name = "Keshav", phone = "+91 98789 56749")
 ```
 
+#### Settings & promos (`settings-promos`)
+
+Call Learning cards (what the assistant learns, with an example), the Account & Data trust strip, the Teach Your Assistant promo and the generic new-feature sheet.
+
+- React: `import { LearningCard, TrustStrip, InstructionsPromoCard, FeatureIntroSheet } from '@equal/ds';`
+- Compose: `LearningCard`, `TrustStrip`, `InstructionsPromoCard`, `FeatureIntroSheet`
+- Tokens: `preset/tint-orange`, `preset/tint-lime`, `preset/tint-green`, `glass-button/default`, `trust-strip/bg`, `instructions-promo/bg`, `instructions-promo/title`, `instructions-promo/cta`
+- Source: Profile · Preset Instruction
+
+Props of `LearningCard`:
+- `emoji`: `string`. 56 tile.
+- `tint`: `'orange' | 'lime' | 'green'`. Card tint.
+- `title`: `string`. body2 600.
+- `body`: `string`. Why.
+- `example`: `ReactNode`. Italic example in the glass box.
+
+Props of `TrustStrip`:
+- `stats`: `{ art; value; label }[]`. Three stats.
+
+Props of `InstructionsPromoCard`:
+- `title / body / cta?`: `string` = Teach Your Assistant…. Copy (experiments).
+- `onCta / onDismiss?`: `() => void`. Actions.
+
+Props of `FeatureIntroSheet`:
+- `hero`: `ReactNode`. Tinted top.
+- `title`: `string`. Headline.
+- `bullets`: `{ icon; text }[]`. Icon rows.
+- `cta`: `string`. Primary.
+- `secondary?`: `string`. Text button.
+- `badge?`: `string` = 'New feature'. Soft badge.
+
+Do: Give each learning card a concrete example. Let the promo be dismissed.
+
+Don't: Don't use the teal promo tint for anything but Instructions.
+
+Anatomy:
+1. Learning card: One thing the assistant learns. (radius 16 · preset tint · 56 emoji tile · body2 600 title · caption body · italic example in glass-button/default)
+2. Trust strip: Why to trust Equal. (radius 20 · trust-strip/bg · three 40 art stats with stroke/medium dividers)
+3. Promo: Teach Your Assistant. (radius 18 · instructions-promo/bg · title 700 instructions-promo/title · 32 pill CTA · 96 mascot)
+4. Feature intro sheet: A new feature explained. (radius 28 top · tinted hero · soft badge · headline 600 · 20 icon bullets · lg CTA + text secondary)
+
+Accessibility:
+- Role. Web: Cards are articles; the sheet is a dialog; the promo CTA and close are buttons. Android: Same; the sheet sets paneTitle.
+- Name. Web: Card titles are headings; the sheet is named by its title. Android: Headings on titles.
+- Keyboard. Web: The carousel scrolls with Shift+wheel or Tab into each card; Escape closes the sheet. Android: D-pad; Back closes the sheet.
+- Touch target. Web: Promo CTA 32 high in a 44 target. Android: 48dp.
+- Contrast. Web: Promo title #0F766E on #EAF7F5 5.0:1; CTA white on #0F766E 5.5:1. Android: Same tokens.
+- State. Web: None. Android: None.
+- Motion. Web: The sheet slide is off under reduced motion. Android: Same.
+
+Example: Call Learning cards
+```tsx
+{learningCards.map((c) => <LearningCard key={c.title} {...c} />)}
+```
+```kotlin
+LearningCards.forEach { LearningCard(it) }
+```
+
+Example: Trust strip
+```tsx
+<TrustStrip stats={trustStats} />
+```
+```kotlin
+TrustStrip(TrustStats)
+```
+
+Example: Teach Your Assistant
+```tsx
+<InstructionsPromoCard onCta={openSheet} onDismiss={hide} />
+```
+```kotlin
+InstructionsPromoCard(onCta = { /* open the sheet */ }, onDismiss = { /* hide */ })
+```
+
+Example: Feature intro sheet
+```tsx
+<FeatureIntroSheet hero={<InstructionCard instruction={loan} />} title="Get every call handled your way with Instructions" bullets={bullets} cta="Try Instructions" secondary="Not now" onCta={go} onSecondary={close} onClose={close} />
+```
+```kotlin
+FeatureIntroSheet(
+    title = "Get every call handled your way with Instructions",
+    bullets = listOf(FeatureBullet(EqualSymbols.edit, "Tell your assistant what to do on any call, in your own words")),
+    cta = "Try Instructions",
+    hero = { /* InstructionCard */ },
+    secondary = "Not now",
+    inline = true,
+)
+```
+
 ## Core screens (the revamped app: start every flow from these)
 
 - `home` Chats: `<HomeScreen />`
@@ -6324,7 +6570,7 @@ ProfileHeader(name = "Keshav", phone = "+91 98789 56749")
   }
   ```
 
-## Flows (24)
+## Flows (27)
 
 ### Monetization (`/flows/monetization`)
 
@@ -7084,6 +7330,273 @@ States:
   ```kotlin
   EqualTheme {
       EqualCallCallerSample()
+  }
+  ```
+
+### Home, You and settings updates (`/flows/home-you-updates`)
+
+The Updated UI screens that were missing: an empty and an offline Home, the new chat-row states, the Settings notice on You, Splash, Call Learning & Consent, Account & Data, and the Teach Your Assistant promo.
+
+Source: Updated UI · Profile · Preset Instruction
+
+1. Home: a new user sees “Your chats will appear here”; offline shows the no-internet state instead of the list. Rows can be missed by the assistant, on a call (the Ongoing call pill), without chips, loading their summary, or muted.
+2. Turning the assistant off asks how long for: see the Assistant snooze flow. Indefinitely off reads “Assistant is resting.”
+3. You: a dismissible notice says settings moved into You.
+4. Account & Data builds trust (the shield and three stats) and leads to Call Learning & Consent, where turning learning off asks first. The Figma’s second red row reuses the Call Learning copy; it is shown here as Delete account (flag for design).
+5. Teach Your Assistant sits in the home carousel; Try Instructions opens the new-feature sheet.
+
+States:
+- `home-empty` Home: no chats yet: `<HomeScreen chats={[]} />`
+  ```kotlin
+  EqualTheme {
+      HomeScreenSample(chats = emptyList())
+  }
+  ```
+- `home-offline` Home: no internet: `<HomeScreen offline />`
+  ```kotlin
+  EqualTheme {
+      HomeScreenSample(offline = true)
+  }
+  ```
+- `home-rows` Home: row states: `<HomeScreen chats={rowStateChats} showWhatsNew={false} />`
+  ```kotlin
+  EqualTheme {
+      HomeScreenSample(chats = RowStateChats)
+  }
+  ```
+- `home-resting` Home: assistant resting: `<HomeScreen assistantControl={{ on: false, offDescription: 'Assistant is resting.' }} />`
+  ```kotlin
+  EqualTheme {
+      HomeScreenSample(
+          assistantControl = AssistantControl(on = false, offDescription = "Assistant is resting."),
+      )
+  }
+  ```
+- `you-notice` You: Settings live here now: `<YouScreen notice="card" />`
+  ```kotlin
+  EqualTheme {
+      YouScreenSample(notice = YouNotice.Card)
+  }
+  ```
+- `you-notice-line` You: one-line notice: `<YouScreen notice="line" />`
+  ```kotlin
+  EqualTheme {
+      YouScreenSample(notice = YouNotice.Line)
+  }
+  ```
+- `splash` Splash: `<SplashScreen />`
+  ```kotlin
+  EqualTheme {
+      SplashScreenSample(tagline = "Your personal AI call assistant")
+  }
+  ```
+- `call-learning` Call Learning & Consent: `<CallLearningScreen />`
+  ```kotlin
+  EqualTheme {
+      CallLearningScreen(onBack = {})
+  }
+  ```
+- `call-learning-off` Call Learning: turn-off sheet: `<CallLearningScreen sheet />`
+  ```kotlin
+  EqualTheme {
+      CallLearningScreen(sheet = true, onBack = {})
+  }
+  ```
+- `account-data` Account & Data: `<AccountDataScreen />`
+  ```kotlin
+  EqualTheme {
+      AccountDataScreen(onBack = {}, onCallLearning = {})
+  }
+  ```
+- `account-data-live` Account & Data → Call Learning (Try it): `<AccountDataFlow />`
+  ```kotlin
+  EqualTheme {
+      AccountDataFlowSample()
+  }
+  ```
+- `instructions-promo` Home: Teach Your Assistant: `<HomeScreen promo="instructions" onPromo={openSheet} />`
+  ```kotlin
+  EqualTheme {
+      HomeScreenSample(
+          instructionsPromo = true,
+          onPromo = { /* open the Instructions sheet */ },
+      )
+  }
+  ```
+- `instructions-sheet` Instructions: new-feature sheet: `<FeatureIntroSheet hero={…} title="Get every call handled your way with Instructions" bullets={…} cta="Try Instructions" secondary="Not now" />`
+  ```kotlin
+  EqualTheme {
+      InstructionsPromoHomeSample(sheet = true)
+  }
+  ```
+
+### AI personalisation (`/flows/personalisation`)
+
+Equal learns how you handle each caller and says what it noticed. Home introduces it once, the You tab shows “Equal Noticed…”, AI Personalization explains what is and isn’t learned, and each caller has a context card you can pause or delete.
+
+Source: About Me (Notice Card) & AI personalization
+
+1. Introduce: a sheet on Home says Equal is getting to know your callers, what it ignores, and that it can be off for anyone.
+2. You tab: the first time, a coach mark points at “Updated summary is ready · Tap to reveal”; then “Equal Noticed…” with thumbs and when it updates. Several summaries become a carousel. AI Personalisation opens the screen.
+3. AI Personalization: what Equal picks up, what it never saves (OTPs, card numbers, UPI PINs, IDs), excluded contacts, and Delete all learning (What stays / What goes).
+4. Per caller: Contact Info shows Equal’s context for that person. Its menu stops personalising (it keeps what it knows, learns nothing new; Resume brings it back) or deletes the learning.
+
+States:
+- `fyi` Home: FYI sheet: `<PersonalisationFyiHome />`
+  ```kotlin
+  EqualTheme {
+      PersonalisationFyiHomeSample()
+  }
+  ```
+- `you-coach` You: first reveal with the coach mark: `<YouScreen noticed="coach" />`
+  ```kotlin
+  EqualTheme {
+      YouScreenSample(noticed = YouNoticed.Coach)
+  }
+  ```
+- `you-reveal` You: updated summary ready: `<YouScreen noticed="reveal" />`
+  ```kotlin
+  EqualTheme {
+      YouScreenSample(noticed = YouNoticed.Reveal)
+  }
+  ```
+- `you-ready` You: Equal Noticed: `<YouScreen noticed="ready" />`
+  ```kotlin
+  EqualTheme {
+      YouScreenSample(noticed = YouNoticed.Ready)
+  }
+  ```
+- `you-multiple` You: several cards: `<YouScreen noticed="multiple" />`
+  ```kotlin
+  EqualTheme {
+      YouScreenSample(noticed = YouNoticed.Multiple)
+  }
+  ```
+- `screen` AI Personalization: `<PersonalisationScreen />`
+  ```kotlin
+  EqualTheme {
+      PersonalisationScreen()
+  }
+  ```
+- `screen-delete` Delete what Equal knows: `<PersonalisationScreen sheet />`
+  ```kotlin
+  EqualTheme {
+      PersonalisationScreen(sheet = true)
+  }
+  ```
+- `caller-empty` Caller: no context yet: `<CallerContextCard name="Amit Nanda" state="empty" />`
+  ```kotlin
+  EqualTheme {
+      CallerContextScreen(state = CallerContextState.Empty)
+  }
+  ```
+- `caller-learning` Caller: learning: `<CallerContextCard name="Amit Nanda" state="learning" />`
+  ```kotlin
+  EqualTheme {
+      CallerContextScreen(state = CallerContextState.Learning)
+  }
+  ```
+- `caller-filled` Caller: context (Try it: open the menu): `<CallerContextCard name="Amit Nanda" state="filled" summary={summary} onStop={stop} onDelete={del} />`
+  ```kotlin
+  EqualTheme {
+      CallerContextScreen(state = CallerContextState.Filled)
+  }
+  ```
+- `caller-stop` Caller: stop personalising: `<CallerContextScreen sheet="stop" />`
+  ```kotlin
+  EqualTheme {
+      CallerContextScreen(sheet = CallerContextSheet.Stop)
+  }
+  ```
+- `caller-paused` Caller: paused: `<CallerContextCard name="Amit Nanda" state="paused" onResume={resume} />`
+  ```kotlin
+  EqualTheme {
+      CallerContextScreen(state = CallerContextState.Paused)
+  }
+  ```
+- `caller-delete` Caller: delete learning: `<CallerContextScreen sheet="delete" />`
+  ```kotlin
+  EqualTheme {
+      CallerContextScreen(sheet = CallerContextSheet.Delete)
+  }
+  ```
+- `live` You → AI Personalization (Try it): `<PersonalisationFlow />`
+  ```kotlin
+  EqualTheme {
+      PersonalisationFlowSample()
+  }
+  ```
+
+### Chat list actions (`/flows/chat-list-actions`)
+
+Long-press a chat to act on it from the list: mark it read, mute or unmute the caller, delete it, add it to favourites or share the contact. Select more chats to act on several at once.
+
+Source: Updated UI · Home Screen · All Bottom Sheets And Toasts
+
+1. Select: long-press a row. One selected shows mark read, mute, delete and more (Mark as read · Add to favourite · Share contact); tapping more rows switches to the count with Select All.
+2. Delete confirms in a sheet, then “Deleting Conversation” shows a spinner toast.
+3. Mute / Unmute confirm in a sheet with the number; a muted row shows the bell-off glyph after the name.
+4. Favourite: “Add to favourites” toast with a close.
+
+States:
+- `one` One selected: `<ChatListActions stage="one" />`
+  ```kotlin
+  EqualTheme {
+      ChatListActionsSample(stage = ChatListActionsStage.One)
+  }
+  ```
+- `many` Several selected: `<ChatListActions stage="many" />`
+  ```kotlin
+  EqualTheme {
+      ChatListActionsSample(stage = ChatListActionsStage.Many)
+  }
+  ```
+- `menu` More: the menu: `<ChatListActions stage="menu" />`
+  ```kotlin
+  EqualTheme {
+      ChatListActionsSample(stage = ChatListActionsStage.One)
+  }
+  ```
+- `delete` Delete confirm: `<ChatListActions stage="delete" />`
+  ```kotlin
+  EqualTheme {
+      ChatListActionsSample(stage = ChatListActionsStage.Delete)
+  }
+  ```
+- `deleting` Deleting toast: `<ChatListActions stage="deleting" />`
+  ```kotlin
+  EqualTheme {
+      ChatListActionsSample(stage = ChatListActionsStage.Deleting)
+  }
+  ```
+- `mute` Mute from the list: `<ChatListActions stage="mute" />`
+  ```kotlin
+  EqualTheme {
+      ChatListActionsSample(stage = ChatListActionsStage.Mute)
+  }
+  ```
+- `unmute` Unmute from the list: `<ChatListActions stage="unmute" />`
+  ```kotlin
+  EqualTheme {
+      ChatListActionsSample(stage = ChatListActionsStage.Unmute)
+  }
+  ```
+- `muted` A muted row: `<ChatListActions stage="muted" />`
+  ```kotlin
+  EqualTheme {
+      ChatListActionsSample(stage = ChatListActionsStage.Muted)
+  }
+  ```
+- `favourite` Added to favourites: `<ChatListActions stage="favourite" />`
+  ```kotlin
+  EqualTheme {
+      ChatListActionsSample(stage = ChatListActionsStage.Favourite)
+  }
+  ```
+- `live` Live (Try it: long-press a row): `<ChatListActions />`
+  ```kotlin
+  EqualTheme {
+      ChatListActionsSample()
   }
   ```
 
@@ -8477,6 +8990,13 @@ Alias colours (CSS `var(--eq-<name without component/>)`, TS `color.*`, Compose 
 - `component/system-call/answer`  light #6FCE94 · dark #6FCE94 · derived
 - `component/system-call/answer-text`  light #00270B · dark #00270B · derived
 - `component/system-call/badge`  light #2C3137 · dark #2C3137 · derived
+- `component/trust-strip/bg`  light #F0F6E5 · dark {brand.lime} @ 8% · derived
+- `component/instructions-promo/bg`  light #EAF7F5 · dark #0F766E @ 24% · derived
+- `component/instructions-promo/title`  light #0F766E · dark #5EEAD4 · derived
+- `component/instructions-promo/cta`  light #0F766E · dark #5EEAD4 · derived
+- `component/instructions-promo/cta-text`  light {brand.white} · dark {brand.black} · derived
+- `component/caller-context/bg`  light #FCFFF8 · dark {brand.lime} @ 6% · derived
+- `component/caller-context/paused-bg`  light #EEEEEE · dark #262626 · derived
 
 Gradients (CSS `var(--eq-gradient-<name>)`, Compose `EqualTheme.gradients.*`):
 
@@ -8522,6 +9042,7 @@ Gradients (CSS `var(--eq-gradient-<name>)`, Compose `EqualTheme.gradients.*`):
 - `gradient/paywall-hero-ios`  light 180deg: #FFFFFF 0%, #FFFEFC 45%, #FFC927 100% · dark 180deg: #4A3C1C 0%, #141414 100%
 - `gradient/paywall-deal-card`  light 135deg: #000000 0%, #2E2E2E 60%, #7A4900 100% · dark 135deg: #000000 0%, #2E2E2E 60%, #7A4900 100%
 - `gradient/paywall-dark-cta`  light 90deg: #000000 0%, #2E2E2E 100% · dark 90deg: #000000 0%, #2E2E2E 100%
+- `gradient/noticed-reveal`  light 135deg: #00B140 0%, #3FBF45 100% · dark 135deg: {brand.lime} 0%, #8BD61F 100%
 
 Typography (DM Sans; `<Text variant>`, `.eq-t-<name>`, `EqualTheme.type.<name>`):
 
@@ -8601,6 +9122,9 @@ Web `<Asset name="…" size={dp} />`, Compose `EqualAssetImage(EqualAssets.<Pasc
 - `status-failed`: Monetization: red ✕ seal, Payment Failed (100dp)
 - `emoji-sad`: Monetization: 3D sad face, cancellation feedback / Are you sure (100dp)
 - `illustration-airplane`: Snooze: Airplane mode is on sheet (116dp)
+- `illustration-shield-lock`: Account & Data: the 3D shield with a lock (140dp)
+- `stat-star`: Account & Data trust strip: the 3D star by the rating (40dp)
+- `stat-phone`: Account & Data trust strip: the 3D handset by calls handled (40dp)
 - `illustration-warning`: Snooze: Assistant snooze failed sheet (88dp)
 - `illustration-error-sad`: Snooze: Assistant activation failed sheet, red sad face (88dp)
 - `mascot-update`: Force update: the update robot, with the coded upload badge (160dp hard / 144dp soft)
@@ -8614,4 +9138,4 @@ Web `<Asset name="…" size={dp} />`, Compose `EqualAssetImage(EqualAssets.<Pasc
 
 Web `<Icon name="…" />`, Compose `EqualIcon(EqualIcons.<PascalName>)`.
 
-`arrow-back` (arrow_back) · `call` (call) · `call-filled` (call-fill) · `more-vert` (more_vert) · `send` (arrow_upward) · `check` (check) · `done-all` (done_all) · `close` (close) · `delete` (delete) · `star` (star-fill) · `star-outline` (star) · `share` (share) · `chevron-right` (chevron_right) · `chevron-down` (keyboard_arrow_down) · `checkbox-blank` (check_box_outline_blank) · `checkbox-checked` (check_box-fill) · `play` (play_arrow-fill) · `pause` (pause-fill) · `chat` (chat_bubble-fill) · `chat-outline` (chat_bubble) · `search` (search) · `edit` (edit) · `edit-profile` (border_color) · `add` (add) · `mic` (mic) · `mute` (volume_off) · `person-add` (person_add) · `calendar` (calendar_month) · `place` (location_on) · `call-received` (call_received) · `call-made` (call_made) · `call-missed` (call_missed) · `phone-incoming` (phone_callback) · `phone-missed` (phone_missed) · `phone-outgoing` (phone_forwarded) · `info` (info) · `settings` (settings) · `home` (home) · `work` (work) · `bolt` (bolt) · `instructions` (note_stack) · `health-check` (health_metrics) · `silent-mode` (notifications_off) · `voice-language` (mic) · `address-pin` (pin_drop) · `account-data` (shield) · `help-center` (question_exchange) · `whatsapp` (custom:whatsapp) · `menu` (menu) · `arrow-forward` (arrow_forward) · `content-copy` (content_copy) · `light-mode` (light_mode) · `dark-mode` (dark_mode) · `contrast` (contrast) · `touch` (touch_app) · `notify-me` (notifications_active) · `translate` (translate_indic) · `call-sparkle` (custom:call-sparkle) · `help-circle` (help-fill) · `lock` (lock-fill) · `mail` (mail-fill) · `info-fill` (info-fill) · `signal` (signal_cellular_4_bar-fill) · `wifi` (wifi-fill) · `battery` (battery_full-fill) · `timer` (timer-fill) · `person` (person-fill) · `call-log` (call_log-fill) · `call-sparkle-fill` (custom:call-sparkle-fill) · `auto-fix` (wand_stars-fill) · `keyboard` (keyboard) · `mic-fill` (mic-fill) · `navigation` (navigation-fill) · `slide-left` (keyboard_double_arrow_left) · `globe` (public-fill) · `verified` (verified-fill) · `refresh` (refresh) · `graphic-eq` (graphic_eq) · `phone-missed-fill` (phone_missed-fill) · `thumb-up` (thumb_up) · `thumb-down` (thumb_down) · `thumb-up-fill` (thumb_up-fill) · `thumb-down-fill` (thumb_down-fill) · `volume-up` (volume_up) · `mic-off` (mic_off) · `call-end` (call_end-fill) · `notifications` (notifications) · `notifications-fill` (notifications-fill) · `contacts` (contacts) · `contacts-fill` (contacts-fill) · `layers` (layers) · `layers-fill` (layers-fill) · `arrow-drop-down` (arrow_drop_down) · `progress-activity` (progress_activity) · `check-circle-fill` (check_circle-fill) · `warning-fill` (warning-fill) · `download` (download) · `flight` (flight) · `cell-tower` (cell_tower) · `power-settings` (power_settings_circle) · `phone-in-talk` (phone_in_talk) · `message` (chat-fill) · `chevron-up` (keyboard_arrow_up) · `minimise` (close_fullscreen) · `call-end-outline` (call_end)
+`arrow-back` (arrow_back) · `call` (call) · `call-filled` (call-fill) · `more-vert` (more_vert) · `send` (arrow_upward) · `check` (check) · `done-all` (done_all) · `close` (close) · `delete` (delete) · `star` (star-fill) · `star-outline` (star) · `share` (share) · `chevron-right` (chevron_right) · `chevron-down` (keyboard_arrow_down) · `checkbox-blank` (check_box_outline_blank) · `checkbox-checked` (check_box-fill) · `play` (play_arrow-fill) · `pause` (pause-fill) · `chat` (chat_bubble-fill) · `chat-outline` (chat_bubble) · `search` (search) · `edit` (edit) · `edit-profile` (border_color) · `add` (add) · `mic` (mic) · `mute` (volume_off) · `person-add` (person_add) · `calendar` (calendar_month) · `place` (location_on) · `call-received` (call_received) · `call-made` (call_made) · `call-missed` (call_missed) · `phone-incoming` (phone_callback) · `phone-missed` (phone_missed) · `phone-outgoing` (phone_forwarded) · `info` (info) · `settings` (settings) · `home` (home) · `work` (work) · `bolt` (bolt) · `instructions` (note_stack) · `health-check` (health_metrics) · `silent-mode` (notifications_off) · `voice-language` (mic) · `address-pin` (pin_drop) · `account-data` (shield) · `help-center` (question_exchange) · `whatsapp` (custom:whatsapp) · `menu` (menu) · `arrow-forward` (arrow_forward) · `content-copy` (content_copy) · `light-mode` (light_mode) · `dark-mode` (dark_mode) · `contrast` (contrast) · `touch` (touch_app) · `notify-me` (notifications_active) · `translate` (translate_indic) · `call-sparkle` (custom:call-sparkle) · `help-circle` (help-fill) · `lock` (lock-fill) · `mail` (mail-fill) · `info-fill` (info-fill) · `signal` (signal_cellular_4_bar-fill) · `wifi` (wifi-fill) · `battery` (battery_full-fill) · `timer` (timer-fill) · `person` (person-fill) · `call-log` (call_log-fill) · `call-sparkle-fill` (custom:call-sparkle-fill) · `auto-fix` (wand_stars-fill) · `keyboard` (keyboard) · `mic-fill` (mic-fill) · `navigation` (navigation-fill) · `slide-left` (keyboard_double_arrow_left) · `globe` (public-fill) · `verified` (verified-fill) · `refresh` (refresh) · `graphic-eq` (graphic_eq) · `phone-missed-fill` (phone_missed-fill) · `thumb-up` (thumb_up) · `thumb-down` (thumb_down) · `thumb-up-fill` (thumb_up-fill) · `thumb-down-fill` (thumb_down-fill) · `volume-up` (volume_up) · `mic-off` (mic_off) · `call-end` (call_end-fill) · `notifications` (notifications) · `notifications-fill` (notifications-fill) · `contacts` (contacts) · `contacts-fill` (contacts-fill) · `layers` (layers) · `layers-fill` (layers-fill) · `arrow-drop-down` (arrow_drop_down) · `progress-activity` (progress_activity) · `check-circle-fill` (check_circle-fill) · `warning-fill` (warning-fill) · `download` (download) · `flight` (flight) · `cell-tower` (cell_tower) · `power-settings` (power_settings_circle) · `phone-in-talk` (phone_in_talk) · `message` (chat-fill) · `chevron-up` (keyboard_arrow_up) · `minimise` (close_fullscreen) · `call-end-outline` (call_end) · `mark-chat-read` (mark_chat_read) · `favourite` (favorite) · `privacy` (admin_panel_settings) · `key` (key) · `article` (article) · `logout` (logout) · `stop-circle` (stop_circle)

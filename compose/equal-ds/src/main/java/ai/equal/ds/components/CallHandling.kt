@@ -301,6 +301,9 @@ fun SuggestedTag(modifier: Modifier = Modifier, label: String = "Suggested") {
  * Blue info note, e.g. "Contact access needed" + why + "Give contacts permission ›". Radius 16,
  * padding 16, `info-note/bg` with `info-note/text`; [title] `subheading` after the info icon,
  * [body] `body1`, [link] an underlined text action with a chevron ([onLink]). All centred.
+ * With [onDismiss] it is the left-aligned dismissible notice: 16dp filled info glyph
+ * (`info-note/title`), [title] `subheading` SemiBold over [body] `body1` `text/secondary`, and a
+ * 24dp close ("Dismiss", 48dp touch area) at the right.
  */
 @Composable
 fun InfoNote(
@@ -309,9 +312,30 @@ fun InfoNote(
     body: String? = null,
     link: String? = null,
     onLink: () -> Unit = {},
+    /** Dismissible notice (You: "Settings live here now"): left-aligned, with a close. */
+    onDismiss: (() -> Unit)? = null,
 ) {
     val colors = EqualTheme.colors
     val type = EqualTheme.type
+    if (onDismiss != null) {
+        Row(
+            modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(16.dp))
+                .background(colors.infoNoteBg)
+                .padding(16.dp),
+            verticalAlignment = Alignment.Top,
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+        ) {
+            EqualIcon(EqualIcons.InfoFill, contentDescription = null, tint = colors.infoNoteTitle, size = 16.dp, modifier = Modifier.padding(top = 4.dp))
+            Column(Modifier.weight(1f)) {
+                EqualText(text = title, style = type.subheading.copy(fontWeight = FontWeight.SemiBold), color = colors.textPrimary)
+                if (body != null) EqualText(text = body, style = type.body1, color = colors.textSecondary)
+            }
+            CompactIconButton(EqualIcons.Close, "Dismiss", onClick = onDismiss, tint = colors.textSecondary, size = 24.dp, iconSize = 16.dp)
+        }
+        return
+    }
     Column(
         modifier
             .fillMaxWidth()

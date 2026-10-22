@@ -38,8 +38,8 @@ export type AssistantAction = { label: string; icon: IconName | 'equal'; onClick
 export function AssistantActions({ items }: { items: AssistantAction[] }) {
   return (
     <div className="eq-mya-actions">
-      {items.map((a) => (
-        <button key={a.label} type="button" className="eq-reset-btn eq-pressable eq-mya-action" onClick={a.onClick}>
+      {items.map((a, i) => (
+        <button key={`${i}-${a.label}`} type="button" className="eq-reset-btn eq-pressable eq-mya-action" onClick={a.onClick}>
           {a.icon === 'equal' ? <EqualMark width={30} /> : <Icon name={a.icon} size={30} color="var(--eq-text-action)" />}
           <Text as="span" variant="body2" align="center" style={{ fontWeight: 400 }}>{a.label}</Text>
         </button>

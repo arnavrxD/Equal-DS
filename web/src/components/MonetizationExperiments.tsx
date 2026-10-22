@@ -1,6 +1,7 @@
 // Monetization experiments (Plan Expired / Usage Cap touchpoints, Recordings + Actions locked,
 // All Payment States, Payment Pending, the sheet paywall and the exit offer). These sit beside the
 // original paywall components in Monetization.tsx; the Android team A/B tests one against another.
+import { inertWhen } from '../foundations/a11y';
 import { useId, type ReactNode } from 'react';
 import { Announce, useFocusHandoff, useModal } from '../foundations/a11y';
 import { Asset } from '../foundations/Asset';
@@ -333,9 +334,17 @@ export function SummaryActions({ actions, locked, onLocked }: { actions: Summary
 /** Gold-washed, blurred recording with the crown-lock in the middle (recordings locked on the free plan). */
 export function LockedRecording({ duration = 157, onUnlock }: { duration?: number; onUnlock?: () => void }) {
   return (
-    <button type="button" className="eq-reset-btn eq-locked-recording" onClick={onUnlock} aria-label="Recording locked. Unlock Equal AI Unlimited">
-      <span className="eq-locked-recording__player" aria-hidden><VoicePlayer duration={duration} /></span>
+    // A div with button semantics: the player inside draws its own (inert) button, which can't nest in a <button>.
+    <div
+      role="button"
+      tabIndex={0}
+      className="eq-reset-btn eq-locked-recording"
+      onClick={onUnlock}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onUnlock?.(); } }}
+      aria-label="Recording locked. Unlock Equal AI Unlimited"
+    >
+      <span className="eq-locked-recording__player" aria-hidden {...inertWhen(true)}><VoicePlayer duration={duration} /></span>
       <span className="eq-locked-recording__badge" aria-hidden><Asset name="crown-lock" size={26} alt="" /></span>
-    </button>
+    </div>
   );
 }

@@ -14,6 +14,7 @@ import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -28,11 +29,27 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import ai.equal.ds.icons.EqualSymbols
+import androidx.compose.foundation.layout.defaultMinSize
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 
 /** Chat list row states (SPEC §6). */
 enum class ChatListItemState { Unread, Read, Selected }
+
+/** Updated UI row states on [ChatListItem]. */
+enum class ChatListItemStatus {
+    /** Missed by the assistant: the 14dp call-missed glyph and "Missed by assistant". */
+    Missed,
+
+    /** The assistant is on the call: "Assistant is on call" and the Ongoing call pill; no date, count or chips. */
+    OnCall,
+
+    /** The summary is still generating: "Loading Summary..." and no chips. */
+    Loading,
+}
 
 /**
  * Chat list row (SPEC §6). Padding 16 h / 12 v, `bg/surface` (selected: `action-card/highlight`).
@@ -50,6 +67,13 @@ enum class ChatListItemState { Unread, Read, Selected }
  * [official] is Equal AI's own chat: the 48dp [AiAvatar] orb and a 16dp verified tick
  * (`text/action`) after the name.
  * Chip emoji are Unicode strings (see [ActionChipData]).
+ *
+ * Updated UI rows: [status] [ChatListItemStatus.Missed] puts a 14dp call-missed glyph
+ * (`missed-call/icon`) before "Missed by assistant"; [ChatListItemStatus.OnCall] reads "Assistant
+ * is on call" (`text/action` Medium) and the "Ongoing call" pill (32 high, full radius,
+ * `button/primary`, `buttonSmall` `text/on-action`) replaces the date and the count, with no chips;
+ * [ChatListItemStatus.Loading] reads "Loading Summary..." with no chips. [muted] adds a 16dp
+ * notifications-off glyph (`text/secondary`, "Muted") after the name.
  */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -73,6 +97,10 @@ fun ChatListItem(
     lockedActions: Boolean = false,
     /** Tapping a locked chip (opens the paywall). */
     onLockedAction: () -> Unit = {},
+    /** Missed by the assistant, the assistant on the call, or the summary still loading. */
+    status: ChatListItemStatus? = null,
+    /** Muted from the list: the notifications-off glyph after the name. */
+    muted: Boolean = false,
 ) {
     val colors = EqualTheme.colors
     val type = EqualTheme.type
@@ -83,6 +111,7 @@ fun ChatListItem(
         ChatListItemState.Read -> SmallActionChipStyle.Read
         ChatListItemState.Selected -> SmallActionChipStyle.Outlined
     }
+    val onCall = status == ChatListItemStatus.OnCall
     val interaction = remember { MutableInteractionSource() }
     val pressed by interaction.collectIsPressedAsState()
     Row(
@@ -124,16 +153,24 @@ fun ChatListItem(
                         Spacer(Modifier.width(4.dp))
                         EqualIcon(EqualIcons.Verified, contentDescription = "Verified", tint = colors.textAction, size = 16.dp)
                     }
+                    if (muted) {
+                        Spacer(Modifier.width(4.dp))
+                        EqualIcon(EqualSymbols.silentMode, contentDescription = "Muted", tint = colors.textSecondary, size = 16.dp)
+                    }
                 }
                 Spacer(Modifier.width(8.dp))
-                EqualText(
-                    text = date,
-                    style = type.micro,
-                    color = if (unread) colors.textAction else colors.textSecondary,
-                    maxLines = 1,
-                )
+                if (onCall) {
+                    OngoingCallPill()
+                } else {
+                    EqualText(
+                        text = date,
+                        style = type.micro,
+                        color = if (unread || selected) colors.textAction else colors.textSecondary,
+                        maxLines = 1,
+                    )
+                }
             }
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(Modifier.defaultMinSize(minHeight = 22.dp), verticalAlignment = Alignment.CenterVertically) {
                 if (locked) {
                     LockedContent(inline = true, modifier = Modifier.weight(1f)) {
                         EqualText(
@@ -145,21 +182,30 @@ fun ChatListItem(
                         )
                     }
                 } else {
+                    if (status == ChatListItemStatus.Missed) {
+                        EqualIcon(EqualSymbols.callMissed, contentDescription = null, tint = colors.missedCallIcon, size = 14.dp)
+                        Spacer(Modifier.width(8.dp))
+                    }
                     EqualText(
-                        text = preview,
-                        style = type.body1,
-                        color = colors.textSecondary,
+                        text = when (status) {
+                            ChatListItemStatus.Missed -> "Missed by assistant"
+                            ChatListItemStatus.OnCall -> "Assistant is on call"
+                            ChatListItemStatus.Loading -> "Loading Summary..."
+                            null -> preview
+                        },
+                        style = if (onCall) type.body1.copy(fontWeight = FontWeight.W500) else type.body1,
+                        color = if (onCall) colors.textAction else colors.textSecondary,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
                         modifier = Modifier.weight(1f),
                     )
                 }
-                if (!locked && unreadCount > 0) {
+                if (!locked && !onCall && unreadCount > 0) {
                     Spacer(Modifier.width(8.dp))
                     CountBadge(count = unreadCount)
                 }
             }
-            if (chips.isNotEmpty()) {
+            if (chips.isNotEmpty() && !onCall && status != ChatListItemStatus.Loading) {
                 Spacer(Modifier.height(8.dp))
                 Row(
                     Modifier
@@ -180,6 +226,21 @@ fun ChatListItem(
                 }
             }
         }
+    }
+}
+
+/** "Ongoing call": 32 high, full radius, `button/primary`, `buttonSmall` `text/on-action`. */
+@Composable
+private fun OngoingCallPill() {
+    val colors = EqualTheme.colors
+    Box(
+        Modifier
+            .height(32.dp)
+            .background(colors.buttonPrimary, CircleShape)
+            .padding(horizontal = 12.dp),
+        contentAlignment = Alignment.Center,
+    ) {
+        EqualText(text = "Ongoing call", style = EqualTheme.type.buttonSmall, color = colors.textOnAction, maxLines = 1)
     }
 }
 
@@ -226,5 +287,9 @@ private fun ChatListItemPreview() {
             official = true,
         )
         ChatListItem(name = "Dr. Mehta Clinic", preview = "Amit invited you to dinner", date = "Yesterday", chips = chips.take(2), lockedActions = true)
+        ChatListItem(name = "Priya Sharma", preview = "", date = "12:30", initials = "PS", status = ChatListItemStatus.OnCall, chips = chips)
+        ChatListItem(name = "HDFC Bank", preview = "", date = "12:30", state = ChatListItemState.Unread, unreadCount = 1, status = ChatListItemStatus.Missed)
+        ChatListItem(name = "AX-SWIGGY", preview = "", date = "Mon", status = ChatListItemStatus.Loading, chips = chips)
+        ChatListItem(name = "Amazon", preview = "OTP for your delivery is 4821", date = "07 July", muted = true)
     }
 }

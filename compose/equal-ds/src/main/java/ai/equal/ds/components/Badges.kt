@@ -24,21 +24,25 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
-/** Text badge "NEW" (SPEC §20): 16 high, h6, radius 4, `button/primary`, `badge` `text/on-action`. */
+/**
+ * Text badge "NEW" (SPEC §20): 16 high, h6, radius 4, `button/primary`, `badge` `text/on-action`.
+ * [soft] (e.g. "NEW FEATURE" on [FeatureIntroSheet]): `action-card/highlight` with `text/action`.
+ */
 @Composable
 fun NewBadge(
     modifier: Modifier = Modifier,
     text: String = "New",
+    soft: Boolean = false,
 ) {
     val colors = EqualTheme.colors
     Box(
         modifier
             .height(16.dp)
-            .background(colors.buttonPrimary, RoundedCornerShape(EqualRadius.rXs))
+            .background(if (soft) colors.actionCardHighlight else colors.buttonPrimary, RoundedCornerShape(EqualRadius.rXs))
             .padding(horizontal = 6.dp),
         contentAlignment = Alignment.Center,
     ) {
-        EqualText(text = text.uppercase(), style = EqualTheme.type.badge, color = colors.textOnAction, maxLines = 1)
+        EqualText(text = text.uppercase(), style = EqualTheme.type.badge, color = if (soft) colors.textAction else colors.textOnAction, maxLines = 1)
     }
 }
 

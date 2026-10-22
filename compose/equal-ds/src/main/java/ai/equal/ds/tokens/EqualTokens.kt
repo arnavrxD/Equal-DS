@@ -361,6 +361,20 @@ data class EqualColors(
     val systemCallAnswerText: Color,
     /** component/system-call/badge — derived from the screens */
     val systemCallBadge: Color,
+    /** component/trust-strip/bg — derived from the screens */
+    val trustStripBg: Color,
+    /** component/instructions-promo/bg — derived from the screens */
+    val instructionsPromoBg: Color,
+    /** component/instructions-promo/title — derived from the screens */
+    val instructionsPromoTitle: Color,
+    /** component/instructions-promo/cta — derived from the screens */
+    val instructionsPromoCta: Color,
+    /** component/instructions-promo/cta-text — derived from the screens */
+    val instructionsPromoCtaText: Color,
+    /** component/caller-context/bg — derived from the screens */
+    val callerContextBg: Color,
+    /** component/caller-context/paused-bg — derived from the screens */
+    val callerContextPausedBg: Color,
     val isDark: Boolean,
 )
 
@@ -529,6 +543,13 @@ val LightEqualColors = EqualColors(
     systemCallAnswer = Color(0xFF6FCE94), // direct value
     systemCallAnswerText = Color(0xFF00270B), // direct value
     systemCallBadge = Color(0xFF2C3137), // direct value
+    trustStripBg = Color(0xFFF0F6E5), // direct value
+    instructionsPromoBg = Color(0xFFEAF7F5), // direct value
+    instructionsPromoTitle = Color(0xFF0F766E), // direct value
+    instructionsPromoCta = Color(0xFF0F766E), // direct value
+    instructionsPromoCtaText = Color(0xFFFFFFFF), // brand/white
+    callerContextBg = Color(0xFFFCFFF8), // direct value
+    callerContextPausedBg = Color(0xFFEEEEEE), // direct value
     isDark = false,
 )
 
@@ -697,6 +718,13 @@ val DarkEqualColors = EqualColors(
     systemCallAnswer = Color(0xFF6FCE94), // direct value
     systemCallAnswerText = Color(0xFF00270B), // direct value
     systemCallBadge = Color(0xFF2C3137), // direct value
+    trustStripBg = Color(0x14BAFF29), // brand/lime · 8%
+    instructionsPromoBg = Color(0x3D0F766E), // direct value
+    instructionsPromoTitle = Color(0xFF5EEAD4), // direct value
+    instructionsPromoCta = Color(0xFF5EEAD4), // direct value
+    instructionsPromoCtaText = Color(0xFF000000), // brand/black
+    callerContextBg = Color(0x0FBAFF29), // brand/lime · 6%
+    callerContextPausedBg = Color(0xFF262626), // direct value
     isDark = true,
 )
 
@@ -752,6 +780,7 @@ data class EqualGradients(
     val paywallHeroIos: EqualGradientSpec,
     val paywallDealCard: EqualGradientSpec,
     val paywallDarkCta: EqualGradientSpec,
+    val noticedReveal: EqualGradientSpec,
 )
 
 val LightEqualGradients = EqualGradients(
@@ -797,6 +826,7 @@ val LightEqualGradients = EqualGradients(
     paywallHeroIos = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFFFFFFF), 0.45f to Color(0xFFFFFEFC), 1f to Color(0xFFFFC927))),
     paywallDealCard = EqualGradientSpec(angle = 135f, stops = listOf(0f to Color(0xFF000000), 0.6f to Color(0xFF2E2E2E), 1f to Color(0xFF7A4900))),
     paywallDarkCta = EqualGradientSpec(angle = 90f, stops = listOf(0f to Color(0xFF000000), 1f to Color(0xFF2E2E2E))),
+    noticedReveal = EqualGradientSpec(angle = 135f, stops = listOf(0f to Color(0xFF00B140), 1f to Color(0xFF3FBF45))),
 )
 
 val DarkEqualGradients = EqualGradients(
@@ -842,6 +872,7 @@ val DarkEqualGradients = EqualGradients(
     paywallHeroIos = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFF4A3C1C), 1f to Color(0xFF141414))),
     paywallDealCard = EqualGradientSpec(angle = 135f, stops = listOf(0f to Color(0xFF000000), 0.6f to Color(0xFF2E2E2E), 1f to Color(0xFF7A4900))),
     paywallDarkCta = EqualGradientSpec(angle = 90f, stops = listOf(0f to Color(0xFF000000), 1f to Color(0xFF2E2E2E))),
+    noticedReveal = EqualGradientSpec(angle = 135f, stops = listOf(0f to Color(0xFFBAFF29), 1f to Color(0xFF8BD61F))),
 )
 
 /** Twelve type tokens (+ captionWrap, body1Italic, badgeCount). Font family is applied by EqualTheme. */
