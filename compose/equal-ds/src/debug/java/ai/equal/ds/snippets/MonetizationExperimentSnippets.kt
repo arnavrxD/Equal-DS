@@ -171,7 +171,7 @@ internal fun TouchExpiredPaywallSnippet() {
 @Composable
 internal fun TouchExpiredCardSnippet() {
     EqualTheme {
-        HomeScreenSample(tier = PlanTier.Free, planExpired = true, homeNotice = HomeNotice.PlanExpired)
+        HomeScreenSample(tier = PlanTier.Free, planExpired = true, homeNotice = HomeNotice.PlanExpired())
     }
 }
 

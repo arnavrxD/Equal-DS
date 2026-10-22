@@ -50,6 +50,7 @@ import ai.equal.ds.components.ValueCard
 import ai.equal.ds.components.ValueSheetVariant
 import ai.equal.ds.components.PlaybackSpeed
 import ai.equal.ds.components.PriceTag
+import ai.equal.ds.components.PriceDealCard
 import ai.equal.ds.components.StatusBar
 import ai.equal.ds.components.VoiceNotePlayer
 import ai.equal.ds.theme.EqualTheme
@@ -174,6 +175,17 @@ enum class PaywallTouchpoint {
 
     /** The locked summary with its locked Call Back / Add to Calendar rows. */
     RecordingsActions,
+
+    /** Usage cap option 1: "What You Get" ([FeatureList]) instead of a locked preview. */
+    UsageCap,
+}
+
+/** [PaywallScreen] layout experiment. */
+enum class PaywallLayout {
+    Default,
+
+    /** iOS parity (27 Aug touchpoint): warm hero, black price card, coupon, locked summary, black CTA. */
+    Ios,
 }
 
 /** Coupon experiment: no coupon, coupon offered, or already applied. */
@@ -224,6 +236,10 @@ fun PaywallPreview(
     modifier: Modifier = Modifier,
 ) {
     when (touchpoint) {
+        PaywallTouchpoint.UsageCap -> Column(modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+            DividerLabel(text = "What You Get")
+            FeatureList()
+        }
         PaywallTouchpoint.Actions -> LockedPreviewCard(modifier) {
             ChatListItem(
                 name = "Dr. Mehta Clinic",
@@ -325,7 +341,11 @@ fun PaywallScreen(
     processing: Boolean = false,
     onBack: () -> Unit = {},
     onDone: () -> Unit = {},
+    layout: PaywallLayout = PaywallLayout.Default,
+    /** iOS parity: the crown animates (option 1) or stands still (option 2). */
+    crownAnimated: Boolean = true,
 ) {
+    val ios = layout == PaywallLayout.Ios
     var applied by remember(coupon) { mutableStateOf(coupon == PaywallCoupon.Applied) }
     var justApplied by remember(coupon) { mutableStateOf(false) }
     var live by remember { mutableStateOf(PaywallOverlay.None) }
@@ -348,7 +368,7 @@ fun PaywallScreen(
                     above = { ProcessingStrip(variant = ProcessingStripVariant.Toast) },
                 )
             } else {
-                PaywallFooter(onClick = { live = PaywallOverlay.Waiting }, cta = cta)
+                PaywallFooter(onClick = { live = PaywallOverlay.Waiting }, cta = if (ios && cta == "Unlock Unlimited") "Get Equal AI Unlimited" else cta, dark = ios)
             }
         },
         overlay = when {
@@ -379,7 +399,16 @@ fun PaywallScreen(
             else -> null
         },
     ) {
-        PaywallHero(subtitle = subtitle.copy, onBack = onBack, onSupport = { live = PaywallOverlay.Help }) {
+        if (ios) {
+            PaywallHero(subtitle = subtitle.copy, onBack = onBack, onSupport = { live = PaywallOverlay.Help }, ios = true, crownAnimated = crownAnimated)
+            PriceDealCard(price = price)
+            Column(Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
+                if (coupon != PaywallCoupon.None) {
+                    CouponTicket(code = "EQUAL25", description = "Save Flat ₹50 with this Code", discount = "25% OFF", applied = applied, onApply = { applied = true; justApplied = true })
+                }
+                LockedPreviewCard { LockedSummaryPreview() }
+            }
+        } else PaywallHero(subtitle = subtitle.copy, onBack = onBack, onSupport = { live = PaywallOverlay.Help }) {
             if (applied) {
                 PriceTag(price = discountedPrice.toString(), was = price, badge = "Special Coupon Applied!", animate = justApplied)
             } else {
@@ -702,7 +731,7 @@ fun PaymentResultScreen(
 }
 @FlowPreviews @Composable private fun TouchExpiredChatPreview() = EqualTheme { ChatScreenSample(official = OfficialNotice.PlanExpired) }
 @FlowPreviews @Composable private fun TouchExpiredCardPreview() = EqualTheme {
-    HomeScreenSample(tier = PlanTier.Free, planExpired = true, homeNotice = HomeNotice.PlanExpired)
+    HomeScreenSample(tier = PlanTier.Free, planExpired = true, homeNotice = HomeNotice.PlanExpired())
 }
 @FlowPreviews @Composable private fun TouchCapCardPreview() = EqualTheme {
     HomeScreenSample(tier = PlanTier.Free, assistantOff = true, homeNotice = HomeNotice.UsageCap(callsLeft = 7, limit = 30))

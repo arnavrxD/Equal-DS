@@ -3,6 +3,7 @@
 // copy, entry touchpoint) instead of hard-coding one variant.
 import { useEffect, useState } from 'react';
 import {
+  PriceDealCard,
   CategoryAvatar,
   LockedRecording,
   SummaryActions,
@@ -45,7 +46,7 @@ import { motion } from '../tokens/tokens';
 import { paywallFaq, paywallSubtitles, testimonials } from './monetizationData';
 
 /** Where the user entered the paywall from; picks the "what you're missing" preview. */
-export type PaywallTouchpoint = 'chat-list' | 'chat' | 'audio' | 'actions' | 'recordings' | 'recordings-actions';
+export type PaywallTouchpoint = 'chat-list' | 'chat' | 'audio' | 'actions' | 'recordings' | 'recordings-actions' | 'usage-cap';
 
 /** The preview card content for each touchpoint. */
 /** The locked call summary the experiments preview: gold crown-locked recording, the summary, and optionally the locked actions. */
@@ -136,10 +137,14 @@ export type PaywallScreenProps = {
   processing?: boolean;
   onBack?: () => void;
   onDone?: () => void;
+  /** iOS parity (27 Aug touchpoint): warm hero, black price card, locked summary, black CTA. */
+  layout?: 'default' | 'ios';
+  /** iOS parity: the crown animates (option 1) or stands still (option 2). */
+  crown?: 'video' | 'image';
 };
 
 /** The Equal Unlimited paywall: hero, price, locked preview, coupon, FAQ and the sticky gold CTA. */
-export function PaywallScreen({ touchpoint = 'chat-list', price = 249, discountedPrice = 149, coupon = 'available', subtitle = 'unlock', overlay, cta, processing, onBack, onDone }: PaywallScreenProps) {
+export function PaywallScreen({ touchpoint = 'chat-list', price = 249, discountedPrice = 149, coupon = 'available', subtitle = 'unlock', overlay, cta, processing, onBack, onDone, layout = 'default', crown = 'video' }: PaywallScreenProps) {
   const [applied, setApplied] = useState(coupon === 'applied');
   const [justApplied, setJustApplied] = useState(false);
   const [live, setLive] = useState<PaymentStatus | 'help' | null>(null);
@@ -155,7 +160,7 @@ export function PaywallScreen({ touchpoint = 'chat-list', price = 249, discounte
     <Screen
       surface="surface"
       header={<StatusBar background="var(--eq-paywall-hero-top)" />}
-      footer={processing ? <PaywallFooter cta="Unlock Unlimited" disabled above={<ProcessingStrip variant="toast" />} /> : <PaywallFooter cta={cta} onClick={() => setLive('waiting')} />}
+      footer={processing ? <PaywallFooter cta="Unlock Unlimited" disabled above={<ProcessingStrip variant="toast" />} /> : <PaywallFooter cta={cta ?? (layout === 'ios' ? 'Get Equal AI Unlimited' : undefined)} variant={layout === 'ios' ? 'dark' : 'gold'} onClick={() => setLive('waiting')} />}
       overlay={
         state === 'help' ? (
           <HelpCenterSheet onClose={overlay !== undefined ? undefined : () => setLive(null)} />
@@ -164,13 +169,34 @@ export function PaywallScreen({ touchpoint = 'chat-list', price = 249, discounte
         ) : undefined
       }
     >
+      {layout === 'ios' ? (
+        <>
+          <PaywallHero variant="ios" crownAnimated={crown === 'video'} subtitle={paywallSubtitles[subtitle]} onBack={onBack} onSupport={() => setLive('help')} />
+          <PriceDealCard price={price} />
+          <div style={{ padding: '16px 16px 0', display: 'flex', flexDirection: 'column', gap: 16 }}>
+            {coupon !== 'none' && <CouponTicket code="EQUAL25" description={`Save Flat ₹50 with this Code`} discount="25% OFF" applied={applied} onApply={() => (setApplied(true), setJustApplied(true))} />}
+            <span className="eq-sr">Preview of locked content</span>
+            <div style={{ display: 'contents' }} aria-hidden {...inertWhen(true)}><LockedPreviewCard><LockedSummaryPreview /></LockedPreviewCard></div>
+          </div>
+        </>
+      ) : (
       <PaywallHero subtitle={paywallSubtitles[subtitle]} onBack={onBack} onSupport={() => setLive('help')}>
         {applied ? <PriceTag price={discountedPrice} was={price} badge="Special Coupon Applied!" animate={justApplied} /> : <PriceTag price={shown} />}
         {/* A picture of what's locked, not controls: inert, with a one-line summary for screen readers. */}
-        <span className="eq-sr">Preview of locked content</span>
-        <div style={{ display: 'contents' }} aria-hidden {...inertWhen(true)}><PaywallPreview touchpoint={touchpoint} /></div>
+        {touchpoint === 'usage-cap' ? (
+          <div style={{ alignSelf: 'stretch', display: 'flex', flexDirection: 'column', gap: 12 }}>
+            <DividerLabel as="h2">What You Get</DividerLabel>
+            <FeatureList />
+          </div>
+        ) : (
+          <>
+            <span className="eq-sr">Preview of locked content</span>
+            <div style={{ display: 'contents' }} aria-hidden {...inertWhen(true)}><PaywallPreview touchpoint={touchpoint} /></div>
+          </>
+        )}
         {coupon !== 'none' && <CouponTicket code="EQUAL25" description={`Save Flat ₹${price - discountedPrice} with this Code`} discount="25% OFF" applied={applied} onApply={() => (setApplied(true), setJustApplied(true))} />}
       </PaywallHero>
+      )}
       <div style={{ padding: '16px 16px 24px' }}>
         <FaqList items={paywallFaq} defaultOpen={[3]} />
       </div>

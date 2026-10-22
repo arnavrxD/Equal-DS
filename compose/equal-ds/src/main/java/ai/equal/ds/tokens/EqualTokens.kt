@@ -319,6 +319,30 @@ data class EqualColors(
     val callControlActiveIcon: Color,
     /** component/health-check/icon-bg — derived from the screens */
     val healthCheckIconBg: Color,
+    /** component/usage-meter/known — derived from the screens */
+    val usageMeterKnown: Color,
+    /** component/usage-meter/unknown — derived from the screens */
+    val usageMeterUnknown: Color,
+    /** component/usage-meter/track — derived from the screens */
+    val usageMeterTrack: Color,
+    /** component/usage-meter/glow — derived from the screens */
+    val usageMeterGlow: Color,
+    /** component/usage-meter/gold-track — derived from the screens */
+    val usageMeterGoldTrack: Color,
+    /** component/expiry-chip/success-bg — derived from the screens */
+    val expiryChipSuccessBg: Color,
+    /** component/expiry-chip/success-text — derived from the screens */
+    val expiryChipSuccessText: Color,
+    /** component/info-note/title — derived from the screens */
+    val infoNoteTitle: Color,
+    /** component/paywall/deal-pill — derived from the screens */
+    val paywallDealPill: Color,
+    /** component/paywall/deal-glow — derived from the screens */
+    val paywallDealGlow: Color,
+    /** component/paywall/deal-ring — derived from the screens */
+    val paywallDealRing: Color,
+    /** text/deal-gold — derived from the screens */
+    val textDealGold: Color,
     val isDark: Boolean,
 )
 
@@ -466,6 +490,18 @@ val LightEqualColors = EqualColors(
     callControlActiveBg = Color(0xFF1F2937), // direct value
     callControlActiveIcon = Color(0xFFFFFFFF), // brand/white
     healthCheckIconBg = Color(0x0A000000), // brand/black · 4%
+    usageMeterKnown = Color(0xFF00B140), // brand/green
+    usageMeterUnknown = Color(0xFF006C27), // direct value
+    usageMeterTrack = Color(0xFFF0F0F0), // direct value
+    usageMeterGlow = Color(0x9969FFA0), // direct value
+    usageMeterGoldTrack = Color(0x33A0621F), // direct value
+    expiryChipSuccessBg = Color(0xFFE6FFEF), // direct value
+    expiryChipSuccessText = Color(0xFF006C27), // direct value
+    infoNoteTitle = Color(0xFF00518C), // direct value
+    paywallDealPill = Color(0xFF272727), // direct value
+    paywallDealGlow = Color(0x4DFFC927), // direct value
+    paywallDealRing = Color(0x33FFC927), // direct value
+    textDealGold = Color(0xFFFFC927), // direct value
     isDark = false,
 )
 
@@ -613,6 +649,18 @@ val DarkEqualColors = EqualColors(
     callControlActiveBg = Color(0xFFF2F2F2), // direct value
     callControlActiveIcon = Color(0xFF000000), // brand/black
     healthCheckIconBg = Color(0x14FFFFFF), // brand/white · 8%
+    usageMeterKnown = Color(0xFFBAFF29), // brand/lime
+    usageMeterUnknown = Color(0xFF7A9E2E), // direct value
+    usageMeterTrack = Color(0x1FFFFFFF), // brand/white · 12%
+    usageMeterGlow = Color(0x1FBAFF29), // brand/lime · 12%
+    usageMeterGoldTrack = Color(0x33E8BD62), // direct value
+    expiryChipSuccessBg = Color(0x1FBAFF29), // brand/lime · 12%
+    expiryChipSuccessText = Color(0xFFBAFF29), // brand/lime
+    infoNoteTitle = Color(0xFF8CCBFF), // direct value
+    paywallDealPill = Color(0xFF272727), // direct value
+    paywallDealGlow = Color(0x4DFFC927), // direct value
+    paywallDealRing = Color(0x33FFC927), // direct value
+    textDealGold = Color(0xFFFFC927), // direct value
     isDark = true,
 )
 
@@ -663,6 +711,11 @@ data class EqualGradients(
     val buttonCriticalSecondary: EqualGradientSpec,
     val buttonPremiumSecondary: EqualGradientSpec,
     val assistantCall: EqualGradientSpec,
+    val usageMeterGoldDeep: EqualGradientSpec,
+    val usageMeterGold: EqualGradientSpec,
+    val paywallHeroIos: EqualGradientSpec,
+    val paywallDealCard: EqualGradientSpec,
+    val paywallDarkCta: EqualGradientSpec,
 )
 
 val LightEqualGradients = EqualGradients(
@@ -703,6 +756,11 @@ val LightEqualGradients = EqualGradients(
     buttonCriticalSecondary = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFFFFFFF), 1f to Color(0xFFFFE0E0))),
     buttonPremiumSecondary = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFFFFFFF), 1f to Color(0xFFFFF9EC))),
     assistantCall = EqualGradientSpec(angle = 180f, stops = listOf(0.19f to Color(0xFF00B140), 0.59f to Color(0xFF73D095), 1f to Color(0xFFFFFFFF))),
+    usageMeterGoldDeep = EqualGradientSpec(angle = 135f, stops = listOf(0f to Color(0xFFDA8F02), 0.4f to Color(0xFFA66501), 0.7f to Color(0xFF8B5001), 1f to Color(0xFF713A00))),
+    usageMeterGold = EqualGradientSpec(angle = 135f, stops = listOf(0f to Color(0xFFD1A85C), 1f to Color(0xFFA0621F))),
+    paywallHeroIos = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFFFFFFFF), 0.45f to Color(0xFFFFFEFC), 1f to Color(0xFFFFC927))),
+    paywallDealCard = EqualGradientSpec(angle = 135f, stops = listOf(0f to Color(0xFF000000), 0.6f to Color(0xFF2E2E2E), 1f to Color(0xFF7A4900))),
+    paywallDarkCta = EqualGradientSpec(angle = 90f, stops = listOf(0f to Color(0xFF000000), 1f to Color(0xFF2E2E2E))),
 )
 
 val DarkEqualGradients = EqualGradients(
@@ -743,6 +801,11 @@ val DarkEqualGradients = EqualGradients(
     buttonCriticalSecondary = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFF1F1F1F), 1f to Color(0xFF3A2224))),
     buttonPremiumSecondary = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFF1F1F1F), 1f to Color(0xFF33291A))),
     assistantCall = EqualGradientSpec(angle = 180f, stops = listOf(0.19f to Color(0xFFBAFF29), 0.59f to Color(0x73BAFF29), 1f to Color(0xFF141414))),
+    usageMeterGoldDeep = EqualGradientSpec(angle = 135f, stops = listOf(0f to Color(0xFFFEC378), 1f to Color(0xFFFA8C01))),
+    usageMeterGold = EqualGradientSpec(angle = 135f, stops = listOf(0f to Color(0xFFFEC378), 1f to Color(0xFFFA8C01))),
+    paywallHeroIos = EqualGradientSpec(angle = 180f, stops = listOf(0f to Color(0xFF4A3C1C), 1f to Color(0xFF141414))),
+    paywallDealCard = EqualGradientSpec(angle = 135f, stops = listOf(0f to Color(0xFF000000), 0.6f to Color(0xFF2E2E2E), 1f to Color(0xFF7A4900))),
+    paywallDarkCta = EqualGradientSpec(angle = 90f, stops = listOf(0f to Color(0xFF000000), 1f to Color(0xFF2E2E2E))),
 )
 
 /** Twelve type tokens (+ captionWrap, body1Italic, badgeCount). Font family is applied by EqualTheme. */

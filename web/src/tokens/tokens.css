@@ -224,6 +224,18 @@
   --eq-call-control-active-bg: #1F2937; /* derived */
   --eq-call-control-active-icon: #FFFFFF; /* derived */
   --eq-health-check-icon-bg: rgba(0,0,0,0.04); /* derived */
+  --eq-usage-meter-known: #00B140; /* derived */
+  --eq-usage-meter-unknown: #006C27; /* derived */
+  --eq-usage-meter-track: #F0F0F0; /* derived */
+  --eq-usage-meter-glow: rgba(105,255,160,0.6); /* derived */
+  --eq-usage-meter-gold-track: rgba(160,98,31,0.2); /* derived */
+  --eq-expiry-chip-success-bg: #E6FFEF; /* derived */
+  --eq-expiry-chip-success-text: #006C27; /* derived */
+  --eq-info-note-title: #00518C; /* derived */
+  --eq-paywall-deal-pill: #272727; /* derived */
+  --eq-paywall-deal-glow: rgba(255,201,39,0.3); /* derived */
+  --eq-paywall-deal-ring: rgba(255,201,39,0.2); /* derived */
+  --eq-text-deal-gold: #FFC927; /* derived */
   --eq-gradient-fab: linear-gradient(180deg, #BAFF29 -28%, #00B140 100%);
   --eq-gradient-send-disabled: linear-gradient(180deg, rgba(186,255,41,0.2) -28%, rgba(0,177,64,0.2) 100%);
   --eq-gradient-gold: radial-gradient(125% 250% at 2% 9%, #A37236 9%, #B58D55 66%, #A97B41 100%);
@@ -261,6 +273,11 @@
   --eq-gradient-button-critical-secondary: linear-gradient(180deg, #FFFFFF 0%, #FFE0E0 100%);
   --eq-gradient-button-premium-secondary: linear-gradient(180deg, #FFFFFF 0%, #FFF9EC 100%);
   --eq-gradient-assistant-call: linear-gradient(180deg, #00B140 19%, #73D095 59%, #FFFFFF 100%);
+  --eq-gradient-usage-meter-gold-deep: linear-gradient(135deg, #DA8F02 0%, #A66501 40%, #8B5001 70%, #713A00 100%);
+  --eq-gradient-usage-meter-gold: linear-gradient(135deg, #D1A85C 0%, #A0621F 100%);
+  --eq-gradient-paywall-hero-ios: linear-gradient(180deg, #FFFFFF 0%, #FFFEFC 45%, #FFC927 100%);
+  --eq-gradient-paywall-deal-card: linear-gradient(135deg, #000000 0%, #2E2E2E 60%, #7A4900 100%);
+  --eq-gradient-paywall-dark-cta: linear-gradient(90deg, #000000 0%, #2E2E2E 100%);
 }
 
 [data-theme='dark'] {
@@ -408,6 +425,18 @@
   --eq-call-control-active-bg: #F2F2F2; /* derived */
   --eq-call-control-active-icon: #000000; /* derived */
   --eq-health-check-icon-bg: rgba(255,255,255,0.08); /* derived */
+  --eq-usage-meter-known: #BAFF29; /* derived */
+  --eq-usage-meter-unknown: #7A9E2E; /* derived */
+  --eq-usage-meter-track: rgba(255,255,255,0.12); /* derived */
+  --eq-usage-meter-glow: rgba(186,255,41,0.12); /* derived */
+  --eq-usage-meter-gold-track: rgba(232,189,98,0.2); /* derived */
+  --eq-expiry-chip-success-bg: rgba(186,255,41,0.12); /* derived */
+  --eq-expiry-chip-success-text: #BAFF29; /* derived */
+  --eq-info-note-title: #8CCBFF; /* derived */
+  --eq-paywall-deal-pill: #272727; /* derived */
+  --eq-paywall-deal-glow: rgba(255,201,39,0.3); /* derived */
+  --eq-paywall-deal-ring: rgba(255,201,39,0.2); /* derived */
+  --eq-text-deal-gold: #FFC927; /* derived */
   --eq-gradient-fab: linear-gradient(180deg, #C9FF5C 0%, #BAFF29 100%);
   --eq-gradient-send-disabled: linear-gradient(180deg, rgba(186,255,41,0.2) 0%, rgba(186,255,41,0.2) 100%);
   --eq-gradient-gold: radial-gradient(125% 250% at 2% 9%, #A37236 9%, #B58D55 66%, #A97B41 100%);
@@ -445,6 +474,11 @@
   --eq-gradient-button-critical-secondary: linear-gradient(180deg, #1F1F1F 0%, #3A2224 100%);
   --eq-gradient-button-premium-secondary: linear-gradient(180deg, #1F1F1F 0%, #33291A 100%);
   --eq-gradient-assistant-call: linear-gradient(180deg, #BAFF29 19%, rgba(186,255,41,0.45) 59%, #141414 100%);
+  --eq-gradient-usage-meter-gold-deep: linear-gradient(135deg, #FEC378 0%, #FA8C01 100%);
+  --eq-gradient-usage-meter-gold: linear-gradient(135deg, #FEC378 0%, #FA8C01 100%);
+  --eq-gradient-paywall-hero-ios: linear-gradient(180deg, #4A3C1C 0%, #141414 100%);
+  --eq-gradient-paywall-deal-card: linear-gradient(135deg, #000000 0%, #2E2E2E 60%, #7A4900 100%);
+  --eq-gradient-paywall-dark-cta: linear-gradient(90deg, #000000 0%, #2E2E2E 100%);
 }
 
 .eq-t-headline {

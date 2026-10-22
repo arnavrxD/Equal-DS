@@ -26,6 +26,7 @@ const flows = [
   { id: 'system-status', name: 'Temporarily unavailable', body: 'System status card, Notify me, and the back-on notification.' },
   { id: 'health-check', name: 'Assistant health check', body: 'The entry points, the permission and carrier checks with their fixes, and the all-good state.' },
   { id: 'snooze', name: 'Assistant snooze', body: 'The duration dialog, deactivating and activating, the off copy, and every error sheet.' },
+  { id: 'usage-cap', name: 'Known call usage cap', body: 'The weekly known / unknown meter on Home in every state, the gold limit sheets and View Details.' },
   { id: 'force-update', name: 'Force update', body: 'The full-screen hard update and the dismissible soft-update sheet.' },
   { id: 'voip', name: 'Call your assistant (vOIP)', body: 'Call me, the mic permission, the in-app call with speaker / mute / end, and the phone-call fallback.' },
 ];

@@ -4972,5 +4972,74 @@
     "gaps": [
       "The heads-up notification in docs is drawn by the DS; on device it is a real NotificationCompat, so its accessibility is the system's."
     ]
+  },
+  "usage-meter": {
+    "anatomy": [
+      {
+        "part": "Home card",
+        "description": "Calls left, the meter, the reset and the upgrade path.",
+        "spec": "radius 16 · bg/surface · 1 value-card/stroke · usage-meter/glow wash · padding 12 · title body2 + call-filled 16 · xs Upgrade Now or 24 chevron chip (48 target)"
+      },
+      {
+        "part": "Segmented meter",
+        "description": "Known and unknown calls on one track.",
+        "spec": "6 (home) / 8 (sheets) high · radius full · usage-meter/track · segments value / total, 1 gap · known usage-meter/known, unknown usage-meter/unknown; gold sheets gradient/usage-meter-gold(-deep)"
+      },
+      {
+        "part": "Legend",
+        "description": "What each colour is.",
+        "spec": "swatch 8 radius 2 · caption text/secondary · gap 8 · reset caption Regular on the right"
+      },
+      {
+        "part": "Limit card",
+        "description": "The gold card on the weekly limit sheets.",
+        "spec": "ValueCard frame + premium glow · head 30/36 Bold or headline · gold box radius 12 · Resets in chip · perks · plan row"
+      },
+      {
+        "part": "View Details",
+        "description": "The green explainer sheet.",
+        "spec": "radius 28 top · orbit 166 · title 700 · meter card radius 16 · green chip · perks or info note · lg block CTA"
+      }
+    ],
+    "accessibility": [
+      {
+        "topic": "Role",
+        "web": "The meter is one role='progressbar' with aria-valuetext (\"49 known, 15 unknown of 80 calls used\"); the details sheet is a dialog; the info note is role='note'.",
+        "android": "Meter semantics: contentDescription + stateDescription + progressBarRangeInfo; the sheet sets paneTitle."
+      },
+      {
+        "topic": "Name",
+        "web": "The card title is a heading; the chevron chip is \"View details\".",
+        "android": "Title is a heading; the chip has onClickLabel \"View details\"."
+      },
+      {
+        "topic": "Keyboard",
+        "web": "Tab reaches Upgrade Now / the chip / View Details; Escape closes the sheets.",
+        "android": "D-pad through the same; Back closes the sheets."
+      },
+      {
+        "topic": "Touch target",
+        "web": "The 24 chip sits in a 44 target (eq-touch); xs buttons keep a 44 target.",
+        "android": "minimumInteractiveComponentSize gives 48dp."
+      },
+      {
+        "topic": "Contrast",
+        "web": "Legend text/secondary on white passes; segments are non-text (≥ 3:1 vs the track in dark via usage-meter/unknown #7A9E2E); the green chip text is 6.6:1.",
+        "android": "Same tokens."
+      },
+      {
+        "topic": "State",
+        "web": "Every segment is named in the legend and in the value text, so colour is not the only cue.",
+        "android": "Same."
+      },
+      {
+        "topic": "Motion",
+        "web": "The orbit rings and sparkles stop under reduced motion; sheets don't slide.",
+        "android": "UsageOrbit holds still under rememberReduceMotion()."
+      }
+    ],
+    "gaps": [
+      "Light-mode known segment (#00B140) vs the #F0F0F0 track is 2.5:1, below 3:1; the legend and value text carry the meaning."
+    ]
   }
 }

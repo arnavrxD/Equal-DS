@@ -233,7 +233,7 @@ Done means: typecheck clean, `--check` passes, Gradle BUILD SUCCESSFUL, and lint
 - **Silent Mode is titled “Silent Mode” everywhere.** Why: The dark mock said “Call Preferences”; design confirmed “Silent Mode” to match the You-tab row. (Source: Design decision)
 - **Auto-rickshaw, paper bag and delivery rider are not caller categories.** Why: They appeared in a design as decoration; product confirmed they shouldn’t become categories. (Source: Product decision)
 
-## Components (67 docs pages)
+## Components (68 docs pages)
 
 ### Group: Actions
 
@@ -4821,6 +4821,86 @@ TestimonialCarousel(
 )
 ```
 
+#### Usage meter (`usage-meter`)
+
+Known Call Usage Cap: the weekly allowance split by caller type. The Home card (three experiment options), the gold card on the weekly limit sheets, the green View Details sheet and the segmented meter they share. Every number is a prop.
+
+- React: `import { UsageMeterCard, UsageLimitCard, UsageDetailsSheet, SegmentedMeter } from '@equal/ds';`
+- Compose: `UsageMeterCard`, `UsageLimitCard`, `UsageDetailsSheet`, `SegmentedMeter`, `MeterRow`, `MeterLegend`, `PriceDealCard`
+- Tokens: `usage-meter/known`, `usage-meter/unknown`, `usage-meter/track`, `usage-meter/glow`, `usage-meter/gold-track`, `gradient/usage-meter-gold`, `gradient/usage-meter-gold-deep`, `expiry-chip/success-bg`, `info-note/title`
+- Source: Known Call Usage Cap · Monetization 27 Aug Touchpoint
+
+Do: Pass every number as a prop; the caps are product decisions. Show each gold limit sheet once per week per threshold. Keep the View Details sheet green: it is not a subscription surface.
+
+Don't: Don't hard-code 80, 68 or 18. Don't use colour alone: the legend names each segment.
+
+Anatomy:
+1. Home card: Calls left, the meter, the reset and the upgrade path. (radius 16 · bg/surface · 1 value-card/stroke · usage-meter/glow wash · padding 12 · title body2 + call-filled 16 · xs Upgrade Now or 24 chevron chip (48 target))
+2. Segmented meter: Known and unknown calls on one track. (6 (home) / 8 (sheets) high · radius full · usage-meter/track · segments value / total, 1 gap · known usage-meter/known, unknown usage-meter/unknown; gold sheets gradient/usage-meter-gold(-deep))
+3. Legend: What each colour is. (swatch 8 radius 2 · caption text/secondary · gap 8 · reset caption Regular on the right)
+4. Limit card: The gold card on the weekly limit sheets. (ValueCard frame + premium glow · head 30/36 Bold or headline · gold box radius 12 · Resets in chip · perks · plan row)
+5. View Details: The green explainer sheet. (radius 28 top · orbit 166 · title 700 · meter card radius 16 · green chip · perks or info note · lg block CTA)
+
+Accessibility:
+- Role. Web: The meter is one role='progressbar' with aria-valuetext ("49 known, 15 unknown of 80 calls used"); the details sheet is a dialog; the info note is role='note'. Android: Meter semantics: contentDescription + stateDescription + progressBarRangeInfo; the sheet sets paneTitle.
+- Name. Web: The card title is a heading; the chevron chip is "View details". Android: Title is a heading; the chip has onClickLabel "View details".
+- Keyboard. Web: Tab reaches Upgrade Now / the chip / View Details; Escape closes the sheets. Android: D-pad through the same; Back closes the sheets.
+- Touch target. Web: The 24 chip sits in a 44 target (eq-touch); xs buttons keep a 44 target. Android: minimumInteractiveComponentSize gives 48dp.
+- Contrast. Web: Legend text/secondary on white passes; segments are non-text (≥ 3:1 vs the track in dark via usage-meter/unknown #7A9E2E); the green chip text is 6.6:1. Android: Same tokens.
+- State. Web: Every segment is named in the legend and in the value text, so colour is not the only cue. Android: Same.
+- Motion. Web: The orbit rings and sparkles stop under reduced motion; sheets don't slide. Android: UsageOrbit holds still under rememberReduceMotion().
+
+Known accessibility gaps:
+- Light-mode known segment (#00B140) vs the #F0F0F0 track is 2.6:1, below 3:1; the legend and value text carry the meaning.
+
+Example: Home card options
+```tsx
+<UsageMeterCard used={{ known: 49, unknown: 15 }} total={80} cta="details" onUpgrade={upgrade} onDetails={details} />
+<UsageMeterCard used={{ known: 49, unknown: 15 }} total={80} cta="chevron" />
+<UsageMeterCard used={{ known: 18, unknown: 40 }} total={80} state="unknown-cap" resetsIn="2 days" cta="chevron-gold" />
+```
+```kotlin
+UsageMeterCard(UsageMeterSpec(CallSplit(49, 15), total = 80, cta = UsageCardCta.Details), onUpgrade = { /* paywall */ }, onDetails = { /* details */ })
+UsageMeterCard(UsageMeterSpec(CallSplit(49, 15), total = 80, cta = UsageCardCta.Chevron))
+UsageMeterCard(UsageMeterSpec(CallSplit(18, 40), total = 80, state = UsageState.UnknownCap, resetsIn = "2 days", cta = UsageCardCta.ChevronGold))
+```
+
+Example: Limit card
+```tsx
+<ValueSheet card={<UsageLimitCard used={{ known: 62, unknown: 18 }} limits={{ known: 68, unknown: 18 }} total={80} meter="rows" resetsInDays={2} />} onRenew={upgrade} onClose={close} />
+```
+```kotlin
+ValueSheet(
+    card = { UsageLimitCard(CallSplit(62, 18), CallSplit(68, 18), total = 80, resetsInDays = 2, rows = true) },
+    onRenew = { /* paywall */ },
+    onClose = { /* close */ },
+)
+```
+
+Example: View Details
+```tsx
+<UsageDetailsSheet used={{ known: 9, unknown: 4 }} limits={{ known: 68, unknown: 12 }} total={80} resetsInDays={2} body="info" onUpgrade={upgrade} onClose={close} />
+```
+```kotlin
+UsageDetailsSheet(
+    used = CallSplit(9, 4),
+    limits = CallSplit(68, 12),
+    total = 80,
+    resetsInDays = 2,
+    info = true,
+    onUpgrade = { /* paywall */ },
+    onClose = { /* close */ },
+)
+```
+
+Example: iOS-parity price card
+```tsx
+<PriceDealCard price={499} />
+```
+```kotlin
+PriceDealCard(price = 499)
+```
+
 #### Value card & sheet (`value-card`)
 
 What Unlimited saved you: calls handled, the perks, the expiry chip and the current plan. Inside the sheet that rises after a call near the end of a plan, and on the plan page (circuit pattern, no perks). For free users the QuotaCard counts the week’s calls instead.
@@ -6151,7 +6231,7 @@ ProfileHeader(name = "Keshav", phone = "+91 98789 56749")
   }
   ```
 
-## Flows (22)
+## Flows (23)
 
 ### Monetization (`/flows/monetization`)
 
@@ -6591,6 +6671,199 @@ States:
   ```kotlin
   EqualTheme {
       ForceUpdateSample(hard = false, onUpdate = { /* FLEXIBLE update */ }, onLater = { /* snooze this version */ })
+  }
+  ```
+
+### Known call usage cap (`/flows/usage-cap`)
+
+Free users share a weekly allowance between known and unknown calls, and each type has its own cap. Home shows what is left; a gold sheet rises once at 20 %, at 100 % and at each cap; View Details explains the split. The card has three experiment options (A, B, C).
+
+Source: Known Call Usage Cap
+
+1. Home card: “67 Calls left this week”, a known / unknown meter, the reset. From 20 % used an Upgrade Now appears (A in the header, B and C full width, C in gold).
+2. Limit sheets: each rises over Home once per week per threshold (20 %, 100 %, known cap, unknown cap). Close or the scrim dismisses it; the CTA opens the paywall.
+3. View Details: View Details (A) or the chevron (B, C) opens the green sheet: calls left, per-type meters, the reset and the perks or the info note.
+4. Numbers are props: the total, the per-type caps and every count. The design’s numbers disagree in places (68 + 12 vs 68 + 18, a 30-call protection limit); product decides the real ones.
+
+States:
+- `under-a` 0 to 19 % · A: View Details: `<UsageCapHome state="under" cta="details" />`
+  ```kotlin
+  EqualTheme {
+      UsageCapHomeSample(state = UsageState.Under, cta = UsageCardCta.Details)
+  }
+  ```
+- `under-b` 0 to 19 % · B: chevron + green CTA: `<UsageCapHome state="under" cta="chevron" />`
+  ```kotlin
+  EqualTheme {
+      UsageCapHomeSample(state = UsageState.Under, cta = UsageCardCta.Chevron)
+  }
+  ```
+- `under-c` 0 to 19 % · C: chevron + gold CTA: `<UsageCapHome state="under" cta="chevron-gold" />`
+  ```kotlin
+  EqualTheme {
+      UsageCapHomeSample(state = UsageState.Under, cta = UsageCardCta.ChevronGold)
+  }
+  ```
+- `nudge-a` 80 % nudge · A: View Details: `<UsageCapHome state="nudge" cta="details" />`
+  ```kotlin
+  EqualTheme {
+      UsageCapHomeSample(state = UsageState.Nudge, cta = UsageCardCta.Details)
+  }
+  ```
+- `nudge-b` 80 % nudge · B: chevron + green CTA: `<UsageCapHome state="nudge" cta="chevron" />`
+  ```kotlin
+  EqualTheme {
+      UsageCapHomeSample(state = UsageState.Nudge, cta = UsageCardCta.Chevron)
+  }
+  ```
+- `nudge-c` 80 % nudge · C: chevron + gold CTA: `<UsageCapHome state="nudge" cta="chevron-gold" />`
+  ```kotlin
+  EqualTheme {
+      UsageCapHomeSample(state = UsageState.Nudge, cta = UsageCardCta.ChevronGold)
+  }
+  ```
+- `exhausted-a` 100 %: weekly limit reached · A: View Details: `<UsageCapHome state="exhausted" cta="details" />`
+  ```kotlin
+  EqualTheme {
+      UsageCapHomeSample(state = UsageState.Exhausted, cta = UsageCardCta.Details)
+  }
+  ```
+- `exhausted-b` 100 %: weekly limit reached · B: chevron + green CTA: `<UsageCapHome state="exhausted" cta="chevron" />`
+  ```kotlin
+  EqualTheme {
+      UsageCapHomeSample(state = UsageState.Exhausted, cta = UsageCardCta.Chevron)
+  }
+  ```
+- `exhausted-c` 100 %: weekly limit reached · C: chevron + gold CTA: `<UsageCapHome state="exhausted" cta="chevron-gold" />`
+  ```kotlin
+  EqualTheme {
+      UsageCapHomeSample(state = UsageState.Exhausted, cta = UsageCardCta.ChevronGold)
+  }
+  ```
+- `paused-a` 100 %: assistant paused · A: View Details: `<UsageCapHome state="paused" cta="details" />`
+  ```kotlin
+  EqualTheme {
+      UsageCapHomeSample(state = UsageState.Paused, cta = UsageCardCta.Details)
+  }
+  ```
+- `paused-b` 100 %: assistant paused · B: chevron + green CTA: `<UsageCapHome state="paused" cta="chevron" />`
+  ```kotlin
+  EqualTheme {
+      UsageCapHomeSample(state = UsageState.Paused, cta = UsageCardCta.Chevron)
+  }
+  ```
+- `paused-c` 100 %: assistant paused · C: chevron + gold CTA: `<UsageCapHome state="paused" cta="chevron-gold" />`
+  ```kotlin
+  EqualTheme {
+      UsageCapHomeSample(state = UsageState.Paused, cta = UsageCardCta.ChevronGold)
+  }
+  ```
+- `known-cap-a` Known call limit reached · A: View Details: `<UsageCapHome state="known-cap" cta="details" />`
+  ```kotlin
+  EqualTheme {
+      UsageCapHomeSample(state = UsageState.KnownCap, cta = UsageCardCta.Details)
+  }
+  ```
+- `known-cap-b` Known call limit reached · B: chevron + green CTA: `<UsageCapHome state="known-cap" cta="chevron" />`
+  ```kotlin
+  EqualTheme {
+      UsageCapHomeSample(state = UsageState.KnownCap, cta = UsageCardCta.Chevron)
+  }
+  ```
+- `known-cap-c` Known call limit reached · C: chevron + gold CTA: `<UsageCapHome state="known-cap" cta="chevron-gold" />`
+  ```kotlin
+  EqualTheme {
+      UsageCapHomeSample(state = UsageState.KnownCap, cta = UsageCardCta.ChevronGold)
+  }
+  ```
+- `unknown-cap-a` Unknown call limit reached · A: View Details: `<UsageCapHome state="unknown-cap" cta="details" />`
+  ```kotlin
+  EqualTheme {
+      UsageCapHomeSample(state = UsageState.UnknownCap, cta = UsageCardCta.Details)
+  }
+  ```
+- `unknown-cap-b` Unknown call limit reached · B: chevron + green CTA: `<UsageCapHome state="unknown-cap" cta="chevron" />`
+  ```kotlin
+  EqualTheme {
+      UsageCapHomeSample(state = UsageState.UnknownCap, cta = UsageCardCta.Chevron)
+  }
+  ```
+- `unknown-cap-c` Unknown call limit reached · C: chevron + gold CTA: `<UsageCapHome state="unknown-cap" cta="chevron-gold" />`
+  ```kotlin
+  EqualTheme {
+      UsageCapHomeSample(state = UsageState.UnknownCap, cta = UsageCardCta.ChevronGold)
+  }
+  ```
+- `sheet-20-used` 20 % sheet: used: `<UsageCapHome sheet="20-used" />`
+  ```kotlin
+  EqualTheme {
+      UsageCapHomeSample(sheet = "20-used")
+  }
+  ```
+- `sheet-20-percent` 20 % sheet: percent: `<UsageCapHome sheet="20-percent" />`
+  ```kotlin
+  EqualTheme {
+      UsageCapHomeSample(sheet = "20-percent")
+  }
+  ```
+- `sheet-20-rows` 20 % sheet: rows: `<UsageCapHome sheet="20-rows" />`
+  ```kotlin
+  EqualTheme {
+      UsageCapHomeSample(sheet = "20-rows")
+  }
+  ```
+- `sheet-100` 100 % sheet: `<UsageCapHome sheet="100" />`
+  ```kotlin
+  EqualTheme {
+      UsageCapHomeSample(sheet = "100")
+  }
+  ```
+- `sheet-100-rows` 100 % sheet: rows: `<UsageCapHome sheet="100-rows" />`
+  ```kotlin
+  EqualTheme {
+      UsageCapHomeSample(sheet = "100-rows")
+  }
+  ```
+- `sheet-known` Known cap sheet: `<UsageCapHome sheet="known" />`
+  ```kotlin
+  EqualTheme {
+      UsageCapHomeSample(sheet = "known")
+  }
+  ```
+- `sheet-known-rows` Known cap sheet: rows: `<UsageCapHome sheet="known-rows" />`
+  ```kotlin
+  EqualTheme {
+      UsageCapHomeSample(sheet = "known-rows")
+  }
+  ```
+- `sheet-unknown` Unknown cap sheet: `<UsageCapHome sheet="unknown" />`
+  ```kotlin
+  EqualTheme {
+      UsageCapHomeSample(sheet = "unknown")
+  }
+  ```
+- `sheet-unknown-rows` Unknown cap sheet: rows: `<UsageCapHome sheet="unknown-rows" />`
+  ```kotlin
+  EqualTheme {
+      UsageCapHomeSample(sheet = "unknown-rows")
+  }
+  ```
+- `details` View Details: perks (A): `<UsageCapHome details="perks" />`
+  ```kotlin
+  EqualTheme {
+      UsageCapHomeSample(details = false)
+  }
+  ```
+- `details-info` View Details: info note (B): `<UsageCapHome details="info" />`
+  ```kotlin
+  EqualTheme {
+      UsageCapHomeSample(details = true)
+  }
+  ```
+- `p0` P0: free home with Upgrade: `<HomeScreen tier="free" assistantOff upgradePill />`
+  ```kotlin
+  EqualTheme {
+      HomeScreenSample(tier = PlanTier.Free, assistantOff = true, upgradePill = true)
   }
   ```
 
@@ -7058,8 +7331,11 @@ Source: Plan Expired Touchpoint · Usage Cap Touchpoint (options 1 & 2) · Touch
 2. Plan expired, option 2: no chat, a card under the header instead (👑 Your Plan Expired · Renew Now).
 3. Usage cap: the assistant switches Off at the weekly limit. Option 1 is again an Equal AI message (“Weekly call limit reached…”). Option 2 is a meter card: “7 Calls left this week · Resets Mon | Unlimited on premium” with Get Unlimited.
 4. Actions locked: action chips turn gold with the crown-lock. Tapping one opens the paywall (here the sheet) with “Unlock Unlimited Actions…” and the locked row as its preview.
-5. Recordings locked: bubbles blur, the recording washes gold under the crown-lock, and Unlock All Details sits at the bottom. With actions, Call Back / Add to Calendar stay visible under the summary and show locked in the paywall preview.
-6. Toggle art (Component 25): the phone-with-sparkles is an experiment on the toggle; the robot stays the default.
+5. Plan expired, option 3: on the You tab the plan card says Expired and asks to renew, with a gold Renew Equal AI Unlimited.
+6. iOS parity paywall: a warm hero (animated or still crown), the black “Limited time deal” price card, the coupon, the locked summary and a black CTA.
+7. Recordings locked, options 1 and 2: an Equal AI message (“Your call recordings are locked”) or a home card (Call Recordings Locked · Get Unlimited), with or without the icon.
+8. Recordings locked: bubbles blur, the recording washes gold under the crown-lock, and Unlock All Details sits at the bottom. With actions, Call Back / Add to Calendar stay visible under the summary and show locked in the paywall preview.
+9. Toggle art (Component 25): the phone-with-sparkles is an experiment on the toggle; the robot stays the default.
 
 States:
 - `expired-home` Plan expired 1: Equal AI chat: `<HomeScreen tier="free" planExpired official="plan-expired" />`
@@ -7083,7 +7359,7 @@ States:
 - `expired-card` Plan expired 2: home card: `<HomeScreen tier="free" planExpired homeNotice="plan-expired" />`
   ```kotlin
   EqualTheme {
-      HomeScreenSample(tier = PlanTier.Free, planExpired = true, homeNotice = HomeNotice.PlanExpired)
+      HomeScreenSample(tier = PlanTier.Free, planExpired = true, homeNotice = HomeNotice.PlanExpired())
   }
   ```
 - `cap-chat-home` Usage cap 1: Equal AI chat: `<HomeScreen tier="free" assistantOff official="usage-cap" />`
@@ -7133,6 +7409,72 @@ States:
   ```kotlin
   EqualTheme {
       PaywallScreen(touchpoint = PaywallTouchpoint.RecordingsActions, cta = "Get Equal AI Unlimited")
+  }
+  ```
+- `expired-card-plain` Plan expired 2: card without the crown: `<HomeScreen tier="free" planExpired homeNotice="plan-expired-plain" />`
+  ```kotlin
+  EqualTheme {
+      HomeScreenSample(tier = PlanTier.Free, planExpired = true, homeNotice = HomeNotice.PlanExpired(crown = false))
+  }
+  ```
+- `expired-profile` Plan expired 3: You tab: `<YouScreen tier="free" plan="expired" planRenew />`
+  ```kotlin
+  EqualTheme {
+      YouScreenSample(tier = PlanTier.Free, plan = YouPlan.Expired, planRenew = true)
+  }
+  ```
+- `ios-paywall` Paywall: iOS parity (animated crown): `<PaywallScreen layout="ios" price={499} />`
+  ```kotlin
+  EqualTheme {
+      PaywallScreen(layout = PaywallLayout.Ios, price = 499)
+  }
+  ```
+- `ios-paywall-image` Paywall: iOS parity (still crown): `<PaywallScreen layout="ios" crown="image" price={499} />`
+  ```kotlin
+  EqualTheme {
+      PaywallScreen(layout = PaywallLayout.Ios, crownAnimated = false, price = 499)
+  }
+  ```
+- `cap-paywall` Usage cap 1: paywall: `<PaywallScreen touchpoint="usage-cap" subtitle="cap" cta="Get Equal AI Unlimited" />`
+  ```kotlin
+  EqualTheme {
+      PaywallScreen(touchpoint = PaywallTouchpoint.UsageCap, subtitle = PaywallSubtitle.Cap, cta = "Get Equal AI Unlimited")
+  }
+  ```
+- `cap-card-plain` Usage cap 2: card without the icon: `<HomeScreen tier="free" assistantOff homeNotice={{ callsLeft: 7, limit: 30, lead: false }} />`
+  ```kotlin
+  EqualTheme {
+      HomeScreenSample(tier = PlanTier.Free, assistantOff = true, homeNotice = HomeNotice.UsageCap(callsLeft = 7, limit = 30, icon = false))
+  }
+  ```
+- `rec-chat-home` Recordings 1: Equal AI chat: `<HomeScreen tier="free" official="recordings-locked" />`
+  ```kotlin
+  EqualTheme {
+      HomeScreenSample(tier = PlanTier.Free, official = OfficialNotice.RecordingsLocked)
+  }
+  ```
+- `rec-chat` Recordings 1: the message: `<ChatScreen official="recordings-locked" />`
+  ```kotlin
+  EqualTheme {
+      ChatScreenSample(official = OfficialNotice.RecordingsLocked)
+  }
+  ```
+- `rec-paywall` Recordings 1: paywall: `<PaywallScreen touchpoint="recordings" cta="Get Equal AI Unlimited" />`
+  ```kotlin
+  EqualTheme {
+      PaywallScreen(touchpoint = PaywallTouchpoint.Recordings, cta = "Get Equal AI Unlimited")
+  }
+  ```
+- `rec-card` Recordings 2: home card: `<HomeScreen tier="free" homeNotice="recordings-locked" />`
+  ```kotlin
+  EqualTheme {
+      HomeScreenSample(tier = PlanTier.Free, homeNotice = HomeNotice.RecordingsLocked())
+  }
+  ```
+- `rec-card-plain` Recordings 2: card without the icon: `<HomeScreen tier="free" homeNotice="recordings-locked-plain" />`
+  ```kotlin
+  EqualTheme {
+      HomeScreenSample(tier = PlanTier.Free, homeNotice = HomeNotice.RecordingsLocked(icon = false))
   }
   ```
 - `phone-toggle` Toggle art: phone (Component 25): `<HomeScreen assistantArt="phone" promo="meet-assistant" />`
@@ -7894,6 +8236,18 @@ Alias colours (CSS `var(--eq-<name without component/>)`, TS `color.*`, Compose 
 - `component/call-control/active-bg`  light #1F2937 · dark #F2F2F2 · derived
 - `component/call-control/active-icon`  light {brand.white} · dark {brand.black} · derived
 - `component/health-check/icon-bg`  light {brand.black} @ 4% · dark {brand.white} @ 8% · derived
+- `component/usage-meter/known`  light {brand.green} · dark {brand.lime} · derived
+- `component/usage-meter/unknown`  light #006C27 · dark #7A9E2E · derived
+- `component/usage-meter/track`  light #F0F0F0 · dark {brand.white} @ 12% · derived
+- `component/usage-meter/glow`  light #69FFA0 @ 60% · dark {brand.lime} @ 12% · derived
+- `component/usage-meter/gold-track`  light #A0621F @ 20% · dark #E8BD62 @ 20% · derived
+- `component/expiry-chip/success-bg`  light #E6FFEF · dark {brand.lime} @ 12% · derived
+- `component/expiry-chip/success-text`  light #006C27 · dark {brand.lime} · derived
+- `component/info-note/title`  light #00518C · dark #8CCBFF · derived
+- `component/paywall/deal-pill`  light #272727 · dark #272727 · derived
+- `component/paywall/deal-glow`  light #FFC927 @ 30% · dark #FFC927 @ 30% · derived
+- `component/paywall/deal-ring`  light #FFC927 @ 20% · dark #FFC927 @ 20% · derived
+- `text/deal-gold`  light #FFC927 · dark #FFC927 · derived
 
 Gradients (CSS `var(--eq-gradient-<name>)`, Compose `EqualTheme.gradients.*`):
 
@@ -7934,6 +8288,11 @@ Gradients (CSS `var(--eq-gradient-<name>)`, Compose `EqualTheme.gradients.*`):
 - `gradient/button-critical-secondary`  light 180deg: #FFFFFF 0%, #FFE0E0 100% · dark 180deg: #1F1F1F 0%, #3A2224 100%
 - `gradient/button-premium-secondary`  light 180deg: #FFFFFF 0%, #FFF9EC 100% · dark 180deg: #1F1F1F 0%, #33291A 100%
 - `gradient/assistant-call`  light 180deg: {brand.green} 19%, #73D095 59%, #FFFFFF 100% · dark 180deg: {brand.lime} 19%, {brand.lime} @ 45% 59%, #141414 100%
+- `gradient/usage-meter-gold-deep`  light 135deg: #DA8F02 0%, #A66501 40%, #8B5001 70%, #713A00 100% · dark 135deg: #FEC378 0%, #FA8C01 100%
+- `gradient/usage-meter-gold`  light 135deg: #D1A85C 0%, #A0621F 100% · dark 135deg: #FEC378 0%, #FA8C01 100%
+- `gradient/paywall-hero-ios`  light 180deg: #FFFFFF 0%, #FFFEFC 45%, #FFC927 100% · dark 180deg: #4A3C1C 0%, #141414 100%
+- `gradient/paywall-deal-card`  light 135deg: #000000 0%, #2E2E2E 60%, #7A4900 100% · dark 135deg: #000000 0%, #2E2E2E 60%, #7A4900 100%
+- `gradient/paywall-dark-cta`  light 90deg: #000000 0%, #2E2E2E 100% · dark 90deg: #000000 0%, #2E2E2E 100%
 
 Typography (DM Sans; `<Text variant>`, `.eq-t-<name>`, `EqualTheme.type.<name>`):
 

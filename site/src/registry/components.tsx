@@ -118,6 +118,11 @@ import {
   UpdateArt,
   Spinner,
   type SnoozeDuration,
+  UsageMeterCard,
+  UsageLimitCard,
+  UsageDetailsSheet,
+  SegmentedMeter,
+  PriceDealCard,
   SkeletonText,
   ChipRow,
   Composer,
@@ -1413,6 +1418,98 @@ const [muted, setMuted] = useState(false);
     ],
     dos: ['Keep OK disabled until a duration is picked.', 'Say why it failed and give the next step on the same sheet.', 'Turning the assistant back on needs no dialog.'],
     donts: ["Don't preselect a duration.", "Don't give the hard update a close button; Back exits the app."],
+  },
+  {
+    id: 'usage-meter',
+    name: 'Usage meter',
+    group: 'Monetization',
+    summary: 'Known Call Usage Cap: the weekly allowance split by caller type. The Home card (three experiment options), the gold card on the weekly limit sheets, the green View Details sheet and the segmented meter they share. Every number is a prop.',
+    components: ['UsageMeterCard', 'UsageLimitCard', 'UsageDetailsSheet', 'SegmentedMeter', 'MeterRow', 'MeterLegend', 'PriceDealCard'],
+    importLine: "import { UsageMeterCard, UsageLimitCard, UsageDetailsSheet, SegmentedMeter } from '@equal/ds';",
+    compose: ['UsageMeterCard', 'UsageLimitCard', 'UsageDetailsSheet', 'SegmentedMeter', 'MeterRow', 'MeterLegend', 'PriceDealCard'],
+    spec: 'Known Call Usage Cap · Monetization 27 Aug Touchpoint',
+    tokens: ['usage-meter/known', 'usage-meter/unknown', 'usage-meter/track', 'usage-meter/glow', 'usage-meter/gold-track', 'gradient/usage-meter-gold', 'gradient/usage-meter-gold-deep', 'expiry-chip/success-bg', 'info-note/title'],
+    examples: [
+      {
+        title: 'Home card options',
+        note: 'A: Upgrade in the header, View Details footer. B: chevron + green CTA. C: chevron + gold CTA.',
+        render: () => (
+          <Col gap={12} style={{ padding: '16px 0', maxWidth: 390 }}>
+            <UsageMeterCard used={{ known: 49, unknown: 15 }} total={80} cta="details" />
+            <UsageMeterCard used={{ known: 49, unknown: 15 }} total={80} cta="chevron" />
+            <UsageMeterCard used={{ known: 18, unknown: 40 }} total={80} state="unknown-cap" resetsIn="2 days" cta="chevron-gold" />
+          </Col>
+        ),
+        code: `<UsageMeterCard used={{ known: 49, unknown: 15 }} total={80} cta="details" onUpgrade={upgrade} onDetails={details} />
+<UsageMeterCard used={{ known: 49, unknown: 15 }} total={80} cta="chevron" />
+<UsageMeterCard used={{ known: 18, unknown: 40 }} total={80} state="unknown-cap" resetsIn="2 days" cta="chevron-gold" />`,
+      },
+      {
+        title: 'Limit card',
+        render: () => (
+          <div style={{ padding: 16, maxWidth: 380 }}>
+            <UsageLimitCard used={{ known: 62, unknown: 18 }} limits={{ known: 68, unknown: 18 }} total={80} meter="rows" resetsInDays={2} />
+          </div>
+        ),
+        code: `<ValueSheet card={<UsageLimitCard used={{ known: 62, unknown: 18 }} limits={{ known: 68, unknown: 18 }} total={80} meter="rows" resetsInDays={2} />} onRenew={upgrade} onClose={close} />`,
+      },
+      {
+        title: 'View Details',
+        render: () => (
+          <div style={{ padding: 16, maxWidth: 390 }}>
+            <UsageDetailsSheet mode="inline" used={{ known: 9, unknown: 4 }} limits={{ known: 68, unknown: 12 }} total={80} resetsInDays={2} body="info" />
+          </div>
+        ),
+        code: `<UsageDetailsSheet used={{ known: 9, unknown: 4 }} limits={{ known: 68, unknown: 12 }} total={80} resetsInDays={2} body="info" onUpgrade={upgrade} onClose={close} />`,
+      },
+      {
+        title: 'iOS-parity price card',
+        render: () => <div style={{ padding: '8px 0 16px', maxWidth: 390 }}><PriceDealCard price={499} /></div>,
+        code: `<PriceDealCard price={499} />`,
+      },
+    ],
+    props: [
+      {
+        component: 'UsageMeterCard',
+        props: [
+          req('used', '{ known: number; unknown: number }', 'Calls used this week by caller type.'),
+          req('total', 'number', 'The shared weekly allowance.'),
+          opt('limits', '{ known; unknown }', undefined, 'Per-type caps; needed to derive known-cap / unknown-cap.'),
+          opt('state', "'under' | 'nudge' | 'exhausted' | 'paused' | 'known-cap' | 'unknown-cap'", 'derived', 'Title, legend wording and order.'),
+          opt('resetsIn', 'string', "'3 days'", 'Right of the legend.'),
+          opt('pausedUntil', 'string', "'Monday'", 'paused: "Assistant Paused till Monday".'),
+          opt('cta', "'details' | 'chevron' | 'chevron-gold'", "'details'", 'Experiment option A / B / C.'),
+          opt('showUpgrade', 'boolean', '≥ 20 % used', 'Upgrade Now visibility.'),
+          opt('lead', 'ReactNode | null', 'phone', 'null hides the glyph.'),
+        ],
+      },
+      {
+        component: 'UsageLimitCard',
+        props: [
+          req('used', 'CallSplit', 'Calls used.'),
+          req('limits', 'CallSplit', 'Per-type caps (rows layout).'),
+          req('total', 'number', 'Shared allowance.'),
+          req('resetsInDays', 'number', 'The chip.'),
+          opt('head', "'used' | 'percent' | 'reached'", "'reached'", '20 % heads or Weekly Limit Reached.'),
+          opt('meter', "'stacked' | 'rows'", "'stacked'", 'One stacked bar or a row per type.'),
+          opt('reason', "'weekly' | 'known' | 'unknown'", "'weekly'", 'Orders the legend.'),
+          opt('price', 'number', '199', 'Plan row price (an experiment).'),
+        ],
+      },
+      {
+        component: 'UsageDetailsSheet',
+        props: [
+          req('used', 'CallSplit', 'Calls used.'),
+          req('limits', 'CallSplit', 'Per-type caps.'),
+          req('total', 'number', 'Shared allowance.'),
+          req('resetsInDays', 'number', 'Green chip.'),
+          opt('body', "'perks' | 'info'", "'perks'", 'Option A perks or option B info note.'),
+          opt('protectionLimit', 'number', '30', 'The unknown-call limit named in the note.'),
+        ],
+      },
+    ],
+    dos: ['Pass every number as a prop; the caps are product decisions.', 'Show each gold limit sheet once per week per threshold.', 'Keep the View Details sheet green: it is not a subscription surface.'],
+    donts: ["Don't hard-code 80, 68 or 18.", "Don't use colour alone: the legend names each segment."],
   },
   {
     id: 'text-field',

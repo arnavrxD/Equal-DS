@@ -28,5 +28,6 @@ export const paywallSubtitles = {
 /** Messages from Equal AI in its own chat (Plan Expired / Usage Cap option 1). */
 export const officialNotices = {
   'plan-expired': { preview: 'Your Plan Expired, Renew to get Unlimited', chip: 'Renew Now', title: 'Your Plan Expired', body: 'Renew to unlock unlimited recordings, call summaries, transcripts, and unlimited call screening.', cta: 'Renew Equal AI Unlimited' },
+  'recordings-locked': { preview: 'All Your recordings are locked, Unlock unlimited recordings and more with Pro.', chip: 'Get Unlimited', title: 'Your call recordings are locked', body: <>Subscribe to Equal Unlimited to get Unlimited Recordings, AI Call Summaries and Conversations.<br /><br />Trusted by 10 Lakh+ Indians.</>, cta: 'Get Equal AI Unlimited' },
   'usage-cap': { preview: 'Call limit reached, Resets in 3 days', chip: 'Get Unlimited', title: 'Weekly call limit reached, Limit Resets in 3days', body: <>You’ve reached your limit on Equal AI. Subscribe to Equal Unlimited to get Unlimited Recordings, AI Call Summaries and Conversations.<br /><br />Trusted by 10 Lakh+ Indians.</>, cta: 'Get Equal AI Unlimited' },
 } as const;

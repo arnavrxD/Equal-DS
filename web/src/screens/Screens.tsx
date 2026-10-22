@@ -2,6 +2,9 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import {
   type PlanTier,
+  type UsageMeterCardProps,
+  UsageMeterCard,
+  Icon,
   AddressCard,
   AiChatPanel,
   AiSummaryCard,
@@ -129,9 +132,13 @@ export type HomeScreenProps = {
   /** Meet Your Assistant → Call me (starts the in-app call, vOIP design). */
   onCallMe?: () => void;
   /** Card under the header: Plan Expired (option 2) or the weekly usage meter (Usage Cap option 2). */
-  homeNotice?: 'plan-expired' | { callsLeft: number; limit: number };
+  homeNotice?: 'plan-expired' | 'plan-expired-plain' | 'recordings-locked' | 'recordings-locked-plain' | { callsLeft: number; limit: number; lead?: false };
+  /** Known Call Usage Cap: the known / unknown usage card under the toggle (replaces homeNotice). */
+  usageMeter?: UsageMeterCardProps;
+  /** P0 free home: the 👑 Upgrade pill in the top bar. */
+  upgradePill?: boolean;
   /** Equal AI's own chat on top with its notice (Plan Expired / Usage Cap option 1). */
-  official?: 'plan-expired' | 'usage-cap';
+  official?: 'plan-expired' | 'usage-cap' | 'recordings-locked';
   onOfficialChat?: () => void;
   /** Actions touchpoint: every row's action chips are crown-locked. */
   lockedActions?: boolean;
@@ -147,7 +154,7 @@ export type HomeScreenProps = {
   overlay?: ReactNode;
 };
 
-export function HomeScreen({ chats = sampleChats, onOpenChat, onTab, onDeleteSelected, onSearch, showWhatsNew = true, avatar = 'male', tier = 'paid', systemStatus = 'ok', onNotify, promo = 'whats-new', lockedFrom, onLockedChat, planExpiry, valueSheet, onRenew, quotaSheet, assistant, assistantResult, callSetup, onCallSetup, assistantDescription, planExpired, assistantOff, assistantArt, onCallMe, healthAlert, homeNotice, official, onOfficialChat, lockedActions, paymentProcessing, paywallSheet, offerStrip, assistantControl, overlay }: HomeScreenProps) {
+export function HomeScreen({ chats = sampleChats, onOpenChat, onTab, onDeleteSelected, onSearch, showWhatsNew = true, avatar = 'male', tier = 'paid', systemStatus = 'ok', onNotify, promo = 'whats-new', lockedFrom, onLockedChat, planExpiry, valueSheet, onRenew, quotaSheet, assistant, assistantResult, callSetup, onCallSetup, assistantDescription, planExpired, assistantOff, assistantArt, onCallMe, healthAlert, homeNotice, official, onOfficialChat, lockedActions, paymentProcessing, paywallSheet, offerStrip, assistantControl, overlay, usageMeter, upgradePill }: HomeScreenProps) {
   const [assistantOn, setAssistantOn] = useState(!assistantOff && !healthAlert);
   const [pw, setPw] = useState<PaywallSheetStage | null>(typeof paywallSheet === 'string' ? paywallSheet : null);
   useEffect(() => setPw(typeof paywallSheet === 'string' ? paywallSheet : null), [paywallSheet]);
@@ -183,6 +190,7 @@ export function HomeScreen({ chats = sampleChats, onOpenChat, onTab, onDeleteSel
           />
         ) : (
           <HomeHeader
+            trailing={upgradePill ? <Button appearance="premium" emphasis="secondary" size="sm" onClick={onRenew ?? openPaywall}><span aria-hidden>👑 </span>Upgrade</Button> : undefined}
             assistantOn={assistantControl ? assistantControl.on : assistantOn}
             onAssistantChange={assistantControl ? (v) => assistantControl.onChange?.(v) : setAssistantOn}
             assistantBusy={assistantControl?.busy}
@@ -202,9 +210,12 @@ export function HomeScreen({ chats = sampleChats, onOpenChat, onTab, onDeleteSel
     >
       {planExpiry && !selecting && <PlanExpiryBanner expiry={planExpiry} onRenew={onRenew} />}
       {offer && !selecting && <OfferStrip onClick={() => setPw('claimed')} />}
-      {homeNotice && !selecting && (homeNotice === 'plan-expired'
-        ? <HomeNoticeCard lead={<span aria-hidden>👑</span>} title="Your Plan Expired" subtitle="Renew to get Unlimited access back" cta="Renew Now" onCta={onRenew ?? openPaywall} />
-        : <UsageCapCard left={homeNotice.callsLeft} limit={homeNotice.limit} onUpgrade={onRenew ?? openPaywall} />)}
+      {usageMeter && !selecting && <div style={{ paddingTop: 12 }}><UsageMeterCard onUpgrade={onRenew ?? openPaywall} {...usageMeter} /></div>}
+      {homeNotice && !usageMeter && !selecting && (homeNotice === 'plan-expired' || homeNotice === 'plan-expired-plain'
+        ? <HomeNoticeCard lead={homeNotice === 'plan-expired' ? <span aria-hidden>👑</span> : undefined} title="Your Plan Expired" subtitle="Renew to get Unlimited access back" cta="Renew Now" onCta={onRenew ?? openPaywall} />
+        : homeNotice === 'recordings-locked' || homeNotice === 'recordings-locked-plain'
+          ? <HomeNoticeCard lead={homeNotice === 'recordings-locked' ? <Icon name="call-filled" size={16} /> : undefined} title="Call Recordings Locked" subtitle="Subscribe to get unlimited recordings" cta="Get Unlimited" onCta={onRenew ?? openPaywall} />
+          : <UsageCapCard left={homeNotice.callsLeft} limit={homeNotice.limit} lead={homeNotice.lead === false ? null : undefined} onUpgrade={onRenew ?? openPaywall} />)}
       {!selecting && chats.length > 0 && (
         <div style={{ padding: '12px 16px 0' }}>
           <SearchField value="" onActivate={onSearch ?? (() => {})} />
@@ -269,7 +280,7 @@ export type ChatScreenProps = {
   ongoing?: string;
   /** Monetization experiments ---------------------------------------------------------------- */
   /** Equal AI's own conversation with its notice (Plan Expired / Usage Cap option 1). */
-  official?: 'plan-expired' | 'usage-cap';
+  official?: 'plan-expired' | 'usage-cap' | 'recordings-locked';
   /** Call Back / Add to Calendar rows under the call summary (green; the paywall shows them locked). */
   summaryActions?: boolean;
   /** "Payment processing" strip under the header. */
@@ -416,9 +427,11 @@ export type YouScreenProps = {
   plan?: 'none' | 'active' | 'restore' | 'reactivate' | 'expired';
   /** The plan card link (the Manage plan touchpoint). */
   onManagePlan?: () => void;
+  /** Plan Expired option 3: the plan card asks to renew (use with plan="expired"). */
+  planRenew?: boolean;
 };
 
-export function YouScreen({ onTab, onOpen, summary = 'ready', avatar = 'male', name = 'Keshav', tier = 'paid', plan = 'active', onManagePlan }: YouScreenProps) {
+export function YouScreen({ onTab, onOpen, summary = 'ready', avatar = 'male', name = 'Keshav', tier = 'paid', plan = 'active', onManagePlan, planRenew }: YouScreenProps) {
   const [assistantOn, setAssistantOn] = useState(true);
   // No subscription and no plan: mint header, plain avatar, no plan card, and the rows without NEW markers.
   const none = plan === 'none';
@@ -428,7 +441,7 @@ export function YouScreen({ onTab, onOpen, summary = 'ready', avatar = 'male', n
         <ProfileHero tone="plain" name={name} phone="+91 98789 56749" avatar={avatar} tier="free" onEdit={() => onOpen?.('personal')} />
       ) : (
       <ProfileHero name={name} phone="+91 98789 56749" avatar={avatar} tier={tier} plan={tier === 'paid' ? 'Unlimited' : null} onEdit={() => onOpen?.('personal')}>
-        <PlanCard onManage={onManagePlan ?? (() => {})} status={plan === 'expired' ? 'expired' : 'current'} actionLabel={plan === 'restore' ? 'Restore Plan' : plan === 'reactivate' ? 'Reactivate plan' : 'Manage plan'} />
+        <PlanCard renew={planRenew ? { onRenew: onManagePlan } : undefined} onManage={onManagePlan ?? (() => {})} status={plan === 'expired' ? 'expired' : 'current'} actionLabel={plan === 'restore' ? 'Restore Plan' : plan === 'reactivate' ? 'Reactivate plan' : 'Manage plan'} />
         {plan === 'reactivate' && <PlanBanner attached>Reactivate your current Plan to use Equal Unlimited</PlanBanner>}
       </ProfileHero>
       )}

@@ -110,7 +110,7 @@ sealed interface PlanExpiry {
 }
 
 /** [ExpiryChip] tint. */
-enum class ExpiryTone { Active, Warning, Danger }
+enum class ExpiryTone { Active, Warning, Danger, Success }
 
 /** The value card's date row for a [PlanExpiry]: the [label], the [chip] text and its [tone]. */
 @Immutable
@@ -153,13 +153,14 @@ fun ExpiryChip(
         ExpiryTone.Active -> colors.expiryChipActiveBg to colors.textGold
         ExpiryTone.Warning -> colors.expiryChipWarningBg to colors.expiryChipWarningText
         ExpiryTone.Danger -> colors.expiryChipDangerBg to colors.expiryChipDangerText
+        ExpiryTone.Success -> colors.expiryChipSuccessBg to colors.expiryChipSuccessText
     }
-    val shape = RoundedCornerShape(6.dp)
+    val shape = RoundedCornerShape(if (tone == ExpiryTone.Success) 4.dp else 6.dp)
     Box(
         modifier
             .height(30.dp)
             .clip(shape)
-            .background(bg)
+            .background(if (tone == ExpiryTone.Success) Brush.horizontalGradient(listOf(bg, Color.Transparent)) else SolidColor(bg))
             .padding(horizontal = 8.dp),
         contentAlignment = Alignment.Center,
     ) {
@@ -412,7 +413,7 @@ private fun ValueCardLayout(
 
 /** The card chrome shared by [ValueCard] and [QuotaCard]: shape, border, [pattern] and the 18 / 14, gap 14 column. */
 @Composable
-private fun ValueCardFrame(
+internal fun ValueCardFrame(
     modifier: Modifier,
     pattern: ValueCardPattern,
     flush: Boolean,
@@ -523,7 +524,7 @@ private fun CircuitLayer() {
 
 /** The perk rows (h16): radius 14, `value-card/perks-bg`, 1dp `value-card/stroke`; nothing when empty. */
 @Composable
-private fun ValuePerksList(perks: List<ValuePerk>?) {
+internal fun ValuePerksList(perks: List<ValuePerk>?) {
     if (perks.isNullOrEmpty()) return
     val colors = EqualTheme.colors
     val perksShape = RoundedCornerShape(12.dp)
@@ -552,7 +553,7 @@ private fun ValuePerksList(perks: List<ValuePerk>?) {
 
 /** The date row (6 above): `paywall/divider` hairlines (min 12) around [label] (`body1`) and the [ExpiryChip], gap 8. */
 @Composable
-private fun ValueDateRow(label: String, chip: String, tone: ExpiryTone) {
+internal fun ValueDateRow(label: String, chip: String, tone: ExpiryTone) {
     val colors = EqualTheme.colors
     Row(
         Modifier
@@ -570,7 +571,7 @@ private fun ValueDateRow(label: String, chip: String, tone: ExpiryTone) {
 
 /** The plan row (h16, bottom-aligned): [label] over [plan], ₹[price] ₹[was] (struck) [period] on the right. */
 @Composable
-private fun ValuePlanRow(label: String, plan: String, price: Int, was: Int?, period: String) {
+internal fun ValuePlanRow(label: String, plan: String, price: Int, was: Int?, period: String) {
     val colors = EqualTheme.colors
     val type = EqualTheme.type
     Row(
@@ -760,11 +761,13 @@ fun ValueSheet(
     inline: Boolean = false,
     quota: Quota? = null,
     perks: List<ValuePerk>? = if (quota != null) QuotaPerks else DefaultValuePerks,
+    /** Any card in place of the value / quota card (e.g. [UsageLimitCard]); the CTA defaults to "Get Equal AI Unlimited". */
+    card: (@Composable () -> Unit)? = null,
 ) {
     val colors = EqualTheme.colors
     val flush = variant == ValueSheetVariant.Flush
     val shape = if (inline) RoundedCornerShape(24.dp) else RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)
-    val label = cta ?: if (quota != null) "Get Equal AI Unlimited" else "Renew your Equal AI"
+    val label = cta ?: if (quota != null || card != null) "Get Equal AI Unlimited" else "Renew your Equal AI"
     val panel: @Composable (Modifier) -> Unit = { panelModifier ->
         Column(panelModifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
             // 48dp touch box around the 44dp circle: 14 + 2 = 16dp between the circle and the panel.
@@ -779,7 +782,9 @@ fun ValueSheet(
                     .semantics { paneTitle = if (quota != null) "Equal AI Unlimited" else "What Unlimited saved you" },
             ) {
                 Box(if (flush) Modifier else Modifier.padding(start = 12.dp, end = 12.dp, top = 12.dp)) {
-                    if (quota != null) {
+                    if (card != null) {
+                        card()
+                    } else if (quota != null) {
                         QuotaCardLayout(
                             quota = quota,
                             modifier = Modifier,
@@ -815,7 +820,7 @@ fun ValueSheet(
                         size = EqualButtonSize.Block,
                         modifier = Modifier.padding(16.dp),
                         // "Renew your Equal AI" has its own radial; the quota upsell keeps cta-gold.
-                        goldBrush = if (quota == null) EqualTheme.gradients.ctaRenew.toBrush() else null,
+                        goldBrush = if (quota == null && card == null) EqualTheme.gradients.ctaRenew.toBrush() else null,
                     )
                 }
             }

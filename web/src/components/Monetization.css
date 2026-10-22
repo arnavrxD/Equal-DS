@@ -183,6 +183,7 @@
 .eq-expiry-chip { display: inline-flex; align-items: center; height: 30px; padding: 0 8px; border-radius: 6px; font-weight: 700; font-size: 18px; letter-spacing: -0.02em; white-space: nowrap; }
 .eq-expiry-chip.is-active { background: var(--eq-expiry-chip-active-bg); color: var(--eq-text-gold); }
 .eq-expiry-chip.is-warning { background: var(--eq-expiry-chip-warning-bg); color: var(--eq-expiry-chip-warning-text); }
+.eq-expiry-chip.is-success { background: linear-gradient(88deg, var(--eq-expiry-chip-success-bg), transparent); color: var(--eq-expiry-chip-success-text); border-radius: 4px; }
 .eq-expiry-chip.is-danger { background: var(--eq-expiry-chip-danger-bg); color: var(--eq-expiry-chip-danger-text); }
 
 .eq-value-card { position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 14px; padding: 18px 0 14px; border-radius: 20px; background: var(--eq-gradient-value-card); border: 1px solid var(--eq-value-card-stroke); }
@@ -243,3 +244,10 @@
 /* Optional close (X) on a StatusSheet (Help Center, cancel feedback) when the host passes onClose. */
 .eq-status-sheet { position: relative; }
 .eq-status-sheet__close { position: absolute !important; top: 8px; right: 8px; z-index: 1; }
+
+/* iOS-parity paywall. */
+.eq-paywall-hero.is-ios { background: var(--eq-gradient-paywall-hero-ios); border-radius: 0 0 54px 54px; padding-bottom: 24px; }
+.eq-deal-card { position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: center; gap: 4px; margin: 20px 16px 0; padding: 20px 16px 16px; border-radius: 18px; background: var(--eq-gradient-paywall-deal-card); box-shadow: 0 0 24px var(--eq-paywall-deal-glow); }
+.eq-deal-card__rings { position: absolute; right: -60px; bottom: -60px; width: 152px; height: 152px; border-radius: 50%; box-shadow: 0 0 0 1px var(--eq-paywall-deal-ring), 0 0 0 19px var(--eq-paywall-deal-ring); pointer-events: none; }
+.eq-deal-card__pill { position: absolute; top: 0; left: 50%; transform: translateX(-50%); padding: 4px 8px; border-radius: 0 0 8px 8px; background: var(--eq-paywall-deal-pill); color: var(--eq-text-on-dark); text-transform: uppercase; white-space: nowrap; }
+.eq-paywall-dark-cta { background: var(--eq-gradient-paywall-dark-cta) !important; color: var(--eq-text-deal-gold) !important; }

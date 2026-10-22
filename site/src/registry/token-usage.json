@@ -70,6 +70,10 @@
     "name": "Paywall"
    },
    {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
     "id": "discount-badge",
     "name": "Discount badge & price drop"
    },
@@ -266,6 +270,10 @@
     "name": "Paywall"
    },
    {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
     "id": "discount-badge",
     "name": "Discount badge & price drop"
    },
@@ -402,6 +410,10 @@
    {
     "id": "paywall",
     "name": "Paywall"
+   },
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
    },
    {
     "id": "discount-badge",
@@ -543,6 +555,10 @@
    {
     "id": "paywall",
     "name": "Paywall"
+   },
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
    },
    {
     "id": "discount-badge",
@@ -829,6 +845,10 @@
     "name": "Paywall"
    },
    {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
     "id": "discount-badge",
     "name": "Discount badge & price drop"
    },
@@ -1047,6 +1067,10 @@
     "name": "Paywall"
    },
    {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
     "id": "discount-badge",
     "name": "Discount badge & price drop"
    },
@@ -1178,6 +1202,10 @@
     "name": "Paywall"
    },
    {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
     "id": "discount-badge",
     "name": "Discount badge & price drop"
    },
@@ -1294,6 +1322,10 @@
    {
     "id": "paywall",
     "name": "Paywall"
+   },
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
    },
    {
     "id": "discount-badge",
@@ -1573,6 +1605,10 @@
     "name": "Paywall"
    },
    {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
     "id": "discount-badge",
     "name": "Discount badge & price drop"
    },
@@ -1717,6 +1753,10 @@
     "name": "Paywall"
    },
    {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
     "id": "discount-badge",
     "name": "Discount badge & price drop"
    },
@@ -1837,6 +1877,10 @@
    {
     "id": "paywall",
     "name": "Paywall"
+   },
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
    },
    {
     "id": "discount-badge",
@@ -2010,6 +2054,10 @@
     "name": "Paywall"
    },
    {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
     "id": "discount-badge",
     "name": "Discount badge & price drop"
    },
@@ -2140,6 +2188,62 @@
    {
     "id": "health-check",
     "name": "Health check"
+   },
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
    },
    {
     "id": "monetization-experiments",
@@ -2385,6 +2489,10 @@
  },
  "component/invite/stroke": {
   "pages": [
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
    {
     "id": "profile-hero",
     "name": "Profile hero"
@@ -2696,6 +2804,10 @@
     "name": "Paywall"
    },
    {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
     "id": "discount-badge",
     "name": "Discount badge & price drop"
    },
@@ -2755,6 +2867,10 @@
    {
     "id": "paywall",
     "name": "Paywall"
+   },
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
    },
    {
     "id": "discount-badge",
@@ -2818,6 +2934,10 @@
     "name": "Paywall"
    },
    {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
     "id": "discount-badge",
     "name": "Discount badge & price drop"
    },
@@ -2879,6 +2999,10 @@
     "name": "Paywall"
    },
    {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
     "id": "discount-badge",
     "name": "Discount badge & price drop"
    },
@@ -2934,6 +3058,10 @@
    {
     "id": "paywall",
     "name": "Paywall"
+   },
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
    },
    {
     "id": "discount-badge",
@@ -2993,6 +3121,10 @@
     "name": "Paywall"
    },
    {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
     "id": "discount-badge",
     "name": "Discount badge & price drop"
    },
@@ -3050,6 +3182,10 @@
     "name": "Paywall"
    },
    {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
     "id": "discount-badge",
     "name": "Discount badge & price drop"
    },
@@ -3105,6 +3241,10 @@
    {
     "id": "paywall",
     "name": "Paywall"
+   },
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
    },
    {
     "id": "discount-badge",
@@ -3166,6 +3306,10 @@
    {
     "id": "paywall",
     "name": "Paywall"
+   },
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
    },
    {
     "id": "discount-badge",
@@ -3233,6 +3377,10 @@
     "name": "Paywall"
    },
    {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
     "id": "discount-badge",
     "name": "Discount badge & price drop"
    },
@@ -3288,6 +3436,10 @@
    {
     "id": "paywall",
     "name": "Paywall"
+   },
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
    },
    {
     "id": "discount-badge",
@@ -3401,6 +3553,10 @@
     "name": "Paywall"
    },
    {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
     "id": "discount-badge",
     "name": "Discount badge & price drop"
    },
@@ -3456,6 +3612,10 @@
    {
     "id": "paywall",
     "name": "Paywall"
+   },
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
    },
    {
     "id": "discount-badge",
@@ -3515,6 +3675,10 @@
     "name": "Paywall"
    },
    {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
     "id": "discount-badge",
     "name": "Discount badge & price drop"
    },
@@ -3570,6 +3734,10 @@
    {
     "id": "paywall",
     "name": "Paywall"
+   },
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
    },
    {
     "id": "discount-badge",
@@ -3629,6 +3797,10 @@
     "name": "Paywall"
    },
    {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
     "id": "discount-badge",
     "name": "Discount badge & price drop"
    },
@@ -3684,6 +3856,10 @@
    {
     "id": "paywall",
     "name": "Paywall"
+   },
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
    },
    {
     "id": "discount-badge",
@@ -3743,6 +3919,10 @@
     "name": "Paywall"
    },
    {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
     "id": "discount-badge",
     "name": "Discount badge & price drop"
    },
@@ -3798,6 +3978,10 @@
    {
     "id": "paywall",
     "name": "Paywall"
+   },
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
    },
    {
     "id": "discount-badge",
@@ -3878,6 +4062,10 @@
     "name": "Paywall"
    },
    {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
     "id": "discount-badge",
     "name": "Discount badge & price drop"
    },
@@ -3939,6 +4127,10 @@
     "name": "Paywall"
    },
    {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
     "id": "discount-badge",
     "name": "Discount badge & price drop"
    },
@@ -3994,6 +4186,10 @@
    {
     "id": "paywall",
     "name": "Paywall"
+   },
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
    },
    {
     "id": "discount-badge",
@@ -4221,6 +4417,10 @@
    {
     "id": "call-handling",
     "name": "Call Handling"
+   },
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
    }
   ],
   "screens": []
@@ -4378,6 +4578,10 @@
     "name": "Paywall"
    },
    {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
     "id": "discount-badge",
     "name": "Discount badge & price drop"
    },
@@ -4435,6 +4639,10 @@
     "name": "Paywall"
    },
    {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
     "id": "discount-badge",
     "name": "Discount badge & price drop"
    },
@@ -4490,6 +4698,10 @@
    {
     "id": "paywall",
     "name": "Paywall"
+   },
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
    },
    {
     "id": "discount-badge",
@@ -4786,6 +4998,430 @@
   ],
   "screens": []
  },
+ "component/usage-meter/known": {
+  "pages": [
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   }
+  ],
+  "screens": []
+ },
+ "component/usage-meter/unknown": {
+  "pages": [
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   }
+  ],
+  "screens": []
+ },
+ "component/usage-meter/track": {
+  "pages": [
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   }
+  ],
+  "screens": []
+ },
+ "component/usage-meter/glow": {
+  "pages": [
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   }
+  ],
+  "screens": []
+ },
+ "component/usage-meter/gold-track": {
+  "pages": [
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   }
+  ],
+  "screens": []
+ },
+ "component/expiry-chip/success-bg": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "component/expiry-chip/success-text": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "component/info-note/title": {
+  "pages": [
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   }
+  ],
+  "screens": []
+ },
+ "component/paywall/deal-pill": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "component/paywall/deal-glow": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "component/paywall/deal-ring": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "text/deal-gold": {
+  "pages": [
+   {
+    "id": "health-check",
+    "name": "Health check"
+   },
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
  "gradient/fab": {
   "pages": [
    {
@@ -5068,6 +5704,10 @@
     "name": "Paywall"
    },
    {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
     "id": "discount-badge",
     "name": "Discount badge & price drop"
    },
@@ -5127,6 +5767,10 @@
    {
     "id": "paywall",
     "name": "Paywall"
+   },
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
    },
    {
     "id": "discount-badge",
@@ -5190,6 +5834,10 @@
     "name": "Paywall"
    },
    {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
     "id": "discount-badge",
     "name": "Discount badge & price drop"
    },
@@ -5251,6 +5899,10 @@
     "name": "Paywall"
    },
    {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
     "id": "discount-badge",
     "name": "Discount badge & price drop"
    },
@@ -5306,6 +5958,10 @@
    {
     "id": "paywall",
     "name": "Paywall"
+   },
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
    },
    {
     "id": "discount-badge",
@@ -5369,6 +6025,10 @@
     "name": "Paywall"
    },
    {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
     "id": "discount-badge",
     "name": "Discount badge & price drop"
    },
@@ -5428,6 +6088,10 @@
    {
     "id": "paywall",
     "name": "Paywall"
+   },
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
    },
    {
     "id": "discount-badge",
@@ -5491,6 +6155,10 @@
     "name": "Paywall"
    },
    {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
     "id": "discount-badge",
     "name": "Discount badge & price drop"
    },
@@ -5546,6 +6214,10 @@
    {
     "id": "paywall",
     "name": "Paywall"
+   },
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
    },
    {
     "id": "discount-badge",
@@ -5662,6 +6334,10 @@
     "name": "Paywall"
    },
    {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
     "id": "discount-badge",
     "name": "Discount badge & price drop"
    },
@@ -5721,6 +6397,10 @@
    {
     "id": "paywall",
     "name": "Paywall"
+   },
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
    },
    {
     "id": "discount-badge",
@@ -5855,6 +6535,207 @@
    {
     "id": "call-controls",
     "name": "Call controls"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/usage-meter-gold-deep": {
+  "pages": [
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/usage-meter-gold": {
+  "pages": [
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/paywall-hero-ios": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/paywall-deal-card": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "gradient/paywall-dark-cta": {
+  "pages": [
+   {
+    "id": "locked-content",
+    "name": "Locked content"
+   },
+   {
+    "id": "faq",
+    "name": "FAQ"
+   },
+   {
+    "id": "paywall",
+    "name": "Paywall"
+   },
+   {
+    "id": "usage-meter",
+    "name": "Usage meter"
+   },
+   {
+    "id": "discount-badge",
+    "name": "Discount badge & price drop"
+   },
+   {
+    "id": "coupon-ticket",
+    "name": "Coupon ticket"
+   },
+   {
+    "id": "payment-status",
+    "name": "Payment status"
+   },
+   {
+    "id": "help-center-sheet",
+    "name": "Help Center sheet"
+   },
+   {
+    "id": "social-proof",
+    "name": "Social proof"
+   },
+   {
+    "id": "plan-banner",
+    "name": "Plan banner"
+   },
+   {
+    "id": "cancel-sheet",
+    "name": "Cancellation"
+   },
+   {
+    "id": "value-card",
+    "name": "Value card & sheet"
+   },
+   {
+    "id": "plan-expiry-banner",
+    "name": "Plan expiry banner"
+   },
+   {
+    "id": "feature-list",
+    "name": "Feature list"
    }
   ],
   "screens": []

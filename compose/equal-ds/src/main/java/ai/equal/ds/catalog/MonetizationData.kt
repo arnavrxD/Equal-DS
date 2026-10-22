@@ -81,6 +81,13 @@ enum class OfficialNotice(val preview: String, val chip: String, val title: Stri
         body = "Renew to unlock unlimited recordings, call summaries, transcripts, and unlimited call screening.",
         cta = "Renew Equal AI Unlimited",
     ),
+    RecordingsLocked(
+        preview = "All Your recordings are locked, Unlock unlimited recordings and more with Pro.",
+        chip = "Get Unlimited",
+        title = "Your call recordings are locked",
+        body = "Subscribe to Equal Unlimited to get Unlimited Recordings, AI Call Summaries and Conversations.\n\nTrusted by 10 Lakh+ Indians.",
+        cta = "Get Equal AI Unlimited",
+    ),
     UsageCap(
         preview = "Call limit reached, Resets in 3 days",
         chip = "Get Unlimited",
@@ -92,9 +99,12 @@ enum class OfficialNotice(val preview: String, val chip: String, val title: Stri
 
 /** Card under the home header (web `homeNotice`). */
 sealed interface HomeNotice {
-    /** Plan Expired option 2: 👑 Your Plan Expired · Renew Now. */
-    data object PlanExpired : HomeNotice
+    /** Plan Expired option 2: 👑 Your Plan Expired · Renew Now ([crown] false: the option without it). */
+    data class PlanExpired(val crown: Boolean = true) : HomeNotice
 
-    /** Usage Cap option 2: the weekly meter ("7 Calls left this week"). */
-    data class UsageCap(val callsLeft: Int, val limit: Int) : HomeNotice
+    /** Usage Cap option 2: the weekly meter ("7 Calls left this week"); [icon] false hides the phone. */
+    data class UsageCap(val callsLeft: Int, val limit: Int, val icon: Boolean = true) : HomeNotice
+
+    /** Recordings locked option 2: Call Recordings Locked · Get Unlimited ([icon] false hides the phone). */
+    data class RecordingsLocked(val icon: Boolean = true) : HomeNotice
 }

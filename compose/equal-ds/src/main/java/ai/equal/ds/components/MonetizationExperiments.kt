@@ -970,6 +970,8 @@ fun UsageCapCard(
     modifier: Modifier = Modifier,
     resets: String = "Mon",
     onUpgrade: () -> Unit = {},
+    /** false: the option without the phone glyph. */
+    icon: Boolean = true,
 ) {
     HomeNoticeCard(
         title = "$left Calls left this week",
@@ -978,7 +980,7 @@ fun UsageCapCard(
         cta = "Get Unlimited",
         onCta = onUpgrade,
         modifier = modifier,
-        lead = { EqualIcon(EqualIcons.CallFilled, contentDescription = null, tint = EqualTheme.colors.textPrimary, size = 16.dp) },
+        lead = if (icon) ({ EqualIcon(EqualIcons.CallFilled, contentDescription = null, tint = EqualTheme.colors.textPrimary, size = 16.dp) }) else null,
         progress = if (limit > 0) (limit - left).toFloat() / limit else 0f,
     )
 }

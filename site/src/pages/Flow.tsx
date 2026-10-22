@@ -12,6 +12,7 @@ import { StageCode } from '../ui/StageCode';
 import { VoipFlow } from '../../../web/src/screens/CallScreens';
 import { HealthCheckEntry, HealthCheckFlow } from '../../../web/src/screens/HealthCheckScreens';
 import { ForceUpdate, SnoozeFlow } from '../../../web/src/screens/SnoozeScreens';
+import { UsageCapHome } from '../../../web/src/screens/UsageCapScreens';
 import NotFound from './NotFound';
 
 type FlowDef = { title: string; lead: string; states: StagePhone[]; steps: ReactNode[]; source: string };
@@ -140,6 +141,49 @@ const flows: Record<string, FlowDef> = {
     steps: [
       <><b>Hard</b>: installed &lt; minimum supported. Full screen, no close; Back exits the app. Update Equal AI opens the Play Store (or an in-app IMMEDIATE update).</>,
       <><b>Soft</b>: a newer version exists. “A new version is here” over Chats; Update Now (in-app FLEXIBLE update) or Maybe Later / ✕ / scrim / Back to dismiss it for this version.</>,
+    ],
+  },
+  'usage-cap': {
+    title: 'Known call usage cap',
+    lead: 'Free users share a weekly allowance between known and unknown calls, and each type has its own cap. Home shows what is left; a gold sheet rises once at 20 %, at 100 % and at each cap; View Details explains the split. The card has three experiment options (A, B, C).',
+    source: 'Known Call Usage Cap',
+    states: [
+      { key: 'under-a', label: '0 to 19 % · A: View Details', render: () => <UsageCapHome state="under" cta="details" />, code: '<UsageCapHome state="under" cta="details" />' },
+      { key: 'under-b', label: '0 to 19 % · B: chevron + green CTA', render: () => <UsageCapHome state="under" cta="chevron" />, code: '<UsageCapHome state="under" cta="chevron" />' },
+      { key: 'under-c', label: '0 to 19 % · C: chevron + gold CTA', render: () => <UsageCapHome state="under" cta="chevron-gold" />, code: '<UsageCapHome state="under" cta="chevron-gold" />' },
+      { key: 'nudge-a', label: '80 % nudge · A: View Details', render: () => <UsageCapHome state="nudge" cta="details" />, code: '<UsageCapHome state="nudge" cta="details" />' },
+      { key: 'nudge-b', label: '80 % nudge · B: chevron + green CTA', render: () => <UsageCapHome state="nudge" cta="chevron" />, code: '<UsageCapHome state="nudge" cta="chevron" />' },
+      { key: 'nudge-c', label: '80 % nudge · C: chevron + gold CTA', render: () => <UsageCapHome state="nudge" cta="chevron-gold" />, code: '<UsageCapHome state="nudge" cta="chevron-gold" />' },
+      { key: 'exhausted-a', label: '100 %: weekly limit reached · A: View Details', render: () => <UsageCapHome state="exhausted" cta="details" />, code: '<UsageCapHome state="exhausted" cta="details" />' },
+      { key: 'exhausted-b', label: '100 %: weekly limit reached · B: chevron + green CTA', render: () => <UsageCapHome state="exhausted" cta="chevron" />, code: '<UsageCapHome state="exhausted" cta="chevron" />' },
+      { key: 'exhausted-c', label: '100 %: weekly limit reached · C: chevron + gold CTA', render: () => <UsageCapHome state="exhausted" cta="chevron-gold" />, code: '<UsageCapHome state="exhausted" cta="chevron-gold" />' },
+      { key: 'paused-a', label: '100 %: assistant paused · A: View Details', render: () => <UsageCapHome state="paused" cta="details" />, code: '<UsageCapHome state="paused" cta="details" />' },
+      { key: 'paused-b', label: '100 %: assistant paused · B: chevron + green CTA', render: () => <UsageCapHome state="paused" cta="chevron" />, code: '<UsageCapHome state="paused" cta="chevron" />' },
+      { key: 'paused-c', label: '100 %: assistant paused · C: chevron + gold CTA', render: () => <UsageCapHome state="paused" cta="chevron-gold" />, code: '<UsageCapHome state="paused" cta="chevron-gold" />' },
+      { key: 'known-cap-a', label: 'Known call limit reached · A: View Details', render: () => <UsageCapHome state="known-cap" cta="details" />, code: '<UsageCapHome state="known-cap" cta="details" />' },
+      { key: 'known-cap-b', label: 'Known call limit reached · B: chevron + green CTA', render: () => <UsageCapHome state="known-cap" cta="chevron" />, code: '<UsageCapHome state="known-cap" cta="chevron" />' },
+      { key: 'known-cap-c', label: 'Known call limit reached · C: chevron + gold CTA', render: () => <UsageCapHome state="known-cap" cta="chevron-gold" />, code: '<UsageCapHome state="known-cap" cta="chevron-gold" />' },
+      { key: 'unknown-cap-a', label: 'Unknown call limit reached · A: View Details', render: () => <UsageCapHome state="unknown-cap" cta="details" />, code: '<UsageCapHome state="unknown-cap" cta="details" />' },
+      { key: 'unknown-cap-b', label: 'Unknown call limit reached · B: chevron + green CTA', render: () => <UsageCapHome state="unknown-cap" cta="chevron" />, code: '<UsageCapHome state="unknown-cap" cta="chevron" />' },
+      { key: 'unknown-cap-c', label: 'Unknown call limit reached · C: chevron + gold CTA', render: () => <UsageCapHome state="unknown-cap" cta="chevron-gold" />, code: '<UsageCapHome state="unknown-cap" cta="chevron-gold" />' },
+      { key: 'sheet-20-used', label: '20 % sheet: used', render: () => <UsageCapHome state="nudge" sheet="20-used" />, code: '<UsageCapHome sheet="20-used" />', height: 1000 },
+      { key: 'sheet-20-percent', label: '20 % sheet: percent', render: () => <UsageCapHome state="nudge" sheet="20-percent" />, code: '<UsageCapHome sheet="20-percent" />', height: 1000 },
+      { key: 'sheet-20-rows', label: '20 % sheet: rows', render: () => <UsageCapHome state="nudge" sheet="20-rows" />, code: '<UsageCapHome sheet="20-rows" />', height: 1000 },
+      { key: 'sheet-100', label: '100 % sheet', render: () => <UsageCapHome state="nudge" sheet="100" />, code: '<UsageCapHome sheet="100" />', height: 1000 },
+      { key: 'sheet-100-rows', label: '100 % sheet: rows', render: () => <UsageCapHome state="nudge" sheet="100-rows" />, code: '<UsageCapHome sheet="100-rows" />', height: 1000 },
+      { key: 'sheet-known', label: 'Known cap sheet', render: () => <UsageCapHome state="nudge" sheet="known" />, code: '<UsageCapHome sheet="known" />', height: 1000 },
+      { key: 'sheet-known-rows', label: 'Known cap sheet: rows', render: () => <UsageCapHome state="nudge" sheet="known-rows" />, code: '<UsageCapHome sheet="known-rows" />', height: 1000 },
+      { key: 'sheet-unknown', label: 'Unknown cap sheet', render: () => <UsageCapHome state="nudge" sheet="unknown" />, code: '<UsageCapHome sheet="unknown" />', height: 1000 },
+      { key: 'sheet-unknown-rows', label: 'Unknown cap sheet: rows', render: () => <UsageCapHome state="nudge" sheet="unknown-rows" />, code: '<UsageCapHome sheet="unknown-rows" />', height: 1000 },
+      { key: 'details', label: 'View Details: perks (A)', render: () => <UsageCapHome details="perks" />, code: '<UsageCapHome details="perks" />', height: 960 },
+      { key: 'details-info', label: 'View Details: info note (B)', render: () => <UsageCapHome details="info" />, code: '<UsageCapHome details="info" />', height: 960 },
+      { key: 'p0', label: 'P0: free home with Upgrade', render: () => <UsageCapHome p0 />, code: '<HomeScreen tier="free" assistantOff upgradePill />' },
+    ],
+    steps: [
+      <><b>Home card</b>: “67 Calls left this week”, a known / unknown meter, the reset. From 20 % used an Upgrade Now appears (A in the header, B and C full width, C in gold).</>,
+      <><b>Limit sheets</b>: each rises over Home once per week per threshold (20 %, 100 %, known cap, unknown cap). Close or the scrim dismisses it; the CTA opens the paywall.</>,
+      <><b>View Details</b>: View Details (A) or the chevron (B, C) opens the green sheet: calls left, per-type meters, the reset and the perks or the info note.</>,
+      <><b>Numbers are props</b>: the total, the per-type caps and every count. The design’s numbers disagree in places (68 + 12 vs 68 + 18, a 30-call protection limit); product decides the real ones.</>,
     ],
   },
   voip: {
@@ -315,6 +359,17 @@ const flows: Record<string, FlowDef> = {
       { key: 'recordings', label: 'Recordings locked (without actions)', render: () => <ChatScreen chat={sampleChats[1]} lock="details" />, code: '<ChatScreen chat={sampleChats[1]} lock="details" />' },
       { key: 'recordings-actions', label: 'Recordings locked (with actions)', render: () => <ChatScreen chat={sampleChats[1]} lock="details" summaryActions />, code: '<ChatScreen chat={sampleChats[1]} lock="details" summaryActions />' },
       { key: 'recordings-paywall', label: 'Recordings locked: paywall', render: () => <PaywallScreen touchpoint="recordings-actions" cta="Get Equal AI Unlimited" />, code: '<PaywallScreen touchpoint="recordings-actions" cta="Get Equal AI Unlimited" />', height: 1419 },
+      { key: 'expired-card-plain', label: 'Plan expired 2: card without the crown', render: () => <HomeScreen tier="free" planExpired homeNotice="plan-expired-plain" />, code: '<HomeScreen tier="free" planExpired homeNotice="plan-expired-plain" />' },
+      { key: 'expired-profile', label: 'Plan expired 3: You tab', render: () => <YouScreen tier="free" plan="expired" planRenew />, code: '<YouScreen tier="free" plan="expired" planRenew />', height: 1597 },
+      { key: 'ios-paywall', label: 'Paywall: iOS parity (animated crown)', render: () => <PaywallScreen layout="ios" price={499} />, code: '<PaywallScreen layout="ios" price={499} />', height: 1200 },
+      { key: 'ios-paywall-image', label: 'Paywall: iOS parity (still crown)', render: () => <PaywallScreen layout="ios" crown="image" price={499} />, code: '<PaywallScreen layout="ios" crown="image" price={499} />', height: 1200 },
+      { key: 'cap-paywall', label: 'Usage cap 1: paywall', render: () => <PaywallScreen touchpoint="usage-cap" subtitle="cap" cta="Get Equal AI Unlimited" />, code: '<PaywallScreen touchpoint="usage-cap" subtitle="cap" cta="Get Equal AI Unlimited" />', height: 1300 },
+      { key: 'cap-card-plain', label: 'Usage cap 2: card without the icon', render: () => <HomeScreen tier="free" assistantOff homeNotice={{ callsLeft: 7, limit: 30, lead: false }} />, code: '<HomeScreen tier="free" assistantOff homeNotice={{ callsLeft: 7, limit: 30, lead: false }} />' },
+      { key: 'rec-chat-home', label: 'Recordings 1: Equal AI chat', render: () => <HomeScreen tier="free" official="recordings-locked" />, code: '<HomeScreen tier="free" official="recordings-locked" />' },
+      { key: 'rec-chat', label: 'Recordings 1: the message', render: () => <ChatScreen official="recordings-locked" />, code: '<ChatScreen official="recordings-locked" />' },
+      { key: 'rec-paywall', label: 'Recordings 1: paywall', render: () => <PaywallScreen touchpoint="recordings" cta="Get Equal AI Unlimited" />, code: '<PaywallScreen touchpoint="recordings" cta="Get Equal AI Unlimited" />', height: 1323 },
+      { key: 'rec-card', label: 'Recordings 2: home card', render: () => <HomeScreen tier="free" homeNotice="recordings-locked" />, code: '<HomeScreen tier="free" homeNotice="recordings-locked" />' },
+      { key: 'rec-card-plain', label: 'Recordings 2: card without the icon', render: () => <HomeScreen tier="free" homeNotice="recordings-locked-plain" />, code: '<HomeScreen tier="free" homeNotice="recordings-locked-plain" />' },
       { key: 'phone-toggle', label: 'Toggle art: phone (Component 25)', render: () => <HomeScreen assistantArt="phone" promo="meet-assistant" />, code: '<HomeScreen assistantArt="phone" promo="meet-assistant" />' },
     ],
     steps: [
@@ -322,6 +377,9 @@ const flows: Record<string, FlowDef> = {
       <><b>Plan expired, option 2</b>: no chat, a card under the header instead (👑 Your Plan Expired · Renew Now).</>,
       <><b>Usage cap</b>: the assistant switches Off at the weekly limit. Option 1 is again an Equal AI message (“Weekly call limit reached…”). Option 2 is a meter card: “7 Calls left this week · Resets Mon | Unlimited on premium” with Get Unlimited.</>,
       <><b>Actions locked</b>: action chips turn gold with the crown-lock. Tapping one opens the paywall (here the sheet) with “Unlock Unlimited Actions…” and the locked row as its preview.</>,
+      <><b>Plan expired, option 3</b>: on the You tab the plan card says Expired and asks to renew, with a gold Renew Equal AI Unlimited.</>,
+      <><b>iOS parity paywall</b>: a warm hero (animated or still crown), the black “Limited time deal” price card, the coupon, the locked summary and a black CTA.</>,
+      <><b>Recordings locked, options 1 and 2</b>: an Equal AI message (“Your call recordings are locked”) or a home card (Call Recordings Locked · Get Unlimited), with or without the icon.</>,
       <><b>Recordings locked</b>: bubbles blur, the recording washes gold under the crown-lock, and Unlock All Details sits at the bottom. With actions, Call Back / Add to Calendar stay visible under the summary and show locked in the paywall preview.</>,
       <><b>Toggle art</b> (Component 25): the phone-with-sparkles is an experiment on the toggle; the robot stays the default.</>,
     ],

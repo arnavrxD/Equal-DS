@@ -5,7 +5,7 @@ import { Icon } from '../foundations/Icon';
 import { Text } from '../foundations/Text';
 import { AiAvatar, ProfileAvatar, type PlanTier, type ProfileAvatarVariant } from './Avatar';
 import { PlanBadge } from './Badge';
-import { IconButton } from './Button';
+import { Button, IconButton } from './Button';
 import './YouTab.css';
 
 // ---------------------------------------------------------------- Profile hero
@@ -79,6 +79,8 @@ export type PlanCardProps = {
   onManage?: () => void;
   /** Link label: 'Manage plan' (active), 'Restore Plan' or 'Reactivate plan' (lapsed). */
   actionLabel?: string;
+  /** Plan Expired option 3: "Expired" beside the tier, why to renew, and a gold Renew button instead of the price. */
+  renew?: { body?: string; cta?: string; onRenew?: () => void };
 };
 
 /** Gold line pattern (coded) — the right half of the plan card. */
@@ -104,7 +106,20 @@ export function PlanPattern() {
 }
 
 /** Dark plan card — gold "Current Plan" pill, product in title token, gold tier, coded gold pattern. */
-export function PlanCard({ product = 'Equal AI', tier = 'UNLIMITED', price = '₹149/Monthly', status = 'current', onManage, actionLabel = 'Manage plan' }: PlanCardProps) {
+export function PlanCard({ product = 'Equal AI', tier = 'UNLIMITED', price = '₹149/Monthly', status = 'current', onManage, actionLabel = 'Manage plan', renew }: PlanCardProps) {
+  if (renew) {
+    return (
+      <div className="eq-plan">
+        <PlanPattern />
+        <Text as="div" variant="title" color="on-dark" style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+          <span>{product} <Text variant="title" color="accent-gold" className="eq-plan__tier">{tier}</Text></span>
+          <span className="eq-plan__pill is-expired"><Text variant="caption" color="on-dark" style={{ fontWeight: 500 }}>Expired</Text></span>
+        </Text>
+        <Text as="p" variant="caption" color="on-dark-secondary" style={{ fontWeight: 400, position: 'relative', margin: '8px 0 0' }}>{renew.body ?? 'Renew to unlock unlimited recordings, call summaries, transcripts, and unlimited call screening.'}</Text>
+        <div style={{ position: 'relative', marginTop: 12 }}><Button variant="gold" size="sm" block onClick={renew.onRenew}>{renew.cta ?? 'Renew Equal AI Unlimited'}</Button></div>
+      </div>
+    );
+  }
   return (
     <div className="eq-plan">
       <PlanPattern />

@@ -67,6 +67,10 @@ export type PaywallHeroProps = {
   onBack?: () => void;
   onSupport?: () => void;
   children?: ReactNode;
+  /** iOS-parity paywall (27 Aug touchpoint): warm white→gold hero with a 54 bottom radius and lighter type. */
+  variant?: 'default' | 'ios';
+  /** iOS parity: the crown animates (option 1, the video) or stands still (option 2, the image). */
+  crownAnimated?: boolean;
 };
 
 /**
@@ -74,7 +78,27 @@ export type PaywallHeroProps = {
  * + Support, the 3D crown (64dp), "Unlock Equal" 22/26 Regular over "Unlimited" 38/42 Bold, and
  * the subtitle (body1, text/secondary, max 2 lines). `children` (price, preview, coupon) follow.
  */
-export function PaywallHero({ title = 'Unlock Equal', titleStrong = 'Unlimited', subtitle = 'Unlock Summaries, Transcripts, Recordings & Unlimited Call Screening', onBack, onSupport, children }: PaywallHeroProps) {
+export function PaywallHero({ title = 'Unlock Equal', titleStrong = 'Unlimited', subtitle = 'Unlock Summaries, Transcripts, Recordings & Unlimited Call Screening', onBack, onSupport, children, variant = 'default', crownAnimated = true }: PaywallHeroProps) {
+  if (variant === 'ios') {
+    return (
+      <section className="eq-paywall-hero is-ios">
+        <div className="eq-paywall-hero__bar">
+          <IconButton icon="arrow-back" label="Back" onClick={onBack} />
+          <button type="button" className="eq-reset-btn eq-touch eq-paywall-support" onClick={onSupport}>
+            <Icon name="help-circle" size={20} />
+            <Text variant="body2" color="none">Support</Text>
+          </button>
+        </div>
+        <div className="eq-paywall-hero__head">
+          <AnimatedCrown size={72} animated={crownAnimated} />
+          <Text as="div" variant="title" aria-hidden style={{ fontWeight: 500, marginTop: 8 }}>{title}</Text>
+          <Text as="h1" variant="headline" style={{ fontSize: 30, lineHeight: '36px', fontWeight: 600 }}>{title && <span className="eq-sr">{title} </span>}{titleStrong}</Text>
+          {subtitle && <Text as="p" variant="caption" color="secondary" align="center" style={{ marginTop: 4, maxWidth: 300 }}>{subtitle}</Text>}
+        </div>
+        {children && <div className="eq-paywall-hero__body">{children}</div>}
+      </section>
+    );
+  }
   return (
     <section className="eq-paywall-hero">
       <div className="eq-paywall-hero__bar">
@@ -149,6 +173,21 @@ export function PriceTag({ price, was, label = 'Limited time discount', currency
       {phase === 'done' && saved !== undefined && saved > 0 && <Text as="div" variant="caption" align="center" style={{ color: 'var(--eq-text-action)', fontWeight: 700 }}>Saved {currency}{saved}</Text>}
       {phase === 'done' && badge && <DiscountBadge label={badge} animate={animate && !prefersReducedMotion()} />}
       {was === undefined && period && <Text as="div" variant="caption" color="secondary" align="center" style={{ fontWeight: 400 }}>{period}</Text>}
+    </div>
+  );
+}
+
+/**
+ * iOS-parity price card: black card (`gradient/paywall-deal-card`, radius 18) with a "⏰ LIMITED TIME
+ * DEAL" pill on its top edge, the gold price, and one line under it. Rings at the corner are coded.
+ */
+export function PriceDealCard({ price = 499, currency = '₹', deal = 'Limited time deal', line = 'Less than your weekly cup of coffee', period = 'billed monthly' }: { price?: number; currency?: string; deal?: string; line?: string; period?: string }) {
+  return (
+    <div className="eq-deal-card">
+      <span className="eq-deal-card__rings" aria-hidden />
+      <Text as="div" variant="badge" className="eq-deal-card__pill"><Emoji char="⏰" inline /> {deal}</Text>
+      <Text as="div" variant="inherit" color="none" className="eq-gold-text eq-price__value eq-tnum" style={{ position: 'relative' }}>{currency}{price}<span className="eq-sr"> {period}</span></Text>
+      <Text as="div" variant="caption" style={{ position: 'relative', fontWeight: 400, color: 'var(--eq-text-on-dark)' }}><Emoji char="☕" inline /> {line}</Text>
     </div>
   );
 }
@@ -264,11 +303,11 @@ export function FaqEntry({ item, open, onToggle }: { item: FaqItem; open: boolea
  * footer uses it: the paywall (gold), the plan page (gold-outline Cancel Subscription), the sheet
  * paywall (`flat`), and the processing state (`disabled`, with the processing toast in `above`).
  */
-export function PaywallFooter({ cta = 'Unlock Unlimited', note = 'Cancel Anytime. Automatically renews', onClick, variant = 'gold', disabled, flat, above }: { cta?: string; note?: string | null; onClick?: () => void; variant?: 'gold' | 'gold-outline' | 'primary'; disabled?: boolean; /** No surface or shadow: sits inside a sheet. */ flat?: boolean; /** Shown above the button, e.g. the processing toast. */ above?: ReactNode }) {
+export function PaywallFooter({ cta = 'Unlock Unlimited', note = 'Cancel Anytime. Automatically renews', onClick, variant = 'gold', disabled, flat, above }: { cta?: string; note?: string | null; onClick?: () => void; variant?: 'gold' | 'gold-outline' | 'primary' | 'dark'; disabled?: boolean; /** No surface or shadow: sits inside a sheet. */ flat?: boolean; /** Shown above the button, e.g. the processing toast. */ above?: ReactNode }) {
   return (
     <div className={`eq-paywall-footer ${flat ? 'is-flat' : ''}`}>
       {above && <div style={{ marginBottom: 10 }}>{above}</div>}
-      <Button variant={variant} size="lg" block glow={variant === 'gold'} disabled={disabled} onClick={onClick}>{cta}</Button>
+      <Button variant={variant === 'dark' ? 'gold' : variant} size="lg" block glow={variant === 'gold'} sheen={variant !== 'dark'} disabled={disabled} onClick={onClick} className={variant === 'dark' ? 'eq-paywall-dark-cta' : undefined}>{cta}</Button>
       {note && <Text as="div" variant="caption" color="secondary" align="center" style={{ fontWeight: 400, marginTop: 8 }}>{note}</Text>}
     </div>
   );
@@ -639,7 +678,7 @@ export function expiryParts(e: PlanExpiry): { label: string; chip: string; tone:
 }
 
 /** "03 Days" · "Today" · "30th July" · "25th Jun ’26": the tinted chip on the value card's date row. */
-export function ExpiryChip({ tone, children }: { tone: 'active' | 'warning' | 'danger'; children: ReactNode }) {
+export function ExpiryChip({ tone, children }: { tone: 'active' | 'warning' | 'danger' | 'success'; children: ReactNode }) {
   return <Text variant="inherit" color="none" className={`eq-expiry-chip is-${tone} eq-tnum`}>{children}</Text>;
 }
 
@@ -835,19 +874,21 @@ export type ValueSheetProps = {
   perks?: ValuePerk[] | null;
   /** Free plan: show the weekly QuotaCard instead (CTA defaults to "Get Equal AI Unlimited"). */
   quota?: Quota;
+  /** Any card in place of the value / quota card (e.g. UsageLimitCard); the CTA defaults to "Get Equal AI Unlimited". */
+  card?: ReactNode;
 };
 
 /**
  * "Value bottom sheet once called": after the assistant handles a call near the end of a plan, a
  * sheet shows what Unlimited saved the user, with Renew your Equal AI. The close button floats above.
  */
-export function ValueSheet({ calls = 20, expiry = { state: 'active', until: '' }, onRenew, onClose, variant = 'card', cta, mode = 'overlay', perks, quota }: ValueSheetProps) {
+export function ValueSheet({ calls = 20, expiry = { state: 'active', until: '' }, onRenew, onClose, variant = 'card', cta, mode = 'overlay', perks, quota, card }: ValueSheetProps) {
   const modal = useModal({ open: true, onClose, enabled: mode === 'overlay' });
   const panel = (
     <div className={`eq-value-sheet is-${variant} ${mode === 'inline' ? 'is-inline' : ''}`} role="dialog" aria-label="What Unlimited saved you" {...modal}>
       <IconButton icon="close" label="Close" variant="neutral" size={44} className="eq-value-sheet__close" onClick={onClose} />
-      <div className="eq-value-sheet__body">{quota ? <QuotaCard quota={quota} perks={perks} /> : <ValueCard calls={calls} expiry={expiry} perks={perks} />}</div>
-      <div className={`eq-value-sheet__footer${quota ? '' : ' is-renew'}`}><Button variant="gold" size="lg" block onClick={onRenew}>{cta ?? (quota ? 'Get Equal AI Unlimited' : 'Renew your Equal AI')}</Button></div>
+      <div className="eq-value-sheet__body">{card ?? (quota ? <QuotaCard quota={quota} perks={perks} /> : <ValueCard calls={calls} expiry={expiry} perks={perks} />)}</div>
+      <div className={`eq-value-sheet__footer${quota || card ? '' : ' is-renew'}`}><Button variant="gold" size="lg" block onClick={onRenew}>{cta ?? (quota || card ? 'Get Equal AI Unlimited' : 'Renew your Equal AI')}</Button></div>
     </div>
   );
   if (mode === 'inline') return panel;

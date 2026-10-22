@@ -252,6 +252,13 @@ private fun NoPlanAvatar(avatar: ProfileAvatarVariant) {
 // Plan card
 // ---------------------------------------------------------------------------------------------
 
+/** [PlanCard]'s renew state (Plan Expired option 3). */
+data class PlanRenew(
+    val onRenew: () -> Unit = {},
+    val body: String = "Renew to unlock unlimited recordings, call summaries, transcripts, and unlimited call screening.",
+    val cta: String = "Renew Equal AI Unlimited",
+)
+
 /**
  * Dark plan card. Radius 20, `plan-card/bg`, padding 14 / 16 / 16.
  * Top row: "Current Plan" pill (24 high, radius 8, 1dp `plan-card/pill-stroke`, `plan-card/pill-bg`,
@@ -273,10 +280,33 @@ fun PlanCard(
     currentLabel: String = "Current Plan",
     expiredLabel: String = "Plan Expired",
     manageLabel: String = "Manage plan",
+    /** Plan Expired option 3: "Expired" beside the tier, why to renew and a gold Renew button instead of the price. */
+    renew: PlanRenew? = null,
 ) {
     val colors = EqualTheme.colors
     val type = EqualTheme.type
     val pillShape = RoundedCornerShape(EqualRadius.rSm)
+    if (renew != null) {
+        Box(modifier.fillMaxWidth().clip(RoundedCornerShape(EqualRadius.rXl)).background(colors.planCardBg)) {
+            PlanPattern(color = colors.planCardPattern, modifier = Modifier.matchParentSize().wrapRightFraction(0.6f))
+            Column(Modifier.padding(start = 16.dp, end = 16.dp, top = 14.dp, bottom = 16.dp)) {
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    BasicText(text = "$product ", style = type.title.copy(color = colors.textOnDark), maxLines = 1)
+                    BasicText(text = tier.uppercase(), style = type.title.copy(brush = EqualTheme.gradients.unlimitedText.toBrush()), maxLines = 1)
+                    Box(
+                        Modifier.height(24.dp).clip(pillShape).background(colors.planCardExpiredPill).background(EqualTheme.gradients.expiredBadge.toBrush())
+                            .border(1.dp, colors.planBadgeExpiredStroke, pillShape).padding(horizontal = 10.dp),
+                        contentAlignment = Alignment.Center,
+                    ) { EqualText(text = "Expired", style = type.caption, color = colors.textOnDark, maxLines = 1) }
+                }
+                Spacer(Modifier.height(8.dp))
+                EqualText(text = renew.body, style = type.captionRegular, color = colors.textOnDarkSecondary)
+                Spacer(Modifier.height(12.dp))
+                EqualButton(text = renew.cta, onClick = renew.onRenew, variant = EqualButtonVariant.Gold, size = EqualButtonSize.Sm, modifier = Modifier.fillMaxWidth())
+            }
+        }
+        return
+    }
     Box(
         modifier
             .fillMaxWidth()

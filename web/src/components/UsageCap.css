@@ -1,0 +1,50 @@
+/* Segmented meter: flat segments in a full-radius track, 1px apart. */
+.eq-meter { display: flex; gap: 1px; width: 100%; border-radius: 999px; overflow: hidden; background: var(--eq-usage-meter-track); }
+.eq-meter.is-gold { background: var(--eq-usage-meter-gold-track); }
+.eq-meter__seg { height: 100%; flex-shrink: 0; }
+.eq-meter__seg.is-known, .eq-meter-legend__swatch.is-known { background: var(--eq-usage-meter-known); }
+.eq-meter__seg.is-unknown, .eq-meter-legend__swatch.is-unknown { background: var(--eq-usage-meter-unknown); }
+.eq-meter__seg.is-gold, .eq-meter-legend__swatch.is-gold { background: var(--eq-gradient-usage-meter-gold); }
+.eq-meter__seg.is-gold-deep, .eq-meter-legend__swatch.is-gold-deep { background: var(--eq-gradient-usage-meter-gold-deep); }
+.eq-meter-legend { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.eq-meter-legend__item { display: inline-flex; align-items: center; gap: 4px; }
+.eq-meter-legend__swatch { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+.eq-meter-row { display: flex; flex-direction: column; gap: 8px; }
+.eq-meter-row__head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+
+/* Home usage card. */
+.eq-usage-card { position: relative; overflow: hidden; margin: 0 12px; border-radius: 16px; background: var(--eq-bg-surface); border: 1px solid var(--eq-value-card-stroke); }
+.eq-usage-card__glow { position: absolute; width: 306px; height: 306px; right: -120px; top: -240px; border-radius: 50%; background: radial-gradient(circle, var(--eq-usage-meter-glow) 0%, transparent 70%); pointer-events: none; }
+.eq-usage-card__top { position: relative; display: flex; flex-direction: column; gap: 8px; padding: 12px; }
+.eq-usage-card__row { display: flex; align-items: center; gap: 4px; min-height: 28px; color: var(--eq-text-primary); }
+.eq-usage-card__chip { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 8px; background: var(--eq-bg-surface); border: 1px solid var(--eq-invite-stroke); box-shadow: inset 0 -2px 10px rgba(0, 0, 0, 0.06); color: var(--eq-text-primary); }
+.eq-usage-card__foot { position: relative; display: flex; justify-content: center; padding: 4px 8px; border-top: 1px solid var(--eq-stroke-subtle); }
+.eq-usage-card__foot.is-block { padding: 0 12px 12px; border-top: 0; }
+
+/* Gold sheet meter box. */
+.eq-usage-gold-box { display: flex; flex-direction: column; gap: 12px; margin: 0 16px; padding: 12px; border-radius: 12px; border: 1px solid var(--eq-locked-badge-stroke); background: linear-gradient(180deg, color-mix(in srgb, var(--eq-bg-surface) 81%, transparent), transparent); }
+
+/* Orbit hero. */
+.eq-orbit { position: relative; width: 100%; height: 166px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.eq-orbit__ring { position: absolute; border-radius: 50%; border: 1px solid color-mix(in srgb, var(--eq-button-primary) 12%, transparent); animation: eq-orbit-breathe 3200ms var(--eq-easing-standard) infinite; }
+.eq-orbit__spark { position: absolute; fill: var(--eq-button-primary); opacity: 0.6; animation: eq-orbit-twinkle 2400ms ease-in-out infinite; }
+.eq-orbit__glow { position: absolute; width: 120px; height: 120px; border-radius: 50%; background: radial-gradient(circle, color-mix(in srgb, var(--eq-button-primary) 45%, transparent), transparent 70%); }
+.eq-orbit__disc { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 80px; height: 80px; border-radius: 50%; background: var(--eq-button-primary); }
+@keyframes eq-orbit-breathe { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.04); opacity: 0.6; } }
+@keyframes eq-orbit-twinkle { 0%, 100% { opacity: 0.25; transform: scale(0.8); } 50% { opacity: 0.9; transform: scale(1); } }
+@media (prefers-reduced-motion: reduce) { .eq-orbit__ring, .eq-orbit__spark { animation: none; } }
+
+/* View Details sheet. */
+.eq-usage-details { position: relative; display: flex; flex-direction: column; align-items: center; padding: 24px 16px; background: var(--eq-bg-primary); border-radius: 28px 28px 0 0; box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.12); }
+.eq-usage-details.is-inline { border-radius: 28px; }
+.eq-status-sheet-layer .eq-usage-details { animation: eq-sheet-up var(--eq-duration-slow) var(--eq-easing-standard) both; }
+@media (prefers-reduced-motion: reduce) { .eq-status-sheet-layer .eq-usage-details { animation: none; } }
+.eq-usage-details__close { position: absolute; top: 20px; right: 16px; z-index: 1; }
+.eq-usage-details__meters { align-self: stretch; display: flex; flex-direction: column; gap: 12px; margin-top: 16px; padding: 12px; border-radius: 16px; background: var(--eq-bg-surface); border: 1px solid var(--eq-value-card-stroke); }
+.eq-usage-details .eq-value-card__expiry { align-self: stretch; margin-top: 16px; }
+.eq-value-card__expiry.is-green .eq-divider-label__rule { background: color-mix(in srgb, var(--eq-button-primary) 20%, transparent); }
+.eq-usage-perks { align-self: stretch; list-style: none; margin: 16px 0 0; padding: 0; border-radius: 16px; background: var(--eq-bg-surface); border: 1px solid var(--eq-value-card-stroke); }
+.eq-usage-perks li { display: flex; align-items: center; gap: 10px; min-height: 44px; padding: 0 12px; color: var(--eq-text-primary); }
+.eq-usage-perks li + li { border-top: 1px solid var(--eq-value-card-stroke); }
+.eq-usage-note { position: relative; overflow: hidden; align-self: stretch; margin-top: 16px; padding: 16px; border-radius: 16px; background: var(--eq-info-note-bg); }
+.eq-usage-note__ripple { position: absolute; right: -40px; top: -40px; width: 120px; height: 120px; border-radius: 50%; box-shadow: 0 0 0 1px color-mix(in srgb, var(--eq-info-note-title) 12%, transparent), 0 0 0 20px color-mix(in srgb, var(--eq-info-note-title) 4%, transparent); pointer-events: none; }

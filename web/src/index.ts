@@ -22,6 +22,7 @@ export * from './components/Call';
 export * from './components/HealthCheck';
 export * from './components/Snooze';
 export * from './components/Spinner';
+export * from './components/UsageCap';
 export * from './components/StatusBar';
 export * from './components/TopBar';
 export * from './components/AssistantToggle';

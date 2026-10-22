@@ -1609,6 +1609,138 @@ export const aliases: AliasToken[] = [
     "group": "component",
     "derived": true,
     "why": "The 40dp disc behind each permission icon inside its status ring (Figma #F3F3F3)."
+  },
+  {
+    "name": "component/usage-meter/known",
+    "cssVar": "--eq-usage-meter-known",
+    "light": "#00B140",
+    "dark": "#BAFF29",
+    "lightRef": "brand/green",
+    "darkRef": "brand/lime",
+    "group": "component",
+    "derived": true,
+    "why": "Known-calls segment and swatch on the weekly usage meter (Known Call Usage Cap)."
+  },
+  {
+    "name": "component/usage-meter/unknown",
+    "cssVar": "--eq-usage-meter-unknown",
+    "light": "#006C27",
+    "dark": "#7A9E2E",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": true,
+    "why": "Unknown-calls segment and swatch; a deeper green so the two types read apart (Figma #006C27)."
+  },
+  {
+    "name": "component/usage-meter/track",
+    "cssVar": "--eq-usage-meter-track",
+    "light": "#F0F0F0",
+    "dark": "rgba(255,255,255,0.12)",
+    "lightRef": "direct value",
+    "darkRef": "brand/white · 12%",
+    "group": "component",
+    "derived": true,
+    "why": "The empty part of the usage meter (Figma #F0F0F0, the value-card stroke)."
+  },
+  {
+    "name": "component/usage-meter/glow",
+    "cssVar": "--eq-usage-meter-glow",
+    "light": "rgba(105,255,160,0.6)",
+    "dark": "rgba(186,255,41,0.12)",
+    "lightRef": "direct value",
+    "darkRef": "brand/lime · 12%",
+    "group": "component",
+    "derived": true,
+    "why": "The mint wash behind the usage card header (Figma blurred #69FFA0 ellipse), painted as a radial in code."
+  },
+  {
+    "name": "component/usage-meter/gold-track",
+    "cssVar": "--eq-usage-meter-gold-track",
+    "light": "rgba(160,98,31,0.2)",
+    "dark": "rgba(232,189,98,0.2)",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": true,
+    "why": "Track of the gold meter on the weekly limit sheets."
+  },
+  {
+    "name": "component/expiry-chip/success-bg",
+    "cssVar": "--eq-expiry-chip-success-bg",
+    "light": "#E6FFEF",
+    "dark": "rgba(186,255,41,0.12)",
+    "lightRef": "direct value",
+    "darkRef": "brand/lime · 12%",
+    "group": "component",
+    "derived": true,
+    "why": "The green \"2 Days\" reset chip on the View Details sheet (not a subscription surface, so green, not gold)."
+  },
+  {
+    "name": "component/expiry-chip/success-text",
+    "cssVar": "--eq-expiry-chip-success-text",
+    "light": "#006C27",
+    "dark": "#BAFF29",
+    "lightRef": "direct value",
+    "darkRef": "brand/lime",
+    "group": "component",
+    "derived": true,
+    "why": "Label of the green reset chip: #006C27 on #E6FFEF is 6.6:1."
+  },
+  {
+    "name": "component/info-note/title",
+    "cssVar": "--eq-info-note-title",
+    "light": "#00518C",
+    "dark": "#8CCBFF",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": true,
+    "why": "Heading of the blue info note (\"Know how weekly call limit works\"): 7.9:1 on the note."
+  },
+  {
+    "name": "component/paywall/deal-pill",
+    "cssVar": "--eq-paywall-deal-pill",
+    "light": "#272727",
+    "dark": "#272727",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": true,
+    "why": "The \"⏰ LIMITED TIME DEAL\" tab on the iOS-parity price card (Figma #272727)."
+  },
+  {
+    "name": "component/paywall/deal-glow",
+    "cssVar": "--eq-paywall-deal-glow",
+    "light": "rgba(255,201,39,0.3)",
+    "dark": "rgba(255,201,39,0.3)",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": true,
+    "why": "The warm glow around the iOS-parity price card (Figma #FFC927 @ 60%, softened)."
+  },
+  {
+    "name": "component/paywall/deal-ring",
+    "cssVar": "--eq-paywall-deal-ring",
+    "light": "rgba(255,201,39,0.2)",
+    "dark": "rgba(255,201,39,0.2)",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": true,
+    "why": "The concentric rings at the corner of the iOS-parity price card."
+  },
+  {
+    "name": "text/deal-gold",
+    "cssVar": "--eq-text-deal-gold",
+    "light": "#FFC927",
+    "dark": "#FFC927",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "text",
+    "derived": true,
+    "why": "Label of the black iOS-parity CTA: #FFC927 on black is 13:1."
   }
 ];
 
@@ -1757,6 +1889,18 @@ export const color = {
   callControlActiveBg: 'var(--eq-call-control-active-bg)',
   callControlActiveIcon: 'var(--eq-call-control-active-icon)',
   healthCheckIconBg: 'var(--eq-health-check-icon-bg)',
+  usageMeterKnown: 'var(--eq-usage-meter-known)',
+  usageMeterUnknown: 'var(--eq-usage-meter-unknown)',
+  usageMeterTrack: 'var(--eq-usage-meter-track)',
+  usageMeterGlow: 'var(--eq-usage-meter-glow)',
+  usageMeterGoldTrack: 'var(--eq-usage-meter-gold-track)',
+  expiryChipSuccessBg: 'var(--eq-expiry-chip-success-bg)',
+  expiryChipSuccessText: 'var(--eq-expiry-chip-success-text)',
+  infoNoteTitle: 'var(--eq-info-note-title)',
+  paywallDealPill: 'var(--eq-paywall-deal-pill)',
+  paywallDealGlow: 'var(--eq-paywall-deal-glow)',
+  paywallDealRing: 'var(--eq-paywall-deal-ring)',
+  textDealGold: 'var(--eq-text-deal-gold)',
 } as const;
 
 export const gradients = [
@@ -2055,6 +2199,46 @@ export const gradients = [
     "dark": "linear-gradient(180deg, #BAFF29 19%, rgba(186,255,41,0.45) 59%, #141414 100%)",
     "derived": true,
     "why": "The disc behind the assistant on the call screen: green at the top fading to white (Figma Ellipse 353, stops 0.19 / 0.59 / 1)."
+  },
+  {
+    "name": "usage-meter-gold-deep",
+    "cssVar": "--eq-gradient-usage-meter-gold-deep",
+    "light": "linear-gradient(135deg, #DA8F02 0%, #A66501 40%, #8B5001 70%, #713A00 100%)",
+    "dark": "linear-gradient(135deg, #FEC378 0%, #FA8C01 100%)",
+    "derived": true,
+    "why": "Known segment and swatch on the gold limit sheets: the deep gold next to the premium-icon gold (unknown)."
+  },
+  {
+    "name": "usage-meter-gold",
+    "cssVar": "--eq-gradient-usage-meter-gold",
+    "light": "linear-gradient(135deg, #D1A85C 0%, #A0621F 100%)",
+    "dark": "linear-gradient(135deg, #FEC378 0%, #FA8C01 100%)",
+    "derived": true,
+    "why": "Unknown segment and swatch on the gold limit sheets: the PremiumIcon gold."
+  },
+  {
+    "name": "paywall-hero-ios",
+    "cssVar": "--eq-gradient-paywall-hero-ios",
+    "light": "linear-gradient(180deg, #FFFFFF 0%, #FFFEFC 45%, #FFC927 100%)",
+    "dark": "linear-gradient(180deg, #4A3C1C 0%, #141414 100%)",
+    "derived": true,
+    "why": "Hero of the iOS-parity paywall: white fading into warm gold (27 Aug touchpoint)."
+  },
+  {
+    "name": "paywall-deal-card",
+    "cssVar": "--eq-gradient-paywall-deal-card",
+    "light": "linear-gradient(135deg, #000000 0%, #2E2E2E 60%, #7A4900 100%)",
+    "dark": "linear-gradient(135deg, #000000 0%, #2E2E2E 60%, #7A4900 100%)",
+    "derived": true,
+    "why": "The black price card on the iOS-parity paywall, warming to brown at the corner."
+  },
+  {
+    "name": "paywall-dark-cta",
+    "cssVar": "--eq-gradient-paywall-dark-cta",
+    "light": "linear-gradient(90deg, #000000 0%, #2E2E2E 100%)",
+    "dark": "linear-gradient(90deg, #000000 0%, #2E2E2E 100%)",
+    "derived": true,
+    "why": "The black sticky CTA on the iOS-parity paywall (Figma black → #2E2E2E pill)."
   }
 ];
 

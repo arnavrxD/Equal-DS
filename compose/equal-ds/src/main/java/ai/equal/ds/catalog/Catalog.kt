@@ -1,6 +1,11 @@
 package ai.equal.ds.catalog
 
 import ai.equal.ds.components.HealthAlert
+import ai.equal.ds.components.PlanRenew
+import ai.equal.ds.components.EqualButtonEmphasis
+import ai.equal.ds.components.EqualButtonAppearance
+import ai.equal.ds.components.UsageMeterSpec
+import ai.equal.ds.components.UsageMeterCard
 import ai.equal.ds.components.AssistantBusy
 import ai.equal.ds.components.SampleSummaryActions
 import ai.equal.ds.components.SummaryActions
@@ -168,6 +173,7 @@ import ai.equal.ds.components.SetupPrompt
 import ai.equal.ds.components.MeetAssistantLayout
 import ai.equal.ds.components.SystemNotificationPreview
 import ai.equal.ds.components.defaultContactInfoActions
+import ai.equal.ds.icons.EqualIcon
 import ai.equal.ds.icons.EqualIcons
 import ai.equal.ds.theme.EqualTheme
 import androidx.compose.foundation.background
@@ -946,6 +952,12 @@ fun HomeScreenSample(
     assistantControl: AssistantControl? = null,
     /** Anything drawn over Home (Snooze dialog, error sheets, soft update, a heads-up). */
     overlay: (@Composable () -> Unit)? = null,
+    /** Known Call Usage Cap: the known / unknown usage card under the toggle. */
+    usageMeter: UsageMeterSpec? = null,
+    /** View Details / the chevron on [usageMeter]. */
+    onUsageDetails: () -> Unit = {},
+    /** P0 free home: the 👑 Upgrade pill in the top bar. */
+    upgradePill: Boolean = false,
 ) {
     val colors = EqualTheme.colors
     var assistantOn by remember(assistantOff, healthAlert != null) { mutableStateOf(!assistantOff && healthAlert == null) }
@@ -977,6 +989,11 @@ fun HomeScreenSample(
                 assistantDescription = assistantDescription,
                 planTone = if (planExpired) PlanBadgeTone.Expired else PlanBadgeTone.Paid,
                 assistantArt = assistantArt,
+                trailing = {
+                    if (upgradePill) {
+                        EqualButton(text = "👑 Upgrade", onClick = renew, appearance = EqualButtonAppearance.Premium, emphasis = EqualButtonEmphasis.Secondary, size = EqualButtonSize.Sm)
+                    }
+                },
                 below = if (paymentProcessing) ({ ProcessingStrip(variant = ProcessingStripVariant.Card) }) else null,
                 assistantOffDescription = assistantControl?.offDescription ?: if (healthAlert != null) "Check assistant health" else null,
                 assistantBusy = assistantControl?.busy,
@@ -991,15 +1008,30 @@ fun HomeScreenSample(
             ) {
                 if (planExpiry != null) PlanExpiryBanner(expiry = planExpiry, onRenew = onRenew)
                 if (offer) OfferStrip(onClick = { pw = PaywallSheetStage.Claimed })
+                if (usageMeter != null) {
+                    UsageMeterCard(
+                        spec = usageMeter,
+                        modifier = Modifier.padding(top = 12.dp),
+                        onUpgrade = renew,
+                        onDetails = onUsageDetails,
+                    )
+                }
                 when (homeNotice) {
-                    HomeNotice.PlanExpired -> HomeNoticeCard(
-                        lead = { EmojiGlyph(emoji = "👑", size = 14.dp) },
+                    is HomeNotice.PlanExpired -> HomeNoticeCard(
+                        lead = if (homeNotice.crown) ({ EmojiGlyph(emoji = "👑", size = 14.dp) }) else null,
                         title = "Your Plan Expired",
                         subtitle = "Renew to get Unlimited access back",
                         cta = "Renew Now",
                         onCta = renew,
                     )
-                    is HomeNotice.UsageCap -> UsageCapCard(left = homeNotice.callsLeft, limit = homeNotice.limit, onUpgrade = renew)
+                    is HomeNotice.UsageCap -> if (usageMeter == null) UsageCapCard(left = homeNotice.callsLeft, limit = homeNotice.limit, onUpgrade = renew, icon = homeNotice.icon)
+                    is HomeNotice.RecordingsLocked -> HomeNoticeCard(
+                        lead = if (homeNotice.icon) ({ EqualIcon(EqualIcons.CallFilled, contentDescription = null, tint = colors.textPrimary, size = 16.dp) }) else null,
+                        title = "Call Recordings Locked",
+                        subtitle = "Subscribe to get unlimited recordings",
+                        cta = "Get Unlimited",
+                        onCta = renew,
+                    )
                     null -> Unit
                 }
                 if (chats.isNotEmpty()) {
@@ -1458,6 +1490,8 @@ fun YouScreenSample(
     tier: PlanTier = PlanTier.Paid,
     plan: YouPlan = YouPlan.Active,
     onManagePlan: () -> Unit = {},
+    /** Plan Expired option 3: the plan card asks to renew (use with [YouPlan.Expired]). */
+    planRenew: Boolean = false,
     onOpenCallHandling: () -> Unit = {},
 ) {
     val colors = EqualTheme.colors
@@ -1488,7 +1522,7 @@ fun YouScreenSample(
                     tier = tier,
                     onEdit = {},
                 ) {
-                    PlanCard(onManageClick = onManagePlan, manageLabel = plan.manageLabel, expired = plan == YouPlan.Expired)
+                    PlanCard(onManageClick = onManagePlan, manageLabel = plan.manageLabel, expired = plan == YouPlan.Expired, renew = if (planRenew) PlanRenew(onRenew = onManagePlan) else null)
                     if (plan == YouPlan.Reactivate) {
                         PlanBanner(text = "Reactivate your current Plan to use Equal Unlimited", attached = true)
                     }

@@ -275,10 +275,10 @@ export function HomeNoticeCard({ title, subtitle, cta, onCta, lead, progress, pr
 }
 
 /** Usage meter for the free weekly cap: "📞 7 Calls left this week · Resets Mon | Unlimited on premium". */
-export function UsageCapCard({ left, limit, resets = 'Mon', onUpgrade }: { left: number; limit: number; resets?: string; onUpgrade?: () => void }) {
+export function UsageCapCard({ left, limit, resets = 'Mon', onUpgrade, lead }: { left: number; limit: number; resets?: string; onUpgrade?: () => void; /** Phone glyph by default; null hides it (option without the icon). */ lead?: ReactNode | null }) {
   return (
     <HomeNoticeCard
-      lead={<Icon name="call-filled" size={16} />}
+      lead={lead === null ? undefined : lead ?? <Icon name="call-filled" size={16} />}
       title={`${left} Calls left this week`}
       subtitle={<>Resets {resets} <span className="eq-notice__sep" aria-hidden /> Unlimited on premium</>}
       cta="Get Unlimited"

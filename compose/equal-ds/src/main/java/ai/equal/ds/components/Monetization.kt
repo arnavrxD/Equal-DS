@@ -1,5 +1,7 @@
 package ai.equal.ds.components
 
+import androidx.compose.ui.draw.drawBehind
+
 import ai.equal.ds.assets.EqualAssetImage
 import ai.equal.ds.assets.EqualAssets
 import ai.equal.ds.icons.EqualIcon
@@ -399,16 +401,22 @@ fun PaywallHero(
     subtitle: String? = "Unlock Summaries, Transcripts, Recordings & Unlimited Call Screening",
     onBack: () -> Unit = {},
     onSupport: () -> Unit = {},
+    /** iOS-parity paywall (27 Aug touchpoint): `paywall-hero-ios`, 54 bottom radius, crown 72, title 500 / 30 SemiBold, `caption` subtitle. */
+    ios: Boolean = false,
+    /** iOS parity: the crown animates (option 1) or stands still (option 2). */
+    crownAnimated: Boolean = true,
     content: (@Composable ColumnScope.() -> Unit)? = null,
 ) {
     val colors = EqualTheme.colors
     val type = EqualTheme.type
+    val iosShape = RoundedCornerShape(bottomStart = 54.dp, bottomEnd = 54.dp)
     Box(
         modifier
             .fillMaxWidth()
-            .background(EqualTheme.gradients.paywallHero.toBrush()),
+            .then(if (ios) Modifier.clip(iosShape) else Modifier)
+            .background((if (ios) EqualTheme.gradients.paywallHeroIos else EqualTheme.gradients.paywallHero).toBrush()),
     ) {
-        RingsLayer(
+        if (!ios) RingsLayer(
             modifier = Modifier.matchParentSize().clearAndSetSemantics {},
             centerY = 120.dp,
             firstRadius = 47.5.dp,
@@ -419,7 +427,7 @@ fun PaywallHero(
             darkOpacity = 0.25f,
             maskHeight = 420.dp,
         )
-        Column(Modifier.fillMaxWidth().padding(bottom = 8.dp)) {
+        Column(Modifier.fillMaxWidth().padding(bottom = if (ios) 24.dp else 8.dp)) {
             Row(
                 Modifier
                     .fillMaxWidth()
@@ -448,8 +456,8 @@ fun PaywallHero(
                     .padding(horizontal = 24.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
-                AnimatedCrown(size = 64.dp)
-                Spacer(Modifier.height(12.dp))
+                AnimatedCrown(size = if (ios) 72.dp else 64.dp, animated = crownAnimated)
+                Spacer(Modifier.height(if (ios) 8.dp else 12.dp))
                 // Both lines are one heading, read once: "Unlock Equal Unlimited".
                 Column(
                     Modifier.clearAndSetSemantics {
@@ -460,13 +468,13 @@ fun PaywallHero(
                 ) {
                     EqualText(
                         text = title,
-                        style = type.title.copy(fontSize = 22.sp, lineHeight = 26.sp, fontWeight = FontWeight.W400),
+                        style = if (ios) type.title.copy(fontWeight = FontWeight.W500) else type.title.copy(fontSize = 22.sp, lineHeight = 26.sp, fontWeight = FontWeight.W400),
                         color = colors.textPrimary,
                         textAlign = TextAlign.Center,
                     )
                     EqualText(
                         text = titleStrong,
-                        style = type.headline.copy(fontSize = 38.sp, lineHeight = 42.sp, fontWeight = FontWeight.Bold, letterSpacing = (-0.03).em),
+                        style = if (ios) type.headline.copy(fontSize = 30.sp, lineHeight = 36.sp, fontWeight = FontWeight.W600) else type.headline.copy(fontSize = 38.sp, lineHeight = 42.sp, fontWeight = FontWeight.Bold, letterSpacing = (-0.03).em),
                         color = colors.textPrimary,
                         textAlign = TextAlign.Center,
                     )
@@ -475,7 +483,7 @@ fun PaywallHero(
                     Spacer(Modifier.height(8.dp))
                     EqualText(
                         text = subtitle,
-                        style = type.body1,
+                        style = if (ios) type.caption else type.body1,
                         color = colors.textSecondary,
                         textAlign = TextAlign.Center,
                         maxLines = 2,
@@ -493,6 +501,48 @@ fun PaywallHero(
                     content = content,
                 )
             }
+        }
+    }
+}
+
+/**
+ * iOS-parity price card: `paywall-deal-card` (radius 18) with a soft `paywall/deal-glow`, coded
+ * `paywall/deal-ring` rings at the corner, the "⏰ LIMITED TIME DEAL" tab (`paywall/deal-pill`,
+ * `badge` caps) on its top edge, the gold price and one `caption` line in `text/on-dark`.
+ */
+@Composable
+fun PriceDealCard(
+    modifier: Modifier = Modifier,
+    price: Int = 499,
+    currency: String = "₹",
+    deal: String = "Limited time deal",
+    line: String = "Less than your weekly cup of coffee",
+    period: String = "billed monthly",
+) {
+    val colors = EqualTheme.colors
+    val type = EqualTheme.type
+    val shape = RoundedCornerShape(18.dp)
+    val ring = colors.paywallDealRing
+    Box(
+        modifier
+            .padding(start = 16.dp, end = 16.dp, top = 20.dp)
+            .fillMaxWidth()
+            .eqShadow(EqualShadow(listOf(EqualShadowLayer(0.dp, 0.dp, 24.dp, colors.paywallDealGlow))), shape)
+            .clip(shape)
+            .background(EqualTheme.gradients.paywallDealCard.toBrush())
+            .drawBehind {
+                val c = Offset(size.width + 16.dp.toPx(), size.height + 16.dp.toPx())
+                drawCircle(ring, radius = 76.dp.toPx(), center = c, style = Stroke(1.dp.toPx()))
+                drawCircle(ring, radius = 95.dp.toPx(), center = c, style = Stroke(1.dp.toPx()))
+            },
+        contentAlignment = Alignment.TopCenter,
+    ) {
+        Box(Modifier.clip(RoundedCornerShape(bottomStart = 8.dp, bottomEnd = 8.dp)).background(colors.paywallDealPill).padding(horizontal = 8.dp, vertical = 4.dp)) {
+            EqualText(text = "⏰ " + deal.uppercase(), style = type.badge, color = colors.textOnDark, maxLines = 1)
+        }
+        Column(Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, top = 28.dp, bottom = 16.dp), horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            GoldText(text = "$currency$price", style = type.headline.copy(fontSize = 44.sp, lineHeight = 48.sp, letterSpacing = (-0.02).em), modifier = Modifier.semantics { contentDescription = "$currency$price $period" })
+            EqualText(text = "☕ $line", style = type.captionRegular, color = colors.textOnDark, textAlign = TextAlign.Center)
         }
     }
 }
@@ -809,6 +859,8 @@ fun PaywallFooter(
     disabled: Boolean = false,
     flat: Boolean = false,
     above: (@Composable () -> Unit)? = null,
+    /** iOS parity: the black `paywall-dark-cta` pill with a `text/deal-gold` label. */
+    dark: Boolean = false,
 ) {
     val colors = EqualTheme.colors
     Column(
@@ -821,7 +873,19 @@ fun PaywallFooter(
             above()
             Spacer(Modifier.height(10.dp))
         }
-        EqualButton(text = cta, onClick = onClick, variant = variant, size = EqualButtonSize.Block, enabled = !disabled, glow = variant == EqualButtonVariant.Gold)
+        if (dark) {
+            Box(
+                Modifier
+                    .fillMaxWidth()
+                    .height(48.dp)
+                    .clip(CircleShape)
+                    .background(EqualTheme.gradients.paywallDarkCta.toBrush())
+                    .clickable(enabled = !disabled, role = Role.Button, onClick = onClick),
+                contentAlignment = Alignment.Center,
+            ) { EqualText(text = cta, style = EqualTheme.type.buttonLarge, color = colors.textDealGold, maxLines = 1) }
+        } else {
+            EqualButton(text = cta, onClick = onClick, variant = variant, size = EqualButtonSize.Block, enabled = !disabled, glow = variant == EqualButtonVariant.Gold)
+        }
         if (note != null) {
             Spacer(Modifier.height(8.dp))
             EqualText(
