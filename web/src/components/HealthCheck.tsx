@@ -58,9 +58,13 @@ export function HealthStatusLabel({ tone, label }: { tone: HealthTone; label: st
 
 export type RowStatus = 'idle' | 'pending' | 'checking' | 'granted' | 'notGranted';
 
-/** 48 status ring (2dp) around a 40 `health-check/icon-bg` disc with a 24 icon; checking spins an arc. */
+/**
+ * 48 status ring (2dp) around a 40 `health-check/icon-bg` disc with a 24 icon. The icon is outlined in
+ * `text/placeholder`; only the row being checked fills it, in `text/secondary`, while the arc spins.
+ * Icons never turn red: Not Granted shows on the ring and the label.
+ */
 export function StatusRing({ status, icon, size = 48 }: { status: RowStatus; icon: IconName; size?: number }) {
-  const filled = status === 'notGranted' ? (`${icon}-fill` as IconName) : icon;
+  const filled = status === 'checking' ? (`${icon}-fill` as IconName) : icon;
   return (
     <span className={`eq-ring eq-ring--${status}`} style={{ width: size, height: size }} aria-hidden>
       {status === 'checking' && <span className="eq-ring__arc" />}

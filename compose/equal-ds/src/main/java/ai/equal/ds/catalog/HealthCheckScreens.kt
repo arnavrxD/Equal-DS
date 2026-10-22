@@ -59,7 +59,7 @@ data class HcState(val hero: HealthHeroState, val app: HcCard, val phone: HcCard
 private data class HcRow(val icon: ImageVector, val filled: ImageVector, val title: String, val description: String)
 
 private val AppRows = listOf(
-    HcRow(EqualSymbols.phoneIncoming, EqualSymbols.phoneIncoming, "Phone", "Your assistant needs this to handle calls"),
+    HcRow(EqualSymbols.phoneIncoming, EqualSymbols.phoneIncomingFill, "Phone", "Your assistant needs this to handle calls"),
     HcRow(EqualSymbols.notifications, EqualSymbols.notificationsFill, "Notification", "Required to send you call alerts"),
     HcRow(EqualSymbols.contacts, EqualSymbols.contactsFill, "Contacts", "Required to skip calls from saved contacts"),
 )

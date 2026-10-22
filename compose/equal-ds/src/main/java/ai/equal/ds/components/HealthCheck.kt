@@ -115,8 +115,8 @@ enum class PermissionStatus { Idle, Pending, Checking, Granted, NotGranted }
 
 /**
  * 48 status ring (2dp) around a 40 `health-check/icon-bg` disc with a 24 icon. Pending dims the icon;
- * Checking spins a `text/primary` arc on the `stroke/medium` track; Granted = `stroke/focus`;
- * NotGranted = `text/danger` with the filled glyph.
+ * Checking spins a `text/primary` arc and fills the icon (`text/secondary`); otherwise the icon is
+ * outlined in `text/placeholder`. Granted = `stroke/focus` ring; NotGranted = `text/danger` ring (the icon stays grey).
  */
 @Composable
 fun StatusRing(status: PermissionStatus, icon: ImageVector, filledIcon: ImageVector = icon, modifier: Modifier = Modifier, size: Dp = 48.dp) {
@@ -134,8 +134,9 @@ fun StatusRing(status: PermissionStatus, icon: ImageVector, filledIcon: ImageVec
     ) {
         Box(Modifier.size(size - 8.dp).background(colors.healthCheckIconBg, CircleShape), contentAlignment = Alignment.Center) {
             EqualIcon(
-                if (status == PermissionStatus.NotGranted) filledIcon else icon, contentDescription = null, size = 24.dp,
-                tint = when (status) { PermissionStatus.Pending -> colors.textPlaceholder; PermissionStatus.NotGranted -> colors.textDanger; else -> colors.textSecondary },
+                if (status == PermissionStatus.Checking) filledIcon else icon, contentDescription = null, size = 24.dp,
+                // Outlined in text/placeholder; only the row being checked fills, in text/secondary. Never red.
+                tint = if (status == PermissionStatus.Checking) colors.textSecondary else colors.textPlaceholder,
             )
         }
     }

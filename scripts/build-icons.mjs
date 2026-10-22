@@ -51,6 +51,7 @@ const MANIFEST = {
   'call-made': 'call_made',
   'call-missed': 'call_missed',
   'phone-incoming': 'phone_callback',
+  'phone-incoming-fill': 'phone_callback-fill',
   'phone-missed': 'phone_missed',
   'phone-outgoing': 'phone_forwarded',
   info: 'info',
