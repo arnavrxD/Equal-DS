@@ -11,11 +11,8 @@
 .eq-troubleshoot__row { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; }
 .eq-troubleshoot__row + .eq-troubleshoot__row { border-top: 1px solid var(--eq-stroke-medium); }
 
-/* Update art: glow disc behind, badge at the bottom-right. */
+/* Update art: the supplied images (badge and glow included). */
 .eq-update-art { position: relative; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
-.eq-update-art__glow { position: absolute; inset: 0; border-radius: 50%; background: radial-gradient(circle, var(--eq-suggest-glow) 0%, transparent 60%); transform: scale(1.3); }
-.eq-update-art > img, .eq-update-art > picture { position: relative; }
-.eq-update-art__badge { position: absolute; left: 66%; top: 62%; display: inline-flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--eq-button-primary); box-shadow: 0 0 0 3px var(--eq-bg-primary), 0 0 16px color-mix(in srgb, var(--eq-button-primary) 60%, transparent); }
 
 /* Hard update. */
 .eq-force-update { position: absolute; inset: 0; z-index: 70; display: flex; flex-direction: column; background: var(--eq-bg-primary); }

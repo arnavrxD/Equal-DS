@@ -120,6 +120,8 @@ enum class EqualAssets(val assetName: String, @DrawableRes val resId: Int) {
     IllustrationWarning("illustration-warning", R.drawable.ds_asset_illustration_warning),
     IllustrationErrorSad("illustration-error-sad", R.drawable.ds_asset_illustration_error_sad),
     MascotUpdate("mascot-update", R.drawable.ds_asset_mascot_update),
+    UpdateArtLight("update-art-light", R.drawable.ds_asset_update_art_light),
+    UpdateArtDark("update-art-dark", R.drawable.ds_asset_update_art_dark),
 
     /** Cancellation request submitted, thumbs up (100dp). */
     ThumbsUp("thumbs-up", R.drawable.ds_asset_thumbs_up),

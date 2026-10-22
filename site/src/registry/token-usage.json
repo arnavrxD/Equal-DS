@@ -1357,10 +1357,6 @@
     "name": "Personalisation"
    },
    {
-    "id": "snooze",
-    "name": "Snooze & update"
-   },
-   {
     "id": "switch",
     "name": "Switch"
    },
@@ -5084,10 +5080,6 @@
    {
     "id": "bottom-sheet",
     "name": "Bottom sheet"
-   },
-   {
-    "id": "snooze",
-    "name": "Snooze & update"
    }
   ],
   "screens": []

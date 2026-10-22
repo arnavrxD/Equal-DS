@@ -152,30 +152,10 @@ fun TroubleshootList(items: List<TroubleshootItem>, modifier: Modifier = Modifie
     }
 }
 
-/** The update robot with the coded upload badge (`button/primary`, 3dp `bg/primary` ring) and a soft `suggest/glow` behind it. */
+/** The update art: the supplied robot with its upload badge and glow, light (green badge) or dark (lime badge), by theme. */
 @Composable
 fun UpdateArt(modifier: Modifier = Modifier, size: Dp = 160.dp) {
-    val colors = EqualTheme.colors
-    val glow = colors.suggestGlow
-    Box(
-        modifier.size(size).drawBehind {
-            drawCircle(Brush.radialGradient(listOf(glow, Color.Transparent), center = Offset(this.size.width / 2, this.size.height / 2), radius = this.size.minDimension * 0.65f))
-        },
-    ) {
-        EqualAssetImage(EqualAssets.MascotUpdate, size = size)
-        val badge = size * 0.225f
-        Box(
-            Modifier
-                .offset(x = size * 0.66f, y = size * 0.62f)
-                .size(badge)
-                .background(colors.bgPrimary, CircleShape)
-                .padding(3.dp)
-                .background(colors.buttonPrimary, CircleShape),
-            contentAlignment = Alignment.Center,
-        ) {
-            EqualIcon(EqualSymbols.send, contentDescription = null, tint = colors.textOnAction, size = size * 0.1125f)
-        }
-    }
+    EqualAssetImage(if (EqualTheme.colors.isDark) EqualAssets.UpdateArtDark else EqualAssets.UpdateArtLight, size = size, modifier = modifier)
 }
 
 /** The content of an [AlertSheet]: Snooze errors and the soft update. */

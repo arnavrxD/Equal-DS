@@ -9127,6 +9127,8 @@ Web `<Asset name="…" size={dp} />`, Compose `EqualAssetImage(EqualAssets.<Pasc
 - `stat-phone`: Account & Data trust strip: the 3D handset by calls handled (40dp)
 - `illustration-warning`: Snooze: Assistant snooze failed sheet (88dp)
 - `illustration-error-sad`: Snooze: Assistant activation failed sheet, red sad face (88dp)
+- `update-art-light`: Force update art, light: the robot with the green upload badge and glow (176dp hard, 144dp sheet)
+- `update-art-dark`: Force update art, dark: the robot with the lime upload badge and a black arrow
 - `mascot-update`: Force update: the update robot, with the coded upload badge (160dp hard / 144dp soft)
 - `thumbs-up`: Monetization: 3D thumbs up, Your Request is Submitted (100dp)
 - `star-gold`: Monetization: 3D star in the “Rated 4.5/5” pill (20dp)

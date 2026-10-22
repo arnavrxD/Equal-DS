@@ -67,15 +67,12 @@ export function TroubleshootList({ items }: { items: TroubleshootItem[] }) {
   );
 }
 
-/** The update robot with the coded upload badge and a soft glow behind it. */
+/** The update art: the supplied robot with its upload badge and glow, light (green badge) or dark (lime badge), by theme. */
 export function UpdateArt({ size = 160 }: { size?: number }) {
   return (
     <span className="eq-update-art" style={{ width: size, height: size }} aria-hidden>
-      <span className="eq-update-art__glow" />
-      <Asset name="mascot-update" size={size} alt="" />
-      <span className="eq-update-art__badge" style={{ width: Math.round(size * 0.225), height: Math.round(size * 0.225) }}>
-        <Icon name="send" size={Math.round(size * 0.1125)} color="var(--eq-text-on-action)" />
-      </span>
+      <span className="eq-orb eq-orb--light"><Asset name="update-art-light" size={size} alt="" /></span>
+      <span className="eq-orb eq-orb--dark"><Asset name="update-art-dark" size={size} alt="" /></span>
     </span>
   );
 }

@@ -33,6 +33,7 @@ SIZES = {
     'crown-gold': 100, 'crown-lock': 24, 'coupon-seal': 32, 'star-gold': 24,
     'status-waiting': 100, 'status-waiting-cash': 100, 'status-confirmed': 100, 'status-pending': 100, 'status-failed': 100,
     'emoji-sad': 100, 'thumbs-up': 100,
+    'update-art-light': 176, 'update-art-dark': 176,
     'illustration-shield-lock': 140, 'stat-star': 40, 'stat-phone': 40,
     'illustration-airplane': 116, 'illustration-warning': 88, 'illustration-error-sad': 88, 'mascot-update': 160,
     'premium-glow': 360,
