@@ -2,7 +2,6 @@ package ai.equal.ds.catalog
 
 import ai.equal.ds.assets.EqualAssetImage
 import ai.equal.ds.assets.EqualAssets
-import ai.equal.ds.components.AppBarAlign
 import ai.equal.ds.components.CarouselDots
 import ai.equal.ds.components.EqualAppBar
 import ai.equal.ds.components.EqualBottomSheet
@@ -94,7 +93,7 @@ fun CallLearningScreen(
             .background(colors.bgPrimary),
     ) {
         Column(Modifier.fillMaxSize()) {
-            EqualAppBar(title = "Call Learning & Consent", onBackClick = onBack, align = AppBarAlign.Start, statusBar = true)
+            EqualAppBar(title = "Call Learning & Consent", onBackClick = onBack, statusBar = true)
             Column(
                 Modifier
                     .weight(1f)
@@ -189,7 +188,7 @@ fun AccountDataScreen(
             .fillMaxSize()
             .background(colors.bgPrimary),
     ) {
-        EqualAppBar(title = "Account & Data", onBackClick = onBack, align = AppBarAlign.Start, statusBar = true)
+        EqualAppBar(title = "Account & Data", onBackClick = onBack, statusBar = true)
         Column(
             Modifier
                 .weight(1f)

@@ -49,7 +49,7 @@ export function HealthCheckScreen({ state, onStart, onHome, onBack, onGrantApp, 
   const s = state;
   const running = s.cta === 'checking';
   return (
-    <Screen header={<AppBar statusBar title="Assistant Health Check" align="start" onBack={onBack} />}>
+    <Screen header={<AppBar statusBar title="Assistant Health Check" onBack={onBack} />}>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '16px 24px 24px' }}>
         <HealthHero state={s.hero} size={180} />
         <Text as="h1" variant="headline" style={{ alignSelf: 'stretch', marginTop: 16 }}>{s.done ? 'Check complete. Your assistant is good to go' : 'Check your assistant’s health. See if it’s operational.'}</Text>

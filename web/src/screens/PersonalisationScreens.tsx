@@ -57,7 +57,7 @@ export function PersonalisationScreen({ sheet: initial = false, onBack }: { shee
   const [sheet, setSheet] = useState(initial);
   const [slide, setSlide] = useState(0);
   return (
-    <Screen header={<AppBar statusBar title="AI Personalization" align="start" onBack={onBack ?? (() => {})} />} overlay={sheet ? <DeleteSheet onClose={() => setSheet(false)} /> : undefined}>
+    <Screen header={<AppBar statusBar title="AI Personalization" onBack={onBack ?? (() => {})} />} overlay={sheet ? <DeleteSheet onClose={() => setSheet(false)} /> : undefined}>
       <div style={{ padding: '16px 16px 0' }}>
         <Text as="h1" variant="headline" style={{ fontWeight: 700 }}>What <Text as="span" variant="inherit" color="action">Equal AI</Text> knows about you</Text>
         <Text as="p" variant="bodyLarge" color="secondary" style={{ margin: '8px 0 0' }}>The more Equal understands, the better it sounds like you when it answers.</Text>

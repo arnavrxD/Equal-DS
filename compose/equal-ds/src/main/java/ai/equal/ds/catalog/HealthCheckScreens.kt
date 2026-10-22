@@ -1,6 +1,5 @@
 package ai.equal.ds.catalog
 
-import ai.equal.ds.components.AppBarAlign
 import ai.equal.ds.components.DeviceScreen
 import ai.equal.ds.components.EqualAppBar
 import ai.equal.ds.components.EqualButton
@@ -123,7 +122,7 @@ fun HealthCheckScreen(
     val type = EqualTheme.type
     val running = state.cta == HcCta.Checking
     Column(modifier.fillMaxSize().background(colors.bgPrimary)) {
-        EqualAppBar(title = "Assistant Health Check", onBackClick = onBack, align = AppBarAlign.Start, statusBar = true)
+        EqualAppBar(title = "Assistant Health Check", onBackClick = onBack, statusBar = true)
         Column(
             Modifier.weight(1f).verticalScroll(rememberScrollState()).padding(start = 24.dp, end = 24.dp, top = 16.dp, bottom = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,

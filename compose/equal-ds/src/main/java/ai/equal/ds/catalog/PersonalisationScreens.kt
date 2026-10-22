@@ -122,7 +122,7 @@ fun PersonalisationScreen(modifier: Modifier = Modifier, sheet: Boolean = false,
     var open by remember(sheet) { mutableStateOf(sheet) }
     Box(modifier.fillMaxSize().background(colors.bgPrimary)) {
         Column(Modifier.fillMaxSize()) {
-            EqualAppBar(title = "AI Personalization", onBackClick = onBack, statusBar = true, align = ai.equal.ds.components.AppBarAlign.Start)
+            EqualAppBar(title = "AI Personalization", onBackClick = onBack, statusBar = true)
             Column(Modifier.weight(1f).verticalScroll(rememberScrollState())) {
                 Column(Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)) {
                     androidx.compose.foundation.text.BasicText(

@@ -10,7 +10,7 @@ export function CallLearningScreen({ on: initial = true, sheet: sheetOpen = fals
   const [slide, setSlide] = useState(0);
   return (
     <Screen
-      header={<AppBar statusBar title="Call Learning & Consent" align="start" onBack={onBack ?? (() => {})} />}
+      header={<AppBar statusBar title="Call Learning & Consent" onBack={onBack ?? (() => {})} />}
       overlay={sheet ? (
         <BottomSheet open label="Turn off Call Learning?" onClose={() => setSheet(false)}>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
@@ -45,7 +45,7 @@ export function CallLearningScreen({ on: initial = true, sheet: sheetOpen = fals
 /** Account & Data: the shield, the trust strip, Privacy & Security, Legal and Account rows. */
 export function AccountDataScreen({ onBack, onCallLearning }: { onBack?: () => void; onCallLearning?: () => void }) {
   return (
-    <Screen header={<AppBar statusBar title="Account & Data" align="start" onBack={onBack ?? (() => {})} />}>
+    <Screen header={<AppBar statusBar title="Account & Data" onBack={onBack ?? (() => {})} />}>
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '16px 20px 0' }}>
         <Asset name="illustration-shield-lock" size={140} alt="" />
         <Text as="h1" variant="headline" align="center" style={{ fontWeight: 600, marginTop: 8 }}>Trust is the foundation of everything we do at <Text as="span" variant="inherit" color="action">Equal AI</Text></Text>
