@@ -23,13 +23,18 @@ export type ChatHeaderProps = {
   statusBar?: boolean;
   /** Equal AI's own chat: the orb instead of a contact avatar. */
   official?: boolean;
+  /** Equal-to-Equal: a call strip between the status bar and the row (e.g. the ongoing call). */
+  callStrip?: ReactNode;
+  /** A call is live: the call icon is disabled (`text/action-disabled`). */
+  callDisabled?: boolean;
 };
 
 /** In-conversation header (Component ref #5). */
-export function ChatHeader({ name, subtitle, avatar, onBack, onCall, onMore, onTakeover, live, statusBar = false, official }: ChatHeaderProps) {
+export function ChatHeader({ name, subtitle, avatar, onBack, onCall, onMore, onTakeover, live, statusBar = false, official, callStrip, callDisabled }: ChatHeaderProps) {
   return (
     <header className="eq-chat-header">
-      {statusBar && <StatusBar background="var(--eq-bg-surface)" />}
+      {statusBar && <StatusBar background={callStrip ? 'var(--eq-call-strip-bg)' : 'var(--eq-bg-surface)'} />}
+      {callStrip}
       <div className="eq-chat-header__row">
         <IconButton icon="arrow-back" label="Back" onClick={onBack} size={36} />
         {official ? <AiAvatar size={36} /> : <ContactAvatar size={36} {...avatar} />}
@@ -46,7 +51,7 @@ export function ChatHeader({ name, subtitle, avatar, onBack, onCall, onMore, onT
           <TakeoverPill onClick={onTakeover} />
         ) : (
           <>
-            <IconButton icon="call" label="Call" onClick={onCall} size={36} />
+            <IconButton icon="call" label="Call" onClick={onCall} size={36} disabled={callDisabled} style={callDisabled ? { color: 'var(--eq-text-action-disabled)' } : undefined} />
             <IconButton icon="more-vert" label="More options" onClick={onMore} size={36} />
           </>
         )}
@@ -116,13 +121,16 @@ export type HomeHeaderProps = {
   /** Assistant Snooze: spinner in place of the switch while (de)activating. */
   assistantBusy?: 'deactivating' | 'activating';
   healthAlert?: { onFix?: () => void };
+  /** Equal-to-Equal: the incoming or ongoing call strip under the status bar. */
+  callStrip?: ReactNode;
 };
 
 /** Home header: status bar + logo/plan + assistant toggle, on bg/primary with bottom shadow. */
-export function HomeHeader({ assistantOn, onAssistantChange, plan = 'Unlimited', statusBar = true, trailing, status, assistantDescription, planTone, below, assistantArt, assistantOffDescription, healthAlert, assistantBusy }: HomeHeaderProps) {
+export function HomeHeader({ assistantOn, onAssistantChange, plan = 'Unlimited', statusBar = true, trailing, status, assistantDescription, planTone, below, assistantArt, assistantOffDescription, healthAlert, assistantBusy, callStrip }: HomeHeaderProps) {
   return (
     <header className="eq-home-header">
-      {statusBar && <StatusBar />}
+      {statusBar && <StatusBar background={callStrip ? 'var(--eq-call-strip-bg)' : undefined} />}
+      {callStrip}
       <TopBar plan={plan} trailing={trailing} planTone={planTone} />
       <div style={{ padding: '0 12px 12px' }}>
         {status ?? <AssistantToggle on={assistantOn} onChange={onAssistantChange} description={assistantDescription} art={assistantArt} offDescription={assistantOffDescription} healthAlert={healthAlert} busy={assistantBusy} />}

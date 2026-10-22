@@ -958,6 +958,8 @@ fun HomeScreenSample(
     onUsageDetails: () -> Unit = {},
     /** P0 free home: the 👑 Upgrade pill in the top bar. */
     upgradePill: Boolean = false,
+    /** Equal-to-Equal: the incoming or ongoing call strip under the status bar. */
+    callStrip: (@Composable () -> Unit)? = null,
 ) {
     val colors = EqualTheme.colors
     var assistantOn by remember(assistantOff, healthAlert != null) { mutableStateOf(!assistantOff && healthAlert == null) }
@@ -998,6 +1000,7 @@ fun HomeScreenSample(
                 assistantOffDescription = assistantControl?.offDescription ?: if (healthAlert != null) "Check assistant health" else null,
                 assistantBusy = assistantControl?.busy,
                 assistantOffRich = assistantControl?.offRich,
+                callStrip = callStrip,
                 healthAlert = if (!assistantOn) healthAlert else null,
             )
             Column(

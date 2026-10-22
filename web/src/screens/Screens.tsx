@@ -137,6 +137,8 @@ export type HomeScreenProps = {
   usageMeter?: UsageMeterCardProps;
   /** P0 free home: the 👑 Upgrade pill in the top bar. */
   upgradePill?: boolean;
+  /** Equal-to-Equal: the incoming or ongoing call strip under the status bar. */
+  callStrip?: ReactNode;
   /** Equal AI's own chat on top with its notice (Plan Expired / Usage Cap option 1). */
   official?: 'plan-expired' | 'usage-cap' | 'recordings-locked';
   onOfficialChat?: () => void;
@@ -154,7 +156,7 @@ export type HomeScreenProps = {
   overlay?: ReactNode;
 };
 
-export function HomeScreen({ chats = sampleChats, onOpenChat, onTab, onDeleteSelected, onSearch, showWhatsNew = true, avatar = 'male', tier = 'paid', systemStatus = 'ok', onNotify, promo = 'whats-new', lockedFrom, onLockedChat, planExpiry, valueSheet, onRenew, quotaSheet, assistant, assistantResult, callSetup, onCallSetup, assistantDescription, planExpired, assistantOff, assistantArt, onCallMe, healthAlert, homeNotice, official, onOfficialChat, lockedActions, paymentProcessing, paywallSheet, offerStrip, assistantControl, overlay, usageMeter, upgradePill }: HomeScreenProps) {
+export function HomeScreen({ chats = sampleChats, onOpenChat, onTab, onDeleteSelected, onSearch, showWhatsNew = true, avatar = 'male', tier = 'paid', systemStatus = 'ok', onNotify, promo = 'whats-new', lockedFrom, onLockedChat, planExpiry, valueSheet, onRenew, quotaSheet, assistant, assistantResult, callSetup, onCallSetup, assistantDescription, planExpired, assistantOff, assistantArt, onCallMe, healthAlert, homeNotice, official, onOfficialChat, lockedActions, paymentProcessing, paywallSheet, offerStrip, assistantControl, overlay, usageMeter, upgradePill, callStrip }: HomeScreenProps) {
   const [assistantOn, setAssistantOn] = useState(!assistantOff && !healthAlert);
   const [pw, setPw] = useState<PaywallSheetStage | null>(typeof paywallSheet === 'string' ? paywallSheet : null);
   useEffect(() => setPw(typeof paywallSheet === 'string' ? paywallSheet : null), [paywallSheet]);
@@ -202,6 +204,7 @@ export function HomeScreen({ chats = sampleChats, onOpenChat, onTab, onDeleteSel
             assistantDescription={assistantDescription}
             assistantOffDescription={assistantControl?.offDescription ?? (healthAlert ? 'Check assistant health' : undefined)}
             healthAlert={healthAlert && !assistantOn ? healthAlert : undefined}
+            callStrip={callStrip}
           />
         )
       }

@@ -5041,5 +5041,74 @@
     "gaps": [
       "Light-mode known segment (#00B140) vs the #F0F0F0 track is 2.5:1, below 3:1; the legend and value text carry the meaning."
     ]
+  },
+  "equal-call": {
+    "anatomy": [
+      {
+        "part": "Header",
+        "description": "Who, and that Equal identified them.",
+        "spec": "Large: headline name + Identified by (body2, 14 logo) · Compact: 40 subtle Minimise · subheading name + status · 40 Message (caller)"
+      },
+      {
+        "part": "Avatar",
+        "description": "The other person's initials.",
+        "spec": "200 call-avatar/bg disc · initials DM Sans 600 at 40 % · ripples 280 / 360 / 440 once connected"
+      },
+      {
+        "part": "Swipe to answer",
+        "description": "Decline · Accept · Message.",
+        "spec": "52 circles: decline button/end-call, accept button/primary, message call-control/bg + stroke/subtle · captions body2 · chevrons 20 at 100 / 70 / 40 / 20 %"
+      },
+      {
+        "part": "Call strips",
+        "description": "Incoming (3 options) or ongoing.",
+        "spec": "call-strip/bg · incoming 60 / 52 high, padding 16 / 24 · ongoing 72: 40 mute · subheading text/action name - time · 40 end"
+      },
+      {
+        "part": "Heads-up stand-in",
+        "description": "Android's CallStyle notification.",
+        "spec": "radius 20 · notification/bg (dark) · 48 avatar + call-received badge · DECLINE / ANSWER system pills"
+      }
+    ],
+    "accessibility": [
+      {
+        "topic": "Role",
+        "web": "Accept, Decline, Message, Minimise and End are buttons; speaker / mute are switches; the incoming strip is one button; the ongoing strip is a group.",
+        "android": "Same roles; Accept carries a custom \"Answer\" action for TalkBack."
+      },
+      {
+        "topic": "Name",
+        "web": "\"Identified by Equal AI\" is one node; the strip reads \"Answer call from Keshav Reddy\"; the ongoing label reads \"Return to call with Keshav Reddy, 0:21\".",
+        "android": "Same strings via clearAndSetSemantics."
+      },
+      {
+        "topic": "Keyboard",
+        "web": "Tab order: header, then the bottom actions; Accept also answers on Enter.",
+        "android": "D-pad in the same order."
+      },
+      {
+        "topic": "Touch target",
+        "web": "52 circles; the 40 strip and header buttons sit in 44 targets.",
+        "android": "48dp via minimumInteractiveComponentSize."
+      },
+      {
+        "topic": "Contrast",
+        "web": "Decline icon on #E11D48 is 4.7:1; avatar initials 9.1:1 / 10.9:1; strip options 2 and 3 green on #F7F7F7 are 2.66:1 in light (option 1 passes).",
+        "android": "Same tokens."
+      },
+      {
+        "topic": "State",
+        "web": "Calling… / Ringing… / Connecting... are announced politely; the timer is not.",
+        "android": "liveRegion Polite on the status text."
+      },
+      {
+        "topic": "Motion",
+        "web": "The chevrons and ripples hold still under reduced motion; dragging Accept still works.",
+        "android": "rememberReduceMotion() stops the chevron bob and the pulse."
+      }
+    ],
+    "gaps": [
+      "Incoming strip options 2 and 3 fail AA in light (green on #F7F7F7, 2.66:1); keep option 1 as the default."
+    ]
   }
 }

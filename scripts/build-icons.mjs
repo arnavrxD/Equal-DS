@@ -133,6 +133,11 @@ const MANIFEST = {
   'cell-tower': 'cell_tower',
   'power-settings': 'power_settings_circle',
   'phone-in-talk': 'phone_in_talk',
+  // Equal-to-Equal calls
+  message: 'chat-fill',
+  'chevron-up': 'keyboard_arrow_up',
+  minimise: 'close_fullscreen',
+  'call-end-outline': 'call_end',
 };
 
 const SYMBOL_VB = '0 -960 960 960';

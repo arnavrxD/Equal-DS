@@ -233,7 +233,7 @@ Done means: typecheck clean, `--check` passes, Gradle BUILD SUCCESSFUL, and lint
 - **Silent Mode is titled “Silent Mode” everywhere.** Why: The dark mock said “Call Preferences”; design confirmed “Silent Mode” to match the You-tab row. (Source: Design decision)
 - **Auto-rickshaw, paper bag and delivery rider are not caller categories.** Why: They appeared in a design as decoration; product confirmed they shouldn’t become categories. (Source: Product decision)
 
-## Components (68 docs pages)
+## Components (69 docs pages)
 
 ### Group: Actions
 
@@ -1955,6 +1955,99 @@ ChatWallpaper(Modifier.fillMaxSize()) {
             message = "This is Priya from Dr. Mehta's clinic. Your appointment is confirmed for tomorrow.")
     }
 }
+```
+
+#### Equal call (`equal-call`)
+
+Equal user to Equal user calls: the call screen (receiver and caller), Identified by Equal, swipe to answer, the in-app incoming strip (three options) and the ongoing strip, the heads-up stand-in and the Voice Call card. Reuses the vOIP call controls.
+
+- React: `import { EqualCallScreen, SwipeToAnswer, IdentifiedByEqual, CallStrip, CallLogCard } from '@equal/ds';`
+- Compose: `EqualCallScreen`, `SwipeToAnswer`, `IdentifiedByEqual`, `IncomingCallStrip`, `OngoingCallStrip`, `IncomingCallNotification`, `CallLogCard`
+- Tokens: `call-avatar/bg`, `call-avatar/text`, `call-control/subtle-bg`, `call-strip/bg`, `button/end-call`, `button/primary`, `notification/bg`
+- Source: Equal To Equal Call Experience
+
+Props of `SwipeToAnswer`:
+- `onAccept?`: `() => void`. Drag Accept up 86, or tap it.
+- `onDecline?`: `() => void`. Decline.
+- `onMessage?`: `() => void`. Reply with a message.
+
+Props of `IdentifiedByEqual`:
+- `size?`: `'lg' | 'sm'` = 'lg'. body2 + 14 logo, or caption + 12 logo.
+
+Props of `CallLogCard`:
+- `duration`: `string`. "1min".
+- `direction?`: `'outgoing' | 'incoming'` = 'outgoing'. call_made or call_received.
+
+Do: Say who is calling and that Equal identified them. Keep the in-app strip option a prop. Let the assistant strip (OngoingCallBar) and the user call strip (CallStrip) stay separate.
+
+Don't: Don't draw the heads-up or the permission dialog in the app; the OS does. Don't make the call icon tappable while a call is live.
+
+Anatomy:
+1. Header: Who, and that Equal identified them. (Large: headline name + Identified by (body2, 14 logo) · Compact: 40 subtle Minimise · subheading name + status · 40 Message (caller))
+2. Avatar: The other person's initials. (200 call-avatar/bg disc · initials DM Sans 600 at 40 % · ripples 280 / 360 / 440 once connected)
+3. Swipe to answer: Decline · Accept · Message. (52 circles: decline button/end-call, accept button/primary, message call-control/bg + stroke/subtle · captions body2 · chevrons 20 at 100 / 70 / 40 / 20 %)
+4. Call strips: Incoming (3 options) or ongoing. (call-strip/bg · incoming 60 / 52 high, padding 16 / 24 · ongoing 72: 40 mute · subheading text/action name - time · 40 end)
+5. Heads-up stand-in: Android's CallStyle notification. (radius 20 · notification/bg (dark) · 48 avatar + call-received badge · DECLINE / ANSWER system pills)
+
+Accessibility:
+- Role. Web: Accept, Decline, Message, Minimise and End are buttons; speaker / mute are switches; the incoming strip is one button; the ongoing strip is a group. Android: Same roles; Accept carries a custom "Answer" action for TalkBack.
+- Name. Web: "Identified by Equal AI" is one node; the strip reads "Answer call from Keshav Reddy"; the ongoing label reads "Return to call with Keshav Reddy, 0:21". Android: Same strings via clearAndSetSemantics.
+- Keyboard. Web: Tab order: header, then the bottom actions; Accept also answers on Enter. Android: D-pad in the same order.
+- Touch target. Web: 52 circles; the 40 strip and header buttons sit in 44 targets. Android: 48dp via minimumInteractiveComponentSize.
+- Contrast. Web: Decline icon on #E11D48 is 4.7:1; avatar initials 9.1:1 / 10.9:1; strip options 2 and 3 green on #F7F7F7 are 2.66:1 in light (option 1 passes). Android: Same tokens.
+- State. Web: Calling… / Ringing… / Connecting... are announced politely; the timer is not. Android: liveRegion Polite on the status text.
+- Motion. Web: The chevrons and ripples hold still under reduced motion; dragging Accept still works. Android: rememberReduceMotion() stops the chevron bob and the pulse.
+
+Known accessibility gaps:
+- Incoming strip options 2 and 3 fail AA in light (green on #F7F7F7, 2.66:1); keep option 1 as the default.
+
+Example: Incoming call
+```tsx
+<EqualCallScreen role="receiver" state="ringing" name="Keshav Reddy" initials="KR" onAccept={answer} onDecline={decline} />
+```
+```kotlin
+EqualCallScreen(
+    role = EqualCallRole.Receiver,
+    state = EqualCallState.Ringing,
+    name = "Keshav Reddy",
+    initials = "KR",
+    onAccept = { /* answer */ },
+    onDecline = { /* decline */ },
+)
+```
+
+Example: Swipe to answer and badge
+```tsx
+<IdentifiedByEqual />
+<SwipeToAnswer onAccept={answer} onDecline={decline} onMessage={reply} />
+```
+```kotlin
+IdentifiedByEqual()
+SwipeToAnswer(onAccept = { /* answer */ }, onDecline = { /* decline */ }, onMessage = { /* reply */ })
+```
+
+Example: Call strips
+```tsx
+<CallStrip state="incoming" style="avatar" name="Keshav Reddy" initials="KR" onAnswer={answer} />
+<CallStrip state="incoming" style="icon" name="Keshav Reddy" />
+<CallStrip state="incoming" style="accent" name="Keshav Reddy" />
+<CallStrip state="ongoing" name="Keshav Reddy" seconds={21} onOpen={openCall} onEnd={end} />
+```
+```kotlin
+IncomingCallStrip(name = "Keshav Reddy", initials = "KR", style = CallStripStyle.Avatar, onAnswer = { /* answer */ })
+IncomingCallStrip(name = "Keshav Reddy", style = CallStripStyle.Icon, onAnswer = {})
+IncomingCallStrip(name = "Keshav Reddy", style = CallStripStyle.Accent, onAnswer = {})
+OngoingCallStrip(name = "Keshav Reddy", seconds = 21, onOpen = { /* back to the call */ }, onEnd = { /* end */ })
+```
+
+Example: Heads-up stand-in and call card
+```tsx
+<IncomingCallNotification name="Keshav Reddy" initials="KR" />
+<CallLogCard duration="1min" />
+```
+```kotlin
+IncomingCallNotification(name = "Keshav Reddy", initials = "KR")
+CallLogCard(duration = "1min")
 ```
 
 #### Missed call card (`missed-call`)
@@ -4851,7 +4944,7 @@ Accessibility:
 - Motion. Web: The orbit rings and sparkles stop under reduced motion; sheets don't slide. Android: UsageOrbit holds still under rememberReduceMotion().
 
 Known accessibility gaps:
-- Light-mode known segment (#00B140) vs the #F0F0F0 track is 2.6:1, below 3:1; the legend and value text carry the meaning.
+- Light-mode known segment (#00B140) vs the #F0F0F0 track is 2.5:1, below 3:1; the legend and value text carry the meaning.
 
 Example: Home card options
 ```tsx
@@ -6231,7 +6324,7 @@ ProfileHeader(name = "Keshav", phone = "+91 98789 56749")
   }
   ```
 
-## Flows (23)
+## Flows (24)
 
 ### Monetization (`/flows/monetization`)
 
@@ -6864,6 +6957,133 @@ States:
   ```kotlin
   EqualTheme {
       HomeScreenSample(tier = PlanTier.Free, assistantOff = true, upgradePill = true)
+  }
+  ```
+
+### Equal to Equal call (`/flows/equal-call`)
+
+An Equal user calls another Equal user over the internet. The receiver sees who is calling, identified by Equal, wherever the phone is; the caller calls from the chat and can minimise to a strip.
+
+Source: Equal To Equal Call Experience
+
+1. Receiver, ringing: locked → the full-screen call (Decline · swipe up to Accept · Message). Unlocked → Android’s heads-up (DECLINE / ANSWER). Swiped away while Equal is open → the in-app strip at the top of Chats (three options as a prop; option 1 is the one that passes AA in light).
+2. Connecting → Connected: the initials disc gains ripples, “Connected” and the timer; speaker, mute and end in the bar. Minimise shows the ongoing strip (mute · name and time · end); tapping it returns.
+3. Caller: the call icon in the chat → “Let’s get you talking” the first time → Android’s dialog → Calling… → Ringing… → Connected. Not now or Deny stays in the chat.
+4. After: the chat shows the ongoing strip while the call is live (the call icon disabled), then a Voice Call card with the duration.
+
+States:
+- `receiver-lock-ringing` Receiver: locked, incoming: `<EqualCallReceiverFlow stage="lock-ringing" />`
+  ```kotlin
+  EqualTheme {
+      EqualCallReceiverSample(stage = ReceiverStage.LockRinging)
+  }
+  ```
+- `receiver-connecting` Receiver: connecting: `<EqualCallReceiverFlow stage="connecting" />`
+  ```kotlin
+  EqualTheme {
+      EqualCallReceiverSample(stage = ReceiverStage.Connecting)
+  }
+  ```
+- `receiver-connected` Receiver: connected: `<EqualCallReceiverFlow stage="connected" />`
+  ```kotlin
+  EqualTheme {
+      EqualCallReceiverSample(stage = ReceiverStage.Connected)
+  }
+  ```
+- `receiver-heads-up-app` Receiver: heads-up over Equal: `<EqualCallReceiverFlow stage="heads-up-app" />`
+  ```kotlin
+  EqualTheme {
+      EqualCallReceiverSample(stage = ReceiverStage.HeadsUpApp)
+  }
+  ```
+- `receiver-heads-up-launcher` Receiver: heads-up on the home screen: `<EqualCallReceiverFlow stage="heads-up-launcher" />`
+  ```kotlin
+  EqualTheme {
+      EqualCallReceiverSample(stage = ReceiverStage.HeadsUpLauncher)
+  }
+  ```
+- `receiver-strip-avatar` Receiver: in-app strip, option 1: `<EqualCallReceiverFlow stage="strip-avatar" />`
+  ```kotlin
+  EqualTheme {
+      EqualCallReceiverSample(stage = ReceiverStage.StripAvatar)
+  }
+  ```
+- `receiver-strip-icon` Receiver: in-app strip, option 2: `<EqualCallReceiverFlow stage="strip-icon" />`
+  ```kotlin
+  EqualTheme {
+      EqualCallReceiverSample(stage = ReceiverStage.StripIcon)
+  }
+  ```
+- `receiver-strip-accent` Receiver: in-app strip, option 3: `<EqualCallReceiverFlow stage="strip-accent" />`
+  ```kotlin
+  EqualTheme {
+      EqualCallReceiverSample(stage = ReceiverStage.StripAccent)
+  }
+  ```
+- `receiver-minimised` Receiver: minimised, ongoing strip: `<EqualCallReceiverFlow stage="minimised" />`
+  ```kotlin
+  EqualTheme {
+      EqualCallReceiverSample(stage = ReceiverStage.Minimised)
+  }
+  ```
+- `caller-chat` Caller: the chat: `<EqualCallCallerFlow stage="chat" />`
+  ```kotlin
+  EqualTheme {
+      EqualCallCallerSample(stage = CallerStage.Chat)
+  }
+  ```
+- `caller-mic-prompt` Caller: mic pre-permission: `<EqualCallCallerFlow stage="mic-prompt" />`
+  ```kotlin
+  EqualTheme {
+      EqualCallCallerSample(stage = CallerStage.MicPrompt)
+  }
+  ```
+- `caller-mic-system` Caller: Android permission: `<EqualCallCallerFlow stage="mic-system" />`
+  ```kotlin
+  EqualTheme {
+      EqualCallCallerSample(stage = CallerStage.MicSystem)
+  }
+  ```
+- `caller-calling` Caller: Calling…: `<EqualCallCallerFlow stage="calling" />`
+  ```kotlin
+  EqualTheme {
+      EqualCallCallerSample(stage = CallerStage.Calling)
+  }
+  ```
+- `caller-remote-ringing` Caller: Ringing…: `<EqualCallCallerFlow stage="remote-ringing" />`
+  ```kotlin
+  EqualTheme {
+      EqualCallCallerSample(stage = CallerStage.RemoteRinging)
+  }
+  ```
+- `caller-connected` Caller: connected: `<EqualCallCallerFlow stage="connected" />`
+  ```kotlin
+  EqualTheme {
+      EqualCallCallerSample(stage = CallerStage.Connected)
+  }
+  ```
+- `caller-chat-ongoing` Caller: chat during the call: `<EqualCallCallerFlow stage="chat-ongoing" />`
+  ```kotlin
+  EqualTheme {
+      EqualCallCallerSample(stage = CallerStage.ChatOngoing)
+  }
+  ```
+- `caller-chat-after` Caller: after the call: `<EqualCallCallerFlow stage="chat-after" />`
+  ```kotlin
+  EqualTheme {
+      EqualCallCallerSample(stage = CallerStage.ChatAfter)
+  }
+  ```
+- `live-receiver` Live: receiver (Try it): `<EqualCallReceiverFlow stage="strip-avatar" />`
+  ```kotlin
+  EqualTheme {
+      EqualCallReceiverSample(stage = ReceiverStage.StripAvatar)
+  }
+  ```
+- `live-caller` Live: caller (Try it): `<EqualCallCallerFlow />`
+  ```kotlin
+  EqualTheme {
+      EqualCallCallerSample()
   }
   ```
 
@@ -8232,7 +8452,7 @@ Alias colours (CSS `var(--eq-<name without component/>)`, TS `color.*`, Compose 
 - `component/radio/ring`  light {brand.black} @ 60% · dark {brand.white} @ 60% · derived
 - `button/end-call`  light #E11D48 · dark #FF5C7A · derived
 - `text/on-end-call`  light {brand.white} · dark {brand.black} · derived
-- `component/call-control/bg`  light #EDEFF1 · dark #2E2E2E · derived
+- `component/call-control/bg`  light #EDEFF1 · dark #222222 · derived
 - `component/call-control/active-bg`  light #1F2937 · dark #F2F2F2 · derived
 - `component/call-control/active-icon`  light {brand.white} · dark {brand.black} · derived
 - `component/health-check/icon-bg`  light {brand.black} @ 4% · dark {brand.white} @ 8% · derived
@@ -8248,6 +8468,15 @@ Alias colours (CSS `var(--eq-<name without component/>)`, TS `color.*`, Compose 
 - `component/paywall/deal-glow`  light #FFC927 @ 30% · dark #FFC927 @ 30% · derived
 - `component/paywall/deal-ring`  light #FFC927 @ 20% · dark #FFC927 @ 20% · derived
 - `text/deal-gold`  light #FFC927 · dark #FFC927 · derived
+- `component/call-avatar/bg`  light #C3FDDC · dark #DAFF8B · derived
+- `component/call-avatar/text`  light #004B20 · dark #283B00 · derived
+- `component/call-control/subtle-bg`  light {brand.black} @ 6% · dark {brand.white} @ 12% · derived
+- `component/call-strip/bg`  light #F7F7F7 · dark #292929 · derived
+- `component/system-call/decline`  light #E86A5C · dark #E86A5C · derived
+- `component/system-call/decline-text`  light #260500 · dark #260500 · derived
+- `component/system-call/answer`  light #6FCE94 · dark #6FCE94 · derived
+- `component/system-call/answer-text`  light #00270B · dark #00270B · derived
+- `component/system-call/badge`  light #2C3137 · dark #2C3137 · derived
 
 Gradients (CSS `var(--eq-gradient-<name>)`, Compose `EqualTheme.gradients.*`):
 
@@ -8385,4 +8614,4 @@ Web `<Asset name="…" size={dp} />`, Compose `EqualAssetImage(EqualAssets.<Pasc
 
 Web `<Icon name="…" />`, Compose `EqualIcon(EqualIcons.<PascalName>)`.
 
-`arrow-back` (arrow_back) · `call` (call) · `call-filled` (call-fill) · `more-vert` (more_vert) · `send` (arrow_upward) · `check` (check) · `done-all` (done_all) · `close` (close) · `delete` (delete) · `star` (star-fill) · `star-outline` (star) · `share` (share) · `chevron-right` (chevron_right) · `chevron-down` (keyboard_arrow_down) · `checkbox-blank` (check_box_outline_blank) · `checkbox-checked` (check_box-fill) · `play` (play_arrow-fill) · `pause` (pause-fill) · `chat` (chat_bubble-fill) · `chat-outline` (chat_bubble) · `search` (search) · `edit` (edit) · `edit-profile` (border_color) · `add` (add) · `mic` (mic) · `mute` (volume_off) · `person-add` (person_add) · `calendar` (calendar_month) · `place` (location_on) · `call-received` (call_received) · `call-made` (call_made) · `call-missed` (call_missed) · `phone-incoming` (phone_callback) · `phone-missed` (phone_missed) · `phone-outgoing` (phone_forwarded) · `info` (info) · `settings` (settings) · `home` (home) · `work` (work) · `bolt` (bolt) · `instructions` (note_stack) · `health-check` (health_metrics) · `silent-mode` (notifications_off) · `voice-language` (mic) · `address-pin` (pin_drop) · `account-data` (shield) · `help-center` (question_exchange) · `whatsapp` (custom:whatsapp) · `menu` (menu) · `arrow-forward` (arrow_forward) · `content-copy` (content_copy) · `light-mode` (light_mode) · `dark-mode` (dark_mode) · `contrast` (contrast) · `touch` (touch_app) · `notify-me` (notifications_active) · `translate` (translate_indic) · `call-sparkle` (custom:call-sparkle) · `help-circle` (help-fill) · `lock` (lock-fill) · `mail` (mail-fill) · `info-fill` (info-fill) · `signal` (signal_cellular_4_bar-fill) · `wifi` (wifi-fill) · `battery` (battery_full-fill) · `timer` (timer-fill) · `person` (person-fill) · `call-log` (call_log-fill) · `call-sparkle-fill` (custom:call-sparkle-fill) · `auto-fix` (wand_stars-fill) · `keyboard` (keyboard) · `mic-fill` (mic-fill) · `navigation` (navigation-fill) · `slide-left` (keyboard_double_arrow_left) · `globe` (public-fill) · `verified` (verified-fill) · `refresh` (refresh) · `graphic-eq` (graphic_eq) · `phone-missed-fill` (phone_missed-fill) · `thumb-up` (thumb_up) · `thumb-down` (thumb_down) · `thumb-up-fill` (thumb_up-fill) · `thumb-down-fill` (thumb_down-fill) · `volume-up` (volume_up) · `mic-off` (mic_off) · `call-end` (call_end-fill) · `notifications` (notifications) · `notifications-fill` (notifications-fill) · `contacts` (contacts) · `contacts-fill` (contacts-fill) · `layers` (layers) · `layers-fill` (layers-fill) · `arrow-drop-down` (arrow_drop_down) · `progress-activity` (progress_activity) · `check-circle-fill` (check_circle-fill) · `warning-fill` (warning-fill) · `download` (download) · `flight` (flight) · `cell-tower` (cell_tower) · `power-settings` (power_settings_circle) · `phone-in-talk` (phone_in_talk)
+`arrow-back` (arrow_back) · `call` (call) · `call-filled` (call-fill) · `more-vert` (more_vert) · `send` (arrow_upward) · `check` (check) · `done-all` (done_all) · `close` (close) · `delete` (delete) · `star` (star-fill) · `star-outline` (star) · `share` (share) · `chevron-right` (chevron_right) · `chevron-down` (keyboard_arrow_down) · `checkbox-blank` (check_box_outline_blank) · `checkbox-checked` (check_box-fill) · `play` (play_arrow-fill) · `pause` (pause-fill) · `chat` (chat_bubble-fill) · `chat-outline` (chat_bubble) · `search` (search) · `edit` (edit) · `edit-profile` (border_color) · `add` (add) · `mic` (mic) · `mute` (volume_off) · `person-add` (person_add) · `calendar` (calendar_month) · `place` (location_on) · `call-received` (call_received) · `call-made` (call_made) · `call-missed` (call_missed) · `phone-incoming` (phone_callback) · `phone-missed` (phone_missed) · `phone-outgoing` (phone_forwarded) · `info` (info) · `settings` (settings) · `home` (home) · `work` (work) · `bolt` (bolt) · `instructions` (note_stack) · `health-check` (health_metrics) · `silent-mode` (notifications_off) · `voice-language` (mic) · `address-pin` (pin_drop) · `account-data` (shield) · `help-center` (question_exchange) · `whatsapp` (custom:whatsapp) · `menu` (menu) · `arrow-forward` (arrow_forward) · `content-copy` (content_copy) · `light-mode` (light_mode) · `dark-mode` (dark_mode) · `contrast` (contrast) · `touch` (touch_app) · `notify-me` (notifications_active) · `translate` (translate_indic) · `call-sparkle` (custom:call-sparkle) · `help-circle` (help-fill) · `lock` (lock-fill) · `mail` (mail-fill) · `info-fill` (info-fill) · `signal` (signal_cellular_4_bar-fill) · `wifi` (wifi-fill) · `battery` (battery_full-fill) · `timer` (timer-fill) · `person` (person-fill) · `call-log` (call_log-fill) · `call-sparkle-fill` (custom:call-sparkle-fill) · `auto-fix` (wand_stars-fill) · `keyboard` (keyboard) · `mic-fill` (mic-fill) · `navigation` (navigation-fill) · `slide-left` (keyboard_double_arrow_left) · `globe` (public-fill) · `verified` (verified-fill) · `refresh` (refresh) · `graphic-eq` (graphic_eq) · `phone-missed-fill` (phone_missed-fill) · `thumb-up` (thumb_up) · `thumb-down` (thumb_down) · `thumb-up-fill` (thumb_up-fill) · `thumb-down-fill` (thumb_down-fill) · `volume-up` (volume_up) · `mic-off` (mic_off) · `call-end` (call_end-fill) · `notifications` (notifications) · `notifications-fill` (notifications-fill) · `contacts` (contacts) · `contacts-fill` (contacts-fill) · `layers` (layers) · `layers-fill` (layers-fill) · `arrow-drop-down` (arrow_drop_down) · `progress-activity` (progress_activity) · `check-circle-fill` (check_circle-fill) · `warning-fill` (warning-fill) · `download` (download) · `flight` (flight) · `cell-tower` (cell_tower) · `power-settings` (power_settings_circle) · `phone-in-talk` (phone_in_talk) · `message` (chat-fill) · `chevron-up` (keyboard_arrow_up) · `minimise` (close_fullscreen) · `call-end-outline` (call_end)

@@ -85,6 +85,8 @@ fun ChatHeader(
     initials: String? = null,
     /** Equal AI's own chat: the orb avatar. */
     official: Boolean = false,
+    /** A call is live (Equal-to-Equal): the call icon is disabled, `text/action-disabled`. */
+    callDisabled: Boolean = false,
 ) {
     val colors = EqualTheme.colors
     HeaderContainer(modifier) {
@@ -118,7 +120,7 @@ fun ChatHeader(
         }
         when (variant) {
             ChatHeaderVariant.Default -> {
-                PlainIconButton(EqualIcons.Call, "Call", onCallClick, tint = colors.textPrimary)
+                PlainIconButton(EqualIcons.Call, "Call", onCallClick, tint = if (callDisabled) colors.textActionDisabled else colors.textPrimary, enabled = !callDisabled)
                 PlainIconButton(EqualIcons.MoreVert, "More options", onMoreClick, tint = colors.textPrimary)
             }
             ChatHeaderVariant.LiveCall -> {

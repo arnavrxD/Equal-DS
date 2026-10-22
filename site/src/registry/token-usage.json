@@ -22,6 +22,10 @@
     "name": "Call controls"
    },
    {
+    "id": "equal-call",
+    "name": "Equal call"
+   },
+   {
     "id": "call-handling",
     "name": "Call Handling"
    },
@@ -172,6 +176,10 @@
    {
     "id": "call-controls",
     "name": "Call controls"
+   },
+   {
+    "id": "equal-call",
+    "name": "Equal call"
    },
    {
     "id": "call-handling",
@@ -477,6 +485,10 @@
     "name": "Call controls"
    },
    {
+    "id": "equal-call",
+    "name": "Equal call"
+   },
+   {
     "id": "call-handling",
     "name": "Call Handling"
    },
@@ -753,6 +765,10 @@
     "name": "Call controls"
    },
    {
+    "id": "equal-call",
+    "name": "Equal call"
+   },
+   {
     "id": "call-handling",
     "name": "Call Handling"
    },
@@ -962,6 +978,10 @@
     "name": "Button"
    },
    {
+    "id": "chat-header",
+    "name": "Chat header"
+   },
+   {
     "id": "health-check",
     "name": "Health check"
    }
@@ -993,6 +1013,10 @@
    {
     "id": "call-controls",
     "name": "Call controls"
+   },
+   {
+    "id": "equal-call",
+    "name": "Equal call"
    },
    {
     "id": "call-handling",
@@ -1170,6 +1194,14 @@
     "name": "Button"
    },
    {
+    "id": "call-controls",
+    "name": "Call controls"
+   },
+   {
+    "id": "equal-call",
+    "name": "Equal call"
+   },
+   {
     "id": "call-handling",
     "name": "Call Handling"
    },
@@ -1302,6 +1334,10 @@
    {
     "id": "call-controls",
     "name": "Call controls"
+   },
+   {
+    "id": "equal-call",
+    "name": "Equal call"
    },
    {
     "id": "call-handling",
@@ -1529,6 +1565,14 @@
     "name": "Assistant toggle"
    },
    {
+    "id": "call-controls",
+    "name": "Call controls"
+   },
+   {
+    "id": "equal-call",
+    "name": "Equal call"
+   },
+   {
     "id": "call-handling",
     "name": "Call Handling"
    },
@@ -1695,6 +1739,10 @@
    {
     "id": "call-controls",
     "name": "Call controls"
+   },
+   {
+    "id": "equal-call",
+    "name": "Equal call"
    },
    {
     "id": "empty-state",
@@ -2010,6 +2058,14 @@
     "name": "Badges"
    },
    {
+    "id": "call-controls",
+    "name": "Call controls"
+   },
+   {
+    "id": "equal-call",
+    "name": "Equal call"
+   },
+   {
     "id": "chat-list-item",
     "name": "Chat list item"
    },
@@ -2182,6 +2238,14 @@
     "name": "Button"
    },
    {
+    "id": "call-controls",
+    "name": "Call controls"
+   },
+   {
+    "id": "equal-call",
+    "name": "Equal call"
+   },
+   {
     "id": "composer",
     "name": "Composer"
    },
@@ -2274,6 +2338,14 @@
  },
  "text/on-dark-secondary": {
   "pages": [
+   {
+    "id": "call-controls",
+    "name": "Call controls"
+   },
+   {
+    "id": "equal-call",
+    "name": "Equal call"
+   },
    {
     "id": "health-check",
     "name": "Health check"
@@ -2757,6 +2829,14 @@
  },
  "component/notification/bg": {
   "pages": [
+   {
+    "id": "call-controls",
+    "name": "Call controls"
+   },
+   {
+    "id": "equal-call",
+    "name": "Equal call"
+   },
    {
     "id": "system-status-card",
     "name": "System status card"
@@ -4257,10 +4337,6 @@
    {
     "id": "avatars",
     "name": "Avatars"
-   },
-   {
-    "id": "call-controls",
-    "name": "Call controls"
    }
   ],
   "screens": []
@@ -4270,10 +4346,6 @@
    {
     "id": "avatars",
     "name": "Avatars"
-   },
-   {
-    "id": "call-controls",
-    "name": "Call controls"
    }
   ],
   "screens": []
@@ -4945,6 +5017,10 @@
    {
     "id": "call-controls",
     "name": "Call controls"
+   },
+   {
+    "id": "equal-call",
+    "name": "Equal call"
    }
   ],
   "screens": []
@@ -4954,6 +5030,10 @@
    {
     "id": "call-controls",
     "name": "Call controls"
+   },
+   {
+    "id": "equal-call",
+    "name": "Equal call"
    },
    {
     "id": "health-check",
@@ -4967,6 +5047,10 @@
    {
     "id": "call-controls",
     "name": "Call controls"
+   },
+   {
+    "id": "equal-call",
+    "name": "Equal call"
    }
   ],
   "screens": []
@@ -4976,6 +5060,10 @@
    {
     "id": "call-controls",
     "name": "Call controls"
+   },
+   {
+    "id": "equal-call",
+    "name": "Equal call"
    }
   ],
   "screens": []
@@ -4985,6 +5073,10 @@
    {
     "id": "call-controls",
     "name": "Call controls"
+   },
+   {
+    "id": "equal-call",
+    "name": "Equal call"
    }
   ],
   "screens": []
@@ -5418,6 +5510,127 @@
    {
     "id": "feature-list",
     "name": "Feature list"
+   }
+  ],
+  "screens": []
+ },
+ "component/call-avatar/bg": {
+  "pages": [
+   {
+    "id": "call-controls",
+    "name": "Call controls"
+   },
+   {
+    "id": "equal-call",
+    "name": "Equal call"
+   }
+  ],
+  "screens": []
+ },
+ "component/call-avatar/text": {
+  "pages": [
+   {
+    "id": "call-controls",
+    "name": "Call controls"
+   },
+   {
+    "id": "equal-call",
+    "name": "Equal call"
+   }
+  ],
+  "screens": []
+ },
+ "component/call-control/subtle-bg": {
+  "pages": [
+   {
+    "id": "call-controls",
+    "name": "Call controls"
+   },
+   {
+    "id": "equal-call",
+    "name": "Equal call"
+   }
+  ],
+  "screens": []
+ },
+ "component/call-strip/bg": {
+  "pages": [
+   {
+    "id": "call-controls",
+    "name": "Call controls"
+   },
+   {
+    "id": "equal-call",
+    "name": "Equal call"
+   },
+   {
+    "id": "chat-header",
+    "name": "Chat header"
+   }
+  ],
+  "screens": []
+ },
+ "component/system-call/decline": {
+  "pages": [
+   {
+    "id": "call-controls",
+    "name": "Call controls"
+   },
+   {
+    "id": "equal-call",
+    "name": "Equal call"
+   }
+  ],
+  "screens": []
+ },
+ "component/system-call/decline-text": {
+  "pages": [
+   {
+    "id": "call-controls",
+    "name": "Call controls"
+   },
+   {
+    "id": "equal-call",
+    "name": "Equal call"
+   }
+  ],
+  "screens": []
+ },
+ "component/system-call/answer": {
+  "pages": [
+   {
+    "id": "call-controls",
+    "name": "Call controls"
+   },
+   {
+    "id": "equal-call",
+    "name": "Equal call"
+   }
+  ],
+  "screens": []
+ },
+ "component/system-call/answer-text": {
+  "pages": [
+   {
+    "id": "call-controls",
+    "name": "Call controls"
+   },
+   {
+    "id": "equal-call",
+    "name": "Equal call"
+   }
+  ],
+  "screens": []
+ },
+ "component/system-call/badge": {
+  "pages": [
+   {
+    "id": "call-controls",
+    "name": "Call controls"
+   },
+   {
+    "id": "equal-call",
+    "name": "Equal call"
    }
   ],
   "screens": []
@@ -6535,6 +6748,10 @@
    {
     "id": "call-controls",
     "name": "Call controls"
+   },
+   {
+    "id": "equal-call",
+    "name": "Equal call"
    }
   ],
   "screens": []

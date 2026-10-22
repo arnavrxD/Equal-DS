@@ -1570,7 +1570,7 @@ export const aliases: AliasToken[] = [
     "name": "component/call-control/bg",
     "cssVar": "--eq-call-control-bg",
     "light": "#EDEFF1",
-    "dark": "#2E2E2E",
+    "dark": "#222222",
     "lightRef": "direct value",
     "darkRef": "direct value",
     "group": "component",
@@ -1741,6 +1741,105 @@ export const aliases: AliasToken[] = [
     "group": "text",
     "derived": true,
     "why": "Label of the black iOS-parity CTA: #FFC927 on black is 13:1."
+  },
+  {
+    "name": "component/call-avatar/bg",
+    "cssVar": "--eq-call-avatar-bg",
+    "light": "#C3FDDC",
+    "dark": "#DAFF8B",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": true,
+    "why": "Disc behind an Equal user’s initials on call surfaces (full-screen incoming, connected, strip, heads-up): mint in light, pale lime in dark, so an Equal-to-Equal call reads as Equal and apart from saved-contact tones."
+  },
+  {
+    "name": "component/call-avatar/text",
+    "cssVar": "--eq-call-avatar-text",
+    "light": "#004B20",
+    "dark": "#283B00",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": true,
+    "why": "Initials on call-avatar/bg: 9.1:1 in light, 10.9:1 in dark."
+  },
+  {
+    "name": "component/call-control/subtle-bg",
+    "cssVar": "--eq-call-control-subtle-bg",
+    "light": "rgba(0,0,0,0.06)",
+    "dark": "rgba(255,255,255,0.12)",
+    "lightRef": "brand/black · 6%",
+    "darkRef": "brand/white · 12%",
+    "group": "component",
+    "derived": true,
+    "why": "The 40dp circle behind the call header’s Minimise and Message icons, quieter than the control-bar toggles; text/primary on it is above 10:1."
+  },
+  {
+    "name": "component/call-strip/bg",
+    "cssVar": "--eq-call-strip-bg",
+    "light": "#F7F7F7",
+    "dark": "#292929",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": true,
+    "why": "The full-width in-app call strip above the header (incoming and ongoing); separates from the white header and status bar."
+  },
+  {
+    "name": "component/system-call/decline",
+    "cssVar": "--eq-system-call-decline",
+    "light": "#E86A5C",
+    "dark": "#E86A5C",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": true,
+    "why": "Docs stand-in only: Android’s CallStyle DECLINE pill (the OS draws it on device)."
+  },
+  {
+    "name": "component/system-call/decline-text",
+    "cssVar": "--eq-system-call-decline-text",
+    "light": "#260500",
+    "dark": "#260500",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": true,
+    "why": "Docs stand-in only: label on the system DECLINE pill (6.0:1)."
+  },
+  {
+    "name": "component/system-call/answer",
+    "cssVar": "--eq-system-call-answer",
+    "light": "#6FCE94",
+    "dark": "#6FCE94",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": true,
+    "why": "Docs stand-in only: Android’s CallStyle ANSWER pill."
+  },
+  {
+    "name": "component/system-call/answer-text",
+    "cssVar": "--eq-system-call-answer-text",
+    "light": "#00270B",
+    "dark": "#00270B",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": true,
+    "why": "Docs stand-in only: label on the system ANSWER pill (8.4:1)."
+  },
+  {
+    "name": "component/system-call/badge",
+    "cssVar": "--eq-system-call-badge",
+    "light": "#2C3137",
+    "dark": "#2C3137",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": true,
+    "why": "Docs stand-in only: the call-received badge disc on the heads-up avatar."
   }
 ];
 
@@ -1901,6 +2000,15 @@ export const color = {
   paywallDealGlow: 'var(--eq-paywall-deal-glow)',
   paywallDealRing: 'var(--eq-paywall-deal-ring)',
   textDealGold: 'var(--eq-text-deal-gold)',
+  callAvatarBg: 'var(--eq-call-avatar-bg)',
+  callAvatarText: 'var(--eq-call-avatar-text)',
+  callControlSubtleBg: 'var(--eq-call-control-subtle-bg)',
+  callStripBg: 'var(--eq-call-strip-bg)',
+  systemCallDecline: 'var(--eq-system-call-decline)',
+  systemCallDeclineText: 'var(--eq-system-call-decline-text)',
+  systemCallAnswer: 'var(--eq-system-call-answer)',
+  systemCallAnswerText: 'var(--eq-system-call-answer-text)',
+  systemCallBadge: 'var(--eq-system-call-badge)',
 } as const;
 
 export const gradients = [

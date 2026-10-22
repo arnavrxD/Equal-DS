@@ -343,6 +343,24 @@ data class EqualColors(
     val paywallDealRing: Color,
     /** text/deal-gold — derived from the screens */
     val textDealGold: Color,
+    /** component/call-avatar/bg — derived from the screens */
+    val callAvatarBg: Color,
+    /** component/call-avatar/text — derived from the screens */
+    val callAvatarText: Color,
+    /** component/call-control/subtle-bg — derived from the screens */
+    val callControlSubtleBg: Color,
+    /** component/call-strip/bg — derived from the screens */
+    val callStripBg: Color,
+    /** component/system-call/decline — derived from the screens */
+    val systemCallDecline: Color,
+    /** component/system-call/decline-text — derived from the screens */
+    val systemCallDeclineText: Color,
+    /** component/system-call/answer — derived from the screens */
+    val systemCallAnswer: Color,
+    /** component/system-call/answer-text — derived from the screens */
+    val systemCallAnswerText: Color,
+    /** component/system-call/badge — derived from the screens */
+    val systemCallBadge: Color,
     val isDark: Boolean,
 )
 
@@ -502,6 +520,15 @@ val LightEqualColors = EqualColors(
     paywallDealGlow = Color(0x4DFFC927), // direct value
     paywallDealRing = Color(0x33FFC927), // direct value
     textDealGold = Color(0xFFFFC927), // direct value
+    callAvatarBg = Color(0xFFC3FDDC), // direct value
+    callAvatarText = Color(0xFF004B20), // direct value
+    callControlSubtleBg = Color(0x0F000000), // brand/black · 6%
+    callStripBg = Color(0xFFF7F7F7), // direct value
+    systemCallDecline = Color(0xFFE86A5C), // direct value
+    systemCallDeclineText = Color(0xFF260500), // direct value
+    systemCallAnswer = Color(0xFF6FCE94), // direct value
+    systemCallAnswerText = Color(0xFF00270B), // direct value
+    systemCallBadge = Color(0xFF2C3137), // direct value
     isDark = false,
 )
 
@@ -645,7 +672,7 @@ val DarkEqualColors = EqualColors(
     radioRing = Color(0x99FFFFFF), // brand/white · 60%
     buttonEndCall = Color(0xFFFF5C7A), // direct value
     textOnEndCall = Color(0xFF000000), // brand/black
-    callControlBg = Color(0xFF2E2E2E), // direct value
+    callControlBg = Color(0xFF222222), // direct value
     callControlActiveBg = Color(0xFFF2F2F2), // direct value
     callControlActiveIcon = Color(0xFF000000), // brand/black
     healthCheckIconBg = Color(0x14FFFFFF), // brand/white · 8%
@@ -661,6 +688,15 @@ val DarkEqualColors = EqualColors(
     paywallDealGlow = Color(0x4DFFC927), // direct value
     paywallDealRing = Color(0x33FFC927), // direct value
     textDealGold = Color(0xFFFFC927), // direct value
+    callAvatarBg = Color(0xFFDAFF8B), // direct value
+    callAvatarText = Color(0xFF283B00), // direct value
+    callControlSubtleBg = Color(0x1FFFFFFF), // brand/white · 12%
+    callStripBg = Color(0xFF292929), // direct value
+    systemCallDecline = Color(0xFFE86A5C), // direct value
+    systemCallDeclineText = Color(0xFF260500), // direct value
+    systemCallAnswer = Color(0xFF6FCE94), // direct value
+    systemCallAnswerText = Color(0xFF00270B), // direct value
+    systemCallBadge = Color(0xFF2C3137), // direct value
     isDark = true,
 )
 

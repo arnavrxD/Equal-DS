@@ -167,6 +167,12 @@
     "No results": "val query = \"Priya\"\nEmptyState(title = \"No chats found\", body = \"Nothing matches \\\"$query\\\". Try a name or number.\")",
     "Illustration header": "IllustrationHeader(asset = EqualAssets.IllustrationSilentMode)\nRowGroup {\n    ToggleRow(\n        label = \"Mute Promotional Calls\",\n        description = \"Equal AI Assistant can identify Promotional Calls and automatically mute them\",\n        descriptionWraps = true,\n        checked = true,\n        onCheckedChange = {},\n    )\n}"
   },
+  "equal-call": {
+    "Incoming call": "EqualCallScreen(\n    role = EqualCallRole.Receiver,\n    state = EqualCallState.Ringing,\n    name = \"Keshav Reddy\",\n    initials = \"KR\",\n    onAccept = { /* answer */ },\n    onDecline = { /* decline */ },\n)",
+    "Swipe to answer and badge": "IdentifiedByEqual()\nSwipeToAnswer(onAccept = { /* answer */ }, onDecline = { /* decline */ }, onMessage = { /* reply */ })",
+    "Call strips": "IncomingCallStrip(name = \"Keshav Reddy\", initials = \"KR\", style = CallStripStyle.Avatar, onAnswer = { /* answer */ })\nIncomingCallStrip(name = \"Keshav Reddy\", style = CallStripStyle.Icon, onAnswer = {})\nIncomingCallStrip(name = \"Keshav Reddy\", style = CallStripStyle.Accent, onAnswer = {})\nOngoingCallStrip(name = \"Keshav Reddy\", seconds = 21, onOpen = { /* back to the call */ }, onEnd = { /* end */ })",
+    "Heads-up stand-in and call card": "IncomingCallNotification(name = \"Keshav Reddy\", initials = \"KR\")\nCallLogCard(duration = \"1min\")"
+  },
   "faq": {
     "Accordion": "val faq = listOf(\n    FaqItem(\"What do I get with Equal Unlimited?\", \"Unlimited call screenings, full recordings, summaries, and zero daily cap.\"),\n    FaqItem(\"Will Equal screen all types of calls?\", \"Yes! Delivery, ride pickups, spam, loan calls, Equal handles them all.\"),\n    FaqItem(\"Can I cancel my Equal Unlimited plan later?\", \"Yes, cancel anytime. Your Unlimited access stays active until the end of your billing period.\"),\n    FaqItem(\"Will I get a refund if I’m not happy with Equal Unlimited?\", \"We don’t offer refunds, but you can write to our support team and we’ll do our best to help.\"),\n)\nFaqList(items = faq, defaultOpen = listOf(3))",
     "Section label": "DividerLabel(text = \"Why people choose\")"
@@ -213,6 +219,27 @@
   },
   "flow-contact-info": {
     "contact": "EqualTheme {\n    ContactInfoScreen(name = \"Amit Nanda\", phone = \"+91 9871746113\", onBack = {})\n}"
+  },
+  "flow-equal-call": {
+    "receiver-lock-ringing": "EqualTheme {\n    EqualCallReceiverSample(stage = ReceiverStage.LockRinging)\n}",
+    "receiver-connecting": "EqualTheme {\n    EqualCallReceiverSample(stage = ReceiverStage.Connecting)\n}",
+    "receiver-connected": "EqualTheme {\n    EqualCallReceiverSample(stage = ReceiverStage.Connected)\n}",
+    "receiver-heads-up-app": "EqualTheme {\n    EqualCallReceiverSample(stage = ReceiverStage.HeadsUpApp)\n}",
+    "receiver-heads-up-launcher": "EqualTheme {\n    EqualCallReceiverSample(stage = ReceiverStage.HeadsUpLauncher)\n}",
+    "receiver-strip-avatar": "EqualTheme {\n    EqualCallReceiverSample(stage = ReceiverStage.StripAvatar)\n}",
+    "receiver-strip-icon": "EqualTheme {\n    EqualCallReceiverSample(stage = ReceiverStage.StripIcon)\n}",
+    "receiver-strip-accent": "EqualTheme {\n    EqualCallReceiverSample(stage = ReceiverStage.StripAccent)\n}",
+    "receiver-minimised": "EqualTheme {\n    EqualCallReceiverSample(stage = ReceiverStage.Minimised)\n}",
+    "caller-chat": "EqualTheme {\n    EqualCallCallerSample(stage = CallerStage.Chat)\n}",
+    "caller-mic-prompt": "EqualTheme {\n    EqualCallCallerSample(stage = CallerStage.MicPrompt)\n}",
+    "caller-mic-system": "EqualTheme {\n    EqualCallCallerSample(stage = CallerStage.MicSystem)\n}",
+    "caller-calling": "EqualTheme {\n    EqualCallCallerSample(stage = CallerStage.Calling)\n}",
+    "caller-remote-ringing": "EqualTheme {\n    EqualCallCallerSample(stage = CallerStage.RemoteRinging)\n}",
+    "caller-connected": "EqualTheme {\n    EqualCallCallerSample(stage = CallerStage.Connected)\n}",
+    "caller-chat-ongoing": "EqualTheme {\n    EqualCallCallerSample(stage = CallerStage.ChatOngoing)\n}",
+    "caller-chat-after": "EqualTheme {\n    EqualCallCallerSample(stage = CallerStage.ChatAfter)\n}",
+    "live-receiver": "EqualTheme {\n    EqualCallReceiverSample(stage = ReceiverStage.StripAvatar)\n}",
+    "live-caller": "EqualTheme {\n    EqualCallCallerSample()\n}"
   },
   "flow-error-states": {
     "generation": "EqualTheme {\n    ChatErrorScreen(state = ErrorState.Generation, onRetry = { /* retry */ })\n}",

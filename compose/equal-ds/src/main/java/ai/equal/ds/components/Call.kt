@@ -1,5 +1,7 @@
 package ai.equal.ds.components
 
+import androidx.compose.foundation.layout.offset
+import ai.equal.ds.icons.EqualSymbols
 import ai.equal.ds.assets.EqualAssetImage
 import ai.equal.ds.assets.EqualAssets
 import ai.equal.ds.icons.EqualIcon
@@ -75,7 +77,7 @@ fun rememberCallTimer(running: Boolean, start: Int = 0): Int {
 }
 
 /** Which in-call control a [CallControlButton] is. */
-enum class CallControlKind { Speaker, Mute, End }
+enum class CallControlKind { Speaker, Mute, End, Accept, Decline, Message }
 
 /**
  * Round in-call control (52, icon 24). Speaker and mute are switches (Role.Switch): resting
@@ -83,17 +85,24 @@ enum class CallControlKind { Speaker, Mute, End }
  * `button/end-call` with `text/on-end-call`.
  */
 @Composable
-fun CallControlButton(kind: CallControlKind, onClick: () -> Unit, modifier: Modifier = Modifier, active: Boolean = false, size: Dp = 52.dp) {
+fun CallControlButton(kind: CallControlKind, onClick: () -> Unit, modifier: Modifier = Modifier, active: Boolean = false, size: Dp = 52.dp, a11yLabel: String? = null) {
     val colors = EqualTheme.colors
-    val (icon, label) = when (kind) {
+    val (icon, defaultLabel) = when (kind) {
         CallControlKind.Speaker -> EqualIcons.VolumeUp to "Speaker"
         CallControlKind.Mute -> EqualIcons.MicOff to "Mute"
         CallControlKind.End -> EqualIcons.CallEnd to "End call"
+        CallControlKind.Accept -> EqualIcons.CallFilled to "Answer"
+        CallControlKind.Decline -> EqualIcons.CallEnd to "Decline"
+        CallControlKind.Message -> EqualSymbols.message to "Message"
     }
-    val fill = when { kind == CallControlKind.End -> colors.buttonEndCall; active -> colors.callControlActiveBg; else -> colors.callControlBg }
-    val tint = when { kind == CallControlKind.End -> colors.textOnEndCall; active -> colors.callControlActiveIcon; else -> colors.textPrimary }
+    val label = a11yLabel ?: defaultLabel
+    val toggle = kind == CallControlKind.Speaker || kind == CallControlKind.Mute
+    val red = kind == CallControlKind.End || kind == CallControlKind.Decline
+    val fill = when { red -> colors.buttonEndCall; kind == CallControlKind.Accept -> colors.buttonPrimary; active -> colors.callControlActiveBg; else -> colors.callControlBg }
+    val tint = when { red -> colors.textOnEndCall; kind == CallControlKind.Accept -> colors.textOnAction; active -> colors.callControlActiveIcon; else -> colors.textPrimary }
+    val edge = when { kind == CallControlKind.Message -> colors.strokeSubtle; toggle && !active -> colors.strokeMedium; else -> null }
     val interaction = rememberInteraction()
-    val semanticsMod = if (kind == CallControlKind.End) {
+    val semanticsMod = if (!toggle) {
         Modifier.clickable(interactionSource = interaction, indication = null, role = Role.Button, onClickLabel = label, onClick = onClick).semantics { contentDescription = label }
     } else {
         Modifier.toggleable(value = active, interactionSource = interaction, indication = null, role = Role.Switch, onValueChange = { onClick() }).semantics { contentDescription = label }
@@ -106,7 +115,7 @@ fun CallControlButton(kind: CallControlKind, onClick: () -> Unit, modifier: Modi
             .size(size)
             .clip(CircleShape)
             .background(fill)
-            .then(if (kind != CallControlKind.End && !active) Modifier.border(1.dp, colors.strokeMedium, CircleShape) else Modifier),
+            .then(if (edge != null) Modifier.border(1.dp, edge, CircleShape) else Modifier),
         contentAlignment = Alignment.Center,
     ) { EqualIcon(icon, contentDescription = null, tint = tint, size = 24.dp) }
 }
@@ -153,6 +162,8 @@ fun CallAvatar(
     pulse: Boolean = false,
     size: Dp = 200.dp,
     contentDescription: String = "Equal AI assistant",
+    /** Heads-up: the call-received badge (24) at the bottom-right. */
+    badge: Boolean = false,
 ) {
     val colors = EqualTheme.colors
     val ring = colors.buttonPrimary
@@ -177,13 +188,21 @@ fun CallAvatar(
     ) {
         val disc = Modifier.fillMaxSize().clip(CircleShape)
         if (initials != null) {
-            Box(disc.background(colors.contactAvatarGreenBg), contentAlignment = Alignment.Center) {
-                EqualText(text = initials, style = EqualTheme.type.headline.copy(fontSize = 56.sp, lineHeight = 64.sp), color = colors.contactAvatarGreenText)
+            // Initials: DM Sans 600 at 40 % of the disc, on `call-avatar/bg`.
+            val fs = (size.value * 0.4f).toInt()
+            Box(disc.background(colors.callAvatarBg), contentAlignment = Alignment.Center) {
+                EqualText(text = initials, style = EqualTheme.type.headline.copy(fontSize = fs.sp, lineHeight = (fs * 1.15f).toInt().sp, fontWeight = FontWeight.W600), color = colors.callAvatarText)
             }
         } else {
             Box(disc.background(EqualTheme.gradients.assistantCall.toBrush()), contentAlignment = Alignment.BottomCenter) {
                 EqualAssetImage(EqualAssets.AvatarAssistantBust, size = size * 0.96f)
             }
+        }
+        if (badge) {
+            Box(
+                Modifier.align(Alignment.BottomEnd).offset(4.dp, 4.dp).size(24.dp).clip(CircleShape).background(colors.systemCallBadge),
+                contentAlignment = Alignment.Center,
+            ) { EqualIcon(EqualIcons.CallReceived, contentDescription = null, tint = colors.textAction, size = 16.dp) }
         }
     }
 }

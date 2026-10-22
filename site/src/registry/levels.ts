@@ -15,6 +15,7 @@ export const docLevel: Record<string, Level> = {
   'health-check': 'molecule',
   snooze: 'organism',
   'usage-meter': 'molecule',
+  'equal-call': 'organism',
   'text-field': 'atom',
   badges: 'atom',
   avatars: 'atom',

@@ -13,6 +13,7 @@ import { VoipFlow } from '../../../web/src/screens/CallScreens';
 import { HealthCheckEntry, HealthCheckFlow } from '../../../web/src/screens/HealthCheckScreens';
 import { ForceUpdate, SnoozeFlow } from '../../../web/src/screens/SnoozeScreens';
 import { UsageCapHome } from '../../../web/src/screens/UsageCapScreens';
+import { EqualCallCallerFlow, EqualCallReceiverFlow } from '../../../web/src/screens/EqualCallScreens';
 import NotFound from './NotFound';
 
 type FlowDef = { title: string; lead: string; states: StagePhone[]; steps: ReactNode[]; source: string };
@@ -184,6 +185,38 @@ const flows: Record<string, FlowDef> = {
       <><b>Limit sheets</b>: each rises over Home once per week per threshold (20 %, 100 %, known cap, unknown cap). Close or the scrim dismisses it; the CTA opens the paywall.</>,
       <><b>View Details</b>: View Details (A) or the chevron (B, C) opens the green sheet: calls left, per-type meters, the reset and the perks or the info note.</>,
       <><b>Numbers are props</b>: the total, the per-type caps and every count. The design’s numbers disagree in places (68 + 12 vs 68 + 18, a 30-call protection limit); product decides the real ones.</>,
+    ],
+  },
+  'equal-call': {
+    title: 'Equal to Equal call',
+    lead: 'An Equal user calls another Equal user over the internet. The receiver sees who is calling, identified by Equal, wherever the phone is; the caller calls from the chat and can minimise to a strip.',
+    source: 'Equal To Equal Call Experience',
+    states: [
+      { key: 'receiver-lock-ringing', label: 'Receiver: locked, incoming', render: () => <EqualCallReceiverFlow stage="lock-ringing" />, code: '<EqualCallReceiverFlow stage="lock-ringing" />' },
+      { key: 'receiver-connecting', label: 'Receiver: connecting', render: () => <EqualCallReceiverFlow stage="connecting" />, code: '<EqualCallReceiverFlow stage="connecting" />' },
+      { key: 'receiver-connected', label: 'Receiver: connected', render: () => <EqualCallReceiverFlow stage="connected" />, code: '<EqualCallReceiverFlow stage="connected" />' },
+      { key: 'receiver-heads-up-app', label: 'Receiver: heads-up over Equal', render: () => <EqualCallReceiverFlow stage="heads-up-app" />, code: '<EqualCallReceiverFlow stage="heads-up-app" />' },
+      { key: 'receiver-heads-up-launcher', label: 'Receiver: heads-up on the home screen', render: () => <EqualCallReceiverFlow stage="heads-up-launcher" />, code: '<EqualCallReceiverFlow stage="heads-up-launcher" />' },
+      { key: 'receiver-strip-avatar', label: 'Receiver: in-app strip, option 1', render: () => <EqualCallReceiverFlow stage="strip-avatar" />, code: '<EqualCallReceiverFlow stage="strip-avatar" />' },
+      { key: 'receiver-strip-icon', label: 'Receiver: in-app strip, option 2', render: () => <EqualCallReceiverFlow stage="strip-icon" />, code: '<EqualCallReceiverFlow stage="strip-icon" />' },
+      { key: 'receiver-strip-accent', label: 'Receiver: in-app strip, option 3', render: () => <EqualCallReceiverFlow stage="strip-accent" />, code: '<EqualCallReceiverFlow stage="strip-accent" />' },
+      { key: 'receiver-minimised', label: 'Receiver: minimised, ongoing strip', render: () => <EqualCallReceiverFlow stage="minimised" />, code: '<EqualCallReceiverFlow stage="minimised" />' },
+      { key: 'caller-chat', label: 'Caller: the chat', render: () => <EqualCallCallerFlow stage="chat" />, code: '<EqualCallCallerFlow stage="chat" />' },
+      { key: 'caller-mic-prompt', label: 'Caller: mic pre-permission', render: () => <EqualCallCallerFlow stage="mic-prompt" />, code: '<EqualCallCallerFlow stage="mic-prompt" />' },
+      { key: 'caller-mic-system', label: 'Caller: Android permission', render: () => <EqualCallCallerFlow stage="mic-system" />, code: '<EqualCallCallerFlow stage="mic-system" />' },
+      { key: 'caller-calling', label: 'Caller: Calling…', render: () => <EqualCallCallerFlow stage="calling" />, code: '<EqualCallCallerFlow stage="calling" />' },
+      { key: 'caller-remote-ringing', label: 'Caller: Ringing…', render: () => <EqualCallCallerFlow stage="remote-ringing" />, code: '<EqualCallCallerFlow stage="remote-ringing" />' },
+      { key: 'caller-connected', label: 'Caller: connected', render: () => <EqualCallCallerFlow stage="connected" />, code: '<EqualCallCallerFlow stage="connected" />' },
+      { key: 'caller-chat-ongoing', label: 'Caller: chat during the call', render: () => <EqualCallCallerFlow stage="chat-ongoing" />, code: '<EqualCallCallerFlow stage="chat-ongoing" />' },
+      { key: 'caller-chat-after', label: 'Caller: after the call', render: () => <EqualCallCallerFlow stage="chat-after" />, code: '<EqualCallCallerFlow stage="chat-after" />' },
+      { key: 'live-receiver', label: 'Live: receiver (Try it)', render: () => <EqualCallReceiverFlow stage="strip-avatar" />, code: '<EqualCallReceiverFlow stage="strip-avatar" />' },
+      { key: 'live-caller', label: 'Live: caller (Try it)', render: () => <EqualCallCallerFlow />, code: '<EqualCallCallerFlow />' },
+    ],
+    steps: [
+      <><b>Receiver, ringing</b>: locked → the full-screen call (Decline · swipe up to Accept · Message). Unlocked → Android’s heads-up (DECLINE / ANSWER). Swiped away while Equal is open → the in-app strip at the top of Chats (three options as a prop; option 1 is the one that passes AA in light).</>,
+      <><b>Connecting → Connected</b>: the initials disc gains ripples, “Connected” and the timer; speaker, mute and end in the bar. Minimise shows the ongoing strip (mute · name and time · end); tapping it returns.</>,
+      <><b>Caller</b>: the call icon in the chat → “Let’s get you talking” the first time → Android’s dialog → Calling… → Ringing… → Connected. Not now or Deny stays in the chat.</>,
+      <><b>After</b>: the chat shows the ongoing strip while the call is live (the call icon disabled), then a Voice Call card with the duration.</>,
     ],
   },
   voip: {

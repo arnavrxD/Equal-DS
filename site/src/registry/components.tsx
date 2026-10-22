@@ -106,6 +106,12 @@ import {
   CallTimer,
   CallAvatar,
   CallStatusLine,
+  EqualCallScreen,
+  SwipeToAnswer,
+  IdentifiedByEqual,
+  CallStrip,
+  IncomingCallNotification,
+  CallLogCard,
   HealthHero,
   HealthStatusLabel,
   PermissionRow,
@@ -1510,6 +1516,92 @@ const [muted, setMuted] = useState(false);
     ],
     dos: ['Pass every number as a prop; the caps are product decisions.', 'Show each gold limit sheet once per week per threshold.', 'Keep the View Details sheet green: it is not a subscription surface.'],
     donts: ["Don't hard-code 80, 68 or 18.", "Don't use colour alone: the legend names each segment."],
+  },
+  {
+    id: 'equal-call',
+    name: 'Equal call',
+    group: 'Chat',
+    summary: 'Equal user to Equal user calls: the call screen (receiver and caller), Identified by Equal, swipe to answer, the in-app incoming strip (three options) and the ongoing strip, the heads-up stand-in and the Voice Call card. Reuses the vOIP call controls.',
+    components: ['EqualCallScreen', 'SwipeToAnswer', 'IdentifiedByEqual', 'CallStrip', 'IncomingCallNotification', 'CallLogCard'],
+    importLine: "import { EqualCallScreen, SwipeToAnswer, IdentifiedByEqual, CallStrip, CallLogCard } from '@equal/ds';",
+    compose: ['EqualCallScreen', 'SwipeToAnswer', 'IdentifiedByEqual', 'IncomingCallStrip', 'OngoingCallStrip', 'IncomingCallNotification', 'CallLogCard'],
+    spec: 'Equal To Equal Call Experience',
+    tokens: ['call-avatar/bg', 'call-avatar/text', 'call-control/subtle-bg', 'call-strip/bg', 'button/end-call', 'button/primary', 'notification/bg'],
+    examples: [
+      {
+        title: 'Incoming call',
+        render: () => <div style={{ height: 800, maxWidth: 390, display: 'flex', flexDirection: 'column' }}><EqualCallScreen role="receiver" state="ringing" name="Keshav Reddy" initials="KR" /></div>,
+        code: `<EqualCallScreen role="receiver" state="ringing" name="Keshav Reddy" initials="KR" onAccept={answer} onDecline={decline} />`,
+      },
+      {
+        title: 'Swipe to answer and badge',
+        render: () => (
+          <Col gap={24} style={{ padding: 24, maxWidth: 390, alignItems: 'center' }}>
+            <IdentifiedByEqual />
+            <SwipeToAnswer />
+          </Col>
+        ),
+        code: `<IdentifiedByEqual />
+<SwipeToAnswer onAccept={answer} onDecline={decline} onMessage={reply} />`,
+      },
+      {
+        title: 'Call strips',
+        note: 'Incoming options 1, 2, 3 (a prop; option 1 is the one that passes AA in light), then the ongoing strip.',
+        render: () => (
+          <Col gap={8} style={{ padding: '16px 0', maxWidth: 390 }}>
+            <CallStrip state="incoming" style="avatar" name="Keshav Reddy" initials="KR" />
+            <CallStrip state="incoming" style="icon" name="Keshav Reddy" />
+            <CallStrip state="incoming" style="accent" name="Keshav Reddy" />
+            <CallStrip state="ongoing" name="Keshav Reddy" seconds={21} />
+          </Col>
+        ),
+        code: `<CallStrip state="incoming" style="avatar" name="Keshav Reddy" initials="KR" onAnswer={answer} />
+<CallStrip state="incoming" style="icon" name="Keshav Reddy" />
+<CallStrip state="incoming" style="accent" name="Keshav Reddy" />
+<CallStrip state="ongoing" name="Keshav Reddy" seconds={21} onOpen={openCall} onEnd={end} />`,
+      },
+      {
+        title: 'Heads-up stand-in and call card',
+        note: 'The heads-up is drawn by Android (CallStyle); this is the docs stand-in.',
+        render: () => (
+          <Col gap={16} style={{ padding: 16, maxWidth: 390 }}>
+            <IncomingCallNotification name="Keshav Reddy" initials="KR" />
+            <CallLogCard duration="1min" />
+          </Col>
+        ),
+        code: `<IncomingCallNotification name="Keshav Reddy" initials="KR" />
+<CallLogCard duration="1min" />`,
+      },
+    ],
+    props: [
+      {
+        component: 'EqualCallScreen',
+        props: [
+          req('role', "'caller' | 'receiver'", 'The caller gets Message in the header.'),
+          req('state', "'ringing' | 'connecting' | 'calling' | 'remote-ringing' | 'connected' | 'ended'", 'Header, disc position, status and bottom slot.'),
+          req('name', 'string', 'The other person.'),
+          req('initials', 'string', 'On the call-avatar disc.'),
+          opt('seconds', 'number', '0', 'Timer once connected.'),
+          opt('speaker / muted', 'boolean', 'false', 'Toggle states.'),
+          opt('onAccept / onDecline / onMessage / onMinimise / onSpeaker / onMute / onEnd', '() => void', undefined, 'Actions.'),
+        ],
+      },
+      { component: 'SwipeToAnswer', props: [opt('onAccept', '() => void', undefined, 'Drag Accept up 86, or tap it.'), opt('onDecline', '() => void', undefined, 'Decline.'), opt('onMessage', '() => void', undefined, 'Reply with a message.')] },
+      { component: 'IdentifiedByEqual', props: [opt('size', "'lg' | 'sm'", "'lg'", 'body2 + 14 logo, or caption + 12 logo.')] },
+      {
+        component: 'CallStrip',
+        props: [
+          req('state', "'incoming' | 'ongoing'", 'Which strip.'),
+          req('name', 'string', 'The other person.'),
+          opt('style', "'avatar' | 'icon' | 'accent'", "'avatar'", 'Incoming option 1 / 2 / 3.'),
+          opt('seconds', 'number', undefined, 'Ongoing: the timer.'),
+          opt('onAnswer / onMute / onOpen / onEnd', '() => void', undefined, 'Actions.'),
+        ],
+      },
+      { component: 'CallLogCard', props: [req('duration', 'string', '"1min".'), opt('direction', "'outgoing' | 'incoming'", "'outgoing'", 'call_made or call_received.')] },
+    ],
+    dos: ['Say who is calling and that Equal identified them.', 'Keep the in-app strip option a prop.', 'Let the assistant strip (OngoingCallBar) and the user call strip (CallStrip) stay separate.'],
+    donts: ["Don't draw the heads-up or the permission dialog in the app; the OS does.", "Don't make the call icon tappable while a call is live."],
   },
   {
     id: 'text-field',

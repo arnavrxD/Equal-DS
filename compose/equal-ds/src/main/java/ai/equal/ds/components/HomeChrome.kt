@@ -307,6 +307,8 @@ fun HomeHeader(
     assistantBusy: AssistantBusy? = null,
     /** Assistant Snooze: "Equal will be back **Today 6:45pm**". */
     assistantOffRich: AnnotatedString? = null,
+    /** Equal-to-Equal: the incoming or ongoing call strip under the status bar. */
+    callStrip: (@Composable () -> Unit)? = null,
 ) {
     val colors = EqualTheme.colors
     Column(
@@ -315,7 +317,8 @@ fun HomeHeader(
             .eqShadow(EqualShadows.header)
             .background(colors.bgPrimary),
     ) {
-        StatusBar(time = time)
+        StatusBar(time = time, background = if (callStrip != null) colors.callStripBg else colors.bgPrimary)
+        callStrip?.invoke()
         TopBar(planLabel = planLabel, trailing = trailing, planTone = planTone)
         Box(Modifier.padding(start = 12.dp, end = 12.dp, bottom = 12.dp)) {
             if (status != null) {

@@ -214,6 +214,14 @@ object EqualSymbols {
     val powerSettings: ImageVector by lazy { build("power-settings", 960f, 960f, 0f, 960f, "M324-111.5Q251-143 197-197t-85.5-127Q80-397 80-480t31.5-156Q143-709 197-763t127-85.5Q397-880 480-880t156 31.5Q709-817 763-763t85.5 127Q880-563 880-480t-31.5 156Q817-251 763-197t-127 85.5Q563-80 480-80t-156-31.5ZM721-239q99-99 99-241t-99-241q-99-99-241-99t-241 99q-99 99-99 241t99 241q99 99 241 99t241-99Zm-71-71q70-70 70-170 0-51-19-94.5T650-650l-42 42q25 24 38.5 57t13.5 71q0 75-52.5 127.5T480-300q-75 0-127.5-52.5T300-480q0-38 14.5-71t38.5-57l-43-42q-32 32-51 75.5T240-480q0 100 70 170t170 70q100 0 170-70ZM450-480h60v-240h-60v240Zm30 0Z") }
     /** material-symbols/outlined/phone_in_talk */
     val phoneInTalk: ImageVector by lazy { build("phone-in-talk", 960f, 960f, 0f, 960f, "M776-487q-5-121-89-205t-205-89v-60q72 2 135.5 30.5T729-734q48 48 76.5 111.5T836-487h-60Zm-169 0q-5-50-40-84.5T482-611v-60q75 5 127.5 57T667-487h-60Zm188 367q-116 0-236.5-56T335-335Q232-438 176-558.5T120-795q0-19.29 12.86-32.14Q145.71-840 165-840h140q14 0 24 10t14 25l26.93 125.64Q372-665 369.5-653.5t-10.73 19.73L259-533q26 44 55 82t64 72q37 38 78 69.5t86 55.5l95-98q10-11 23.15-15 13.15-4 25.85-2l119 26q15 4 25 16.04 10 12.05 10 26.96v135q0 19.29-12.86 32.14Q814.29-120 795-120ZM229-588l81-82-23-110H180q2 42 13.5 88.5T229-588Zm369 363q41 19 89 31t93 14v-107l-103-21-79 83ZM229-588Zm369 363Z") }
+    /** material-symbols/outlined/chat-fill */
+    val message: ImageVector by lazy { build("message", 960f, 960f, 0f, 960f, "M80-80v-740q0-24 18-42t42-18h680q24 0 42 18t18 42v520q0 24-18 42t-42 18H240L80-80Zm160-319h313v-60H240v60Zm0-130h480v-60H240v60Zm0-130h480v-60H240v60Z") }
+    /** material-symbols/outlined/keyboard_arrow_up */
+    val chevronUp: ImageVector by lazy { build("chevron-up", 960f, 960f, 0f, 960f, "M480-554 283-357l-43-43 240-240 240 240-43 43-197-197Z") }
+    /** material-symbols/outlined/close_fullscreen */
+    val minimise: ImageVector by lazy { build("minimise", 960f, 960f, 0f, 960f, "m122-80-42-42 298-298H160v-60h320v320h-60v-218L122-80Zm358-400v-320h60v218l298-298 42 42-298 298h218v60H480Z") }
+    /** material-symbols/outlined/call_end */
+    val callEndOutline: ImageVector by lazy { build("call-end-outline", 960f, 960f, 0f, 960f, "m136-306-94-94q-9-9-8.5-21t8.5-22q82-96 197-146.5T480-640q126 0 241 50.5T918-443q8 10 8.5 22t-8.5 21l-94 94q-8 8-23 9t-24-6l-114-85q-6-4.5-9-10.5t-3-13.5v-139q-42-16-85.5-22.5T480-580q-42 0-85.5 6.5T309-551v139q0 7.5-3 13.5t-9 10.5l-114.19 85.28q-11.81 8.72-24.5 7.8-12.68-.93-22.31-11.08Zm108-220q-38 19-73 45.5T104-424l57 59 83-61v-100Zm467-4v98l87 66 58-58q-32-33-68.5-58.5T711-530Zm-467 4Zm467-4Z") }
 
     private fun build(name: String, vw: Float, vh: Float, tx: Float, ty: Float, vararg paths: String): ImageVector {
         val b = ImageVector.Builder(name = name, defaultWidth = 24.dp, defaultHeight = 24.dp, viewportWidth = vw, viewportHeight = vh)
