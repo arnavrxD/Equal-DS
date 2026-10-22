@@ -49,7 +49,16 @@ export function HealthCheckScreen({ state, onStart, onHome, onBack, onGrantApp, 
   const s = state;
   const running = s.cta === 'checking';
   return (
-    <Screen header={<AppBar statusBar title="Assistant Health Check" onBack={onBack} />}>
+    <Screen
+      header={<AppBar statusBar title="Assistant Health Check" onBack={onBack} />}
+      footer={
+        // Pinned: the cards scroll above it as they expand.
+        <div style={{ padding: '12px 24px 24px', background: 'var(--eq-bg-primary)' }}>
+          <Button block size="lg" disabled={running} onClick={s.cta === 'home' ? onHome : onStart}>{s.cta === 'home' ? 'Back To Home' : running ? 'Checking…' : 'Start Health Check'}</Button>
+          <Text as="p" variant="captionWrap" color="secondary" align="center" style={{ marginTop: 8 }}>{s.last}</Text>
+        </div>
+      }
+    >
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', padding: '16px 24px 24px' }}>
         <HealthHero state={s.hero} size={180} />
         <Text as="h1" variant="headline" style={{ alignSelf: 'stretch', marginTop: 16 }}>{s.done ? 'Check complete. Your assistant is good to go' : 'Check your assistant’s health. See if it’s operational.'}</Text>
@@ -68,10 +77,6 @@ export function HealthCheckScreen({ state, onStart, onHome, onBack, onGrantApp, 
             action={s.carrier.action ? { label: s.carrier.action === 'retry' ? 'Try Again' : 'Fix Now', loading: s.carrier.action === 'fixing', onClick: onFix } : undefined}
           />
         </div>
-        <div style={{ alignSelf: 'stretch', marginTop: 32 }}>
-          <Button block size="lg" disabled={running} onClick={s.cta === 'home' ? onHome : onStart}>{s.cta === 'home' ? 'Back To Home' : running ? 'Checking…' : 'Start Health Check'}</Button>
-        </div>
-        <Text as="p" variant="captionWrap" color="secondary" align="center" style={{ marginTop: 8 }}>{s.last}</Text>
       </div>
     </Screen>
   );

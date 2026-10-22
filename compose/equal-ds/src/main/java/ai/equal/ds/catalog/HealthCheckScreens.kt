@@ -23,6 +23,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -152,7 +153,9 @@ fun HealthCheckScreen(
                     action = state.carrier.action?.let { HealthCardAction(if (it == HcCarrierAction.Retry) "Try Again" else "Fix Now", onFix, loading = it == HcCarrierAction.Fixing) },
                 )
             }
-            Spacer(Modifier.height(32.dp))
+        }
+        // Pinned under the scrolling cards: it doesn't move when a section expands.
+        Column(Modifier.fillMaxWidth().background(colors.bgPrimary).navigationBarsPadding().padding(start = 24.dp, end = 24.dp, top = 12.dp, bottom = 24.dp)) {
             EqualButton(
                 text = when (state.cta) { HcCta.Home -> "Back To Home"; HcCta.Checking -> "Checking…"; HcCta.Start -> "Start Health Check" },
                 onClick = if (state.cta == HcCta.Home) onHome else onStart,
