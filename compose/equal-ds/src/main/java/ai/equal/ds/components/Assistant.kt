@@ -363,7 +363,7 @@ fun AssistantInput(
                 ) {
                     EqualIcon(EqualIcons.MicFill, contentDescription = null, tint = colors.textOnAction, size = 22.dp)
                     EqualText(
-                        text = "Send voice note",
+                        text = "Send Voice Note",
                         style = type.subheading.copy(fontWeight = FontWeight.Bold),
                         color = colors.textOnAction,
                         maxLines = 1,
@@ -932,8 +932,8 @@ fun AssistantChips(
 
 private val PreviewActions = listOf(
     AssistantAction("Talk to Equal"),
-    AssistantAction("Talk to Equal", EqualIcons.AutoFix),
-    AssistantAction("Make a call", EqualIcons.CallFilled),
+    AssistantAction("Set Instruction", EqualIcons.AutoFix),
+    AssistantAction("Make a Call", EqualIcons.CallFilled),
 )
 
 @EqualPreviews

@@ -57,7 +57,7 @@ val SearchSampleChats: List<HomeSampleChat> = listOf(
         "Yesterday",
         EqualCategory.HomeServices,
         unread = 2,
-        chips = listOf(ActionChipData("Call Back", "📞"), ActionChipData("Update Address", "✏️")),
+        chips = listOf(ActionChipData("Call back", "📞"), ActionChipData("Update Address", "✏️")),
         id = "s1",
     ),
     HomeSampleChat("Santosh Anna", "Order left with security", "12 July", EqualCategory.Delivery, id = "s2"),

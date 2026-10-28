@@ -11,7 +11,7 @@ import { ContextMenu, type MenuItem } from './ContextMenu';
 import './Personalisation.css';
 
 /** The 80 orb with floating trait pills (FYI sheet hero). Decorative. */
-export function TraitOrbHero({ traits = ['Greets friends by name', 'Says you’ll call back at 7', 'Replies in Hinglish'] }: { traits?: string[] }) {
+export function TraitOrbHero({ traits = ['Greets friends by name', 'Replies in Hinglish', 'Says you’ll call back at 7'] }: { traits?: string[] }) {
   return (
     <div className="eq-trait-hero" aria-hidden>
       <span className="eq-trait-hero__orb"><EqualOrb size={80} label="" /></span>
@@ -49,7 +49,7 @@ export function NoticedCard({ state = 'ready', summary, updatesIn = '21 days', o
     return (
       <button type="button" className="eq-reset-btn eq-noticed is-reveal" onClick={onReveal}>
         <span className="eq-noticed__sparkles" aria-hidden />
-        <Text as="div" variant="title" color="none" style={{ fontWeight: 600 }}>Updated summary is ready</Text>
+        <Text as="div" variant="title" color="none" style={{ fontWeight: 600 }}>I’ve learned a little more about you</Text>
         <Text as="div" variant="bodyLarge" color="none" style={{ fontWeight: 500, marginTop: 4 }}>Tap to reveal</Text>
       </button>
     );
@@ -77,7 +77,7 @@ export function NoticedCoach({ onDismiss }: { onDismiss?: () => void }) {
     <div className="eq-coach" role="dialog" aria-label="I’m getting to know you!">
       <Text as="div" variant="subheading" style={{ fontWeight: 600 }}>I’m getting to know you!</Text>
       <Text as="p" variant="body1" color="secondary" style={{ margin: '2px 0 0' }}>The more I learn, the better I can step in and handle your calls.</Text>
-      <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 8 }}><Button size="xs" onClick={onDismiss}>Got it</Button></div>
+      <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 8 }}><Button size="xs" onClick={onDismiss}>Got it!</Button></div>
       <span className="eq-coach__tail" aria-hidden />
     </div>
   );
@@ -129,7 +129,7 @@ export function CallerContextCard({ name, state, summary, onStop, onDelete, onRe
     <section className={`eq-caller-context${state === 'paused' ? ' is-paused' : ''}`} aria-label={`Equal’s context for ${name}`}>
       <div className="eq-caller-context__head">
         <EqualOrb size={18} label="" />
-        <Text variant="caption" style={{ fontWeight: 600, flex: 1, minWidth: 0 }} truncate>{state === 'learning' ? 'Learning more with every new call...' : `Equal’s Context for ${name}`}</Text>
+        <Text variant="caption" style={{ fontWeight: 600, flex: 1, minWidth: 0 }} truncate>{state === 'learning' ? 'Learning more with every new call...' : state === 'empty' ? `Getting to know ${name.split(' ')[0]}` : `Equal’s Context for ${name}`}</Text>
         {state !== 'paused' && <Text variant="overline" color="action" style={{ fontWeight: 600, textTransform: 'none' }}>Personalising...</Text>}
         <span style={{ position: 'relative' }}>
           <IconButton icon="more-vert" label="More options" size={32} iconSize={20} aria-expanded={menu} onClick={() => setMenu((v) => !v)} />
@@ -137,7 +137,7 @@ export function CallerContextCard({ name, state, summary, onStop, onDelete, onRe
         </span>
       </div>
       {state === 'empty' || state === 'learning' ? (
-        <Text as="p" variant="captionWrap" color="secondary" align="center" style={{ margin: '12px 0 4px', fontStyle: 'italic' }}>A summary appears here after a few more calls with {name.split(' ')[0]}.</Text>
+        <Text as="p" variant="captionWrap" color="secondary" align="center" style={{ margin: '12px 0 4px', fontStyle: 'italic' }}>A few more calls and I’ll learn more about {name.split(' ')[0]}.</Text>
       ) : (
         <>
           <Text as="p" variant="body1" color="secondary" className={more ? undefined : 'eq-clamp-3'} style={{ margin: '8px 0 0' }}>{summary}</Text>

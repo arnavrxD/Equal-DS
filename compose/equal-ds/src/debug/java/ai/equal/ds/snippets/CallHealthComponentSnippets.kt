@@ -69,14 +69,14 @@ internal fun HealthHeroStatesSnippet() {
 @Composable
 internal fun HealthCheckCardSnippet() {
     HealthCheckCard(
-        title = "App permissions",
+        title = "App Permissions",
         status = HealthCardStatus.Issues,
         expandable = true,
         expanded = true,
         action = HealthCardAction("Grant Permission", onClick = { /* open settings */ }),
     ) {
         PermissionRow(EqualSymbols.phoneIncoming, "Phone", "Your assistant needs this to handle calls", PermissionStatus.Granted)
-        PermissionRow(EqualSymbols.notifications, "Notification", "Required to send you call alerts", PermissionStatus.NotGranted, filledIcon = EqualSymbols.notificationsFill)
+        PermissionRow(EqualSymbols.notifications, "Notifications","Required to send you call alerts", PermissionStatus.NotGranted, filledIcon = EqualSymbols.notificationsFill)
         PermissionRow(EqualSymbols.contacts, "Contacts", "Required to skip calls from saved contacts", PermissionStatus.Checking)
     }
 }

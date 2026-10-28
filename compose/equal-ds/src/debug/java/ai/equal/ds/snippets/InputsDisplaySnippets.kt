@@ -88,13 +88,13 @@ import androidx.compose.ui.unit.dp
 internal fun ActionChipsSmallStatesSnippet() {
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            SmallActionChip(label = "Call Back", emoji = "📞", onClick = {})
+            SmallActionChip(label = "Call back", emoji = "📞", onClick = {})
             SmallActionChip(label = "Update Address", emoji = "✏️", onClick = {})
         }
-        SmallActionChip(label = "Call Back", emoji = "📞", onClick = {}, style = SmallActionChipStyle.Read)
-        SmallActionChip(label = "Call Back", emoji = "📞", onClick = {}, style = SmallActionChipStyle.Outlined)
+        SmallActionChip(label = "Call back", emoji = "📞", onClick = {}, style = SmallActionChipStyle.Read)
+        SmallActionChip(label = "Call back", emoji = "📞", onClick = {}, style = SmallActionChipStyle.Outlined)
         // Compose: no chevron toggle; the trailing chevron is always shown.
-        SmallActionChip(label = "Add to Calendar", emoji = "🗓️", onClick = {}, style = SmallActionChipStyle.Outlined)
+        SmallActionChip(label = "Add to Calendar", emoji = "📅", onClick = {}, style = SmallActionChipStyle.Outlined)
     }
 }
 
@@ -120,9 +120,9 @@ internal fun ActionChipsInChatRowSnippet() {
         modifier = Modifier.horizontalScroll(rememberScrollState()),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
-        SmallActionChip(label = "Call Back", emoji = "📞", onClick = {})
+        SmallActionChip(label = "Call back", emoji = "📞", onClick = {})
         SmallActionChip(label = "Update Address", emoji = "✏️", onClick = {})
-        SmallActionChip(label = "Add to Calendar", emoji = "🗓️", onClick = {})
+        SmallActionChip(label = "Add to Calendar", emoji = "📅", onClick = {})
     }
 }
 
@@ -159,7 +159,7 @@ internal fun SwitchInContextSnippet() {
 
     RowGroup {
         ToggleRow(
-            label = "Mute Promotional Calls",
+            label = "Mute Unwanted Calls",
             description = "Equal AI Assistant can identify Promotional Calls and automatically mute them",
             descriptionWraps = true,
             checked = mute,
@@ -433,8 +433,8 @@ internal fun BadgesInContextSnippet() {
         TopBar() // PlanBadge
         RowGroup(inset = 0.dp) {
             SettingsRow(
-                label = "Instructions",
-                description = "Tell assistant how you'd like it to help",
+                label = "Your Instructions",
+                description = "Tell Equal what to do",
                 leadingIcon = EqualIcons.Instructions,
                 showNewBadge = true, // NewBadge
             )

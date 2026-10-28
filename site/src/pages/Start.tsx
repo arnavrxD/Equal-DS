@@ -22,7 +22,7 @@ import { ChatListItem, Button, Text } from './equal-ds/web/src';
 
 <div data-theme="light">   {/* or "dark" */}
   <Text variant="subheading">Instructions</Text>
-  <Button leadingIcon="add">Add New Instruction</Button>
+  <Button leadingIcon="add">Add New Instructions</Button>
 </div>`}</Code>
       <p className="s-p">Colours are CSS variables (<code>var(--eq-text-action)</code>) or TS references (<code>color.textAction</code>). Type is <code>{'<Text variant="body1">'}</code> or the class <code>.eq-t-body1</code>. Icons are <code>{'<Icon name="call" />'}</code>; actions take an <code>emoji</code> prop.</p>
 

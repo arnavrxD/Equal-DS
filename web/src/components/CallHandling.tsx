@@ -104,7 +104,7 @@ export function InfoNote({ title, body, link, onLink, onDismiss }: { title: stri
 /** A suggested contact: initials on a white disc with a + (add) or × (remove) badge, name under it. */
 export function ContactPick({ initials, name, mark = 'add', onClick }: { initials: string; name: string; mark?: 'add' | 'remove'; onClick?: () => void }) {
   return (
-    <button type="button" className="eq-reset-btn eq-pressable eq-ch-pick" onClick={onClick} aria-label={`${mark === 'add' ? 'Add' : 'Remove'} ${name}`}>
+    <button type="button" className="eq-reset-btn eq-pressable eq-ch-pick" onClick={onClick} aria-label={`${mark === 'add' ? 'Exclude' : 'Remove'} ${name}`}>
       <span className="eq-ch-initials" style={{ width: 56, height: 56 }}>
         <Text as="span" variant="title" style={{ fontWeight: 500 }}>{initials}</Text>
         <span className="eq-ch-pick__mark"><Icon name={mark === 'add' ? 'add' : 'close'} size={14} /></span>
@@ -145,7 +145,7 @@ export function AlphabetIndex({ onPick }: { onPick?: (letter: string) => void })
 // ---------------------------------------------------------------- setup moments
 
 /** Dark takeover that invites a new user into setup: art, title, subtitle, Start. */
-export function SetupPrompt({ art = 'call-setup', title = 'Set up your calls', subtitle = 'Two questions. One minute.', cta = 'Start', onStart, onClose }: { art?: AssetName; title?: string; subtitle?: string; cta?: string; onStart?: () => void; /** Escape (e.g. "not now"). */ onClose?: () => void }) {
+export function SetupPrompt({ art = 'call-setup', title = 'Equal now answers contacts', subtitle = 'Pick who still rings your phone.', cta = 'Start', onStart, onClose }: { art?: AssetName; title?: string; subtitle?: string; cta?: string; onStart?: () => void; /** Escape (e.g. "not now"). */ onClose?: () => void }) {
   const modal = useModal({ open: true, onClose });
   return (
     <div className="eq-ch-prompt" role="dialog" aria-label={title} {...modal}>
@@ -198,7 +198,7 @@ export type CallNotificationProps = {
   category?: Category;
   /** Seconds on the call. */
   elapsed?: string;
-  /** answering: "Your Equal AI is answering your call."; summary: what the caller wants (one line); expanded: two lines + call button + replies; connecting: "This needs your attention…". */
+  /** answering: "Your Equal AI is answering your call"; summary: what the caller wants (one line); expanded: two lines + call button + replies; connecting: "This needs your attention…". */
   state: CallNotificationState;
   summary?: string;
   replies?: string[];
@@ -230,7 +230,7 @@ export function CallNotification({ name, category = 'home-services', elapsed = '
         </span>
         <span style={{ flex: 1, minWidth: 0 }}>
           <Text as="div" variant="subheading" style={{ fontWeight: 500 }}>{name}</Text>
-          <Text as="div" variant="body1" className={big ? 'eq-ch-clamp2' : 'eq-ch-clamp1'} style={{ fontWeight: 400 }}>{state === 'answering' ? 'Your Equal AI is answering your call.' : summary}</Text>
+          <Text as="div" variant="body1" className={big ? 'eq-ch-clamp2' : 'eq-ch-clamp1'} style={{ fontWeight: 400 }}>{state === 'answering' ? 'Your Equal AI is answering your call' : summary}</Text>
         </span>
         {state === 'expanded' ? (
           <button type="button" className="eq-reset-btn eq-pressable eq-touch eq-ch-notif__call" aria-label="Answer the call" onClick={onAnswer}><Icon name="call-filled" size={20} color="var(--eq-text-action)" /></button>

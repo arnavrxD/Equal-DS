@@ -191,9 +191,9 @@ internal fun ChatListItemUnreadReadSnippet() {
         unreadCount = 5,
         category = EqualCategory.NA,
         chips = listOf(
-            ActionChipData("Call Back", "📞"),
+            ActionChipData("Call back", "📞"),
             ActionChipData("Update Address", "✏️"),
-            ActionChipData("Add to Calendar", "🗓️"),
+            ActionChipData("Add to Calendar", "📅"),
         ),
     )
     ChatListItem(
@@ -201,7 +201,7 @@ internal fun ChatListItemUnreadReadSnippet() {
         preview = "Count me in for Sunday 8 PM 👍",
         date = "12 July",
         initials = "AN",
-        chips = listOf(ActionChipData("Call Back", "📞")),
+        chips = listOf(ActionChipData("Call back", "📞")),
     )
 }
 
@@ -217,7 +217,7 @@ internal fun ChatListItemLongPressSnippet() {
         state = if (selected) ChatListItemState.Selected else ChatListItemState.Unread,
         unreadCount = 2,
         category = EqualCategory.Others,
-        chips = listOf(ActionChipData("Add to Calendar", "🗓️"), ActionChipData("Call Back", "📞")),
+        chips = listOf(ActionChipData("Add to Calendar", "📅"), ActionChipData("Call back", "📞")),
         onLongClick = { selected = true },
         onClick = { selected = false },
     )
@@ -226,7 +226,7 @@ internal fun ChatListItemLongPressSnippet() {
 // snippet: chat-list-item / The list
 @Composable
 internal fun ChatListItemListSnippet() {
-    val callBack = listOf(ActionChipData("Call Back", "📞"))
+    val callBack = listOf(ActionChipData("Call back", "📞"))
     Column {
         ChatListItem(name = "Amit Nanda", preview = "Count me in for Sunday 8 PM 👍", date = "12 July",
             initials = "AN", chips = callBack)
@@ -394,8 +394,8 @@ internal fun AiPanelAfterCallSnippet() {
     AiChatPanel(
         prompt = "Want me to send Amit a quick reply on WhatsApp?",
         actions = listOf(
-            ActionChipData("Reply on WhatsApp", "💬"),
-            ActionChipData("Add to Calendar", "🗓️"),
+            ActionChipData("Reply on WhatsApp", "💚"),
+            ActionChipData("Add to Calendar", "📅"),
         ),
         onActionClick = {},
         composerValue = draft,

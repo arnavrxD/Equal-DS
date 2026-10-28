@@ -58,21 +58,21 @@ internal fun CallHandlingChoiceCardsSnippet() {
     Column(Modifier.selectableGroup(), verticalArrangement = Arrangement.spacedBy(16.dp)) {
         ChoiceCard(
             icon = EqualIcons.Globe,
-            title = "All calls, except a few",
-            description = "I answer everyone. You pick who I skip.",
+            title = "All calls except",
+            description = "Equal answers all your calls, except the people you choose.",
             selected = mode == CallMode.All,
             onSelect = { mode = CallMode.All },
         )
         ChoiceCard(
             icon = EqualIcons.Call,
-            title = "Only unknown numbers",
-            description = "I answer numbers that are not saved in your phone.",
+            title = "Unknown numbers only",
+            description = "Equal only answers calls from numbers you don’t have saved.",
             selected = mode == CallMode.Unknown,
             onSelect = { mode = CallMode.Unknown },
         )
         InfoNote(
             title = "Contact access needed",
-            body = "Without it, the assistant can’t handle all calls.",
+            body = "Without it, the assistant cannot handle all calls.",
             link = "Give contacts permission",
             onLink = { /* ask for READ_CONTACTS */ },
         )

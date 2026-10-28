@@ -48,9 +48,9 @@ export function TrustStrip({ stats }: { stats: TrustStat[] }) {
 }
 
 export const trustStats: TrustStat[] = [
-  { art: 'mascot-update', value: '5L+', label: 'Indian users' },
+  { art: 'mascot-update', value: '5L+', label: 'Indian Users' },
   { art: 'stat-star', value: '4.4 star', label: 'Rating' },
-  { art: 'stat-phone', value: '150 Mn+', label: 'Calls handled' },
+  { art: 'stat-phone', value: '150 Mn+', label: 'Calls Handled' },
 ];
 
 /** Teach Your Assistant (Preset Instruction design): the teal promo in the home carousel. */

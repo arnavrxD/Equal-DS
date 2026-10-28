@@ -41,8 +41,8 @@ export type MyaStage =
 
 export const myaActions: AssistantAction[] = [
   { label: 'Talk to Equal', icon: 'equal' },
-  { label: 'Talk to Equal', icon: 'auto-fix' },
-  { label: 'Make a call', icon: 'call-filled' },
+  { label: 'Set Instruction', icon: 'auto-fix' },
+  { label: 'Make a Call', icon: 'call-filled' },
 ];
 
 const REQUEST = 'Set up a remainder for appointment at Dr. Mehta’s';
@@ -142,7 +142,7 @@ export function AssistantSheet({ name = 'Keshav', stage, onClose, onDone, mode =
         }
       >
         <AssistantGreeting name={name} />
-        <TrySaying example="All calls after 9 PM to be handled by assistant" />
+        <TrySaying example="Remind me to call Amit at 6" />
       </AssistantSheetShell>
     );
   }

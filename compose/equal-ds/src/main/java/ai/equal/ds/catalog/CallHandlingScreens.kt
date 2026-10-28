@@ -89,11 +89,11 @@ enum class CallHandlingCopy(
     val cta: String,
 ) {
     Which(
-        title = "Which calls should I answer?",
-        subtitle = "You decide. I follow.",
-        all = CallChoiceCopy("All calls, except a few", "I answer everyone. You pick who I skip."),
-        unknown = CallChoiceCopy("Only unknown numbers", "I answer numbers that are not saved in your phone."),
-        note = "You can change this later.",
+        title = "Who should Equal answer for?",
+        subtitle = "You choose. Equal follows.",
+        all = CallChoiceCopy("All calls except", "Equal answers all your calls, except the people you choose."),
+        unknown = CallChoiceCopy("Unknown numbers only", "Equal only answers calls from numbers you don’t have saved."),
+        note = "You can change this anytime.",
         cta = "Next",
     ),
     Whose(
@@ -262,16 +262,16 @@ fun CallHandlingScreen(
         CallHandlingStep.Perfect, CallHandlingStep.Sorted -> {
             val names = AllContacts.filter { it.id in selected }.map { it.name.substringBefore(' ') }
             val body = if (s == CallHandlingStep.Perfect) {
-                "I will answer your calls when you are busy. " + if (names.isNotEmpty()) {
-                    names.take(3).joinToString(", ") + (if (names.size > 3) " and ${names.size - 3} more" else "") + " will always ring you."
+                "Equal will handle the calls." + if (names.isNotEmpty()) {
+                    " " + names.take(3).joinToString(", ") + (if (names.size > 3) " and ${names.size - 3} more" else "") + " will always ring you."
                 } else {
-                    "Everyone else goes through me."
+                    ""
                 }
             } else {
-                "I will answer unknown numbers only. Your contacts will ring you, like always."
+                "Equal will answer unknown numbers only. Your contacts will ring you, like always."
             }
             SetupDone(
-                title = if (s == CallHandlingStep.Perfect) "Perfect!" else "All Sorted!",
+                title = if (s == CallHandlingStep.Perfect) "Perfect!" else "You’re all set!",
                 body = body,
                 onDone = onDone,
                 modifier = modifier,
@@ -287,13 +287,13 @@ fun CallHandlingScreen(
         }
 
         CallHandlingStep.Exclude -> CallScaffold(
-            title = "Exclude Contacts",
+            title = "Call Handling",
             onBack = { go(CallHandlingStep.Question) },
             modifier = modifier,
             footerBackground = EqualTheme.colors.bgSurface,
             footer = {
                 NoteAndButton(
-                    note = "This isn’t permanent — you can change it anytime.",
+                    note = "You can change this anytime.",
                     cta = if (selected.isNotEmpty()) "Select ${selected.size} contacts" else "Select contacts",
                     onClick = { go(CallHandlingStep.Perfect) },
                 )
@@ -302,13 +302,13 @@ fun CallHandlingScreen(
             CallQuestion(
                 art = EqualAssets.CallHandlingExclude,
                 lottie = R.raw.lottie_call_handling_contacts,
-                title = "Anyone you want to answer yourself?",
+                title = "Who should still ring you?",
             )
             var query by remember { mutableStateOf("") }
             SearchField(
                 value = query,
                 onValueChange = { query = it },
-                placeholder = "Search contacts..",
+                placeholder = "Search contacts...",
                 modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp),
             )
             ContactSection("Suggested")
@@ -354,9 +354,9 @@ fun CallHandlingScreen(
                     } else if (s == CallHandlingStep.PermHistory) {
                         PermissionSheet(
                             art = EqualAssets.PermissionCallHistory,
-                            title = "Allow call history",
-                            body = "Your contact list is long. Let me show the people you call the most, at the top.",
-                            cta = "Allow call history",
+                            title = "Allow call logs permission",
+                            body = "Your contact list can be long. Allow Equal AI to access your phone call logs to show the people you call the most, at the top.",
+                            cta = "Allow",
                             onAllow = { go(CallHandlingStep.Exclude) },
                             onClose = { go(CallHandlingStep.Exclude) },
                             onScrim = { go(CallHandlingStep.Question) },
@@ -392,7 +392,7 @@ fun CallHandlingScreen(
                     if (whose && !allowed) {
                         InfoNote(
                             title = "Contact access needed",
-                            body = "Without it, the assistant can’t handle all calls.",
+                            body = "Without it, the assistant cannot handle all calls.",
                             link = "Give contacts permission",
                             onLink = { go(CallHandlingStep.PermContacts) },
                         )
@@ -436,7 +436,7 @@ fun AlwaysRingScreen(
         SearchField(
             value = query,
             onValueChange = { query = it },
-            placeholder = "Search contacts..",
+            placeholder = "Search contacts...",
             modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp),
         )
         PickRow(Modifier.padding(top = 8.dp)) {
@@ -463,7 +463,7 @@ fun DirectCallsEmptyScreen(
         onBack = onBack,
         modifier = modifier,
         footerBackground = colors.bgSurface,
-        footer = { NoteAndButton(note = "Find this later under “You”, then Call Handling.", cta = "Got it", onClick = onDone) },
+        footer = { NoteAndButton(note = "Find this later under You, then Call Handling.", cta = "Got it", onClick = onDone) },
     ) {
         Column(
             Modifier

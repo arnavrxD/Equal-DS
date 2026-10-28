@@ -391,7 +391,7 @@ fun ContactPick(
 ) {
     val colors = EqualTheme.colors
     val interaction = rememberInteraction()
-    val label = "${if (mark == ContactPickMark.Add) "Add" else "Remove"} $name"
+    val label = "${if (mark == ContactPickMark.Add) "Exclude" else "Remove"} $name"
     Column(
         modifier
             .width(76.dp)
@@ -509,8 +509,8 @@ fun SetupPrompt(
     onStart: () -> Unit,
     modifier: Modifier = Modifier,
     art: EqualAssets = EqualAssets.CallSetup,
-    title: String = "Set up your calls",
-    subtitle: String = "Two questions. One minute.",
+    title: String = "Equal now answers contacts",
+    subtitle: String = "Pick who still rings your phone.",
     cta: String = "Start",
     onDismiss: (() -> Unit)? = null,
 ) {
@@ -714,7 +714,7 @@ fun PermissionSheet(
 
 /** Stage of the call on a [CallNotification]. */
 enum class CallNotificationState {
-    /** "Your Equal AI is answering your call." with the Equal app badge. */
+    /** "Your Equal AI is answering your call" with the Equal app badge. */
     Answering,
 
     /** One line: what the caller wants. */
@@ -822,7 +822,7 @@ fun CallNotification(
             Column(Modifier.weight(1f)) {
                 EqualText(text = name, style = type.subheading, color = colors.textPrimary, maxLines = 1, overflow = TextOverflow.Ellipsis)
                 EqualText(
-                    text = if (state == CallNotificationState.Answering) "Your Equal AI is answering your call." else summary,
+                    text = if (state == CallNotificationState.Answering) "Your Equal AI is answering your call" else summary,
                     style = type.body1,
                     color = colors.textPrimary,
                     maxLines = if (big) 2 else 1,
@@ -1024,8 +1024,8 @@ private fun ChoiceCardsPreview() {
     PreviewFrame {
         var all by remember { mutableStateOf(false) }
         Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-            ChoiceCard(EqualIcons.Globe, "All calls, except a few", "I answer everyone. You pick who I skip.", selected = all, onSelect = { all = true })
-            ChoiceCard(EqualIcons.Call, "Only unknown numbers", "I answer numbers that are not saved in your phone.", selected = !all, onSelect = { all = false })
+            ChoiceCard(EqualIcons.Globe, "All calls except", "Equal answers all your calls, except the people you choose.", selected = all, onSelect = { all = true })
+            ChoiceCard(EqualIcons.Call, "Unknown numbers only", "Equal only answers calls from numbers you don’t have saved.", selected = !all, onSelect = { all = false })
             ChoiceCard(
                 EqualIcons.Globe,
                 "All calls except",
@@ -1035,7 +1035,7 @@ private fun ChoiceCardsPreview() {
                 suggested = true,
                 enabled = false,
             )
-            InfoNote(title = "Contact access needed", body = "Without it, the assistant can’t handle all calls.", link = "Give contacts permission")
+            InfoNote(title = "Contact access needed", body = "Without it, the assistant cannot handle all calls.", link = "Give contacts permission")
         }
     }
 }
@@ -1100,11 +1100,11 @@ private fun SetupMomentsPreview() {
         Box(Modifier.height(640.dp)) {
             SetupDone(
                 title = "Perfect!",
-                body = "I will answer your calls when you are busy. Arnav, Shubham will always ring you.",
+                body = "Equal will handle the calls. Arnav, Shubham will always ring you.",
                 onDone = {},
             )
         }
         Box(Modifier.height(560.dp)) { SetupPrompt(onStart = {}) }
-        CallQuestion(art = EqualAssets.CallHandlingExclude, lottie = R.raw.lottie_call_handling_contacts, title = "Anyone you want to answer yourself?")
+        CallQuestion(art = EqualAssets.CallHandlingExclude, lottie = R.raw.lottie_call_handling_contacts, title = "Who should still ring you?")
     }
 }

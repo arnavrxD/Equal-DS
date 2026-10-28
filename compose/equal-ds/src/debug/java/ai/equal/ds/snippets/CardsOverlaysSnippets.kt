@@ -71,7 +71,7 @@ import androidx.compose.ui.unit.dp
 internal fun FeedbackCardInteractiveSnippet() {
     var rating by remember { mutableIntStateOf(0) }
     FeedbackCard(
-        question = "How would you rate the call?",
+        question = "How would you rate your call Keshav?",
         rating = rating,
         onRatingChange = { rating = it },
         // Compose: the share callback takes no argument; read `rating` from state
@@ -84,7 +84,7 @@ internal fun FeedbackCardInteractiveSnippet() {
 internal fun FeedbackCardRatedSnippet() {
     // Compose: always controlled, so the question and rating callback are required
     FeedbackCard(
-        question = "How would you rate the call?",
+        question = "How would you rate your call Keshav?",
         rating = 4,
         onRatingChange = {},
         onShareFeedbackClick = {},
@@ -151,9 +151,9 @@ internal fun ActionCardBodyOnlySnippet() {
 @Composable
 internal fun WhatsNewCardDefaultSnippet() {
     WhatsNewCard(
-        title = "Language Preference",
-        body = "Set your preferred language and choose how your assistant sounds",
-        buttonLabel = "Try Voices",
+        title = "Assistant Languages",
+        body = "Checkout how your assistant speaks in 9 languages",
+        buttonLabel = "Try Languages",
         buttonIcon = EqualIcons.Translate,
         onButtonClick = {},
         onCloseClick = {},
@@ -385,18 +385,18 @@ internal fun ContextMenuOverflowSnippet() {
 // snippet: settings-row / You tab group
 @Composable
 internal fun SettingsRowYouTabSnippet() {
-    SectionHeader(title = "Your assistant")
+    SectionHeader(title = "Tell Equal")
     RowGroup {
         SettingsRow(
-            label = "Instructions",
-            description = "Tell assistant how you'd like it to help",
+            label = "Your Instructions",
+            description = "Tell Equal what to do",
             leadingIcon = EqualIcons.Instructions,
             showNewBadge = true,
             onClick = {},
         )
         SettingsRow(label = "Assistant Health Check", description = "Check Real-Time Assistant Connectivity", leadingIcon = EqualIcons.HealthCheck, onClick = {})
-        SettingsRow(label = "Silent Mode", description = "Mute promotional calls", leadingIcon = EqualIcons.SilentMode, onClick = {})
-        SettingsRow(label = "Voice & Language", description = "How your assistant sounds", leadingIcon = EqualIcons.VoiceLanguage, onClick = {})
+        SettingsRow(label = "Silent Mode", description = "Mute unwanted calls automatically", leadingIcon = EqualIcons.SilentMode, onClick = {})
+        SettingsRow(label = "Voice & Language", description = "Choose how Equal speaks.", leadingIcon = EqualIcons.VoiceLanguage, onClick = {})
     }
 }
 
@@ -406,7 +406,7 @@ internal fun SettingsRowToggleSnippet() {
     var mute by remember { mutableStateOf(true) }
     RowGroup {
         ToggleRow(
-            label = "Mute Promotional Calls",
+            label = "Mute Unwanted Calls",
             description = "Equal AI Assistant can identify Promotional Calls and automatically mute them",
             descriptionWraps = true,
             checked = mute,

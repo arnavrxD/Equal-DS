@@ -114,11 +114,11 @@ enum class MyaStage {
     Confirmed,
 }
 
-/** The three quick-action tiles of the sample (the Equal mark, auto-fix and Make a call). */
+/** The three quick-action tiles of the sample (the Equal mark, auto-fix and Make a Call). */
 val MyaActions: List<AssistantAction> = listOf(
     AssistantAction("Talk to Equal"),
-    AssistantAction("Talk to Equal", EqualIcons.AutoFix),
-    AssistantAction("Make a call", EqualIcons.CallFilled),
+    AssistantAction("Set Instruction", EqualIcons.AutoFix),
+    AssistantAction("Make a Call", EqualIcons.CallFilled),
 )
 
 private const val MyaRequest = "Set up a remainder for appointment at Dr. Mehta’s"
@@ -281,7 +281,7 @@ fun AssistantSheet(
             }
             recording -> {
                 AssistantGreeting(name = name)
-                TrySaying(example = "All calls after 9 PM to be handled by assistant")
+                TrySaying(example = "Remind me to call Amit at 6")
             }
             else -> {
                 AssistantGreeting(name = name)

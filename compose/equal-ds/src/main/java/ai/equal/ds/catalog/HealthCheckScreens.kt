@@ -60,11 +60,11 @@ private data class HcRow(val icon: ImageVector, val filled: ImageVector, val tit
 
 private val AppRows = listOf(
     HcRow(EqualSymbols.phoneIncoming, EqualSymbols.phoneIncomingFill, "Phone", "Your assistant needs this to handle calls"),
-    HcRow(EqualSymbols.notifications, EqualSymbols.notificationsFill, "Notification", "Required to send you call alerts"),
+    HcRow(EqualSymbols.notifications, EqualSymbols.notificationsFill, "Notifications","Required to send you call alerts"),
     HcRow(EqualSymbols.contacts, EqualSymbols.contactsFill, "Contacts", "Required to skip calls from saved contacts"),
 )
 private val PhoneRows = listOf(HcRow(EqualSymbols.layers, EqualSymbols.layersFill, "Overlay", "Required to show call controls over your screen"))
-private val Reasons = "Carrier check failed. This may be due to:" to listOf("Your connection may be temporarily unavailable", "Your recharge plan might be inactive or expired")
+private val Reasons = "Carrier check failed. This may be due to:" to listOf("Your connection may be temporarily unavailable. Check if you are connected to the Internet.","Your recharge plan might be inactive or expired")
 
 private const val LastChecked = "Last checked: 2h ago"
 private val Idle = PermissionStatus.Idle
@@ -137,7 +137,7 @@ fun HealthCheckScreen(
             Spacer(Modifier.height(24.dp))
             Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 HealthCheckCard(
-                    title = "App permissions", status = state.app.status,
+                    title = "App Permissions", status = state.app.status,
                     expandable = !running || state.app.status == HealthCardStatus.Passed, expanded = state.app.expanded, onToggle = onToggleApp,
                     action = if (state.app.grant) HealthCardAction("Grant Permission", onGrantApp) else null,
                 ) { AppRows.forEachIndexed { i, r -> PermissionRow(r.icon, r.title, r.description, state.app.rows[i], filledIcon = r.filled) } }
@@ -147,7 +147,7 @@ fun HealthCheckScreen(
                     action = if (state.phone.grant) HealthCardAction("Grant Permission", onGrantPhone) else null,
                 ) { PhoneRows.forEachIndexed { i, r -> PermissionRow(r.icon, r.title, r.description, state.phone.rows[i], filledIcon = r.filled) } }
                 HealthCheckCard(
-                    title = "Carrier check", status = state.carrier.status,
+                    title = "Carrier Check", status = state.carrier.status,
                     subtitle = if (state.carrier.subtitle) "Verifies your calls reach the assistant" else null,
                     reasons = if (state.carrier.reasons) Reasons else null,
                     action = state.carrier.action?.let { HealthCardAction(if (it == HcCarrierAction.Retry) "Try Again" else "Fix Now", onFix, loading = it == HcCarrierAction.Fixing) },

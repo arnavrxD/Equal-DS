@@ -75,7 +75,7 @@ function CallHistory({ action }: { action: ChatAction }) {
       <ThreadEvent label="Call Ended 4:37 PM" />
       <ChatBubble kind="assistant" sender="Equal AI" time="03:21">Hey Keshav! Here is the summary of your call</ChatBubble>
       <div style={{ paddingLeft: 36 }}>
-        <CallSummary summary={SUMMARY[action]} time="03:21" footer={<SummaryActions actions={[{ label: 'Call Back', icon: 'call-filled' }]} />} />
+        <CallSummary summary={SUMMARY[action]} time="03:21" footer={<SummaryActions actions={[{ label: 'Call back', icon: 'call-filled' }]} />} />
       </div>
       <div style={{ paddingLeft: 36, marginTop: 4 }}><FeedbackCard /></div>
     </>
@@ -183,15 +183,15 @@ export function ChatActionScreen({ action, step, keyboard, missed, onBack }: Cha
   const sendChips: [string, string, (() => void)?][] = [['📤', 'Send'], ['✏️', 'Edit draft'], ['🖋️', 'Custom']];
   if (action === 'call-back' && s === 'ask') overlay = (
     <TaskSheet title={`Calling ${c.company}`} onClose={close} footer={<><Chips items={sendChips} /><div style={{ marginTop: 12 }}><Composer /></div></>}>
-      <ChatBubble kind="outgoing" sender="You" time="03:21">Call Back</ChatBubble>
-      <AiTurn actions={[{ label: 'Call Back', emoji: '📞', onClick: () => go('dialer') }]}>
+      <ChatBubble kind="outgoing" sender="You" time="03:21">Call back</ChatBubble>
+      <AiTurn actions={[{ label: 'Call back', emoji: '📞', onClick: () => go('dialer') }]}>
         {missed === 'reason' ? 'Kuldeep usually calls to promote L&T Realty residential projects. Want to call back anyway?' : missed ? 'I couldn’t pick this call, so I don’t know what it was about. Call back to find out?' : 'Try asking the following:\n\n•  what reports to bring\n•  confirm location or parking\n•  consultation charge\n•  insurance coverage'}
       </AiTurn>
     </TaskSheet>
   );
   if (action === 'mute' && s === 'confirm') overlay = (
     <TaskSheet title={`Muting ${c.name}`} onClose={close} footer={<><Chips items={sendChips} /><div style={{ marginTop: 12 }}><Composer /></div></>}>
-      <ChatBubble kind="outgoing" sender="You" time="03:21">Mute</ChatBubble>
+      <ChatBubble kind="outgoing" sender="You" time="03:21">Mute Caller</ChatBubble>
       <AiTurn actions={[{ label: 'Mute', emoji: '🔕', onClick: () => go('done') }]}>Are you sure? You’ll not get any call from them even if it’s important</AiTurn>
     </TaskSheet>
   );
@@ -211,7 +211,7 @@ export function ChatActionScreen({ action, step, keyboard, missed, onBack }: Cha
       <TaskSheet title="Saving contact" onClose={close} footer={<><Chips items={sendChips} /><div style={{ marginTop: 12 }}>{voice ? <HoldToSpeakBar /> : <Composer />}</div></>}>
         {s === 'review' || s === 'edit-ask' ? (
           <>
-            <ChatBubble kind="outgoing" sender="You" time="03:21">Save contact</ChatBubble>
+            <ChatBubble kind="outgoing" sender="You" time="03:21">Save Contact</ChatBubble>
             <AiTurn width={110}>Here you go</AiTurn>
             {contactCard([{ label: 'Edit', emoji: '✏️', onClick: () => go('edit-ask') }, { label: 'Save', emoji: '💾', onClick: () => go('saved') }])}
             <AiTurn width={220}>{'Looks right?\nTap Save to add them.'}</AiTurn>
@@ -226,7 +226,7 @@ export function ChatActionScreen({ action, step, keyboard, missed, onBack }: Cha
           </>
         ) : (
           <>
-            <ChatBubble kind="outgoing" sender="You" time="03:21">{s === 'denied' ? 'Continue Saving' : 'Save contact'}</ChatBubble>
+            <ChatBubble kind="outgoing" sender="You" time="03:21">{s === 'denied' ? 'Continue Saving' : 'Save Contact'}</ChatBubble>
             <AiTurn width={260}>To save a contact, I need contact permission on your phone</AiTurn>
             <div style={{ paddingLeft: 36 }}><ActionCard icon="person-add" title="Contact Permission Required" details={[{ text: 'Allow Equal AI to create and manage known contacts' }]} actions={[{ label: 'Open Settings', emoji: '⚙️', onClick: () => go('resume') }]} width={280} /></div>
           </>
@@ -259,10 +259,10 @@ export function ChatActionScreen({ action, step, keyboard, missed, onBack }: Cha
 
   // ---------------------------------------------------------------- the chat
   const chips: Record<ChatAction, [string, string, (() => void)?][]> = {
-    'call-back': [['📞', 'Call Back', () => go('ask')], ['🗓️', 'Add to Calendar'], ['🔔', 'Set reminder']],
-    mute: [['🔕', 'Mute', () => go('confirm')], ['💬', 'Reply on WhatsApp'], ['🗓️', 'Add to Calendar']],
-    'reply-whatsapp': [['💬', 'Reply on WhatsApp', () => go('draft')], ['🗓️', 'Add to Calendar']],
-    'save-contact': [['👤', 'Save contact', () => go(step === undefined ? 'review' : 'review')], ['🗓️', 'Add to Calendar']],
+    'call-back': [['📞', 'Call back', () => go('ask')], ['📅', 'Add to Calendar'], ['⏰', 'Set Reminder']],
+    mute: [['🔕', 'Mute Caller', () => go('confirm')], ['💚', 'Reply on WhatsApp'], ['📅', 'Add to Calendar']],
+    'reply-whatsapp': [['💚', 'Reply on WhatsApp', () => go('draft')], ['📅', 'Add to Calendar']],
+    'save-contact': [['👤', 'Save Contact', () => go(step === undefined ? 'review' : 'review')], ['📅', 'Add to Calendar']],
   };
   return (
     <Screen
@@ -318,7 +318,7 @@ export function ChatErrorScreen({ state, onRetry }: { state: ErrorState; onRetry
     return (
       <Screen header={<ChatHeader statusBar name={unknown.name} avatar={{ category: 'na' }} onCall={() => {}} onMore={() => {}} />} overlay={
         <TaskSheet title="Mute promotional calls from +91-99536 72604" footer={<><Chips items={voiceChips} /><div style={{ marginTop: 12 }}><HoldToSpeakBar /></div></>}>
-          {state === 'generation' && <ChatBubble kind="outgoing" sender="You" time="03:21">Mute</ChatBubble>}
+          {state === 'generation' && <ChatBubble kind="outgoing" sender="You" time="03:21">Mute Caller</ChatBubble>}
           <AiTurn width={260} actions={[{ label: 'Retry', emoji: '🔄', onClick: onRetry }]}>
             {state === 'generation' ? 'Sorry, I couldn’t do that just now. Please try again.' : 'It looks like you’re offline.\nTry again once you’re back online.'}
           </AiTurn>
@@ -331,7 +331,7 @@ export function ChatErrorScreen({ state, onRetry }: { state: ErrorState; onRetry
   return (
     <Screen
       header={<ChatHeader statusBar name="Rahul" subtitle="+91 98717 46113" avatar={{ category: 'na' }} onCall={() => {}} onMore={() => {}} />}
-      footer={state === 'voice' ? <AiChatPanel prompt="Sorry, I didn’t catch that. Could you hold and speak again?" actions={[{ label: 'Save contact', emoji: '👤' }, { label: 'Add to Calendar', emoji: '🗓️' }]} /> : undefined}
+      footer={state === 'voice' ? <AiChatPanel prompt="Sorry, I didn’t catch that. Could you hold and speak again?" actions={[{ label: 'Save Contact', emoji: '👤' }, { label: 'Add to Calendar', emoji: '📅' }]} /> : undefined}
       overlay={state === 'offline-sheet' ? <OfflineSheet onRefresh={onRetry} /> : undefined}
     >
       <ChatWallpaper style={{ minHeight: '100%' }}>

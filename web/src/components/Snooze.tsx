@@ -128,7 +128,7 @@ export const alertSheets: Record<AlertSheetKind, Omit<AlertSheetProps, 'onCta' |
   'snooze-failed': { art: 'illustration-warning', artSize: 88, title: 'Assistant snooze failed', body: 'We were unable to turn off your assistant. Please try again.', cta: 'Try again' },
   offline: { art: 'illustration-no-internet', artSize: 96, title: 'No internet connection', body: 'Wi-Fi or mobile data required to turn off your assistant. Check your connection and try again.', cta: 'Go to settings', secondary: 'Try Again' },
   'activation-failed': { art: 'illustration-error-sad', artSize: 88, title: 'Assistant Activation Failed', body: 'We couldn’t turn your assistant on right now. We can help, try these.', cta: 'Try now', secondary: 'Contact Support', secondaryIcon: 'phone-in-talk' },
-  'update-available': { art: <UpdateArt size={144} />, artSize: 144, title: 'A new version is here', body: 'This update brings new improvements to how Equal AI handles your calls.', cta: 'Update Now', ctaIcon: 'download', secondary: 'Maybe Later', secondaryUnderline: true },
+  'update-available': { art: <UpdateArt size={144} />, artSize: 144, title: 'Update Equal AI', body: 'We have added improvements to make Equal AI even better, it only takes a moment.', cta: 'Update Now', ctaIcon: 'download', secondary: 'Maybe Later', secondaryUnderline: true },
 };
 
 export const activationFixes: TroubleshootItem[] = [
@@ -143,11 +143,11 @@ export const activationFixes: TroubleshootItem[] = [
  */
 export function ForceUpdateScreen({ onUpdate, time = '12:00' }: { onUpdate?: () => void; time?: string }) {
   return (
-    <div className="eq-force-update" role="dialog" aria-label="Update Equal AI App">
+    <div className="eq-force-update" role="dialog" aria-label="Update Equal AI">
       <StatusBar time={time} />
       <div className="eq-force-update__body">
         <UpdateArt size={160} />
-        <Text as="h1" variant="headline" align="center" style={{ fontWeight: 700, marginTop: 16 }}>Update Equal AI App</Text>
+        <Text as="h1" variant="headline" align="center" style={{ fontWeight: 700, marginTop: 16 }}>Update Equal AI</Text>
         <Text as="p" variant="body1" color="secondary" align="center" style={{ margin: '8px 0 0', maxWidth: 300 }}>This version is no longer supported. Update now to keep using Equal AI.</Text>
       </div>
       <div style={{ padding: '0 24px 24px' }}>

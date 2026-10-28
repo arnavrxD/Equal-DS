@@ -250,7 +250,7 @@ private fun ChatListItemPreview() {
     val chips = listOf(
         ActionChipData("Call back", "📞"),
         ActionChipData("Update address", "✏️"),
-        ActionChipData("Add to calendar", "🗓️"),
+        ActionChipData("Add to Calendar", "📅"),
     )
     PreviewFrame(padding = 0.dp) {
         ChatListItem(

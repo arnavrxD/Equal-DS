@@ -89,7 +89,7 @@ export function EqualCallChat({ ongoing, seconds = 21, afterCall, onCall, onOpen
           callStrip={ongoing ? <CallStrip state="ongoing" name={CALLER_PEER.name} seconds={seconds} muted={muted} onMute={() => setMuted((v) => !v)} onOpen={onOpenCall} onEnd={onEnd} /> : undefined}
         />
       }
-      footer={<AiChatPanel prompt="Want me to send Chaitanya a quick reply on WhatsApp?" actions={[{ label: 'Reply on WhatsApp', emoji: '💬' }, { label: 'Add to Calendar', emoji: '🗓️' }, { label: 'Call back', emoji: '📞' }]} composer={{ onSend: () => {} }} />}
+      footer={<AiChatPanel prompt="Want me to send Chaitanya a quick reply on WhatsApp?" actions={[{ label: 'Reply on WhatsApp', emoji: '💚' }, { label: 'Add to Calendar', emoji: '📅' }, { label: 'Call back', emoji: '📞' }]} composer={{ onSend: () => {} }} />}
     >
       <ChatWallpaper style={{ minHeight: '100%' }}>
         <MessageList>

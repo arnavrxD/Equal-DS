@@ -58,12 +58,12 @@ export function AccountDataScreen({ onBack, onCallLearning }: { onBack?: () => v
       </RowGroup>
       <div style={{ marginTop: 24 }}><SectionHeader>LEGAL</SectionHeader></div>
       <RowGroup>
-        <SettingsRow icon="article" label="Terms & Conditions" description="Understand the rules and terms" />
+        <SettingsRow icon="article" label="Terms & Conditions" description="Read our terms of service" />
       </RowGroup>
       <div style={{ marginTop: 24 }}><SectionHeader>ACCOUNT</SectionHeader></div>
       <RowGroup>
-        <SettingsRow icon="logout" label="Logout" description="Sign out of your account securely" />
-        <SettingsRow icon="delete" iconBg="var(--eq-expiry-chip-danger-bg)" label="Delete account" description="Permanently remove your account and data" />
+        <SettingsRow icon="logout" label="Logout" description="Sign out of your account" />
+        <SettingsRow icon="delete" iconBg="var(--eq-expiry-chip-danger-bg)" label="Delete Account" description="Permanently delete your account and data" />
       </RowGroup>
       <div style={{ height: 32 }} />
     </Screen>

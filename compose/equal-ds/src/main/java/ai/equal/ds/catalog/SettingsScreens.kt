@@ -221,15 +221,15 @@ fun AccountDataScreen(
             Spacer(Modifier.height(24.dp))
             SectionHeader(title = "Legal")
             RowGroup {
-                SettingsRow(label = "Terms & Conditions", description = "Understand the rules and terms", leadingIcon = EqualSymbols.article, onClick = {})
+                SettingsRow(label = "Terms & Conditions", description = "Read our terms of service", leadingIcon = EqualSymbols.article, onClick = {})
             }
             Spacer(Modifier.height(24.dp))
             SectionHeader(title = "Account")
             RowGroup {
-                SettingsRow(label = "Logout", description = "Sign out of your account securely", leadingIcon = EqualSymbols.logout, onClick = {})
+                SettingsRow(label = "Logout", description = "Sign out of your account", leadingIcon = EqualSymbols.logout, onClick = {})
                 SettingsRow(
-                    label = "Delete account",
-                    description = "Permanently remove your account and data",
+                    label = "Delete Account",
+                    description = "Permanently delete your account and data",
                     leadingIcon = EqualIcons.Delete,
                     leadingIconBg = colors.expiryChipDangerBg,
                     onClick = {},

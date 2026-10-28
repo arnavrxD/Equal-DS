@@ -37,7 +37,7 @@ import { Text } from '@equal/ds';
 
 // Actions use Unicode emoji, never icon images
 <Emoji char="📞" size={16} />
-<SmallActionChip label="Call Back" emoji="📞" />`,
+<SmallActionChip label="Call back" emoji="📞" />`,
   brand: `import { CategoryAvatar, ChatWallpaper, EqualLogo, EqualOrb, Mascot, ProfileAvatar } from '@equal/ds';
 
 <EqualLogo height={20} />{/* green in light, lime in dark */}

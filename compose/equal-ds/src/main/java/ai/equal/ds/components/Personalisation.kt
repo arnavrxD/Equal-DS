@@ -55,7 +55,7 @@ import androidx.compose.ui.unit.dp
 
 /** The 80 orb with three floating trait pills (FYI sheet hero). Decorative. */
 @Composable
-fun TraitOrbHero(modifier: Modifier = Modifier, traits: List<String> = listOf("Greets friends by name", "Says you’ll call back at 7", "Replies in Hinglish")) {
+fun TraitOrbHero(modifier: Modifier = Modifier, traits: List<String> = listOf("Greets friends by name", "Replies in Hinglish", "Says you’ll call back at 7")) {
     val colors = EqualTheme.colors
     Box(modifier.fillMaxWidth().height(180.dp).clearAndSetSemantics {}, contentAlignment = Alignment.Center) {
         EqualLogoOrb(size = 80.dp, contentDescription = null)
@@ -125,7 +125,7 @@ fun NoticedCard(summary: List<String>, modifier: Modifier = Modifier, state: Not
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
         ) {
-            EqualText(text = "Updated summary is ready", style = type.title.copy(fontWeight = FontWeight.W600), color = colors.textOnAction, textAlign = TextAlign.Center)
+            EqualText(text = "I’ve learned a little more about you", style = type.title.copy(fontWeight = FontWeight.W600), color = colors.textOnAction, textAlign = TextAlign.Center)
             Spacer(Modifier.height(4.dp))
             EqualText(text = "Tap to reveal", style = type.bodyLarge.copy(fontWeight = FontWeight.W500), color = colors.textOnAction)
         }
@@ -168,7 +168,7 @@ fun NoticedCoach(onDismiss: () -> Unit, modifier: Modifier = Modifier) {
             EqualText(text = "I’m getting to know you!", style = EqualTheme.type.subheading.copy(fontWeight = FontWeight.W600), color = colors.textPrimary, modifier = Modifier.semantics { heading() })
             EqualText(text = "The more I learn, the better I can step in and handle your calls.", style = EqualTheme.type.body1, color = colors.textSecondary)
             Spacer(Modifier.height(8.dp))
-            Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) { EqualButton(text = "Got it", onClick = onDismiss, size = EqualButtonSize.Xs) }
+            Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) { EqualButton(text = "Got it!", onClick = onDismiss, size = EqualButtonSize.Xs) }
         }
     }
 }
@@ -255,7 +255,7 @@ fun CallerContextCard(
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
             EqualLogoOrb(size = 18.dp, contentDescription = null)
             EqualText(
-                text = if (state == CallerContextState.Learning) "Learning more with every new call..." else "Equal’s Context for $name",
+                text = if (state == CallerContextState.Learning) "Learning more with every new call..." else if (state == CallerContextState.Empty) "Getting to know ${name.substringBefore(' ')}" else "Equal’s Context for $name",
                 style = type.caption.copy(fontWeight = FontWeight.W600), color = colors.textPrimary, maxLines = 1, overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.weight(1f).semantics { heading() },
             )
@@ -277,7 +277,7 @@ fun CallerContextCard(
         Column(Modifier.padding(end = 8.dp)) {
             if (state == CallerContextState.Empty || state == CallerContextState.Learning) {
                 EqualText(
-                    text = "A summary appears here after a few more calls with ${name.substringBefore(' ')}.",
+                    text = "A few more calls and I’ll learn more about ${name.substringBefore(' ')}.",
                     style = type.captionWrap.copy(fontStyle = FontStyle.Italic), color = colors.textSecondary, textAlign = TextAlign.Center,
                     modifier = Modifier.fillMaxWidth().padding(vertical = 12.dp),
                 )

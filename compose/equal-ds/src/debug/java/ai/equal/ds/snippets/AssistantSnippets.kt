@@ -59,8 +59,8 @@ internal fun AssistantGreetingSnippet() {
             AssistantActions(
                 items = listOf(
                     AssistantAction("Talk to Equal"), // null icon: the Equal mark
-                    AssistantAction("Talk to Equal", EqualIcons.AutoFix),
-                    AssistantAction("Make a call", EqualIcons.CallFilled),
+                    AssistantAction("Set Instruction", EqualIcons.AutoFix),
+                    AssistantAction("Make a Call", EqualIcons.CallFilled),
                 ),
             )
             AssistantChips {

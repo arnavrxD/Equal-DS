@@ -161,13 +161,13 @@ enum class EqualAssets(val assetName: String, @DrawableRes val resId: Int) {
     /** "Which calls should I answer?" hero: you with Mom and an unknown caller (280 × 208). */
     CallHandlingAll("call-handling-all", R.drawable.ds_asset_call_handling_all),
 
-    /** "Anyone you want to answer yourself?" hero (280 × 208). Animated version: `R.raw.lottie_call_handling_contacts`. */
+    /** "Who should still ring you?" hero (280 × 208). Animated version: `R.raw.lottie_call_handling_contacts`. */
     CallHandlingExclude("call-handling-exclude", R.drawable.ds_asset_call_handling_exclude),
 
-    /** Perfect! / All Sorted!: the robot on a call between Mom and Unknown (300 × 262). */
+    /** Perfect! / You’re all set!: the robot on a call between Mom and Unknown (300 × 262). */
     CallHandlingDone("call-handling-done", R.drawable.ds_asset_call_handling_done),
 
-    /** "Set up your calls" dark takeover art (240 × 169). */
+    /** "Equal now answers contacts" dark takeover art (240 × 169). */
     CallSetup("call-setup", R.drawable.ds_asset_call_setup),
 
     /** Contacts permission sheet (110dp). */

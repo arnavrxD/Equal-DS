@@ -132,12 +132,12 @@ internal fun LockedRecordingSnippet() {
     Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
         LockedRecording(onUnlock = { /* open the paywall */ })
         SummaryActions(
-            actions = listOf(SummaryAction("Call Back", EqualIcons.CallFilled), SummaryAction("Add to Calendar", EqualIcons.CalendarMonth)),
+            actions = listOf(SummaryAction("Call back", EqualIcons.CallFilled), SummaryAction("Add to Calendar", EqualIcons.CalendarMonth)),
             locked = true,
             onLocked = { /* open the paywall */ },
         )
         // ChatListItem(lockedActions = true) draws its chips like this
-        SmallActionChip(label = "Call Back", emoji = "📞", onClick = {}, locked = true)
+        SmallActionChip(label = "Call back", emoji = "📞", onClick = {}, locked = true)
     }
 }
 

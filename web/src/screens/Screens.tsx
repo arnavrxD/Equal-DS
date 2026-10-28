@@ -256,7 +256,7 @@ export function HomeScreen({ chats = sampleChats, onOpenChat, onTab, onDeleteSel
       {whatsNew && !offline && (chats.length > 0 || promo === 'talk-hero') && !selecting && systemStatus === 'ok' && (
         <div style={{ padding: '12px 12px 4px', display: 'flex', justifyContent: 'center' }}>
           {promo === 'talk-hero' ? (
-            <MeetAssistantCard layout="hero" title="Talk With Your Assistant" body={'Explore the app, check out features, ask questions, or just say "Hi"!'} />
+            <MeetAssistantCard layout="hero" />
           ) : promo === 'meet-assistant-carousel' ? (
             <div style={{ width: '100%' }}>
               <MeetAssistantCard layout="banner" onCall={onCallMe} onDismiss={() => setWhatsNew(false)} />
@@ -270,7 +270,7 @@ export function HomeScreen({ chats = sampleChats, onOpenChat, onTab, onDeleteSel
           ) : promo === 'meet-assistant' ? (
             <MeetAssistantCard onCall={onCallMe} onDismiss={() => setWhatsNew(false)} />
           ) : (
-            <WhatsNewCard width="100%" heading="Language Preference" body="Set your preferred language and choose how your assistant sounds" ctaLabel="Try Voices" ctaIcon="translate" onDismiss={() => setWhatsNew(false)} />
+            <WhatsNewCard width="100%" heading="Assistant Languages" body="Checkout how your assistant speaks in 9 languages" ctaLabel="Try Languages" ctaIcon="translate" onDismiss={() => setWhatsNew(false)} />
           )}
         </div>
       )}
@@ -390,7 +390,7 @@ export function ChatScreen({ chat = sampleChats[0], live = false, lock, onUnlock
             actions={
               ongoing
                 ? [
-                    { label: 'Call Back', emoji: '📞', onClick: () => setPanel(false) },
+                    { label: 'Call back', emoji: '📞', onClick: () => setPanel(false) },
                     { label: 'Update Address', emoji: '✏️', onClick: () => setPanel(false) },
                   ]
                 : live
@@ -426,7 +426,7 @@ export function ChatScreen({ chat = sampleChats[0], live = false, lock, onUnlock
               summary="Priya from Dr. Mehta's clinic confirmed your appointment for tomorrow at 10 AM. Bring your previous reports."
               time="03:32"
               recording={locked ? <LockedRecording onUnlock={onUnlock} /> : undefined}
-              footer={withActions ? <SummaryActions actions={[{ label: 'Call Back', icon: 'call-filled' }, { label: 'Add to Calendar', icon: 'calendar' }]} /> : undefined}
+              footer={withActions ? <SummaryActions actions={[{ label: 'Call back', icon: 'call-filled' }, { label: 'Add to Calendar', icon: 'calendar' }]} /> : undefined}
             />
           ) : (
             <CallSummary summary="Priya from Dr. Mehta's clinic confirmed your appointment for tomorrow at 10 AM. Bring your previous reports." time="03:32" onShare={() => {}} width={264} tag={{ emoji: '🪄', label: '2 instructions applied in this call' }} locked={lock === 'audio' ? 'audio' : undefined} onUnlock={onUnlock} />
@@ -508,16 +508,16 @@ export function YouScreen({ onTab, onOpen, summary = 'ready', avatar = 'male', n
       </ProfileHero>
       )}
 
-      <SectionHeader>Your assistant</SectionHeader>
+      <SectionHeader>Tell Equal</SectionHeader>
       <div style={{ padding: '0 20px 12px' }}>
         <AssistantToggle on={assistantOn} onChange={setAssistantOn} />
       </div>
       <RowGroup>
         {!none && <SettingsRow icon="call" label="Call Handling" description="Choose which calls I answer" isNew onClick={() => onOpen?.('call-handling')} />}
-        <SettingsRow icon="instructions" label="Instructions" description="Tell assistant how you'd like it to help" isNew={!none} onClick={() => onOpen?.('instructions')} />
+        <SettingsRow icon="instructions" label="Your Instructions" description="Tell Equal what to do" isNew={!none} onClick={() => onOpen?.('instructions')} />
         <SettingsRow icon="health-check" label="Assistant Health Check" description="Check Real-Time Assistant Connectivity" onClick={() => onOpen?.('health-check')} />
-        <SettingsRow icon="silent-mode" label="Silent Mode" description="Mute promotional calls automatically" onClick={() => onOpen?.('silent')} />
-        <SettingsRow icon="voice-language" label="Voice & Language" description="Choose assistant's voice and languages" onClick={() => {}} />
+        <SettingsRow icon="silent-mode" label="Silent Mode" description="Mute unwanted calls automatically" onClick={() => onOpen?.('silent')} />
+        <SettingsRow icon="voice-language" label="Voice & Language" description="Choose how Equal speaks." onClick={() => {}} />
       </RowGroup>
 
       <SectionHeader>About you</SectionHeader>
@@ -554,7 +554,7 @@ export function YouScreen({ onTab, onOpen, summary = 'ready', avatar = 'male', n
       <SectionHeader>Settings &amp; support</SectionHeader>
       <RowGroup>
         <SettingsRow icon="whatsapp" label="WhatsApp Updates" description="Assistant and App Updates" onClick={() => onOpen?.('whatsapp')} />
-        <SettingsRow icon="account-data" label="Account Data" description="Your account and data management" onClick={() => onOpen?.('account-data')} />
+        <SettingsRow icon="account-data" label="Account Data" description="Manage Your Account" onClick={() => onOpen?.('account-data')} />
         <SettingsRow icon="help-center" label="Help Center" description="Your What, Why and How" onClick={() => {}} />
       </RowGroup>
 
@@ -605,7 +605,7 @@ export const recentSearches: RecentSearch[] = [
 ];
 
 const searchChats: SampleChat[] = [
-  { id: 's1', name: 'Saurabh', preview: 'About a miniature painting that you asked for', date: 'Yesterday', unread: 2, actions: [{ label: 'Call Back', emoji: '📞' }, { label: 'Update Address', emoji: '✏️' }], phone: '+91 98450 11223', category: 'home-services' },
+  { id: 's1', name: 'Saurabh', preview: 'About a miniature painting that you asked for', date: 'Yesterday', unread: 2, actions: [{ label: 'Call back', emoji: '📞' }, { label: 'Update Address', emoji: '✏️' }], phone: '+91 98450 11223', category: 'home-services' },
   { id: 's2', name: 'Santosh Anna', preview: 'Order left with security', date: '12 July', unread: 0, actions: [], phone: '+91 99001 23456', category: 'delivery' },
   ...sampleChats,
 ];

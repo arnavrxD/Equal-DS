@@ -222,7 +222,7 @@ fun SilentModeScreen(
         IllustrationHeader(asset = EqualAssets.IllustrationSilentMode)
         RowGroup {
             ToggleRow(
-                label = "Mute Promotional Calls",
+                label = "Mute Unwanted Calls",
                 checked = muteAll,
                 onCheckedChange = { muteAll = it },
                 description = "Equal AI Assistant can identify Promotional Calls and automatically mute them",
@@ -245,7 +245,7 @@ fun SilentModeScreen(
         RowGroup {
             SettingsRow(
                 label = "Muted Contacts",
-                description = "People you’ve muted",
+                description = "List of contacts you have muted",
                 leadingIcon = EqualIcons.SilentMode,
                 onClick = {},
             )
@@ -382,12 +382,12 @@ fun AddressesScreen(
     val editingId = editing
     val current = if (editingId != null && editingId != NewAddress) list.firstOrNull { it.id == editingId } else null
     FlowScaffold(
-        title = "Addresses",
+        title = "Your Addresses",
         onBack = onBack,
         modifier = modifier,
         footer = {
             EqualButton(
-                text = "Add new Address",
+                text = "Add New Address",
                 onClick = { editing = NewAddress },
                 size = EqualButtonSize.Block,
                 leadingIcon = EqualIcons.Add,
@@ -434,8 +434,8 @@ fun AddressesScreen(
         if (list.isEmpty()) {
             Spacer(Modifier.height(72.dp))
             EmptyState(
-                title = "Never explain your address again",
-                body = "Save frequently used addresses, and your assistant will use them to handle delivery, pickup calls, etc. more naturally.",
+                title = "No Addresses Yet",
+                body = "Equal can use saved addresses when needed",
                 illustration = { EqualAssetImage(EqualAssets.IllustrationAddressesEmpty, 96.dp) },
             )
         } else {
@@ -694,7 +694,7 @@ fun InstructionsFlow(
     }
     val addButton: @Composable () -> Unit = {
         EqualButton(
-            text = "Add New Instruction",
+            text = "Add New Instructions",
             onClick = { startCustom() },
             size = EqualButtonSize.Block,
             leadingIcon = EqualIcons.Add,
@@ -739,8 +739,8 @@ fun InstructionsFlow(
             if (active.isEmpty()) {
                 Spacer(Modifier.height(96.dp))
                 EmptyState(
-                    title = "No instructions yet",
-                    body = "Create your first instruction to tell your assistant how to handle calls",
+                    title = "No Instructions Yet",
+                    body = "Add your first instruction to control how calls are handled",
                     illustration = { EqualAssetImage(EqualAssets.IllustrationInstructionsEmpty, 96.dp) },
                 )
             } else {
@@ -764,7 +764,7 @@ fun InstructionsFlow(
         }
 
         InstructionsView.Hub -> FlowScaffold(
-            title = "Instructions",
+            title = "Your Instructions",
             onBack = onBack,
             modifier = modifier,
             footer = addButton,

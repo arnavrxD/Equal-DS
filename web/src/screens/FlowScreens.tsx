@@ -77,7 +77,7 @@ export function SilentModeScreen({ onBack, title = 'Silent Mode' }: { onBack?: (
     <Screen header={header(title, onBack)}>
       <IllustrationHeader asset="illustration-silent-mode" />
       <RowGroup>
-        <ToggleRow label="Mute Promotional Calls" wrap description="Equal AI Assistant can identify Promotional Calls and automatically mute them" checked={muteAll} onChange={setMuteAll} />
+        <ToggleRow label="Mute Unwanted Calls" wrap description="Equal AI Assistant can identify Promotional Calls and automatically mute them" checked={muteAll} onChange={setMuteAll} />
       </RowGroup>
       <SectionHeader>Categories</SectionHeader>
       <div style={{ opacity: muteAll ? 1 : 0.45, pointerEvents: muteAll ? 'auto' : 'none', transition: 'opacity var(--eq-duration-base)' }} aria-disabled={!muteAll}>
@@ -89,7 +89,7 @@ export function SilentModeScreen({ onBack, title = 'Silent Mode' }: { onBack?: (
       </div>
       <div style={{ padding: '20px 0 24px' }}>
         <RowGroup>
-          <SettingsRow icon="silent-mode" label="Muted Contacts" description="People you’ve muted" onClick={() => {}} />
+          <SettingsRow icon="silent-mode" label="Muted Contacts" description="List of contacts you have muted" onClick={() => {}} />
         </RowGroup>
       </div>
     </Screen>
@@ -142,8 +142,8 @@ export function AddressesScreen({ onBack, initial = sampleAddresses, openEdit, c
   const current = editing && editing !== 'new' ? list.find((a) => a.id === editing) : undefined;
   return (
     <Screen
-      header={header('Addresses', onBack)}
-      footer={<div style={{ padding: 16 }}><Button block size="lg" leadingIcon="add" onClick={() => setEditing('new')}>Add new Address</Button></div>}
+      header={header('Your Addresses', onBack)}
+      footer={<div style={{ padding: 16 }}><Button block size="lg" leadingIcon="add" onClick={() => setEditing('new')}>Add New Address</Button></div>}
       overlay={
         <>
           <BottomSheet open={!!editing} onClose={() => setEditing(null)} title={editing === 'new' ? 'Add Address' : 'Edit Address'}>
@@ -172,7 +172,7 @@ export function AddressesScreen({ onBack, initial = sampleAddresses, openEdit, c
     >
       {list.length === 0 ? (
         <div style={{ paddingTop: 72 }}>
-          <EmptyState illustration="illustration-addresses-empty" title="Never explain your address again" body="Save frequently used addresses, and your assistant will use them to handle delivery, pickup calls, etc. more naturally." />
+          <EmptyState illustration="illustration-addresses-empty" title="No Addresses Yet" body="Equal can use saved addresses when needed" />
         </div>
       ) : (
         <div style={{ padding: '8px 20px 16px', display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -340,7 +340,7 @@ export function InstructionsFlow({ onBack, initialActive = [instructionLibrary.l
       )}
     </>
   );
-  const addButton = <div style={{ padding: 16 }}><Button block size="lg" leadingIcon="add" onClick={() => startSetup({ id: `custom-${Date.now()}`, title: 'New instruction', when: 'Calls like this come in', do: 'Tell me what to do', source: undefined }, 'Add a new instruction')}>Add New Instruction</Button></div>;
+  const addButton = <div style={{ padding: 16 }}><Button block size="lg" leadingIcon="add" onClick={() => startSetup({ id: `custom-${Date.now()}`, title: 'New instruction', when: 'Calls like this come in', do: 'Tell me what to do', source: undefined }, 'Add a new instruction')}>Add New Instructions</Button></div>;
 
   if (typeof view === 'object') {
     const p = presets.find((x) => x.id === view.preset) as Preset;
@@ -365,7 +365,7 @@ export function InstructionsFlow({ onBack, initialActive = [instructionLibrary.l
       >
         {active.length === 0 ? (
           <div style={{ paddingTop: 96 }}>
-            <EmptyState illustration="illustration-instructions-empty" title="No instructions yet" body="Create your first instruction to tell your assistant how to handle calls" />
+            <EmptyState illustration="illustration-instructions-empty" title="No Instructions Yet" body="Add your first instruction to control how calls are handled" />
           </div>
         ) : (
           <>
@@ -382,7 +382,7 @@ export function InstructionsFlow({ onBack, initialActive = [instructionLibrary.l
   }
 
   return (
-    <Screen header={header('Instructions', onBack)} footer={addButton} overlay={overlay}>
+    <Screen header={header('Your Instructions', onBack)} footer={addButton} overlay={overlay}>
       <SectionHeader>Recommended for you</SectionHeader>
       {recs.length ? (
         <div className="eq-hscroll" style={{ gap: 4, padding: '0 20px 4px' }}>
@@ -414,7 +414,7 @@ export function InstructionsFlow({ onBack, initialActive = [instructionLibrary.l
 export function InstructionSetupDemo({ which = 'decline' }: { which?: 'decline' | 'delivery' }) {
   const setup: Setup = which === 'decline' ? { instruction: recommendations[0].instruction, ask: recommendations[0].ask, needsInput: false } : { instruction: instructionLibrary.delivery, ask: 'Handle delivery and courier calls', needsInput: true };
   return (
-    <Screen header={header('Instructions')}>
+    <Screen header={header('Your Instructions')}>
       <div />
       <InstructionSetupSheet setup={setup} open onClose={() => {}} onDone={() => {}} />
     </Screen>

@@ -255,8 +255,8 @@ private fun AiChatPanelPreview() {
         AiChatPanel(
             prompt = "What would you like me to do about this call?",
             actions = listOf(
-                ActionChipData("Reply on WhatsApp", "💬"),
-                ActionChipData("Add to Calendar", "🗓️"),
+                ActionChipData("Reply on WhatsApp", "💚"),
+                ActionChipData("Add to Calendar", "📅"),
             ),
             onActionClick = {},
             composerValue = text,

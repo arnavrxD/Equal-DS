@@ -186,10 +186,10 @@ private fun CallHistory(action: ChatAction) {
                 onSpeedChange = { speed = it },
             )
         },
-        footer = { SummaryActions(actions = listOf(SummaryAction("Call Back", EqualIcons.CallFilled))) },
+        footer = { SummaryActions(actions = listOf(SummaryAction("Call back", EqualIcons.CallFilled))) },
     )
     FeedbackCard(
-        question = "How would you rate the call?",
+        question = "How would you rate your call Keshav?",
         rating = rating,
         onRatingChange = { rating = it },
         onShareFeedbackClick = {},
@@ -367,10 +367,10 @@ fun ChatActionScreen(
 
     // ------------------------------------------------------------ the chat
     val chips: List<Chip> = when (action) {
-        ChatAction.CallBack -> listOf(Chip("📞", "Call Back") { go("ask") }, Chip("🗓️", "Add to Calendar"), Chip("🔔", "Set reminder"))
-        ChatAction.Mute -> listOf(Chip("🔕", "Mute") { go("confirm") }, Chip("💬", "Reply on WhatsApp"), Chip("🗓️", "Add to Calendar"))
-        ChatAction.ReplyWhatsApp -> listOf(Chip("💬", "Reply on WhatsApp") { go("draft") }, Chip("🗓️", "Add to Calendar"))
-        ChatAction.SaveContact -> listOf(Chip("👤", "Save contact") { go("review") }, Chip("🗓️", "Add to Calendar"))
+        ChatAction.CallBack -> listOf(Chip("📞", "Call back") { go("ask") }, Chip("📅", "Add to Calendar"), Chip("⏰", "Set Reminder"))
+        ChatAction.Mute -> listOf(Chip("🔕", "Mute Caller") { go("confirm") }, Chip("💚", "Reply on WhatsApp"), Chip("📅", "Add to Calendar"))
+        ChatAction.ReplyWhatsApp -> listOf(Chip("💚", "Reply on WhatsApp") { go("draft") }, Chip("📅", "Add to Calendar"))
+        ChatAction.SaveContact -> listOf(Chip("👤", "Save Contact") { go("review") }, Chip("📅", "Add to Calendar"))
     }
     var message by remember { mutableStateOf("") }
     Box(modifier.fillMaxSize()) {
@@ -484,14 +484,14 @@ private fun Overlay(
             onClose = close,
             footer = { Chips(SendChips); TaskComposer() },
         ) {
-            You("Call Back")
+            You("Call back")
             AiTurn(
                 text = when (missed) {
                     MissedCase.Reason -> "Kuldeep usually calls to promote L&T Realty residential projects. Want to call back anyway?"
                     null -> "Try asking the following:\n\n•  what reports to bring\n•  confirm location or parking\n•  consultation charge\n•  insurance coverage"
                     else -> "I couldn’t pick this call, so I don’t know what it was about. Call back to find out?"
                 },
-                actions = listOf(ReplyAction(label = "Call Back", emoji = "📞", onClick = { go("dialer") })),
+                actions = listOf(ReplyAction(label = "Call back", emoji = "📞", onClick = { go("dialer") })),
             )
         }
         action == ChatAction.Mute && s == "confirm" -> TaskSheet(
@@ -500,7 +500,7 @@ private fun Overlay(
             onClose = close,
             footer = { Chips(SendChips); TaskComposer() },
         ) {
-            You("Mute")
+            You("Mute Caller")
             AiTurn(
                 text = "Are you sure? You’ll not get any call from them even if it’s important",
                 actions = listOf(ReplyAction(label = "Mute", emoji = "🔕", onClick = { go("done") })),
@@ -535,7 +535,7 @@ private fun Overlay(
             ) {
                 when (s) {
                     "review", "edit-ask" -> {
-                        You("Save contact")
+                        You("Save Contact")
                         AiTurn(text = "Here you go", width = 110.dp)
                         Indented {
                             ContactCard(
@@ -561,7 +561,7 @@ private fun Overlay(
                         AiTurn(text = "Does this look right? Tap Confirm to save, or let me know what to change", width = 260.dp)
                     }
                     else -> {
-                        You(if (s == "denied") "Continue Saving" else "Save contact")
+                        You(if (s == "denied") "Continue Saving" else "Save Contact")
                         AiTurn(text = "To save a contact, I need contact permission on your phone", width = 260.dp)
                         Indented {
                             ActionCard(
@@ -632,7 +632,7 @@ fun ChatErrorScreen(
                     HoldToSpeakBar()
                 },
             ) {
-                if (state == ErrorState.Generation) You("Mute")
+                if (state == ErrorState.Generation) You("Mute Caller")
                 AiTurn(
                     text = if (state == ErrorState.Generation) "Sorry, I couldn’t do that just now. Please try again." else "It looks like you’re offline.\nTry again once you’re back online.",
                     width = 260.dp,
@@ -656,7 +656,7 @@ fun ChatErrorScreen(
             if (state == ErrorState.Voice) {
                 AiChatPanel(
                     prompt = "Sorry, I didn’t catch that. Could you hold and speak again?",
-                    actions = listOf(ActionChipData("Save contact", "👤"), ActionChipData("Add to Calendar", "🗓️")),
+                    actions = listOf(ActionChipData("Save Contact", "👤"), ActionChipData("Add to Calendar", "📅")),
                     onActionClick = {},
                     composerValue = message,
                     onComposerValueChange = { message = it },

@@ -43,7 +43,7 @@ import {
   type PaymentStatus,
 } from '../index';
 import { motion } from '../tokens/tokens';
-import { paywallFaq, paywallSubtitles, testimonials } from './monetizationData';
+import { manageFaq, paywallFaq, paywallSubtitles, testimonials } from './monetizationData';
 
 /** Where the user entered the paywall from; picks the "what you're missing" preview. */
 export type PaywallTouchpoint = 'chat-list' | 'chat' | 'audio' | 'actions' | 'recordings' | 'recordings-actions' | 'usage-cap';
@@ -67,7 +67,7 @@ export function LockedSummaryPreview({ actions }: { actions?: boolean }) {
 }
 
 export const summaryActions = [
-  { label: 'Call Back', icon: 'call-filled' as const },
+  { label: 'Call back', icon: 'call-filled' as const },
   { label: 'Add to Calendar', icon: 'calendar' as const },
 ];
 
@@ -75,7 +75,7 @@ export function PaywallPreview({ touchpoint }: { touchpoint: PaywallTouchpoint }
   if (touchpoint === 'actions') {
     return (
       <LockedPreviewCard>
-        <ChatListItem name="Dr. Mehta Clinic" preview="Amit invited you to dinner this Sunday" date="Yesterday" avatar={{ category: 'na' }} actions={[{ label: 'Call Back', emoji: '📞' }, { label: 'Update Address', emoji: '✏️' }]} lockedActions />
+        <ChatListItem name="Dr. Mehta Clinic" preview="Amit invited you to dinner this Sunday" date="Yesterday" avatar={{ category: 'na' }} actions={[{ label: 'Call back', emoji: '📞' }, { label: 'Update Address', emoji: '✏️' }]} lockedActions />
       </LockedPreviewCard>
     );
   }
@@ -131,7 +131,7 @@ export type PaywallScreenProps = {
   subtitle?: keyof typeof paywallSubtitles;
   /** Pin an overlay state (docs); otherwise the flow runs: Unlock → waiting → confirmed → welcome. */
   overlay?: PaymentStatus | 'help' | null;
-  /** CTA copy: "Unlock Unlimited" (default), "Get Equal AI Unlimited" when renewing. */
+  /** CTA copy: "Get Equal AI Unlimited" (default). */
   cta?: string;
   /** A payment is already in flight (the user closed Payment Pending): toast above a disabled CTA. */
   processing?: boolean;
@@ -144,7 +144,7 @@ export type PaywallScreenProps = {
 };
 
 /** The Equal Unlimited paywall: hero, price, locked preview, coupon, FAQ and the sticky gold CTA. */
-export function PaywallScreen({ touchpoint = 'chat-list', price = 249, discountedPrice = 149, coupon = 'available', subtitle = 'unlock', overlay, cta, processing, onBack, onDone, layout = 'default', crown = 'video' }: PaywallScreenProps) {
+export function PaywallScreen({ touchpoint = 'chat-list', price = 249, discountedPrice = 149, coupon = 'available', subtitle = 'default', overlay, cta, processing, onBack, onDone, layout = 'default', crown = 'video' }: PaywallScreenProps) {
   const [applied, setApplied] = useState(coupon === 'applied');
   const [justApplied, setJustApplied] = useState(false);
   const [live, setLive] = useState<PaymentStatus | 'help' | null>(null);
@@ -160,7 +160,7 @@ export function PaywallScreen({ touchpoint = 'chat-list', price = 249, discounte
     <Screen
       surface="surface"
       header={<StatusBar background="var(--eq-paywall-hero-top)" />}
-      footer={processing ? <PaywallFooter cta="Unlock Unlimited" disabled above={<ProcessingStrip variant="toast" />} /> : <PaywallFooter cta={cta ?? (layout === 'ios' ? 'Get Equal AI Unlimited' : undefined)} variant={layout === 'ios' ? 'dark' : 'gold'} onClick={() => setLive('waiting')} />}
+      footer={processing ? <PaywallFooter cta="Get Equal AI Unlimited" disabled above={<ProcessingStrip variant="toast" />} /> : <PaywallFooter cta={cta ?? (layout === 'ios' ? 'Get Equal AI Unlimited' : undefined)} variant={layout === 'ios' ? 'dark' : 'gold'} onClick={() => setLive('waiting')} />}
       overlay={
         state === 'help' ? (
           <HelpCenterSheet onClose={overlay !== undefined ? undefined : () => setLive(null)} />
@@ -174,7 +174,7 @@ export function PaywallScreen({ touchpoint = 'chat-list', price = 249, discounte
           <PaywallHero variant="ios" crownAnimated={crown === 'video'} subtitle={paywallSubtitles[subtitle]} onBack={onBack} onSupport={() => setLive('help')} />
           <PriceDealCard price={price} />
           <div style={{ padding: '16px 16px 0', display: 'flex', flexDirection: 'column', gap: 16 }}>
-            {coupon !== 'none' && <CouponTicket code="EQUAL25" description={`Save Flat ₹50 with this Code`} discount="25% OFF" applied={applied} onApply={() => (setApplied(true), setJustApplied(true))} />}
+            {coupon !== 'none' && <CouponTicket code="EQUAL25" description="Get extra 25% off your first month" discount="25% OFF on UPI" applied={applied} onApply={() => (setApplied(true), setJustApplied(true))} />}
             <span className="eq-sr">Preview of locked content</span>
             <div style={{ display: 'contents' }} aria-hidden {...inertWhen(true)}><LockedPreviewCard><LockedSummaryPreview /></LockedPreviewCard></div>
           </div>
@@ -194,7 +194,7 @@ export function PaywallScreen({ touchpoint = 'chat-list', price = 249, discounte
             <div style={{ display: 'contents' }} aria-hidden {...inertWhen(true)}><PaywallPreview touchpoint={touchpoint} /></div>
           </>
         )}
-        {coupon !== 'none' && <CouponTicket code="EQUAL25" description={`Save Flat ₹${price - discountedPrice} with this Code`} discount="25% OFF" applied={applied} onApply={() => (setApplied(true), setJustApplied(true))} />}
+        {coupon !== 'none' && <CouponTicket code="EQUAL25" description="Get extra 25% off your first month" discount="25% OFF on UPI" applied={applied} onApply={() => (setApplied(true), setJustApplied(true))} />}
       </PaywallHero>
       )}
       <div style={{ padding: '16px 16px 24px' }}>
@@ -264,7 +264,7 @@ export function SubscriptionScreen({ state = 'active', activeUntil = '25th Jun �
         ) : undefined
       }
     >
-      <PaywallHero title="Equal AI" subtitle={paywallSubtitles.unlock} onBack={onBack}>
+      <PaywallHero title="Equal AI" subtitle="Your Plan Includes Unlimited Call Screening, Plus Recordings, AI Call Summaries and Conversations." onBack={onBack}>
         <DividerLabel as="h2">What Unlimited Saved You</DividerLabel>
         <ValueCard calls={calls} title={null} perks={null} expiry={expired ? { state: 'expired', date: expiredOn } : { state: 'active', until: activeUntil }} />
         <DividerLabel as="h2">What You Get</DividerLabel>
@@ -272,7 +272,7 @@ export function SubscriptionScreen({ state = 'active', activeUntil = '25th Jun �
       </PaywallHero>
       <SocialProof testimonials={testimonials.map((t, i) => ({ ...t, avatar: <Asset name={(['avatar-testimonial-1', 'avatar-testimonial-2', 'avatar-testimonial-3'] as const)[i % 3]} size={36} alt="" /> }))} />
       <div style={{ padding: '16px 16px 24px' }}>
-        <FaqList items={paywallFaq} defaultOpen={[3]} />
+        <FaqList items={manageFaq} defaultOpen={[3]} />
       </div>
     </Screen>
   );

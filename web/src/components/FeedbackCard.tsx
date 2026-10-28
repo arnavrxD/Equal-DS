@@ -14,7 +14,7 @@ export type FeedbackCardProps = {
 };
 
 /** Post-call rating card (Component ref #13). */
-export function FeedbackCard({ question = 'How would you rate the call?', rating, onRate, onShare, width = 246 }: FeedbackCardProps) {
+export function FeedbackCard({ question = 'How would you rate your call Keshav?', rating, onRate, onShare, width = 246 }: FeedbackCardProps) {
   const [internal, setInternal] = useState(0);
   const [hover, setHover] = useState(0);
   const value = rating ?? internal;

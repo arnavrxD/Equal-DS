@@ -133,7 +133,7 @@ fun EqualCallChatSample(
         }
         AiChatPanel(
             prompt = "Want me to send Chaitanya a quick reply on WhatsApp?",
-            actions = listOf(ActionChipData("Reply on WhatsApp", "💬"), ActionChipData("Add to Calendar", "🗓️"), ActionChipData("Call back", "📞")),
+            actions = listOf(ActionChipData("Reply on WhatsApp", "💚"), ActionChipData("Add to Calendar", "📅"), ActionChipData("Call back", "📞")),
             onActionClick = {},
             composerValue = message,
             onComposerValueChange = { message = it },

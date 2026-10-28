@@ -125,9 +125,9 @@ export function CallMeButton({ label, onClick, block }: { label: string; onClick
 /** Promo card that introduces the voice assistant (Temporarily Unavailable design + Meet Your Assistant banner). */
 export function MeetAssistantCard({
   layout = 'compact',
-  title = 'Meet Your Assistant',
-  body = 'Try talking to your assistant about what all it can do',
-  ctaLabel = 'Call me',
+  title = 'Talk to your assistant',
+  body = '“How do you handle spam calls?” or just say \'Hi\'!',
+  ctaLabel = 'Call Now',
   onCall,
   onDismiss,
   width = '100%',

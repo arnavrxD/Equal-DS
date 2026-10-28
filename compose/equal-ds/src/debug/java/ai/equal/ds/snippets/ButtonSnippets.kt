@@ -38,14 +38,14 @@ internal fun ButtonSizesSnippet() {
     EqualButton(text = "Submit", onClick = {}, size = EqualButtonSize.Md)
     EqualButton(text = "Submit", onClick = {}, size = EqualButtonSize.Lg)
     // Block = Lg metrics at full width
-    EqualButton(text = "Add New Instruction", onClick = {}, size = EqualButtonSize.Block, leadingIcon = EqualIcons.Add)
+    EqualButton(text = "Add New Instructions", onClick = {}, size = EqualButtonSize.Block, leadingIcon = EqualIcons.Add)
 }
 
 // snippet: button / Premium: the gold CTA with sheen and glow
 @Composable
 internal fun ButtonPremiumSnippet() {
-    EqualButton(text = "Unlock Unlimited", onClick = {}, appearance = EqualButtonAppearance.Premium, size = EqualButtonSize.Block, glow = true)
-    EqualButton(text = "Unlock Unlimited", onClick = {}, appearance = EqualButtonAppearance.Premium, size = EqualButtonSize.Block, enabled = false)
+    EqualButton(text = "Get Equal AI Unlimited", onClick = {}, appearance = EqualButtonAppearance.Premium, size = EqualButtonSize.Block, glow = true)
+    EqualButton(text = "Get Equal AI Unlimited", onClick = {}, appearance = EqualButtonAppearance.Premium, size = EqualButtonSize.Block, enabled = false)
 }
 
 // snippet: button / Text and icon buttons

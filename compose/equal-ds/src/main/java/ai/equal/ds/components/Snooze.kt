@@ -179,7 +179,7 @@ object AlertSheets {
     val SnoozeFailed = AlertSheetSpec("Assistant snooze failed", "We were unable to turn off your assistant. Please try again.", "Try again", EqualAssets.IllustrationWarning, 88.dp)
     val Offline = AlertSheetSpec("No internet connection", "Wi-Fi or mobile data required to turn off your assistant. Check your connection and try again.", "Go to settings", EqualAssets.IllustrationNoInternet, 96.dp, secondary = "Try Again")
     val ActivationFailed = AlertSheetSpec("Assistant Activation Failed", "We couldn’t turn your assistant on right now. We can help, try these.", "Try now", EqualAssets.IllustrationErrorSad, 88.dp, secondary = "Contact Support", secondaryIcon = EqualSymbols.phoneInTalk)
-    val UpdateAvailable = AlertSheetSpec("A new version is here", "This update brings new improvements to how Equal AI handles your calls.", "Update Now", artSize = 144.dp, ctaIcon = EqualSymbols.download, secondary = "Maybe Later", secondaryUnderline = true, updateArt = true)
+    val UpdateAvailable = AlertSheetSpec("Update Equal AI", "We have added improvements to make Equal AI even better, it only takes a moment.", "Update Now", artSize = 144.dp, ctaIcon = EqualSymbols.download, secondary = "Maybe Later", secondaryUnderline = true, updateArt = true)
 }
 
 /**
@@ -271,7 +271,7 @@ fun AlertSheet(
 fun ForceUpdateScreen(onUpdate: () -> Unit, modifier: Modifier = Modifier, time: String = "12:00") {
     val colors = EqualTheme.colors
     val type = EqualTheme.type
-    Column(modifier.fillMaxSize().background(colors.bgPrimary).semantics { paneTitle = "Update Equal AI App" }) {
+    Column(modifier.fillMaxSize().background(colors.bgPrimary).semantics { paneTitle = "Update Equal AI" }) {
         StatusBar(time = time)
         Column(
             Modifier.weight(1f).fillMaxWidth().padding(horizontal = 24.dp),
@@ -280,7 +280,7 @@ fun ForceUpdateScreen(onUpdate: () -> Unit, modifier: Modifier = Modifier, time:
         ) {
             UpdateArt(size = 160.dp)
             Spacer(Modifier.height(16.dp))
-            EqualText(text = "Update Equal AI App", style = type.headline.copy(fontWeight = FontWeight.W700), color = colors.textPrimary, textAlign = TextAlign.Center, modifier = Modifier.semantics { heading() })
+            EqualText(text = "Update Equal AI", style = type.headline.copy(fontWeight = FontWeight.W700), color = colors.textPrimary, textAlign = TextAlign.Center, modifier = Modifier.semantics { heading() })
             Spacer(Modifier.height(8.dp))
             EqualText(text = "This version is no longer supported. Update now to keep using Equal AI.", style = type.body1, color = colors.textSecondary, textAlign = TextAlign.Center, modifier = Modifier.widthIn(max = 300.dp))
         }

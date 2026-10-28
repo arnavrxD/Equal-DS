@@ -6,7 +6,7 @@ import './ActionChip.css';
 
 export type SmallActionChipProps = Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children'> & {
   label: string;
-  /** Unicode emoji — actions use emoji (📞 Call back, ✏️ Update address, 🗓️ Add to calendar). */
+  /** Unicode emoji — actions use emoji (📞 Call back, ✏️ Update address, 📅 Add to Calendar). */
   emoji?: string;
   /** unread = glass green; read = glass grey; outlined = selected-row state. */
   state?: 'unread' | 'read' | 'outlined';

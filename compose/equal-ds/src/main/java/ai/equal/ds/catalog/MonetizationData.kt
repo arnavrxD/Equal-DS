@@ -15,22 +15,54 @@ import androidx.compose.ui.unit.dp
 
 val PaywallFaq: List<FaqItem> = listOf(
     FaqItem(
-        "What do I get with Equal Unlimited?",
+        "What do I get with Equal AI Unlimited?",
+        "You get unlimited call screening, call recordings, AI call summaries, and conversations for every call. New features are added through the year.",
+    ),
+    FaqItem(
+        "How does membership work?",
+        "You pay for your first month and setup auto-pay with any UPI app like PhonePe, Google Pay or Paytm. It renews every month, and you can cancel anytime.",
+    ),
+    FaqItem(
+        "Can I cancel anytime?",
+        "Yes, you can cancel anytime. You keep full access until your renewal date. After that, you won’t be charged again",
+    ),
+    FaqItem(
+        "Do you offer refunds?",
+        "Yes. If you’re not happy within 3 days of your first payment, email us at hey@equal.in and we’ll process your refund.",
+    ),
+    FaqItem(
+        "Which payment methods are supported?",
+        "UPI only — pay with any UPI app like PhonePe, Google Pay or Paytm, processed securely through Razorpay.",
+    ),
+    FaqItem(
+        "What happens to my call data?",
+        "Recordings and transcripts stay encrypted and tied to your account. We never share them with third parties and you can request deletion from Profile → Account Deletion.",
+    ),
+    FaqItem(
+        "How do I change my plan?",
+        "Open Profile → Manage Subscription. You can switch between monthly and yearly plans there; changes apply from the next billing cycle.",
+    ),
+    FaqItem("View Equal Unlimited Fair Usage Policy", "Tap to read the full policy."),
+)
+
+/** The FAQ on the Manage Subscription page, curated separately from the paywall's (web `manageFaq`). */
+val ManageFaq: List<FaqItem> = listOf(
+    FaqItem(
+        "What do I get with Equal AI Unlimited?",
         "Unlimited call screenings, full recordings, summaries, and zero daily cap. Your assistant handles every unknown call, no limits.",
     ),
     FaqItem(
-        "Will Equal screen all types of calls?",
-        "Yes! Delivery, ride pickups, spam, loan calls, Equal handles them all and tells you exactly why they called.",
+        "Does Equal AI screen all types of calls?",
+        "Yes! Delivery, ride pickups, spam, loan calls, Equal AI handles them all and tells you exactly why they called.",
     ),
     FaqItem(
-        "Can I cancel my Equal Unlimited plan later?",
+        "Can I cancel my Equal AI Unlimited plan later?",
         "Yes, cancel anytime. Your Unlimited access stays active until the end of your billing period.",
     ),
     FaqItem(
-        "Will I get a refund if I’m not happy with Equal Unlimited?",
-        "We don’t offer refunds, but you can write to our support team and we’ll do our best to help.",
+        "Can I get a refund if I’m not happy with Equal AI Unlimited?",
+        "Yes. If you’re not happy within 3 days of your first payment, reach us through our helpline and we’ll process your refund.",
     ),
-    FaqItem("View Equal Unlimited Fair Usage Policy", "Tap to read the full policy."),
 )
 
 @Composable
@@ -40,24 +72,26 @@ private fun TestimonialAvatar(asset: EqualAssets) {
 
 val PaywallTestimonials: List<Testimonial> = listOf(
     Testimonial(
-        quote = "As a freelancer, client calls and spam used to mix together. Now I get proper summaries and live transcript support. I know exactly what each caller wants without wasting time. Very efficient tool",
-        name = "keerthana",
+        quote = "Equal AI screens every unknown call so I never miss what matters.",
+        name = "Riya S.",
         avatar = { TestimonialAvatar(EqualAssets.AvatarTestimonial1) },
     ),
     Testimonial(
-        quote = "It is a very useful app for screening the unknown calls. I used to get up to 10 spam calls a day. This is an important app for me. This is a must download.",
-        name = "Arnav Raj",
+        quote = "Equal AI eliminates spam and engages with unknown callers itself.",
+        name = "Chaitanya Sai",
         avatar = { TestimonialAvatar(EqualAssets.AvatarTestimonial2) },
     ),
     Testimonial(
-        quote = "My parents get loan and insurance calls all day. Equal answers them, and I just read the summary in the evening.",
-        name = "Riya Kapoor",
+        quote = "Saves me time and handles unknown calls like a pro.",
+        name = "Sanjana Ramakrishna",
         avatar = { TestimonialAvatar(EqualAssets.AvatarTestimonial3) },
     ),
 )
 
 /** The paywall subtitle experiment (web `paywallSubtitles`). */
 enum class PaywallSubtitle(val copy: String) {
+    /** Production copy (headline_subtitle). */
+    Default("Get Unlimited Recordings, AI Call Summaries and Conversations. Trusted by 10 Lakh+ Indians."),
     Unlock("Unlock Summaries, Transcripts, Recordings & Unlimited Call Screening"),
     Get("Get Unlimited Summaries, Transcripts, Recordings & Call Screening"),
 

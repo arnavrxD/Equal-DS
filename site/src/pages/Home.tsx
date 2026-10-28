@@ -97,8 +97,8 @@ export default function Home() {
           <div style={{ width: 340, display: 'flex', flexDirection: 'column', gap: 12 }}>
             <AssistantToggle on />
             <div style={{ borderRadius: 16, overflow: 'hidden', display: 'flex', flexDirection: 'column', gap: 1, background: 'var(--eq-stroke-subtle)' }}>
-              <ChatListItem name="Arnav Raj" preview="You have a visitor" date="Yesterday" unread={5} actions={[{ label: 'Call Back', emoji: '📞' }, { label: 'Update Address', emoji: '✏️' }]} />
-              <ChatListItem name="HDFC Bank" preview="Pre-approved loan offer. You said not interested" date="08 July" avatar={{ category: 'financial' }} actions={[{ label: 'Call Back', emoji: '📞' }]} />
+              <ChatListItem name="Arnav Raj" preview="You have a visitor" date="Yesterday" unread={5} actions={[{ label: 'Call back', emoji: '📞' }, { label: 'Update Address', emoji: '✏️' }]} />
+              <ChatListItem name="HDFC Bank" preview="Pre-approved loan offer. You said not interested" date="08 July" avatar={{ category: 'financial' }} actions={[{ label: 'Call back', emoji: '📞' }]} />
             </div>
           </div>
         </Tile>
@@ -138,7 +138,7 @@ export default function Home() {
         </Tile>
         <Tile span={6} label="AI chat panel" to="/components/ai-panel">
           <div style={{ width: 380 }}>
-            <AiChatPanel prompt="Want me to send Amit a quick reply on WhatsApp?" actions={[{ label: 'Reply on WhatsApp', emoji: '💬' }, { label: 'Add to Calendar', emoji: '🗓️' }]} />
+            <AiChatPanel prompt="Want me to send Amit a quick reply on WhatsApp?" actions={[{ label: 'Reply on WhatsApp', emoji: '💚' }, { label: 'Add to Calendar', emoji: '📅' }]} />
           </div>
         </Tile>
         <Tile span={6} label="Instruction card" to="/components/instruction-cards">
@@ -154,9 +154,9 @@ export default function Home() {
         <Tile span={4} label="Settings rows" to="/components/settings-row">
           <div style={{ width: 340 }}>
             <RowGroup inset={0}>
-              <SettingsRow icon="instructions" label="Instructions" description="Tell assistant how you’d like it to help" isNew />
+              <SettingsRow icon="instructions" label="Your Instructions" description="Tell Equal what to do" isNew />
               <SettingsRow icon="health-check" label="Assistant Health Check" description="Check Real-Time Assistant Connectivity" />
-              <SettingsRow icon="silent-mode" label="Silent Mode" description="Mute promotional calls automatically" />
+              <SettingsRow icon="silent-mode" label="Silent Mode" description="Mute unwanted calls automatically" />
             </RowGroup>
           </div>
         </Tile>
@@ -230,7 +230,7 @@ export default function Home() {
           <Link to="/prototype" className="s-btn">Open the playground</Link>
         </div>
         <div className="s-closer__chips" aria-hidden {...inert}>
-          <SmallActionChip label="Call Back" emoji="📞" />
+          <SmallActionChip label="Call back" emoji="📞" />
           <LargeActionChip label="Ask to reschedule" emoji="🗓️" />
         </div>
       </section>

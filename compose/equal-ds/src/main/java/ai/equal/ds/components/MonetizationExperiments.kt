@@ -232,7 +232,7 @@ fun PaymentResult(
     val gradients = EqualTheme.gradients
     data class Spec(val wash: EqualGradientSpec, val art: EqualAssets, val title: String, val sub: String?, val body: String)
     val r = when (status) {
-        PaymentResultStatus.Success -> Spec(gradients.statusSuccess, EqualAssets.StatusConfirmed, "Congratulations", "You’re Unlimited", "No more limits. Everything Equal AI can do, now yours.")
+        PaymentResultStatus.Success -> Spec(gradients.statusSuccess, EqualAssets.StatusConfirmed, "Congratulations", "You’re Unlimited", "You’re all set. Every call’s recording, summary and conversation is now unlocked.")
         PaymentResultStatus.Pending -> Spec(gradients.statusWarning, EqualAssets.StatusPending, "Payment Pending", null, "We’re confirming your UPI payment. This may take a few moments.")
         PaymentResultStatus.Failed -> Spec(gradients.statusDanger, EqualAssets.StatusFailed, "Payment Failed", null, "Many banks block UPI Autopay by default. A different UPI app, linked to another bank, usually works.")
     }
@@ -504,8 +504,8 @@ fun PaywallSheet(
     onSupport: () -> Unit = {},
     onUnlock: () -> Unit = {},
     onScrim: () -> Unit = {},
-    cta: String = "Unlock Equal AI Unlimited",
-    body: String = "Get Unlimited Recordings, AI Call Summaries & Conversations. Trusted by 10 Lakh+ Indians.",
+    cta: String = "Get Equal AI Unlimited",
+    body: String = "Get Unlimited Recordings, AI Call Summaries and Conversations. Trusted by 10 Lakh+ Indians.",
     /** Payment already in flight: toast above a disabled CTA. */
     processing: Boolean = false,
     inline: Boolean = false,
@@ -602,7 +602,7 @@ fun PaywallSheet(
             }
             PaywallFooter(
                 onClick = onUnlock,
-                cta = if (processing) "Unlock Unlimited" else cta,
+                cta = if (processing) "Get Equal AI Unlimited" else cta,
                 disabled = processing,
                 flat = true,
                 above = if (processing) ({ ProcessingStrip(variant = ProcessingStripVariant.Toast) }) else null,
@@ -657,7 +657,7 @@ private fun SheetPrice(text: String, land: Boolean) {
 fun CouponRow(
     modifier: Modifier = Modifier,
     code: String = "EQUAL25",
-    description: String = "Save Flat 25% with UPI Payment",
+    description: String = "Get extra 25% off your first month",
     applied: Boolean = false,
     onApply: () -> Unit = {},
 ) {
@@ -683,7 +683,7 @@ fun CouponRow(
         Box(Modifier.semantics { liveRegion = LiveRegionMode.Polite }) {
             if (applied) {
                 EqualText(
-                    text = "APPLIED",
+                    text = "Applied",
                     style = state,
                     color = colors.textGold,
                     maxLines = 1,
@@ -691,7 +691,7 @@ fun CouponRow(
                 )
             } else {
                 EqualText(
-                    text = "APPLY",
+                    text = "Apply",
                     style = state,
                     color = colors.textGold,
                     maxLines = 1,
@@ -1053,7 +1053,7 @@ data class SummaryAction(val label: String, val icon: ImageVector, val onClick: 
 
 /** The sample Call Back / Add to Calendar rows. */
 val SampleSummaryActions: List<SummaryAction> = listOf(
-    SummaryAction("Call Back", EqualIcons.CallFilled),
+    SummaryAction("Call back", EqualIcons.CallFilled),
     SummaryAction("Add to Calendar", EqualIcons.CalendarMonth),
 )
 
@@ -1235,7 +1235,7 @@ private fun LockedRecordingPreview() {
         VSpace(12.dp)
         SummaryActions(actions = SampleSummaryActions)
         VSpace(12.dp)
-        SmallActionChip(label = "Call Back", emoji = "📞", onClick = {}, locked = true)
+        SmallActionChip(label = "Call back", emoji = "📞", onClick = {}, locked = true)
         VSpace(12.dp)
         HelpFaqSheet(items = listOf(FaqItem("What do I get?", "Unlimited everything.")), inline = true)
     }

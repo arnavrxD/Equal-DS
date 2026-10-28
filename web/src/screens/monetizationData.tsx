@@ -2,21 +2,34 @@
 import type { FaqItem, Testimonial } from '../components/Monetization';
 
 export const paywallFaq: FaqItem[] = [
-  { q: 'What do I get with Equal Unlimited?', a: 'Unlimited call screenings, full recordings, summaries, and zero daily cap. Your assistant handles every unknown call, no limits.' },
-  { q: 'Will Equal screen all types of calls?', a: 'Yes! Delivery, ride pickups, spam, loan calls, Equal handles them all and tells you exactly why they called.' },
-  { q: 'Can I cancel my Equal Unlimited plan later?', a: 'Yes, cancel anytime. Your Unlimited access stays active until the end of your billing period.' },
-  { q: 'Will I get a refund if I’m not happy with Equal Unlimited?', a: 'We don’t offer refunds, but you can write to our support team and we’ll do our best to help.' },
+  { q: 'What do I get with Equal AI Unlimited?', a: 'You get unlimited call screening, call recordings, AI call summaries, and conversations for every call. New features are added through the year.' },
+  { q: 'How does membership work?', a: 'You pay for your first month and setup auto-pay with any UPI app like PhonePe, Google Pay or Paytm. It renews every month, and you can cancel anytime.' },
+  { q: 'Can I cancel anytime?', a: 'Yes, you can cancel anytime. You keep full access until your renewal date. After that, you won’t be charged again' },
+  { q: 'Do you offer refunds?', a: 'Yes. If you’re not happy within 3 days of your first payment, email us at hey@equal.in and we’ll process your refund.' },
+  { q: 'Which payment methods are supported?', a: 'UPI only — pay with any UPI app like PhonePe, Google Pay or Paytm, processed securely through Razorpay.' },
+  { q: 'What happens to my call data?', a: 'Recordings and transcripts stay encrypted and tied to your account. We never share them with third parties and you can request deletion from Profile → Account Deletion.' },
+  { q: 'How do I change my plan?', a: 'Open Profile → Manage Subscription. You can switch between monthly and yearly plans there; changes apply from the next billing cycle.' },
   { q: 'View Equal Unlimited Fair Usage Policy', a: 'Tap to read the full policy.' },
 ];
 
+/** The FAQ on the Manage Subscription page (curated separately from the paywall's). */
+export const manageFaq: FaqItem[] = [
+  { q: 'What do I get with Equal AI Unlimited?', a: 'Unlimited call screenings, full recordings, summaries, and zero daily cap. Your assistant handles every unknown call, no limits.' },
+  { q: 'Does Equal AI screen all types of calls?', a: 'Yes! Delivery, ride pickups, spam, loan calls, Equal AI handles them all and tells you exactly why they called.' },
+  { q: 'Can I cancel my Equal AI Unlimited plan later?', a: 'Yes, cancel anytime. Your Unlimited access stays active until the end of your billing period.' },
+  { q: 'Can I get a refund if I’m not happy with Equal AI Unlimited?', a: 'Yes. If you’re not happy within 3 days of your first payment, reach us through our helpline and we’ll process your refund.' },
+];
+
 export const testimonials: Testimonial[] = [
-  { name: 'keerthana', quote: 'As a freelancer, client calls and spam used to mix together. Now I get proper summaries and live transcript support. I know exactly what each caller wants without wasting time. Very efficient tool' },
-  { name: 'Arnav Raj', quote: 'It is a very useful app for screening the unknown calls. I used to get up to 10 spam calls a day. This is an important app for me. This is a must download.' },
-  { name: 'Riya Kapoor', quote: 'My parents get loan and insurance calls all day. Equal answers them, and I just read the summary in the evening.' },
+  { name: 'Riya S.', quote: 'Equal AI screens every unknown call so I never miss what matters.' },
+  { name: 'Chaitanya Sai', quote: 'Equal AI eliminates spam and engages with unknown callers itself.' },
+  { name: 'Sanjana Ramakrishna', quote: 'Saves me time and handles unknown calls like a pro.' },
 ];
 
 /** The experiments the Android team runs on the paywall (multiple touchpoints). */
 export const paywallSubtitles = {
+  /** Production copy (headline_subtitle). */
+  default: 'Get Unlimited Recordings, AI Call Summaries and Conversations. Trusted by 10 Lakh+ Indians.',
   unlock: 'Unlock Summaries, Transcripts, Recordings & Unlimited Call Screening',
   get: 'Get Unlimited Summaries, Transcripts, Recordings & Call Screening',
   /** Actions touchpoint. */

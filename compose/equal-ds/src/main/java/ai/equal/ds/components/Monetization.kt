@@ -396,9 +396,9 @@ fun AnimatedCrown(
 @Composable
 fun PaywallHero(
     modifier: Modifier = Modifier,
-    title: String = "Unlock Equal",
+    title: String = "Equal AI",
     titleStrong: String = "Unlimited",
-    subtitle: String? = "Unlock Summaries, Transcripts, Recordings & Unlimited Call Screening",
+    subtitle: String? = "Get Unlimited Recordings, AI Call Summaries and Conversations. Trusted by 10 Lakh+ Indians.",
     onBack: () -> Unit = {},
     onSupport: () -> Unit = {},
     /** iOS-parity paywall (27 Aug touchpoint): `paywall-hero-ios`, 54 bottom radius, crown 72, title 500 / 30 SemiBold, `caption` subtitle. */
@@ -853,8 +853,8 @@ fun LockedPreviewCard(
 fun PaywallFooter(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    cta: String = "Unlock Unlimited",
-    note: String? = "Cancel Anytime. Automatically renews",
+    cta: String = "Get Equal AI Unlimited",
+    note: String? = "Cancel anytime · UPI secure · No hidden charges",
     variant: EqualButtonVariant = EqualButtonVariant.Gold,
     disabled: Boolean = false,
     flat: Boolean = false,
@@ -967,11 +967,11 @@ fun CouponTicket(
                 EqualText(text = code, style = type.subheading.copy(fontWeight = FontWeight.Bold), color = colors.textGold, maxLines = 1)
                 EqualText(text = description, style = type.captionRegular, color = colors.textSecondary)
             }
-            // One persistent polite live region, so the APPLY → APPLIED swap is announced once.
+            // One persistent polite live region, so the Apply → Applied swap is announced once.
             Box(Modifier.semantics { liveRegion = LiveRegionMode.Polite }) {
                 if (applied) {
                     EqualText(
-                        text = "APPLIED",
+                        text = "Applied",
                         style = stateStyle,
                         color = colors.textGold,
                         maxLines = 1,
@@ -981,7 +981,7 @@ fun CouponTicket(
                     )
                 } else {
                     EqualText(
-                        text = "APPLY",
+                        text = "Apply",
                         style = stateStyle,
                         color = colors.textGold,
                         maxLines = 1,
@@ -1046,7 +1046,7 @@ data class FaqItem(val question: String, val answer: String)
 fun FaqList(
     items: List<FaqItem>,
     modifier: Modifier = Modifier,
-    title: String? = "Frequently asked questions",
+    title: String? = "FREQUENTLY ASKED QUESTIONS",
     defaultOpen: List<Int> = emptyList(),
 ) {
     val colors = EqualTheme.colors
@@ -1448,16 +1448,16 @@ enum class PaymentStatus { Waiting, Confirmed, Pending, Failed, Welcome }
 
 /**
  * Payment result sheet ([StatusSheet] + [StatusCard]):
- * - [PaymentStatus.Waiting]: neutral, "Once your payment is being verified…", no action
+ * - [PaymentStatus.Waiting]: neutral, "We’re confirming your payment…", no action
  *   ([waitingArt]: coin or cash experiment). With [progress] (default) the title steps through
  *   [PaymentProgressSteps] every 1.4s (Connecting To Razorpay → Waiting for Confirmation →
  *   Verifying Transaction, looping), each rising in; otherwise "Waiting for / Confirmation";
  * - [PaymentStatus.Confirmed]: success with the [Sunburst], "Payment / Confirmed", 5s
  *   [RedirectNote] → [onRedirect];
- * - [PaymentStatus.Pending]: warning, refund line with [cardLast4] + Contact Support;
- * - [PaymentStatus.Failed]: danger, refund line + Retry Payment;
- * - [PaymentStatus.Welcome]: gold crown, "Congratulations / Welcome to Equal Unlimited.",
- *   "No more limits…" + 5s redirect to home.
+ * - [PaymentStatus.Pending]: warning, "Your payment is still processing…" (refund in 5 - 7 working days) + Contact Support;
+ * - [PaymentStatus.Failed]: danger, "Your payment didn’t go through…" + Retry Payment;
+ * - [PaymentStatus.Welcome]: gold crown, "Welcome to / Equal AI Unlimited",
+ *   "You’re all set…" + 5s redirect to home. [cardLast4] is kept for the experiment that names the card.
  * Footer buttons are block `lg` primary. The card's title rises in whenever the status or step
  * changes.
  */
@@ -1465,7 +1465,7 @@ enum class PaymentStatus { Waiting, Confirmed, Pending, Failed, Welcome }
 fun PaymentStatusSheet(
     status: PaymentStatus,
     modifier: Modifier = Modifier,
-    cardLast4: String = "2652",
+    @Suppress("UNUSED_PARAMETER") cardLast4: String = "2652",
     onRetry: () -> Unit = {},
     onContactSupport: () -> Unit = {},
     onRedirect: () -> Unit = {},
@@ -1482,14 +1482,13 @@ fun PaymentStatusSheet(
             step = (step + 1) % PaymentProgressSteps.size
         }
     }
-    val refund = "If money was deducted from card (**$cardLast4), refund will be initiated within 24hours"
     data class Spec(val tone: StatusTone, val art: EqualAssets, val strong: String, val light: String, val strongFirst: Boolean, val body: String?)
     val s = when (status) {
-        PaymentStatus.Waiting -> Spec(StatusTone.Neutral, waitingArt, "Confirmation", "Waiting for", false, "Once your payment is being verified. You will be Redirected Automatically")
+        PaymentStatus.Waiting -> Spec(StatusTone.Neutral, waitingArt, "Confirmation", "Waiting for", false, "We’re confirming your payment. You’ll be redirected automatically")
         PaymentStatus.Confirmed -> Spec(StatusTone.Success, EqualAssets.StatusConfirmed, "Payment", "Confirmed", true, null)
-        PaymentStatus.Pending -> Spec(StatusTone.Warning, EqualAssets.StatusPending, "Payment", "Pending", true, refund)
-        PaymentStatus.Failed -> Spec(StatusTone.Danger, EqualAssets.StatusFailed, "Payment", "Failed", true, refund)
-        PaymentStatus.Welcome -> Spec(StatusTone.Gold, EqualAssets.CrownGold, "Congratulations", "Welcome to Equal Unlimited.", true, "No more limits. Everything Equal AI can do, now yours.")
+        PaymentStatus.Pending -> Spec(StatusTone.Warning, EqualAssets.StatusPending, "Payment", "Pending", true, "Your payment is still processing. If it doesn’t go through, any amount deducted will be refunded automatically in 5 - 7 working days.")
+        PaymentStatus.Failed -> Spec(StatusTone.Danger, EqualAssets.StatusFailed, "Payment", "Failed", true, "Your payment didn’t go through. Any amount deducted will be refunded automatically in 5 - 7 working days.")
+        PaymentStatus.Welcome -> Spec(StatusTone.Gold, EqualAssets.CrownGold, "Equal AI Unlimited", "Welcome to", false, "You’re all set. Every call’s recording, summary and conversation is now unlocked.")
     }
     val footer: (@Composable () -> Unit)? = when (status) {
         PaymentStatus.Waiting -> null
@@ -1543,7 +1542,7 @@ private const val PaymentProgressStepMillis = 1400L
 fun HelpCenterSheet(
     modifier: Modifier = Modifier,
     phone: String = "+91 9876 543210",
-    email: String = "hello@equal.in",
+    email: String = "hey@equal.in",
     onCall: () -> Unit = {},
     onMail: () -> Unit = {},
     inline: Boolean = false,
@@ -1925,7 +1924,7 @@ fun TestimonialCarousel(
     }
 }
 
-/** The headline stat in [SocialProof]: [value] (e.g. 400k+) over [label]. */
+/** The headline stat in [SocialProof]: [value] (e.g. 10 Lakh+) over [label]. */
 @Immutable
 data class SocialProofStat(val value: String, val label: String)
 
@@ -1940,7 +1939,7 @@ data class SocialProofStat(val value: String, val label: String)
 fun SocialProof(
     testimonials: List<Testimonial>,
     modifier: Modifier = Modifier,
-    stat: SocialProofStat = SocialProofStat("400k+", "People never miss a call"),
+    stat: SocialProofStat = SocialProofStat("10 Lakh+", "People know who called and why"),
     rating: Float = 4.5f,
 ) {
     val colors = EqualTheme.colors
@@ -1992,12 +1991,12 @@ enum class CancelStep { Feedback, Confirm, Submitted }
 
 /**
  * Cancellation sheet ([StatusSheet] + neutral [StatusCard]), three steps:
- * - [CancelStep.Feedback]: sad face, "We’re Sad to / See you Cancel", a 3-line reason field
+ * - [CancelStep.Feedback]: sad face, "Before you / Cancel", a 3-line reason field
  *   (radius 12, 1dp `stroke/subtle` → `action/stroke/unread` focused, `bg/surface`, padding
- *   12 / 14, `body1`); block Proceed stays disabled until there is text → [onProceed].
- * - [CancelStep.Confirm]: "Are you really / Sure?" + [accessUntil] copy; Cancel (outline, [onKeep])
- *   and Confirm ([onConfirm]), `lg`, equal widths, gap 12.
- * - [CancelStep.Submitted]: thumbs up, "Your Request is / Submitted", 3s redirect to home.
+ *   12 / 14, `body1`); block Continue stays disabled until there is text → [onProceed].
+ * - [CancelStep.Confirm]: "Cancel your / Plan?" + [accessUntil] copy; Keep my plan (outline, [onKeep])
+ *   and Yes ([onConfirm]), `lg`, equal widths, gap 12.
+ * - [CancelStep.Submitted]: thumbs up, "Your plan is / Cancelled", 3s redirect to home.
  * The reason is controlled when [onReasonChange] is set ([reason] is the value); otherwise the
  * sheet keeps it itself (seeded from [reason]). [onDismiss] closes the sheet from any step on
  * Back or a scrim tap (the feedback step has no other way out).
@@ -2026,16 +2025,16 @@ fun CancelSheet(
             label = "Cancel subscription",
             onDismiss = onDismiss,
             footer = {
-                EqualButton(text = "Proceed", onClick = onProceed, size = EqualButtonSize.Block, enabled = value.isNotBlank())
+                EqualButton(text = "Continue", onClick = onProceed, size = EqualButtonSize.Block, enabled = value.isNotBlank())
             },
         ) {
             StatusCard(
                 tone = StatusTone.Neutral,
                 art = EqualAssets.EmojiSad,
-                light = "We’re Sad to",
-                strong = "See you Cancel",
+                light = "Before you",
+                strong = "Cancel",
                 strongFirst = false,
-                body = "Tell us why you’re Cancelling Subscription. Your feedback helps us improve.",
+                body = "Tell us why you’re cancelling.\nIt helps us improve.",
             ) {
                 CancelReasonField(value = value, onValueChange = set)
             }
@@ -2047,18 +2046,18 @@ fun CancelSheet(
             onDismiss = onDismiss,
             footer = {
                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                    EqualButton(text = "Cancel", onClick = onKeep, variant = EqualButtonVariant.Outline, size = EqualButtonSize.Lg, modifier = Modifier.weight(1f))
-                    EqualButton(text = "Confirm", onClick = onConfirm, size = EqualButtonSize.Lg, modifier = Modifier.weight(1f))
+                    EqualButton(text = "Keep my plan", onClick = onKeep, variant = EqualButtonVariant.Outline, size = EqualButtonSize.Lg, modifier = Modifier.weight(1f))
+                    EqualButton(text = "Yes", onClick = onConfirm, size = EqualButtonSize.Lg, modifier = Modifier.weight(1f))
                 }
             },
         ) {
             StatusCard(
                 tone = StatusTone.Neutral,
                 art = EqualAssets.EmojiSad,
-                light = "Are you really",
-                strong = "Sure?",
+                light = "Cancel your",
+                strong = "Plan?",
                 strongFirst = false,
-                body = "Your subscription stays active & have full access until $accessUntil. We’ll stop the autopay, and your account will switch to free after that date.",
+                body = "You’ll still have full access until $accessUntil.",
             )
         }
         CancelStep.Submitted -> StatusSheet(
@@ -2071,10 +2070,10 @@ fun CancelSheet(
             StatusCard(
                 tone = StatusTone.Neutral,
                 art = EqualAssets.ThumbsUp,
-                light = "Your Request is",
-                strong = "Submitted",
+                light = "Your plan is",
+                strong = "Cancelled",
                 strongFirst = false,
-                body = "No more charges from us. You’ll keep full access until $accessUntil.",
+                body = "No more charges from us. You’ll have access until $accessUntil.",
             )
         }
     }
@@ -2104,7 +2103,7 @@ private fun CancelReasonField(value: String, onValueChange: (String) -> Unit) {
         decorationBox = { inner ->
             Box {
                 if (value.isEmpty()) {
-                    EqualText(text = "Tell us more in detail..", style = type.body1, color = colors.textPlaceholder)
+                    EqualText(text = "Tell us more…", style = type.body1, color = colors.textPlaceholder)
                 }
                 inner()
             }
@@ -2122,7 +2121,7 @@ private fun PaywallPreview() {
     PreviewFrame(padding = 0.dp) {
         PaywallHero {
             PriceTag(price = "249")
-            CouponTicket(code = "EQUAL25", description = "Save Flat ₹100 with this Code", discount = "25% OFF")
+            CouponTicket(code = "EQUAL25", description = "Get extra 25% off your first month", discount = "25% OFF on UPI")
         }
         PaywallFooter(onClick = {})
     }

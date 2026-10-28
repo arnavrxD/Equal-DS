@@ -264,9 +264,9 @@ fun MeetAssistantCard(
     onCallClick: () -> Unit,
     modifier: Modifier = Modifier,
     layout: MeetAssistantLayout = MeetAssistantLayout.Compact,
-    title: String = "Meet Your Assistant",
-    body: String = "Try talking to your assistant about what all it can do",
-    ctaLabel: String = "Call me",
+    title: String = "Talk to your assistant",
+    body: String = "“How do you handle spam calls?” or just say 'Hi'!",
+    ctaLabel: String = "Call Now",
     onDismiss: (() -> Unit)? = null,
 ) {
     val colors = EqualTheme.colors
@@ -371,8 +371,8 @@ private fun SystemStatusPreview() {
         MeetAssistantCard(
             onCallClick = {},
             layout = MeetAssistantLayout.Hero,
-            title = "Talk With Your Assistant",
-            body = "Explore the app, check out features, ask questions, or just say \"Hi\"!",
+            title = "Talk to your assistant",
+            body = "“How do you handle spam calls?” or just say 'Hi'!",
         )
     }
 }

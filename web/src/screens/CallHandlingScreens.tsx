@@ -30,11 +30,11 @@ export type CallHandlingStep = 'question' | 'perm-contacts' | 'perm-history' | '
 
 const COPY = {
   which: {
-    title: 'Which calls should I answer?',
-    subtitle: 'You decide. I follow.',
-    all: { title: 'All calls, except a few', description: 'I answer everyone. You pick who I skip.' },
-    unknown: { title: 'Only unknown numbers', description: 'I answer numbers that are not saved in your phone.' },
-    note: 'You can change this later.',
+    title: 'Who should Equal answer for?',
+    subtitle: 'You choose. Equal follows.',
+    all: { title: 'All calls except', description: 'Equal answers all your calls, except the people you choose.' },
+    unknown: { title: 'Unknown numbers only', description: 'Equal only answers calls from numbers you don’t have saved.' },
+    note: 'You can change this anytime.',
     cta: 'Next',
   },
   whose: {
@@ -91,8 +91,8 @@ export function CallHandlingScreen({ step, copy = 'which', mode: initialMode = '
       <Screen surface="primary">
         <SetupDone
           header={<AppBar statusBar title="" onBack={s === 'sorted' ? onBack ?? (() => go('question')) : undefined} surface="transparent" />}
-          title={s === 'perfect' ? 'Perfect!' : 'All Sorted!'}
-          body={s === 'perfect' ? <>I will answer your calls when you are busy. {names.length ? `${names.slice(0, 3).join(', ')}${names.length > 3 ? ` and ${names.length - 3} more` : ''} will always ring you.` : 'Everyone else goes through me.'}</> : <>I will answer unknown numbers only. Your contacts will ring you, like always.</>}
+          title={s === 'perfect' ? 'Perfect!' : 'You’re all set!'}
+          body={s === 'perfect' ? <>Equal will handle the calls.{names.length ? ` ${names.slice(0, 3).join(', ')}${names.length > 3 ? ` and ${names.length - 3} more` : ''} will always ring you.` : ''}</> : <>Equal will answer unknown numbers only. Your contacts will ring you, like always.</>}
           onDone={onDone}
         />
       </Screen>
@@ -103,16 +103,16 @@ export function CallHandlingScreen({ step, copy = 'which', mode: initialMode = '
     return (
       <Screen
         surface="primary"
-        header={<AppBar statusBar title="Exclude Contacts" onBack={() => go('question')} />}
+        header={<AppBar statusBar title="Call Handling" onBack={() => go('question')} />}
         footer={
           <div style={{ padding: '12px 16px 20px', background: 'var(--eq-bg-surface)' }}>
-            <Text as="div" variant="body1" color="secondary" align="center" style={{ marginBottom: 12 }}>This isn’t permanent — you can change it anytime.</Text>
+            <Text as="div" variant="body1" color="secondary" align="center" style={{ marginBottom: 12 }}>You can change this anytime.</Text>
             <Button size="lg" block onClick={() => go('perfect')}>{picked.length ? `Select ${picked.length} contacts` : 'Select contacts'}</Button>
           </div>
         }
       >
-        <CallQuestion art="call-handling-exclude" lottie="call-handling-contacts" title="Anyone you want to answer yourself?" />
-        <div style={{ padding: '16px 16px 0' }}><SearchField value="" placeholder="Search contacts.." /></div>
+        <CallQuestion art="call-handling-exclude" lottie="call-handling-contacts" title="Who should still ring you?" />
+        <div style={{ padding: '16px 16px 0' }}><SearchField value="" placeholder="Search contacts..." /></div>
         <Text as="div" variant="subheading" className="eq-ch-section" style={{ fontWeight: 400 }}>Suggested</Text>
         <div className="eq-ch-picks">{suggestedContacts.map((x) => <ContactPick key={x.id} initials={x.initials} name={x.name} onClick={() => toggle(x.id)} />)}</div>
         <Text as="div" variant="subheading" className="eq-ch-section" style={{ fontWeight: 400 }}>All Contacts</Text>
@@ -128,7 +128,7 @@ export function CallHandlingScreen({ step, copy = 'which', mode: initialMode = '
     s === 'perm-contacts' ? (
       <PermissionSheet art="permission-contacts" title="Allow contacts permission" body="I need your contact list to know who is calling." cta="Allow" onAllow={() => (setAllowed(true), go('perm-history'))} onClose={() => go('question')} />
     ) : s === 'perm-history' ? (
-      <PermissionSheet art="permission-call-history" title="Allow call history" body="Your contact list is long. Let me show the people you call the most, at the top." cta="Allow call history" onAllow={() => go('exclude')} onClose={() => go('exclude')} />
+      <PermissionSheet art="permission-call-history" title="Allow call logs permission" body="Your contact list can be long. Allow Equal AI to access your phone call logs to show the people you call the most, at the top." cta="Allow" onAllow={() => go('exclude')} onClose={() => go('exclude')} />
     ) : null;
 
   return (
@@ -147,7 +147,7 @@ export function CallHandlingScreen({ step, copy = 'which', mode: initialMode = '
       <div role="radiogroup" aria-label={c.title} onKeyDown={radioGroupKeyDown} style={{ display: 'flex', flexDirection: 'column', gap: 16, padding: '24px 16px 16px' }}>
         <ChoiceCard icon="globe" title={c.all.title} description={c.all.description} suggested={copy === 'whose'} selected={mode === 'all'} disabled={copy === 'whose' && !allowed} onSelect={() => setMode('all')} tabIndex={mode === 'unknown' || (copy === 'whose' && !allowed) ? -1 : 0} />
         <ChoiceCard icon="call" title={c.unknown.title} description={c.unknown.description} selected={mode === 'unknown'} onSelect={() => setMode('unknown')} tabIndex={mode === 'unknown' || (copy === 'whose' && !allowed) ? 0 : -1} />
-        {copy === 'whose' && !allowed && <InfoNote title="Contact access needed" body="Without it, the assistant can’t handle all calls." link="Give contacts permission" onLink={() => go('perm-contacts')} />}
+        {copy === 'whose' && !allowed && <InfoNote title="Contact access needed" body="Without it, the assistant cannot handle all calls." link="Give contacts permission" onLink={() => go('perm-contacts')} />}
       </div>
     </Screen>
   );
@@ -172,7 +172,7 @@ export function AlwaysRingScreen({ onBack, initial = ['arnav', 'shubham'] }: { o
       }
     >
       <Text as="p" variant="title" color="secondary" align="center" style={{ fontWeight: 400, margin: 0 }}>I will never answer these people.</Text>
-      <div style={{ padding: '16px 16px 0' }}><SearchField value="" placeholder="Search contacts.." /></div>
+      <div style={{ padding: '16px 16px 0' }}><SearchField value="" placeholder="Search contacts..." /></div>
       <div className="eq-ch-picks" style={{ paddingTop: 16 }}>{chosen.map((x) => <ContactPick key={x.id} initials={x.initials} name={x.name} mark="remove" />)}</div>
       <Text as="div" variant="subheading" className="eq-ch-section" style={{ fontWeight: 400 }}>Suggested</Text>
       <div style={{ position: 'relative' }}>
@@ -196,7 +196,7 @@ export function DirectCallsEmptyScreen({ onBack, onDone }: { onBack?: () => void
       header={<AppBar statusBar title="Direct Calls" onBack={onBack ?? (() => {})} />}
       footer={
         <div style={{ padding: '12px 16px 20px', background: 'var(--eq-bg-surface)' }}>
-          <Text as="div" variant="body1" color="secondary" align="center" style={{ marginBottom: 12 }}>Find this later under “You”, then Call Handling.</Text>
+          <Text as="div" variant="body1" color="secondary" align="center" style={{ marginBottom: 12 }}>Find this later under You, then Call Handling.</Text>
           <Button size="lg" block onClick={onDone}>Got it</Button>
         </div>
       }

@@ -1321,7 +1321,7 @@
       },
       {
         "part": "Title and why",
-        "description": "\"{caller} Called\" or \"Missed by the assistant\", then why.",
+        "description": "\"{caller} Called\" or \"Missed Call\", then \"Missed by Assistant\".",
         "spec": "Text subheading text/primary, one line · Text body2 Regular text/secondary · time Text micro tabular text/secondary when there is no reason"
       },
       {
@@ -2217,7 +2217,7 @@
       },
       {
         "topic": "Keyboard",
-        "web": "Tab: Back, Support, coupon APPLY, CTA; the locked preview is inert so its rows take no focus.",
+        "web": "Tab: Back, Support, coupon Apply, CTA; the locked preview is inert so its rows take no focus.",
         "android": "TalkBack: swipe through the bar, the title heading, price, preview, coupon and CTA."
       },
       {
@@ -2265,7 +2265,7 @@
         "spec": "Text caption Regular · text/secondary"
       },
       {
-        "part": "APPLY / APPLIED",
+        "part": "Apply / Applied",
         "description": "Apply action, then its applied state.",
         "spec": "gap 12 from the text · Text buttonSmall Bold · text/gold · padding-top 4 · 48 touch area"
       },
@@ -2283,32 +2283,32 @@
     "accessibility": [
       {
         "topic": "Role",
-        "web": "APPLY is a <button>; APPLIED is a focusable span; a persistent polite Announce region speaks the change; the seal is alt=\"\".",
-        "android": "APPLY is a clickable(role = Role.Button) text; a persistent Box with liveRegion = Polite wraps APPLY / APPLIED; the seal has no contentDescription."
+        "web": "Apply is a <button>; Applied is a focusable span; a persistent polite Announce region speaks the change; the seal is alt=\"\".",
+        "android": "Apply is a clickable(role = Role.Button) text; a persistent Box with liveRegion = Polite wraps Apply / Applied; the seal has no contentDescription."
       },
       {
         "topic": "Name",
-        "web": "The button reads \"Apply EQUAL25\"; APPLIED reads \"EQUAL25 applied\"; the region announces \"Coupon EQUAL25 applied\".",
-        "android": "APPLY reads \"Apply EQUAL25\"; APPLIED reads \"EQUAL25 applied\"."
+        "web": "The button reads \"Apply EQUAL25\"; Applied reads \"EQUAL25 applied\"; the region announces \"Coupon EQUAL25 applied\".",
+        "android": "Apply reads \"Apply EQUAL25\"; Applied reads \"EQUAL25 applied\"."
       },
       {
         "topic": "Keyboard",
-        "web": "Tab to APPLY; Enter / Space. When APPLIED replaces it, focus moves to the APPLIED text (useFocusHandoff).",
-        "android": "TalkBack: swipe to APPLY, double-tap; the live region announces the applied state."
+        "web": "Tab to Apply; Enter / Space. When Applied replaces it, focus moves to the Applied text (useFocusHandoff).",
+        "android": "TalkBack: swipe to Apply, double-tap; the live region announces the applied state."
       },
       {
         "topic": "Touch target",
-        "web": "APPLY uses eq-touch for a 48 px hit area.",
-        "android": "APPLY uses minimumInteractiveComponentSize (48 dp)."
+        "web": "Apply uses eq-touch for a 48 px hit area.",
+        "android": "Apply uses minimumInteractiveComponentSize (48 dp)."
       },
       {
         "topic": "Contrast",
-        "web": "Code and APPLY text/gold #9E6A28 on white 4.6:1; description text/secondary 5.7:1. The discount gradient is about 3:1 mid-glyph and 1.8:1 at its #FFB251 highlight. Dark: gold #E8BD62 9.3:1.",
+        "web": "Code and Apply text/gold #9E6A28 on white 4.6:1; description text/secondary 5.7:1. The discount gradient is about 3:1 mid-glyph and 1.8:1 at its #FFB251 highlight. Dark: gold #E8BD62 9.3:1.",
         "android": "Same tokens, same ratios."
       },
       {
         "topic": "State",
-        "web": "Applied swaps APPLY for the word APPLIED (not colour alone) and is announced once by the persistent live region.",
+        "web": "Applied swaps Apply for the word Applied (not colour alone) and is announced once by the persistent live region.",
         "android": "Applied swaps the text; the persistent polite live region announces it."
       },
       {
@@ -2783,7 +2783,7 @@
       {
         "part": "QuotaCard: head and bar",
         "description": "Free plan: calls left this week and a gold bar.",
-        "spec": "'6 out of 30' 30/36 Bold + 'Calls Left' 18 Medium · 10 bar, paywall/divider track, gradient/cta-gold fill · body1 text/secondary line, bold part text/primary · 'Limit Reached' replaces both at the limit"
+        "spec": "'6 out of 30' 30/36 Bold + 'Calls Left' 18 Medium · 10 bar, paywall/divider track, gradient/cta-gold fill · body1 text/secondary line, bold part text/primary · 'Weekly Limit Reached' replaces both at the limit"
       }
     ],
     "accessibility": [
@@ -2794,7 +2794,7 @@
       },
       {
         "topic": "Name",
-        "web": "Section label is the title or 'N out of M calls left' / 'Limit reached'; bar 'Calls handled this week'; close 'Close'; CTA by its text. PremiumIcon is aria-hidden.",
+        "web": "Section label is the title or 'N out of M calls left' / 'Weekly limit reached'; bar 'Calls handled this week'; close 'Close'; CTA by its text. PremiumIcon is aria-hidden.",
         "android": "Stat reads '20 Calls Handled by your Assistant'; bar 'Calls handled this week'; close 'Close'; scrim onClickLabel 'Close'. PremiumIcon has no description."
       },
       {
@@ -2814,7 +2814,7 @@
       },
       {
         "topic": "State",
-        "web": "Expiry tone always comes with words ('Plan Expires in', 'Today', 'Expired on'). The quota bar exposes its value; at the limit it is replaced by 'Limit Reached'. The struck ₹was is preceded by a visually hidden 'was'.",
+        "web": "Expiry tone always comes with words ('Plan Expires in', 'Today', 'Expired on'). The quota bar exposes its value; at the limit it is replaced by 'Weekly Limit Reached'. The struck ₹was is preceded by a visually hidden 'was'.",
         "android": "Same wording carries the tone. The price row's contentDescription reads '₹39, was ₹49 /Monthly'."
       },
       {
@@ -2945,7 +2945,7 @@
       },
       {
         "topic": "Keyboard",
-        "web": "Not interactive: the badge and price are read in order; the APPLY that triggers the drop lives on the coupon.",
+        "web": "Not interactive: the badge and price are read in order; the Apply that triggers the drop lives on the coupon.",
         "android": "Not interactive; TalkBack reads the label, price and badge in order."
       },
       {
@@ -3111,7 +3111,7 @@
       },
       {
         "topic": "Name",
-        "web": "ChoiceCard reads title, Suggested and description; ContactPick 'Add Mom' / 'Remove Vijay Cousin'; checkbox 'Select Arnav Raj'; 'Answer the call'; close 'Close'; notification 'Equal AI is answering Mom'.",
+        "web": "ChoiceCard reads title, Suggested and description; ContactPick 'Exclude Mom' / 'Remove Vijay Cousin'; checkbox 'Select Arnav Raj'; 'Answer the call'; close 'Close'; notification 'Equal AI is answering Mom'.",
         "android": "Same strings via contentDescription; index letters use onClickLabel 'Jump to A'."
       },
       {
@@ -3166,8 +3166,8 @@
       },
       {
         "part": "CouponRow",
-        "description": "EQUAL25 coupon with APPLY / APPLIED.",
-        "spec": "radius 14 · bg/surface · 1dp paywall/card-stroke · padding 10/14 · gap 10 · code subheading Bold text/gold · description caption Regular text/primary · APPLY body2 Bold text/gold (48 touch; 18% gold pill in dark)"
+        "description": "EQUAL25 coupon with Apply / Applied.",
+        "spec": "radius 14 · bg/surface · 1dp paywall/card-stroke · padding 10/14 · gap 10 · code subheading Bold text/gold · description caption Regular text/primary · Apply body2 Bold text/gold (48 touch; 18% gold pill in dark)"
       },
       {
         "part": "ExitOfferDialog + OfferStrip",
@@ -3194,22 +3194,22 @@
       {
         "topic": "Role",
         "web": "PaymentResult is a section with aria-label and an h1; ProcessingStrip and OfferStrip are role=status; PaywallSheet and HelpFaqSheet are role=dialog; ExitOfferDialog is role=alertdialog with aria-describedby; the usage bar is role=progressbar; LockedRecording is a button.",
-        "android": "PaymentResult, PaywallSheet, HelpFaqSheet and ExitOfferDialog set paneTitle with heading() titles; ProcessingStrip merges with liveRegion Polite; price and the APPLY/APPLIED slot are live regions; LockedRecording is Role.Button with one description."
+        "android": "PaymentResult, PaywallSheet, HelpFaqSheet and ExitOfferDialog set paneTitle with heading() titles; ProcessingStrip merges with liveRegion Polite; price and the Apply/Applied slot are live regions; LockedRecording is Role.Button with one description."
       },
       {
         "topic": "Name",
-        "web": "Chips 'Close' / 'Back'; LockedRecording 'Recording locked. Unlock Equal AI Unlimited'; locked actions read 'Locked Call Back'; APPLY reads 'Apply EQUAL25'; the usage bar is labelled (e.g. 'Weekly calls used') with valuetext 'N% used'.",
+        "web": "Chips 'Close' / 'Back'; LockedRecording 'Recording locked. Unlock Equal AI Unlimited'; locked actions read 'Locked Call Back'; Apply reads 'Apply EQUAL25'; the usage bar is labelled (e.g. 'Weekly calls used') with valuetext 'N% used'.",
         "android": "Same strings; the usage bar reads 'N% used'; the locked crown 'Locked'."
       },
       {
         "topic": "Keyboard",
-        "web": "Sheets and dialogs use useModal: focus moves in, Tab is trapped, Escape closes (onClose, else onScrim / onBack / onDismiss). After APPLY, focus moves to APPLIED.",
+        "web": "Sheets and dialogs use useModal: focus moves in, Tab is trapped, Escape closes (onClose, else onScrim / onBack / onDismiss). After Apply, focus moves to Applied.",
         "android": "TalkBack: swipe and double-tap; scrims have onClickLabel 'Close'. System Back closes every sheet and the exit offer."
       },
       {
         "topic": "Touch target",
-        "web": "Result chips (36), APPLY, Support and Claim Now use eq-touch (48); md and lg Buttons carry eq-touch (48).",
-        "android": "EqualButton, APPLY, Support and Claim Now meet 48dp; the PaymentResult chip is 44dp inside a 48dp touchTarget()."
+        "web": "Result chips (36), Apply, Support and Claim Now use eq-touch (48); md and lg Buttons carry eq-touch (48).",
+        "android": "EqualButton, Apply, Support and Claim Now meet 48dp; the PaymentResult chip is 44dp inside a 48dp touchTarget()."
       },
       {
         "topic": "Contrast",
@@ -3218,8 +3218,8 @@
       },
       {
         "topic": "State",
-        "web": "Processing is announced (role=status) and disables the CTA (disabled attribute). Locked actions show the crown and gold label plus 'Locked' in the name. APPLIED is announced through Announce ('Coupon EQUAL25 applied').",
-        "android": "Processing is a live region and the CTA is disabled; APPLIED and the new price are polite live regions."
+        "web": "Processing is announced (role=status) and disables the CTA (disabled attribute). Locked actions show the crown and gold label plus 'Locked' in the name. Applied is announced through Announce ('Coupon EQUAL25 applied').",
+        "android": "Processing is a live region and the CTA is disabled; Applied and the new price are polite live regions."
       },
       {
         "topic": "Motion",
@@ -3424,7 +3424,7 @@
       },
       {
         "topic": "Name",
-        "web": "Stat reads '400k+ People never miss a call'; rating reads 'Rated 4.5 /5' as separate spans; star alt is empty.",
+        "web": "Stat reads '10 Lakh+ People know who called and why'; rating reads 'Rated 4.5 /5' as separate spans; star alt is empty.",
         "android": "Rating reads 'Rated 4.5 out of 5'; the star has no description."
       },
       {
@@ -3484,7 +3484,7 @@
       },
       {
         "part": "Title lines",
-        "description": "Two display lines, light line first: 'We're Sad to / See you Cancel', 'Are you really / Sure?', 'Your Request is / Submitted'. One heading.",
+        "description": "Two display lines, light line first: 'Before you / Cancel', 'Cancel your / Plan?', 'Your plan is / Cancelled'. One heading.",
         "spec": "light 22/26 Regular (title) · strong 28/32 Bold -0.02em (headline) · text/primary · centred · 10 below the art · rises in over motion.paymentStatus"
       },
       {

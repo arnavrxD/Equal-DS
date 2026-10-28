@@ -731,7 +731,7 @@ fun ActiveInstructionsRow(count: Int, onClick: () -> Unit, modifier: Modifier = 
         Column(Modifier.weight(1f)) {
             EqualText(text = "Active Instructions", style = type.body2.copy(fontWeight = FontWeight.SemiBold), color = colors.textPrimary, maxLines = 1)
             EqualText(
-                text = if (count > 0) "$count active instruction${if (count == 1) "" else "s"}" else "Manage how your assistant handles calls",
+                text = if (count > 0) "$count Active" else "Manage how your assistant handles calls",
                 style = type.captionRegular,
                 color = colors.textSecondary,
                 maxLines = 1,
@@ -834,7 +834,7 @@ fun PresetInstructionCard(
                     ) {
                         EqualIcon(EqualIcons.Check, contentDescription = null, tint = colors.textAction, size = 16.dp)
                         Spacer(Modifier.width(4.dp))
-                        EqualText(text = "Applied", style = EqualTheme.type.buttonSmall, color = colors.textAction, maxLines = 1)
+                        EqualText(text = "Added", style = EqualTheme.type.buttonSmall, color = colors.textAction, maxLines = 1)
                     }
                 } else {
                     ApplyButton(onClick = onApply, contentDescription = "Apply ${instruction.title}")

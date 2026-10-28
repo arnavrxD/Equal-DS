@@ -30,7 +30,7 @@ function SelectionDemo() {
       <SelectionHeader count={sel.length} allSelected={sel.length === rows.length} onSelectAll={(all) => setSel(all ? rows.map((r) => r.id) : [])} onBack={() => setSel([])} />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 1, background: 'var(--eq-stroke-subtle)' }}>
         {rows.map((r) => (
-          <ChatListItem key={r.id} name={r.name} preview={r.preview} date={r.date} unread={r.unread} selected={sel.includes(r.id)} actions={[{ label: 'Call Back', emoji: '📞' }]} onClick={() => toggle(r.id)} onLongPress={() => toggle(r.id)} />
+          <ChatListItem key={r.id} name={r.name} preview={r.preview} date={r.date} unread={r.unread} selected={sel.includes(r.id)} actions={[{ label: 'Call back', emoji: '📞' }]} onClick={() => toggle(r.id)} onLongPress={() => toggle(r.id)} />
         ))}
       </div>
     </div>

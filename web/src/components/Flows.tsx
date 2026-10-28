@@ -248,7 +248,7 @@ export function ActiveInstructionsRow({ count, onClick }: { count: number; onCli
       <PresetIcon art="mascot-instructions" tint="lime" />
       <div style={{ flex: 1, minWidth: 0 }}>
         <Text as="div" variant="body2" style={{ fontWeight: 600 }}>Active Instructions</Text>
-        <Text as="div" variant="caption" color="secondary" style={{ fontWeight: 400 }}>{count ? `${count} active instruction${count === 1 ? '' : 's'}` : 'Manage how your assistant handles calls'}</Text>
+        <Text as="div" variant="caption" color="secondary" style={{ fontWeight: 400 }}>{count ? `${count} Active` : 'Manage how your assistant handles calls'}</Text>
       </div>
       <Icon name="chevron-right" size={22} color="var(--eq-text-placeholder)" />
     </button>
@@ -281,7 +281,7 @@ export function PresetInstructionCard({ instruction, applied, onApply }: { instr
       <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
         <Text as="h3" variant="subheading" style={{ flex: 1, fontWeight: 600, lineHeight: '20px' }}>{instruction.title}</Text>
         {applied ? (
-          <span ref={handoff.targetRef} tabIndex={-1} className="eq-applied"><Icon name="check" size={16} /><Text variant="buttonSmall" color="none">Applied</Text></span>
+          <span ref={handoff.targetRef} tabIndex={-1} className="eq-applied"><Icon name="check" size={16} /><Text variant="buttonSmall" color="none">Added</Text></span>
         ) : (
           <ApplyButton aria-label={`Apply ${instruction.title}`} onClick={() => { handoff.markFocus(); onApply?.(); }} />
         )}

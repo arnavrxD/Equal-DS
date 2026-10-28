@@ -448,7 +448,7 @@ function ToggleRowsDemo() {
     <OnPrimary pad="0 0 16px">
       <SectionHeader>Your assistant</SectionHeader>
       <RowGroup>
-        <ToggleRow label="Mute Promotional Calls" wrap description="Equal AI Assistant can identify Promotional Calls and automatically mute them" checked={mute} onChange={setMute} />
+        <ToggleRow label="Mute Unwanted Calls" wrap description="Equal AI Assistant can identify Promotional Calls and automatically mute them" checked={mute} onChange={setMute} />
         <ToggleRow label="Allow AI to learn from calls" wrap description="When this is on, assistant pays attention to how your calls go so it can handle them more like you would." checked={learn} onChange={setLearn} />
       </RowGroup>
     </OnPrimary>
@@ -468,7 +468,7 @@ function SheetDemo() {
           <Col gap={20}>
             <AiSuggestion>Want me to send Amit a quick reply on WhatsApp?</AiSuggestion>
             <ChipRow wrap>
-              <LargeActionChip emoji="💬" label="Reply on WhatsApp" onClick={() => setOpen(null)} />
+              <LargeActionChip emoji="💚" label="Reply on WhatsApp" onClick={() => setOpen(null)} />
               <LargeActionChip emoji="✍️" label="Edit draft" state="read" />
             </ChipRow>
           </Col>
@@ -493,7 +493,7 @@ function FullSheetDemo() {
   return (
     <PhoneFrame height={560}>
       <div style={{ padding: 24 }}>
-        <Button block leadingIcon="add" onClick={() => setOpen(true)}>Add New Instruction</Button>
+        <Button block leadingIcon="add" onClick={() => setOpen(true)}>Add New Instructions</Button>
       </div>
       <FullSheet
         open={open}
@@ -563,7 +563,7 @@ function AddressListDemo() {
       {list.map((a) => (
         <AddressCard key={a.id} label={a.label} address={formatAddress(a)} onEdit={noop} onDelete={() => setList((l) => l.filter((x) => x.id !== a.id))} />
       ))}
-      {list.length === 0 && <EmptyState illustration="illustration-addresses-empty" title="Never explain your address again" body="Save frequently used addresses, and your assistant will use them to handle delivery, pickup calls, etc. more naturally." />}
+      {list.length === 0 && <EmptyState illustration="illustration-addresses-empty" title="No Addresses Yet" body="Equal can use saved addresses when needed" />}
     </Col>
   );
 }
@@ -691,7 +691,7 @@ export const componentDocs: ComponentDoc[] = [
               <Button size="lg">Submit</Button>
             </Row>
             <div style={{ maxWidth: 328 }}>
-              <Button block size="lg" leadingIcon="add">Add New Instruction</Button>
+              <Button block size="lg" leadingIcon="add">Add New Instructions</Button>
             </div>
           </Col>
         ),
@@ -700,7 +700,7 @@ export const componentDocs: ComponentDoc[] = [
 <Button size="md">Submit</Button>
 <Button size="lg">Submit</Button>
 
-<Button block size="lg" leadingIcon="add">Add New Instruction</Button>`,
+<Button block size="lg" leadingIcon="add">Add New Instructions</Button>`,
       },
       {
         title: 'Premium: the gold CTA with sheen and glow',
@@ -708,13 +708,13 @@ export const componentDocs: ComponentDoc[] = [
         render: () => (
           <div style={{ maxWidth: 328, padding: 16 }}>
             <Col gap={16}>
-              <Button appearance="premium" size="lg" block glow>Unlock Unlimited</Button>
-              <Button appearance="premium" size="lg" block disabled>Unlock Unlimited</Button>
+              <Button appearance="premium" size="lg" block glow>Get Equal AI Unlimited</Button>
+              <Button appearance="premium" size="lg" block disabled>Get Equal AI Unlimited</Button>
             </Col>
           </div>
         ),
-        code: `<Button appearance="premium" size="lg" block glow>Unlock Unlimited</Button>
-<Button appearance="premium" size="lg" block disabled>Unlock Unlimited</Button>`,
+        code: `<Button appearance="premium" size="lg" block glow>Get Equal AI Unlimited</Button>
+<Button appearance="premium" size="lg" block disabled>Get Equal AI Unlimited</Button>`,
       },
       {
         title: 'Text and icon buttons',
@@ -836,24 +836,24 @@ export const componentDocs: ComponentDoc[] = [
         render: () => (
           <Col gap={12} style={{ padding: 16 }}>
             <Row gap={8}>
-              <SmallActionChip emoji="📞" label="Call Back" />
+              <SmallActionChip emoji="📞" label="Call back" />
               <SmallActionChip emoji="✏️" label="Update Address" />
             </Row>
             <Row gap={8}>
-              <SmallActionChip emoji="📞" label="Call Back" state="read" />
-              <SmallActionChip emoji="🗓️" label="Add to Calendar" state="read" />
+              <SmallActionChip emoji="📞" label="Call back" state="read" />
+              <SmallActionChip emoji="📅" label="Add to Calendar" state="read" />
             </Row>
             <Row gap={8}>
-              <SmallActionChip emoji="📞" label="Call Back" state="outlined" />
-              <SmallActionChip emoji="🗓️" label="Add to Calendar" state="outlined" chevron={false} />
+              <SmallActionChip emoji="📞" label="Call back" state="outlined" />
+              <SmallActionChip emoji="📅" label="Add to Calendar" state="outlined" chevron={false} />
             </Row>
           </Col>
         ),
-        code: `<SmallActionChip emoji="📞" label="Call Back" />
+        code: `<SmallActionChip emoji="📞" label="Call back" />
 <SmallActionChip emoji="✏️" label="Update Address" />
-<SmallActionChip emoji="📞" label="Call Back" state="read" />
-<SmallActionChip emoji="📞" label="Call Back" state="outlined" />
-<SmallActionChip emoji="🗓️" label="Add to Calendar" state="outlined" chevron={false} />`,
+<SmallActionChip emoji="📞" label="Call back" state="read" />
+<SmallActionChip emoji="📞" label="Call back" state="outlined" />
+<SmallActionChip emoji="📅" label="Add to Calendar" state="outlined" chevron={false} />`,
       },
       {
         title: 'Large chips',
@@ -893,9 +893,9 @@ export const componentDocs: ComponentDoc[] = [
           </div>
         ),
         code: `<ChipRow>
-  <SmallActionChip emoji="📞" label="Call Back" />
+  <SmallActionChip emoji="📞" label="Call back" />
   <SmallActionChip emoji="✏️" label="Update Address" />
-  <SmallActionChip emoji="🗓️" label="Add to Calendar" />
+  <SmallActionChip emoji="📅" label="Add to Calendar" />
 </ChipRow>`,
       },
     ],
@@ -904,7 +904,7 @@ export const componentDocs: ComponentDoc[] = [
         component: 'SmallActionChip',
         props: [
           req('label', 'string', 'Chip label (buttonSmall token).'),
-          opt('emoji', 'string', undefined, 'Unicode emoji shown at 16dp: 📞 Call back, ✏️ Update address, 🗓️ Add to calendar.'),
+          opt('emoji', 'string', undefined, 'Unicode emoji shown at 16dp: 📞 Call back, ✏️ Update address, 📅 Add to Calendar.'),
           opt('state', "'unread' | 'read' | 'outlined'", "'unread'", 'unread = green glass, read = grey glass, outlined = the selected-row state.'),
           opt('chevron', 'boolean', 'true', 'Trailing chevron-right (14dp).'),
           opt('type', "'button' | 'submit' | 'reset'", "'button'", htmlButtonNote),
@@ -929,7 +929,7 @@ export const componentDocs: ComponentDoc[] = [
       },
     ],
     dos: [
-      'Lead every action with a Unicode emoji (📞 Call Back, ✏️ Update Address, 🗓️ Add to Calendar); actions use emoji, not Material icons.',
+      'Lead every action with a Unicode emoji (📞 Call back, ✏️ Update Address, 📅 Add to Calendar); actions use emoji, not Material icons.',
       'Use small chips outside chats (the chat list) and large chips inside a conversation or the AI panel.',
       'Let ChatListItem pick the small-chip state: unread rows get unread chips, read rows read chips, a selected row outlined chips.',
       'Mark the suggested next step unread and the alternative read (👍 Confirm vs ✍️ Edit).',
@@ -984,7 +984,7 @@ export const componentDocs: ComponentDoc[] = [
         note: 'Most switches live in a ToggleRow or the Assistant toggle card.',
         render: () => <ToggleRowsDemo />,
         code: `<RowGroup>
-  <ToggleRow label="Mute Promotional Calls" wrap
+  <ToggleRow label="Mute Unwanted Calls" wrap
     description="Equal AI Assistant can identify Promotional Calls and automatically mute them"
     checked={mute} onChange={setMute} />
 </RowGroup>`,
@@ -1002,7 +1002,7 @@ export const componentDocs: ComponentDoc[] = [
       },
     ],
     dos: [
-      'Use a Switch when the change applies instantly (Mute Promotional Calls, Get updates on WhatsApp).',
+      'Use a Switch when the change applies instantly (Mute Unwanted Calls, Get updates on WhatsApp).',
       'Put the visible label in the row beside it and pass the same text as `label`.',
       'Confirm with a sheet when turning something off has consequences, as WhatsApp Updates does ("Turn off WhatsApp updates?").',
     ],
@@ -1300,16 +1300,16 @@ const [muted, setMuted] = useState(false);
         title: 'Check card with permission rows',
         render: () => (
           <div style={{ padding: 16, maxWidth: 360 }}>
-            <HealthCheckCard title="App permissions" status="issues" expandable expanded action={{ label: 'Grant Permission' }}>
+            <HealthCheckCard title="App Permissions" status="issues" expandable expanded action={{ label: 'Grant Permission' }}>
               <PermissionRow icon="phone-incoming" title="Phone" description="Your assistant needs this to handle calls" status="granted" />
-              <PermissionRow icon="notifications" title="Notification" description="Required to send you call alerts" status="notGranted" />
+              <PermissionRow icon="notifications" title="Notifications"description="Required to send you call alerts" status="notGranted" />
               <PermissionRow icon="contacts" title="Contacts" description="Required to skip calls from saved contacts" status="checking" />
             </HealthCheckCard>
           </div>
         ),
-        code: `<HealthCheckCard title="App permissions" status="issues" expandable expanded action={{ label: 'Grant Permission', onClick: grant }}>
+        code: `<HealthCheckCard title="App Permissions" status="issues" expandable expanded action={{ label: 'Grant Permission', onClick: grant }}>
   <PermissionRow icon="phone-incoming" title="Phone" description="Your assistant needs this to handle calls" status="granted" />
-  <PermissionRow icon="notifications" title="Notification" description="Required to send you call alerts" status="notGranted" />
+  <PermissionRow icon="notifications" title="Notifications"description="Required to send you call alerts" status="notGranted" />
   <PermissionRow icon="contacts" title="Contacts" description="Required to skip calls from saved contacts" status="checking" />
 </HealthCheckCard>`,
       },
@@ -1660,13 +1660,13 @@ const [muted, setMuted] = useState(false);
           <Col gap={16} style={{ padding: 16, maxWidth: 380 }}>
             <TraitOrbHero />
             <InfoRows rows={[{ icon: 'auto-fix', title: 'It builds up over time', body: 'It gets a little sharper with every call.' }, { icon: 'privacy', title: 'Ignores sensitive topics', body: 'Health, finances, legal, family, religion never used.' }]} />
-            <KeepLoseList stays={['Everything it knows today']} goes={['Anything that changes ahead']} />
+            <KeepLoseList stays={['Everything Equal knows today']} goes={['New information from future calls']} />
             <AvatarStack initials={['AS', 'AM', 'BC']} />
           </Col>
         ),
         code: `<TraitOrbHero />
 <InfoRows rows={rows} />
-<KeepLoseList stays={['Everything it knows today']} goes={['Anything that changes ahead']} />
+<KeepLoseList stays={['Everything Equal knows today']} goes={['New information from future calls']} />
 <AvatarStack initials={['AS', 'AM', 'BC']} />`,
       },
     ],
@@ -2065,14 +2065,14 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
           <Col gap={0}>
             <TopBar />
             <RowGroup inset={0}>
-              <SettingsRow icon="instructions" label="Instructions" description="Tell assistant how you'd like it to help" isNew />
+              <SettingsRow icon="instructions" label="Your Instructions" description="Tell Equal what to do" isNew />
             </RowGroup>
             <ChatListItem name={arnav.name} preview={arnav.preview} date={arnav.date} unread={arnav.unread} avatar={{ category: arnav.category }} />
           </Col>
         ),
         code: `<TopBar />                                  {/* PlanBadge */}
-<SettingsRow icon="instructions" label="Instructions" isNew
-  description="Tell assistant how you'd like it to help" />   {/* NewBadge */}
+<SettingsRow icon="instructions" label="Your Instructions" isNew
+  description="Tell Equal what to do" />   {/* NewBadge */}
 <ChatListItem name="Arnav Raj" preview="You have a visitor"
   date="Yesterday" unread={5} />             {/* CountBadge */}`,
       },
@@ -2642,12 +2642,12 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
         code: `<ChatListItem name="Arnav Raj" preview="You have a visitor" date="Yesterday"
   unread={5} avatar={{ category: 'na' }}
   actions={[
-    { label: 'Call Back', emoji: '📞' },
+    { label: 'Call back', emoji: '📞' },
     { label: 'Update Address', emoji: '✏️' },
-    { label: 'Add to Calendar', emoji: '🗓️' },
+    { label: 'Add to Calendar', emoji: '📅' },
   ]} />
 <ChatListItem name="Amit Nanda" preview="Count me in for Sunday 8 PM 👍" date="12 July"
-  avatar={{ initials: 'AN' }} actions={[{ label: 'Call Back', emoji: '📞' }]} />`,
+  avatar={{ initials: 'AN' }} actions={[{ label: 'Call back', emoji: '📞' }]} />`,
       },
       {
         title: 'Long-press to select',
@@ -2655,7 +2655,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
         render: () => <ChatListLongPressDemo />,
         code: `<ChatListItem name="Dr Mehta Clinic" preview="Appointment confirmed for tomorrow, 10 AM"
   date="03:21" unread={2} avatar={{ category: 'others' }}
-  actions={[{ label: 'Add to Calendar', emoji: '🗓️' }, { label: 'Call Back', emoji: '📞' }]}
+  actions={[{ label: 'Add to Calendar', emoji: '📅' }, { label: 'Call back', emoji: '📞' }]}
   selected={selected} onLongPress={() => setSelected(true)} />`,
       },
       {
@@ -2692,7 +2692,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     ],
     dos: [
       'Give unknown callers their category art and saved contacts their initials.',
-      'Offer the next step as chips on the row (📞 Call Back, 🗓️ Add to Calendar) so it is one tap from the list.',
+      'Offer the next step as chips on the row (📞 Call back, 📅 Add to Calendar) so it is one tap from the list.',
       'Use long-press to enter selection mode.',
     ],
     donts: [
@@ -2907,7 +2907,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     examples: [
       {
         title: 'With a reason',
-        note: 'The caller’s art carries the missed badge; LIKELY CALLS FOR bolds the key words. 👍 / 👎 tell us whether the reason was right.',
+        note: 'The caller’s art carries the missed badge; USUALLY CALLS FOR bolds the key words. 👍 / 👎 tell us whether the reason was right.',
         render: () => {
           const [fb, setFb] = useState<'up' | 'down' | null>(null);
           return (
@@ -2945,8 +2945,8 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
       {
         component: 'MissedCallCard',
         props: [
-          opt('caller', 'string', undefined, 'Caller name: “{caller} Called”. Leave it out when we couldn’t tell who called (“Missed by the assistant”).'),
-          opt('reason', 'ReactNode', undefined, 'Why this caller usually calls, under LIKELY CALLS FOR. Bold the key words. Moves the time below it.'),
+          opt('caller', 'string', undefined, 'Caller name: “{caller} Called”. Leave it out when we couldn’t tell who called (“Missed Call”).'),
+          opt('reason', 'ReactNode', undefined, 'Why this caller usually calls, under USUALLY CALLS FOR. Bold the key words. Moves the time below it.'),
           opt('category', 'Category', undefined, 'Caller art with the missed badge (with a reason). Otherwise the red missed-call disc.'),
           opt('time', 'string', undefined, 'Timestamp.'),
           opt('onCallBack', '() => void', undefined, 'The Call back row. Opens the Call Back task.'),
@@ -3055,8 +3055,8 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
             <AiChatPanel
               prompt="Want me to send Amit a quick reply on WhatsApp?"
               actions={[
-                { label: 'Reply on WhatsApp', emoji: '💬' },
-                { label: 'Add to Calendar', emoji: '🗓️' },
+                { label: 'Reply on WhatsApp', emoji: '💚' },
+                { label: 'Add to Calendar', emoji: '📅' },
               ]}
             />
           </div>
@@ -3064,8 +3064,8 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
         code: `<AiChatPanel
   prompt="Want me to send Amit a quick reply on WhatsApp?"
   actions={[
-    { label: 'Reply on WhatsApp', emoji: '💬' },
-    { label: 'Add to Calendar', emoji: '🗓️' },
+    { label: 'Reply on WhatsApp', emoji: '💚' },
+    { label: 'Add to Calendar', emoji: '📅' },
   ]}
   composer={{ onSend: send }} />`,
       },
@@ -3272,7 +3272,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
       {
         component: 'FeedbackCard',
         props: [
-          opt('question', 'string', "'How would you rate the call?'", 'Question (body1).'),
+          opt('question', 'string', "'How would you rate your call Keshav?'", 'Question (body1).'),
           opt('rating', 'number', undefined, 'Controlled rating 0–5. Omit to let the card keep its own.'),
           opt('onRate', '(rating: number) => void', undefined, 'Called when a star is tapped.'),
           opt('onShare', '(rating: number) => void', undefined, 'Share Feedback tapped, with the current rating.'),
@@ -3402,12 +3402,12 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
         title: 'Default',
         render: () => (
           <div style={{ padding: 16, width: 390, boxSizing: 'border-box' }}>
-            <WhatsNewCard width="100%" heading="Language Preference" body="Set your preferred language and choose how your assistant sounds" ctaLabel="Try Voices" ctaIcon="translate" onDismiss={noop} />
+            <WhatsNewCard width="100%" heading="Assistant Languages" body="Checkout how your assistant speaks in 9 languages" ctaLabel="Try Languages" ctaIcon="translate" onDismiss={noop} />
           </div>
         ),
-        code: `<WhatsNewCard width="100%" heading="Language Preference"
-  body="Set your preferred language and choose how your assistant sounds"
-  ctaLabel="Try Voices" ctaIcon="translate" onCta={openVoices} onDismiss={dismiss} />`,
+        code: `<WhatsNewCard width="100%" heading="Assistant Languages"
+  body="Checkout how your assistant speaks in 9 languages"
+  ctaLabel="Try Languages" ctaIcon="translate" onCta={openLanguages} onDismiss={dismiss} />`,
       },
       {
         title: 'Custom badge and icon, not dismissible',
@@ -3499,7 +3499,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     id: 'meet-assistant-card',
     name: 'Meet Your Assistant card',
     group: 'Cards',
-    summary: 'Introduces the voice assistant with its persona avatar and a “Call me” pill. Compact on Chats once the assistant is back; banner as a standalone promo.',
+    summary: 'Introduces the voice assistant with its persona avatar and a “Call Now” pill. Compact on Chats once the assistant is back; banner as a standalone promo.',
     components: ['MeetAssistantCard', 'CallMeButton'],
     importLine: "import { MeetAssistantCard } from '@equal/ds';",
     compose: ['MeetAssistantCard'],
@@ -3521,17 +3521,17 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
       {
         component: 'MeetAssistantCard',
         props: [
-          opt('layout', "'compact' | 'banner'", "'compact'", 'Compact: avatar left, title + Call me. Banner: green bold title, body, avatar right.'),
-          opt('title', 'ReactNode', "'Meet Your Assistant'", 'Heading.'),
-          opt('body', 'ReactNode', '“Try talking to your assistant…”', 'Banner only.'),
-          opt('ctaLabel', 'string', "'Call me'", 'Pill label, with the call-sparkle icon.'),
+          opt('layout', "'compact' | 'banner'", "'compact'", 'Compact: avatar left, title + Call Now. Banner: green bold title, body, avatar right.'),
+          opt('title', 'ReactNode', "'Talk to your assistant'", 'Heading.'),
+          opt('body', 'ReactNode', "“How do you handle spam calls?” or just say 'Hi'!", 'Banner and hero only.'),
+          opt('ctaLabel', 'string', "'Call Now'", 'Pill label, with the call-sparkle icon.'),
           opt('onCall', '() => void', undefined, 'Starts a call with the assistant.'),
           opt('onDismiss', '() => void', undefined, 'Shows the close (X) when set.'),
           opt('width', 'number | string', "'100%'", 'Card width (max 100%).'),
         ],
       },
     ],
-    dos: ['Use the compact layout in the Chats promo slot, the same slot as What’s New.', 'Keep “Call me” as the only action.'],
+    dos: ['Use the compact layout in the Chats promo slot, the same slot as What’s New.', 'Keep “Call Now” as the only action.'],
     donts: ['Don’t show it together with a What’s New card.', 'Don’t crop or recolour the avatar-assistant art; the orb badge is part of the file.'],
   },
   {
@@ -3633,7 +3633,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     examples: [
       {
         title: 'Hero with price and preview',
-        note: 'DM Sans only: "Unlock Equal" 22 Regular over "Unlimited" 38 Bold (the design used Lora).',
+        note: 'DM Sans only: "Equal AI" 22 Regular over "Unlimited" 38 Bold (the design used Lora).',
         width: 390,
         render: () => (
           <div style={{ width: '100%' }}>
@@ -3676,13 +3676,13 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
         title: 'Sticky footer',
         width: 390,
         render: () => <div style={{ width: '100%' }}><PaywallFooter onClick={noop} /></div>,
-        code: `<PaywallFooter cta="Unlock Unlimited" note="Cancel Anytime. Automatically renews" onClick={buy} />`,
+        code: `<PaywallFooter cta="Get Equal AI Unlimited" note="Cancel anytime · UPI secure · No hidden charges" onClick={buy} />`,
       },
     ],
     props: [
-      { component: 'PaywallHero', props: [opt('title', 'string', "'Unlock Equal'", 'Regular first line.'), opt('titleStrong', 'string', "'Unlimited'", 'Bold display line.'), opt('subtitle', 'ReactNode', 'Unlock Summaries…', 'Experiment: copy variant.'), opt('onBack / onSupport', '() => void', undefined, 'Header actions; Support opens the Help Center sheet.'), opt('children', 'ReactNode', undefined, 'Price, preview, coupon.')] },
+      { component: 'PaywallHero', props: [opt('title', 'string', "'Equal AI'", 'Regular first line.'), opt('titleStrong', 'string', "'Unlimited'", 'Bold display line.'), opt('subtitle', 'ReactNode', 'Get Unlimited Recordings…', 'Experiment: copy variant.'), opt('onBack / onSupport', '() => void', undefined, 'Header actions; Support opens the Help Center sheet.'), opt('children', 'ReactNode', undefined, 'Price, preview, coupon.')] },
       { component: 'PriceTag', props: [req('price', 'number | string', 'Shown price (drops when the coupon applies).'), opt('label', 'string | null', "'Limited time discount'", 'Gold caps label with 🎊.'), opt('currency', 'string', "'₹'", 'Prefix.')] },
-      { component: 'PaywallFooter', props: [opt('cta', 'string', "'Unlock Unlimited'", 'Gold block button.'), opt('note', 'string | null', "'Cancel Anytime. Automatically renews'", 'Caption under it.'), opt('onClick', '() => void', undefined, 'Starts payment.'), opt('variant', "'gold' | 'gold-outline' | 'primary'", "'gold'", 'gold-outline for Cancel Subscription on the plan page.'), opt('disabled', 'boolean', undefined, 'While a payment is processing.'), opt('flat', 'boolean', undefined, 'No surface or shadow, inside the sheet paywall.'), opt('above', 'ReactNode', undefined, 'Above the button, e.g. the processing toast.')] },
+      { component: 'PaywallFooter', props: [opt('cta', 'string', "'Get Equal AI Unlimited'", 'Gold block button.'), opt('note', 'string | null', "'Cancel anytime · UPI secure · No hidden charges'", 'Caption under it.'), opt('onClick', '() => void', undefined, 'Starts payment.'), opt('variant', "'gold' | 'gold-outline' | 'primary'", "'gold'", 'gold-outline for Cancel Subscription on the plan page.'), opt('disabled', 'boolean', undefined, 'While a payment is processing.'), opt('flat', 'boolean', undefined, 'No surface or shadow, inside the sheet paywall.'), opt('above', 'ReactNode', undefined, 'Above the button, e.g. the processing toast.')] },
     ],
     dos: ['Pick the preview from the touchpoint the user came from.', 'Keep one gold CTA; it is the only commit on the page.'],
     donts: ["Don't use a serif for the display lines; the system is DM Sans only.", "Don't hide the auto-renew note."],
@@ -3698,8 +3698,8 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     spec: 'Monetization Flow · EQUAL25',
     tokens: ['bg/surface', 'gradient/coupon-stroke', 'paywall/divider', 'text/gold', 'gradient/gold-text'],
     examples: [
-      { title: 'Available', render: () => <div style={pad16}><div style={{ width: '100%' }}><CouponTicket code="EQUAL25" description="Save Flat ₹100 with this Code" discount="25% OFF" onApply={noop} /></div></div>, code: `<CouponTicket code="EQUAL25" description="Save Flat ₹100 with this Code" discount="25% OFF" onApply={apply} />` },
-      { title: 'Applied', render: () => <div style={pad16}><div style={{ width: '100%' }}><CouponTicket code="EQUAL25" description="Save Flat ₹100 with this Code" discount="25% OFF" applied /></div></div>, code: `<CouponTicket code="EQUAL25" description="Save Flat ₹100 with this Code" discount="25% OFF" applied />` },
+      { title: 'Available', render: () => <div style={pad16}><div style={{ width: '100%' }}><CouponTicket code="EQUAL25" description="Get extra 25% off your first month" discount="25% OFF on UPI" onApply={noop} /></div></div>, code: `<CouponTicket code="EQUAL25" description="Get extra 25% off your first month" discount="25% OFF on UPI" onApply={apply} />` },
+      { title: 'Applied', render: () => <div style={pad16}><div style={{ width: '100%' }}><CouponTicket code="EQUAL25" description="Get extra 25% off your first month" discount="25% OFF on UPI" applied /></div></div>, code: `<CouponTicket code="EQUAL25" description="Get extra 25% off your first month" discount="25% OFF on UPI" applied />` },
     ],
     props: [{ component: 'CouponTicket', props: [req('code', 'string', 'Coupon code.'), req('description', 'ReactNode', 'What it saves.'), req('discount', 'string', 'Big gold line, e.g. "25% OFF".'), opt('applied', 'boolean', undefined, 'Shows APPLIED; the price above drops.'), opt('onApply', '() => void', undefined, 'APPLY tap.')] }],
     dos: ['Drop the price in PriceTag when the coupon applies (₹249 → ₹149).'],
@@ -3807,8 +3807,8 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     compose: ['HelpCenterSheet'],
     spec: 'Monetization Flow · Help Center',
     tokens: ['bg/surface', 'stroke/subtle', 'action-card/highlight', 'text/action'],
-    examples: [{ title: 'Default', render: () => <div style={pad16}><div style={{ width: '100%' }}><HelpCenterSheet mode="inline" /></div></div>, code: `<HelpCenterSheet phone="+91 9876 543210" email="hello@equal.in" onCall={call} onMail={mail} />` }],
-    props: [{ component: 'HelpCenterSheet', props: [opt('phone / email', 'string', '+91 9876 543210 / hello@equal.in', 'Contact rows.'), opt('onCall / onMail', '() => void', undefined, 'Row taps.')] }],
+    examples: [{ title: 'Default', render: () => <div style={pad16}><div style={{ width: '100%' }}><HelpCenterSheet mode="inline" /></div></div>, code: `<HelpCenterSheet phone="+91 9876 543210" email="hey@equal.in" onCall={call} onMail={mail} />` }],
+    props: [{ component: 'HelpCenterSheet', props: [opt('phone / email', 'string', '+91 9876 543210 / hey@equal.in', 'Contact rows.'), opt('onCall / onMail', '() => void', undefined, 'Row taps.')] }],
     dos: ['Keep it to the two contact routes.'],
     donts: ["Don't send people to a web page from here."],
   },
@@ -3826,7 +3826,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
       { title: 'Accordion', render: () => <div style={pad16}><div style={{ width: '100%' }}><FaqList items={paywallFaq} defaultOpen={[3]} /></div></div>, code: `<FaqList items={faq} defaultOpen={[3]} />` },
       { title: 'Section label', render: () => <div style={pad16}><div style={{ width: '100%' }}><DividerLabel>Why people choose</DividerLabel></div></div>, code: `<DividerLabel>Why people choose</DividerLabel>` },
     ],
-    props: [{ component: 'FaqList', props: [req('items', '{ q: string; a: ReactNode }[]', 'Questions.'), opt('title', 'string | null', "'Frequently asked questions'", 'Label above.'), opt('defaultOpen', 'number[]', '[]', 'Expanded rows.')] }],
+    props: [{ component: 'FaqList', props: [req('items', '{ q: string; a: ReactNode }[]', 'Questions.'), opt('title', 'string | null', "'FREQUENTLY ASKED QUESTIONS'", 'Label above.'), opt('defaultOpen', 'number[]', '[]', 'Expanded rows.')] }],
     dos: ['Answer cancellation and refunds plainly.'],
     donts: ["Don't put the FAQ above the CTA."],
   },
@@ -3915,7 +3915,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     props: [
       { component: 'ValueCard', props: [req('calls', 'number', 'Calls the assistant handled.'), req('expiry', 'PlanExpiry', "active (until) · expiring (days) · today · expired (date)."), opt('title', 'string | null', "'What Unlimited saved you'", 'In-card heading; null on the plan page.'), opt('perks', 'ValuePerk[] | null', 'defaultValuePerks', 'The three rows; null hides them.'), opt('price', 'number', '39', 'Current price.'), opt('was', 'number', '49', 'Struck list price.'), opt('pattern', "'rings' | 'circuit'", 'circuit when perks is null', 'Rings (sheet) or the gold circuit lines (plan page).')] },
       { component: 'PremiumIcon', props: [req('name', 'IconName', 'A filled Material Symbol (the -fill icons, timer, person, call-log).'), opt('size', 'number', '16', 'dp.')] },
-      { component: 'QuotaCard', props: [req('quota', '{ used: number; limit: number; resetsInDays: number }', 'This week; used ≥ limit shows Limit Reached.'), opt('perks', 'ValuePerk[] | null', 'quotaPerks', 'What Unlimited adds.'), opt('price', 'number', '149', 'Price.'), opt('was', 'number', '249', 'Struck list price.')] },
+      { component: 'QuotaCard', props: [req('quota', '{ used: number; limit: number; resetsInDays: number }', 'This week; used ≥ limit shows Weekly Limit Reached.'), opt('perks', 'ValuePerk[] | null', 'quotaPerks', 'What Unlimited adds.'), opt('price', 'number', '149', 'Price.'), opt('was', 'number', '249', 'Struck list price.')] },
       { component: 'ValueSheet', props: [opt('expiry', 'PlanExpiry', undefined, 'Paid plan state.'), opt('quota', 'Quota', undefined, 'Free plan: show the QuotaCard (CTA Get Equal AI Unlimited).'), opt('calls', 'number', '20', 'Calls handled.'), opt('variant', "'card' | 'flush'", "'card'", 'Inset card or the card as the sheet (experiment).'), opt('cta', 'string', "'Renew your Equal AI'", 'Gold CTA.'), opt('onRenew', '() => void', undefined, 'CTA.'), opt('onClose', '() => void', undefined, 'The floating close and the scrim.')] },
     ],
     dos: ['Show the sheet once, after the assistant handles a call in the last days of a plan.', 'Lead with the number; the user should see what they get before the ask.', 'Perk icons are filled Material Symbols at 16 dp in the premium gold gradient (PremiumIcon), never outlined or flat-tinted.', 'Light cards sit on the premium-glow art; dark cards use the coded black-gold gradient.'],
@@ -3925,7 +3925,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     id: 'feature-list',
     name: 'Feature list',
     group: 'Monetization',
-    summary: 'What You Get on the plan page: one card per Unlimited feature with its 3D gold icon (24/7 Unlimited Call Screening, Unlimited Recordings, Unlimited Summaries).',
+    summary: 'What You Get on the plan page: one card per Unlimited feature with its 3D gold icon (Unlimited AI call handling, 24/7, Unlimited Recordings, AI Call Summaries).',
     components: ['FeatureList'],
     importLine: "import { FeatureList, unlimitedFeatures } from '@equal/ds';",
     compose: ['FeatureList'],
@@ -3977,7 +3977,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
           <div style={{ width: '100%' }}>
             <AssistantSheetShell mode="inline" footer={<AssistantInput mode="text" />}>
               <AssistantGreeting name="Keshav" />
-              <AssistantActions items={[{ label: 'Talk to Equal', icon: 'equal' }, { label: 'Talk to Equal', icon: 'auto-fix' }, { label: 'Make a call', icon: 'call-filled' }]} />
+              <AssistantActions items={[{ label: 'Talk to Equal', icon: 'equal' }, { label: 'Set Instruction', icon: 'auto-fix' }, { label: 'Make a Call', icon: 'call-filled' }]} />
               <div className="eq-mya-chips"><LargeActionChip emoji="🗓️" label="Reply Amit on WhatsApp" /><LargeActionChip emoji="🔔" label="Set reminder" /></div>
             </AssistantSheetShell>
           </div>
@@ -4078,17 +4078,17 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
         width: 390,
         render: () => (
           <div style={{ width: '100%', padding: 16, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: 16 }}>
-            <ChoiceCard icon="globe" title="All calls, except a few" description="I answer everyone. You pick who I skip." />
-            <ChoiceCard icon="call" title="Only unknown numbers" description="I answer numbers that are not saved in your phone." selected />
+            <ChoiceCard icon="globe" title="All calls except" description="Equal answers all your calls, except the people you choose." />
+            <ChoiceCard icon="call" title="Unknown numbers only" description="Equal only answers calls from numbers you don’t have saved." selected />
             <ChoiceCard icon="globe" title="All calls except" description="Unknown numbers, and people you know when you don’t pick up" suggested disabled />
-            <InfoNote title="Contact access needed" body="Without it, the assistant can’t handle all calls." link="Give contacts permission" />
+            <InfoNote title="Contact access needed" body="Without it, the assistant cannot handle all calls." link="Give contacts permission" />
           </div>
         ),
         code: `<div role="radiogroup">
-  <ChoiceCard icon="globe" title="All calls, except a few" description="I answer everyone. You pick who I skip." selected={mode === 'all'} onSelect={() => setMode('all')} />
-  <ChoiceCard icon="call" title="Only unknown numbers" description="I answer numbers that are not saved in your phone." selected={mode === 'unknown'} onSelect={() => setMode('unknown')} />
+  <ChoiceCard icon="globe" title="All calls except" description="Equal answers all your calls, except the people you choose." selected={mode === 'all'} onSelect={() => setMode('all')} />
+  <ChoiceCard icon="call" title="Unknown numbers only" description="Equal only answers calls from numbers you don’t have saved." selected={mode === 'unknown'} onSelect={() => setMode('unknown')} />
 </div>
-<InfoNote title="Contact access needed" body="Without it, the assistant can’t handle all calls." link="Give contacts permission" onLink={askContacts} />`,
+<InfoNote title="Contact access needed" body="Without it, the assistant cannot handle all calls." link="Give contacts permission" onLink={askContacts} />`,
       },
       {
         title: 'Contact pickers',
@@ -4199,13 +4199,13 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
         width: 390,
         render: () => (
           <div style={{ padding: 16, width: '100%', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <div className="eq-summary"><div style={{ padding: 8 }}><LockedRecording /></div><SummaryActions locked actions={[{ label: 'Call Back', icon: 'call-filled' }, { label: 'Add to Calendar', icon: 'calendar' }]} /></div>
-            <SmallActionChip label="Call Back" emoji="📞" locked />
+            <div className="eq-summary"><div style={{ padding: 8 }}><LockedRecording /></div><SummaryActions locked actions={[{ label: 'Call back', icon: 'call-filled' }, { label: 'Add to Calendar', icon: 'calendar' }]} /></div>
+            <SmallActionChip label="Call back" emoji="📞" locked />
           </div>
         ),
         code: `<LockedRecording onUnlock={openPaywall} />
-<SummaryActions locked actions={[{ label: 'Call Back', icon: 'call-filled' }, { label: 'Add to Calendar', icon: 'calendar' }]} onLocked={openPaywall} />
-<SmallActionChip label="Call Back" emoji="📞" locked />   // ChatListItem lockedActions`,
+<SummaryActions locked actions={[{ label: 'Call back', icon: 'call-filled' }, { label: 'Add to Calendar', icon: 'calendar' }]} onLocked={openPaywall} />
+<SmallActionChip label="Call back" emoji="📞" locked />   // ChatListItem lockedActions`,
       },
     ],
     props: [
@@ -4295,12 +4295,12 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     spec: 'Monetization Flow · Why people choose',
     tokens: ['gradient/gold-text', 'text/gold', 'paywall/card-stroke'],
     examples: [
-      { title: 'Stat and rating', render: () => <Col gap={16} style={{ alignItems: 'center' }}><StatBlock value="400k+" label="People never miss a call" /><RatingPill rating={4.5} /></Col>, code: `<StatBlock value="400k+" label="People never miss a call" />
+      { title: 'Stat and rating', render: () => <Col gap={16} style={{ alignItems: 'center' }}><StatBlock value="10 Lakh+" label="People know who called and why" /><RatingPill rating={4.5} /></Col>, code: `<StatBlock value="10 Lakh+" label="People know who called and why" />
 <RatingPill rating={4.5} />` },
       { title: 'Testimonials', width: 390, render: () => <div style={{ width: '100%', padding: '16px 0' }}><TestimonialCarousel items={testimonials.map((t, i) => ({ ...t, avatar: <Asset name={(['avatar-testimonial-1', 'avatar-testimonial-2', 'avatar-testimonial-3'] as const)[i % 3]} size={36} alt="" /> }))} /></div>, code: `<TestimonialCarousel items={[{ quote, name, avatar: <ProfileAvatar variant="female" size={36} /> }, …]} />` },
     ],
     props: [
-      { component: 'StatBlock', props: [req('value', 'string', '"400k+".'), req('label', 'string', 'Under it.')] },
+      { component: 'StatBlock', props: [req('value', 'string', '"10 Lakh+".'), req('label', 'string', 'Under it.')] },
       { component: 'RatingPill', props: [req('rating', 'number', '4.5'), opt('outOf', 'number', '5', 'Scale.')] },
       { component: 'TestimonialCarousel', props: [req('items', '{ quote; name; avatar? }[]', 'Cards (240 wide), with page dots.')] },
     ],
@@ -4311,7 +4311,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     id: 'cancel-sheet',
     name: 'Cancellation',
     group: 'Monetization',
-    summary: 'Three steps to cancel: tell us why (Proceed stays disabled until there is text), confirm, and the request submitted with access kept until the end date.',
+    summary: 'Three steps to cancel: tell us why (Continue stays disabled until there is text), confirm (Keep my plan / Yes), and the plan cancelled with access kept until the end date.',
     components: ['CancelSheet'],
     importLine: "import { CancelSheet } from '@equal/ds';",
     compose: ['CancelSheet'],
@@ -4325,7 +4325,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     ],
     props: [{ component: 'CancelSheet', props: [req('step', "'feedback' | 'confirm' | 'submitted'", 'Step.'), opt('accessUntil', 'string', "'15 June 2026'", 'Access end date.'), opt('reason / onReasonChange', 'string / (v) => void', undefined, 'Feedback text (controlled or not).'), opt('onProceed / onKeep / onConfirm / onRedirect', '() => void', undefined, 'Step actions.')] }],
     dos: ['Say how long access lasts at every step.'],
-    donts: ["Don't make Proceed tappable before the user writes a reason."],
+    donts: ["Don't make Continue tappable before the user writes a reason."],
   },
 
   // ============================================================ Overlays
@@ -4640,19 +4640,19 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
         title: 'You tab group',
         render: () => (
           <OnPrimary pad="0 0 16px">
-            <SectionHeader>Your assistant</SectionHeader>
+            <SectionHeader>Tell Equal</SectionHeader>
             <RowGroup>
-              <SettingsRow icon="instructions" label="Instructions" description="Tell assistant how you'd like it to help" isNew onClick={noop} />
+              <SettingsRow icon="instructions" label="Your Instructions" description="Tell Equal what to do" isNew onClick={noop} />
               <SettingsRow icon="health-check" label="Assistant Health Check" description="Check Real-Time Assistant Connectivity" onClick={noop} />
-              <SettingsRow icon="silent-mode" label="Silent Mode" description="Mute promotional calls" onClick={noop} />
-              <SettingsRow icon="voice-language" label="Voice & Language" description="How your assistant sounds" onClick={noop} />
+              <SettingsRow icon="silent-mode" label="Silent Mode" description="Mute unwanted calls automatically" onClick={noop} />
+              <SettingsRow icon="voice-language" label="Voice & Language" description="Choose how Equal speaks." onClick={noop} />
             </RowGroup>
           </OnPrimary>
         ),
-        code: `<SectionHeader>Your assistant</SectionHeader>
+        code: `<SectionHeader>Tell Equal</SectionHeader>
 <RowGroup>
-  <SettingsRow icon="instructions" label="Instructions" isNew
-    description="Tell assistant how you'd like it to help" onClick={open} />
+  <SettingsRow icon="instructions" label="Your Instructions" isNew
+    description="Tell Equal what to do" onClick={open} />
   <SettingsRow icon="health-check" label="Assistant Health Check"
     description="Check Real-Time Assistant Connectivity" onClick={open} />
   …
@@ -4663,7 +4663,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
         note: 'Wrapping descriptions switch to captionWrap (Regular).',
         render: () => <ToggleRowsDemo />,
         code: `<RowGroup>
-  <ToggleRow label="Mute Promotional Calls" wrap
+  <ToggleRow label="Mute Unwanted Calls" wrap
     description="Equal AI Assistant can identify Promotional Calls and automatically mute them"
     checked={mute} onChange={setMute} />
 </RowGroup>`,
@@ -4800,11 +4800,11 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     examples: [
       {
         title: 'Addresses empty',
-        render: () => <EmptyState illustration="illustration-addresses-empty" title="Never explain your address again" body="Save frequently used addresses, and your assistant will use them to handle delivery, pickup calls, etc. more naturally." actionLabel="Add new Address" onAction={noop} />,
+        render: () => <EmptyState illustration="illustration-addresses-empty" title="No Addresses Yet" body="Equal can use saved addresses when needed" actionLabel="Add New Address" onAction={noop} />,
         code: `<EmptyState illustration="illustration-addresses-empty"
-  title="Never explain your address again"
-  body="Save frequently used addresses, and your assistant will use them to handle delivery, pickup calls, etc. more naturally."
-  actionLabel="Add new Address" onAction={addAddress} />`,
+  title="No Addresses Yet"
+  body="Equal can use saved addresses when needed"
+  actionLabel="Add New Address" onAction={addAddress} />`,
       },
       {
         title: 'No results',
@@ -4817,13 +4817,13 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
           <OnPrimary pad="0 0 16px">
             <IllustrationHeader asset="illustration-silent-mode" />
             <RowGroup>
-              <ToggleRow label="Mute Promotional Calls" wrap description="Equal AI Assistant can identify Promotional Calls and automatically mute them" checked onChange={noop} />
+              <ToggleRow label="Mute Unwanted Calls" wrap description="Equal AI Assistant can identify Promotional Calls and automatically mute them" checked onChange={noop} />
             </RowGroup>
           </OnPrimary>
         ),
         code: `<IllustrationHeader asset="illustration-silent-mode" />
 <RowGroup>
-  <ToggleRow label="Mute Promotional Calls" … />
+  <ToggleRow label="Mute Unwanted Calls" … />
 </RowGroup>`,
       },
     ],
@@ -5373,7 +5373,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
       },
       {
         title: 'Preset instructions',
-        note: 'The tinted + Apply pill turns into Applied.',
+        note: 'The tinted + Apply pill turns into Added.',
         render: () => (
           <OnPrimary pad="16px">
             <PresetApplyDemo />
@@ -5435,7 +5435,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
       {
         component: 'ActiveInstructionsRow',
         props: [
-          req('count', 'number', '"N active instructions"; 0 shows "Manage how your assistant handles calls".'),
+          req('count', 'number', '"N Active"; 0 shows "Manage how your assistant handles calls".'),
           opt('onClick', '() => void', undefined, 'Opens Active Instructions.'),
         ],
       },
@@ -5468,7 +5468,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
         component: 'PresetInstructionCard',
         props: [
           req('instruction', 'Instruction', '{ id, title, when, do, source? }.'),
-          opt('applied', 'boolean', undefined, 'Shows "Applied" instead of the Apply button.'),
+          opt('applied', 'boolean', undefined, 'Shows "Added" instead of the Apply button.'),
           opt('onApply', '() => void', undefined, 'Apply handler.'),
         ],
       },

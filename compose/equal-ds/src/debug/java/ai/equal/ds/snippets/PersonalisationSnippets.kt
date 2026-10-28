@@ -41,7 +41,7 @@ internal fun CallerContextSnippet() {
 internal fun PersonalisationPartsSnippet() {
     TraitOrbHero()
     InfoRows(listOf(InfoRow(EqualSymbols.autoFix, "It builds up over time", "It gets a little sharper with every call.")))
-    KeepLoseList(stays = listOf("Everything it knows today"), goes = listOf("Anything that changes ahead"))
+    KeepLoseList(stays = listOf("Everything Equal knows today"), goes = listOf("New information from future calls"))
     AvatarStack(listOf("AS", "AM", "BC"))
 }
 

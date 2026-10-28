@@ -11,7 +11,7 @@ export type CallFeedback = 'up' | 'down' | null;
 export type MissedCallCardProps = {
   /** Caller name. Leave it out when we couldn't tell who called. */
   caller?: string;
-  /** Why this caller usually calls (bold the key words). Shown under LIKELY CALLS FOR. */
+  /** Why this caller usually calls (bold the key words). Shown under USUALLY CALLS FOR. */
   reason?: ReactNode;
   /** Caller art shown with the missed badge. Only when there is a reason; otherwise the red disc. */
   category?: Category;
@@ -26,8 +26,8 @@ export type MissedCallCardProps = {
 
 /** Thread card for a call the assistant missed: who, why they usually call, Call back, and thumbs. */
 export function MissedCallCard({ caller, reason, category, time, onCallBack, callBackLabel = 'Call back', feedback = null, onFeedback, width = 320 }: MissedCallCardProps) {
-  const title = caller ? `${caller} Called` : 'Missed by the assistant';
-  const body = caller ? 'Assistant couldn’t pick up the call' : 'Assistant couldn’t pick this call';
+  const title = caller ? `${caller} Called` : 'Missed Call';
+  const body = 'Missed by Assistant';
   const art = reason && category;
   return (
     <div className="eq-missed" style={{ width }}>
@@ -49,7 +49,7 @@ export function MissedCallCard({ caller, reason, category, time, onCallBack, cal
         </div>
         {reason && (
           <div className="eq-missed__reason">
-            <Text as="div" variant="overline" color="secondary">Likely calls for</Text>
+            <Text as="div" variant="overline" color="secondary">Usually calls for</Text>
             <Text as="div" variant="body1" color="secondary" style={{ fontWeight: 400 }}>{reason}</Text>
             {time && <Text as="div" variant="micro" align="right" className="eq-tnum">{time}</Text>}
           </div>

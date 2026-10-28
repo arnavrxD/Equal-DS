@@ -98,7 +98,7 @@ export function AssistantInput({ mode, value = '', onChange, onSubmit, onFocus, 
           onPointerUp={() => timer && clearTimeout(timer)}
         >
           <Icon name="mic-fill" size={22} />
-          <Text variant="subheading" color="none" style={{ fontWeight: 700 }}>Send voice note</Text>
+          <Text variant="subheading" color="none" style={{ fontWeight: 700 }}>Send Voice Note</Text>
         </button>
       </div>
     );

@@ -117,12 +117,12 @@ enum class ExpiryTone { Active, Warning, Danger, Success }
 data class ExpiryParts(val label: String, val chip: String, val tone: ExpiryTone)
 
 /**
- * The date row text and chip for [expiry] (web `expiryParts`): active → "Plan active until" +
+ * The date row text and chip for [expiry] (web `expiryParts`): active → "PLAN ACTIVE UNTIL" +
  * the date (gold); expiring → "Plan Expires in" + "03 Days" (two digits, "Day" for 1; amber);
  * today → "Plan Expires" + "Today" (red); expired → "Plan Expired on" + the date (red).
  */
 fun expiryParts(expiry: PlanExpiry): ExpiryParts = when (expiry) {
-    is PlanExpiry.Active -> ExpiryParts("Plan active until", expiry.until, ExpiryTone.Active)
+    is PlanExpiry.Active -> ExpiryParts("PLAN ACTIVE UNTIL", expiry.until, ExpiryTone.Active)
     is PlanExpiry.Expiring -> ExpiryParts(
         "Plan Expires in",
         "${expiry.days.toString().padStart(2, '0')} ${if (expiry.days == 1) "Day" else "Days"}",
@@ -614,11 +614,11 @@ internal fun ValuePlanRow(label: String, plan: String, price: Int, was: Int?, pe
 @Immutable
 data class Quota(val used: Int, val limit: Int, val resetsInDays: Int)
 
-/** What Unlimited adds, on the [QuotaCard]: on duty 24/7, Unlimited Recordings, AI Call Summaries & Transcripts. */
+/** What Unlimited adds, on the [QuotaCard]: AI call handling 24/7, call recordings, AI call summaries & transcripts. */
 val QuotaPerks: List<ValuePerk> = listOf(
-    perk(EqualIcons.Timer, "Your Assistant stayed ", "on duty 24/7"),
-    perk(EqualIcons.CallSparkleFill, "", "Unlimited Recordings"),
-    ValuePerk(EqualIcons.CallLog, AnnotatedString("AI Call Summaries & Transcripts")),
+    perk(EqualIcons.Timer, "Unlimited AI call handling, ", "24/7"),
+    perk(EqualIcons.CallSparkleFill, "", "Unlimited call recordings"),
+    ValuePerk(EqualIcons.CallLog, AnnotatedString("AI call summaries & transcripts")),
 )
 
 /**
@@ -627,10 +627,10 @@ val QuotaPerks: List<ValuePerk> = listOf(
  * in dark); column gap 14:
  * - head (centred, gap 10, padding 4 / 16 / 0): under the limit "6 out of 30" (30/36 Bold,
  *   -0.02em, tabular) + " Calls Left" (18sp Medium), a 10dp bar (`paywall/divider` track, the
- *   `gradient/cta-gold` fill at used / limit; a progress bar to accessibility) and "**80%** Of
- *   Your Calls Handled by your Assistant this week"; at the limit "Limit Reached" and "**30 out of
- *   30 (100%)** Of Your Calls Handled…" (`body1` `text/secondary`, the bold part `text/primary`);
- * - "Your Quota Resets in" + an [ExpiryTone.Active] [ExpiryChip] "N Days" ("Day" for 1);
+ *   `gradient/cta-gold` fill at used / limit; a progress bar to accessibility) and "Your Assistant
+ *   handled **80%** of your calls this week"; at the limit "Weekly Limit Reached" and "Your Assistant
+ *   handled **all 30 of your calls** this week" (`body1` `text/secondary`, the bold part `text/primary`);
+ * - "Your calls quota reset in" + an [ExpiryTone.Active] [ExpiryChip] "N Days" ("Day" for 1);
  * - [perks] ([QuotaPerks]; `null` hides them);
  * - "Subscribe to" over [plan], ₹[price] ₹[was] (struck) [period].
  */
@@ -676,7 +676,7 @@ private fun QuotaCardLayout(
         ) {
             BasicText(
                 text = if (reached) {
-                    AnnotatedString("Limit Reached")
+                    AnnotatedString("Weekly Limit Reached")
                 } else {
                     buildAnnotatedString {
                         append("$left out of $limit ")
@@ -709,15 +709,16 @@ private fun QuotaCardLayout(
             }
             BasicText(
                 text = buildAnnotatedString {
-                    withStyle(strong) { append(if (reached) "$used out of $limit ($pct%)" else "$pct%") }
-                    append(" Of Your Calls Handled by your Assistant this week")
+                    append("Your Assistant handled ")
+                    withStyle(strong) { append(if (reached) "all $limit of your calls" else "$pct%") }
+                    append(if (reached) " this week" else " of your calls this week")
                 },
                 style = type.body1.copy(color = colors.textSecondary, textAlign = TextAlign.Center),
                 modifier = Modifier.fillMaxWidth(),
             )
         }
         ValueDateRow(
-            label = "Your Quota Resets in",
+            label = "Your calls quota reset in",
             chip = "$resetsInDays ${if (resetsInDays == 1) "Day" else "Days"}",
             tone = ExpiryTone.Active,
         )
@@ -863,9 +864,9 @@ data class FeatureItem(val art: EqualAssets, val label: String)
 
 /** The Unlimited features on the plan page. */
 val UnlimitedFeatures: List<FeatureItem> = listOf(
-    FeatureItem(EqualAssets.FeatureCallScreening, "24/7 Unlimited Call Screening"),
+    FeatureItem(EqualAssets.FeatureCallScreening, "Unlimited AI call handling, 24/7"),
     FeatureItem(EqualAssets.FeatureRecordings, "Unlimited Recordings"),
-    FeatureItem(EqualAssets.FeatureSummaries, "Unlimited Summaries"),
+    FeatureItem(EqualAssets.FeatureSummaries, "AI Call Summaries"),
 )
 
 /**

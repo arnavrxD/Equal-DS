@@ -66,11 +66,11 @@ fun PersonalisationFyiHomeSample(modifier: Modifier = Modifier, open: Boolean = 
     HomeScreenSample(
         modifier,
         overlay = {
-            EqualBottomSheet(visible = show, onDismissRequest = { show = false }, paneTitle = "Equal is now getting to know your callers") {
+            EqualBottomSheet(visible = show, onDismissRequest = { show = false }, paneTitle = "Your Equal experience is now more personal.") {
                 TraitOrbHero()
-                EqualText(text = "Equal is now getting to know your callers", style = EqualTheme.type.headline.copy(fontWeight = FontWeight.W700), color = colors.textPrimary, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
+                EqualText(text = "Your Equal experience is now more personal.", style = EqualTheme.type.headline.copy(fontWeight = FontWeight.W700), color = colors.textPrimary, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
                 Spacer(Modifier.height(8.dp))
-                EqualText(text = "Over the next few calls, it’ll start handling each caller the way you would.", style = EqualTheme.type.body1, color = colors.textSecondary, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
+                EqualText(text = "Equal learns from your calls, while you choose what shapes your future calls.", style = EqualTheme.type.body1, color = colors.textSecondary, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
                 Spacer(Modifier.height(16.dp))
                 InfoRows(
                     listOf(
@@ -80,7 +80,7 @@ fun PersonalisationFyiHomeSample(modifier: Modifier = Modifier, open: Boolean = 
                     ),
                 )
                 Spacer(Modifier.height(20.dp))
-                EqualButton(text = "Got it!", onClick = { show = false }, size = EqualButtonSize.Block)
+                EqualButton(text = "Got it", onClick = { show = false }, size = EqualButtonSize.Block)
             }
         },
     )
@@ -89,9 +89,9 @@ fun PersonalisationFyiHomeSample(modifier: Modifier = Modifier, open: Boolean = 
 private data class Pickup(val emoji: String, val title: String, val body: String, val lines: List<PreviewLine>)
 
 private val Pickups = listOf(
-    Pickup("📍", "Your addresses & directions", "To take delivery and pickup calls for you without your intervention.", listOf(PreviewLine(true, "Ma’am, I’m at the gate. Which tower?"), PreviewLine(false, "Gate 2, Tower B. Leave it with the guard, please."))),
-    Pickup("👪", "Your relationships", "Helps respond differently to family, friends, coworkers, and businesses.", listOf(PreviewLine(true, "Beta, it’s urgent. Call me back."), PreviewLine(false, "I’ll tell Keshav right away. What happened?"))),
-    Pickup("🔔", "Your call preferences", "Understands what type of promotional calls you are interested in and which ones annoy you.", listOf(PreviewLine(true, "Sir, a pre-approved loan offer…"), PreviewLine(false, "Not interested, thanks. Please remove this number."))),
+    Pickup("📍", "Your places", "Deliveries, pickups and more, without you repeating yourself.", listOf(PreviewLine(true, "I am at the main gate. Which tower?"), PreviewLine(false, "Come in from Gate 2, Tower B. Take service lift, not the main one"), PreviewLine(true, "Got it."))),
+    Pickup("👪", "Your people", "Calls handled differently for family, friends, colleagues and more.", listOf(PreviewLine(true, "Is he free? Papa’s appointment got moved to 4."), PreviewLine(false, "He’s in a meeting. Tell me and I’ll get it to him now. Which hospital?"), PreviewLine(true, "Fortis, Bannerghatta."))),
+    Pickup("🔔", "Your preferences", "The calls you want to hear, and the ones you don’t, handled your way.", listOf(PreviewLine(true, "Calling from your bank regarding your id verification."), PreviewLine(false, "Got it. Please hold on while I connect you to him."), PreviewLine(true, "Sure."))),
 )
 
 /** The delete-learning sheet body (global, or for one [caller]). */
@@ -102,16 +102,20 @@ fun ColumnScope.DeleteLearningContent(caller: String? = null, onDelete: () -> Un
     Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
         EqualAssetImage(EqualAssets.IllustrationTrash, size = 72.dp)
         Spacer(Modifier.height(16.dp))
-        EqualText(text = if (caller != null) "Delete what Equal knows about $caller?" else "Delete what Equal knows?", style = EqualTheme.type.title.copy(fontWeight = FontWeight.W700), color = colors.textPrimary, textAlign = TextAlign.Center)
+        EqualText(text = if (caller != null) "Reset what Equal learned about $first?" else "Reset everything Equal has learned?", style = EqualTheme.type.title.copy(fontWeight = FontWeight.W700), color = colors.textPrimary, textAlign = TextAlign.Center)
         Spacer(Modifier.height(8.dp))
-        EqualText(text = if (caller != null) "This will erase everything Equal has learned about $first and remove their personalisation." else "This will erase everything Equal has learned about you and remove all personalisations.", style = EqualTheme.type.body1, color = colors.textSecondary, textAlign = TextAlign.Center)
+        EqualText(text = if (caller != null) "Clear what Equal has learned so far and start fresh with future calls." else "Clear what Equal has learned about all your callers and about you, and start fresh with future calls.", style = EqualTheme.type.body1, color = colors.textSecondary, textAlign = TextAlign.Center)
     }
     Spacer(Modifier.height(16.dp))
-    KeepLoseList(stays = listOf("Who’s calling and their number"), goes = listOf("Why they usually call", "How you’d want the call answered"))
+    if (caller != null) {
+        KeepLoseList(stays = listOf("Who’s calling and their number"), goes = listOf("Why they usually call", "How you’d want the call answered", "Which language to answer in"))
+    } else {
+        KeepLoseList(stays = listOf("Your callers and their numbers", "Who you’ve excluded from personalisation"), goes = listOf("What Equal learned about each caller", "What Equal learned about you"))
+    }
     Spacer(Modifier.height(16.dp))
-    EqualText(text = if (caller != null) "Equal can start learning about them again if learning is turned on." else "Equal will start learning about you and allowed contacts again from scratch.", style = EqualTheme.type.bodyLarge, color = colors.textSecondary)
+    EqualText(text = if (caller != null) "Equal can start learning about them again if learning is turned on." else "Equal can start learning again from your next calls.", style = EqualTheme.type.bodyLarge, color = colors.textSecondary)
     Spacer(Modifier.height(20.dp))
-    EqualButton(text = "Delete all learning", onClick = onDelete, size = EqualButtonSize.Block, appearance = EqualButtonAppearance.Critical, leadingIcon = EqualIcons.Delete)
+    EqualButton(text = if (caller != null) "Reset learning" else "Reset all learnings", onClick = onDelete, size = EqualButtonSize.Block, appearance = EqualButtonAppearance.Critical, leadingIcon = EqualIcons.Delete)
 }
 
 /** AI Personalization: what Equal picks up, what it skips, excluded contacts and Delete all learning. Port of web `PersonalisationScreen`. */
@@ -122,22 +126,22 @@ fun PersonalisationScreen(modifier: Modifier = Modifier, sheet: Boolean = false,
     var open by remember(sheet) { mutableStateOf(sheet) }
     Box(modifier.fillMaxSize().background(colors.bgPrimary)) {
         Column(Modifier.fillMaxSize()) {
-            EqualAppBar(title = "AI Personalization", onBackClick = onBack, statusBar = true)
+            EqualAppBar(title = "Your Equal Experience", onBackClick = onBack, statusBar = true)
             Column(Modifier.weight(1f).verticalScroll(rememberScrollState())) {
                 Column(Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)) {
                     androidx.compose.foundation.text.BasicText(
                         text = buildAnnotatedString {
-                            append("What ")
-                            withStyle(SpanStyle(color = colors.textAction)) { append("Equal AI") }
-                            append(" knows about you")
+                            append("Your ")
+                            withStyle(SpanStyle(color = colors.textAction)) { append("Equal") }
+                            append(" experience, made more personal.")
                         },
                         style = type.headline.copy(fontWeight = FontWeight.W700, color = colors.textPrimary),
                     )
                     Spacer(Modifier.height(8.dp))
-                    EqualText(text = "The more Equal understands, the better it sounds like you when it answers.", style = type.bodyLarge, color = colors.textSecondary)
+                    EqualText(text = "Equal learns from all your calls, with you choosing what shapes future calls.", style = type.bodyLarge, color = colors.textSecondary)
                 }
                 Spacer(Modifier.height(24.dp))
-                SectionHeader(title = "WHAT EQUAL PICKS UP", inset = 16.dp)
+                SectionHeader(title = "WHAT BECOMES MORE PERSONAL", inset = 16.dp)
                 Row(Modifier.horizontalScroll(rememberScrollState()).padding(horizontal = 16.dp), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     Pickups.forEach { p ->
                         Column(Modifier.width(312.dp).background(colors.bgSurface, RoundedCornerShape(16.dp)).padding(16.dp)) {
@@ -152,14 +156,14 @@ fun PersonalisationScreen(modifier: Modifier = Modifier, sheet: Boolean = false,
                 }
                 CarouselDots(count = Pickups.size, active = 0)
                 Box(Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp)) {
-                    InfoNote(title = "Ignored on purpose", body = "OTPs, card numbers, UPI PINs and government IDs are never saved, on any call.")
+                    InfoNote(title = "Sensitive details", body = "Equal doesn’t learn from sensitive details like OTPs, card numbers, UPI PINs and government IDs.")
                 }
                 Spacer(Modifier.height(24.dp))
-                SectionHeader(title = "WHAT EQUAL SKIPS OUT", inset = 16.dp)
+                SectionHeader(title = "WHAT EQUAL DOESN’T LEARN", inset = 16.dp)
                 RowGroup(inset = 16.dp) {
                     SettingsRow(
-                        label = "Excluded contacts from personalisation",
-                        description = "Equal still answers these calls when you can’t. It just won’t listen in when you’re the one talking.",
+                        label = "Contacts you exclude",
+                        description = "Equal still answers their calls, but won’t use your interactions with them to personalise future calls.",
                         descriptionWraps = true,
                         leadingIcon = EqualIcons.Person,
                     )
@@ -169,14 +173,14 @@ fun PersonalisationScreen(modifier: Modifier = Modifier, sheet: Boolean = false,
                     }
                 }
                 Spacer(Modifier.height(24.dp))
-                SectionHeader(title = "MANAGE LEARNING", inset = 16.dp)
+                SectionHeader(title = "WANT TO START FRESH?", inset = 16.dp)
                 RowGroup(inset = 16.dp) {
-                    SettingsRow(label = "Delete all learning", description = "Deletes all data acquired about you", leadingIcon = EqualIcons.Delete, leadingIconBg = colors.expiryChipDangerBg, onClick = { open = true })
+                    SettingsRow(label = "Reset all learnings", description = "Start fresh with future calls.", leadingIcon = EqualIcons.Delete, leadingIconBg = colors.expiryChipDangerBg, onClick = { open = true })
                 }
                 Spacer(Modifier.height(32.dp))
             }
         }
-        EqualBottomSheet(visible = open, onDismissRequest = { open = false }, paneTitle = "Delete what Equal knows?") { DeleteLearningContent(onDelete = { open = false }) }
+        EqualBottomSheet(visible = open, onDismissRequest = { open = false }, paneTitle = "Reset everything Equal has learned?") { DeleteLearningContent(onDelete = { open = false }) }
     }
 }
 
@@ -206,25 +210,25 @@ fun CallerContextScreen(modifier: Modifier = Modifier, state: CallerContextState
         category = null,
         context = { CallerContextCard(name = name, state = s, summary = AmitContext, onStop = { open = CallerContextSheet.Stop }, onDelete = { open = CallerContextSheet.Delete }, onResume = { s = CallerContextState.Filled }) },
         overlay = {
-            EqualBottomSheet(visible = open == CallerContextSheet.Stop, onDismissRequest = { open = null }, paneTitle = "Stop personalising for $name?") {
+            EqualBottomSheet(visible = open == CallerContextSheet.Stop, onDismissRequest = { open = null }, paneTitle = "Stop learning about $name?") {
                 Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
                     Box(contentAlignment = Alignment.Center) {
                         EqualLogoOrb(size = 48.dp, contentDescription = null)
                         EqualIcon(EqualSymbols.stopCircle, contentDescription = null, tint = colors.textOnAction, size = 24.dp)
                     }
                     Spacer(Modifier.height(12.dp))
-                    EqualText(text = "Stop personalising for $name?", style = EqualTheme.type.title.copy(fontWeight = FontWeight.W700), color = colors.textPrimary, textAlign = TextAlign.Center)
+                    EqualText(text = "Stop learning about $name?", style = EqualTheme.type.title.copy(fontWeight = FontWeight.W700), color = colors.textPrimary, textAlign = TextAlign.Center)
                     Spacer(Modifier.height(8.dp))
-                    EqualText(text = "Equal will remember everything it has already learned about this caller, but won’t learn anything new.", style = EqualTheme.type.bodyLarge, color = colors.textSecondary, textAlign = TextAlign.Center)
+                    EqualText(text = "Equal keeps what it’s learned, but won’t learn from future calls.", style = EqualTheme.type.bodyLarge, color = colors.textSecondary, textAlign = TextAlign.Center)
                 }
                 Spacer(Modifier.height(16.dp))
-                KeepLoseList(stays = listOf("Everything it knows today"), goes = listOf("Anything that changes ahead"))
+                KeepLoseList(stays = listOf("Everything Equal knows today"), goes = listOf("New information from future calls"))
                 Spacer(Modifier.height(16.dp))
-                EqualText(text = "You can resume learning anytime.", style = EqualTheme.type.bodyLarge, color = colors.textSecondary)
+                EqualText(text = "You can turn this back on anytime.", style = EqualTheme.type.bodyLarge, color = colors.textSecondary)
                 Spacer(Modifier.height(20.dp))
                 EqualButton(text = "Stop learning", onClick = { s = CallerContextState.Paused; open = null }, size = EqualButtonSize.Block, leadingIcon = EqualSymbols.stopCircle)
             }
-            EqualBottomSheet(visible = open == CallerContextSheet.Delete, onDismissRequest = { open = null }, paneTitle = "Delete what Equal knows about $name?") {
+            EqualBottomSheet(visible = open == CallerContextSheet.Delete, onDismissRequest = { open = null }, paneTitle = "Reset what Equal learned about ${name.substringBefore(' ')}?") {
                 DeleteLearningContent(caller = name, onDelete = { open = null })
             }
         },

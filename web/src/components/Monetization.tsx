@@ -75,10 +75,10 @@ export type PaywallHeroProps = {
 
 /**
  * Gold hero of the Equal Unlimited pages: `gradient/paywall-hero` with soft concentric rings, back
- * + Support, the 3D crown (64dp), "Unlock Equal" 22/26 Regular over "Unlimited" 38/42 Bold, and
+ * + Support, the 3D crown (64dp), "Equal AI" 22/26 Regular over "Unlimited" 38/42 Bold, and
  * the subtitle (body1, text/secondary, max 2 lines). `children` (price, preview, coupon) follow.
  */
-export function PaywallHero({ title = 'Unlock Equal', titleStrong = 'Unlimited', subtitle = 'Unlock Summaries, Transcripts, Recordings & Unlimited Call Screening', onBack, onSupport, children, variant = 'default', crownAnimated = true }: PaywallHeroProps) {
+export function PaywallHero({ title = 'Equal AI', titleStrong = 'Unlimited', subtitle = 'Get Unlimited Recordings, AI Call Summaries and Conversations. Trusted by 10 Lakh+ Indians.', onBack, onSupport, children, variant = 'default', crownAnimated = true }: PaywallHeroProps) {
   if (variant === 'ios') {
     return (
       <section className="eq-paywall-hero is-ios">
@@ -241,7 +241,7 @@ export type CouponTicketProps = {
 
 /**
  * Coupon ticket: notched card (`gradient/coupon`, 1dp `paywall/card-stroke`, radius 20). Code
- * subheading Bold `text/gold`, description caption Regular, APPLY / APPLIED (buttonSmall Bold
+ * subheading Bold `text/gold`, description caption Regular, Apply / Applied (buttonSmall Bold
  * `text/gold`) on the right; a dashed rule with the 3D % seal (28dp); "25% OFF" 30/36 Bold gold.
  */
 export function CouponTicket({ code, description, discount, applied, onApply }: CouponTicketProps) {
@@ -254,9 +254,9 @@ export function CouponTicket({ code, description, discount, applied, onApply }: 
           <Text as="div" variant="caption" color="secondary" style={{ fontWeight: 400 }}>{description}</Text>
         </div>
         {applied ? (
-          <span ref={handoff.targetRef} tabIndex={-1} className="eq-t-button-small eq-coupon__state" aria-label={`${code} applied`}><Text variant="inherit" color="none">APPLIED</Text></span>
+          <span ref={handoff.targetRef} tabIndex={-1} className="eq-t-button-small eq-coupon__state" aria-label={`${code} applied`}><Text variant="inherit" color="none">Applied</Text></span>
         ) : (
-          <button type="button" className="eq-reset-btn eq-touch eq-t-button-small eq-coupon__state" aria-label={`Apply ${code}`} onClick={() => { handoff.markFocus(); onApply?.(); }}><Text variant="inherit" color="none">APPLY</Text></button>
+          <button type="button" className="eq-reset-btn eq-touch eq-t-button-small eq-coupon__state" aria-label={`Apply ${code}`} onClick={() => { handoff.markFocus(); onApply?.(); }}><Text variant="inherit" color="none">Apply</Text></button>
         )}
         <Announce message={applied ? `Coupon ${code} applied` : ''} />
       </div>
@@ -269,7 +269,7 @@ export function CouponTicket({ code, description, discount, applied, onApply }: 
 export type FaqItem = { q: string; a: ReactNode };
 
 /** FAQ accordion under a "FREQUENTLY ASKED QUESTIONS" label. One white card, rows split by dividers. */
-export function FaqList({ items, title = 'Frequently asked questions', defaultOpen = [] }: { items: FaqItem[]; title?: string | null; defaultOpen?: number[] }) {
+export function FaqList({ items, title = 'FREQUENTLY ASKED QUESTIONS', defaultOpen = [] }: { items: FaqItem[]; title?: string | null; defaultOpen?: number[] }) {
   const [open, setOpen] = useState<number[]>(defaultOpen);
   return (
     <section className="eq-faq">
@@ -299,11 +299,11 @@ export function FaqEntry({ item, open, onToggle }: { item: FaqItem; open: boolea
 }
 
 /**
- * Sticky paywall footer: block CTA + "Cancel Anytime. Automatically renews". Every paywall-style
+ * Sticky paywall footer: block CTA + "Cancel anytime · UPI secure · No hidden charges". Every paywall-style
  * footer uses it: the paywall (gold), the plan page (gold-outline Cancel Subscription), the sheet
  * paywall (`flat`), and the processing state (`disabled`, with the processing toast in `above`).
  */
-export function PaywallFooter({ cta = 'Unlock Unlimited', note = 'Cancel Anytime. Automatically renews', onClick, variant = 'gold', disabled, flat, above }: { cta?: string; note?: string | null; onClick?: () => void; variant?: 'gold' | 'gold-outline' | 'primary' | 'dark'; disabled?: boolean; /** No surface or shadow: sits inside a sheet. */ flat?: boolean; /** Shown above the button, e.g. the processing toast. */ above?: ReactNode }) {
+export function PaywallFooter({ cta = 'Get Equal AI Unlimited', note = 'Cancel anytime · UPI secure · No hidden charges', onClick, variant = 'gold', disabled, flat, above }: { cta?: string; note?: string | null; onClick?: () => void; variant?: 'gold' | 'gold-outline' | 'primary' | 'dark'; disabled?: boolean; /** No surface or shadow: sits inside a sheet. */ flat?: boolean; /** Shown above the button, e.g. the processing toast. */ above?: ReactNode }) {
   return (
     <div className={`eq-paywall-footer ${flat ? 'is-flat' : ''}`}>
       {above && <div style={{ marginBottom: 10 }}>{above}</div>}
@@ -324,7 +324,7 @@ export type StatusCardProps = {
   /** The two display lines: bold `strong` (28/32) and regular `light` (22/26). */
   strong: string;
   light?: string;
-  /** Which line comes first ("Payment / Confirmed" vs "We're Sad to / See you Cancel"). */
+  /** Which line comes first ("Payment / Confirmed" vs "Before you / Cancel"). */
   strongFirst?: boolean;
   body?: ReactNode;
   children?: ReactNode;
@@ -406,7 +406,7 @@ const PAYMENT: Record<PaymentStatus, { tone: StatusTone; art: AssetName; strong:
   confirmed: { tone: 'success', art: 'status-confirmed', strong: 'Payment', light: 'Confirmed', strongFirst: true },
   pending: { tone: 'warning', art: 'status-pending', strong: 'Payment', light: 'Pending', strongFirst: true },
   failed: { tone: 'danger', art: 'status-failed', strong: 'Payment', light: 'Failed', strongFirst: true },
-  welcome: { tone: 'gold', art: 'crown-gold', strong: 'Congratulations', light: 'Welcome to Equal Unlimited.', strongFirst: true },
+  welcome: { tone: 'gold', art: 'crown-gold', strong: 'Equal AI Unlimited', light: 'Welcome to', strongFirst: false },
 };
 
 /** Monetization local components design: the waiting sheet's title steps while the payment goes through. */
@@ -427,9 +427,9 @@ function usePaymentProgress(on: boolean, every = 1400) {
 }
 
 /**
- * Payment result sheet. waiting → "Once your payment is being verified…" (no action); confirmed →
- * redirect countdown; pending → "If money was deducted from card (**2652)…" + Contact Support;
- * failed → same body + Retry Payment; welcome → "No more limits…" + redirect to home.
+ * Payment result sheet. waiting → "We're confirming your payment…" (no action); confirmed →
+ * redirect countdown; pending → "Your payment is still processing…" + Contact Support;
+ * failed → "Your payment didn't go through…" + Retry Payment; welcome → "You're all set…" + redirect to home.
  */
 export function PaymentStatusSheet({ status, cardLast4 = '2652', onRetry, onContactSupport, onRedirect, mode = 'overlay', waitingArt = 'status-waiting', progress = true, onClose }: { status: PaymentStatus; cardLast4?: string; onRetry?: () => void; onContactSupport?: () => void; onRedirect?: () => void; mode?: 'overlay' | 'inline'; waitingArt?: 'status-waiting' | 'status-waiting-cash'; /** Waiting: cycle the progress steps (Connecting To Razorpay → Waiting for Confirmation → Verifying Transaction). */ progress?: boolean; /** Escape / scrim. */ onClose?: () => void }) {
   const step = usePaymentProgress(status === 'waiting' && progress);
@@ -437,9 +437,9 @@ export function PaymentStatusSheet({ status, cardLast4 = '2652', onRetry, onCont
   const furthest = useRef(0);
   if (step > furthest.current) furthest.current = step;
   const s = status === 'waiting' && progress ? { ...PAYMENT.waiting, ...PAYMENT_PROGRESS[step] } : PAYMENT[status];
-  const refund = `If money was deducted from card (**${cardLast4}), refund will be initiated within 24hours`;
+  void cardLast4; // kept for the experiment that names the card; production copy doesn't.
   const body =
-    status === 'waiting' ? 'Once your payment is being verified. You will be Redirected Automatically' : status === 'pending' || status === 'failed' ? refund : status === 'welcome' ? 'No more limits. Everything Equal AI can do, now yours.' : undefined;
+    status === 'waiting' ? 'We’re confirming your payment. You’ll be redirected automatically' : status === 'pending' ? 'Your payment is still processing. If it doesn’t go through, any amount deducted will be refunded automatically in 5 - 7 working days.' : status === 'failed' ? 'Your payment didn’t go through. Any amount deducted will be refunded automatically in 5 - 7 working days.' : status === 'welcome' ? 'You’re all set. Every call’s recording, summary and conversation is now unlocked.' : undefined;
   const footer =
     status === 'confirmed' ? <RedirectNote seconds={5} onDone={onRedirect} /> : status === 'welcome' ? <RedirectNote seconds={5} to="home" onDone={onRedirect} /> : status === 'pending' ? <Button block size="lg" onClick={onContactSupport}>Contact Support</Button> : status === 'failed' ? <Button block size="lg" onClick={onRetry}>Retry Payment</Button> : undefined;
   return (
@@ -451,7 +451,7 @@ export function PaymentStatusSheet({ status, cardLast4 = '2652', onRetry, onCont
 }
 
 /** Help Center sheet from Support: Call Us / Mail Us rows with green icon tiles. */
-export function HelpCenterSheet({ phone = '+91 9876 543210', email = 'hello@equal.in', onCall, onMail, mode = 'overlay', onClose }: { phone?: string; email?: string; onCall?: () => void; onMail?: () => void; mode?: 'overlay' | 'inline'; /** Close: the X button, Escape and the scrim. */ onClose?: () => void }) {
+export function HelpCenterSheet({ phone = '+91 9876 543210', email = 'hey@equal.in', onCall, onMail, mode = 'overlay', onClose }: { phone?: string; email?: string; onCall?: () => void; onMail?: () => void; mode?: 'overlay' | 'inline'; /** Close: the X button, Escape and the scrim. */ onClose?: () => void }) {
   return (
     <StatusSheet mode={mode} label="Help Center" onClose={onClose} closeButton>
       <div style={{ padding: '8px 8px 0' }}>
@@ -492,7 +492,7 @@ export function HelpContactRow({ title, value, icon, onClick }: { title: string;
  * Social proof on the plan page: "Why people choose EQUAL UNLIMITED", the headline stat, the
  * rating and the testimonial carousel, on the gold-washed panel.
  */
-export function SocialProof({ stat = { value: '400k+', label: 'People never miss a call' }, rating = 4.5, testimonials }: { stat?: { value: string; label: string }; rating?: number; testimonials: Testimonial[] }) {
+export function SocialProof({ stat = { value: '10 Lakh+', label: 'People know who called and why' }, rating = 4.5, testimonials }: { stat?: { value: string; label: string }; rating?: number; testimonials: Testimonial[] }) {
   return (
     <section className="eq-subscription-proof">
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2 }}>
@@ -611,9 +611,9 @@ export function TestimonialCarousel({ items }: { items: Testimonial[] }) {
 export type CancelStep = 'feedback' | 'confirm' | 'submitted';
 
 /**
- * Cancellation sheet, three steps: feedback (sad face; textarea, Proceed disabled until there is
- * text), confirm ("Are you really Sure?" — Cancel outline / Confirm), submitted (thumbs up,
- * "Your Request is Submitted", redirect to home). Access stays until `accessUntil`.
+ * Cancellation sheet, three steps: feedback ("Before you Cancel"; textarea, Continue disabled until there is
+ * text), confirm ("Cancel your Plan?" — Keep my plan outline / Yes), submitted (thumbs up,
+ * "Your plan is Cancelled", redirect to home). Access stays until `accessUntil`.
  */
 export function CancelSheet({ step, accessUntil = '15 June 2026', reason, onReasonChange, onProceed, onKeep, onConfirm, onRedirect, mode = 'overlay', onClose }: { step: CancelStep; accessUntil?: string; reason?: string; onReasonChange?: (v: string) => void; onProceed?: () => void; onKeep?: () => void; onConfirm?: () => void; onRedirect?: () => void; mode?: 'overlay' | 'inline'; /** Leave the flow: the feedback step's X button, Escape and the scrim (confirm falls back to `onKeep`). */ onClose?: () => void }) {
   const [text, setText] = useState(reason ?? '');
@@ -621,9 +621,9 @@ export function CancelSheet({ step, accessUntil = '15 June 2026', reason, onReas
   const set = (v: string) => (onReasonChange ? onReasonChange(v) : setText(v));
   if (step === 'feedback') {
     return (
-      <StatusSheet mode={mode} label="Cancel subscription" onClose={onClose} closeButton footer={<Button block size="lg" disabled={!value.trim()} onClick={onProceed}>Proceed</Button>}>
-        <StatusCard tone="neutral" art="emoji-sad" light="We’re Sad to" strong="See you Cancel" strongFirst={false} body="Tell us why you’re Cancelling Subscription. Your feedback helps us improve.">
-          <textarea className="eq-cancel-reason eq-t-body1" value={value} onChange={(e) => set(e.target.value)} placeholder="Tell us more in detail.." rows={3} aria-label="Why are you cancelling?" />
+      <StatusSheet mode={mode} label="Cancel subscription" onClose={onClose} closeButton footer={<Button block size="lg" disabled={!value.trim()} onClick={onProceed}>Continue</Button>}>
+        <StatusCard tone="neutral" art="emoji-sad" light="Before you" strong="Cancel" strongFirst={false} body={<>Tell us why you’re cancelling.<br />It helps us improve.</>}>
+          <textarea className="eq-cancel-reason eq-t-body1" value={value} onChange={(e) => set(e.target.value)} placeholder="Tell us more…" rows={3} aria-label="Why are you cancelling?" />
         </StatusCard>
       </StatusSheet>
     );
@@ -636,18 +636,18 @@ export function CancelSheet({ step, accessUntil = '15 June 2026', reason, onReas
         onClose={onClose ?? onKeep}
         footer={
           <div style={{ display: 'flex', gap: 12 }}>
-            <Button variant="outline" size="lg" block onClick={onKeep}>Cancel</Button>
-            <Button size="lg" block onClick={onConfirm}>Confirm</Button>
+            <Button variant="outline" size="lg" block onClick={onKeep}>Keep my plan</Button>
+            <Button size="lg" block onClick={onConfirm}>Yes</Button>
           </div>
         }
       >
-        <StatusCard tone="neutral" art="emoji-sad" light="Are you really" strong="Sure?" strongFirst={false} body={`Your subscription stays active & have full access until ${accessUntil}. We’ll stop the autopay, and your account will switch to free after that date.`} />
+        <StatusCard tone="neutral" art="emoji-sad" light="Cancel your" strong="Plan?" strongFirst={false} body={`You’ll still have full access until ${accessUntil}.`} />
       </StatusSheet>
     );
   }
   return (
     <StatusSheet mode={mode} label="Request submitted" onClose={onRedirect ?? onClose} footer={<RedirectNote seconds={3} to="home" onDone={onRedirect} />}>
-      <StatusCard tone="neutral" art="thumbs-up" light="Your Request is" strong="Submitted" strongFirst={false} body={`No more charges from us. You’ll keep full access until ${accessUntil}.`} />
+      <StatusCard tone="neutral" art="thumbs-up" light="Your plan is" strong="Cancelled" strongFirst={false} body={`No more charges from us. You’ll have access until ${accessUntil}.`} />
     </StatusSheet>
   );
 }
@@ -671,7 +671,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
 
 /** The date row text and chip for a plan state. */
 export function expiryParts(e: PlanExpiry): { label: string; chip: string; tone: 'active' | 'warning' | 'danger' } {
-  if (e.state === 'active') return { label: 'Plan active until', chip: e.until, tone: 'active' };
+  if (e.state === 'active') return { label: 'PLAN ACTIVE UNTIL', chip: e.until, tone: 'active' };
   if (e.state === 'expiring') return { label: 'Plan Expires in', chip: `${pad(e.days)} ${e.days === 1 ? 'Day' : 'Days'}`, tone: 'warning' };
   if (e.state === 'today') return { label: 'Plan Expires', chip: 'Today', tone: 'danger' };
   return { label: 'Plan Expired on', chip: e.date, tone: 'danger' };
@@ -813,14 +813,14 @@ export function ValueCard({ calls, expiry, title = 'What Unlimited saved you', p
 export type Quota = { used: number; limit: number; resetsInDays: number };
 
 export const quotaPerks: ValuePerk[] = [
-  { icon: 'timer', text: <>Your Assistant stayed <b>on duty 24/7</b></> },
-  { icon: 'call-sparkle-fill', text: <b>Unlimited Recordings</b> },
-  { icon: 'call-log', text: <>AI Call Summaries &amp; Transcripts</> },
+  { icon: 'timer', text: <>Unlimited AI call handling, <b>24/7</b></> },
+  { icon: 'call-sparkle-fill', text: <b>Unlimited call recordings</b> },
+  { icon: 'call-log', text: <>AI call summaries &amp; transcripts</> },
 ];
 
 /**
  * Free plan: how much of this week's call quota the assistant has used, with the upsell.
- * Under the limit: "6 out of 30 Calls Left" + a gold progress bar; at the limit: "Limit Reached".
+ * Under the limit: "6 out of 30 Calls Left" + a gold progress bar; at the limit: "Weekly Limit Reached".
  */
 export function QuotaCard({ quota, perks = quotaPerks, plan = 'Equal AI Unlimited', price = 149, was = 249, period = '/Monthly' }: { quota: Quota; perks?: ValuePerk[] | null; plan?: string; price?: number; was?: number; period?: string }) {
   const { used, limit, resetsInDays } = quota;
@@ -828,11 +828,11 @@ export function QuotaCard({ quota, perks = quotaPerks, plan = 'Equal AI Unlimite
   const reached = used >= limit;
   const left = Math.max(0, limit - used);
   return (
-    <section className="eq-value-card is-rings" aria-label={reached ? 'Limit reached' : `${left} out of ${limit} calls left`}>
+    <section className="eq-value-card is-rings" aria-label={reached ? 'Weekly limit reached' : `${left} out of ${limit} calls left`}>
       <Asset name="premium-glow" width={360} height={246} className="eq-value-card__glow" />
       <div className="eq-quota__head">
         {reached ? (
-          <Text as="div" variant="headline" align="center" style={{ fontSize: 30, lineHeight: '36px', fontWeight: 700, letterSpacing: '-0.02em' }}>Limit Reached</Text>
+          <Text as="div" variant="headline" align="center" style={{ fontSize: 30, lineHeight: '36px', fontWeight: 700, letterSpacing: '-0.02em' }}>Weekly Limit Reached</Text>
         ) : (
           <Text as="div" variant="headline" align="center" className="eq-tnum" style={{ fontSize: 30, lineHeight: '36px', fontWeight: 700, letterSpacing: '-0.02em' }}>
             {left} out of {limit} <Text variant="inherit" color="none" style={{ fontSize: 18, fontWeight: 500, letterSpacing: 0 }}>Calls Left</Text>
@@ -844,12 +844,12 @@ export function QuotaCard({ quota, perks = quotaPerks, plan = 'Equal AI Unlimite
           </div>
         )}
         <Text as="p" variant="body1" color="secondary" align="center" style={{ margin: 0 }}>
-          {reached ? <><Text as="b" variant="inherit" color="primary">{used} out of {limit} ({pct}%)</Text> Of Your Calls Handled by your Assistant this week</> : <><Text as="b" variant="inherit" color="primary">{pct}%</Text> Of Your Calls Handled by your Assistant this week</>}
+          {reached ? <>Your Assistant handled <Text as="b" variant="inherit" color="primary">all {limit} of your calls</Text> this week</> : <>Your Assistant handled <Text as="b" variant="inherit" color="primary">{pct}%</Text> of your calls this week</>}
         </Text>
       </div>
       <div className="eq-value-card__expiry">
         <span className="eq-divider-label__rule" />
-        <Text as="span" variant="body1" style={{ fontWeight: 400 }}>Your Quota Resets in</Text>
+        <Text as="span" variant="body1" style={{ fontWeight: 400 }}>Your calls quota reset in</Text>
         <ExpiryChip tone="active">{resetsInDays} {resetsInDays === 1 ? 'Day' : 'Days'}</ExpiryChip>
         <span className="eq-divider-label__rule" />
       </div>
@@ -903,9 +903,9 @@ export function ValueSheet({ calls = 20, expiry = { state: 'active', until: '' }
 export type FeatureItem = { art: AssetName; label: string };
 
 export const unlimitedFeatures: FeatureItem[] = [
-  { art: 'feature-call-screening', label: '24/7 Unlimited Call Screening' },
+  { art: 'feature-call-screening', label: 'Unlimited AI call handling, 24/7' },
   { art: 'feature-recordings', label: 'Unlimited Recordings' },
-  { art: 'feature-summaries', label: 'Unlimited Summaries' },
+  { art: 'feature-summaries', label: 'AI Call Summaries' },
 ];
 
 /** "What You Get": one card per Unlimited feature, 28dp 3D gold icon + label. */

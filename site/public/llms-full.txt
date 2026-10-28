@@ -205,7 +205,7 @@ Done means: typecheck clean, `--check` passes, Gradle BUILD SUCCESSFUL, and lint
 
 ### Monetization
 
-- **Unlimited is ₹249; with EQUAL25 it is ₹149.** Why: Today’s default, confirmed by product; price and coupon are experiment props (price, discountedPrice). The coupon row says “Save Flat ₹100”, and the price drop animates only when the user taps APPLY. (Source: Product decision)
+- **Unlimited is ₹249; with EQUAL25 it is ₹149.** Why: Today’s default, confirmed by product; price and coupon are experiment props (price, discountedPrice). The coupon row says “Get extra 25% off your first month”, and the price drop animates only when the user taps Apply. (Source: Product decision)
 - **The plan value card shows ₹39 with ₹49 struck through.** Why: The value designs show both orders; ₹39 / ₹49 was confirmed. (Source: Product decision)
 - **🎊 LIMITED TIME DISCOUNT stays an emoji, not art.** Why: Confirmed by design: it is copy, not an illustration. (Source: Design decision)
 - **Gold is only for subscription: paywall, plan, renewal, payment and anything else about Equal AI Unlimited.** Why: Gold means “premium”. Keeping it to subscription surfaces makes it a reliable signal and keeps the rest of the app green. Its white-on-gold contrast at the sheen is an accepted brand decision, like brand green. (Source: Product owner)
@@ -226,7 +226,7 @@ Done means: typecheck clean, `--check` passes, Gradle BUILD SUCCESSFUL, and lint
 - **Hand off to the phone for the dialer, Settings and WhatsApp; never redraw them.** Why: The system owns those screens. The app hands off, then picks up where the user left off (“You stopped between saving this contact. Want to continue?”). (Source: Design: Call Back, Save Contact)
 - **Errors say what happened in one line and offer one fix.** Why: Retry for a failed generation, Refresh or Try again when offline, “hold and speak again” for voice. One clear next step beats an error code. (Source: Design: Error states)
 - **The contact form has two candidate designs (iOS-revamp parity, WhatsApp parity).** Why: The team hasn’t chosen; both are props on one form so either can ship. (Source: Design: Save Contact)
-- **A missed call shows only what we know: the reason (with caller art and 👍/👎), else the name, else “Missed by the assistant”.** Why: Inventing a reason would mislead the call-back decision. The thumbs rate the reason, so they only appear with one. The warm tint says “missed”, not “error”. (Source: Design: missed-call card)
+- **A missed call shows only what we know: the reason (with caller art and 👍/👎), else the name, else “Missed Call”.** Why: Inventing a reason would mislead the call-back decision. The thumbs rate the reason, so they only appear with one. The warm tint says “missed”, not “error”. (Source: Design: missed-call card)
 - **Never draw the system keyboard in the app.** Why: Android owns the keyboard. The docs show a stand-in image; the app only lifts its input above the keyboard. (Source: Engineering)
 - **Ask for a permission only at the step that needs it, and say why in one line.** Why: Permissions asked up front get denied. Asked in context (“I need your contact list to know who is calling”), they get granted. (Source: Design: Known Calls flow)
 - **Notifications: who, what they want, and Takeover first.** Why: A notification is glanced at in a second. Takeover is the action that matters most when the assistant is on a call with someone you know. (Source: Design: Notifications - Known Calls)
@@ -246,7 +246,7 @@ Emoji-led glass chips for the next step after a call: small chips in the chat li
 - Tokens: `gradient/chip-small-unread`, `gradient/chip-small-read`, `gradient/chip-large`, `action/stroke/unread`, `stroke/subtle`, `shadow/glass`, `text/action`, `text/secondary`, `text/primary`
 - Source: §9 Small Action Chip · §10 Large Action Chip
 
-Do: Lead every action with a Unicode emoji (📞 Call Back, ✏️ Update Address, 🗓️ Add to Calendar); actions use emoji, not Material icons. Use small chips outside chats (the chat list) and large chips inside a conversation or the AI panel. Let ChatListItem pick the small-chip state: unread rows get unread chips, read rows read chips, a selected row outlined chips. Mark the suggested next step unread and the alternative read (👍 Confirm vs ✍️ Edit).
+Do: Lead every action with a Unicode emoji (📞 Call back, ✏️ Update Address, 📅 Add to Calendar); actions use emoji, not Material icons. Use small chips outside chats (the chat list) and large chips inside a conversation or the AI panel. Let ChatListItem pick the small-chip state: unread rows get unread chips, read rows read chips, a selected row outlined chips. Mark the suggested next step unread and the alternative read (👍 Confirm vs ✍️ Edit).
 
 Don't: Don't swap the emoji for a Material icon or drop it on some chips in a row. Don't wrap the chat-list chip row; it scrolls and clips at the right edge. Don't use a chip for a destructive action; that belongs in a confirm sheet.
 
@@ -274,22 +274,22 @@ Known accessibility gaps:
 
 Example: Small chip states
 ```tsx
-<SmallActionChip emoji="📞" label="Call Back" />
+<SmallActionChip emoji="📞" label="Call back" />
 <SmallActionChip emoji="✏️" label="Update Address" />
-<SmallActionChip emoji="📞" label="Call Back" state="read" />
-<SmallActionChip emoji="📞" label="Call Back" state="outlined" />
-<SmallActionChip emoji="🗓️" label="Add to Calendar" state="outlined" chevron={false} />
+<SmallActionChip emoji="📞" label="Call back" state="read" />
+<SmallActionChip emoji="📞" label="Call back" state="outlined" />
+<SmallActionChip emoji="📅" label="Add to Calendar" state="outlined" chevron={false} />
 ```
 ```kotlin
 Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
     Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-        SmallActionChip(label = "Call Back", emoji = "📞", onClick = {})
+        SmallActionChip(label = "Call back", emoji = "📞", onClick = {})
         SmallActionChip(label = "Update Address", emoji = "✏️", onClick = {})
     }
-    SmallActionChip(label = "Call Back", emoji = "📞", onClick = {}, style = SmallActionChipStyle.Read)
-    SmallActionChip(label = "Call Back", emoji = "📞", onClick = {}, style = SmallActionChipStyle.Outlined)
+    SmallActionChip(label = "Call back", emoji = "📞", onClick = {}, style = SmallActionChipStyle.Read)
+    SmallActionChip(label = "Call back", emoji = "📞", onClick = {}, style = SmallActionChipStyle.Outlined)
     // Compose: no chevron toggle; the trailing chevron is always shown.
-    SmallActionChip(label = "Add to Calendar", emoji = "🗓️", onClick = {}, style = SmallActionChipStyle.Outlined)
+    SmallActionChip(label = "Add to Calendar", emoji = "📅", onClick = {}, style = SmallActionChipStyle.Outlined)
 }
 ```
 
@@ -319,9 +319,9 @@ Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
 Example: In a chat row
 ```tsx
 <ChipRow>
-  <SmallActionChip emoji="📞" label="Call Back" />
+  <SmallActionChip emoji="📞" label="Call back" />
   <SmallActionChip emoji="✏️" label="Update Address" />
-  <SmallActionChip emoji="🗓️" label="Add to Calendar" />
+  <SmallActionChip emoji="📅" label="Add to Calendar" />
 </ChipRow>
 ```
 ```kotlin
@@ -330,9 +330,9 @@ Row(
     modifier = Modifier.horizontalScroll(rememberScrollState()),
     horizontalArrangement = Arrangement.spacedBy(12.dp),
 ) {
-    SmallActionChip(label = "Call Back", emoji = "📞", onClick = {})
+    SmallActionChip(label = "Call back", emoji = "📞", onClick = {})
     SmallActionChip(label = "Update Address", emoji = "✏️", onClick = {})
-    SmallActionChip(label = "Add to Calendar", emoji = "🗓️", onClick = {})
+    SmallActionChip(label = "Add to Calendar", emoji = "📅", onClick = {})
 }
 ```
 
@@ -398,7 +398,7 @@ Example: Sizes
 <Button size="md">Submit</Button>
 <Button size="lg">Submit</Button>
 
-<Button block size="lg" leadingIcon="add">Add New Instruction</Button>
+<Button block size="lg" leadingIcon="add">Add New Instructions</Button>
 ```
 ```kotlin
 EqualButton(text = "Apply", onClick = {}, size = EqualButtonSize.Xs, leadingIcon = EqualIcons.Add)
@@ -406,17 +406,17 @@ EqualButton(text = "Submit", onClick = {}, size = EqualButtonSize.Sm)
 EqualButton(text = "Submit", onClick = {}, size = EqualButtonSize.Md)
 EqualButton(text = "Submit", onClick = {}, size = EqualButtonSize.Lg)
 // Block = Lg metrics at full width
-EqualButton(text = "Add New Instruction", onClick = {}, size = EqualButtonSize.Block, leadingIcon = EqualIcons.Add)
+EqualButton(text = "Add New Instructions", onClick = {}, size = EqualButtonSize.Block, leadingIcon = EqualIcons.Add)
 ```
 
 Example: Premium: the gold CTA with sheen and glow
 ```tsx
-<Button appearance="premium" size="lg" block glow>Unlock Unlimited</Button>
-<Button appearance="premium" size="lg" block disabled>Unlock Unlimited</Button>
+<Button appearance="premium" size="lg" block glow>Get Equal AI Unlimited</Button>
+<Button appearance="premium" size="lg" block disabled>Get Equal AI Unlimited</Button>
 ```
 ```kotlin
-EqualButton(text = "Unlock Unlimited", onClick = {}, appearance = EqualButtonAppearance.Premium, size = EqualButtonSize.Block, glow = true)
-EqualButton(text = "Unlock Unlimited", onClick = {}, appearance = EqualButtonAppearance.Premium, size = EqualButtonSize.Block, enabled = false)
+EqualButton(text = "Get Equal AI Unlimited", onClick = {}, appearance = EqualButtonAppearance.Premium, size = EqualButtonSize.Block, glow = true)
+EqualButton(text = "Get Equal AI Unlimited", onClick = {}, appearance = EqualButtonAppearance.Premium, size = EqualButtonSize.Block, enabled = false)
 ```
 
 Example: Text and icon buttons
@@ -544,8 +544,8 @@ EqualTheme {
         AssistantActions(
             items = listOf(
                 AssistantAction("Talk to Equal"), // null icon: the Equal mark
-                AssistantAction("Talk to Equal", EqualIcons.AutoFix),
-                AssistantAction("Make a call", EqualIcons.CallFilled),
+                AssistantAction("Set Instruction", EqualIcons.AutoFix),
+                AssistantAction("Make a Call", EqualIcons.CallFilled),
             ),
         )
         AssistantChips {
@@ -845,22 +845,22 @@ HealthHero(HealthHeroState.Fail, height = 120.dp)
 
 Example: Check card with permission rows
 ```tsx
-<HealthCheckCard title="App permissions" status="issues" expandable expanded action={{ label: 'Grant Permission', onClick: grant }}>
+<HealthCheckCard title="App Permissions" status="issues" expandable expanded action={{ label: 'Grant Permission', onClick: grant }}>
   <PermissionRow icon="phone-incoming" title="Phone" description="Your assistant needs this to handle calls" status="granted" />
-  <PermissionRow icon="notifications" title="Notification" description="Required to send you call alerts" status="notGranted" />
+  <PermissionRow icon="notifications" title="Notifications"description="Required to send you call alerts" status="notGranted" />
   <PermissionRow icon="contacts" title="Contacts" description="Required to skip calls from saved contacts" status="checking" />
 </HealthCheckCard>
 ```
 ```kotlin
 HealthCheckCard(
-    title = "App permissions",
+    title = "App Permissions",
     status = HealthCardStatus.Issues,
     expandable = true,
     expanded = true,
     action = HealthCardAction("Grant Permission", onClick = { /* open settings */ }),
 ) {
     PermissionRow(EqualSymbols.phoneIncoming, "Phone", "Your assistant needs this to handle calls", PermissionStatus.Granted)
-    PermissionRow(EqualSymbols.notifications, "Notification", "Required to send you call alerts", PermissionStatus.NotGranted, filledIcon = EqualSymbols.notificationsFill)
+    PermissionRow(EqualSymbols.notifications, "Notifications","Required to send you call alerts", PermissionStatus.NotGranted, filledIcon = EqualSymbols.notificationsFill)
     PermissionRow(EqualSymbols.contacts, "Contacts", "Required to skip calls from saved contacts", PermissionStatus.Checking)
 }
 ```
@@ -954,13 +954,13 @@ Example: Hero, rows and lists
 ```tsx
 <TraitOrbHero />
 <InfoRows rows={rows} />
-<KeepLoseList stays={['Everything it knows today']} goes={['Anything that changes ahead']} />
+<KeepLoseList stays={['Everything Equal knows today']} goes={['New information from future calls']} />
 <AvatarStack initials={['AS', 'AM', 'BC']} />
 ```
 ```kotlin
 TraitOrbHero()
 InfoRows(listOf(InfoRow(EqualSymbols.autoFix, "It builds up over time", "It gets a little sharper with every call.")))
-KeepLoseList(stays = listOf("Everything it knows today"), goes = listOf("Anything that changes ahead"))
+KeepLoseList(stays = listOf("Everything Equal knows today"), goes = listOf("New information from future calls"))
 AvatarStack(listOf("AS", "AM", "BC"))
 ```
 
@@ -1177,7 +1177,7 @@ const [rating, setRating] = useState(0);
 ```kotlin
 var rating by remember { mutableIntStateOf(0) }
 FeedbackCard(
-    question = "How would you rate the call?",
+    question = "How would you rate your call Keshav?",
     rating = rating,
     onRatingChange = { rating = it },
     // Compose: the share callback takes no argument; read `rating` from state
@@ -1192,7 +1192,7 @@ Example: Rated
 ```kotlin
 // Compose: always controlled, so the question and rating callback are required
 FeedbackCard(
-    question = "How would you rate the call?",
+    question = "How would you rate your call Keshav?",
     rating = 4,
     onRatingChange = {},
     onShareFeedbackClick = {},
@@ -1201,14 +1201,14 @@ FeedbackCard(
 
 #### Meet Your Assistant card (`meet-assistant-card`)
 
-Introduces the voice assistant with its persona avatar and a “Call me” pill. Compact on Chats once the assistant is back; banner as a standalone promo.
+Introduces the voice assistant with its persona avatar and a “Call Now” pill. Compact on Chats once the assistant is back; banner as a standalone promo.
 
 - React: `import { MeetAssistantCard } from '@equal/ds';`
 - Compose: `MeetAssistantCard`
 - Tokens: `gradient/meet-assistant`, `gradient/call-me`, `text/primary`, `text/action`, `text/secondary`, `text/on-action`, `text/placeholder`
 - Source: Flows: Temporarily Unavailable
 
-Do: Use the compact layout in the Chats promo slot, the same slot as What’s New. Keep “Call me” as the only action.
+Do: Use the compact layout in the Chats promo slot, the same slot as What’s New. Keep “Call Now” as the only action.
 
 Don't: Don’t show it together with a What’s New card. Don’t crop or recolour the avatar-assistant art; the orb badge is part of the file.
 
@@ -1359,15 +1359,15 @@ Known accessibility gaps:
 
 Example: Default
 ```tsx
-<WhatsNewCard width="100%" heading="Language Preference"
-  body="Set your preferred language and choose how your assistant sounds"
-  ctaLabel="Try Voices" ctaIcon="translate" onCta={openVoices} onDismiss={dismiss} />
+<WhatsNewCard width="100%" heading="Assistant Languages"
+  body="Checkout how your assistant speaks in 9 languages"
+  ctaLabel="Try Languages" ctaIcon="translate" onCta={openLanguages} onDismiss={dismiss} />
 ```
 ```kotlin
 WhatsNewCard(
-    title = "Language Preference",
-    body = "Set your preferred language and choose how your assistant sounds",
-    buttonLabel = "Try Voices",
+    title = "Assistant Languages",
+    body = "Checkout how your assistant speaks in 9 languages",
+    buttonLabel = "Try Languages",
     buttonIcon = EqualIcons.Translate,
     onButtonClick = {},
     onCloseClick = {},
@@ -1431,8 +1431,8 @@ Example: After a call
 <AiChatPanel
   prompt="Want me to send Amit a quick reply on WhatsApp?"
   actions={[
-    { label: 'Reply on WhatsApp', emoji: '💬' },
-    { label: 'Add to Calendar', emoji: '🗓️' },
+    { label: 'Reply on WhatsApp', emoji: '💚' },
+    { label: 'Add to Calendar', emoji: '📅' },
   ]}
   composer={{ onSend: send }} />
 ```
@@ -1442,8 +1442,8 @@ var draft by remember { mutableStateOf("") }
 AiChatPanel(
     prompt = "Want me to send Amit a quick reply on WhatsApp?",
     actions = listOf(
-        ActionChipData("Reply on WhatsApp", "💬"),
-        ActionChipData("Add to Calendar", "🗓️"),
+        ActionChipData("Reply on WhatsApp", "💚"),
+        ActionChipData("Add to Calendar", "📅"),
     ),
     onActionClick = {},
     composerValue = draft,
@@ -1883,7 +1883,7 @@ A row in the Chats list with avatar, name, date, preview, unread count and the s
 - Tokens: `bg/surface`, `action-card/highlight`, `state/chat-pressed`, `text/primary`, `text/secondary`, `text/action`, `button/primary`, `text/on-action`
 - Source: §6 Chat List Item
 
-Do: Give unknown callers their category art and saved contacts their initials. Offer the next step as chips on the row (📞 Call Back, 🗓️ Add to Calendar) so it is one tap from the list. Use long-press to enter selection mode.
+Do: Give unknown callers their category art and saved contacts their initials. Offer the next step as chips on the row (📞 Call back, 📅 Add to Calendar) so it is one tap from the list. Use long-press to enter selection mode.
 
 Don't: Don't set chip states yourself; the row derives them from unread and selected. Don't let the preview wrap; it is one line with an ellipsis.
 
@@ -1915,12 +1915,12 @@ Example: Unread and read
 <ChatListItem name="Arnav Raj" preview="You have a visitor" date="Yesterday"
   unread={5} avatar={{ category: 'na' }}
   actions={[
-    { label: 'Call Back', emoji: '📞' },
+    { label: 'Call back', emoji: '📞' },
     { label: 'Update Address', emoji: '✏️' },
-    { label: 'Add to Calendar', emoji: '🗓️' },
+    { label: 'Add to Calendar', emoji: '📅' },
   ]} />
 <ChatListItem name="Amit Nanda" preview="Count me in for Sunday 8 PM 👍" date="12 July"
-  avatar={{ initials: 'AN' }} actions={[{ label: 'Call Back', emoji: '📞' }]} />
+  avatar={{ initials: 'AN' }} actions={[{ label: 'Call back', emoji: '📞' }]} />
 ```
 ```kotlin
 ChatListItem(
@@ -1931,9 +1931,9 @@ ChatListItem(
     unreadCount = 5,
     category = EqualCategory.NA,
     chips = listOf(
-        ActionChipData("Call Back", "📞"),
+        ActionChipData("Call back", "📞"),
         ActionChipData("Update Address", "✏️"),
-        ActionChipData("Add to Calendar", "🗓️"),
+        ActionChipData("Add to Calendar", "📅"),
     ),
 )
 ChatListItem(
@@ -1941,7 +1941,7 @@ ChatListItem(
     preview = "Count me in for Sunday 8 PM 👍",
     date = "12 July",
     initials = "AN",
-    chips = listOf(ActionChipData("Call Back", "📞")),
+    chips = listOf(ActionChipData("Call back", "📞")),
 )
 ```
 
@@ -1949,7 +1949,7 @@ Example: Long-press to select
 ```tsx
 <ChatListItem name="Dr Mehta Clinic" preview="Appointment confirmed for tomorrow, 10 AM"
   date="03:21" unread={2} avatar={{ category: 'others' }}
-  actions={[{ label: 'Add to Calendar', emoji: '🗓️' }, { label: 'Call Back', emoji: '📞' }]}
+  actions={[{ label: 'Add to Calendar', emoji: '📅' }, { label: 'Call back', emoji: '📞' }]}
   selected={selected} onLongPress={() => setSelected(true)} />
 ```
 ```kotlin
@@ -1962,7 +1962,7 @@ ChatListItem(
     state = if (selected) ChatListItemState.Selected else ChatListItemState.Unread,
     unreadCount = 2,
     category = EqualCategory.Others,
-    chips = listOf(ActionChipData("Add to Calendar", "🗓️"), ActionChipData("Call Back", "📞")),
+    chips = listOf(ActionChipData("Add to Calendar", "📅"), ActionChipData("Call back", "📞")),
     onLongClick = { selected = true },
     onClick = { selected = false },
 )
@@ -1977,7 +1977,7 @@ Example: The list
 ))}
 ```
 ```kotlin
-val callBack = listOf(ActionChipData("Call Back", "📞"))
+val callBack = listOf(ActionChipData("Call back", "📞"))
 Column {
     ChatListItem(name = "Amit Nanda", preview = "Count me in for Sunday 8 PM 👍", date = "12 July",
         initials = "AN", chips = callBack)
@@ -2151,7 +2151,7 @@ Anatomy:
 1. Card: White card holding the head, reason and Call back. (width 320 (shrinks to fit) · bg/surface · radius lg (16) · gap 10 to the thumbs)
 2. Head: Tinted strip that says the call was missed. (margin 6 · padding 10 / 12 · radius 12 · missed-call/bg · 1 px missed-call/stroke · gap 12)
 3. Art or disc: Caller art with a missed badge (with a reason) or the red missed-call disc. (Asset category 48 · badge 20 missed-call/icon-bg with 2 px missed-call/bg ring · Icon phone-missed-fill 12 / 24 · missed-call/icon)
-4. Title and why: "{caller} Called" or "Missed by the assistant", then why. (Text subheading text/primary, one line · Text body2 Regular text/secondary · time Text micro tabular text/secondary when there is no reason)
+4. Title and why: "{caller} Called" or "Missed Call", then "Missed by Assistant". (Text subheading text/primary, one line · Text body2 Regular text/secondary · time Text micro tabular text/secondary when there is no reason)
 5. Likely calls for: Optional reason block with bold key words and the time. (padding 4 16 6 · gap 2 · Text overline text/secondary · body1 Regular text/secondary · time Text micro tabular text/primary)
 6. Call back: Full-width action row. (48 high · 1 px stroke/subtle top · Icon call 20 · gap 8 · Text subheading · text/action)
 7. Feedback thumbs: Optional 👍 / 👎 to rate the reason. (40 circles, 48 touch area · gap 8 · bg/surface · 1 px stroke/subtle · Icon thumb 20 text/secondary · on: filled icon + text/action icon and stroke)
@@ -2393,8 +2393,8 @@ Row(horizontalArrangement = Arrangement.spacedBy(16.dp), verticalAlignment = Ali
 Example: In context
 ```tsx
 <TopBar />                                  {/* PlanBadge */}
-<SettingsRow icon="instructions" label="Instructions" isNew
-  description="Tell assistant how you'd like it to help" />   {/* NewBadge */}
+<SettingsRow icon="instructions" label="Your Instructions" isNew
+  description="Tell Equal what to do" />   {/* NewBadge */}
 <ChatListItem name="Arnav Raj" preview="You have a visitor"
   date="Yesterday" unread={5} />             {/* CountBadge */}
 ```
@@ -2403,8 +2403,8 @@ Column {
     TopBar() // PlanBadge
     RowGroup(inset = 0.dp) {
         SettingsRow(
-            label = "Instructions",
-            description = "Tell assistant how you'd like it to help",
+            label = "Your Instructions",
+            description = "Tell Equal what to do",
             leadingIcon = EqualIcons.Instructions,
             showNewBadge = true, // NewBadge
         )
@@ -2674,7 +2674,7 @@ Anatomy:
 
 Accessibility:
 - Role. Web: ChoiceCard is a button role=radio with aria-checked (the caller adds role=radiogroup with radioGroupKeyDown); ContactCheckRow's control is a role=checkbox; AlphabetIndex is a nav of buttons; PermissionSheet and SetupPrompt are role=dialog; InfoNote is role=note; CallNotification is role=group. Android: ChoiceCard is selectable(Role.RadioButton) (wrap in selectableGroup); the row is toggleable(Role.Checkbox); ContactPick is Role.Button; sheets set paneTitle with a heading(); AlphabetIndex's Column sets paneTitle 'Jump to letter'.
-- Name. Web: ChoiceCard reads title, Suggested and description; ContactPick 'Add Mom' / 'Remove Vijay Cousin'; checkbox 'Select Arnav Raj'; 'Answer the call'; close 'Close'; notification 'Equal AI is answering Mom'. Android: Same strings via contentDescription; index letters use onClickLabel 'Jump to A'.
+- Name. Web: ChoiceCard reads title, Suggested and description; ContactPick 'Exclude Mom' / 'Remove Vijay Cousin'; checkbox 'Select Arnav Raj'; 'Answer the call'; close 'Close'; notification 'Equal AI is answering Mom'. Android: Same strings via contentDescription; index letters use onClickLabel 'Jump to A'.
 - Keyboard. Web: With the roving tabindex the radio group is one Tab stop and arrow keys move the selection. PermissionSheet and SetupPrompt use useModal: focus moves in, Tab is trapped and Escape calls onClose. Android: TalkBack reads 'Only unknown numbers, selected, radio button'; double-tap selects. System Back calls the sheet's onClose / onDismiss when set.
 - Touch target. Web: Reply chips (34) and the answer ring (44) use eq-touch (48); the checkbox has eq-touch and the whole row toggles; Button lg has eq-touch. AlphabetIndex letters fill their 15 px slot and reach 28 px wide. Android: ReplyChip, the answer ring and UnderlinedLink use touchTarget() (48dp); AlphabetIndex letters are 48dp wide but only as tall as their row; ChoiceCard, ContactPick, the row and buttons meet 48dp.
 - Contrast. Web: Accepted brand decision: the selected radio and choice stroke use button/primary green, 2.8:1 on action/fill/unread; the InfoNote link is 2.7:1 on info-note/bg; primary buttons are white on green 2.85:1. The unselected radio ring (stroke/dark) is 2.2:1. Note text 12.1:1; ongoing bar lime on black 80% is 10.5:1. Dark uses lime with black content. Android: Same tokens and ratios as web.
@@ -2690,31 +2690,31 @@ Known accessibility gaps:
 Example: Choice cards
 ```tsx
 <div role="radiogroup">
-  <ChoiceCard icon="globe" title="All calls, except a few" description="I answer everyone. You pick who I skip." selected={mode === 'all'} onSelect={() => setMode('all')} />
-  <ChoiceCard icon="call" title="Only unknown numbers" description="I answer numbers that are not saved in your phone." selected={mode === 'unknown'} onSelect={() => setMode('unknown')} />
+  <ChoiceCard icon="globe" title="All calls except" description="Equal answers all your calls, except the people you choose." selected={mode === 'all'} onSelect={() => setMode('all')} />
+  <ChoiceCard icon="call" title="Unknown numbers only" description="Equal only answers calls from numbers you don’t have saved." selected={mode === 'unknown'} onSelect={() => setMode('unknown')} />
 </div>
-<InfoNote title="Contact access needed" body="Without it, the assistant can’t handle all calls." link="Give contacts permission" onLink={askContacts} />
+<InfoNote title="Contact access needed" body="Without it, the assistant cannot handle all calls." link="Give contacts permission" onLink={askContacts} />
 ```
 ```kotlin
 var mode by remember { mutableStateOf(CallMode.All) }
 Column(Modifier.selectableGroup(), verticalArrangement = Arrangement.spacedBy(16.dp)) {
     ChoiceCard(
         icon = EqualIcons.Globe,
-        title = "All calls, except a few",
-        description = "I answer everyone. You pick who I skip.",
+        title = "All calls except",
+        description = "Equal answers all your calls, except the people you choose.",
         selected = mode == CallMode.All,
         onSelect = { mode = CallMode.All },
     )
     ChoiceCard(
         icon = EqualIcons.Call,
-        title = "Only unknown numbers",
-        description = "I answer numbers that are not saved in your phone.",
+        title = "Unknown numbers only",
+        description = "Equal only answers calls from numbers you don’t have saved.",
         selected = mode == CallMode.Unknown,
         onSelect = { mode = CallMode.Unknown },
     )
     InfoNote(
         title = "Contact access needed",
-        body = "Without it, the assistant can’t handle all calls.",
+        body = "Without it, the assistant cannot handle all calls.",
         link = "Give contacts permission",
         onLink = { /* ask for READ_CONTACTS */ },
     )
@@ -3513,7 +3513,7 @@ A controlled on/off toggle (40 × 24 track) for settings that take effect immedi
 - Tokens: `button/primary`, `button/disabled`, `brand/white`, `shadow/raised`
 - Source: §3 Assistant Availability Toggle · Switch
 
-Do: Use a Switch when the change applies instantly (Mute Promotional Calls, Get updates on WhatsApp). Put the visible label in the row beside it and pass the same text as `label`. Confirm with a sheet when turning something off has consequences, as WhatsApp Updates does ("Turn off WhatsApp updates?").
+Do: Use a Switch when the change applies instantly (Mute Unwanted Calls, Get updates on WhatsApp). Put the visible label in the row beside it and pass the same text as `label`. Confirm with a sheet when turning something off has consequences, as WhatsApp Updates does ("Turn off WhatsApp updates?").
 
 Don't: Don't use a Switch for a choice that needs a Save button; use Checkbox or SegmentedChips. Don't recolour the track; on is button/primary and off is button/disabled in both themes.
 
@@ -3571,7 +3571,7 @@ Row(horizontalArrangement = Arrangement.spacedBy(20.dp)) {
 Example: In context
 ```tsx
 <RowGroup>
-  <ToggleRow label="Mute Promotional Calls" wrap
+  <ToggleRow label="Mute Unwanted Calls" wrap
     description="Equal AI Assistant can identify Promotional Calls and automatically mute them"
     checked={mute} onChange={setMute} />
 </RowGroup>
@@ -3581,7 +3581,7 @@ var mute by remember { mutableStateOf(true) }
 
 RowGroup {
     ToggleRow(
-        label = "Mute Promotional Calls",
+        label = "Mute Unwanted Calls",
         description = "Equal AI Assistant can identify Promotional Calls and automatically mute them",
         descriptionWraps = true,
         checked = mute,
@@ -3814,17 +3814,17 @@ Known accessibility gaps:
 Example: Addresses empty
 ```tsx
 <EmptyState illustration="illustration-addresses-empty"
-  title="Never explain your address again"
-  body="Save frequently used addresses, and your assistant will use them to handle delivery, pickup calls, etc. more naturally."
-  actionLabel="Add new Address" onAction={addAddress} />
+  title="No Addresses Yet"
+  body="Equal can use saved addresses when needed"
+  actionLabel="Add New Address" onAction={addAddress} />
 ```
 ```kotlin
 EmptyState(
-    title = "Never explain your address again",
-    body = "Save frequently used addresses, and your assistant will use them to handle delivery, pickup calls, etc. more naturally.",
+    title = "No Addresses Yet",
+    body = "Equal can use saved addresses when needed",
     // Compose: the illustration is a slot, not an asset name
     illustration = { EqualAssetImage(EqualAssets.IllustrationAddressesEmpty, 96.dp) },
-    actionLabel = "Add new Address",
+    actionLabel = "Add New Address",
     onActionClick = {},
 )
 ```
@@ -3842,14 +3842,14 @@ Example: Illustration header
 ```tsx
 <IllustrationHeader asset="illustration-silent-mode" />
 <RowGroup>
-  <ToggleRow label="Mute Promotional Calls" … />
+  <ToggleRow label="Mute Unwanted Calls" … />
 </RowGroup>
 ```
 ```kotlin
 IllustrationHeader(asset = EqualAssets.IllustrationSilentMode)
 RowGroup {
     ToggleRow(
-        label = "Mute Promotional Calls",
+        label = "Mute Unwanted Calls",
         description = "Equal AI Assistant can identify Promotional Calls and automatically mute them",
         descriptionWraps = true,
         checked = true,
@@ -3968,35 +3968,35 @@ Known accessibility gaps:
 
 Example: You tab group
 ```tsx
-<SectionHeader>Your assistant</SectionHeader>
+<SectionHeader>Tell Equal</SectionHeader>
 <RowGroup>
-  <SettingsRow icon="instructions" label="Instructions" isNew
-    description="Tell assistant how you'd like it to help" onClick={open} />
+  <SettingsRow icon="instructions" label="Your Instructions" isNew
+    description="Tell Equal what to do" onClick={open} />
   <SettingsRow icon="health-check" label="Assistant Health Check"
     description="Check Real-Time Assistant Connectivity" onClick={open} />
   …
 </RowGroup>
 ```
 ```kotlin
-SectionHeader(title = "Your assistant")
+SectionHeader(title = "Tell Equal")
 RowGroup {
     SettingsRow(
-        label = "Instructions",
-        description = "Tell assistant how you'd like it to help",
+        label = "Your Instructions",
+        description = "Tell Equal what to do",
         leadingIcon = EqualIcons.Instructions,
         showNewBadge = true,
         onClick = {},
     )
     SettingsRow(label = "Assistant Health Check", description = "Check Real-Time Assistant Connectivity", leadingIcon = EqualIcons.HealthCheck, onClick = {})
-    SettingsRow(label = "Silent Mode", description = "Mute promotional calls", leadingIcon = EqualIcons.SilentMode, onClick = {})
-    SettingsRow(label = "Voice & Language", description = "How your assistant sounds", leadingIcon = EqualIcons.VoiceLanguage, onClick = {})
+    SettingsRow(label = "Silent Mode", description = "Mute unwanted calls automatically", leadingIcon = EqualIcons.SilentMode, onClick = {})
+    SettingsRow(label = "Voice & Language", description = "Choose how Equal speaks.", leadingIcon = EqualIcons.VoiceLanguage, onClick = {})
 }
 ```
 
 Example: Toggle rows
 ```tsx
 <RowGroup>
-  <ToggleRow label="Mute Promotional Calls" wrap
+  <ToggleRow label="Mute Unwanted Calls" wrap
     description="Equal AI Assistant can identify Promotional Calls and automatically mute them"
     checked={mute} onChange={setMute} />
 </RowGroup>
@@ -4005,7 +4005,7 @@ Example: Toggle rows
 var mute by remember { mutableStateOf(true) }
 RowGroup {
     ToggleRow(
-        label = "Mute Promotional Calls",
+        label = "Mute Unwanted Calls",
         description = "Equal AI Assistant can identify Promotional Calls and automatically mute them",
         descriptionWraps = true,
         checked = mute,
@@ -4034,7 +4034,7 @@ RowGroup {
 
 #### Cancellation (`cancel-sheet`)
 
-Three steps to cancel: tell us why (Proceed stays disabled until there is text), confirm, and the request submitted with access kept until the end date.
+Three steps to cancel: tell us why (Continue stays disabled until there is text), confirm (Keep my plan / Yes), and the plan cancelled with access kept until the end date.
 
 - React: `import { CancelSheet } from '@equal/ds';`
 - Compose: `CancelSheet`
@@ -4049,14 +4049,14 @@ Props of `CancelSheet`:
 
 Do: Say how long access lasts at every step.
 
-Don't: Don't make Proceed tappable before the user writes a reason.
+Don't: Don't make Continue tappable before the user writes a reason.
 
 Anatomy:
 1. Scrim: Dimmed layer behind the sheet. A tap calls onClose (web) or onDismiss (Android) when one is passed; otherwise it only swallows taps. (bg/overlay #1E1E1E @ 40% · full-size layer)
 2. Sheet panel: Bottom panel that holds the status card and footer (StatusSheet). (bg/surface · radius 24 top (24 all round inline) · padding 12/12/20 · shadow 0 -8 30 black/12%)
 3. Close button: Feedback step only, web: floating X at the top-right that calls onClose. (IconButton ghost 40 · close 24 text/primary · inset 8/8 · 48 touch area)
 4. Status card: Neutral ring card with the 3D art: sad face for feedback and confirm, thumbs up when submitted. (gradient/status-neutral · radius 20 · 1dp stroke/subtle · padding 18/16 · rings white 60% · art 100dp (Asset, decorative))
-5. Title lines: Two display lines, light line first: 'We're Sad to / See you Cancel', 'Are you really / Sure?', 'Your Request is / Submitted'. One heading. (light 22/26 Regular (title) · strong 28/32 Bold -0.02em (headline) · text/primary · centred · 10 below the art · rises in over motion.paymentStatus)
+5. Title lines: Two display lines, light line first: 'Before you / Cancel', 'Cancel your / Plan?', 'Your plan is / Cancelled'. One heading. (light 22/26 Regular (title) · strong 28/32 Bold -0.02em (headline) · text/primary · centred · 10 below the art · rises in over motion.paymentStatus)
 6. Body: Says when access ends and what happens to autopay. (body1 · text/secondary · centred · 8 above)
 7. Reason field (feedback): Three-line text area for the reason for cancelling. (radius 12 · 1dp stroke/subtle, action/stroke/unread when focused · bg/surface · padding 12/14 · body1 text/primary · placeholder text/placeholder (Android) · 16 above)
 8. Footer: Proceed (disabled until there is text); or Cancel (outline) + Confirm; or the 3s RedirectNote. (Button lg block 45 · gap 12 · RedirectNote body2 text/action · footer padding 16 top, 8 sides)
@@ -4139,17 +4139,17 @@ Anatomy:
 1. Ticket: Notched card. (radius xl (20) · two 9 notches at 58% height (web mask / Compose TicketShape) · bg/surface · 1 px gradient/coupon-stroke · padding 14 16 12)
 2. Code: The coupon code. (Text subheading Bold · text/gold · one line on Compose)
 3. Description: What it saves. (Text caption Regular · text/secondary)
-4. APPLY / APPLIED: Apply action, then its applied state. (gap 12 from the text · Text buttonSmall Bold · text/gold · padding-top 4 · 48 touch area)
+4. Apply / Applied: Apply action, then its applied state. (gap 12 from the text · Text buttonSmall Bold · text/gold · padding-top 4 · 48 touch area)
 5. Dashed rule and seal: Divider with the 3D % seal. (6 above, 2 below · 1 px dashed paywall/divider · Asset coupon-seal 28 · gap 10)
 6. Discount: Big discount line. (30/36 Bold · gradient/gold-text · centred)
 
 Accessibility:
-- Role. Web: APPLY is a <button>; APPLIED is a focusable span; a persistent polite Announce region speaks the change; the seal is alt="". Android: APPLY is a clickable(role = Role.Button) text; a persistent Box with liveRegion = Polite wraps APPLY / APPLIED; the seal has no contentDescription.
-- Name. Web: The button reads "Apply EQUAL25"; APPLIED reads "EQUAL25 applied"; the region announces "Coupon EQUAL25 applied". Android: APPLY reads "Apply EQUAL25"; APPLIED reads "EQUAL25 applied".
-- Keyboard. Web: Tab to APPLY; Enter / Space. When APPLIED replaces it, focus moves to the APPLIED text (useFocusHandoff). Android: TalkBack: swipe to APPLY, double-tap; the live region announces the applied state.
-- Touch target. Web: APPLY uses eq-touch for a 48 px hit area. Android: APPLY uses minimumInteractiveComponentSize (48 dp).
-- Contrast. Web: Code and APPLY text/gold #9E6A28 on white 4.6:1; description text/secondary 5.7:1. The discount gradient is about 3:1 mid-glyph and 1.8:1 at its #FFB251 highlight. Dark: gold #E8BD62 9.3:1. Android: Same tokens, same ratios.
-- State. Web: Applied swaps APPLY for the word APPLIED (not colour alone) and is announced once by the persistent live region. Android: Applied swaps the text; the persistent polite live region announces it.
+- Role. Web: Apply is a <button>; Applied is a focusable span; a persistent polite Announce region speaks the change; the seal is alt="". Android: Apply is a clickable(role = Role.Button) text; a persistent Box with liveRegion = Polite wraps Apply / Applied; the seal has no contentDescription.
+- Name. Web: The button reads "Apply EQUAL25"; Applied reads "EQUAL25 applied"; the region announces "Coupon EQUAL25 applied". Android: Apply reads "Apply EQUAL25"; Applied reads "EQUAL25 applied".
+- Keyboard. Web: Tab to Apply; Enter / Space. When Applied replaces it, focus moves to the Applied text (useFocusHandoff). Android: TalkBack: swipe to Apply, double-tap; the live region announces the applied state.
+- Touch target. Web: Apply uses eq-touch for a 48 px hit area. Android: Apply uses minimumInteractiveComponentSize (48 dp).
+- Contrast. Web: Code and Apply text/gold #9E6A28 on white 4.6:1; description text/secondary 5.7:1. The discount gradient is about 3:1 mid-glyph and 1.8:1 at its #FFB251 highlight. Dark: gold #E8BD62 9.3:1. Android: Same tokens, same ratios.
+- State. Web: Applied swaps Apply for the word Applied (not colour alone) and is announced once by the persistent live region. Android: Applied swaps the text; the persistent polite live region announces it.
 - Motion. Web: Static; the price drop above it animates in PriceTag (off under reduced motion). Android: Static.
 
 Known accessibility gaps:
@@ -4157,18 +4157,18 @@ Known accessibility gaps:
 
 Example: Available
 ```tsx
-<CouponTicket code="EQUAL25" description="Save Flat ₹100 with this Code" discount="25% OFF" onApply={apply} />
+<CouponTicket code="EQUAL25" description="Get extra 25% off your first month" discount="25% OFF on UPI" onApply={apply} />
 ```
 ```kotlin
-CouponTicket(code = "EQUAL25", description = "Save Flat ₹100 with this Code", discount = "25% OFF", onApply = {})
+CouponTicket(code = "EQUAL25", description = "Get extra 25% off your first month", discount = "25% OFF on UPI", onApply = {})
 ```
 
 Example: Applied
 ```tsx
-<CouponTicket code="EQUAL25" description="Save Flat ₹100 with this Code" discount="25% OFF" applied />
+<CouponTicket code="EQUAL25" description="Get extra 25% off your first month" discount="25% OFF on UPI" applied />
 ```
 ```kotlin
-CouponTicket(code = "EQUAL25", description = "Save Flat ₹100 with this Code", discount = "25% OFF", applied = true)
+CouponTicket(code = "EQUAL25", description = "Get extra 25% off your first month", discount = "25% OFF on UPI", applied = true)
 ```
 
 #### Discount badge & price drop (`discount-badge`)
@@ -4208,7 +4208,7 @@ Anatomy:
 Accessibility:
 - Role. Web: DiscountBadge is role=status (polite live region); OffSeal is an aria-hidden svg; PriceTag is plain text. Android: DiscountBadge uses clearAndSetSemantics with liveRegion Polite; the struck price has its own contentDescription.
 - Name. Web: The badge reads '25% off. Discounted!!' through a visually hidden prefix. The price reads '₹149, was ₹249 /Monthly'. Android: Badge reads '25% off. Discounted!!'; the struck price reads 'was ₹249 /Monthly'.
-- Keyboard. Web: Not interactive: the badge and price are read in order; the APPLY that triggers the drop lives on the coupon. Android: Not interactive; TalkBack reads the label, price and badge in order.
+- Keyboard. Web: Not interactive: the badge and price are read in order; the Apply that triggers the drop lives on the coupon. Android: Not interactive; TalkBack reads the label, price and badge in order.
 - Touch target. Web: Not interactive, so no target. Android: Not interactive, so no target.
 - Contrast. Web: Accepted brand decision: label and Saved line (text/action) and the seal's white text are 2.85:1 in light; dark is lime with black text, 17:1. The gold-text price runs from 1.8:1 (#FFB251) to 10.4:1 on white; text/gold label is 4.6:1 on white, 4.0:1 on the paywall hero's top colour. Android: Same tokens and ratios as web.
 - State. Web: The discount is in text (seal, label, struck price, Saved ₹), not colour. During the drop only the badge, as a live region, announces the change. Android: Same; the badge's live region announces when it appears.
@@ -4256,7 +4256,7 @@ The FREQUENTLY ASKED QUESTIONS accordion on the paywall and the subscription pag
 
 Props of `FaqList`:
 - `items`: `{ q: string; a: ReactNode }[]`. Questions.
-- `title?`: `string | null` = 'Frequently asked questions'. Label above.
+- `title?`: `string | null` = 'FREQUENTLY ASKED QUESTIONS'. Label above.
 - `defaultOpen?`: `number[]` = []. Expanded rows.
 
 Do: Answer cancellation and refunds plainly.
@@ -4286,10 +4286,10 @@ Example: Accordion
 ```
 ```kotlin
 val faq = listOf(
-    FaqItem("What do I get with Equal Unlimited?", "Unlimited call screenings, full recordings, summaries, and zero daily cap."),
-    FaqItem("Will Equal screen all types of calls?", "Yes! Delivery, ride pickups, spam, loan calls, Equal handles them all."),
-    FaqItem("Can I cancel my Equal Unlimited plan later?", "Yes, cancel anytime. Your Unlimited access stays active until the end of your billing period."),
-    FaqItem("Will I get a refund if I’m not happy with Equal Unlimited?", "We don’t offer refunds, but you can write to our support team and we’ll do our best to help."),
+    FaqItem("What do I get with Equal AI Unlimited?", "Unlimited call screenings, full recordings, summaries, and zero daily cap."),
+    FaqItem("Does Equal AI screen all types of calls?", "Yes! Delivery, ride pickups, spam, loan calls, Equal AI handles them all."),
+    FaqItem("Can I cancel my Equal AI Unlimited plan later?", "Yes, cancel anytime. Your Unlimited access stays active until the end of your billing period."),
+    FaqItem("Can I get a refund if I’m not happy with Equal AI Unlimited?", "Yes. If you’re not happy within 3 days of your first payment, reach us through our helpline and we’ll process your refund."),
 )
 FaqList(items = faq, defaultOpen = listOf(3))
 ```
@@ -4304,7 +4304,7 @@ DividerLabel(text = "Why people choose")
 
 #### Feature list (`feature-list`)
 
-What You Get on the plan page: one card per Unlimited feature with its 3D gold icon (24/7 Unlimited Call Screening, Unlimited Recordings, Unlimited Summaries).
+What You Get on the plan page: one card per Unlimited feature with its 3D gold icon (Unlimited AI call handling, 24/7, Unlimited Recordings, AI Call Summaries).
 
 - React: `import { FeatureList, unlimitedFeatures } from '@equal/ds';`
 - Compose: `FeatureList`
@@ -4355,7 +4355,7 @@ Opened from Support on the paywall (or Contact Support after a pending payment):
 - Source: Monetization Flow · Help Center
 
 Props of `HelpCenterSheet`:
-- `phone / email?`: `string` = +91 9876 543210 / hello@equal.in. Contact rows.
+- `phone / email?`: `string` = +91 9876 543210 / hey@equal.in. Contact rows.
 - `onCall / onMail?`: `() => void`. Row taps.
 
 Do: Keep it to the two contact routes.
@@ -4385,10 +4385,10 @@ Known accessibility gaps:
 
 Example: Default
 ```tsx
-<HelpCenterSheet phone="+91 9876 543210" email="hello@equal.in" onCall={call} onMail={mail} />
+<HelpCenterSheet phone="+91 9876 543210" email="hey@equal.in" onCall={call} onMail={mail} />
 ```
 ```kotlin
-HelpCenterSheet(phone = "+91 9876 543210", email = "hello@equal.in", onCall = {}, onMail = {}, inline = true)
+HelpCenterSheet(phone = "+91 9876 543210", email = "hey@equal.in", onCall = {}, onMail = {}, inline = true)
 ```
 
 #### Locked content (`locked-content`)
@@ -4587,9 +4587,9 @@ The Equal Unlimited paywall: gold hero with the 3D crown, the price, a preview o
 - Source: Monetization Flow · Unlock Equal Unlimited
 
 Props of `PaywallHero`:
-- `title?`: `string` = 'Unlock Equal'. Regular first line.
+- `title?`: `string` = 'Equal AI'. Regular first line.
 - `titleStrong?`: `string` = 'Unlimited'. Bold display line.
-- `subtitle?`: `ReactNode` = Unlock Summaries…. Experiment: copy variant.
+- `subtitle?`: `ReactNode` = Get Unlimited Recordings…. Experiment: copy variant.
 - `onBack / onSupport?`: `() => void`. Header actions; Support opens the Help Center sheet.
 - `children?`: `ReactNode`. Price, preview, coupon.
 
@@ -4599,8 +4599,8 @@ Props of `PriceTag`:
 - `currency?`: `string` = '₹'. Prefix.
 
 Props of `PaywallFooter`:
-- `cta?`: `string` = 'Unlock Unlimited'. Gold block button.
-- `note?`: `string | null` = 'Cancel Anytime. Automatically renews'. Caption under it.
+- `cta?`: `string` = 'Get Equal AI Unlimited'. Gold block button.
+- `note?`: `string | null` = 'Cancel anytime · UPI secure · No hidden charges'. Caption under it.
 - `onClick?`: `() => void`. Starts payment.
 - `variant?`: `'gold' | 'gold-outline' | 'primary'` = 'gold'. gold-outline for Cancel Subscription on the plan page.
 - `disabled?`: `boolean`. While a payment is processing.
@@ -4625,7 +4625,7 @@ Anatomy:
 Accessibility:
 - Role. Web: The hero is a <section>; the titles are one <h1> (the visible first line is aria-hidden and repeated inside the h1 as hidden text); Back, Support and the CTA are <button>s; the crown is alt="". PaywallScreen renders the preview inert and aria-hidden with a one-line summary. Android: Back is PlainIconButton, Support a Role.Button row, the CTA an EqualButton; the two title lines are one clearAndSetSemantics node with heading(); the crown and rings have no semantics.
 - Name. Web: Back aria-label "Back"; Support and CTA from their text; the h1 reads "Unlock Equal Unlimited"; 🎊 is aria-hidden; the struck price is preceded by hidden ", was ". Android: Back "Back"; the title reads "Unlock Equal Unlimited" once; the 🎊 EmojiGlyphs are hidden; the was-price reads "was ₹249 /Monthly"; DiscountBadge reads "25% off. Special Coupon Applied!".
-- Keyboard. Web: Tab: Back, Support, coupon APPLY, CTA; the locked preview is inert so its rows take no focus. Android: TalkBack: swipe through the bar, the title heading, price, preview, coupon and CTA.
+- Keyboard. Web: Tab: Back, Support, coupon Apply, CTA; the locked preview is inert so its rows take no focus. Android: TalkBack: swipe through the bar, the title heading, price, preview, coupon and CTA.
 - Touch target. Web: Back (40 px) and Support use eq-touch (48 px); the CTA is 45 px high, full width, with eq-touch. Android: Back 48 dp; Support uses minimumInteractiveComponentSize; the CTA EqualButton enforces 48 dp.
 - Contrast. Web: Titles text/primary 11.5:1 and subtitle text/secondary 5.5:1 on the gold top. The gold caption label text/gold is 4.3:1 on the hero tint (4.6:1 on white). The price gradient is about 3:1 mid-glyph, lighter (#FFB251, 1.8:1) at its highlight. CTA white on gradient/cta-gold runs 4.2:1 at #A37236 to 2.3:1 at the #C8A774 sheen. "Saved ₹N" is text/action, 2.85:1 (accepted brand decision). Dark: gold text 9.3:1. Android: Same tokens, same ratios.
 - State. Web: The footer CTA uses the native disabled attribute while a payment processes (grey fill, no sheen); the DiscountBadge is role="status". Android: EqualButton enabled = false; DiscountBadge is a polite live region.
@@ -4711,13 +4711,13 @@ AnimatedCrown(size = 64.dp)
 
 Example: Sticky footer
 ```tsx
-<PaywallFooter cta="Unlock Unlimited" note="Cancel Anytime. Automatically renews" onClick={buy} />
+<PaywallFooter cta="Get Equal AI Unlimited" note="Cancel anytime · UPI secure · No hidden charges" onClick={buy} />
 ```
 ```kotlin
 PaywallFooter(
     onClick = { /* start payment */ },
-    cta = "Unlock Unlimited",
-    note = "Cancel Anytime. Automatically renews",
+    cta = "Get Equal AI Unlimited",
+    note = "Cancel anytime · UPI secure · No hidden charges",
 )
 ```
 
@@ -4759,19 +4759,19 @@ Anatomy:
 1. PaymentResult: Full-screen payment result with a tinted wash. (gradient/status-success|warning|danger · sunburst/ray rings · 52 bar · close or back chip bg/surface (36 web / 44 Compose, both 48 touch) · 84 art · title 30/36 Bold (h1) · sub 22/28 Regular · body body1 text/secondary, max 280 · success: 'PLAN ACTIVE TILL' caption text/secondary + date subheading Bold · block lg action pinned at the bottom)
 2. ProcessingStrip: Payment processing notice with a spinning ring. (expiry-banner/warning-bg · padding 8/12 · gap 10 · 30 ring, 3dp text/gold arc on a 22% track around an 18 text/gold 'i' dot · title body2 Medium + caption Regular text/secondary · strip / card radius 12 / toast radius 12 with shadow)
 3. PaywallSheet card: Compact gold paywall in a bottom sheet. (bg/surface panel radius 28 top · card radius 20 gradient/paywall-hero, 1dp paywall/card-stroke, padding 20/16/16 · Support top-right (48 touch) · crown 56 · 'Equal AI' 22/26 Regular over 'Unlimited' 34/38 Bold · micro text/gold discount line · price 34/40 gradient/gold-text)
-4. CouponRow: EQUAL25 coupon with APPLY / APPLIED. (radius 14 · bg/surface · 1dp paywall/card-stroke · padding 10/14 · gap 10 · code subheading Bold text/gold · description caption Regular text/primary · APPLY body2 Bold text/gold (48 touch; 18% gold pill in dark))
+4. CouponRow: EQUAL25 coupon with Apply / Applied. (radius 14 · bg/surface · 1dp paywall/card-stroke · padding 10/14 · gap 10 · code subheading Bold text/gold · description caption Regular text/primary · Apply body2 Bold text/gold (48 touch; 18% gold pill in dark))
 5. ExitOfferDialog + OfferStrip: Exit offer card and the home strip after declining. (dialog radius 20, bg/surface, padding 18/16/16, shadow 0 12 40 black 22%, black 55% scrim, title Medium, body1 text/secondary, gold-outline + gold md buttons, gap 10 · strip expiry-banner/warning-bg + warning-text, info-fill 16, body2 Medium, underlined Bold Claim Now)
 6. HomeNoticeCard / UsageCapCard: Home card with a CTA and optional usage bar. (radius 16 · bg/surface · 1dp stroke/subtle · padding 12/14 · title subheading (optional lead icon, gap 6) + caption Regular text/secondary · md primary Button · 6 bar, stroke/subtle track, button/primary fill, 10 above)
 7. AssistantNoticeCard: Equal AI's own message with a voice note and CTA. (296 wide · radius 16 · bg/surface · VoicePlayer padding 8 · 'Equal AI' body2 text/action · title subheading · body body1 · 48 CTA row with crown-lock 18 + body2 Medium text/action)
 8. SummaryActions + LockedRecording: Locked actions and recording on the free plan. (48 rows, 1dp stroke/subtle top · icon 18 + body2 Medium text/action · locked: crown-lock 16 + text/gold · recording blurred 2.5 on a paywall/hero-top → paywall/card-bg wash, radius 12 · 40 gradient/cta-gold badge with crown-lock 26)
 
 Accessibility:
-- Role. Web: PaymentResult is a section with aria-label and an h1; ProcessingStrip and OfferStrip are role=status; PaywallSheet and HelpFaqSheet are role=dialog; ExitOfferDialog is role=alertdialog with aria-describedby; the usage bar is role=progressbar; LockedRecording is a button. Android: PaymentResult, PaywallSheet, HelpFaqSheet and ExitOfferDialog set paneTitle with heading() titles; ProcessingStrip merges with liveRegion Polite; price and the APPLY/APPLIED slot are live regions; LockedRecording is Role.Button with one description.
-- Name. Web: Chips 'Close' / 'Back'; LockedRecording 'Recording locked. Unlock Equal AI Unlimited'; locked actions read 'Locked Call Back'; APPLY reads 'Apply EQUAL25'; the usage bar is labelled (e.g. 'Weekly calls used') with valuetext 'N% used'. Android: Same strings; the usage bar reads 'N% used'; the locked crown 'Locked'.
-- Keyboard. Web: Sheets and dialogs use useModal: focus moves in, Tab is trapped, Escape closes (onClose, else onScrim / onBack / onDismiss). After APPLY, focus moves to APPLIED. Android: TalkBack: swipe and double-tap; scrims have onClickLabel 'Close'. System Back closes every sheet and the exit offer.
-- Touch target. Web: Result chips (36), APPLY, Support and Claim Now use eq-touch (48); md and lg Buttons carry eq-touch (48). Android: EqualButton, APPLY, Support and Claim Now meet 48dp; the PaymentResult chip is 44dp inside a 48dp touchTarget().
+- Role. Web: PaymentResult is a section with aria-label and an h1; ProcessingStrip and OfferStrip are role=status; PaywallSheet and HelpFaqSheet are role=dialog; ExitOfferDialog is role=alertdialog with aria-describedby; the usage bar is role=progressbar; LockedRecording is a button. Android: PaymentResult, PaywallSheet, HelpFaqSheet and ExitOfferDialog set paneTitle with heading() titles; ProcessingStrip merges with liveRegion Polite; price and the Apply/Applied slot are live regions; LockedRecording is Role.Button with one description.
+- Name. Web: Chips 'Close' / 'Back'; LockedRecording 'Recording locked. Unlock Equal AI Unlimited'; locked actions read 'Locked Call Back'; Apply reads 'Apply EQUAL25'; the usage bar is labelled (e.g. 'Weekly calls used') with valuetext 'N% used'. Android: Same strings; the usage bar reads 'N% used'; the locked crown 'Locked'.
+- Keyboard. Web: Sheets and dialogs use useModal: focus moves in, Tab is trapped, Escape closes (onClose, else onScrim / onBack / onDismiss). After Apply, focus moves to Applied. Android: TalkBack: swipe and double-tap; scrims have onClickLabel 'Close'. System Back closes every sheet and the exit offer.
+- Touch target. Web: Result chips (36), Apply, Support and Claim Now use eq-touch (48); md and lg Buttons carry eq-touch (48). Android: EqualButton, Apply, Support and Claim Now meet 48dp; the PaymentResult chip is 44dp inside a 48dp touchTarget().
 - Contrast. Web: Accepted brand decision: primary buttons are white on green 2.85:1 and text/action CTAs and labels 2.85:1 in light. Offer strip 7.7:1 light / 9.0:1 dark; processing text 11.7:1; text/gold labels 4.6:1 on white but 4.0:1 on the paywall hero top; the gold CTA's white label runs 4.2:1 down to 2.3:1 across gradient/cta-gold; the gold-text price starts at 1.8:1. Android: Same tokens and ratios as web.
-- State. Web: Processing is announced (role=status) and disables the CTA (disabled attribute). Locked actions show the crown and gold label plus 'Locked' in the name. APPLIED is announced through Announce ('Coupon EQUAL25 applied'). Android: Processing is a live region and the CTA is disabled; APPLIED and the new price are polite live regions.
+- State. Web: Processing is announced (role=status) and disables the CTA (disabled attribute). Locked actions show the crown and gold label plus 'Locked' in the name. Applied is announced through Announce ('Coupon EQUAL25 applied'). Android: Processing is a live region and the CTA is disabled; Applied and the new price are polite live regions.
 - Motion. Web: Sheet slide-up, exit-offer spring, processing ring spin, price land, crown and gold CTA sheen; all stop under prefers-reduced-motion. Android: SheetLayer, the exit spring, the ring spin and the price land check rememberReduceMotion.
 
 Known accessibility gaps:
@@ -4872,19 +4872,19 @@ AssistantNoticeCard(
 Example: Locked recording and actions
 ```tsx
 <LockedRecording onUnlock={openPaywall} />
-<SummaryActions locked actions={[{ label: 'Call Back', icon: 'call-filled' }, { label: 'Add to Calendar', icon: 'calendar' }]} onLocked={openPaywall} />
-<SmallActionChip label="Call Back" emoji="📞" locked />   // ChatListItem lockedActions
+<SummaryActions locked actions={[{ label: 'Call back', icon: 'call-filled' }, { label: 'Add to Calendar', icon: 'calendar' }]} onLocked={openPaywall} />
+<SmallActionChip label="Call back" emoji="📞" locked />   // ChatListItem lockedActions
 ```
 ```kotlin
 Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
     LockedRecording(onUnlock = { /* open the paywall */ })
     SummaryActions(
-        actions = listOf(SummaryAction("Call Back", EqualIcons.CallFilled), SummaryAction("Add to Calendar", EqualIcons.CalendarMonth)),
+        actions = listOf(SummaryAction("Call back", EqualIcons.CallFilled), SummaryAction("Add to Calendar", EqualIcons.CalendarMonth)),
         locked = true,
         onLocked = { /* open the paywall */ },
     )
     // ChatListItem(lockedActions = true) draws its chips like this
-    SmallActionChip(label = "Call Back", emoji = "📞", onClick = {}, locked = true)
+    SmallActionChip(label = "Call back", emoji = "📞", onClick = {}, locked = true)
 }
 ```
 
@@ -4996,7 +4996,7 @@ The subscription page proof block: a big gold stat, the rating pill and a testim
 - Source: Monetization Flow · Why people choose
 
 Props of `StatBlock`:
-- `value`: `string`. "400k+".
+- `value`: `string`. "10 Lakh+".
 - `label`: `string`. Under it.
 
 Props of `RatingPill`:
@@ -5019,7 +5019,7 @@ Anatomy:
 
 Accessibility:
 - Role. Web: Cards are figure with blockquote and figcaption; the track is a plain scrolling div; dots are aria-hidden; 'Why people choose' is an h2. Android: Cards are Columns in a LazyRow; RatingPill is cleared to one description; dots are cleared; 'Why people choose' is a heading().
-- Name. Web: Stat reads '400k+ People never miss a call'; rating reads 'Rated 4.5 /5' as separate spans; star alt is empty. Android: Rating reads 'Rated 4.5 out of 5'; the star has no description.
+- Name. Web: Stat reads '10 Lakh+ People know who called and why'; rating reads 'Rated 4.5 /5' as separate spans; star alt is empty. Android: Rating reads 'Rated 4.5 out of 5'; the star has no description.
 - Keyboard. Web: The track has no tabIndex and no buttons, so keyboard users can't scroll to later testimonials. Android: TalkBack swipes card by card and scrolls the LazyRow.
 - Touch target. Web: Nothing is tappable; the 240 px cards scroll by swipe or trackpad. Android: Nothing is tappable; the 240dp cards scroll by swipe.
 - Contrast. Web: The gold stat gradient runs 1.8:1 (#FFB251) to 10.4:1 on white at 52 px; 'EQUAL UNLIMITED' text/gold is 4.5:1 on paywall/card-bg (20 px Bold, large text); quotes and '/5' text/secondary 5.7:1. Dark uses the light gold tokens, 7:1 and up. Android: Same tokens and ratios as web.
@@ -5034,12 +5034,12 @@ Known accessibility gaps:
 
 Example: Stat and rating
 ```tsx
-<StatBlock value="400k+" label="People never miss a call" />
+<StatBlock value="10 Lakh+" label="People know who called and why" />
 <RatingPill rating={4.5} />
 ```
 ```kotlin
 Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(16.dp)) {
-    StatBlock(value = "400k+", label = "People never miss a call")
+    StatBlock(value = "10 Lakh+", label = "People know who called and why")
     RatingPill(rating = 4.5f)
 }
 ```
@@ -5053,18 +5053,18 @@ val avatar = @Composable { asset: EqualAssets -> EqualAssetImage(asset, size = 3
 TestimonialCarousel(
     items = listOf(
         Testimonial(
-            quote = "As a freelancer, client calls and spam used to mix together. Now I get proper summaries.",
-            name = "keerthana",
+            quote = "Equal AI screens every unknown call so I never miss what matters.",
+            name = "Riya S.",
             avatar = { avatar(EqualAssets.AvatarTestimonial1) },
         ),
         Testimonial(
-            quote = "It is a very useful app for screening the unknown calls. This is a must download.",
-            name = "Arnav Raj",
+            quote = "Equal AI eliminates spam and engages with unknown callers itself.",
+            name = "Chaitanya Sai",
             avatar = { avatar(EqualAssets.AvatarTestimonial2) },
         ),
         Testimonial(
-            quote = "My parents get loan and insurance calls all day. Equal answers them, and I just read the summary.",
-            name = "Riya Kapoor",
+            quote = "Saves me time and handles unknown calls like a pro.",
+            name = "Sanjana Ramakrishna",
             avatar = { avatar(EqualAssets.AvatarTestimonial3) },
         ),
     ),
@@ -5174,7 +5174,7 @@ Props of `PremiumIcon`:
 - `size?`: `number` = 16. dp.
 
 Props of `QuotaCard`:
-- `quota`: `{ used: number; limit: number; resetsInDays: number }`. This week; used ≥ limit shows Limit Reached.
+- `quota`: `{ used: number; limit: number; resetsInDays: number }`. This week; used ≥ limit shows Weekly Limit Reached.
 - `perks?`: `ValuePerk[] | null` = quotaPerks. What Unlimited adds.
 - `price?`: `number` = 149. Price.
 - `was?`: `number` = 249. Struck list price.
@@ -5200,15 +5200,15 @@ Anatomy:
 5. Date row + ExpiryChip: When the plan ends, with a tinted chip. (paywall/divider rules (min 12) · label body1 · gap 8 · chip 30 high, radius 6, padding 0 8, 18 Bold tabular · active text/gold on expiry-chip/active-bg · warning / danger expiry-chip tokens)
 6. PlanPriceRow: Current plan and its price. (inset 16 · 'Current Plan' caption Regular text/secondary over plan title SemiBold · ₹price subheading Bold · struck ₹was and period caption text/secondary)
 7. ValueSheet: close and CTA: The sheet around the card: floating close and the gold renew button. (panel bg/primary radius 24 top · 44 neutral close 16 above, centred (48 touch) · block gold CTA, padding 16: 'Renew your Equal AI' on gradient/cta-renew, 'Get Equal AI Unlimited' on gradient/cta-gold · flush: card is the top, CTA on bg/surface under 1dp stroke/subtle)
-8. QuotaCard: head and bar: Free plan: calls left this week and a gold bar. ('6 out of 30' 30/36 Bold + 'Calls Left' 18 Medium · 10 bar, paywall/divider track, gradient/cta-gold fill · body1 text/secondary line, bold part text/primary · 'Limit Reached' replaces both at the limit)
+8. QuotaCard: head and bar: Free plan: calls left this week and a gold bar. ('6 out of 30' 30/36 Bold + 'Calls Left' 18 Medium · 10 bar, paywall/divider track, gradient/cta-gold fill · body1 text/secondary line, bold part text/primary · 'Weekly Limit Reached' replaces both at the limit)
 
 Accessibility:
 - Role. Web: ValueCard and QuotaCard are <section aria-label>; PerkList is a ul; the quota bar is role=progressbar with min, max and now; ValueSheet is role=dialog (aria-modal in overlay). Android: The stat row uses clearAndSetSemantics; the quota bar sets progressBarRangeInfo; the sheet panel sets paneTitle.
-- Name. Web: Section label is the title or 'N out of M calls left' / 'Limit reached'; bar 'Calls handled this week'; close 'Close'; CTA by its text. PremiumIcon is aria-hidden. Android: Stat reads '20 Calls Handled by your Assistant'; bar 'Calls handled this week'; close 'Close'; scrim onClickLabel 'Close'. PremiumIcon has no description.
+- Name. Web: Section label is the title or 'N out of M calls left' / 'Weekly limit reached'; bar 'Calls handled this week'; close 'Close'; CTA by its text. PremiumIcon is aria-hidden. Android: Stat reads '20 Calls Handled by your Assistant'; bar 'Calls handled this week'; close 'Close'; scrim onClickLabel 'Close'. PremiumIcon has no description.
 - Keyboard. Web: useModal moves focus in, traps Tab and closes on Escape; the scrim click also closes. Tab reaches Close then the CTA. Android: TalkBack: swipe through the card, then the CTA; Close sits above the panel. System Back calls onClose.
 - Touch target. Web: Close is 44 px with eq-touch (48); the gold lg CTA is 45 px with eq-touch (48). Android: Close is a 44dp circle in a 48dp box; EqualButton enforces 48dp.
 - Contrast. Web: Text is text/primary (12.6:1) or text/secondary (5.7:1). ExpiryChip: active text/gold on expiry-chip/active-bg is 4.1:1 light (fails for 18 px Bold) / 7.3:1 dark; warning 7.2 / 10.2; danger 9.5 / 7.2. Renew CTA white runs 2.2:1 to 4.9:1 across gradient/cta-renew; the gold CTA's white label runs 4.2:1 down to 2.3:1 across gradient/cta-gold. Android: Same tokens and ratios as web.
-- State. Web: Expiry tone always comes with words ('Plan Expires in', 'Today', 'Expired on'). The quota bar exposes its value; at the limit it is replaced by 'Limit Reached'. The struck ₹was is preceded by a visually hidden 'was'. Android: Same wording carries the tone. The price row's contentDescription reads '₹39, was ₹49 /Monthly'.
+- State. Web: Expiry tone always comes with words ('Plan Expires in', 'Today', 'Expired on'). The quota bar exposes its value; at the limit it is replaced by 'Weekly Limit Reached'. The struck ₹was is preceded by a visually hidden 'was'. Android: Same wording carries the tone. The price row's contentDescription reads '₹39, was ₹49 /Monthly'.
 - Motion. Web: Sheet slides up (motion.slow); gold CTA sheen and glow; all stop under prefers-reduced-motion. Android: The ValueSheet slide-up and fade and the gold CTA sheen/glow are static under rememberReduceMotion().
 
 Known accessibility gaps:
@@ -6579,12 +6579,12 @@ Equal Unlimited: the free-plan touchpoints that open the paywall, the paywall it
 Source: Monetization Flow
 
 1. Touchpoints (where the paywall opens from): locked rows in the chat list (blurred preview, crown-lock), a locked conversation (Unlock All Details), locked audio (Unlock Audio), Manage plan on the You tab’s plan card, and the Reactivate banners on a lapsed plan. They sit on the revamped screens as props: HomeScreen lockedFrom, ChatScreen lock (details · audio · lapsed) and YouScreen plan (none · active · restore · reactivate). Pass the entry as touchpoint so the paywall previews what the user was trying to see.
-2. Paywall: gold hero with the crown, “Unlock Equal Unlimited”, the price under LIMITED TIME DISCOUNT, the preview card, the EQUAL25 coupon (APPLY → APPLIED drops ₹249 to ₹149), FAQ, and the sticky gold Unlock Unlimited with “Cancel Anytime. Automatically renews”.
-3. Payment: Waiting for Confirmation (auto) → Payment Confirmed (redirect in 5s) → Congratulations (redirect to home). Pending offers Contact Support; Failed offers Retry Payment; both say the refund comes within 24 hours. Support opens the Help Center sheet.
-4. After: the home header shows UNLIMITED and avatars turn gold. The You tab’s plan card has Manage plan → the subscription page (plan end date, 400k+, rating, testimonials, FAQ).
-5. Cancel: tell us why (Proceed disabled until there is text) → are you really sure (Cancel / Confirm) → request submitted (redirect in 3s). Access stays until the end date; the page then offers Re-Subscribe.
+2. Paywall: gold hero with the crown, “Equal AI Unlimited”, the price under LIMITED TIME DISCOUNT, the preview card, the EQUAL25 coupon (Apply → Applied drops ₹249 to ₹149), FAQ, and the sticky gold Get Equal AI Unlimited with “Cancel anytime · UPI secure · No hidden charges”.
+3. Payment: Waiting for Confirmation (auto) → Payment Confirmed (redirect in 5s) → Welcome to Equal AI Unlimited (redirect to home). Pending offers Contact Support; Failed offers Retry Payment; both say any amount deducted is refunded in 5 - 7 working days. Support opens the Help Center sheet.
+4. After: the home header shows UNLIMITED and avatars turn gold. The You tab’s plan card has Manage plan → the subscription page (plan end date, 10 Lakh+, rating, testimonials, FAQ).
+5. Cancel: Before you Cancel, tell us why (Continue disabled until there is text) → Cancel your Plan? (Keep my plan / Yes) → Your plan is Cancelled (redirect in 3s). Access stays until the end date; the page then offers Re-Subscribe.
 6. Lapsed: the You tab shows Restore Plan or Reactivate plan with the amber banner; chats show “Reactivate your current Plan to keep using Equal Unlimited”.
-7. Experiments (props, not forks): price / discountedPrice (₹249, ₹149), coupon (none · available · applied), subtitle (“Unlock Summaries…” · “Get Unlimited Summaries…”), touchpoint (chat-list · chat · audio), waitingArt (coin · cash), HomeScreen lockedFrom (how many free chats).
+7. Experiments (props, not forks): price / discountedPrice (₹249, ₹149), coupon (none · available · applied), subtitle (“Get Unlimited Recordings…” default · “Unlock Summaries…” · “Get Unlimited Summaries…”), touchpoint (chat-list · chat · audio), waitingArt (coin · cash), HomeScreen lockedFrom (how many free chats).
 
 States:
 - `home-free` Home, free plan (locked chats): `<HomeScreen tier="free" lockedFrom={4} promo="meet-assistant" />`
@@ -6662,7 +6662,7 @@ States:
       PaywallScreen(overlay = PaywallOverlay.Help)
   }
   ```
-- `welcome` Congratulations: `<PaywallScreen overlay="welcome" />`
+- `welcome` Welcome to Equal AI Unlimited: `<PaywallScreen overlay="welcome" />`
   ```kotlin
   EqualTheme {
       PaywallScreen(overlay = PaywallOverlay.Welcome)
@@ -6707,13 +6707,13 @@ States:
       SubscriptionScreen(cancelStep = CancelStep.Feedback, reason = "Felt it too expensive, I hope it would be under my budget")
   }
   ```
-- `cancel-confirm` Cancel: are you sure?: `<SubscriptionScreen cancelStep="confirm" />`
+- `cancel-confirm` Cancel: cancel your plan?: `<SubscriptionScreen cancelStep="confirm" />`
   ```kotlin
   EqualTheme {
       SubscriptionScreen(cancelStep = CancelStep.Confirm)
   }
   ```
-- `cancel-submitted` Cancel: request submitted: `<SubscriptionScreen cancelStep="submitted" />`
+- `cancel-submitted` Cancel: plan cancelled: `<SubscriptionScreen cancelStep="submitted" />`
   ```kotlin
   EqualTheme {
       SubscriptionScreen(cancelStep = CancelStep.Submitted)
@@ -6754,7 +6754,7 @@ Checks that calls really reach the assistant: app permissions, phone settings an
 Source: Assistant Healthcheck
 
 1. Entry: a notification (“Calls are bypassing Equal AI. Fix now.”, with Fix Now / Notify Later), the pink “Poor Assistant Health · Fix Now →” strip under the assistant toggle on Home, or You → Assistant Health Check.
-2. Permissions: Start Health Check runs Phone, Notification and Contacts one at a time. A missing one turns its ring red; the group then offers Grant Permission, which opens Android’s page for each.
+2. Permissions: Start Health Check runs Phone, Notifications and Contacts one at a time. A missing one turns its ring red; the group then offers Grant Permission, which opens Android’s page for each.
 3. Phone settings: the same for Overlay (display over other apps).
 4. Carrier: checks calls reach the assistant. Issues Found → Fix Now → Fixing; if the fix fails, the reasons and Try Again; if the check itself fails, Check Failed and Try Again.
 5. All good: the shield gets its check, “Check complete. Your assistant is good to go”, Back To Home. The hero is the supplied Lottie set (loading, check, cross and every transition between them).
@@ -6997,7 +6997,7 @@ On start or resume the app checks its version. Below the minimum supported versi
 Source: Fore Update
 
 1. Hard: installed &lt; minimum supported. Full screen, no close; Back exits the app. Update Equal AI opens the Play Store (or an in-app IMMEDIATE update).
-2. Soft: a newer version exists. “A new version is here” over Chats; Update Now (in-app FLEXIBLE update) or Maybe Later / ✕ / scrim / Back to dismiss it for this version.
+2. Soft: a newer version exists. “Update Equal AI” over Chats; Update Now (in-app FLEXIBLE update) or Maybe Later / ✕ / scrim / Back to dismiss it for this version.
 
 States:
 - `hard` Hard update: `<ForceUpdateScreen onUpdate={openPlayStore} />`
@@ -7436,9 +7436,9 @@ Equal learns how you handle each caller and says what it noticed. Home introduce
 
 Source: About Me (Notice Card) & AI personalization
 
-1. Introduce: a sheet on Home says Equal is getting to know your callers, what it ignores, and that it can be off for anyone.
-2. You tab: the first time, a coach mark points at “Updated summary is ready · Tap to reveal”; then “Equal Noticed…” with thumbs and when it updates. Several summaries become a carousel. AI Personalisation opens the screen.
-3. AI Personalization: what Equal picks up, what it never saves (OTPs, card numbers, UPI PINs, IDs), excluded contacts, and Delete all learning (What stays / What goes).
+1. Introduce: a sheet on Home says “Your Equal experience is now more personal.”, what it ignores, and that it can be off for anyone.
+2. You tab: the first time, a coach mark points at “I’ve learned a little more about you · Tap to reveal”; then “Equal Noticed…” with thumbs and when it updates. Several summaries become a carousel. AI Personalisation opens the screen.
+3. Your Equal Experience: what becomes more personal, the sensitive details it never learns from (OTPs, card numbers, UPI PINs, IDs), contacts you exclude, and Reset all learnings (What stays / What goes).
 4. Per caller: Contact Info shows Equal’s context for that person. Its menu stops personalising (it keeps what it knows, learns nothing new; Resume brings it back) or deletes the learning.
 
 States:
@@ -7602,17 +7602,17 @@ States:
 
 ### Call your assistant (vOIP) (`/flows/voip`)
 
-Meet Your Assistant → “Call me” starts an in-app call with the assistant over the internet. The mic is asked for in two steps; if the user says no at either, the assistant phones them the normal way instead.
+Meet Your Assistant (“Talk to your assistant”) → “Call Now” starts an in-app call with the assistant over the internet. The mic is asked for in two steps; if the user says no at either, the assistant phones them the normal way instead.
 
 Source: vOIP
 
-1. Call me: the Meet Your Assistant card on Home. If the mic is already allowed, the call connects straight away.
+1. Call Now: the Meet Your Assistant card on Home. If the mic is already allowed, the call connects straight away.
 2. Mic: an in-app prompt first (“Talk to your assistant”, Not now / Allow microphone), then Android’s own dialog. Not now or Deny → the assistant calls on the phone network (PSTN) instead.
 3. On the call: the assistant on the green disc with ripples, “Connected” and a running timer. Speaker and mute are independent switches; mute changes the status to “On mute”.
 4. End: “Call ended” with the final time, then back to Home after 2 s. Not designed yet: back during a call, connect failure, and the action card left in the chat.
 
 States:
-- `home` Home: Call me: `<VoipFlow />`
+- `home` Home: Call Now: `<VoipFlow />`
   ```kotlin
   EqualTheme {
       VoipFlowSample()
@@ -7675,7 +7675,7 @@ Source: Temporarily Unavailable
 
 1. Unavailable: the System status card takes the assistant toggle’s place, with the sleeping robot and an amber “Notify me when ready”. The promo card is hidden while the system is down.
 2. Notify requested: the pill becomes a green “✓ You’ll be notified soon”. Nothing else on the screen changes.
-3. Back on: a heads-up notification (“Equal AI Assistant is back on”) drops in, the toggle returns as “AI Assistant is On”, and Meet Your Assistant with “Call me” sits above Conversations.
+3. Back on: a heads-up notification (“Equal AI Assistant is back on”) drops in, the toggle returns as “AI Assistant is On”, and Meet Your Assistant with “Call Now” sits above Conversations.
 
 States:
 - `down` Unavailable: `<SystemStatusFlow stage="unavailable" />`
@@ -7746,7 +7746,7 @@ Empty state, the saved list with an overflow menu, the Edit Address sheet and th
 
 Source: Addresses
 
-1. Empty: the illustration, “Never explain your address again”, and a pinned “Add new Address”.
+1. Empty: the illustration, “No Addresses Yet”, and a pinned “Add New Address”.
 2. List: each card shows its label and address, with ⋮ → Edit / Delete address.
 3. Edit / Add: a titled sheet with LABEL* chips (the selected chip is dark), two address lines, City + Pincode (6 digits, checked), an optional guiding direction and Save.
 4. Delete: a confirm sheet with the trash illustration and a destructive Delete.
@@ -7783,8 +7783,8 @@ The hub, presets, the “Setting up instruction” chat and Active Instructions.
 
 Source: Instructions
 
-1. Hub: horizontal recommended cards with a tinted + Apply (or “New suggestions coming…” once they’re all applied), the Active Instructions row with the robot-with-wand art, three presets led by their 3D art, and a pinned “Add New Instruction”.
-2. Preset: the description plus instruction cards with WHEN / DO pills and + Apply, which turns into Applied.
+1. Hub: horizontal recommended cards with a tinted + Apply (or “New suggestions coming…” once they’re all applied), the Active Instructions row with the robot-with-wand art, three presets led by their 3D art, and a pinned “Add New Instructions”.
+2. Preset: the description plus instruction cards with WHEN / DO pills and + Apply, which turns into Added.
 3. Setup chat, no input: You → Equal AI “Got it! Here’s your instruction:” → preview → ✍️ Edit / 👍 Confirm. Confirm adds ✅ and saves.
 4. Setup chat, input needed: Equal AI asks each follow-up (the landmark, then the wait time); the answers are bolded in the preview → ✏️ Change something else / 👌 That’s all.
 5. Active: cards with the preset’s source badge, WHEN / DO, and ⋮ Edit / Delete instruction; plus an empty state.
@@ -7842,7 +7842,7 @@ Source: Monetization value, Monetization local components
 
 1. Expiry strip under the home header: amber “Your Plan Expires in 2 Days”, red “Expires Today” and “Expired on 30th July”, each with Renew Now. Pass planExpiry to HomeScreen; nothing shows while the plan is comfortably active.
 2. Value sheet once called: after the assistant handles a call near the end of the plan, the What Unlimited saved you sheet rises over home: calls handled, three perks, the expiry chip (03 Days amber, Today / 30th July red) and the current plan, with Renew your Equal AI. Close floats above the sheet. valueSheet="flush" is the experiment where the card is the sheet. In dark mode the card turns black with a gold glow.
-3. Free plan quota: the same sheet for free users counts the week’s calls. Under the limit it reads “6 out of 30 Calls Left” with a gold progress bar; at the limit, “Limit Reached · 30 out of 30 (100%)”. Both show when the quota resets and Subscribe to Equal AI Unlimited at ₹149, with Get Equal AI Unlimited opening the paywall. Pass quotaSheet to HomeScreen.
+3. Free plan quota: the same sheet for free users counts the week’s calls. Under the limit it reads “6 out of 30 Calls Left” with a gold progress bar; at the limit, “Weekly Limit Reached · Your Assistant handled all 30 of your calls this week”. Both show when the quota resets and Subscribe to Equal AI Unlimited at ₹149, with Get Equal AI Unlimited opening the paywall. Pass quotaSheet to HomeScreen.
 4. Plan card: active shows Current Plan; expired shows the red Plan Expired pill and a plain avatar. Manage plan opens the plan page either way.
 5. Plan page: Equal AI Unlimited hero, What Unlimited Saved You (calls, plan active until or expired on, price), What You Get, social proof and FAQ. The plan action is pinned: Cancel Subscription (gold outline) while active, Renew your Equal AI once expired, which opens the paywall with Get Equal AI Unlimited.
 6. Motion (local components): APPLY strikes the old price, lands the new one with the list price and “Saved ₹100”, and pops the Special Coupon Applied! badge. The gold CTA has a sheen sweep. The waiting sheet steps through Connecting To Razorpay → Waiting for Confirmation → Verifying Transaction, then Payment Confirmed with the ray burst behind the seal. Everything holds still under reduced motion.
@@ -8015,7 +8015,7 @@ Source: Global MYA
 
 1. Open: the green orb (the nav FAB) opens the sheet over whatever screen you’re on: orb, “Good morning, Keshav” (name in green), “What can I help you with today?”, three quick-action tiles, suggestion chips, and a message field with the mic.
 2. Type: focusing the field hides the tiles and lifts the input above the keyboard (green outline). Enter sends.
-3. Speak: the mic swaps the field for Send voice note with a keyboard toggle. Tap it to record: “Try saying …”, then delete, the timer with a live waveform, and send. Or press and hold: “Release to send, slide left to cancel”, and sliding left turns the waveform red (“Release to cancel”).
+3. Speak: the mic swaps the field for Send Voice Note with a keyboard toggle. Tap it to record: “Try saying …”, then delete, the timer with a live waveform, and send. Or press and hold: “Release to send, slide left to cancel”, and sliding left turns the waveform red (“Release to cancel”).
 4. Task: once sent, the sheet grows into a conversation titled with what the assistant is doing (“Setting up a reminder…”), with close. Your voice note (player + transcript) → Thinking… → the result card (here a WhatsApp reminder) with Edit / Confirm.
 5. Inside a chat: the chat’s own AI layer (“Want me to send Amit a quick reply on WhatsApp?”) works the same way. Tapping a chip or sending a message raises the task sheet, which stops below the chat header so you can still see whose chat it is. “Replying Amit on WhatsApp” shows the drafted reply with ✏️ Edit / 📤 Send and the 📤 Send · ✏️ Edit draft · 🖋️ Custom chips. Confirming shows “Opening WhatsApp…” and greys the chips out.
 6. Done: Confirm ticks the card, the sheet closes, and the chat it acted on now reads “Reminder added”. Saved contacts carry the person badge on their initials.
@@ -8223,7 +8223,7 @@ The experiment that opens the paywall as a sheet over the screen the user was on
 
 Source: Light / Dark Mode: Home Screen · Conversation Screen · All Payment States · Payment Pending: Home Screen · If User Closes the payment pending page · Dark Mode_Monetization
 
-1. Sheet: a compact gold card (crown, Equal AI Unlimited, “Trusted by 10 Lakh+ Indians”, ₹249, EQUAL25 · APPLY) with Unlock Equal AI Unlimited. Support opens the Help Center FAQ sheet, and back returns.
+1. Sheet: a compact gold card (crown, Equal AI Unlimited, “Trusted by 10 Lakh+ Indians”, ₹249, EQUAL25 · Apply) with Get Equal AI Unlimited. Support opens the Help Center FAQ sheet, and back returns.
 2. Exit offer: tapping outside asks Leave Without Unlocking? “Claim 25% off with EQUAL25 first, go Unlimited for ₹149/month.” On home the buttons read Not Now / Claim 25% Off; in a chat, Leave / Keep 25% Off. Claim reopens the sheet at ₹149 with APPLIED. Not Now closes it and leaves the Go unlimited for ₹149 with EQUAL25 · Claim Now strip on home.
 3. Results are full screens on a tinted wash with rings. Congratulations, You’re Unlimited, shows Plan active till. Payment Pending has × and Refresh Status, or Contact Support. Payment Failed has ‹ and suggests another UPI app, with Retry payment and Contact Support.
 4. Closed while pending: a “Payment processing · We’ll update your order once it’s confirmed.” strip under the chat header and as a card under the home toggle. On the paywall it’s a toast above a disabled Unlock Unlimited, so nobody pays twice.
@@ -8325,10 +8325,10 @@ You → Your assistant → Call Handling: which calls the assistant answers and 
 
 Source: Known Calls (new users)
 
-1. Where it lives: You → Your assistant → Call Handling (“Choose which calls I answer”). New users see the “Talk With Your Assistant” home, then the dark Set up your calls takeover: “Two questions. One minute.”
-2. Question 1: “Which calls should I answer? You decide. I follow.” Two radio cards: All calls, except a few and Only unknown numbers. The copy experiment (copy="whose") asks “Whose calls should I answer?”, tags All calls as ⭐ Suggested, and says what each option means for your contacts.
-3. All calls: needs the contacts permission (sheet: “I need your contact list to know who is calling.”) and offers call history so frequent callers sort first. Then Anyone you want to answer yourself?: search, suggested people, all contacts with checkboxes and an A–Z index; the button counts the picks. Ends on Perfect! naming who will always ring you.
-4. Only unknown numbers: ends on All Sorted! (“Your contacts will ring you, like always.”). Without the permission, All calls is dimmed and a blue note offers Give contacts permission ›.
+1. Where it lives: You → Your assistant → Call Handling (“Choose which calls I answer”). New users see the “Talk to your assistant” home, then the dark Equal now answers contacts takeover: “Pick who still rings your phone.”
+2. Question 1: “Who should Equal answer for? You choose. Equal follows.” Two radio cards: All calls except and Unknown numbers only. The copy experiment (copy="whose") asks “Whose calls should I answer?”, tags All calls as ⭐ Suggested, and says what each option means for your contacts.
+3. All calls: needs the contacts permission (sheet: “I need your contact list to know who is calling.”) and offers call logs so frequent callers sort first. Then Who should still ring you?: search, suggested people, all contacts with checkboxes and an A–Z index; the button counts the picks. Ends on Perfect! naming who will always ring you.
+4. Only unknown numbers: ends on You’re all set! (“Your contacts will ring you, like always.”). Without the permission, All calls is dimmed and a blue note offers Give contacts permission ›.
 5. Later: if the user stops halfway, home shows Finish your setup? with Finish or Skip, answer everyone. Always ring me edits the list; with no saved contacts, Direct Calls explains why it’s empty. The hero art on the contact screens is also a Lottie (call-handling-contacts).
 
 States:
@@ -8361,7 +8361,7 @@ States:
       CallHandlingScreen(step = CallHandlingStep.Perfect)
   }
   ```
-- `unknown` Only unknown numbers: `<CallHandlingScreen mode="unknown" />`
+- `unknown` Unknown numbers only: `<CallHandlingScreen mode="unknown" />`
   ```kotlin
   EqualTheme {
       CallHandlingScreen(mode = CallMode.Unknown)
@@ -8374,7 +8374,7 @@ States:
       CallHandlingScreen(copy = CallHandlingCopy.Whose, mode = CallMode.Unknown)
   }
   ```
-- `sorted` All Sorted!: `<CallHandlingScreen step="sorted" mode="unknown" />`
+- `sorted` You’re all set!: `<CallHandlingScreen step="sorted" mode="unknown" />`
   ```kotlin
   EqualTheme {
       CallHandlingScreen(step = CallHandlingStep.Sorted, mode = CallMode.Unknown)
@@ -8392,7 +8392,7 @@ States:
       CallHandlingScreen(copy = CallHandlingCopy.Whose, step = CallHandlingStep.PermContacts, contactsAllowed = false)
   }
   ```
-- `perm-history` Allow call history: `<CallHandlingScreen copy="whose" step="perm-history" />`
+- `perm-history` Allow call logs: `<CallHandlingScreen copy="whose" step="perm-history" />`
   ```kotlin
   EqualTheme {
       CallHandlingScreen(copy = CallHandlingCopy.Whose, step = CallHandlingStep.PermHistory)
@@ -8430,7 +8430,7 @@ When the assistant answers someone you know, Android shows an ongoing notificati
 
 Source: Known-call notifications
 
-1. Answering: “Equal AI • Ongoing” with a live timer; the caller (their avatar) and “Your Equal AI is answering your call.”, with the Equal app badge.
+1. Answering: “Equal AI • Ongoing” with a live timer; the caller (their avatar) and “Your Equal AI is answering your call”, with the Equal app badge.
 2. Summary: the line updates to what the caller wants as the call goes on.
 3. Expanded: two lines, a call button to pick up, and quick replies: Takeover first, then suggested answers the assistant can say for you.
 4. Hand-off: when it needs you, the replies give way to “This needs your attention, connecting this call to you”.
@@ -8551,14 +8551,14 @@ The AI layer calls someone back for you: it suggests what to ask, hands off to t
 
 Source: Call Back
 
-1. Prompt: “Want me to give a quick call back to the clinic?” with 📞 Call Back, 🗓️ Add to Calendar and 🔔 Set reminder chips.
-2. Task sheet: “Calling Dr. Mehta’s Clinic” (stops below the chat header). The assistant lists what to ask (reports, location, charges, insurance) with 📞 Call Back.
+1. Prompt: “Want me to give a quick call back to the clinic?” with 📞 Call back, 📅 Add to Calendar and ⏰ Set Reminder chips.
+2. Task sheet: “Calling Dr. Mehta’s Clinic” (stops below the chat header). The assistant lists what to ask (reports, location, charges, insurance) with 📞 Call back.
 3. Hand-off: the phone’s own dialer places the call; the system draws it, so the docs show a coded stand-in.
 4. Result: an Outgoing call card (“You called back Dr. Mehta’s Clinic · Bring previous medical reports”) with 📞 Call back.
-5. From a missed call: when the assistant couldn’t pick up, the thread shows a missed-call card instead of a summary. With a reason: the caller’s art with a missed badge, “LIKELY CALLS FOR …” and 👍/👎. With only a name: “Valluri Called”. With nothing: “Missed by the assistant”. Its Call back opens the same task.
+5. From a missed call: when the assistant couldn’t pick up, the thread shows a missed-call card instead of a summary. With a reason: the caller’s art with a missed badge, “USUALLY CALLS FOR …” and 👍/👎. With only a name: “Valluri Called”. With nothing: “Missed Call”. Both say “Missed by Assistant”. Its Call back opens the same task.
 
 States:
-- `live` Chat (Try it: tap Call Back): `<ChatActionScreen action="call-back" />`
+- `live` Chat (Try it: tap Call back): `<ChatActionScreen action="call-back" />`
   ```kotlin
   EqualTheme {
       // Runs live from the chat: tap the chip, then follow the task sheet
@@ -8828,7 +8828,7 @@ Alias colours (CSS `var(--eq-<name without component/>)`, TS `color.*`, Compose 
 
 - `bg/primary`  light #FAFAFA · dark #141414
 - `bg/surface`  light {brand.white} · dark #1F1F1F
-- `bg/overlay`  light rgba(30,30,30,0.4) · dark rgba(30,30,30,0.4)
+- `bg/overlay`  light rgba(30,30,30,0.4) · dark {brand.black} @ 60%
 - `text/primary`  light {brand.black} @ 80% · dark {brand.white} @ 80%
 - `text/placeholder`  light {brand.black} @ 40% · dark {brand.white} @ 40%
 - `text/secondary`  light {brand.black} @ 60% · dark {brand.white} @ 60%
@@ -9103,11 +9103,11 @@ Web `<Asset name="…" size={dp} />`, Compose `EqualAssetImage(EqualAssets.<Pasc
 - `illustration-no-results`: No-results state: the robot thinking with a question mark; "No results found" (160dp)
 - `system-keyboard`: Stand-in for the Android keyboard (Gboard) in docs and previews only; never ship it in the app (390 × 300)
 - `call-handling-all`: Call Handling: you with Mom (favourite) and an Unknown caller; "Which calls should I answer?" hero (280dp)
-- `call-handling-exclude`: Call Handling: you with Mom and Didi (favourites); "Anyone you want to answer yourself?" hero (280dp). Animated version: lottie call-handling-contacts
-- `call-handling-done`: Call Handling: the robot on a call between Mom and Unknown; Perfect! / All Sorted! (300dp)
-- `call-setup`: Call Handling: the robot between a ringing call and an unknown call; "Set up your calls" (240dp)
+- `call-handling-exclude`: Call Handling: you with Mom and Didi (favourites); "Who should still ring you?" hero (280dp). Animated version: lottie call-handling-contacts
+- `call-handling-done`: Call Handling: the robot on a call between Mom and Unknown; Perfect! / You’re all set! (300dp)
+- `call-setup`: Call Handling: the robot between a ringing call and an unknown call; "Equal now answers contacts" (240dp)
 - `permission-contacts`: Permission sheet: 3D orange contact book; "Allow contacts permission" (100dp)
-- `permission-call-history`: Permission sheet: the robot with a call-history phone; "Allow call history" (100dp)
+- `permission-call-history`: Permission sheet: the robot with a call-history phone; "Allow call logs permission" (100dp)
 - `illustration-no-contacts`: Empty state: 3D address book; "No contacts saved" (140dp)
 - `value-card-pattern`: Plan page value card: gold circuit-line pattern across the top (SVG, 329 × 192)
 - `feature-call-screening`: Plan page What You Get: 3D gold phone with sparkle, 24/7 Unlimited Call Screening (28dp)

@@ -9,11 +9,11 @@ export type HcState = { hero: HeroState; done?: boolean; app: HcCard; phone: HcC
 
 const APP_ROWS = [
   { icon: 'phone-incoming', title: 'Phone', description: 'Your assistant needs this to handle calls' },
-  { icon: 'notifications', title: 'Notification', description: 'Required to send you call alerts' },
+  { icon: 'notifications', title: 'Notifications', description: 'Required to send you call alerts' },
   { icon: 'contacts', title: 'Contacts', description: 'Required to skip calls from saved contacts' },
 ] as const;
 const PHONE_ROWS = [{ icon: 'layers', title: 'Overlay', description: 'Required to show call controls over your screen' }] as const;
-const REASONS = { lead: 'Carrier check failed. This may be due to:', items: ['Your connection may be temporarily unavailable', 'Your recharge plan might be inactive or expired'] };
+const REASONS = { lead: 'Carrier check failed. This may be due to:', items: ['Your connection may be temporarily unavailable. Check if you are connected to the Internet.','Your recharge plan might be inactive or expired'] };
 
 const idle = (expanded = false): HcState => ({ hero: 'idle', app: { status: 'none', expanded, rows: ['idle', 'idle', 'idle'] }, phone: { status: 'none', expanded, rows: ['idle'] }, carrier: { status: 'none', subtitle: true }, cta: 'start', last: 'Last checked: 2h ago' });
 const run = (app: RowStatus[], appStatus: CardStatus = 'none', hero: HeroState = 'loading', action?: 'grant'): HcState => ({ hero, app: { status: appStatus, expanded: true, rows: app, action }, phone: { status: 'none', rows: ['idle'] }, carrier: { status: 'none', subtitle: true }, cta: 'checking', last: 'Last checked: 2h ago' });
@@ -63,14 +63,14 @@ export function HealthCheckScreen({ state, onStart, onHome, onBack, onGrantApp, 
         <HealthHero state={s.hero} size={180} />
         <Text as="h1" variant="headline" style={{ alignSelf: 'stretch', marginTop: 16 }}>{s.done ? 'Check complete. Your assistant is good to go' : 'Check your assistant’s health. See if it’s operational.'}</Text>
         <div style={{ alignSelf: 'stretch', display: 'flex', flexDirection: 'column', gap: 8, marginTop: 24 }} aria-busy={running || undefined}>
-          <HealthCheckCard title="App permissions" status={s.app.status} expandable={!running || s.app.status === 'passed'} expanded={s.app.expanded} onToggle={onToggleApp} action={s.app.action ? { label: 'Grant Permission', onClick: onGrantApp } : undefined}>
+          <HealthCheckCard title="App Permissions" status={s.app.status} expandable={!running || s.app.status === 'passed'} expanded={s.app.expanded} onToggle={onToggleApp} action={s.app.action ? { label: 'Grant Permission', onClick: onGrantApp } : undefined}>
             {APP_ROWS.map((r, i) => <PermissionRow key={r.title} icon={r.icon} title={r.title} description={r.description} status={s.app.rows[i]} />)}
           </HealthCheckCard>
           <HealthCheckCard title="Phone settings" status={s.phone.status} expandable={!running || s.phone.status === 'passed'} expanded={s.phone.expanded} onToggle={onTogglePhone} action={s.phone.action ? { label: 'Grant Permission', onClick: onGrantPhone } : undefined}>
             {PHONE_ROWS.map((r, i) => <PermissionRow key={r.title} icon={r.icon} title={r.title} description={r.description} status={s.phone.rows[i]} />)}
           </HealthCheckCard>
           <HealthCheckCard
-            title="Carrier check"
+            title="Carrier Check"
             status={s.carrier.status}
             subtitle={s.carrier.subtitle ? 'Verifies your calls reach the assistant' : undefined}
             reasons={s.carrier.reasons ? REASONS : undefined}

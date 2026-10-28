@@ -234,12 +234,12 @@ import androidx.compose.ui.zIndex
 private val SampleChips = listOf(
     ActionChipData("Call back", "📞"),
     ActionChipData("Update address", "✏️"),
-    ActionChipData("Add to calendar", "🗓️"),
+    ActionChipData("Add to Calendar", "📅"),
 )
 
 private val SampleLargeChips = listOf(
-    ActionChipData("Reply on WhatsApp", "💬"),
-    ActionChipData("Add to Calendar", "🗓️"),
+    ActionChipData("Reply on WhatsApp", "💚"),
+    ActionChipData("Add to Calendar", "📅"),
 )
 
 /** What the chat task sheet shows as the user's request when the Reply on WhatsApp chip opens it. */
@@ -251,7 +251,7 @@ private val LiveChips = listOf(
 )
 
 private val OngoingChips = listOf(
-    ActionChipData("Call Back", "📞"),
+    ActionChipData("Call back", "📞"),
     ActionChipData("Update Address", "✏️"),
 )
 
@@ -597,9 +597,9 @@ private fun CatalogContent(modifier: Modifier) {
 
         CatalogSection("22 · What's new") {
             WhatsNewCard(
-                title = "Language Preference",
-                body = "Set your preferred language and choose how your assistant sounds",
-                buttonLabel = "Try Voices",
+                title = "Assistant Languages",
+                body = "Checkout how your assistant speaks in 9 languages",
+                buttonLabel = "Try Languages",
                 buttonIcon = EqualIcons.Translate,
                 onButtonClick = {},
                 onCloseClick = {},
@@ -680,8 +680,8 @@ private fun CatalogContent(modifier: Modifier) {
                         locked = true,
                     )
                 }
-                CouponTicket(code = "EQUAL25", description = "Save Flat ₹100 with this Code", discount = "25% OFF")
-                CouponTicket(code = "EQUAL25", description = "Save Flat ₹100 with this Code", discount = "25% OFF", applied = true)
+                CouponTicket(code = "EQUAL25", description = "Get extra 25% off your first month", discount = "25% OFF on UPI")
+                CouponTicket(code = "EQUAL25", description = "Get extra 25% off your first month", discount = "25% OFF on UPI", applied = true)
             }
             PaywallFooter(onClick = {})
             Row(horizontalArrangement = Arrangement.spacedBy(16.dp), verticalAlignment = Alignment.CenterVertically) {
@@ -716,24 +716,24 @@ private fun CatalogContent(modifier: Modifier) {
             PlanBanner(text = "Reactivate your current Plan to keep using Equal Unlimited", onClick = {})
             DividerLabel(text = "Why people choose", tone = DividerLabelTone.Gold)
             Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-                StatBlock(value = "400k+", label = "People never miss a call")
+                StatBlock(value = "10 Lakh+", label = "People know who called and why")
                 Spacer(Modifier.height(16.dp))
                 RatingPill(rating = 4.5f)
             }
             TestimonialCarousel(
                 items = listOf(
-                    Testimonial("It is a very useful app for screening the unknown calls.", "Arnav Raj", avatar = {
+                    Testimonial("Equal AI screens every unknown call so I never miss what matters.", "Riya S.", avatar = {
                         EqualAssetImage(EqualAssets.AvatarTestimonial1, 36.dp)
                     }),
-                    Testimonial("My parents get loan calls all day. Equal answers them.", "Riya Kapoor", avatar = {
+                    Testimonial("Equal AI eliminates spam and engages with unknown callers itself.", "Chaitanya Sai", avatar = {
                         EqualAssetImage(EqualAssets.AvatarTestimonial2, 36.dp)
                     }),
                 ),
             )
             FaqList(
                 items = listOf(
-                    FaqItem("Can I cancel my Equal Unlimited plan later?", "Yes, cancel anytime."),
-                    FaqItem("Will Equal screen all types of calls?", "Yes, Equal handles them all."),
+                    FaqItem("Can I cancel my Equal AI Unlimited plan later?", "Yes, cancel anytime."),
+                    FaqItem("Does Equal AI screen all types of calls?", "Yes, Equal AI handles them all."),
                 ),
                 defaultOpen = listOf(0),
             )
@@ -1307,7 +1307,7 @@ enum class CallSetupOverlay {
     Finish,
 }
 
-/** The new-user home promo: [MeetAssistantCard] in [MeetAssistantLayout.Hero], "Talk With Your Assistant". */
+/** The new-user home promo: [MeetAssistantCard] in [MeetAssistantLayout.Hero], "Talk to your assistant". */
 @Composable
 fun MeetAssistantHero(
     modifier: Modifier = Modifier,
@@ -1317,8 +1317,8 @@ fun MeetAssistantHero(
         onCallClick = onCallClick,
         modifier = modifier,
         layout = MeetAssistantLayout.Hero,
-        title = "Talk With Your Assistant",
-        body = "Explore the app, check out features, ask questions, or just say \"Hi\"!",
+        title = "Talk to your assistant",
+        body = "“How do you handle spam calls?” or just say 'Hi'!",
     )
 }
 
@@ -1711,7 +1711,7 @@ fun YouScreenSample(
                     }
                 }
 
-                SectionHeader(title = "Your assistant")
+                SectionHeader(title = "Tell Equal")
                 AssistantToggleCard(
                     checked = assistantOn,
                     onCheckedChange = { assistantOn = it },
@@ -1728,8 +1728,8 @@ fun YouScreenSample(
                         )
                     }
                     SettingsRow(
-                        label = "Instructions",
-                        description = "Tell assistant how you'd like it to help",
+                        label = "Your Instructions",
+                        description = "Tell Equal what to do",
                         leadingIcon = EqualIcons.Instructions,
                         showNewBadge = !none,
                         onClick = {},
@@ -1742,13 +1742,13 @@ fun YouScreenSample(
                     )
                     SettingsRow(
                         label = "Silent Mode",
-                        description = "Mute promotional calls automatically",
+                        description = "Mute unwanted calls automatically",
                         leadingIcon = EqualIcons.SilentMode,
                         onClick = {},
                     )
                     SettingsRow(
                         label = "Voice & Language",
-                        description = "Choose assistant's voice and languages",
+                        description = "Choose how Equal speaks.",
                         leadingIcon = EqualIcons.VoiceLanguage,
                         onClick = {},
                     )
@@ -1809,7 +1809,7 @@ fun YouScreenSample(
                     )
                     SettingsRow(
                         label = "Account Data",
-                        description = "Your account and data management",
+                        description = "Manage Your Account",
                         leadingIcon = EqualIcons.AccountData,
                         onClick = {},
                     )

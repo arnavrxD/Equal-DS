@@ -22,7 +22,7 @@ Read llms-full.txt before designing or building: rules, the recipe for a new flo
 - [Action card](#/components/action-card): A card for something the assistant did or proposes (a WhatsApp reply, an appointment, a saved rule), with stacked actions underneath.
 - [Assistant toggle](#/components/assistant-toggle): The card at the top of Chats and the You tab that turns the AI assistant on or off, with the mascot dimming when it is off.
 - [Feedback card](#/components/feedback-card): The post-call card that asks the user to rate the call from one to five stars and share feedback.
-- [Meet Your Assistant card](#/components/meet-assistant-card): Introduces the voice assistant with its persona avatar and a “Call me” pill. Compact on Chats once the assistant is back; banner as a standalone promo.
+- [Meet Your Assistant card](#/components/meet-assistant-card): Introduces the voice assistant with its persona avatar and a “Call Now” pill. Compact on Chats once the assistant is back; banner as a standalone promo.
 - [System status card](#/components/system-status-card): Takes the assistant toggle’s place on Chats while Equal AI is down: a SYSTEM STATUS pill, the sleeping robot, and a “Notify me when ready” pill that turns into a confirmation.
 - [What's New card](#/components/whats-new-card): A dismissible announcement card with the NEW FEATURE badge, a heading, body copy and one CTA. Built in three layers: a flat fill, a blurred circle in the bottom-right corner, and the illustration on top of the circle.
 - [AI panel](#/components/ai-panel): The assistant's bottom panel inside a conversation: a suggestion from the orb, large action chips and a composer; AiSuggestion is the avatar-plus-prompt line on its own.
@@ -54,11 +54,11 @@ Read llms-full.txt before designing or building: rules, the recipe for a new flo
 - [Empty state](#/components/empty-state): A centred illustration, title, body and optional action for empty lists and no-results, plus IllustrationHeader for the art at the top of settings detail screens.
 - [List actions](#/components/list-actions): Chat list selection: the single-select header (mark read · mute · delete · more), the multi-select header, and toasts with a spinner or a close.
 - [Settings row](#/components/settings-row): The dense settings row (icon, subheading label, caption description, chevron or switch), grouped into rounded cards with RowGroup.
-- [Cancellation](#/components/cancel-sheet): Three steps to cancel: tell us why (Proceed stays disabled until there is text), confirm, and the request submitted with access kept until the end date.
+- [Cancellation](#/components/cancel-sheet): Three steps to cancel: tell us why (Continue stays disabled until there is text), confirm (Keep my plan / Yes), and the plan cancelled with access kept until the end date.
 - [Coupon ticket](#/components/coupon-ticket): A notched ticket with the coupon code, what it saves, APPLY / APPLIED and the big discount line.
 - [Discount badge & price drop](#/components/discount-badge): The green 25% OFF seal with its label, and the price drop it rides on: APPLY strikes the old price, the new price lands beside the list price with Saved ₹100, then the badge pops.
 - [FAQ](#/components/faq): The FREQUENTLY ASKED QUESTIONS accordion on the paywall and the subscription page, and the hairline section label it sits under.
-- [Feature list](#/components/feature-list): What You Get on the plan page: one card per Unlimited feature with its 3D gold icon (24/7 Unlimited Call Screening, Unlimited Recordings, Unlimited Summaries).
+- [Feature list](#/components/feature-list): What You Get on the plan page: one card per Unlimited feature with its 3D gold icon (Unlimited AI call handling, 24/7, Unlimited Recordings, AI Call Summaries).
 - [Help Center sheet](#/components/help-center-sheet): Opened from Support on the paywall (or Contact Support after a pending payment): call or mail the team.
 - [Locked content](#/components/locked-content): How free users see what Unlimited unlocks: blurred previews with the crown-lock badge, the Unlock All Details card, and the Unlock Audio pill. Each is a paywall touchpoint.
 - [Payment status](#/components/payment-status): The result sheets after the user pays: Waiting for Confirmation, Payment Confirmed, Pending, Failed and Congratulations. All share the ring StatusCard.
@@ -97,7 +97,7 @@ Read llms-full.txt before designing or building: rules, the recipe for a new flo
 - [Home, You and settings updates](#/flows/home-you-updates): The Updated UI screens that were missing: an empty and an offline Home, the new chat-row states, the Settings notice on You, Splash, Call Learning & Consent, Account & Data, and the Teach Your Assistant promo.
 - [AI personalisation](#/flows/personalisation): Equal learns how you handle each caller and says what it noticed. Home introduces it once, the You tab shows “Equal Noticed…”, AI Personalization explains what is and isn’t learned, and each caller has a context card you can pause or delete.
 - [Chat list actions](#/flows/chat-list-actions): Long-press a chat to act on it from the list: mark it read, mute or unmute the caller, delete it, add it to favourites or share the contact. Select more chats to act on several at once.
-- [Call your assistant (vOIP)](#/flows/voip): Meet Your Assistant → “Call me” starts an in-app call with the assistant over the internet. The mic is asked for in two steps; if the user says no at either, the assistant phones them the normal way instead.
+- [Call your assistant (vOIP)](#/flows/voip): Meet Your Assistant (“Talk to your assistant”) → “Call Now” starts an in-app call with the assistant over the internet. The mic is asked for in two steps; if the user says no at either, the assistant phones them the normal way instead.
 - [Temporarily unavailable](#/flows/system-status): What Chats shows while Equal AI is down, and how it tells you it’s back. Switch to Try it and tap “Notify me when ready” to run the whole flow.
 - [Profile flow](#/flows/profile): Personal Details, Silent Mode and WhatsApp Updates: the nested screens behind the You tab.
 - [Addresses flow](#/flows/addresses): Empty state, the saved list with an overflow menu, the Edit Address sheet and the delete confirm.

@@ -64,11 +64,11 @@ import androidx.compose.ui.unit.dp
 @Composable
 internal fun EmptyStateAddressesSnippet() {
     EmptyState(
-        title = "Never explain your address again",
-        body = "Save frequently used addresses, and your assistant will use them to handle delivery, pickup calls, etc. more naturally.",
+        title = "No Addresses Yet",
+        body = "Equal can use saved addresses when needed",
         // Compose: the illustration is a slot, not an asset name
         illustration = { EqualAssetImage(EqualAssets.IllustrationAddressesEmpty, 96.dp) },
-        actionLabel = "Add new Address",
+        actionLabel = "Add New Address",
         onActionClick = {},
     )
 }
@@ -86,7 +86,7 @@ internal fun EmptyStateIllustrationHeaderSnippet() {
     IllustrationHeader(asset = EqualAssets.IllustrationSilentMode)
     RowGroup {
         ToggleRow(
-            label = "Mute Promotional Calls",
+            label = "Mute Unwanted Calls",
             description = "Equal AI Assistant can identify Promotional Calls and automatically mute them",
             descriptionWraps = true,
             checked = true,

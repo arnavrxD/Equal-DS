@@ -14,9 +14,9 @@ export const sampleChats: SampleChat[] = [
     category: 'na',
     phone: '+91 98717 46113',
     actions: [
-      { label: 'Call Back', emoji: '📞' },
+      { label: 'Call back', emoji: '📞' },
       { label: 'Update Address', emoji: '✏️' },
-      { label: 'Add to Calendar', emoji: '🗓️' },
+      { label: 'Add to Calendar', emoji: '📅' },
     ],
   },
   {
@@ -28,8 +28,8 @@ export const sampleChats: SampleChat[] = [
     category: 'others',
     phone: '+91 99100 22114',
     actions: [
-      { label: 'Add to Calendar', emoji: '🗓️' },
-      { label: 'Call Back', emoji: '📞' },
+      { label: 'Add to Calendar', emoji: '📅' },
+      { label: 'Call back', emoji: '📞' },
     ],
   },
   {
@@ -41,7 +41,7 @@ export const sampleChats: SampleChat[] = [
     initials: 'AN',
     category: 'na',
     phone: '+91 98717 46113',
-    actions: [{ label: 'Call Back', emoji: '📞' }],
+    actions: [{ label: 'Call back', emoji: '📞' }],
   },
   {
     id: 'c4',
@@ -51,7 +51,7 @@ export const sampleChats: SampleChat[] = [
     unread: 0,
     category: 'real-estate',
     phone: '+91 80471 90021',
-    actions: [{ label: 'Call Back', emoji: '📞' }],
+    actions: [{ label: 'Call back', emoji: '📞' }],
   },
   {
     id: 'c5',
@@ -71,7 +71,7 @@ export const sampleChats: SampleChat[] = [
     unread: 0,
     category: 'financial',
     phone: '+91 22612 60000',
-    actions: [{ label: 'Call Back', emoji: '📞' }],
+    actions: [{ label: 'Call back', emoji: '📞' }],
   },
   {
     id: 'c7',

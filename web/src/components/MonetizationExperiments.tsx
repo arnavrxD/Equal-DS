@@ -49,7 +49,7 @@ export type PaymentResultProps = {
 };
 
 const RESULT = {
-  success: { art: 'status-confirmed', title: 'Congratulations', sub: 'You’re Unlimited', body: 'No more limits. Everything Equal AI can do, now yours.' },
+  success: { art: 'status-confirmed', title: 'Congratulations', sub: 'You’re Unlimited', body: 'You’re all set. Every call’s recording, summary and conversation is now unlocked.' },
   pending: { art: 'status-pending', title: 'Payment Pending', sub: undefined, body: 'We’re confirming your UPI payment. This may take a few moments.' },
   failed: { art: 'status-failed', title: 'Payment Failed', sub: undefined, body: 'Many banks block UPI Autopay by default. A different UPI app, linked to another bank, usually works.' },
 } as const;
@@ -140,7 +140,7 @@ export type PaywallSheetProps = {
  * Unlimited", one line of proof, price, the EQUAL25 coupon row) and the gold CTA. Support opens the
  * Help Center sheet; leaving without paying shows the exit offer.
  */
-export function PaywallSheet({ price = 249, discountedPrice = 149, applied, onApply, onSupport, onUnlock, onScrim, cta = 'Unlock Equal AI Unlimited', body = 'Get Unlimited Recordings, AI Call Summaries & Conversations. Trusted by 10 Lakh+ Indians.', processing, mode = 'overlay', onClose }: PaywallSheetProps) {
+export function PaywallSheet({ price = 249, discountedPrice = 149, applied, onApply, onSupport, onUnlock, onScrim, cta = 'Get Equal AI Unlimited', body = 'Get Unlimited Recordings, AI Call Summaries and Conversations. Trusted by 10 Lakh+ Indians.', processing, mode = 'overlay', onClose }: PaywallSheetProps) {
   const modal = useModal({ open: true, onClose: onClose ?? onScrim, enabled: mode === 'overlay' });
   const panel = (
     <div className={`eq-paywall-sheet ${mode === 'inline' ? 'is-inline' : ''}`} role="dialog" aria-label="Equal AI Unlimited" {...modal}>
@@ -162,7 +162,7 @@ export function PaywallSheet({ price = 249, discountedPrice = 149, applied, onAp
         </div>
         <CouponRow applied={applied} onApply={onApply} />
       </div>
-      <PaywallFooter flat cta={processing ? 'Unlock Unlimited' : cta} disabled={processing} onClick={onUnlock} above={processing ? <ProcessingStrip variant="toast" /> : undefined} />
+      <PaywallFooter flat cta={processing ? 'Get Equal AI Unlimited' : cta} disabled={processing} onClick={onUnlock} above={processing ? <ProcessingStrip variant="toast" /> : undefined} />
     </div>
   );
   if (mode === 'inline') return panel;
@@ -175,7 +175,7 @@ export function PaywallSheet({ price = 249, discountedPrice = 149, applied, onAp
 }
 
 /** Compact coupon row: code, what it saves, APPLY → APPLIED. */
-export function CouponRow({ code = 'EQUAL25', description = 'Save Flat 25% with UPI Payment', applied, onApply }: { code?: string; description?: string; applied?: boolean; onApply?: () => void }) {
+export function CouponRow({ code = 'EQUAL25', description = 'Get extra 25% off your first month', applied, onApply }: { code?: string; description?: string; applied?: boolean; onApply?: () => void }) {
   const handoff = useFocusHandoff<HTMLSpanElement>(!!applied);
   return (
     <div className={`eq-coupon-row ${applied ? 'is-applied' : ''}`}>
@@ -184,9 +184,9 @@ export function CouponRow({ code = 'EQUAL25', description = 'Save Flat 25% with 
         <Text as="div" variant="caption" style={{ fontWeight: 400 }}>{description}</Text>
       </span>
       {applied ? (
-        <span ref={handoff.targetRef} tabIndex={-1} className="eq-t-body2" aria-label={`${code} applied`} style={{ fontWeight: 700, color: 'var(--eq-text-gold)' }}><Text variant="inherit" color="none">APPLIED</Text></span>
+        <span ref={handoff.targetRef} tabIndex={-1} className="eq-t-body2" aria-label={`${code} applied`} style={{ fontWeight: 700, color: 'var(--eq-text-gold)' }}><Text variant="inherit" color="none">Applied</Text></span>
       ) : (
-        <button type="button" className="eq-reset-btn eq-touch eq-coupon-row__apply eq-t-body2" aria-label={`Apply ${code}`} onClick={() => { handoff.markFocus(); onApply?.(); }}><Text variant="inherit" color="none">APPLY</Text></button>
+        <button type="button" className="eq-reset-btn eq-touch eq-coupon-row__apply eq-t-body2" aria-label={`Apply ${code}`} onClick={() => { handoff.markFocus(); onApply?.(); }}><Text variant="inherit" color="none">Apply</Text></button>
       )}
       <Announce message={applied ? `Coupon ${code} applied` : ''} />
     </div>

@@ -61,8 +61,8 @@ enum class CallFeedback { Up, Down }
  *   (`missed-call/icon-bg`, phone-missed-fill 12 `missed-call/icon`, 2dp `missed-call/bg` ring);
  * - otherwise the 48dp `missed-call/icon-bg` disc with phone-missed-fill 24.
  *
- * Title `subheading`: "[caller] Called", or "Missed by the assistant" when [caller] is null; then
- * why `body2` Regular `text/secondary`. With a [reason]: "LIKELY CALLS FOR" `overline` + the
+ * Title `subheading`: "[caller] Called", or "Missed Call" when [caller] is null; then
+ * why `body2` Regular `text/secondary`. With a [reason]: "USUALLY CALLS FOR" `overline` + the
  * reason `body1` Regular `text/secondary` (bold spans kept) + [time]; without, [time] sits under
  * the head text. Then the 48dp Call back row (call 20 + `subheading` in `text/action`, 1dp
  * `stroke/subtle` top). [onFeedback] adds 40dp 👍 / 👎 toggles (on: filled icon, `text/action`
@@ -83,8 +83,8 @@ fun MissedCallCard(
 ) {
     val colors = EqualTheme.colors
     val type = EqualTheme.type
-    val title = if (caller != null) "$caller Called" else "Missed by the assistant"
-    val body = if (caller != null) "Assistant couldn’t pick up the call" else "Assistant couldn’t pick this call"
+    val title = if (caller != null) "$caller Called" else "Missed Call"
+    val body = "Missed by Assistant"
     val art = if (reason != null) category else null
     Column(modifier.widthIn(max = width).width(width), verticalArrangement = Arrangement.spacedBy(10.dp)) {
         Column(
@@ -144,7 +144,7 @@ fun MissedCallCard(
                     Modifier.fillMaxWidth().padding(start = 16.dp, end = 16.dp, top = 4.dp, bottom = 6.dp),
                     verticalArrangement = Arrangement.spacedBy(2.dp),
                 ) {
-                    EqualText(text = "LIKELY CALLS FOR", style = type.overline, color = colors.textSecondary)
+                    EqualText(text = "USUALLY CALLS FOR", style = type.overline, color = colors.textSecondary)
                     BasicText(text = reason, style = type.body1.copy(fontWeight = FontWeight.Normal, color = colors.textSecondary))
                     if (time != null) {
                         EqualText(text = time, style = type.micro.tabular(), color = colors.textPrimary, maxLines = 1, modifier = Modifier.align(Alignment.End))

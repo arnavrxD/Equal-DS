@@ -125,8 +125,8 @@ internal fun PaywallAnimatedCrownSnippet() {
 internal fun PaywallStickyFooterSnippet() {
     PaywallFooter(
         onClick = { /* start payment */ },
-        cta = "Unlock Unlimited",
-        note = "Cancel Anytime. Automatically renews",
+        cta = "Get Equal AI Unlimited",
+        note = "Cancel anytime · UPI secure · No hidden charges",
     )
 }
 
@@ -135,13 +135,13 @@ internal fun PaywallStickyFooterSnippet() {
 // snippet: coupon-ticket / Available
 @Composable
 internal fun CouponTicketAvailableSnippet() {
-    CouponTicket(code = "EQUAL25", description = "Save Flat ₹100 with this Code", discount = "25% OFF", onApply = {})
+    CouponTicket(code = "EQUAL25", description = "Get extra 25% off your first month", discount = "25% OFF on UPI", onApply = {})
 }
 
 // snippet: coupon-ticket / Applied
 @Composable
 internal fun CouponTicketAppliedSnippet() {
-    CouponTicket(code = "EQUAL25", description = "Save Flat ₹100 with this Code", discount = "25% OFF", applied = true)
+    CouponTicket(code = "EQUAL25", description = "Get extra 25% off your first month", discount = "25% OFF on UPI", applied = true)
 }
 
 // ============================================================ Locked content
@@ -235,7 +235,7 @@ internal fun PaymentWelcomeSnippet() {
 // snippet: help-center-sheet / Default
 @Composable
 internal fun HelpCenterSheetSnippet() {
-    HelpCenterSheet(phone = "+91 9876 543210", email = "hello@equal.in", onCall = {}, onMail = {}, inline = true)
+    HelpCenterSheet(phone = "+91 9876 543210", email = "hey@equal.in", onCall = {}, onMail = {}, inline = true)
 }
 
 // ============================================================ FAQ
@@ -244,10 +244,10 @@ internal fun HelpCenterSheetSnippet() {
 @Composable
 internal fun FaqAccordionSnippet() {
     val faq = listOf(
-        FaqItem("What do I get with Equal Unlimited?", "Unlimited call screenings, full recordings, summaries, and zero daily cap."),
-        FaqItem("Will Equal screen all types of calls?", "Yes! Delivery, ride pickups, spam, loan calls, Equal handles them all."),
-        FaqItem("Can I cancel my Equal Unlimited plan later?", "Yes, cancel anytime. Your Unlimited access stays active until the end of your billing period."),
-        FaqItem("Will I get a refund if I’m not happy with Equal Unlimited?", "We don’t offer refunds, but you can write to our support team and we’ll do our best to help."),
+        FaqItem("What do I get with Equal AI Unlimited?", "Unlimited call screenings, full recordings, summaries, and zero daily cap."),
+        FaqItem("Does Equal AI screen all types of calls?", "Yes! Delivery, ride pickups, spam, loan calls, Equal AI handles them all."),
+        FaqItem("Can I cancel my Equal AI Unlimited plan later?", "Yes, cancel anytime. Your Unlimited access stays active until the end of your billing period."),
+        FaqItem("Can I get a refund if I’m not happy with Equal AI Unlimited?", "Yes. If you’re not happy within 3 days of your first payment, reach us through our helpline and we’ll process your refund."),
     )
     FaqList(items = faq, defaultOpen = listOf(3))
 }
@@ -281,7 +281,7 @@ internal fun PlanBannerChatSnippet() {
 @Composable
 internal fun StatAndRatingSnippet() {
     Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        StatBlock(value = "400k+", label = "People never miss a call")
+        StatBlock(value = "10 Lakh+", label = "People know who called and why")
         RatingPill(rating = 4.5f)
     }
 }
@@ -293,18 +293,18 @@ internal fun TestimonialsSnippet() {
     TestimonialCarousel(
         items = listOf(
             Testimonial(
-                quote = "As a freelancer, client calls and spam used to mix together. Now I get proper summaries.",
-                name = "keerthana",
+                quote = "Equal AI screens every unknown call so I never miss what matters.",
+                name = "Riya S.",
                 avatar = { avatar(EqualAssets.AvatarTestimonial1) },
             ),
             Testimonial(
-                quote = "It is a very useful app for screening the unknown calls. This is a must download.",
-                name = "Arnav Raj",
+                quote = "Equal AI eliminates spam and engages with unknown callers itself.",
+                name = "Chaitanya Sai",
                 avatar = { avatar(EqualAssets.AvatarTestimonial2) },
             ),
             Testimonial(
-                quote = "My parents get loan and insurance calls all day. Equal answers them, and I just read the summary.",
-                name = "Riya Kapoor",
+                quote = "Saves me time and handles unknown calls like a pro.",
+                name = "Sanjana Ramakrishna",
                 avatar = { avatar(EqualAssets.AvatarTestimonial3) },
             ),
         ),

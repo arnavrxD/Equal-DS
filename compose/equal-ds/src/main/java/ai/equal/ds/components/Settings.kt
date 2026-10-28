@@ -216,9 +216,9 @@ fun TrustStrip(
 
 /** Account & Data stats: 5L+ Indian users, 4.4 star rating, 150 Mn+ calls handled. */
 val TrustStats: List<TrustStat> = listOf(
-    TrustStat(EqualAssets.MascotUpdate, "5L+", "Indian users"),
+    TrustStat(EqualAssets.MascotUpdate, "5L+", "Indian Users"),
     TrustStat(EqualAssets.StatStar, "4.4 star", "Rating"),
-    TrustStat(EqualAssets.StatPhone, "150 Mn+", "Calls handled"),
+    TrustStat(EqualAssets.StatPhone, "150 Mn+", "Calls Handled"),
 )
 
 // ---------------------------------------------------------------------------------------------

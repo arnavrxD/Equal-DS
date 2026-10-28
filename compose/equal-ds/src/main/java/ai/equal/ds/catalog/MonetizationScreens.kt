@@ -246,7 +246,7 @@ fun PaywallPreview(
                 preview = "Amit invited you to dinner this Sunday",
                 date = "Yesterday",
                 category = EqualCategory.NA,
-                chips = listOf(ActionChipData("Call Back", "📞"), ActionChipData("Update Address", "✏️")),
+                chips = listOf(ActionChipData("Call back", "📞"), ActionChipData("Update Address", "✏️")),
                 lockedActions = true,
             )
         }
@@ -311,10 +311,10 @@ fun PaywallPreview(
 
 /**
  * The Equal Unlimited paywall: hero (crown, title, [subtitle]), [PriceTag], the [touchpoint]
- * preview, the EQUAL25 coupon, FAQ (4th open) and the sticky gold Unlock Unlimited.
+ * preview, the EQUAL25 coupon, FAQ (4th open) and the sticky gold Get Equal AI Unlimited.
  *
  * Experiments: [price] / [discountedPrice], [coupon], [subtitle], [touchpoint], [waitingArt]
- * (coin or cash), [cta] ("Unlock Unlimited"; "Get Equal AI Unlimited" when renewing). APPLY runs
+ * (coin or cash), [cta] ("Get Equal AI Unlimited"). Apply runs
  * the price drop: [PriceTag] strikes [price], lands [discountedPrice] with "Saved ₹N" and pops the
  * "Special Coupon Applied!" badge (animated only on the tap; [PaywallCoupon.Applied] opens with
  * the final state).
@@ -324,7 +324,7 @@ fun PaywallPreview(
  * payment. A non-null [overlay] pins that frame and never navigates.
  *
  * [processing] (a payment already in flight: the user closed Payment Pending): the footer shows a
- * toast [ProcessingStrip] above a disabled "Unlock Unlimited", so nobody pays twice.
+ * toast [ProcessingStrip] above a disabled "Get Equal AI Unlimited", so nobody pays twice.
  */
 @Composable
 fun PaywallScreen(
@@ -333,10 +333,10 @@ fun PaywallScreen(
     price: Int = 249,
     discountedPrice: Int = 149,
     coupon: PaywallCoupon = PaywallCoupon.Available,
-    subtitle: PaywallSubtitle = PaywallSubtitle.Unlock,
+    subtitle: PaywallSubtitle = PaywallSubtitle.Default,
     overlay: PaywallOverlay? = null,
     waitingArt: EqualAssets = EqualAssets.StatusWaiting,
-    cta: String = "Unlock Unlimited",
+    cta: String = "Get Equal AI Unlimited",
     /** A payment is already in flight: toast above a disabled CTA. */
     processing: Boolean = false,
     onBack: () -> Unit = {},
@@ -368,7 +368,7 @@ fun PaywallScreen(
                     above = { ProcessingStrip(variant = ProcessingStripVariant.Toast) },
                 )
             } else {
-                PaywallFooter(onClick = { live = PaywallOverlay.Waiting }, cta = if (ios && cta == "Unlock Unlimited") "Get Equal AI Unlimited" else cta, dark = ios)
+                PaywallFooter(onClick = { live = PaywallOverlay.Waiting }, cta = cta, dark = ios)
             }
         },
         overlay = when {
@@ -404,7 +404,7 @@ fun PaywallScreen(
             PriceDealCard(price = price)
             Column(Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp), verticalArrangement = Arrangement.spacedBy(16.dp)) {
                 if (coupon != PaywallCoupon.None) {
-                    CouponTicket(code = "EQUAL25", description = "Save Flat ₹50 with this Code", discount = "25% OFF", applied = applied, onApply = { applied = true; justApplied = true })
+                    CouponTicket(code = "EQUAL25", description = "Get extra 25% off your first month", discount = "25% OFF on UPI", applied = applied, onApply = { applied = true; justApplied = true })
                 }
                 LockedPreviewCard { LockedSummaryPreview() }
             }
@@ -418,8 +418,8 @@ fun PaywallScreen(
             if (coupon != PaywallCoupon.None) {
                 CouponTicket(
                     code = "EQUAL25",
-                    description = "Save Flat ₹${price - discountedPrice} with this Code",
-                    discount = "25% OFF",
+                    description = "Get extra 25% off your first month",
+                    discount = "25% OFF on UPI",
                     applied = applied,
                     onApply = {
                         applied = true
@@ -454,12 +454,12 @@ enum class SubscriptionState {
 
 /**
  * Manage plan (Monetization value design): the gold hero "Equal AI / Unlimited", What
- * Unlimited Saved You ([ValueCard] with [calls], no heading or perks; "Plan active until
+ * Unlimited Saved You ([ValueCard] with [calls], no heading or perks; "PLAN ACTIVE UNTIL
  * [activeUntil]" or "Plan Expired on [expiredOn]"), What You Get ([FeatureList]), the social proof
- * ([SocialProof]: Why people choose EQUAL UNLIMITED, 400k+, the rating, testimonials), FAQ
+ * ([SocialProof]: Why people choose EQUAL UNLIMITED, 10 Lakh+, the rating, testimonials), FAQ
  * (4th open), and the plan action pinned at the bottom:
  * - [SubscriptionState.Active]: Cancel Subscription ([EqualButtonVariant.GoldOutline]) + "Cancel
- *   Anytime. Automatically renews";
+ *   anytime · UPI secure · No hidden charges";
  * - [SubscriptionState.Cancelled]: gold Re-Subscribe;
  * - [SubscriptionState.Expired]: gold Renew your Equal AI → [onRenew] (open the paywall with
  *   `cta = "Get Equal AI Unlimited"`).
@@ -526,7 +526,7 @@ fun SubscriptionScreen(
             }
         },
     ) {
-        PaywallHero(title = "Equal AI", subtitle = PaywallSubtitle.Unlock.copy, onBack = onBack) {
+        PaywallHero(title = "Equal AI", subtitle = "Your Plan Includes Unlimited Call Screening, Plus Recordings, AI Call Summaries and Conversations.", onBack = onBack) {
             DividerLabel(text = "What Unlimited Saved You")
             ValueCard(
                 calls = calls,
@@ -539,7 +539,7 @@ fun SubscriptionScreen(
         }
         SocialProof(testimonials = PaywallTestimonials)
         FaqList(
-            items = PaywallFaq,
+            items = ManageFaq,
             defaultOpen = listOf(3),
             modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 16.dp, bottom = 24.dp),
         )

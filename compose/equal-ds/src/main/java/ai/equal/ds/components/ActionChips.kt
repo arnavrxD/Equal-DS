@@ -176,7 +176,7 @@ private fun ActionChipsPreview() {
             SmallActionChip("Update address", "✏️", onClick = {}, style = SmallActionChipStyle.Read)
         }
         SmallActionChip("Call back", "📞", onClick = {}, style = SmallActionChipStyle.Outlined)
-        SmallActionChip("Call Back", "📞", onClick = {}, locked = true)
+        SmallActionChip("Call back", "📞", onClick = {}, locked = true)
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             LargeActionChip("Takeover", "📞", onClick = {})
             LargeActionChip("Ask to reschedule", "🗓️", onClick = {})
