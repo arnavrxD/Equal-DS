@@ -361,10 +361,10 @@ internal fun CompactIconButton(
 internal fun rememberInteraction(): MutableInteractionSource = remember { MutableInteractionSource() }
 
 /**
- * The Android design frame: every screen starts at 390 × 800dp and extends only vertically when
+ * The Android design frame: every screen starts at 360 × 800dp and extends only vertically when
  * the content needs it (previews of long screens pass a larger heightDp, never a different width).
  */
-const val EqualFrameWidthDp = 390
+const val EqualFrameWidthDp = 360
 const val EqualFrameHeightDp = 800
 
 /** Light + dark multipreview at the frame width. `EqualTheme()` follows the preview's uiMode. */

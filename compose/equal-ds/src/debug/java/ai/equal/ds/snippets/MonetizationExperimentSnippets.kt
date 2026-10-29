@@ -37,6 +37,7 @@ import ai.equal.ds.components.SmallActionChip
 import ai.equal.ds.components.SummaryAction
 import ai.equal.ds.components.SummaryActions
 import ai.equal.ds.components.UsageCapCard
+import ai.equal.ds.icons.EqualIcon
 import ai.equal.ds.icons.EqualIcons
 import ai.equal.ds.theme.EqualTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -113,6 +114,19 @@ internal fun HomeCardsSnippet() {
         )
         UsageCapCard(left = 7, limit = 30, resets = "Mon", onUpgrade = { /* open the paywall */ })
     }
+}
+
+// snippet: monetization-experiments / Phone app not restored
+@Composable
+internal fun PhoneAppNotRestoredSnippet() {
+    // After Later on "Phone app didn't switch back": stays on top of Chats until Phone is the default again.
+    HomeNoticeCard(
+        lead = { EqualIcon(EqualIcons.Call, contentDescription = null, tint = EqualTheme.colors.textPrimary, size = 16.dp) },
+        title = "Calls still open in Equal",
+        subtitle = "Make Phone your default again",
+        cta = "Fix",
+        onCta = { /* open Android's default-app setting */ },
+    )
 }
 
 // snippet: monetization-experiments / Equal AI notice

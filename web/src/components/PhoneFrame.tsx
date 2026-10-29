@@ -1,13 +1,13 @@
 import type { ReactNode } from 'react';
 
 /**
- * The Android design frame: every screen starts at 390 × 800dp (mdpi, 1px = 1dp) and extends only
+ * The Android design frame: every screen starts at 360 × 800dp (mdpi, 1px = 1dp) and extends only
  * vertically when the content needs it. Use this everywhere instead of hard-coding widths.
  */
-export const ANDROID_FRAME = { width: 390, height: 800 } as const;
+export const ANDROID_FRAME = { width: 360, height: 800 } as const;
 
 /**
- * 390 × 800 Android frame. Positioned, so sheets/dialogs overlay inside it. `height` extends the
+ * 360 × 800 Android frame. Positioned, so sheets/dialogs overlay inside it. `height` extends the
  * frame vertically (never below 800); `'auto'` grows with the content from a minimum of 800.
  */
 export function PhoneFrame({ children, height = ANDROID_FRAME.height, bezel = true }: { children: ReactNode; height?: number | 'auto'; bezel?: boolean }) {

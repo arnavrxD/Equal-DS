@@ -1080,6 +1080,11 @@
         "part": "Action chips",
         "description": "Scrolling row of SmallActionChips; state follows the row.",
         "spec": "margin-top 8 · gap 12 · unread / read / outlined · gold crown-locked with lockedActions"
+      },
+      {
+        "part": "Live status (dialing / on-call / ringing)",
+        "description": "A live call puts the row at the top of Chats with a green status line and one green pill instead of the date; chips and the unread badge are hidden.",
+        "spec": "line body1 600 text/action: 'Assistant is dialing' / 'Assistant is on a call' / 'Calling you' · pill 32 high · padding 0 14 · radius full · button/primary · buttonSmall text/on-action: Outgoing call (status) / Takeover / Answer (buttons, onLiveAction)"
       }
     ],
     "accessibility": [
@@ -1164,8 +1169,8 @@
       },
       {
         "part": "MessageList",
-        "description": "Vertical list that applies the group rhythm (web; on Compose the caller stacks bubbles).",
-        "spec": "role=log · gap 4 · 8 dp extra before a new group · padding 12"
+        "description": "Vertical list that applies the message rhythm: 8 on the same side, 12 when the side changes (web; on Compose the caller stacks bubbles).",
+        "spec": "role=log · 8 between messages on the same side · 12 when the side changes · 12 around thread events and notices · 4 otherwise · padding 12"
       }
     ],
     "accessibility": [
@@ -1213,6 +1218,11 @@
   },
   "call-summary": {
     "anatomy": [
+      {
+        "part": "Orb (CallSummaryMessage)",
+        "description": "In a thread the summary is Equal's message: the orb sits on its left. A follow-up after another Equal message keeps the column empty.",
+        "spec": "28 column · AiAvatar 24 · gap 8 · left-side message rhythm (8 / 12)"
+      },
       {
         "part": "Card",
         "description": "White card that holds the recording, the summary and the footer.",
@@ -1443,7 +1453,7 @@
       {
         "part": "Panel",
         "description": "Bottom sheet-like panel with rounded top corners.",
-        "spec": "bg/surface · radius 2xl (24) 24 0 0 · padding 20 16 16 · shadow 0 -4 16 (web)"
+        "spec": "bg/surface · radius 2xl (24) 24 0 0 · padding 20 16 16 · shadow 0 -4 16 (web) · sits on the chat wallpaper, so the rounded corners show the pattern"
       },
       {
         "part": "Suggestion",
@@ -1463,7 +1473,7 @@
       {
         "part": "AiSuggestion",
         "description": "Avatar plus prompt on its own.",
-        "spec": "AiAvatar 36 · gap 12 · Text body1 · 7 top · tone primary or secondary (web), text/primary (Compose)"
+        "spec": "AiAvatar 36 · gap 12 · Text body1 · 0 top (aligned to the orb top) · tone primary or secondary (web), text/primary (Compose)"
       }
     ],
     "accessibility": [
@@ -3645,7 +3655,7 @@
       {
         "part": "Container",
         "description": "Centred surface that holds the decision.",
-        "spec": "312 wide (max 100% - 48 web) · bg/surface · radius 24 · padding 24 · shadow/nav (web)"
+        "spec": "312 wide (max 100% - 48 web) · bg/surface · radius 12 · padding 24 · shadow/nav (web)"
       },
       {
         "part": "Title",
@@ -4376,7 +4386,7 @@
       },
       {
         "topic": "Touch target",
-        "web": "Tiles are 72 tall and about 77 wide in the 390 frame.",
+        "web": "Tiles are 72 tall and about 70 wide in the 360 frame.",
         "android": "Tiles are 72dp tall and share the row width."
       },
       {
@@ -4909,7 +4919,7 @@
       {
         "part": "Duration dialog",
         "description": "Pick how long the assistant stays off.",
-        "spec": "Dialog 312, radius 24, padding 24 · title · body1 secondary · RadioGroup m, gap 20 · Cancel (neutral) + OK md, disabled until a choice"
+        "spec": "Dialog 312, radius 12, padding 24 · title · body1 secondary · RadioGroup m, gap 20 · Cancel (neutral) + OK md, disabled until a choice"
       },
       {
         "part": "Busy toggle",

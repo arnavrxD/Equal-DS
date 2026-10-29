@@ -11,6 +11,9 @@ const pill = {
   border: '1px solid var(--eq-stroke-subtle)',
 } as const;
 
+/** Thread events hug their label: 6 / 12 padding (Personal Number Outbound Call). */
+const eventPill = { ...pill, height: undefined, padding: '6px 12px' } as const;
+
 /** Day divider in a thread ("Today", "12 July"). */
 export function DayDivider({ label }: { label: string }) {
   return (
@@ -26,7 +29,7 @@ export function DayDivider({ label }: { label: string }) {
 export function ThreadEvent({ label }: { label: string }) {
   return (
     <div className="eq-center-row" style={{ display: 'flex', justifyContent: 'center' }}>
-      <span style={pill}>
+      <span style={eventPill}>
         <Text variant="micro" color="secondary">{label}</Text>
       </span>
     </div>

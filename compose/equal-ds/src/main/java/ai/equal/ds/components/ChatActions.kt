@@ -89,6 +89,7 @@ import androidx.compose.foundation.text.BasicText
  * The assistant's turn in a task: 28dp orb → 8 → [AssistantReplyCard] ([text], [time], emoji
  * action rows) at [width] (shrinks to fit a narrower parent). [body] adds rich content under the
  * text, e.g. an [ActionCardBody] for "Outgoing call"; pass an empty [text] to show only that.
+ * A left-side message in a [MessageList].
  */
 @Composable
 fun AiTurn(
@@ -99,7 +100,7 @@ fun AiTurn(
     width: Dp = 280.dp,
     body: (@Composable ColumnScope.() -> Unit)? = null,
 ) {
-    Row(modifier, horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.Top) {
+    Row(modifier.messageSide(MessageSide.Left), horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.Top) {
         EqualLogoOrb(size = 28.dp, contentDescription = null)
         AssistantReplyCard(
             text = text,

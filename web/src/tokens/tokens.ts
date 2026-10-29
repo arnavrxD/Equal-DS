@@ -63,9 +63,9 @@ export const aliases: AliasToken[] = [
     "name": "bg/overlay",
     "cssVar": "--eq-bg-overlay",
     "light": "rgba(30,30,30,0.4)",
-    "dark": "rgba(30,30,30,0.4)",
+    "dark": "rgba(0,0,0,0.6)",
     "lightRef": "direct value",
-    "darkRef": "direct value",
+    "darkRef": "brand/black · 60%",
     "group": "bg",
     "derived": false,
     "why": "The dimming layer behind bottom sheets and dialogs; Figma's Overlay variable is #1E1E1E at 40% in both themes."
@@ -359,13 +359,13 @@ export const aliases: AliasToken[] = [
   {
     "name": "component/chat-bubble/user-title",
     "cssVar": "--eq-chat-bubble-user-title",
-    "light": "#006223",
-    "dark": "#BAFF29",
-    "lightRef": "direct value",
-    "darkRef": "brand/lime",
+    "light": "#00B140",
+    "dark": "#00B140",
+    "lightRef": "brand/green",
+    "darkRef": "brand/green",
     "group": "component",
-    "derived": false,
-    "why": "The 'You' sender line in your own bubble; dark green passes AA at 7.2:1 on the bubble."
+    "derived": true,
+    "why": "The sender line ('You', 'Equal AI') in the right-hand bubble. Design decision (2026-10-30): brand green #00B140. 2.7:1 on the light bubble, below AA for body text; accepted for this short label."
   },
   {
     "name": "component/action-card/highlight",
@@ -1273,9 +1273,9 @@ export const aliases: AliasToken[] = [
     "name": "component/ongoing-bar/bg",
     "cssVar": "--eq-ongoing-bar-bg",
     "light": "rgba(0,0,0,0.8)",
-    "dark": "rgba(255,255,255,0.8)",
+    "dark": "#FFFFFF",
     "lightRef": "brand/black · 80%",
-    "darkRef": "brand/white · 80%",
+    "darkRef": "brand/white",
     "group": "component",
     "derived": true,
     "why": "The 'Ongoing call – 02:34' strip under the chat header, an inverted bar so it stands out."
@@ -1284,9 +1284,9 @@ export const aliases: AliasToken[] = [
     "name": "component/ongoing-bar/text",
     "cssVar": "--eq-ongoing-bar-text",
     "light": "#BAFF29",
-    "dark": "rgba(0,0,0,0.8)",
+    "dark": "#00B140",
     "lightRef": "brand/lime",
-    "darkRef": "brand/black · 80%",
+    "darkRef": "brand/green",
     "group": "component",
     "derived": true,
     "why": "Lime text and bars on the dark ongoing-call strip."
@@ -2551,7 +2551,7 @@ export type TypeName = keyof typeof typography;
 export const fontFamily = "DM Sans";
 export const spacing = {"0":0,"2":2,"4":4,"6":6,"8":8,"10":10,"12":12,"16":16,"20":20,"24":24,"32":32,"40":40,"48":48} as const;
 export const radius = {"xs":4,"sm":8,"md":12,"lg":16,"xl":20,"2xl":24,"3xl":32,"full":999} as const;
-export const size = {"touchTarget":48,"statusBar":52,"appBar":64,"icon":{"xs":16,"sm":20,"md":24},"avatar":{"xs":24,"sm":28,"md":36,"lg":48},"frame":{"width":390,"height":800}} as const;
+export const size = {"touchTarget":48,"statusBar":52,"appBar":64,"icon":{"xs":16,"sm":20,"md":24},"avatar":{"xs":24,"sm":28,"md":36,"lg":48},"frame":{"width":360,"height":800}} as const;
 export const shadow = {
   "card": "0 1px 2px rgba(0,0,0,0.04), 0 2px 8px rgba(0,0,0,0.06)",
   "raised": "0 2px 6px rgba(0,0,0,0.10)",

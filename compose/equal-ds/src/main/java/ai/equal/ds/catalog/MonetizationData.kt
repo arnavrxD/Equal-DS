@@ -125,8 +125,8 @@ enum class OfficialNotice(val preview: String, val chip: String, val title: Stri
     UsageCap(
         preview = "Call limit reached, Resets in 3 days",
         chip = "Get Unlimited",
-        title = "Weekly call limit reached, Limit Resets in 3days",
-        body = "You’ve reached your limit on Equal AI. Subscribe to Equal Unlimited to get Unlimited Recordings, AI Call Summaries and Conversations.\n\nTrusted by 10 Lakh+ Indians.",
+        title = "You’ve used your free calls this week",
+        body = "Your weekly limit resets on Monday.\n\nUpgrade to keep Equal AI answering your calls.",
         cta = "Get Equal AI Unlimited",
     ),
 }

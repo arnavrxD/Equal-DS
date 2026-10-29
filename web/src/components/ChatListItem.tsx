@@ -26,14 +26,29 @@ export type ChatListItemProps = {
   /** Actions touchpoint: the action chips are gold and crown-locked. */
   lockedActions?: boolean;
   onLockedAction?: () => void;
-  /** Updated UI rows: missed by the assistant, the assistant is on the call ("Ongoing call" pill), or the summary is still generating. */
-  status?: 'missed' | 'on-call' | 'loading';
+  /**
+   * Updated UI rows: missed by the assistant, or the summary is still generating. Live calls put the
+   * row at the top of Chats with a green status line and one green pill (no ongoing-call bar on Home):
+   * `dialing` "Assistant is dialing" · Outgoing call, `on-call` "Assistant is on a call" · Takeover,
+   * `ringing` "Calling you" · Answer.
+   */
+  status?: 'missed' | 'on-call' | 'loading' | 'dialing' | 'ringing';
+  /** The live pill (Takeover / Answer). Not called for `dialing`, whose pill is a status. */
+  onLiveAction?: () => void;
   /** Muted from the list: a 16 notifications-off glyph after the name. */
   muted?: boolean;
 };
 
+/** Live-call row states: the green status line and the pill (an action for on-call and ringing). */
+const LIVE = {
+  dialing: { line: 'Assistant is dialing', pill: 'Outgoing call', action: false },
+  'on-call': { line: 'Assistant is on a call', pill: 'Takeover', action: true },
+  ringing: { line: 'Calling you', pill: 'Answer', action: true },
+} as const;
+
 /** Chat list row (Component ref #6). States derive from `unread` and `selected`. */
-export function ChatListItem({ name, preview, date, unread = 0, actions = [], selected, avatar, onClick, onLongPress, locked, official, lockedActions, onLockedAction, status, muted }: ChatListItemProps) {
+export function ChatListItem({ name, preview, date, unread = 0, actions = [], selected, avatar, onClick, onLongPress, locked, official, lockedActions, onLockedAction, status, muted, onLiveAction }: ChatListItemProps) {
+  const live = status === 'on-call' || status === 'dialing' || status === 'ringing' ? LIVE[status] : undefined;
   const isUnread = unread > 0;
   const chipState = selected ? 'outlined' : isUnread ? 'unread' : 'read';
   const timer = useRef<ReturnType<typeof setTimeout>>(undefined);
@@ -83,8 +98,10 @@ export function ChatListItem({ name, preview, date, unread = 0, actions = [], se
             {official && <Icon name="verified" size={16} color="var(--eq-text-action)" label="Verified" />}
             {muted && <Icon name="silent-mode" size={16} color="var(--eq-text-secondary)" label="Muted" />}
           </span>
-          {status === 'on-call'
-            ? <span className="eq-chat-row__oncall"><Text variant="buttonSmall" color="none">Ongoing call</Text></span>
+          {live
+            ? live.action
+              ? <button type="button" className="eq-reset-btn eq-pressable eq-chat-row__oncall" onClick={(e) => { e.stopPropagation(); onLiveAction?.(); }}><Text variant="buttonSmall" color="none">{live.pill}</Text></button>
+              : <span className="eq-chat-row__oncall"><Text variant="buttonSmall" color="none">{live.pill}</Text></span>
             : <Text variant="micro" color={isUnread || selected ? 'action' : 'secondary'} style={{ flexShrink: 0 }}>{date}</Text>}
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, paddingRight: 16, minHeight: 22 }}>
@@ -93,14 +110,14 @@ export function ChatListItem({ name, preview, date, unread = 0, actions = [], se
           ) : (
             <>
               {status === 'missed' && <Icon name="call-missed" size={14} color="var(--eq-missed-call-icon)" />}
-              <Text variant="body1" color={status === 'on-call' ? 'action' : 'secondary'} truncate style={{ flex: 1, fontWeight: status === 'on-call' ? 500 : undefined }}>
-                {status === 'missed' ? 'Missed by assistant' : status === 'on-call' ? 'Assistant is on call' : status === 'loading' ? 'Loading Summary...' : preview}
+              <Text variant="body1" color={live ? 'action' : 'secondary'} truncate style={{ flex: 1, fontWeight: live ? 600 : undefined }}>
+                {status === 'missed' ? 'Missed by Assistant' : live ? live.line : status === 'loading' ? 'Loading Summary...' : preview}
               </Text>
-              {status !== 'on-call' && <CountBadge count={unread} />}
+              {!live && <CountBadge count={unread} />}
             </>
           )}
         </div>
-        {actions.length > 0 && status !== 'on-call' && status !== 'loading' && (
+        {actions.length > 0 && !live && status !== 'loading' && (
           <div style={{ marginTop: 8 }}>
             <ChipRow>
               {actions.map((a) => (

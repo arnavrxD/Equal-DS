@@ -1,4 +1,4 @@
-.eq-chat-row__oncall { flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; height: 32px; padding: 0 12px; border-radius: var(--eq-radius-full); background: var(--eq-button-primary); color: var(--eq-text-on-action); }
+.eq-chat-row__oncall { flex-shrink: 0; display: inline-flex; align-items: center; justify-content: center; height: 32px; padding: 0 14px; border-radius: var(--eq-radius-full); background: var(--eq-button-primary); color: var(--eq-text-on-action); }
 
 /* Home with no rows: empty (new user) or offline. */
 .eq-home-state { display: flex; flex-direction: column; align-items: center; padding: 180px 24px 120px; }

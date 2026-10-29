@@ -2,6 +2,8 @@
 // Greeting + quick actions, suggestion chips, text or voice input, hold-to-record, and the short
 // task conversation it turns into (voice note → Thinking… → result card → Edit / Confirm).
 import { useEffect, useState, type ReactNode } from 'react';
+import patternUrl from '../foundations/chat-pattern@3x.webp';
+import './Flows.css';
 import { useModal } from '../foundations/a11y';
 import { Asset } from '../foundations/Asset';
 import { Emoji, Icon } from '../foundations/Icon';
@@ -244,7 +246,8 @@ export function AssistantSheetShell({ children, footer, header, task, inChat, mo
     <div className={`eq-mya-sheet ${task ? 'is-task' : ''} ${inChat ? 'is-in-chat' : ''} ${mode === 'inline' ? 'is-inline' : ''}`} role="dialog" aria-label="Your assistant" {...modal}>
       {header}
       <div className="eq-mya-sheet__body">{children}</div>
-      {footer && <div className="eq-mya-sheet__footer">{footer}</div>}
+      {/* Task sheet: the chat wallpaper runs on behind the chips and the input, to the bottom edge. */}
+      {footer && <div className={`eq-mya-sheet__footer ${task ? 'eq-wallpaper' : ''}`} style={task ? { ['--eq-pattern-url' as string]: `url(${patternUrl})` } : undefined}>{footer}</div>}
     </div>
   );
   if (mode === 'inline') return panel;

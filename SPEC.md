@@ -3,7 +3,7 @@
 The contract both implementations follow (`web/` React and `compose/` Jetpack Compose).
 **Inline emoji** (chips, badges, pills) are set at the label's font size, never larger; standalone emoji icons (preset circles, recommended cards) keep their own size.
 
-All units are **dp** (mdpi: 1px = 1dp = 1sp). **Frame: design every Android screen at 390 × 800dp and extend only vertically when content needs it** (`ANDROID_FRAME` on web, `EqualFrameWidthDp` / `EqualFrameHeightDp` in Compose). The designs were drawn at 360 wide; their dp values carry over unchanged, and full-width elements simply fill the wider frame. Text sizes are **sp** and always come from a type token.
+All units are **dp** (mdpi: 1px = 1dp = 1sp). **Frame: design every Android screen at 360 × 800dp and extend only vertically when content needs it** (`ANDROID_FRAME` on web, `EqualFrameWidthDp` / `EqualFrameHeightDp` in Compose). The designs are drawn at 360 wide, so their dp values carry over unchanged. Text sizes are **sp** and always come from a type token.
 Colour names are alias tokens (`bg/surface`, `text/secondary`, …). Names marked ⓓ are derived tokens: final values taken from the screens and component references because the colour guide doesn’t define them (`"derived": true` in `tokens/tokens.json`). Every text pair passes WCAG AA in both themes.
 Measurements were taken from *Component References design* (rendered at 2×, halved).
 
@@ -85,17 +85,18 @@ Touch target 48 high (padding outside the visual).
 Height 44, padding h 16, radius full, fill `gradient/chip-large` ⓓ, 1dp `action/stroke/unread`. Content: emoji 14 (= label size) → gap 10 → label `button` `text/action`. Examples: Takeover 📞, Ask to reschedule 🗓️.
 
 ## 11. Chat Bubbles
-Max width 264 (≈ 68% of the 390 frame). Radius 12. Padding 8 top, 10 h, 6 bottom. Contents: sender line `body2` → message `body1` `text/primary` → timestamp `micro` `text/secondary`, right-aligned (gap 2).
+Max width 264 (≈ 73% of the 360 frame). Radius 12. Padding 8 top, 10 h, 6 bottom. Contents: sender line `body2` → message `body1` `text/primary` → timestamp `micro` `text/secondary`, right-aligned (gap 2).
 - **Outgoing (user / Equal AI speaking on the call)**: right aligned, fill `chat-bubble/user-bg`, sender colour `chat-bubble/user-title`. Sender = "Equal AI" or "You".
 - **Incoming (contact)**: left aligned, 28 category avatar (default `others`, the red telephone) with gap 8, fill `chat-bubble/other-bg` ⓓ, sender colour `chat-bubble/contact-title` ⓓ.
 - **Assistant (Equal AI talking to the user)**: left aligned, 24 AI avatar, fill `bg/surface`, sender `text/action`.
 - `tail`: optional 8dp tail on the first bubble of a group (top-outer corner, radius 0 on that corner + small curved notch).
-- Consecutive bubbles from the same sender: gap 4, avatar only on the first, sender line only on the first.
+- Spacing: messages on the same side are 8 apart; when the side changes, 12. Thread events and notices keep 12 around them. Avatar and sender line only on the first of a run. The sender line in the right-hand bubble is `chat-bubble/user-title` (#00B140, both modes).
 
 ### Voice note + Call Summary bubble
 Width 268. Fill `bg/surface`, radius 16. Inner **Voice player** box: margin 8, radius 12, 1dp `stroke/subtle`, padding 10. Row: play icon 22 `text/secondary` → gap 8 → waveform (fill; bars 2dp wide, gap 2, heights 4–16, `waveform/bar` ⓓ, played part `waveform/bar-played` ⓓ) → gap 8 → speed pill (height 22, padding h 8, radius full, fill `playback/pill-bg` ⓓ, `caption` `text/on-dark` ⓓ, tabular "1x/1.2x/1.5x/2x", tap cycles). Below (gap 4, indent 26): elapsed & total `micro` `text/secondary` at the two ends of the waveform.
 Then padding 8 h: "Call Summary" `caption` Medium `text/secondary` → summary `body1` `text/primary` → timestamp `micro`.
 Optional footer: 1dp `stroke/subtle` divider, 44 high centred button: share icon 18 + gap 6 + "Share" `button` `text/action`.
+In a thread it is Equal’s message (`CallSummaryMessage`): 28 column with the 24 AI orb on its left, gap 8; right after another Equal message the column stays empty.
 
 ## 12. AI Assistant Avatar
 The logo orb asset (light = #00B140, dark = lime). Sizes 24 / 36 / 48.
@@ -166,7 +167,7 @@ Width 322, radius 24, fill `gradient/whats-new` ⓓ, padding 16. Top row: Featur
 - **Text Field**: overline label (+ `caption` Regular "(Optional)"), input height 48, radius 12, 1dp `stroke/medium`, focus 1dp `action/stroke/unread` + focusRing, value `bodyLarge` `text/primary`, placeholder `text/placeholder`, helper `caption` Regular `text/secondary`, error `text/danger`.
 - **Search Field**: height 48, radius full, fill `bg/surface`, search icon 20 `text/secondary`, `bodyLarge`.
 - **Segmented Label Chips** (Home / Work / Other): height 36, padding h 16, radius full; selected fill `button/primary` + `text/on-action`; unselected 1dp `stroke/medium` + `text/secondary`; `button` token.
-- **Dialog**: width 312, radius 24, padding 24, fill `bg/surface`. Title `title` → subject `caption` `text/secondary` → body `body1` `text/secondary` → actions right-aligned: text (revise/cancel) + filled (commit) or danger.
+- **Dialog**: width 312, radius 12, padding 24, fill `bg/surface`. Title `title` → subject `caption` `text/secondary` → body `body1` `text/secondary` → actions right-aligned: text (revise/cancel) + filled (commit) or danger.
 - **Contact Info Header**: avatar 72 → name `headline` → phone `bodyLarge` `text/secondary` (tabular) → row of icon buttons (48 circle `bg/primary`, icon 22, label `caption` `text/secondary` below): Call, Mute, Save, Share.
 - **Call History Row**: direction icon 20 → column [type `body2` "Incoming call" (missed: `text/danger`), meta `micro` Regular `text/secondary` "Today • 30 Sec."] → time `micro` `text/secondary`.
 - **Empty / Error State**: illustration slot 96 → title `subheading` → body `caption` Regular (wrap) `text/secondary` → optional button.

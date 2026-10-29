@@ -1,5 +1,8 @@
 package ai.equal.ds.catalog
 
+import ai.equal.ds.components.MessageList
+import ai.equal.ds.components.CallSummaryMessage
+import androidx.compose.foundation.layout.PaddingValues
 import ai.equal.ds.components.HealthAlert
 import ai.equal.ds.icons.EqualSymbols
 import ai.equal.ds.components.NoticedState
@@ -394,6 +397,13 @@ private fun CatalogContent(modifier: Modifier) {
         )
         EqualDivider()
         ChatListItem(name = "Priya Sharma", preview = "Saved contact (initials)", date = "Sat", initials = "PS")
+        EqualDivider()
+        // Live calls: dialing (status pill), on a call (Takeover), ringing (Answer).
+        ChatListItem(name = "Amit Nanda", preview = "", date = "", initials = "AN", status = ChatListItemStatus.Dialing)
+        EqualDivider()
+        ChatListItem(name = "Amit Nanda", preview = "", date = "", initials = "AN", status = ChatListItemStatus.OnCall, onLiveAction = {})
+        EqualDivider()
+        ChatListItem(name = "Priya Sharma", preview = "", date = "", initials = "PS", status = ChatListItemStatus.Ringing, onLiveAction = {})
 
         CatalogSection("Categories (${EqualCategory.entries.size})") {
             CategoryGallery()
@@ -412,15 +422,13 @@ private fun CatalogContent(modifier: Modifier) {
         }
 
         CatalogSection("11 · Chat bubbles") {
-            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            MessageList(contentPadding = PaddingValues(0.dp)) {
                 ChatBubble("Hello, this is Equal AI answering for Arnav.", "03:31", ChatBubbleType.Outgoing, sender = "Equal AI")
                 ChatBubble("How can I help?", "03:31", ChatBubbleType.Outgoing, sender = "Equal AI", isFirstInGroup = false)
-            }
-            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 ChatBubble("Calling about tomorrow's appointment.", "03:32", ChatBubbleType.Incoming, sender = "Dr. Mehta Clinic")
                 ChatBubble("Is 4 PM still okay?", "03:32", ChatBubbleType.Incoming, isFirstInGroup = false)
+                ChatBubble("Want me to confirm the slot?", "03:35", ChatBubbleType.Assistant, sender = "Equal AI")
             }
-            ChatBubble("Want me to confirm the slot?", "03:35", ChatBubbleType.Assistant, sender = "Equal AI")
         }
 
         CatalogSection("11 · Voice note + call summary") {
@@ -442,6 +450,14 @@ private fun CatalogContent(modifier: Modifier) {
                 },
                 onShareClick = {},
             )
+            // As Equal's message in a thread: the orb on the left (first), or the same indent without it.
+            MessageList(contentPadding = PaddingValues(0.dp)) {
+                ThreadEvent("Call Ended 11:04 · 02:14")
+                CallSummaryMessage(
+                    summary = "Amit moved the AC service to Saturday, 10 AM. The ₹499 visit charge still applies.",
+                    timestamp = "11:04",
+                )
+            }
         }
 
         CatalogSection("Brand · logo & mascot") {
@@ -588,10 +604,10 @@ private fun CatalogContent(modifier: Modifier) {
         }
 
         CatalogSection("21 · Call status indicators") {
-            Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+            MessageList(Modifier.fillMaxWidth(), contentPadding = PaddingValues(0.dp)) {
                 DayDivider("Today")
-                ThreadEvent("Call Started 03:31", Modifier.padding(top = 8.dp))
-                ThreadNotice("Call has ended. Equal AI shared a summary below.", Modifier.padding(top = 8.dp))
+                ThreadEvent("Call Started 03:31")
+                ThreadNotice("Call has ended. Equal AI shared a summary below.")
             }
         }
 
@@ -1446,14 +1462,13 @@ private fun OfficialChat(notice: OfficialNotice, onBack: () -> Unit, onCta: () -
                 .weight(1f)
                 .fillMaxWidth(),
         ) {
-            Column(
+            MessageList(
                 Modifier
                     .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-                    .padding(horizontal = 12.dp, vertical = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
+                    .verticalScroll(rememberScrollState()),
+                contentPadding = PaddingValues(horizontal = 12.dp, vertical = 16.dp),
             ) {
-                Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) { DayDivider("Today") }
+                DayDivider("Today")
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     AiAvatar(size = AiAvatarSize.Small)
                     AssistantNoticeCard(title = notice.title, body = notice.body, cta = notice.cta, onCta = onCta)
@@ -1517,17 +1532,14 @@ private fun ChatThread(
                 .weight(1f)
                 .fillMaxWidth(),
         ) {
-            Column(
+            MessageList(
                 Modifier
                     .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-                    .padding(horizontal = 12.dp, vertical = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp),
+                    .verticalScroll(rememberScrollState()),
+                contentPadding = PaddingValues(horizontal = 12.dp, vertical = 16.dp),
             ) {
-                Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) { DayDivider("Today") }
-                Box(Modifier.fillMaxWidth().padding(vertical = 8.dp), contentAlignment = Alignment.Center) {
-                    ThreadEvent("Call Started 03:31")
-                }
+                DayDivider("Today")
+                ThreadEvent("Call Started 03:31")
                 ChatBubble(
                     "Hello, this is Equal AI answering for Arnav. How can I help?",
                     "03:31",
@@ -1535,22 +1547,16 @@ private fun ChatThread(
                     sender = "Equal AI",
                     locked = locked,
                 )
-                Box(Modifier.padding(top = 8.dp)) {
-                    ChatBubble(
-                        "Hi, I'm calling from Dr. Mehta Clinic about tomorrow's appointment.",
-                        "03:32",
-                        ChatBubbleType.Incoming,
-                        sender = "Dr. Mehta Clinic",
-                        locked = locked,
-                    )
-                }
+                ChatBubble(
+                    "Hi, I'm calling from Dr. Mehta Clinic about tomorrow's appointment.",
+                    "03:32",
+                    ChatBubbleType.Incoming,
+                    sender = "Dr. Mehta Clinic",
+                    locked = locked,
+                )
                 ChatBubble("Is 4 PM still okay?", "03:32", ChatBubbleType.Incoming, isFirstInGroup = false, locked = locked)
-                Box(Modifier.padding(top = 8.dp)) {
-                    ChatBubble("I'll let him know and confirm by message.", "03:33", ChatBubbleType.Outgoing, sender = "Equal AI", locked = locked)
-                }
-                Box(Modifier.fillMaxWidth().padding(vertical = 8.dp), contentAlignment = Alignment.Center) {
-                    ThreadEvent("Call Ended 03:34")
-                }
+                ChatBubble("I'll let him know and confirm by message.", "03:33", ChatBubbleType.Outgoing, sender = "Equal AI", locked = locked)
+                ThreadEvent("Call Ended 03:34")
                 val recording: @Composable () -> Unit = {
                     VoiceNotePlayer(
                         isPlaying = playing,
@@ -1570,7 +1576,6 @@ private fun ChatThread(
                         voiceNote = recording,
                         recording = if (locked) ({ LockedRecording(onUnlock = onUnlock) }) else null,
                         footer = if (summaryActions) ({ SummaryActions(actions = SampleSummaryActions) }) else null,
-                        modifier = Modifier.padding(top = 8.dp),
                     )
                 } else {
                     CallSummaryBubble(
@@ -1580,7 +1585,6 @@ private fun ChatThread(
                         onShareClick = {},
                         locked = if (lock == ChatLock.Audio) CallSummaryLock.Audio else null,
                         onUnlock = onUnlock,
-                        modifier = Modifier.padding(top = 8.dp),
                     )
                 }
                 FeedbackCard(
@@ -1588,7 +1592,7 @@ private fun ChatThread(
                     rating = rating,
                     onRatingChange = { rating = it },
                     onShareFeedbackClick = {},
-                    modifier = Modifier.padding(top = 8.dp),
+                    modifier = Modifier.padding(top = 4.dp),
                 )
             }
         }

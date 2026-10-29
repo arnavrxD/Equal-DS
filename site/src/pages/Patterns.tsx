@@ -26,7 +26,7 @@ function SelectionDemo() {
   ];
   const toggle = (id: string) => setSel((s) => (s.includes(id) ? s.filter((x) => x !== id) : [...s, id]));
   return (
-    <div style={{ width: 390, background: 'var(--eq-bg-primary)' }}>
+    <div style={{ width: 360, background: 'var(--eq-bg-primary)' }}>
       <SelectionHeader count={sel.length} allSelected={sel.length === rows.length} onSelectAll={(all) => setSel(all ? rows.map((r) => r.id) : [])} onBack={() => setSel([])} />
       <div style={{ display: 'flex', flexDirection: 'column', gap: 1, background: 'var(--eq-stroke-subtle)' }}>
         {rows.map((r) => (
@@ -42,8 +42,8 @@ export default function Patterns() {
     <Page title="Patterns" lead="How components combine: the rhythm of a call thread, selection in the chat list, and the confirm-then-undo pattern for destructive actions.">
       <H2>A call thread</H2>
       <p className="s-p">Day divider → call events → outgoing (Equal AI on your behalf) and incoming (the caller) bubbles → the notice that the call ended → the assistant’s summary with the recording → the rating card. Consecutive bubbles from one sender group at 4dp; a new sender opens at 12dp with a tail.</p>
-      <Example title="Thread on the chat wallpaper" width={390} code={`<ChatWallpaper>\n  <MessageList>\n    <DayDivider label="Today" />\n    <ThreadEvent label="Call Started 03:31" />\n    <ChatBubble kind="outgoing" sender="Equal AI">…</ChatBubble>\n    <ChatBubble kind="incoming" sender="Dr Mehta Clinic">…</ChatBubble>\n    <ThreadNotice>Call has ended…</ThreadNotice>\n    <CallSummary summary="…" tag={{ emoji: '🪄', label: '2 instructions applied in this call' }} />\n  </MessageList>\n</ChatWallpaper>`}>
-        <div style={{ width: 390, borderRadius: 16, overflow: 'hidden' }}>
+      <Example title="Thread on the chat wallpaper" width={360} code={`<ChatWallpaper>\n  <MessageList>\n    <DayDivider label="Today" />\n    <ThreadEvent label="Call Started 03:31" />\n    <ChatBubble kind="outgoing" sender="Equal AI">…</ChatBubble>\n    <ChatBubble kind="incoming" sender="Dr Mehta Clinic">…</ChatBubble>\n    <ThreadNotice>Call has ended…</ThreadNotice>\n    <CallSummary summary="…" tag={{ emoji: '🪄', label: '2 instructions applied in this call' }} />\n  </MessageList>\n</ChatWallpaper>`}>
+        <div style={{ width: 360, borderRadius: 16, overflow: 'hidden' }}>
           <ChatWallpaper>
             <MessageList>
               <DayDivider label="Today" />
@@ -65,16 +65,16 @@ export default function Patterns() {
 
       <H2>Selection in the chat list</H2>
       <p className="s-p">Long-press enters selection: the header becomes the selection bar, selected rows take the highlight fill and a check badge, and their chips go outlined. Try it by tapping rows.</p>
-      <Example title="Selection mode" width={390} code={`<SelectionHeader count={1} allSelected={false} … />\n<ChatListItem selected … />`}>
+      <Example title="Selection mode" width={360} code={`<SelectionHeader count={1} allSelected={false} … />\n<ChatListItem selected … />`}>
         <SelectionDemo />
       </Example>
 
       <H2>Confirm, then undo</H2>
       <p className="s-p">Destructive actions ask once in a bottom sheet (illustration, title, consequence, a danger button) and then offer Undo in a snackbar. Never a dialog for this; dialogs are for decisions that change a setting.</p>
-      <Example title="Delete chat" width={390} code={`<BottomSheet open={open} onClose={…}>\n  <ConfirmSheetContent destructive confirmLabel="Delete" … />\n</BottomSheet>\n<Snackbar message="Chat deleted" actionLabel="Undo" />`}>
+      <Example title="Delete chat" width={360} code={`<BottomSheet open={open} onClose={…}>\n  <ConfirmSheetContent destructive confirmLabel="Delete" … />\n</BottomSheet>\n<Snackbar message="Chat deleted" actionLabel="Undo" />`}>
         <SheetDemo />
       </Example>
-      <Example title="A settings decision" width={390} code={`<Dialog mode="inline" title="Turn off Call Learning?" confirmLabel="Turn off" … />`}>
+      <Example title="A settings decision" width={360} code={`<Dialog mode="inline" title="Turn off Call Learning?" confirmLabel="Turn off" … />`}>
         <Dialog open mode="inline" title="Turn off Call Learning?" subject="Call learning" body="Your assistant will stop learning from new calls. What it already knows stays until you clear it." confirmLabel="Turn off" />
       </Example>
     </Page>

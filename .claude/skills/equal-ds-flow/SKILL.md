@@ -41,7 +41,7 @@ Split images into:
 ## 5. Build to the rules
 
 - DM Sans only, token colours only (new colours go in `tokens/tokens.json`, marked derived and AA-checked).
-- 390 × 800 dp Android frame that grows only vertically, Material 3 status bar, 12 dp field corners.
+- 360 × 800 dp Android frame that grows only vertically, Material 3 status bar, 12 dp field corners.
 - Material Symbols for flat icons, emoji on action chips (emoji size = label size).
 - Free = plain avatar, paid = gold ring.
 - Experiments are props.

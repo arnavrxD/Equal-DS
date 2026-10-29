@@ -28,7 +28,7 @@ Every example on the site is the real component from `web/src`, rendered live in
 
 - Source designs in `/Users/arnavraj/Downloads/DS` (colour guides, typography specs, dev handoff, You tab, flows) are the design authority. `SPEC.md` is the component contract.
 - Users switch between the site, Figma, Android Studio and a code editor. Copy-paste of token names, CSS variables, TS and Kotlin identifiers is a core job.
-- Android screens are designed in a 390 × 800dp frame (mdpi, 1px = 1dp = 1sp). Start every screen at 390 × 800 and extend only the vertical side when content needs it; never change the width. Code: `ANDROID_FRAME` (web) and `EqualFrameWidthDp` / `EqualFrameHeightDp` (Compose). The designs were drawn at 360 wide; their dp values (paddings, component sizes) carry over unchanged.
+- Android screens are designed in a 360 × 800dp frame (mdpi, 1px = 1dp = 1sp). Start every screen at 360 × 800 and extend only the vertical side when content needs it; never change the width. Code: `ANDROID_FRAME` (web) and `EqualFrameWidthDp` / `EqualFrameHeightDp` (Compose). The designs are drawn at 360 wide, so their dp values (paddings, component sizes) carry over unchanged.
 
 ## Capabilities and Constraints
 

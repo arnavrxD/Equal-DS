@@ -191,7 +191,7 @@ enum class EqualAssets(val assetName: String, @DrawableRes val resId: Int) {
     // ---- Docs only ---------------------------------------------------------------------------
 
     /**
-     * The system keyboard (1560 × 1200, 390 × 300dp at full width), drawn by
+     * The system keyboard (1560 × 1200, drawn at full frame width), drawn by
      * [ai.equal.ds.components.KeyboardSpace] in docs and previews only. Never ship it as UI: the
      * keyboard is the OS's.
      */

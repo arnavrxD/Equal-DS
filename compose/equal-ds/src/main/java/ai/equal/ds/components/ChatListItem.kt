@@ -12,6 +12,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.clickable
+import androidx.compose.ui.draw.clip
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -41,11 +43,17 @@ enum class ChatListItemState { Unread, Read, Selected }
 
 /** Updated UI row states on [ChatListItem]. */
 enum class ChatListItemStatus {
-    /** Missed by the assistant: the 14dp call-missed glyph and "Missed by assistant". */
+    /** Missed by the assistant: the 14dp call-missed glyph and "Missed by Assistant". */
     Missed,
 
-    /** The assistant is on the call: "Assistant is on call" and the Ongoing call pill; no date, count or chips. */
+    /** Live: the assistant is placing a call. "Assistant is dialing" and the "Outgoing call" status pill. */
+    Dialing,
+
+    /** Live: the assistant is on the call. "Assistant is on a call" and the "Takeover" pill. */
     OnCall,
+
+    /** Live: the call is ringing for the user. "Calling you" and the "Answer" pill. */
+    Ringing,
 
     /** The summary is still generating: "Loading Summary..." and no chips. */
     Loading,
@@ -69,10 +77,13 @@ enum class ChatListItemStatus {
  * Chip emoji are Unicode strings (see [ActionChipData]).
  *
  * Updated UI rows: [status] [ChatListItemStatus.Missed] puts a 14dp call-missed glyph
- * (`missed-call/icon`) before "Missed by assistant"; [ChatListItemStatus.OnCall] reads "Assistant
- * is on call" (`text/action` Medium) and the "Ongoing call" pill (32 high, full radius,
- * `button/primary`, `buttonSmall` `text/on-action`) replaces the date and the count, with no chips;
- * [ChatListItemStatus.Loading] reads "Loading Summary..." with no chips. [muted] adds a 16dp
+ * (`missed-call/icon`) before "Missed by Assistant". Live calls put the row at the top of Chats
+ * with a status line (`text/action` SemiBold) and one pill (32 high, 14 h, full radius,
+ * `button/primary`, `buttonSmall` `text/on-action`) in place of the date; the count and chips are
+ * hidden: [ChatListItemStatus.Dialing] "Assistant is dialing" · "Outgoing call" (a status, not
+ * clickable); [ChatListItemStatus.OnCall] "Assistant is on a call" · "Takeover";
+ * [ChatListItemStatus.Ringing] "Calling you" · "Answer". The Takeover / Answer pill is a button
+ * that calls [onLiveAction]. [ChatListItemStatus.Loading] reads "Loading Summary..." with no chips. [muted] adds a 16dp
  * notifications-off glyph (`text/secondary`, "Muted") after the name.
  */
 @OptIn(ExperimentalFoundationApi::class)
@@ -97,10 +108,12 @@ fun ChatListItem(
     lockedActions: Boolean = false,
     /** Tapping a locked chip (opens the paywall). */
     onLockedAction: () -> Unit = {},
-    /** Missed by the assistant, the assistant on the call, or the summary still loading. */
+    /** Missed by the assistant, a live call (dialing, on a call, ringing), or the summary still loading. */
     status: ChatListItemStatus? = null,
     /** Muted from the list: the notifications-off glyph after the name. */
     muted: Boolean = false,
+    /** The live pill (Takeover / Answer). Not called for [ChatListItemStatus.Dialing], whose pill is a status. */
+    onLiveAction: (() -> Unit)? = null,
 ) {
     val colors = EqualTheme.colors
     val type = EqualTheme.type
@@ -111,7 +124,8 @@ fun ChatListItem(
         ChatListItemState.Read -> SmallActionChipStyle.Read
         ChatListItemState.Selected -> SmallActionChipStyle.Outlined
     }
-    val onCall = status == ChatListItemStatus.OnCall
+    val live = status?.liveCopy()
+    val onCall = live != null
     val interaction = remember { MutableInteractionSource() }
     val pressed by interaction.collectIsPressedAsState()
     Row(
@@ -159,8 +173,8 @@ fun ChatListItem(
                     }
                 }
                 Spacer(Modifier.width(8.dp))
-                if (onCall) {
-                    OngoingCallPill()
+                if (live != null) {
+                    LiveCallPill(label = live.pill, onClick = if (live.action) onLiveAction ?: {} else null)
                 } else {
                     EqualText(
                         text = date,
@@ -187,13 +201,13 @@ fun ChatListItem(
                         Spacer(Modifier.width(8.dp))
                     }
                     EqualText(
-                        text = when (status) {
-                            ChatListItemStatus.Missed -> "Missed by assistant"
-                            ChatListItemStatus.OnCall -> "Assistant is on call"
-                            ChatListItemStatus.Loading -> "Loading Summary..."
-                            null -> preview
+                        text = when {
+                            live != null -> live.line
+                            status == ChatListItemStatus.Missed -> "Missed by Assistant"
+                            status == ChatListItemStatus.Loading -> "Loading Summary..."
+                            else -> preview
                         },
-                        style = if (onCall) type.body1.copy(fontWeight = FontWeight.W500) else type.body1,
+                        style = if (onCall) type.body1.copy(fontWeight = FontWeight.SemiBold) else type.body1,
                         color = if (onCall) colors.textAction else colors.textSecondary,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
@@ -229,18 +243,33 @@ fun ChatListItem(
     }
 }
 
-/** "Ongoing call": 32 high, full radius, `button/primary`, `buttonSmall` `text/on-action`. */
+/** A live-call row's status line and pill; [action]: the pill is a button (Takeover / Answer). */
+private class LiveCopy(val line: String, val pill: String, val action: Boolean)
+
+private fun ChatListItemStatus.liveCopy(): LiveCopy? = when (this) {
+    ChatListItemStatus.Dialing -> LiveCopy("Assistant is dialing", "Outgoing call", action = false)
+    ChatListItemStatus.OnCall -> LiveCopy("Assistant is on a call", "Takeover", action = true)
+    ChatListItemStatus.Ringing -> LiveCopy("Calling you", "Answer", action = true)
+    else -> null
+}
+
+/**
+ * Live-call pill: 32 high, 14 h, full radius, `button/primary`, `buttonSmall` `text/on-action`.
+ * With [onClick] it is a button (Takeover / Answer); without, a plain status ("Outgoing call").
+ */
 @Composable
-private fun OngoingCallPill() {
+private fun LiveCallPill(label: String, onClick: (() -> Unit)?) {
     val colors = EqualTheme.colors
     Box(
         Modifier
             .height(32.dp)
-            .background(colors.buttonPrimary, CircleShape)
-            .padding(horizontal = 12.dp),
+            .clip(CircleShape)
+            .background(colors.buttonPrimary)
+            .then(if (onClick != null) Modifier.clickable(role = Role.Button, onClick = onClick) else Modifier)
+            .padding(horizontal = 14.dp),
         contentAlignment = Alignment.Center,
     ) {
-        EqualText(text = "Ongoing call", style = EqualTheme.type.buttonSmall, color = colors.textOnAction, maxLines = 1)
+        EqualText(text = label, style = EqualTheme.type.buttonSmall, color = colors.textOnAction, maxLines = 1)
     }
 }
 
@@ -287,7 +316,9 @@ private fun ChatListItemPreview() {
             official = true,
         )
         ChatListItem(name = "Dr. Mehta Clinic", preview = "Amit invited you to dinner", date = "Yesterday", chips = chips.take(2), lockedActions = true)
-        ChatListItem(name = "Priya Sharma", preview = "", date = "12:30", initials = "PS", status = ChatListItemStatus.OnCall, chips = chips)
+        ChatListItem(name = "Amit Nanda", preview = "", date = "12:30", initials = "AN", status = ChatListItemStatus.Dialing)
+        ChatListItem(name = "Priya Sharma", preview = "", date = "12:30", initials = "PS", status = ChatListItemStatus.OnCall, chips = chips, onLiveAction = {})
+        ChatListItem(name = "Priya Sharma", preview = "", date = "12:30", initials = "PS", status = ChatListItemStatus.Ringing, onLiveAction = {})
         ChatListItem(name = "HDFC Bank", preview = "", date = "12:30", state = ChatListItemState.Unread, unreadCount = 1, status = ChatListItemStatus.Missed)
         ChatListItem(name = "AX-SWIGGY", preview = "", date = "Mon", status = ChatListItemStatus.Loading, chips = chips)
         ChatListItem(name = "Amazon", preview = "OTP for your delivery is 4821", date = "07 July", muted = true)

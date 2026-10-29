@@ -32,6 +32,10 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.ui.node.ModifierNodeElement
+import androidx.compose.ui.node.ParentDataModifierNode
+import androidx.compose.ui.platform.InspectorInfo
 
 /** Bubble roles (SPEC §11). */
 enum class ChatBubbleType {
@@ -54,7 +58,7 @@ private val BubbleMaxWidth = 264.dp
  *
  * Corners: the first bubble of a group squares its top-outer corner (top-start for incoming and
  * assistant, top-end for outgoing); follow-ups (`isFirstInGroup = false`) round all four at 12.
- * Lay consecutive bubbles out with a 4dp gap; the avatar and sender line appear only on the first.
+ * Stack bubbles in a [MessageList] (it sets the gaps); the avatar and sender line appear only on the first.
  *
  * Timestamp: a one-line message keeps the time on the same row (gap 8), set 4dp below the text
  * line; a longer message puts it on its own row, right-aligned, 2dp below ([MessageWithTime]).
@@ -96,6 +100,7 @@ fun ChatBubble(
     val hiddenSender = if (!isFirstInGroup) sender else null
     Row(
         modifier
+            .messageSide(if (type == ChatBubbleType.Outgoing) MessageSide.Right else MessageSide.Left)
             .fillMaxWidth()
             .semantics(mergeDescendants = true) {
                 if (hiddenSender != null) contentDescription = hiddenSender
@@ -151,6 +156,102 @@ fun bubbleShape(outgoing: Boolean, lead: Boolean): Shape {
     val square = if (lead) 0.dp else r
     return if (outgoing) RoundedCornerShape(topStart = r, topEnd = square, bottomEnd = r, bottomStart = r)
     else RoundedCornerShape(topStart = square, topEnd = r, bottomEnd = r, bottomStart = r)
+}
+
+/** Which side of a thread a [MessageList] child sits on; it sets the gap above it. */
+enum class MessageSide {
+    /** Incoming, assistant, call summary and [AiTurn] rows. */
+    Left,
+
+    /** Outgoing (the user, or Equal AI speaking on the call). */
+    Right,
+
+    /** Thread events: [DayDivider], [ThreadEvent], [ThreadNotice]. Centred, 12dp around them. */
+    Center,
+
+    /** Anything else (cards, chips): 4dp above. */
+    Other,
+}
+
+/**
+ * Tags a [MessageList] child with its [MessageSide]. [ChatBubble], [AiTurn], [CallSummaryMessage]
+ * and the thread indicators tag themselves; an outer tag (from the caller's modifier) wins.
+ */
+fun Modifier.messageSide(side: MessageSide): Modifier = this then MessageSideElement(side)
+
+private data class MessageSideElement(val side: MessageSide) : ModifierNodeElement<MessageSideNode>() {
+    override fun create() = MessageSideNode(side)
+    override fun update(node: MessageSideNode) {
+        node.side = side
+    }
+    override fun InspectorInfo.inspectableProperties() {
+        name = "messageSide"
+        properties["side"] = side
+    }
+}
+
+private class MessageSideNode(var side: MessageSide) : Modifier.Node(), ParentDataModifierNode {
+    override fun Density.modifyParentData(parentData: Any?): Any = side
+}
+
+/**
+ * The message column of a thread (web `MessageList`), padding [contentPadding] (12). The gap above a
+ * message follows the side it is on: 8dp after a message on the same side, 12dp when the side
+ * changes; thread events ([MessageSide.Center]: day divider, event, notice) are centred with 12dp
+ * around them (8dp at the list's top and bottom edge); anything else gets 4dp. Children tag their
+ * side with [messageSide]; untagged children count as [MessageSide.Other].
+ */
+@Composable
+fun MessageList(
+    modifier: Modifier = Modifier,
+    contentPadding: PaddingValues = PaddingValues(12.dp),
+    content: @Composable () -> Unit,
+) {
+    Layout(
+        content = content,
+        modifier = modifier.padding(contentPadding),
+    ) { measurables, constraints ->
+        val sides = measurables.map { it.parentData as? MessageSide ?: MessageSide.Other }
+        val loose = constraints.copy(minWidth = 0, minHeight = 0)
+        val placeables = measurables.map { it.measure(loose) }
+        val edge = 8.dp.roundToPx()
+        val tops = IntArray(placeables.size)
+        var y = 0
+        placeables.forEachIndexed { i, p ->
+            y += if (i == 0) {
+                if (sides[0] == MessageSide.Center) edge else 0
+            } else {
+                messageGap(sides[i - 1], sides[i]).roundToPx()
+            }
+            tops[i] = y
+            y += p.height
+        }
+        if (sides.lastOrNull() == MessageSide.Center) y += edge
+        val width = if (constraints.hasBoundedWidth) constraints.maxWidth else (placeables.maxOfOrNull { it.width } ?: 0).coerceAtLeast(constraints.minWidth)
+        val height = y.coerceIn(constraints.minHeight, constraints.maxHeight)
+        layout(width, height) {
+            placeables.forEachIndexed { i, p ->
+                val x = when (sides[i]) {
+                    MessageSide.Center -> (width - p.width) / 2
+                    MessageSide.Right -> width - p.width
+                    else -> 0
+                }
+                p.placeRelative(x, tops[i])
+            }
+        }
+    }
+}
+
+/** Gap above [next] when it follows [prev] (web `.eq-message-list` margins). */
+private fun messageGap(prev: MessageSide, next: MessageSide): Dp {
+    val afterCenter = if (prev == MessageSide.Center) 8.dp else 0.dp
+    val base = when {
+        next == MessageSide.Center -> 12.dp
+        prev == next && (next == MessageSide.Left || next == MessageSide.Right) -> 8.dp
+        (prev == MessageSide.Left && next == MessageSide.Right) || (prev == MessageSide.Right && next == MessageSide.Left) -> 12.dp
+        else -> 4.dp
+    }
+    return afterCenter + base
 }
 
 /**

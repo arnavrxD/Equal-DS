@@ -1,6 +1,13 @@
-.eq-message-list { display: flex; flex-direction: column; gap: 4px; padding: 12px 12px; }
-.eq-message-list > .is-first:not(:first-child) { margin-top: 8px; }
+/* Rhythm: two messages on the same side are 8 apart; when the side changes (left ↔ right) 12.
+   Thread events and notices keep 12 around them; anything else stacks 4 apart. */
+.eq-message-list { display: flex; flex-direction: column; padding: 12px 12px; }
+.eq-message-list > * + * { margin-top: 4px; }
+.eq-message-list > .is-left + .is-left,
+.eq-message-list > .is-right + .is-right { margin-top: 8px; }
+.eq-message-list > .is-left + .is-right,
+.eq-message-list > .is-right + .is-left { margin-top: 12px; }
 .eq-message-list > .eq-center-row { margin: 8px 0; }
+.eq-message-list > * + .eq-center-row { margin-top: 12px; }
 
 .eq-bubble-row { display: flex; align-items: flex-start; gap: 8px; }
 .eq-bubble-row.is-right { justify-content: flex-end; }

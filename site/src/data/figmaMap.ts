@@ -42,7 +42,7 @@ export const figmaMap: FigmaMapRow[] = [
 /** What changed between the Figma file and the system, by rule. */
 export const figmaRebuild = [
   { what: 'Fonts', file: 'Geist (price digits), Lora (paywall headlines), PP Cirka (payment status), Roboto (status-bar clock), Inter / SF Pro / Poppins / Noto in places', code: 'DM Sans only, through the type tokens. Weights 400 / 500 / 600 / 700; button labels SemiBold 16 / 12.' },
-  { what: 'Frames', file: '360 × 800, plus scaled 393 × 852 (Snooze, Fore Update, vOIP, Healthcheck) and 0.92× chat copies', code: 'Every screen rebuilt 1:1 on 390 × 800 (extends only vertically), which removes the fractional sizes.' },
+  { what: 'Frames', file: '360 × 800, plus scaled 393 × 852 (Snooze, Fore Update, vOIP, Healthcheck) and 0.92× chat copies', code: 'Every screen rebuilt 1:1 on 360 × 800 (extends only vertically), which removes the fractional sizes.' },
   { what: 'Type sizes', file: '12.82, 10.99, 11.51, 14.39, 15.35, 16.44, 22.27 … from the scaled copies', code: 'Snapped to the scale: 10, 11, 12, 14, 16, 20, 24 (44 for prices).' },
   { what: 'Radii', file: '7, 13, 13.74, 14.5, 15, 18.87, 22.53, 30, 34, 42, 44 …', code: 'Whole numbers from 2, 4, 6, 8, 12, 16, 18, 20, 24, 28, 32, 36, 50, 54, 80, 100, full.' },
   { what: 'Greys', file: 'About 20 one-off greys (#111, #282828, #545454, #858484 …)', code: 'Text black 80 / 60 / 40 / 20 %, strokes 5 / 8 / 32 %.' },

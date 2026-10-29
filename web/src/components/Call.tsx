@@ -152,7 +152,7 @@ export type EqualCallScreenProps = {
 };
 
 /**
- * Equal user to Equal user call (Equal To Equal Call Experience design), 390 × 800. Ringing and
+ * Equal user to Equal user call (Equal To Equal Call Experience design), 360 × 800. Ringing and
  * Connecting: the large name + Identified by, the 200 initials disc, and Swipe to answer. Calling,
  * Ringing (caller) and Connected: the compact header (Minimise · name + status · Message for the
  * caller), the disc (ripples once connected), Connected + timer, and the control bar 40 from the bottom.
@@ -297,7 +297,7 @@ export type CallScreenProps = {
 };
 
 /**
- * The in-app call screen (vOIP design), 390 × 800: wallpaper → status bar → back + logo → call avatar
+ * The in-app call screen (vOIP design), 360 × 800: wallpaper → status bar → back + logo → call avatar
  * → status → timer → control bar 32 from the bottom. Ripples and controls show only while connected.
  */
 export function CallScreen({ phase, seconds = 0, speaker, muted, onSpeaker, onMute, onEnd, onBack, initials, name, subtitle, overlay }: CallScreenProps) {

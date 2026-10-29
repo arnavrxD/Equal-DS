@@ -490,7 +490,7 @@ const flows: Record<string, FlowDef> = {
     steps: [
       <><b>Plan expired, option 1</b>: the red <b>PLAN EXPIRED</b> badge, and Equal AI’s own verified chat on top (“Your Plan Expired…”, 👑 Renew Now). Its message is a voice note plus Renew Equal AI Unlimited, which opens the paywall previewing a locked summary.</>,
       <><b>Plan expired, option 2</b>: no chat, a card under the header instead (👑 Your Plan Expired · Renew Now).</>,
-      <><b>Usage cap</b>: the assistant switches Off at the weekly limit. Option 1 is again an Equal AI message (“Weekly call limit reached…”). Option 2 is a meter card: “7 Calls left this week · Resets Mon | Unlimited on premium” with Get Unlimited.</>,
+      <><b>Usage cap</b>: the assistant switches Off at the weekly limit. Option 1 is again an Equal AI message (“You’ve used your free calls this week”). Option 2 is a meter card: “7 Calls left this week · Resets Mon | Unlimited on premium” with Get Unlimited.</>,
       <><b>Actions locked</b>: action chips turn gold with the crown-lock. Tapping one opens the paywall (here the sheet) with “Unlock Unlimited Actions…” and the locked row as its preview.</>,
       <><b>Plan expired, option 3</b>: on the You tab the plan card says Expired and asks to renew, with a gold Renew Equal AI Unlimited.</>,
       <><b>iOS parity paywall</b>: a warm hero (animated or still crown), the black “Limited time deal” price card, the coupon, the locked summary and a black CTA.</>,

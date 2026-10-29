@@ -4,7 +4,7 @@ import { FoundationCode } from '../../ui/FoundationCode';
 
 export default function Layout() {
   return (
-    <Page title="Spacing, radius & elevation" lead="Everything is in dp. Android screens are designed in a 390 × 800 frame (mdpi, 1px = 1dp) that extends only vertically when content needs it. Values were measured from the component references; touch targets never drop below 48dp.">
+    <Page title="Spacing, radius & elevation" lead="Everything is in dp. Android screens are designed in a 360 × 800 frame (mdpi, 1px = 1dp) that extends only vertically when content needs it. Values were measured from the component references; touch targets never drop below 48dp.">
       <H2>Spacing</H2>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {Object.entries(spacing).filter(([k]) => k !== '0').map(([k, v]) => (

@@ -110,7 +110,7 @@
   --eq-chip-label-read: #3C3C3C;
   --eq-action-bottom-color: #EBEBEB;
   --eq-chat-bubble-user-bg: #E8FFED;
-  --eq-chat-bubble-user-title: #006223;
+  --eq-chat-bubble-user-title: #00B140; /* derived */
   --eq-action-card-highlight: #D3FEE3; /* derived */
   --eq-text-danger: #C50000; /* derived */
   --eq-text-success: #00762B; /* derived */
@@ -301,7 +301,7 @@
   color-scheme: dark;
   --eq-bg-primary: #141414;
   --eq-bg-surface: #1F1F1F;
-  --eq-bg-overlay: rgba(30,30,30,0.4);
+  --eq-bg-overlay: rgba(0,0,0,0.6);
   --eq-text-primary: rgba(255,255,255,0.8);
   --eq-text-placeholder: rgba(255,255,255,0.4);
   --eq-text-secondary: rgba(255,255,255,0.6);
@@ -328,7 +328,7 @@
   --eq-chip-label-read: rgba(255,255,255,0.6);
   --eq-action-bottom-color: #191919;
   --eq-chat-bubble-user-bg: #272C1E;
-  --eq-chat-bubble-user-title: #BAFF29;
+  --eq-chat-bubble-user-title: #00B140; /* derived */
   --eq-action-card-highlight: #2F3423; /* derived */
   --eq-text-danger: #FF5151; /* derived */
   --eq-text-success: #BAFF29; /* derived */
@@ -411,8 +411,8 @@
   --eq-profile-hero-status-text: #000000; /* derived */
   --eq-profile-hero-plain-bg: #1E2215; /* derived */
   --eq-info-note-bg: rgba(35,149,255,0.12); /* derived */
-  --eq-ongoing-bar-bg: rgba(255,255,255,0.8); /* derived */
-  --eq-ongoing-bar-text: rgba(0,0,0,0.8); /* derived */
+  --eq-ongoing-bar-bg: #FFFFFF; /* derived */
+  --eq-ongoing-bar-text: #00B140; /* derived */
   --eq-initials-disc-bg: #262626; /* derived */
   --eq-paywall-hero-top: #4A3C1C; /* derived */
   --eq-takeover-text: #FFFFFF; /* derived */

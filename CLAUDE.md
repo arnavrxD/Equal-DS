@@ -50,7 +50,7 @@ When a design and the system disagree, check it first; when a rule changes, upda
   ask for it and show a placeholder.
 
 **Android frame and chrome**
-- **Frame:** 390 × 800 dp. Extend only vertically (`StagePhone.height` / `ANDROID_FRAME` on web,
+- **Frame:** 360 × 800 dp. Extend only vertically (`StagePhone.height` / `ANDROID_FRAME` on web,
   `EqualFrameWidthDp` / `EqualFrameHeightDp` in Compose).
 - **Status bar:** Material 3, 52 dp. Text fields have 12 dp corners.
 - **Avatars:** free users get the plain bust; paid users (Unlimited) get the gold background and ring

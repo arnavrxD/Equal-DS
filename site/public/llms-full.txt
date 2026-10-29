@@ -54,7 +54,7 @@ When a design and the system disagree, check it first; when a rule changes, upda
   ask for it and show a placeholder.
 
 **Android frame and chrome**
-- **Frame:** 390 × 800 dp. Extend only vertically (`StagePhone.height` / `ANDROID_FRAME` on web,
+- **Frame:** 360 × 800 dp. Extend only vertically (`StagePhone.height` / `ANDROID_FRAME` on web,
   `EqualFrameWidthDp` / `EqualFrameHeightDp` in Compose).
 - **Status bar:** Material 3, 52 dp. Text fields have 12 dp corners.
 - **Avatars:** free users get the plain bust; paid users (Unlimited) get the gold background and ring
@@ -161,6 +161,7 @@ Done means: typecheck clean, `--check` passes, Gradle BUILD SUCCESSFUL, and lint
 - **Every colour token says what it is for and is used somewhere.** Why: Tokens that no Figma screen or component uses were deleted in the rebuild. The Colour page lists each token’s purpose and the components that use it, so an unused or duplicate colour is visible at once. (Source: Figma rebuild)
 - **Green (lime in dark) only for what you can touch.** Why: If green also decorates, users can’t tell what is tappable. Reserving it for actions and the assistant’s byline makes every green thing a promise that it does something. (Source: Typography v3 colour roles)
 - **In dark mode every green is lime (#BAFF29).** Why: Brand green goes muddy on near-black; lime is the brand’s dark-mode accent. Accents (buttons, icons, strokes, the FAB, the WhatsApp glyph) use lime itself, and green-tinted dark surfaces are re-hued to lime at the same darkness. Anything drawn on lime is dark (text/on-action), never white. (Source: Design rule)
+- **Two exceptions to the lime rule: the dark ongoing-call strip and the right-hand sender line use brand green.** Why: In dark mode the ongoing-call strip is solid white (not 80%) and its status text and bars are #00B140; lime is unreadable on white. The sender line in the right-hand bubble (“You”, “Equal AI”) is #00B140 in both modes so it reads as one label wherever it appears. Trade-off accepted: green on white is 2.85:1 and on the light bubble 2.7:1, below AA for body text; both are short labels. (Source: Design decision: Personal Number Outbound Call (2026-10-30))
 - **Every text pair passes WCAG AA (4.5:1).** Why: Many users read the app outdoors on mid-range phones at low brightness. When a mock’s colour falls short (e.g. the saved-contact blue at 4.15:1), the token is nudged until it passes and the reason is written on the token. (Source: Accessibility)
 - **Everything is set in DM Sans. Nothing is in Lora.** Why: One family keeps every screen consistent and the app light to ship. Some design files use Lora for display lines; in the product those lines are DM Sans. (Source: Product: “Make everything DM Sans”)
 - **Four DM Sans weights: 400, 500, 600 and 700.** Why: Regular is for reading, Medium for labels, SemiBold where the designs use it (plan names such as “Equal AI Unlimited”), Bold for display lines. All four are loaded on web and Android, so nothing is synthesised. (Source: Design files)
@@ -170,7 +171,7 @@ Done means: typecheck clean, `--check` passes, Gradle BUILD SUCCESSFUL, and lint
 
 ### Android frame & chrome
 
-- **Design at 390 × 800 dp and extend only vertically.** Why: It is the team’s working Android frame. Long screens grow taller rather than wider, so layouts are always checked at real phone width. (Source: Product: team frame)
+- **Design at 360 × 800 dp and extend only vertically.** Why: It is the team’s working Android frame. Long screens grow taller rather than wider, so layouts are always checked at real phone width. (Source: Product: team frame)
 - **The status bar and every icon follow Material 3.** Why: The app runs inside Android’s system UI. A Material 3 status bar (52 dp) and Material Symbols for all flat icons mean screens sit naturally next to the real system UI and every icon shares one line weight. (Source: Product: Material 3)
 - **Text fields have 12 dp corners; search and assistant message fields are fully rounded.** Why: Form fields read as editable boxes. Search and the assistant composer are conversational entry points, so they use the pill shape the app uses for chat input. (Source: Design: text field 12px; assistant fields fully rounded)
 - **48 dp touch targets, even when the visual is smaller.** Why: Smaller targets cause mis-taps, especially one-handed. Where a mock draws a 36 dp button, the touch area is still 48 dp. (Source: Accessibility / Material)
@@ -197,6 +198,13 @@ Done means: typecheck clean, `--check` passes, Gradle BUILD SUCCESSFUL, and lint
 - **Instructions use the note_stack icon with When / Do lines, never a category avatar.** Why: An instruction is a rule the user set, not a caller. The icon and When / Do structure make that obvious. (Source: Design review)
 - **A chat bubble beside the avatar squares its top-outer corner; follow-ups round all four.** Why: The square corner points at who is speaking, so it only belongs on the bubble next to the avatar or logo: top-left on the left side, top-right on the right. Consecutive bubbles from the same side are clearly the same speaker, so they keep 12 on every corner. (Source: Product owner)
 - **One-line messages keep the time beside the text, a little lower; longer ones put it on its own row.** Why: A one-line bubble stays compact (a single row instead of two); in a longer message the time would crowd the last line, so it gets its own right-aligned row. (Source: Product owner)
+- **Messages on the same side are 8 apart; when the side changes, 12.** Why: The gap says whether the speaker changed: 8 keeps a run from one side together, 12 marks the turn. Equal’s replies, reply cards and call summaries count as left-side messages; thread events and notices keep 12 around them. (Source: Design decision: Personal Number Outbound Call (2026-10-30))
+- **The call summary is Equal’s message: the orb sits on its left.** Why: After a call the summary is the last thing Equal says, so it carries Equal’s orb like any other Equal message. Right after another Equal message it keeps the indent without a second orb (first={false}). (Source: Design decision: Personal Number Outbound Call (2026-10-30))
+- **Thread events hug their label: 6 / 12 padding.** Why: “Call Ended 11:04 · 02:14” and similar events size to their text instead of a fixed 24 height, so longer labels never crowd the stroke. Day dividers (“Today”) keep 24. (Source: Design decision: Personal Number Outbound Call (2026-10-30))
+- **The chat wallpaper runs to the bottom of the screen.** Why: The AI panel and the task sheet’s chips and input sit on the wallpaper, so the pattern shows behind the panel’s rounded corners and the sheet footer instead of stopping in a plain band. (Source: Design decision: Personal Number Outbound Call (2026-10-30))
+- **Home never shows an ongoing-call bar; the contact’s row does.** Why: On Home a live call is a row at the top of Chats: “Assistant is dialing” · Outgoing call, then “Assistant is on a call” · Takeover. A second call that rings while you are on Home is “Calling you” · Answer. Inside the chat, Takeover sits in the header and the strip only shows the status. (Source: Design decision: Personal Number Outbound Call (2026-10-30), from the Scheduled Outbound Call design)
+- **Dialog cards have 12 corners.** Why: The modal card reads as a card over the chat, not a sheet; 12 matches the bubbles and cards around it. (Source: Design decision: Personal Number Outbound Call (2026-10-30))
+- **The AI panel’s prompt starts at the top of its row.** Why: The prompt line aligns to the top of the 36 orb (no 7 offset), so one-line and two-line prompts start at the same height. (Source: Design decision: Personal Number Outbound Call (2026-10-30))
 - **A focused text input shows only a solid green outline.** Why: The 1.5 dp stroke/focus outline (#00B140, lime in dark) is the design’s selected state; the black two-ring focus indicator meant for buttons doubled it up on fields. (Source: Product owner)
 - **The send button uses Material arrow_upward, upright.** Why: Matches the design and every other upright Material Symbol; the rotated paper plane looked tilted next to them. (Source: Product owner)
 - **Flat icons are Material Symbols (Material 3); actions use emoji.** Why: One icon family keeps line weight consistent. Emoji on actions add warmth and are easier to recognise in a crowded chat. (Source: Design direction)
@@ -1408,11 +1416,11 @@ Do: Phrase the prompt as a question the user can answer with one chip ("Want me 
 Don't: Don't put a filled Button in the panel; the actions are large chips. Don't write the prompt in green; the assistant's words are text/secondary here.
 
 Anatomy:
-1. Panel: Bottom sheet-like panel with rounded top corners. (bg/surface · radius 2xl (24) 24 0 0 · padding 20 16 16 · shadow 0 -4 16 (web))
+1. Panel: Bottom sheet-like panel with rounded top corners. (bg/surface · radius 2xl (24) 24 0 0 · padding 20 16 16 · shadow 0 -4 16 (web) · sits on the chat wallpaper, so the rounded corners show the pattern)
 2. Suggestion: Equal orb and the assistant's prompt. (AiAvatar 36 · gap 12 · Text body1 text/secondary)
 3. Action chips: Horizontally scrolling row of large emoji chips. (margin-top 20 (web) / 24 (Compose) · gap 6 · LargeActionChip 40 high, 48 touch area · padding 0 12 0 10 · radius full · gradient/chip-large · 1 px action/stroke/unread · Emoji 14 · Text button text/primary)
 4. Composer: Message input with the send button. (margin-top 16 (web) / 20 (Compose) · input 45 high, radius full, padding 0 20, bg/surface, 1 px stroke/subtle · placeholder text/secondary · send 45 circle gradient/fab (gradient/send-disabled when empty))
-5. AiSuggestion: Avatar plus prompt on its own. (AiAvatar 36 · gap 12 · Text body1 · 7 top · tone primary or secondary (web), text/primary (Compose))
+5. AiSuggestion: Avatar plus prompt on its own. (AiAvatar 36 · gap 12 · Text body1 · 0 top (aligned to the orb top) · tone primary or secondary (web), text/primary (Compose))
 
 Accessibility:
 - Role. Web: The panel is a <section>; chips are <button>s; the composer is a <form> with an <input> and a submit <button>. Android: Column; chips are clickable(role = Role.Button); VoiceInputBar is a BasicTextField plus a Role.Button send.
@@ -1660,7 +1668,7 @@ ChatWallpaper {
 
 The post-call card in a thread: a recording player with a coded waveform and speed pill, the assistant's summary, and an optional share footer or "2 instructions applied in this call" tag.
 
-- React: `import { CallSummary, VoicePlayer } from '@equal/ds';`
+- React: `import { CallSummary, CallSummaryMessage, VoicePlayer } from '@equal/ds';`
 - Compose: `CallSummaryBubble`, `VoiceNotePlayer`
 - Tokens: `bg/surface`, `voice/player-bg`, `voice/player-stroke`, `stroke/subtle`, `waveform/bar`, `waveform/bar-played`, `playback/pill-bg`, `text/on-dark`, `text/secondary`, `text/primary`, `text/action`
 - Source: §11 Chat Bubbles · Voice note + Call Summary bubble
@@ -1670,15 +1678,16 @@ Do: Write the summary as the outcome for the user ("Amit invited you to dinner�
 Don't: Don't use an image for the waveform; it is coded. Don't show the player for calls without a recording; use `noRecording`.
 
 Anatomy:
-1. Card: White card that holds the recording, the summary and the footer. (width 268 (Compose Dp.Unspecified fills) · bg/surface · radius lg (16) · overflow hidden / clip)
-2. Voice player: Recording box with play, waveform, speed pill and times. (8 margin · voice/player-bg (sent: voice/player-bg-sent) · radius md (12) · padding 10 / 10 / 6 (web), 10 (Compose) · 1 px voice/player-stroke, button/primary while playing)
-3. Play / pause: Toggles playback. (Icon play / pause 22 · text/secondary · 48 touch area · gap 8)
-4. VoiceWaveform: Coded bars that fill as the recording plays. (web: 28 bars, 3 wide, gap 2, 24 high · Compose EqualWaveform: 2 wide, gap 2, 22 high · waveform/bar · waveform/bar-played)
-5. Speed pill: Cycles 1x → 1.2x → 1.5x → 2x. (22 high · min width 34 (web) · padding 0 8 · radius full · playback/pill-bg · Text caption tabular · text/on-dark (sent: bg/surface + text/primary) · 48 touch area)
-6. Times: Elapsed and total under the two ends of the waveform. (Text micro · text/secondary · 4 above)
-7. Label and summary: "Call Summary" caption over the summary text. (Text caption text/secondary · Text body1 text/primary · padding 0 10 6 (web) / 0 8 8 (Compose))
-8. Tag and time: Optional line under the summary saying which instructions ran (🪄 2 instructions applied in this call), then the timestamp on the right. (8 above · padding 4 · Emoji 12 + 12 Regular text/secondary · time Text micro text/secondary, right-aligned)
-9. Share footer: Divider and a centred Share action. (divider stroke/subtle · row 44 (web, TextButton with 48 touch area) / 48 (Compose) · share icon 18 · button text/action)
+1. Orb (CallSummaryMessage): In a thread the summary is Equal's message: the orb sits on its left. A follow-up after another Equal message keeps the column empty. (28 column · AiAvatar 24 · gap 8 · left-side message rhythm (8 / 12))
+2. Card: White card that holds the recording, the summary and the footer. (width 268 (Compose Dp.Unspecified fills) · bg/surface · radius lg (16) · overflow hidden / clip)
+3. Voice player: Recording box with play, waveform, speed pill and times. (8 margin · voice/player-bg (sent: voice/player-bg-sent) · radius md (12) · padding 10 / 10 / 6 (web), 10 (Compose) · 1 px voice/player-stroke, button/primary while playing)
+4. Play / pause: Toggles playback. (Icon play / pause 22 · text/secondary · 48 touch area · gap 8)
+5. VoiceWaveform: Coded bars that fill as the recording plays. (web: 28 bars, 3 wide, gap 2, 24 high · Compose EqualWaveform: 2 wide, gap 2, 22 high · waveform/bar · waveform/bar-played)
+6. Speed pill: Cycles 1x → 1.2x → 1.5x → 2x. (22 high · min width 34 (web) · padding 0 8 · radius full · playback/pill-bg · Text caption tabular · text/on-dark (sent: bg/surface + text/primary) · 48 touch area)
+7. Times: Elapsed and total under the two ends of the waveform. (Text micro · text/secondary · 4 above)
+8. Label and summary: "Call Summary" caption over the summary text. (Text caption text/secondary · Text body1 text/primary · padding 0 10 6 (web) / 0 8 8 (Compose))
+9. Tag and time: Optional line under the summary saying which instructions ran (🪄 2 instructions applied in this call), then the timestamp on the right. (8 above · padding 4 · Emoji 12 + 12 Regular text/secondary · time Text micro text/secondary, right-aligned)
+10. Share footer: Divider and a centred Share action. (divider stroke/subtle · row 44 (web, TextButton with 48 touch area) / 48 (Compose) · share icon 18 · button text/action)
 
 Accessibility:
 - Role. Web: Play and speed are native <button>s; the waveform is role="progressbar"; Share is a <button>. Android: Play and speed are clickable(role = Role.Button); the waveform carries progressBarRangeInfo; the Share row is Role.Button.
@@ -1715,6 +1724,33 @@ CallSummaryBubble(
     },
     onShareClick = {},
 )
+```
+
+Example: As Equal's message
+```tsx
+<ThreadEvent label="Call Ended 11:04 · 02:14" />
+<CallSummaryMessage duration={134} time="11:04"
+  summary="Amit moved the AC service to Saturday, 10 AM. The ₹499 visit charge still applies." />
+// after "Here is the summary of your call": <CallSummaryMessage first={false} … />
+```
+```kotlin
+var playing by remember { mutableStateOf(false) }
+var speed by remember { mutableStateOf(PlaybackSpeed.X1) }
+
+MessageList {
+    ThreadEvent("Call Ended 11:04 · 02:14")
+    CallSummaryMessage(
+        summary = "Amit moved the AC service to Saturday, 10 AM. The ₹499 visit charge still applies.",
+        timestamp = "11:04",
+        voiceNote = {
+            // 134 s recording.
+            VoiceNotePlayer(isPlaying = playing, onPlayPauseClick = { playing = !playing },
+                progress = 0f, elapsed = "0:00", total = "2:14",
+                speed = speed, onSpeedChange = { speed = it })
+        },
+    )
+    // After "Here is the summary of your call": CallSummaryMessage(first = false, …)
+}
 ```
 
 Example: Instruction applied
@@ -1787,7 +1823,7 @@ Anatomy:
 5. Attachment: Optional content such as a voice note, between the sender and the message (Compose). (Compose attachment slot · 2 dp above, 4 dp below (plus the 2 dp column gap))
 6. Message: The message text, or custom content with bare; locked blurs it under the crown-lock badge. (Text body1 · text/primary · bare removes padding, sender and time (web) · locked wraps it in Locked / LockedContent)
 7. Timestamp: Time of the message: beside a one-line message, on its own row under a longer one. (Text micro · text/secondary · one line: same row, gap 8, 4 dp below the text line · more than one line: own row, right-aligned, 2 dp above)
-8. MessageList: Vertical list that applies the group rhythm (web; on Compose the caller stacks bubbles). (role=log · gap 4 · 8 dp extra before a new group · padding 12)
+8. MessageList: Vertical list that applies the message rhythm: 8 on the same side, 12 when the side changes (web; on Compose the caller stacks bubbles). (role=log · 8 between messages on the same side · 12 when the side changes · 12 around thread events and notices · 4 otherwise · padding 12)
 
 Accessibility:
 - Role. Web: MessageList is role="log" with aria-label "Messages", so new bubbles are announced politely. Bubbles are plain divs; the orb and category avatar are images. Android: Each bubble row uses semantics(mergeDescendants = true), so sender, message and time are one TalkBack stop; controls inside an attachment stay separate.
@@ -1817,8 +1853,8 @@ Example: A call thread
 </MessageList>
 ```
 ```kotlin
-// Compose: no MessageList; a Column with 12dp spacing gives the between-group rhythm.
-Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+// MessageList sets the rhythm: 8dp to a message on the same side, 12dp when the side changes.
+MessageList {
     ChatBubble(type = ChatBubbleType.Outgoing, sender = "Equal AI", timestamp = "03:21", message = "Hi, who is this?")
     ChatBubble(type = ChatBubbleType.Incoming, sender = "Dr Mehta Clinic", timestamp = "03:21",
         message = "This is Priya from Dr. Mehta's clinic. Your appointment is confirmed for tomorrow.")
@@ -1843,16 +1879,17 @@ Example: Corners and grouping
 </ChatBubble>
 ```
 ```kotlin
-Column {
+MessageList {
     ChatBubble(type = ChatBubbleType.Incoming, incomingCategory = EqualCategory.RealEstate,
         sender = "Vijay · NoBroker", timestamp = "03:21",
         message = "I have an offer on a 2BHK flat in Sector 12.")
-    // Follow-up in the same group: 4dp gap, no avatar, no sender line.
+    // Follow-up on the same side: 8dp gap, no avatar, no sender line.
     ChatBubble(type = ChatBubbleType.Incoming, incomingCategory = EqualCategory.RealEstate,
-        isFirstInGroup = false, timestamp = "03:21", modifier = Modifier.padding(top = 4.dp),
+        isFirstInGroup = false, timestamp = "03:21",
         message = "Are you free for a site visit this weekend?")
+    // The side changes: 12dp gap.
     ChatBubble(type = ChatBubbleType.Outgoing, sender = "Equal AI", timestamp = "03:22",
-        modifier = Modifier.padding(top = 12.dp), message = "Thanks, but Keshav is not interested right now.")
+        message = "Thanks, but Keshav is not interested right now.")
 }
 ```
 
@@ -1883,7 +1920,7 @@ A row in the Chats list with avatar, name, date, preview, unread count and the s
 - Tokens: `bg/surface`, `action-card/highlight`, `state/chat-pressed`, `text/primary`, `text/secondary`, `text/action`, `button/primary`, `text/on-action`
 - Source: §6 Chat List Item
 
-Do: Give unknown callers their category art and saved contacts their initials. Offer the next step as chips on the row (📞 Call back, 📅 Add to Calendar) so it is one tap from the list. Use long-press to enter selection mode.
+Do: Give unknown callers their category art and saved contacts their initials. Offer the next step as chips on the row (📞 Call back, 📅 Add to Calendar) so it is one tap from the list. Use long-press to enter selection mode. Show a live call on Home as the contact’s row at the top of Chats (dialing, on-call, ringing), not as a bar.
 
 Don't: Don't set chip states yourself; the row derives them from unread and selected. Don't let the preview wrap; it is one line with an ellipsis.
 
@@ -1895,6 +1932,7 @@ Anatomy:
 5. Preview: Last message or summary, blurred when locked. (body1 14/400 text/secondary · one line · locked blur 4 + crown-lock 16)
 6. Unread count: CountBadge at the end of the preview line; the crown-lock replaces it when locked. (20 · button/primary · gap 8)
 7. Action chips: Scrolling row of SmallActionChips; state follows the row. (margin-top 8 · gap 12 · unread / read / outlined · gold crown-locked with lockedActions)
+8. Live status (dialing / on-call / ringing): A live call puts the row at the top of Chats with a green status line and one green pill instead of the date; chips and the unread badge are hidden. (line body1 600 text/action: 'Assistant is dialing' / 'Assistant is on a call' / 'Calling you' · pill 32 high · padding 0 14 · radius full · button/primary · buttonSmall text/on-action: Outgoing call (status) / Takeover / Answer (buttons, onLiveAction))
 
 Accessibility:
 - Role. Web: A <div role='button' tabIndex=0> with aria-pressed when `selected` is set, containing the chip <button>s. Android: combinedClickable(role = Role.Button) on the Row; chips are separate Role.Button nodes.
@@ -1987,6 +2025,24 @@ Column {
         category = EqualCategory.Delivery, chips = listOf(ActionChipData("Update Address", "✏️")))
     ChatListItem(name = "HDFC Bank", preview = "Pre-approved loan offer. You said not interested", date = "08 July",
         category = EqualCategory.Financial, chips = callBack)
+}
+```
+
+Example: Live calls
+```tsx
+<ChatListItem name="Amit Nanda" status="dialing" avatar={{ initials: 'AN' }} preview="" date="" />
+<ChatListItem name="Amit Nanda" status="on-call" onLiveAction={takeOver} avatar={{ initials: 'AN' }} preview="" date="" />
+<ChatListItem name="Priya Sharma" status="ringing" onLiveAction={answer} avatar={{ initials: 'PS' }} preview="" date="" />
+```
+```kotlin
+// Live rows hide the date, the unread count and the chips. Dialing's pill is a status, not a button.
+Column {
+    ChatListItem(name = "Amit Nanda", preview = "", date = "", initials = "AN",
+        status = ChatListItemStatus.Dialing)
+    ChatListItem(name = "Amit Nanda", preview = "", date = "", initials = "AN",
+        status = ChatListItemStatus.OnCall, onLiveAction = { /* take over the call */ })
+    ChatListItem(name = "Priya Sharma", preview = "", date = "", initials = "PS",
+        status = ChatListItemStatus.Ringing, onLiveAction = { /* answer */ })
 }
 ```
 
@@ -4856,6 +4912,22 @@ Column {
 }
 ```
 
+Example: Phone app not restored
+```tsx
+<HomeNoticeCard lead={<Icon name="call" size={16} />} title="Calls still open in Equal"
+  subtitle="Make Phone your default again" cta="Fix" onCta={openDefaultAppSettings} />
+```
+```kotlin
+// After Later on "Phone app didn't switch back": stays on top of Chats until Phone is the default again.
+HomeNoticeCard(
+    lead = { EqualIcon(EqualIcons.Call, contentDescription = null, tint = EqualTheme.colors.textPrimary, size = 16.dp) },
+    title = "Calls still open in Equal",
+    subtitle = "Make Phone your default again",
+    cta = "Fix",
+    onCta = { /* open Android's default-app setting */ },
+)
+```
+
 Example: Equal AI notice
 ```tsx
 <AssistantNoticeCard title="Your Plan Expired" body="Renew to unlock unlimited recordings, …" cta="Renew Equal AI Unlimited" onCta={openPaywall} />
@@ -5887,7 +5959,7 @@ Don't: Don't write "OK" / "Yes" as the commit; name the action. Don't stack a sn
 
 Anatomy:
 1. Scrim: Dims the screen behind the dialog. Tapping it cancels. (bg/overlay · web overlay covers the nearest positioned ancestor · Compose uses a platform Dialog window)
-2. Container: Centred surface that holds the decision. (312 wide (max 100% - 48 web) · bg/surface · radius 24 · padding 24 · shadow/nav (web))
+2. Container: Centred surface that holds the decision. (312 wide (max 100% - 48 web) · bg/surface · radius 12 · padding 24 · shadow/nav (web))
 3. Title: The question, e.g. 'Turn off Call Learning?'. (title token · text/primary)
 4. Subject: Optional line naming what the dialog applies to. (caption · text/secondary · 2 above (web))
 5. Body: States the consequence. (body1 · text/secondary · 12 above web / 8 Compose)
@@ -6006,7 +6078,7 @@ Do: Keep OK disabled until a duration is picked. Say why it failed and give the 
 Don't: Don't preselect a duration. Don't give the hard update a close button; Back exits the app.
 
 Anatomy:
-1. Duration dialog: Pick how long the assistant stays off. (Dialog 312, radius 24, padding 24 · title · body1 secondary · RadioGroup m, gap 20 · Cancel (neutral) + OK md, disabled until a choice)
+1. Duration dialog: Pick how long the assistant stays off. (Dialog 312, radius 12, padding 24 · title · body1 secondary · RadioGroup m, gap 20 · Cancel (neutral) + OK md, disabled until a choice)
 2. Busy toggle: The assistant card while it turns off or on. (AssistantToggle · 20 Spinner in the 40×24 switch slot · deactivating keeps the on fill, activating the off fill)
 3. Alert sheet: Why it failed, and the next step. (radius 32 top · bg/primary · padding 24 / 28 · art centred on the top edge · title · body1 secondary max 292 · lg block CTA · neutral secondary)
 4. Troubleshooting list: Things the user can try. (max 272 · radius 12 · 1 stroke/dark · rows 44, icon 18 + body1 · stroke/medium dividers)
@@ -6201,7 +6273,7 @@ Accessibility:
 - Role. Web: The name is an h1. Each tile is a <button>, and the icon is aria-hidden. The saved badge is role="img". Android: The name is heading(). Tiles are clickable Columns with Role.Button that merge the icon and label.
 - Name. Web: Tiles are named by their label. The category avatar's alt is the category name, and the saved badge's is 'Saved contact'. Initials are read as text. Android: Tiles are named by their label. The category avatar's contentDescription is the category label, and the saved badge's is 'Saved contact'.
 - Keyboard. Web: Tab through the tiles, Enter/Space to activate. Android: TalkBack: swipe to a tile, double-tap.
-- Touch target. Web: Tiles are 72 tall and about 77 wide in the 390 frame. Android: Tiles are 72dp tall and share the row width.
+- Touch target. Web: Tiles are 72 tall and about 70 wide in the 360 frame. Android: Tiles are 72dp tall and share the row width.
 - Contrast. Web: Name 12.6:1 and phone 5.7:1 on the page. Initials are 4.7–6.5:1 on their tinted discs. Tile icons are text/action #00B140 on white, 2.85:1 in light (accepted brand decision); lime on #1F1F1F is 13.7:1 in dark. Android: Same tokens and ratios.
 - State. Web: Mute shows its state through the label (Mute / Unmute), not through colour. Android: Same, via defaultContactInfoActions(muted).
 - Motion. Web: Press scale (eq-pressable), 0ms under reduced motion. Android: eqPressFeedback on press.
@@ -8062,7 +8134,7 @@ Source: Plan Expired Touchpoint · Usage Cap Touchpoint (options 1 & 2) · Touch
 
 1. Plan expired, option 1: the red PLAN EXPIRED badge, and Equal AI’s own verified chat on top (“Your Plan Expired…”, 👑 Renew Now). Its message is a voice note plus Renew Equal AI Unlimited, which opens the paywall previewing a locked summary.
 2. Plan expired, option 2: no chat, a card under the header instead (👑 Your Plan Expired · Renew Now).
-3. Usage cap: the assistant switches Off at the weekly limit. Option 1 is again an Equal AI message (“Weekly call limit reached…”). Option 2 is a meter card: “7 Calls left this week · Resets Mon | Unlimited on premium” with Get Unlimited.
+3. Usage cap: the assistant switches Off at the weekly limit. Option 1 is again an Equal AI message (“You’ve used your free calls this week”). Option 2 is a meter card: “7 Calls left this week · Resets Mon | Unlimited on premium” with Get Unlimited.
 4. Actions locked: action chips turn gold with the crown-lock. Tapping one opens the paywall (here the sheet) with “Unlock Unlimited Actions…” and the locked row as its preview.
 5. Plan expired, option 3: on the You tab the plan card says Expired and asks to renew, with a gold Renew Equal AI Unlimited.
 6. iOS parity paywall: a warm hero (animated or still crown), the black “Limited time deal” price card, the coupon, the locked summary and a black CTA.
@@ -8855,7 +8927,7 @@ Alias colours (CSS `var(--eq-<name without component/>)`, TS `color.*`, Compose 
 - `component/chip/label-read`  light #3C3C3C · dark {brand.white} @ 60%
 - `action/bottom-color`  light #EBEBEB · dark #191919
 - `component/chat-bubble/user-bg`  light #E8FFED · dark #272C1E
-- `component/chat-bubble/user-title`  light #006223 · dark {brand.lime}
+- `component/chat-bubble/user-title`  light {brand.green} · dark {brand.green} · derived
 - `component/action-card/highlight`  light #D3FEE3 · dark #2F3423 · derived
 - `text/danger`  light {red.red08} · dark #FF5151 · derived
 - `text/success`  light #00762B · dark {brand.lime} · derived
@@ -8938,8 +9010,8 @@ Alias colours (CSS `var(--eq-<name without component/>)`, TS `color.*`, Compose 
 - `component/profile-hero/status-text`  light #000000 · dark #000000 · derived
 - `component/profile-hero/plain-bg`  light #F2FBF5 · dark #1E2215 · derived
 - `component/info-note/bg`  light rgba(35,149,255,0.06) · dark rgba(35,149,255,0.12) · derived
-- `component/ongoing-bar/bg`  light {brand.black} @ 80% · dark {brand.white} @ 80% · derived
-- `component/ongoing-bar/text`  light {brand.lime} · dark {brand.black} @ 80% · derived
+- `component/ongoing-bar/bg`  light {brand.black} @ 80% · dark {brand.white} · derived
+- `component/ongoing-bar/text`  light {brand.lime} · dark {brand.green} · derived
 - `component/initials-disc/bg`  light #FFFFFF · dark #262626 · derived
 - `component/paywall/hero-top`  light #FDEFC6 · dark #4A3C1C · derived
 - `component/takeover/text`  light #009837 · dark #FFFFFF · derived
@@ -9067,7 +9139,7 @@ Spacing: 0 · 2 · 4 · 6 · 8 · 10 · 12 · 16 · 20 · 24 · 32 · 40 · 48
 
 Radius: xs 4 · sm 8 · md 12 · lg 16 · xl 20 · 2xl 24 · 3xl 32 · full 999
 
-Size: touchTarget 48 · statusBar 52 · appBar 64 · icon {"xs":16,"sm":20,"md":24} · avatar {"xs":24,"sm":28,"md":36,"lg":48} · frame {"width":390,"height":800}
+Size: touchTarget 48 · statusBar 52 · appBar 64 · icon {"xs":16,"sm":20,"md":24} · avatar {"xs":24,"sm":28,"md":36,"lg":48} · frame {"width":360,"height":800}
 
 ## Image assets
 

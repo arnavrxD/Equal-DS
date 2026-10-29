@@ -10,7 +10,7 @@ import {
   AssistantSheetShell,
   AssistantTaskHeader,
   AssistantThinking,
-  CallSummary,
+  CallSummaryMessage,
   ChatBubble,
   ChatHeader,
   ChatWallpaper,
@@ -74,9 +74,7 @@ function CallHistory({ action }: { action: ChatAction }) {
     <>
       <ThreadEvent label="Call Ended 4:37 PM" />
       <ChatBubble kind="assistant" sender="Equal AI" time="03:21">Hey Keshav! Here is the summary of your call</ChatBubble>
-      <div style={{ paddingLeft: 36 }}>
-        <CallSummary summary={SUMMARY[action]} time="03:21" footer={<SummaryActions actions={[{ label: 'Call back', icon: 'call-filled' }]} />} />
-      </div>
+      <CallSummaryMessage first={false} summary={SUMMARY[action]} time="03:21" footer={<SummaryActions actions={[{ label: 'Call back', icon: 'call-filled' }]} />} />
       <div style={{ paddingLeft: 36, marginTop: 4 }}><FeedbackCard /></div>
     </>
   );

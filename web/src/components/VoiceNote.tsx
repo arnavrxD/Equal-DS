@@ -3,7 +3,9 @@ import { useEffect, useMemo, useRef, useState, type HTMLAttributes, type ReactNo
 import { Emoji, Icon } from '../foundations/Icon';
 import { Text } from '../foundations/Text';
 import { TextButton } from './Button';
+import { AiAvatar } from './Avatar';
 import './VoiceNote.css';
+import './ChatBubble.css';
 
 const SPEEDS = [1, 1.2, 1.5, 2] as const;
 const fmt = (s: number) => `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
@@ -159,6 +161,20 @@ export function CallSummary({ duration = 157, summary, time, label = 'Call Summa
           </div>
         </>
       )}
+    </div>
+  );
+}
+
+/**
+ * The call summary as Equal's message in a thread: the Equal orb on the left, then the summary card.
+ * `first` (default) shows the orb; a follow-up right after another Equal message keeps the 36 indent
+ * without a second orb. Joins the thread rhythm as a left-side message.
+ */
+export function CallSummaryMessage({ first = true, ...props }: CallSummaryProps & { first?: boolean }) {
+  return (
+    <div className="eq-bubble-row is-left">
+      <span className="eq-bubble__avatar">{first ? <AiAvatar size={24} /> : null}</span>
+      <CallSummary {...props} />
     </div>
   );
 }

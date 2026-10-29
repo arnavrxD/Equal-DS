@@ -173,7 +173,7 @@ export type ExampleProps = {
 };
 
 /** Live example in light, dark or both (follows the site switch), with a code tab. */
-export function Example({ title, note, children, code, compose, width = 390, surface = 'primary', theme }: ExampleProps) {
+export function Example({ title, note, children, code, compose, width = 360, surface = 'primary', theme }: ExampleProps) {
   const site = useTheme();
   const mode = theme ?? site.exampleTheme;
   const [tab, setTab] = useState<'preview' | 'react' | 'compose'>('preview');

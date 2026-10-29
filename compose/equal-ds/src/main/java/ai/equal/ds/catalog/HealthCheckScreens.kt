@@ -105,7 +105,7 @@ val HealthCheckStates: Map<String, HcState> = linkedMapOf(
     "all-good" to HcState(HealthHeroState.Pass, AppOk, PhoneOk, HcCarrier(HealthCardStatus.Passed), HcCta.Home, "Last checked: 1s ago", done = true),
 )
 
-/** The Health Check screen for one state (390 wide; taller states scroll). Port of web `HealthCheckScreen`. */
+/** The Health Check screen for one state (360 wide; taller states scroll). Port of web `HealthCheckScreen`. */
 @Composable
 fun HealthCheckScreen(
     state: HcState,

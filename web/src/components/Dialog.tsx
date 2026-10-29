@@ -28,7 +28,7 @@ export function Dialog({ open, title, subject, body, confirmLabel, cancelLabel =
   const modal = useModal({ open, onClose: onCancel, enabled: mode === 'overlay' });
   const bodyId = useId();
   const box = (
-    <div role="alertdialog" aria-label={title} aria-describedby={body ? bodyId : undefined} {...modal} style={{ width: 312, maxWidth: 'calc(100% - 48px)', background: 'var(--eq-bg-surface)', borderRadius: 24, padding: 24, boxShadow: 'var(--eq-shadow-nav)' }}>
+    <div role="alertdialog" aria-label={title} aria-describedby={body ? bodyId : undefined} {...modal} style={{ width: 312, maxWidth: 'calc(100% - 48px)', background: 'var(--eq-bg-surface)', borderRadius: 12, padding: 24, boxShadow: 'var(--eq-shadow-nav)' }}>
       <Text as="h2" variant="title">{title}</Text>
       {subject && <Text as="div" variant="caption" color="secondary" style={{ marginTop: 2 }}>{subject}</Text>}
       {body && <Text as="p" id={bodyId} variant="body1" color="secondary" style={{ marginTop: children ? 8 : 12 }}>{body}</Text>}

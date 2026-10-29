@@ -16,6 +16,7 @@ import ai.equal.ds.components.AppBarAlign
 import ai.equal.ds.components.AssistantToggleCard
 import ai.equal.ds.components.BottomNavBar
 import ai.equal.ds.components.CallSummaryBubble
+import ai.equal.ds.components.CallSummaryMessage
 import ai.equal.ds.components.CallSummaryTag
 import ai.equal.ds.components.ChatBubble
 import ai.equal.ds.components.ChatBubbleType
@@ -23,6 +24,7 @@ import ai.equal.ds.components.ChatHeader
 import ai.equal.ds.components.ChatHeaderVariant
 import ai.equal.ds.components.ChatListItem
 import ai.equal.ds.components.ChatListItemState
+import ai.equal.ds.components.ChatListItemStatus
 import ai.equal.ds.components.ChatWallpaper
 import ai.equal.ds.components.DayDivider
 import ai.equal.ds.components.EqualAppBar
@@ -30,6 +32,7 @@ import ai.equal.ds.components.EqualFab
 import ai.equal.ds.components.EqualTab
 import ai.equal.ds.components.EqualTextButton
 import ai.equal.ds.components.HomeHeader
+import ai.equal.ds.components.MessageList
 import ai.equal.ds.components.PlaybackSpeed
 import ai.equal.ds.components.ProfileAvatarVariant
 import ai.equal.ds.components.SectionHeader
@@ -239,13 +242,27 @@ internal fun ChatListItemListSnippet() {
     }
 }
 
+// snippet: chat-list-item / Live calls
+@Composable
+internal fun ChatListItemLiveCallsSnippet() {
+    // Live rows hide the date, the unread count and the chips. Dialing's pill is a status, not a button.
+    Column {
+        ChatListItem(name = "Amit Nanda", preview = "", date = "", initials = "AN",
+            status = ChatListItemStatus.Dialing)
+        ChatListItem(name = "Amit Nanda", preview = "", date = "", initials = "AN",
+            status = ChatListItemStatus.OnCall, onLiveAction = { /* take over the call */ })
+        ChatListItem(name = "Priya Sharma", preview = "", date = "", initials = "PS",
+            status = ChatListItemStatus.Ringing, onLiveAction = { /* answer */ })
+    }
+}
+
 // ============================================================ Chat bubble
 
 // snippet: chat-bubble / A call thread
 @Composable
 internal fun ChatBubbleCallThreadSnippet() {
-    // Compose: no MessageList; a Column with 12dp spacing gives the between-group rhythm.
-    Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+    // MessageList sets the rhythm: 8dp to a message on the same side, 12dp when the side changes.
+    MessageList {
         ChatBubble(type = ChatBubbleType.Outgoing, sender = "Equal AI", timestamp = "03:21", message = "Hi, who is this?")
         ChatBubble(type = ChatBubbleType.Incoming, sender = "Dr Mehta Clinic", timestamp = "03:21",
             message = "This is Priya from Dr. Mehta's clinic. Your appointment is confirmed for tomorrow.")
@@ -260,16 +277,17 @@ internal fun ChatBubbleCallThreadSnippet() {
 // snippet: chat-bubble / Corners and grouping
 @Composable
 internal fun ChatBubbleTailsGroupingSnippet() {
-    Column {
+    MessageList {
         ChatBubble(type = ChatBubbleType.Incoming, incomingCategory = EqualCategory.RealEstate,
             sender = "Vijay · NoBroker", timestamp = "03:21",
             message = "I have an offer on a 2BHK flat in Sector 12.")
-        // Follow-up in the same group: 4dp gap, no avatar, no sender line.
+        // Follow-up on the same side: 8dp gap, no avatar, no sender line.
         ChatBubble(type = ChatBubbleType.Incoming, incomingCategory = EqualCategory.RealEstate,
-            isFirstInGroup = false, timestamp = "03:21", modifier = Modifier.padding(top = 4.dp),
+            isFirstInGroup = false, timestamp = "03:21",
             message = "Are you free for a site visit this weekend?")
+        // The side changes: 12dp gap.
         ChatBubble(type = ChatBubbleType.Outgoing, sender = "Equal AI", timestamp = "03:22",
-            modifier = Modifier.padding(top = 12.dp), message = "Thanks, but Keshav is not interested right now.")
+            message = "Thanks, but Keshav is not interested right now.")
     }
 }
 
@@ -306,6 +324,28 @@ internal fun CallSummaryRecordingShareSnippet() {
         },
         onShareClick = {},
     )
+}
+
+// snippet: call-summary / As Equal's message
+@Composable
+internal fun CallSummaryAsEqualsMessageSnippet() {
+    var playing by remember { mutableStateOf(false) }
+    var speed by remember { mutableStateOf(PlaybackSpeed.X1) }
+
+    MessageList {
+        ThreadEvent("Call Ended 11:04 · 02:14")
+        CallSummaryMessage(
+            summary = "Amit moved the AC service to Saturday, 10 AM. The ₹499 visit charge still applies.",
+            timestamp = "11:04",
+            voiceNote = {
+                // 134 s recording.
+                VoiceNotePlayer(isPlaying = playing, onPlayPauseClick = { playing = !playing },
+                    progress = 0f, elapsed = "0:00", total = "2:14",
+                    speed = speed, onSpeedChange = { speed = it })
+            },
+        )
+        // After "Here is the summary of your call": CallSummaryMessage(first = false, …)
+    }
 }
 
 // snippet: call-summary / Instruction applied

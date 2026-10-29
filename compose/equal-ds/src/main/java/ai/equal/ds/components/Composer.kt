@@ -162,7 +162,7 @@ private fun SendButton(enabled: Boolean, onClick: () -> Unit, contentDescription
     }
 }
 
-/** AI suggestion row (SPEC §16): AI avatar 36 → 12 → `body1` `text/primary` (wraps). */
+/** AI suggestion row (SPEC §16): AI avatar 36 → 12 → `body1` `text/primary` (wraps), top-aligned with no extra offset. */
 @Composable
 fun AiSuggestion(
     text: String,
@@ -175,15 +175,14 @@ fun AiSuggestion(
             text = text,
             style = EqualTheme.type.body1,
             color = EqualTheme.colors.textPrimary,
-            modifier = Modifier
-                .weight(1f)
-                .padding(top = 7.dp),
+            modifier = Modifier.weight(1f),
         )
     }
 }
 
 /**
- * AI chat panel inside another conversation (SPEC §12b). `bg/surface`, top radius 24, padding
+ * AI chat panel inside another conversation (SPEC §12b). Drawn on [ChatWallpaper], so the rounded
+ * top corners show the pattern rather than the page. `bg/surface`, top radius 24, padding
  * 16 h / 20 top / 16 bottom. AI avatar 36 → 12 → prompt `body1` `text/secondary`; 24; a single
  * non-wrapping, horizontally scrolling row of [LargeActionChip]s (gap 6); 20; [VoiceInputBar].
  */
@@ -199,8 +198,10 @@ fun AiChatPanel(
     placeholder: String = "Ask Equal AI",
 ) {
     val colors = EqualTheme.colors
+    // The chat wallpaper runs on behind the panel, so its rounded top corners show the pattern, not the page.
+    ChatWallpaper(modifier.fillMaxWidth()) {
     Column(
-        modifier
+        Modifier
             .fillMaxWidth()
             .background(colors.bgSurface, RoundedCornerShape(topStart = EqualRadius.r2xl, topEnd = EqualRadius.r2xl))
             .padding(start = 16.dp, end = 16.dp, top = 20.dp, bottom = 16.dp),
@@ -230,6 +231,7 @@ fun AiChatPanel(
             onSend = onSend,
             placeholder = placeholder,
         )
+    }
     }
 }
 

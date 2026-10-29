@@ -16,7 +16,7 @@ export type ExampleDoc = {
   render: () => ReactNode;
   /** The JSX shown in the code tab (hand-written, matches `render`). */
   code: string;
-  /** Canvas width in px (defaults to 390, the Android frame width). Use 'wide' for docs-width examples. */
+  /** Canvas width in px (defaults to 360, the Android frame width). Use 'wide' for docs-width examples. */
   width?: number | 'wide';
   /** Canvas surface: page background (default) or white surface. */
   surface?: 'primary' | 'surface';

@@ -3,7 +3,7 @@ import { Text } from '../foundations/Text';
 
 export type StatusBarProps = { time?: string; background?: string; /** Text and glyph colour (default text/primary). */ color?: string };
 
-/** Material 3 status-bar height on the 390 × 800 frame. */
+/** Material 3 status-bar height on the 360 × 800 frame. */
 export const STATUS_BAR_HEIGHT = 52;
 
 /**

@@ -1,5 +1,7 @@
 package ai.equal.ds.catalog
 
+import ai.equal.ds.components.MessageList
+import androidx.compose.foundation.layout.PaddingValues
 import ai.equal.ds.components.EqualFrameHeightDp
 import ai.equal.ds.components.EqualFrameWidthDp
 import ai.equal.ds.assets.EqualAssetImage
@@ -589,11 +591,9 @@ fun InstructionSetupSheet(
             )
         },
     ) {
-        Column(
-            Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 12.dp, vertical = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
+        MessageList(
+            Modifier.fillMaxWidth(),
+            contentPadding = PaddingValues(horizontal = 12.dp, vertical = 16.dp),
         ) {
             msgs.forEach { m ->
                 when (m) {

@@ -93,6 +93,7 @@ import {
   CallHistoryList,
   CallHistoryRow,
   CallSummary,
+  CallSummaryMessage,
   CategoryAvatar,
   ChatBubble,
   ChatHeader,
@@ -204,6 +205,7 @@ import {
   WhatsNewCard,
   WhenDoRow,
   formatAddress,
+  Icon,
   type Gender,
   type NavTab,
 } from '@equal/ds';
@@ -1380,7 +1382,7 @@ const [muted, setMuted] = useState(false);
       {
         title: 'Alert sheet',
         render: () => (
-          <div style={{ padding: '72px 16px 16px', maxWidth: 390 }}>
+          <div style={{ padding: '72px 16px 16px', maxWidth: 360 }}>
             <AlertSheet {...alertSheets['activation-failed']}>
               <TroubleshootList items={activationFixes} />
             </AlertSheet>
@@ -1453,7 +1455,7 @@ const [muted, setMuted] = useState(false);
         title: 'Home card options',
         note: 'A: Upgrade in the header, View Details footer. B: chevron + green CTA. C: chevron + gold CTA.',
         render: () => (
-          <Col gap={12} style={{ padding: '16px 0', maxWidth: 390 }}>
+          <Col gap={12} style={{ padding: '16px 0', maxWidth: 360 }}>
             <UsageMeterCard used={{ known: 49, unknown: 15 }} total={80} cta="details" />
             <UsageMeterCard used={{ known: 49, unknown: 15 }} total={80} cta="chevron" />
             <UsageMeterCard used={{ known: 18, unknown: 40 }} total={80} state="unknown-cap" resetsIn="2 days" cta="chevron-gold" />
@@ -1475,7 +1477,7 @@ const [muted, setMuted] = useState(false);
       {
         title: 'View Details',
         render: () => (
-          <div style={{ padding: 16, maxWidth: 390 }}>
+          <div style={{ padding: 16, maxWidth: 360 }}>
             <UsageDetailsSheet mode="inline" used={{ known: 9, unknown: 4 }} limits={{ known: 68, unknown: 12 }} total={80} resetsInDays={2} body="info" />
           </div>
         ),
@@ -1483,7 +1485,7 @@ const [muted, setMuted] = useState(false);
       },
       {
         title: 'iOS-parity price card',
-        render: () => <div style={{ padding: '8px 0 16px', maxWidth: 390 }}><PriceDealCard price={499} /></div>,
+        render: () => <div style={{ padding: '8px 0 16px', maxWidth: 360 }}><PriceDealCard price={499} /></div>,
         code: `<PriceDealCard price={499} />`,
       },
     ],
@@ -1543,13 +1545,13 @@ const [muted, setMuted] = useState(false);
     examples: [
       {
         title: 'Incoming call',
-        render: () => <div style={{ height: 800, maxWidth: 390, display: 'flex', flexDirection: 'column' }}><EqualCallScreen role="receiver" state="ringing" name="Keshav Reddy" initials="KR" /></div>,
+        render: () => <div style={{ height: 800, maxWidth: 360, display: 'flex', flexDirection: 'column' }}><EqualCallScreen role="receiver" state="ringing" name="Keshav Reddy" initials="KR" /></div>,
         code: `<EqualCallScreen role="receiver" state="ringing" name="Keshav Reddy" initials="KR" onAccept={answer} onDecline={decline} />`,
       },
       {
         title: 'Swipe to answer and badge',
         render: () => (
-          <Col gap={24} style={{ padding: 24, maxWidth: 390, alignItems: 'center' }}>
+          <Col gap={24} style={{ padding: 24, maxWidth: 360, alignItems: 'center' }}>
             <IdentifiedByEqual />
             <SwipeToAnswer />
           </Col>
@@ -1561,7 +1563,7 @@ const [muted, setMuted] = useState(false);
         title: 'Call strips',
         note: 'Incoming options 1, 2, 3 (a prop; option 1 is the one that passes AA in light), then the ongoing strip.',
         render: () => (
-          <Col gap={8} style={{ padding: '16px 0', maxWidth: 390 }}>
+          <Col gap={8} style={{ padding: '16px 0', maxWidth: 360 }}>
             <CallStrip state="incoming" style="avatar" name="Keshav Reddy" initials="KR" />
             <CallStrip state="incoming" style="icon" name="Keshav Reddy" />
             <CallStrip state="incoming" style="accent" name="Keshav Reddy" />
@@ -1577,7 +1579,7 @@ const [muted, setMuted] = useState(false);
         title: 'Heads-up stand-in and call card',
         note: 'The heads-up is drawn by Android (CallStyle); this is the docs stand-in.',
         render: () => (
-          <Col gap={16} style={{ padding: 16, maxWidth: 390 }}>
+          <Col gap={16} style={{ padding: 16, maxWidth: 360 }}>
             <IncomingCallNotification name="Keshav Reddy" initials="KR" />
             <CallLogCard duration="1min" />
           </Col>
@@ -1692,7 +1694,7 @@ const [muted, setMuted] = useState(false);
       {
         title: 'Selection headers',
         render: () => (
-          <Col gap={12} style={{ maxWidth: 390 }}>
+          <Col gap={12} style={{ maxWidth: 360 }}>
             <SelectionHeader single count={1} allSelected={false} />
             <SelectionHeader count={3} allSelected={false} />
           </Col>
@@ -1737,18 +1739,18 @@ const [muted, setMuted] = useState(false);
       },
       {
         title: 'Trust strip',
-        render: () => <div style={{ padding: 16, maxWidth: 390 }}><TrustStrip stats={trustStats} /></div>,
+        render: () => <div style={{ padding: 16, maxWidth: 360 }}><TrustStrip stats={trustStats} /></div>,
         code: `<TrustStrip stats={trustStats} />`,
       },
       {
         title: 'Teach Your Assistant',
-        render: () => <div style={{ padding: 16, maxWidth: 390 }}><InstructionsPromoCard onDismiss={() => {}} /></div>,
+        render: () => <div style={{ padding: 16, maxWidth: 360 }}><InstructionsPromoCard onDismiss={() => {}} /></div>,
         code: `<InstructionsPromoCard onCta={openSheet} onDismiss={hide} />`,
       },
       {
         title: 'Feature intro sheet',
         render: () => (
-          <div style={{ padding: 16, maxWidth: 390 }}>
+          <div style={{ padding: 16, maxWidth: 360 }}>
             <FeatureIntroSheet mode="inline" hero={<InstructionCard instruction={{ id: 'loan', title: 'Loan offers', when: 'I get a loan offer call', do: 'Say I’m not interested and ask them to remove my number' }} />} title="Get every call handled your way with Instructions" bullets={[{ icon: 'edit', text: 'Tell your assistant what to do on any call, in your own words' }, { icon: 'touch', text: 'Start in one tap with presets for spam, loan and delivery calls' }]} cta="Try Instructions" secondary="Not now" />
           </div>
         ),
@@ -2276,7 +2278,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     examples: [
       {
         title: 'Default',
-        render: () => <div style={{ width: 390 }}><StatusBar /></div>,
+        render: () => <div style={{ width: 360 }}><StatusBar /></div>,
         code: `<StatusBar />`,
       },
       {
@@ -2673,6 +2675,20 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     avatar={c.initials ? { initials: c.initials } : { category: c.category }} />
 ))}`,
       },
+      {
+        title: 'Live calls',
+        note: 'Home has no ongoing-call bar. The contact’s row moves to the top of Chats with a green status line and one green pill: dialing → on a call (Takeover) and, for a second call that rings while you are on Home, Calling you (Answer).',
+        render: () => (
+          <Hairlines>
+            <ChatListItem name="Amit Nanda" preview="" date="" status="dialing" avatar={{ initials: 'AN' }} />
+            <ChatListItem name="Amit Nanda" preview="" date="" status="on-call" onLiveAction={noop} avatar={{ initials: 'AN' }} />
+            <ChatListItem name="Priya Sharma" preview="" date="" status="ringing" onLiveAction={noop} avatar={{ initials: 'PS' }} />
+          </Hairlines>
+        ),
+        code: `<ChatListItem name="Amit Nanda" status="dialing" avatar={{ initials: 'AN' }} preview="" date="" />
+<ChatListItem name="Amit Nanda" status="on-call" onLiveAction={takeOver} avatar={{ initials: 'AN' }} preview="" date="" />
+<ChatListItem name="Priya Sharma" status="ringing" onLiveAction={answer} avatar={{ initials: 'PS' }} preview="" date="" />`,
+      },
     ],
     props: [
       {
@@ -2687,6 +2703,8 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
           opt('avatar', 'ContactAvatarProps', undefined, 'Category or initials.'),
           opt('onClick', '() => void', undefined, 'Row tap (also Enter).'),
           opt('onLongPress', '() => void', undefined, 'Fires after a 500ms press or on right-click.'),
+          opt('status', "'missed' | 'loading' | 'dialing' | 'on-call' | 'ringing'", undefined, 'Row states. The live ones (dialing, on-call, ringing) replace the date with a green pill (Outgoing call / Takeover / Answer), the preview with the status line, and hide the chips.'),
+          opt('onLiveAction', '() => void', undefined, 'The live pill: Takeover (on-call) or Answer (ringing). Dialing’s pill is a status, not a button.'),
         ],
       },
     ],
@@ -2694,6 +2712,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
       'Give unknown callers their category art and saved contacts their initials.',
       'Offer the next step as chips on the row (📞 Call back, 📅 Add to Calendar) so it is one tap from the list.',
       'Use long-press to enter selection mode.',
+      'Show a live call on Home as the contact’s row at the top of Chats (dialing, on-call, ringing), not as a bar.',
     ],
     donts: [
       "Don't set chip states yourself; the row derives them from unread and selected.",
@@ -2785,12 +2804,12 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
           opt('first', 'boolean', 'true', 'First bubble of a group: sender line, avatar and the square top-outer corner. false = follow-up, all corners 12.'),
           opt('category', 'Category', "'others'", 'Caller category for the incoming avatar.'),
           opt('bare', 'boolean', undefined, 'Removes inner padding, sender and time for custom content.'),
-          opt('maxWidth', 'number', '264', 'Max bubble width in dp (from the 360-wide designs; ≈ 68% of the 390 frame).'),
+          opt('maxWidth', 'number', '264', 'Max bubble width in dp (≈ 73% of the 360 frame).'),
         ],
       },
       {
         component: 'MessageList',
-        props: [req('children', 'ReactNode', 'Bubbles and thread indicators; applies the 4 / 12dp group rhythm.')],
+        props: [req('children', 'ReactNode', 'Bubbles and thread indicators; 8 between messages on the same side, 12 when the side changes, 12 around thread events.')],
       },
     ],
     dos: [
@@ -2808,8 +2827,8 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     name: 'Call summary',
     group: 'Chat',
     summary: 'The post-call card in a thread: a recording player with a coded waveform and speed pill, the assistant\'s summary, and an optional share footer or "2 instructions applied in this call" tag.',
-    components: ['CallSummary', 'VoicePlayer'],
-    importLine: "import { CallSummary, VoicePlayer } from '@equal/ds';",
+    components: ['CallSummary', 'CallSummaryMessage', 'VoicePlayer'],
+    importLine: "import { CallSummary, CallSummaryMessage, VoicePlayer } from '@equal/ds';",
     compose: ['CallSummaryBubble', 'VoiceNotePlayer'],
     spec: '§11 Chat Bubbles · Voice note + Call Summary bubble',
     tokens: ['bg/surface', 'voice/player-bg', 'voice/player-stroke', 'stroke/subtle', 'waveform/bar', 'waveform/bar-played', 'playback/pill-bg', 'text/on-dark', 'text/secondary', 'text/primary', 'text/action'],
@@ -2826,6 +2845,20 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
         code: `<CallSummary
   summary="Amit invited you to dinner this Sunday, 8 PM at his place. He asked you to confirm by tonight."
   time="03:21" onShare={share} />`,
+      },
+      {
+        title: "As Equal's message",
+        note: 'In a thread the summary is Equal’s message: the orb on its left and the left-side rhythm (8 to another left message, 12 when the side changes). Right after another Equal message, pass first={false}: same indent, no second orb.',
+        render: () => (
+          <MessageList>
+            <ThreadEvent label="Call Ended 11:04 · 02:14" />
+            <CallSummaryMessage duration={134} summary="Amit moved the AC service to Saturday, 10 AM. The ₹499 visit charge still applies." time="11:04" />
+          </MessageList>
+        ),
+        code: `<ThreadEvent label="Call Ended 11:04 · 02:14" />
+<CallSummaryMessage duration={134} time="11:04"
+  summary="Amit moved the AC service to Saturday, 10 AM. The ₹499 visit charge still applies." />
+// after "Here is the summary of your call": <CallSummaryMessage first={false} … />`,
       },
       {
         title: 'Instruction applied',
@@ -3401,7 +3434,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
       {
         title: 'Default',
         render: () => (
-          <div style={{ padding: 16, width: 390, boxSizing: 'border-box' }}>
+          <div style={{ padding: 16, width: 360, boxSizing: 'border-box' }}>
             <WhatsNewCard width="100%" heading="Assistant Languages" body="Checkout how your assistant speaks in 9 languages" ctaLabel="Try Languages" ctaIcon="translate" onDismiss={noop} />
           </div>
         ),
@@ -3459,18 +3492,18 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     examples: [
       {
         title: 'Unavailable',
-        render: () => <div style={{ padding: 16, width: 390, boxSizing: 'border-box' }}><SystemStatusCard onNotify={noop} /></div>,
+        render: () => <div style={{ padding: 16, width: 360, boxSizing: 'border-box' }}><SystemStatusCard onNotify={noop} /></div>,
         code: `<SystemStatusCard onNotify={subscribeToRecovery} />`,
       },
       {
         title: 'Notify requested',
         note: 'After the tap the pill is replaced by a green confirmation. It is not a button any more.',
-        render: () => <div style={{ padding: 16, width: 390, boxSizing: 'border-box' }}><SystemStatusCard state="notified" /></div>,
+        render: () => <div style={{ padding: 16, width: 360, boxSizing: 'border-box' }}><SystemStatusCard state="notified" /></div>,
         code: `<SystemStatusCard state="notified" />`,
       },
       {
         title: 'In the Chats header',
-        render: () => <div style={{ width: 390 }}><HomeHeader assistantOn statusBar={false} status={<SystemStatusCard onNotify={noop} />} /></div>,
+        render: () => <div style={{ width: 360 }}><HomeHeader assistantOn statusBar={false} status={<SystemStatusCard onNotify={noop} />} /></div>,
         code: `<HomeHeader assistantOn={on} status={down ? <SystemStatusCard state={notify} onNotify={subscribe} /> : undefined} />`,
       },
     ],
@@ -3548,7 +3581,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
       {
         title: 'Back on',
         note: 'On a real device the OS draws this from a NotificationCompat post; the component is for mocks and flows.',
-        render: () => <div style={{ padding: 16, width: 390, boxSizing: 'border-box' }}><SystemNotification title="Equal AI Assistant is back on" body="Equal AI is now handling all your unknown calls." /></div>,
+        render: () => <div style={{ padding: 16, width: 360, boxSizing: 'border-box' }}><SystemNotification title="Equal AI Assistant is back on" body="Equal AI is now handling all your unknown calls." /></div>,
         code: `<SystemNotification title="Equal AI Assistant is back on"
   body="Equal AI is now handling all your unknown calls." />`,
       },
@@ -3634,7 +3667,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
       {
         title: 'Hero with price and preview',
         note: 'DM Sans only: "Equal AI" 22 Regular over "Unlimited" 38 Bold (the design used Lora).',
-        width: 390,
+        width: 360,
         render: () => (
           <div style={{ width: '100%' }}>
             <PaywallHero>
@@ -3651,7 +3684,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
       {
         title: 'Preview by touchpoint',
         note: 'The card shows what the user tapped: locked chat rows, a locked conversation, or locked audio.',
-        width: 390,
+        width: 360,
         render: () => (
           <div style={pad16}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12, width: '100%' }}>
@@ -3674,7 +3707,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
       },
       {
         title: 'Sticky footer',
-        width: 390,
+        width: 360,
         render: () => <div style={{ width: '100%' }}><PaywallFooter onClick={noop} /></div>,
         code: `<PaywallFooter cta="Get Equal AI Unlimited" note="Cancel anytime · UPI secure · No hidden charges" onClick={buy} />`,
       },
@@ -3719,7 +3752,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
       {
         title: 'Locked chat rows',
         note: '`locked` blurs the preview and swaps the unread count for the crown-lock. Tapping opens the paywall.',
-        width: 390,
+        width: 360,
         render: () => (
           <Hairlines>
             <ChatListItem name="Amit Nanda" preview="Amit is done with onboarding." date="Yesterday" avatar={{ category: 'career' }} />
@@ -3732,7 +3765,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
       },
       {
         title: 'Locked bubbles and audio',
-        width: 390,
+        width: 360,
         render: () => (
           <OnPrimary pad="16px 8px">
             <MessageList>
@@ -3843,7 +3876,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     examples: [
       { title: 'Under the plan card', render: () => <div style={pad16}><div style={{ width: '100%' }}><PlanCard onManage={noop} actionLabel="Reactivate plan" /><PlanBanner attached>Reactivate your current Plan to use Equal Unlimited</PlanBanner></div></div>, code: `<PlanCard onManage={reactivate} actionLabel="Reactivate plan" />
 <PlanBanner attached>Reactivate your current Plan to use Equal Unlimited</PlanBanner>` },
-      { title: 'At the top of a chat', width: 390, render: () => <div style={{ width: '100%' }}><PlanBanner onClick={noop}>Reactivate your current Plan to keep using Equal Unlimited</PlanBanner></div>, code: `<PlanBanner onClick={reactivate}>Reactivate your current Plan to keep using Equal Unlimited</PlanBanner>` },
+      { title: 'At the top of a chat', width: 360, render: () => <div style={{ width: '100%' }}><PlanBanner onClick={noop}>Reactivate your current Plan to keep using Equal Unlimited</PlanBanner></div>, code: `<PlanBanner onClick={reactivate}>Reactivate your current Plan to keep using Equal Unlimited</PlanBanner>` },
     ],
     props: [{ component: 'PlanBanner', props: [req('children', 'ReactNode', 'Message.'), opt('attached', 'boolean', undefined, 'Hangs under the plan card.'), opt('onClick', '() => void', undefined, 'Makes the strip tappable.')] }],
     dos: ['Use it only when the plan has lapsed or autopay is off.'],
@@ -3862,7 +3895,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     examples: [
       {
         title: 'States',
-        width: 390,
+        width: 360,
         render: () => (
           <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 12 }}>
             <PlanExpiryBanner expiry={{ state: 'expiring', days: 2 }} onRenew={noop} />
@@ -3890,12 +3923,12 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     spec: 'Monetization value · Value Bottom Sheet Once Called',
     tokens: ['premium-icon/start', 'premium-icon/end', 'gradient/value-card', 'value-card/stroke', 'value-card/perks-bg', 'value-card/ring', 'expiry-chip/warning-bg', 'expiry-chip/danger-bg', 'expiry-chip/active-bg'],
     examples: [
-      { title: 'Sheet', width: 390, render: () => <div style={{ width: '100%' }}><ValueSheet mode="inline" expiry={{ state: 'expiring', days: 3 }} onRenew={noop} onClose={noop} /></div>, code: `<ValueSheet expiry={{ state: 'expiring', days: 3 }} onRenew={renew} onClose={close} />` },
-      { title: 'Flush sheet (experiment)', width: 390, render: () => <div style={{ width: '100%' }}><ValueSheet mode="inline" variant="flush" expiry={{ state: 'today' }} onRenew={noop} onClose={noop} /></div>, code: `<ValueSheet variant="flush" expiry={{ state: 'today' }} onRenew={renew} onClose={close} />` },
-      { title: 'On the plan page', width: 390, render: () => <div style={pad16}><div style={{ width: '100%' }}><ValueCard calls={20} title={null} perks={null} expiry={{ state: 'expired', date: '30th July' }} /></div></div>, code: `<DividerLabel>What Unlimited Saved You</DividerLabel>
+      { title: 'Sheet', width: 360, render: () => <div style={{ width: '100%' }}><ValueSheet mode="inline" expiry={{ state: 'expiring', days: 3 }} onRenew={noop} onClose={noop} /></div>, code: `<ValueSheet expiry={{ state: 'expiring', days: 3 }} onRenew={renew} onClose={close} />` },
+      { title: 'Flush sheet (experiment)', width: 360, render: () => <div style={{ width: '100%' }}><ValueSheet mode="inline" variant="flush" expiry={{ state: 'today' }} onRenew={noop} onClose={noop} /></div>, code: `<ValueSheet variant="flush" expiry={{ state: 'today' }} onRenew={renew} onClose={close} />` },
+      { title: 'On the plan page', width: 360, render: () => <div style={pad16}><div style={{ width: '100%' }}><ValueCard calls={20} title={null} perks={null} expiry={{ state: 'expired', date: '30th July' }} /></div></div>, code: `<DividerLabel>What Unlimited Saved You</DividerLabel>
 <ValueCard calls={20} title={null} perks={null} expiry={{ state: 'expired', date: '30th July' }} />` },
-      { title: 'Quota: calls left', width: 390, render: () => <div style={pad16}><div style={{ width: '100%' }}><QuotaCard quota={{ used: 24, limit: 30, resetsInDays: 4 }} /></div></div>, code: `<QuotaCard quota={{ used: 24, limit: 30, resetsInDays: 4 }} />` },
-      { title: 'Quota: limit reached', width: 390, render: () => <div style={pad16}><div style={{ width: '100%' }}><QuotaCard quota={{ used: 30, limit: 30, resetsInDays: 2 }} /></div></div>, code: `<QuotaCard quota={{ used: 30, limit: 30, resetsInDays: 2 }} />
+      { title: 'Quota: calls left', width: 360, render: () => <div style={pad16}><div style={{ width: '100%' }}><QuotaCard quota={{ used: 24, limit: 30, resetsInDays: 4 }} /></div></div>, code: `<QuotaCard quota={{ used: 24, limit: 30, resetsInDays: 4 }} />` },
+      { title: 'Quota: limit reached', width: 360, render: () => <div style={pad16}><div style={{ width: '100%' }}><QuotaCard quota={{ used: 30, limit: 30, resetsInDays: 2 }} /></div></div>, code: `<QuotaCard quota={{ used: 30, limit: 30, resetsInDays: 2 }} />
 // in the sheet: <ValueSheet quota={{ used: 30, limit: 30, resetsInDays: 2 }} onRenew={openPaywall} onClose={close} />` },
       {
         title: 'Expiry chips',
@@ -3931,7 +3964,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     compose: ['FeatureList'],
     spec: 'Monetization value · Manage Plan',
     tokens: ['stroke/subtle', 'bg/surface'],
-    examples: [{ title: 'What You Get', width: 390, render: () => <div style={pad16}><div style={{ width: '100%' }}><FeatureList /></div></div>, code: `<DividerLabel>What You Get</DividerLabel>
+    examples: [{ title: 'What You Get', width: 360, render: () => <div style={pad16}><div style={{ width: '100%' }}><FeatureList /></div></div>, code: `<DividerLabel>What You Get</DividerLabel>
 <FeatureList items={unlimitedFeatures} />` }],
     props: [{ component: 'FeatureList', props: [opt('items', '{ art: AssetName; label: string }[]', 'unlimitedFeatures', 'Features, top to bottom; art is a 3D feature-* asset.')] }],
     dos: ['Keep labels to one line.', 'Use the 3D feature-* art; add a new asset for a new feature.'],
@@ -3950,7 +3983,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     examples: [
       { title: 'Badges', render: () => <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}><DiscountBadge /><DiscountBadge label="Special Coupon Applied!" /></div>, code: `<DiscountBadge />
 <DiscountBadge label="Special Coupon Applied!" />` },
-      { title: 'Price drop', width: 390, render: () => <PriceDropDemo />, code: `<PriceTag price={149} was={249} badge="Special Coupon Applied!" animate={justApplied} />` },
+      { title: 'Price drop', width: 360, render: () => <PriceDropDemo />, code: `<PriceTag price={149} was={249} badge="Special Coupon Applied!" animate={justApplied} />` },
     ],
     props: [
       { component: 'DiscountBadge', props: [opt('label', 'string', "'Discounted!!'", 'Green label.'), opt('off', 'string', "'25%'", 'Seal text.'), opt('animate', 'boolean', undefined, 'Pop in.')] },
@@ -3972,7 +4005,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     examples: [
       {
         title: 'Greeting & quick actions',
-        width: 390,
+        width: 360,
         render: () => (
           <div style={{ width: '100%' }}>
             <AssistantSheetShell mode="inline" footer={<AssistantInput mode="text" />}>
@@ -3990,7 +4023,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
       },
       {
         title: 'Input: text and voice',
-        width: 390,
+        width: 360,
         render: () => (
           <div style={{ width: '100%', padding: 16, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: 16, background: 'var(--eq-bg-primary)' }}>
             <AssistantInput mode="text" />
@@ -4003,7 +4036,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
       },
       {
         title: 'Recorder states',
-        width: 390,
+        width: 360,
         render: () => (
           <div style={{ width: '100%', padding: 16, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: 18, background: 'var(--eq-bg-primary)' }}>
             <VoiceRecorder state="idle" />
@@ -4019,7 +4052,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
       },
       {
         title: 'Task conversation',
-        width: 390,
+        width: 360,
         render: () => (
           <div style={{ width: '100%', background: 'var(--eq-chat-wallpaper-bg)' }}>
             <AssistantTaskHeader title="Setting up a reminder for appointment at Dr. Mehta’s" onClose={noop} />
@@ -4037,7 +4070,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
       {
         title: 'Reply card',
         note: 'The assistant’s drafted answer inside a task. Every action row is emoji + label.',
-        width: 390,
+        width: 360,
         render: () => <div style={{ padding: 16, width: '100%', boxSizing: 'border-box', background: 'var(--eq-chat-wallpaper-bg)' }}><AssistantReplyCard time="03:21" actions={[{ label: 'Edit', emoji: '✏️' }, { label: 'Send', emoji: '📤' }]}>{'Sure! Here’s a draft for Amit:\n\nHi Amit! Count me in for Sunday 8 PM. See you there 👍'}</AssistantReplyCard></div>,
         code: `<AssistantReplyCard time="03:21" actions={[{ label: 'Edit', emoji: '✏️', onClick: edit }, { label: 'Send', emoji: '📤', onClick: send }]}>
   {draft}
@@ -4046,7 +4079,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
       {
         title: 'Chat task sheet',
         note: 'From a chat’s AI layer: the sheet stops below the chat header so the user sees which chat it belongs to.',
-        width: 390,
+        width: 360,
         render: () => <div style={{ width: '100%', height: 640, display: 'flex' }}><ChatTaskSheet mode="inline" contact="Amit" request="Reply on whatsapp" /></div>,
         code: `<ChatScreen chat={amit} />               // tap Reply on WhatsApp or send a message
 <ChatTaskSheet contact="Amit" request={text} onClose={close} onSend={openWhatsApp} />`,
@@ -4075,7 +4108,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     examples: [
       {
         title: 'Choice cards',
-        width: 390,
+        width: 360,
         render: () => (
           <div style={{ width: '100%', padding: 16, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: 16 }}>
             <ChoiceCard icon="globe" title="All calls except" description="Equal answers all your calls, except the people you choose." />
@@ -4092,7 +4125,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
       },
       {
         title: 'Contact pickers',
-        width: 390,
+        width: 360,
         render: () => (
           <div style={{ width: '100%', position: 'relative' }}>
             <div className="eq-ch-picks"><ContactPick initials="SU" name="Mom" /><ContactPick initials="PA" name="Pappa" /><ContactPick initials="VC" name="Vijay Cousin" mark="remove" /></div>
@@ -4109,13 +4142,13 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
       },
       {
         title: 'Permission sheet',
-        width: 390,
+        width: 360,
         render: () => <div style={{ width: '100%' }}><PermissionSheet art="permission-contacts" title="Allow contacts permission" body="I need your contact list to know who is calling." cta="Allow" onClose={noop} /></div>,
         code: `<PermissionSheet art="permission-contacts" title="Allow contacts permission" body="I need your contact list to know who is calling." cta="Allow" onAllow={requestContacts} onClose={close} />`,
       },
       {
         title: 'Call notification',
-        width: 390,
+        width: 360,
         render: () => (
           <div style={{ width: '100%', padding: 12, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: 12, background: '#142540' }}>
             <CallNotification name="Mom" state="answering" />
@@ -4127,7 +4160,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
 <CallNotification name="Mom" state="expanded" summary={liveSummary} replies={['Takeover', 'I’ll bring them all', 'I’ll call back to get more']} onReply={reply} onAnswer={answer} />
 <CallNotification name="Mom" state="connecting" />`,
       },
-      { title: 'Ongoing call bar', width: 390, render: () => <div style={{ width: '100%' }}><OngoingCallBar elapsed="02:34" /></div>, code: `<OngoingCallBar elapsed="02:34" />` },
+      { title: 'Ongoing call bar', width: 360, render: () => <div style={{ width: '100%' }}><OngoingCallBar elapsed="02:34" /></div>, code: `<OngoingCallBar elapsed="02:34" />` },
     ],
     props: [
       { component: 'ChoiceCard', props: [req('icon', 'IconName', 'Leading icon.'), req('title', 'string', 'Option.'), req('description', 'string', 'What it means.'), opt('selected', 'boolean', undefined, 'Green outline + tint.'), opt('suggested', 'boolean', undefined, '⭐ Suggested tag.'), opt('disabled', 'boolean', undefined, 'Dimmed (e.g. no permission).'), opt('onSelect', '() => void', undefined, 'Choose.')] },
@@ -4162,7 +4195,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
       },
       {
         title: 'Payment processing',
-        width: 390,
+        width: 360,
         render: () => <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 12, padding: '12px 0' }}><ProcessingStrip /><ProcessingStrip variant="card" /><div style={{ padding: '0 12px' }}><ProcessingStrip variant="toast" /></div></div>,
         code: `<ProcessingStrip />                 // under a chat header
 <ProcessingStrip variant="card" />  // under the home toggle
@@ -4170,33 +4203,41 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
       },
       {
         title: 'Sheet paywall',
-        width: 390,
+        width: 360,
         render: () => <div style={{ width: '100%' }}><PaywallSheet mode="inline" /></div>,
         code: `<PaywallSheet applied={applied} onApply={apply} onSupport={openHelp} onScrim={askToLeave} onUnlock={pay} />`,
       },
       {
         title: 'Exit offer and offer strip',
-        width: 390,
+        width: 360,
         render: () => <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 16, padding: '16px 0' }}><div style={{ padding: '0 16px' }}><ExitOfferDialog mode="inline" /></div><OfferStrip /></div>,
         code: `<ExitOfferDialog onDismiss={leave} onClaim={claim} />          // chat: dismissLabel="Leave" claimLabel="Keep 25% Off"
 <OfferStrip onClick={reopenWithCoupon} />`,
       },
       {
         title: 'Home cards',
-        width: 390,
+        width: 360,
         render: () => <div style={{ width: '100%', paddingBottom: 12 }}><HomeNoticeCard lead={<span aria-hidden>👑</span>} title="Your Plan Expired" subtitle="Renew to get Unlimited access back" cta="Renew Now" /><UsageCapCard left={7} limit={30} /></div>,
         code: `<HomeNoticeCard lead="👑" title="Your Plan Expired" subtitle="Renew to get Unlimited access back" cta="Renew Now" onCta={renew} />
 <UsageCapCard left={7} limit={30} resets="Mon" onUpgrade={openPaywall} />`,
       },
       {
+        title: 'Phone app not restored',
+        note: 'Personal Number Outbound Call: after Later on the "Phone app didn’t switch back" dialog. Stays on top of Chats until Phone is the default again; Fix opens Android’s default-app setting.',
+        width: 360,
+        render: () => <div style={{ width: '100%', paddingBottom: 12 }}><HomeNoticeCard lead={<Icon name="call" size={16} />} title="Calls still open in Equal" subtitle="Make Phone your default again" cta="Fix" /></div>,
+        code: `<HomeNoticeCard lead={<Icon name="call" size={16} />} title="Calls still open in Equal"
+  subtitle="Make Phone your default again" cta="Fix" onCta={openDefaultAppSettings} />`,
+      },
+      {
         title: 'Equal AI notice',
-        width: 390,
+        width: 360,
         render: () => <div style={{ padding: 16, background: 'var(--eq-chat-wallpaper-bg)', width: '100%', boxSizing: 'border-box' }}><AssistantNoticeCard title="Your Plan Expired" body="Renew to unlock unlimited recordings, call summaries, transcripts, and unlimited call screening." cta="Renew Equal AI Unlimited" /></div>,
         code: `<AssistantNoticeCard title="Your Plan Expired" body="Renew to unlock unlimited recordings, …" cta="Renew Equal AI Unlimited" onCta={openPaywall} />`,
       },
       {
         title: 'Locked recording and actions',
-        width: 390,
+        width: 360,
         render: () => (
           <div style={{ padding: 16, width: '100%', boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: 12 }}>
             <div className="eq-summary"><div style={{ padding: 8 }}><LockedRecording /></div><SummaryActions locked actions={[{ label: 'Call back', icon: 'call-filled' }, { label: 'Add to Calendar', icon: 'calendar' }]} /></div>
@@ -4228,10 +4269,10 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     spec: 'Search',
     tokens: ['button/primary', 'bg/surface', 'text/secondary', 'text/primary'],
     examples: [
-      { title: 'Search bar', width: 390, render: () => <div style={{ width: '100%' }}><SearchBar value="" /><SearchBar value="Sa" /></div>, code: `<SearchBar value={q} onChange={setQ} onBack={goBack} autoFocus />` },
-      { title: 'Recent searches', width: 390, render: () => <div style={{ width: '100%' }}><SearchSection title="Recent searches" onClear={noop} /><RecentSearches items={[{ label: 'Amit Nanda', category: 'career' }, { label: 'Shankar', category: 'ride' }, { label: 'DSR Builder', category: 'financial' }]} /></div>, code: `<SearchSection title="Recent searches" onClear={clearRecent} />
+      { title: 'Search bar', width: 360, render: () => <div style={{ width: '100%' }}><SearchBar value="" /><SearchBar value="Sa" /></div>, code: `<SearchBar value={q} onChange={setQ} onBack={goBack} autoFocus />` },
+      { title: 'Recent searches', width: 360, render: () => <div style={{ width: '100%' }}><SearchSection title="Recent searches" onClear={noop} /><RecentSearches items={[{ label: 'Amit Nanda', category: 'career' }, { label: 'Shankar', category: 'ride' }, { label: 'DSR Builder', category: 'financial' }]} /></div>, code: `<SearchSection title="Recent searches" onClear={clearRecent} />
 <RecentSearches items={recent} onPick={setQ} />` },
-      { title: 'Message results', width: 390, render: () => <div style={{ width: '100%' }}><SearchSection title="Messages" /><MessageResult name="Santosh Anna" time="3:02 PM" text="Caller said that they’ll call you in the evening" query="Sa" /><MessageResult name="Amit Nanda" time="3:02 PM" text="Same address, near Gachibowli" query="Sa" /></div>, code: `<MessageResult name="Santosh Anna" time="3:02 PM" text={line} query={q} onClick={openMessage} />` },
+      { title: 'Message results', width: 360, render: () => <div style={{ width: '100%' }}><SearchSection title="Messages" /><MessageResult name="Santosh Anna" time="3:02 PM" text="Caller said that they’ll call you in the evening" query="Sa" /><MessageResult name="Amit Nanda" time="3:02 PM" text="Same address, near Gachibowli" query="Sa" /></div>, code: `<MessageResult name="Santosh Anna" time="3:02 PM" text={line} query={q} onClick={openMessage} />` },
       { title: 'States', width: 'wide', render: () => (
         <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', justifyContent: 'center', padding: 12 }}>
           <div style={{ width: 240 }}><SearchState art="illustration-search" size={120} title="Search across your calls" body="Look for names, phone numbers, categories, keywords" /></div>
@@ -4263,11 +4304,11 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     spec: 'Flows/Call Back · Mute · Reply On WhatsApp · Save Contact · Error states',
     tokens: ['button/primary', 'bg/surface', 'chat/wallpaper-bg', 'action/stroke/unread'],
     examples: [
-      { title: 'Assistant turn', width: 390, render: () => <div style={{ padding: 16, width: '100%', boxSizing: 'border-box', background: 'var(--eq-chat-wallpaper-bg)' }}><AiTurn actions={[{ label: 'Mute', emoji: '🔕' }]}>Are you sure? You’ll not get any call from them even if it’s important</AiTurn></div>, code: `<AiTurn actions={[{ label: 'Mute', emoji: '🔕', onClick: mute }]}>Are you sure? …</AiTurn>` },
-      { title: 'Hold to speak', width: 390, render: () => <div style={{ padding: 16, width: '100%', boxSizing: 'border-box', background: 'var(--eq-bg-primary)' }}><HoldToSpeakBar /></div>, code: `<HoldToSpeakBar onHold={record} onKeyboard={showKeyboard} />` },
-      { title: 'Edit bubble', width: 390, render: () => <div style={{ width: '100%', background: 'rgba(0,0,0,0.35)' }}><EditBubble value="Hi Amit! Count me in for Sunday 8 PM. See you there 👍" /></div>, code: `<EditBubble value={draft} onChange={setDraft} onDone={save} autoFocus />` },
-      { title: 'New contact: iOS parity', width: 390, render: () => <div style={{ width: '100%' }}><NewContactForm variant="grouped" value={{ first: 'Rahul (Electrician)', phone: '+91 98717 46113' }} /></div>, code: `<NewContactForm variant="grouped" value={contact} onClose={close} onSave={save} />` },
-      { title: 'New contact: WhatsApp parity', width: 390, render: () => <div style={{ width: '100%', height: 520, display: 'flex' }}><NewContactForm variant="outlined" value={{ first: 'Rahul (Electrician)', phone: '+91 98717 46113', sync: true }} /></div>, code: `<NewContactForm variant="outlined" value={contact} onSave={save} onSync={setSync} />` },
+      { title: 'Assistant turn', width: 360, render: () => <div style={{ padding: 16, width: '100%', boxSizing: 'border-box', background: 'var(--eq-chat-wallpaper-bg)' }}><AiTurn actions={[{ label: 'Mute', emoji: '🔕' }]}>Are you sure? You’ll not get any call from them even if it’s important</AiTurn></div>, code: `<AiTurn actions={[{ label: 'Mute', emoji: '🔕', onClick: mute }]}>Are you sure? …</AiTurn>` },
+      { title: 'Hold to speak', width: 360, render: () => <div style={{ padding: 16, width: '100%', boxSizing: 'border-box', background: 'var(--eq-bg-primary)' }}><HoldToSpeakBar /></div>, code: `<HoldToSpeakBar onHold={record} onKeyboard={showKeyboard} />` },
+      { title: 'Edit bubble', width: 360, render: () => <div style={{ width: '100%', background: 'rgba(0,0,0,0.35)' }}><EditBubble value="Hi Amit! Count me in for Sunday 8 PM. See you there 👍" /></div>, code: `<EditBubble value={draft} onChange={setDraft} onDone={save} autoFocus />` },
+      { title: 'New contact: iOS parity', width: 360, render: () => <div style={{ width: '100%' }}><NewContactForm variant="grouped" value={{ first: 'Rahul (Electrician)', phone: '+91 98717 46113' }} /></div>, code: `<NewContactForm variant="grouped" value={contact} onClose={close} onSave={save} />` },
+      { title: 'New contact: WhatsApp parity', width: 360, render: () => <div style={{ width: '100%', height: 520, display: 'flex' }}><NewContactForm variant="outlined" value={{ first: 'Rahul (Electrician)', phone: '+91 98717 46113', sync: true }} /></div>, code: `<NewContactForm variant="outlined" value={contact} onSave={save} onSync={setSync} />` },
       { title: 'Offline', width: 'wide', render: () => (
         <div style={{ display: 'flex', gap: 12, padding: 12, flexWrap: 'wrap', justifyContent: 'center' }}>
           <div style={{ width: 300 }}><OfflineSheet mode="inline" /></div>
@@ -4297,7 +4338,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     examples: [
       { title: 'Stat and rating', render: () => <Col gap={16} style={{ alignItems: 'center' }}><StatBlock value="10 Lakh+" label="People know who called and why" /><RatingPill rating={4.5} /></Col>, code: `<StatBlock value="10 Lakh+" label="People know who called and why" />
 <RatingPill rating={4.5} />` },
-      { title: 'Testimonials', width: 390, render: () => <div style={{ width: '100%', padding: '16px 0' }}><TestimonialCarousel items={testimonials.map((t, i) => ({ ...t, avatar: <Asset name={(['avatar-testimonial-1', 'avatar-testimonial-2', 'avatar-testimonial-3'] as const)[i % 3]} size={36} alt="" /> }))} /></div>, code: `<TestimonialCarousel items={[{ quote, name, avatar: <ProfileAvatar variant="female" size={36} /> }, …]} />` },
+      { title: 'Testimonials', width: 360, render: () => <div style={{ width: '100%', padding: '16px 0' }}><TestimonialCarousel items={testimonials.map((t, i) => ({ ...t, avatar: <Asset name={(['avatar-testimonial-1', 'avatar-testimonial-2', 'avatar-testimonial-3'] as const)[i % 3]} size={36} alt="" /> }))} /></div>, code: `<TestimonialCarousel items={[{ quote, name, avatar: <ProfileAvatar variant="female" size={36} /> }, …]} />` },
     ],
     props: [
       { component: 'StatBlock', props: [req('value', 'string', '"10 Lakh+".'), req('label', 'string', 'Under it.')] },
@@ -5184,9 +5225,9 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
       {
         title: 'Free vs paid',
         note: 'Free users get the plain bust; paid users get the avatar on its gold background and scalloped ring.',
-        width: 390,
+        width: 360,
         render: () => (
-          <div style={{ padding: 16, width: 390, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: 16 }}>
+          <div style={{ padding: 16, width: 360, boxSizing: 'border-box', display: 'flex', flexDirection: 'column', gap: 16 }}>
             <GenderSelector value="male" tier="free" onChange={noop} />
             <GenderSelector value="male" tier="paid" onChange={noop} />
           </div>
@@ -5350,7 +5391,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
       {
         title: 'Your instructions and browse presets',
         note: 'Each preset leads with its 3D art on a tinted circle; the Active Instructions entry uses the robot with a wand on lime.',
-        width: 390,
+        width: 360,
         render: () => (
           <OnPrimary pad="16px">
             <Col gap={6}>
@@ -5385,7 +5426,7 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
       {
         title: 'Active instructions',
         note: 'Outlined card: bold title + ⋮, the source badge with the preset art, then WHEN / DO in fading pills. No divider.',
-        width: 390,
+        width: 360,
         render: () => (
           <OnPrimary pad="16px">
             <Col gap={8}>

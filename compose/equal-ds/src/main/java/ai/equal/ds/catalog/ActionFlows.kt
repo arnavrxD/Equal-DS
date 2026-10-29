@@ -1,5 +1,7 @@
 package ai.equal.ds.catalog
 
+import ai.equal.ds.components.MessageList
+import ai.equal.ds.components.CallSummaryMessage
 import ai.equal.ds.assets.EqualCategory
 import ai.equal.ds.components.ActionCard
 import ai.equal.ds.components.ActionCardAction
@@ -14,7 +16,6 @@ import ai.equal.ds.components.AssistantSheetShell
 import ai.equal.ds.components.AssistantTaskHeader
 import ai.equal.ds.components.AssistantThinking
 import ai.equal.ds.components.CallFeedback
-import ai.equal.ds.components.CallSummaryBubble
 import ai.equal.ds.components.ChatBubble
 import ai.equal.ds.components.ChatBubbleType
 import ai.equal.ds.components.ChatHeader
@@ -54,7 +55,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -72,7 +72,6 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -145,22 +144,15 @@ private fun rememberScrollToEnd(key: Any?): ScrollState {
     return scroll
 }
 
-/** The message column of a thread: padding 12, gap 8. */
+/** The scrolling message column of a thread: a [MessageList] (padding 12, the side-based rhythm). */
 @Composable
-private fun MessageList(scroll: ScrollState, content: @Composable ColumnScope.() -> Unit) {
-    Column(
+private fun ThreadMessages(scroll: ScrollState, content: @Composable () -> Unit) {
+    MessageList(
         Modifier
             .fillMaxSize()
-            .verticalScroll(scroll)
-            .padding(12.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+            .verticalScroll(scroll),
         content = content,
     )
-}
-
-@Composable
-private fun CenteredEvent(label: String) {
-    Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) { ThreadEvent(label) }
 }
 
 /** The call history every action starts from: summary (recording, text, Call Back) and the rating card. */
@@ -169,12 +161,12 @@ private fun CallHistory(action: ChatAction) {
     var playing by remember { mutableStateOf(false) }
     var speed by remember { mutableStateOf(PlaybackSpeed.X1) }
     var rating by remember { mutableIntStateOf(0) }
-    CenteredEvent("Call Ended 4:37 PM")
+    ThreadEvent("Call Ended 4:37 PM")
     ChatBubble(message = "Hey Keshav! Here is the summary of your call", timestamp = "03:21", type = ChatBubbleType.Assistant, sender = "Equal AI")
-    CallSummaryBubble(
+    CallSummaryMessage(
+        first = false,
         summary = summaryFor(action),
         timestamp = "03:21",
-        modifier = Modifier.padding(start = 36.dp),
         voiceNote = {
             VoiceNotePlayer(
                 isPlaying = playing,
@@ -193,7 +185,7 @@ private fun CallHistory(action: ChatAction) {
         rating = rating,
         onRatingChange = { rating = it },
         onShareFeedbackClick = {},
-        modifier = Modifier.padding(start = 36.dp),
+        modifier = Modifier.padding(start = 36.dp, top = 4.dp),
     )
 }
 
@@ -201,7 +193,7 @@ private fun CallHistory(action: ChatAction) {
 @Composable
 private fun MissedThread(case: MissedCase, onCallBack: () -> Unit) {
     var feedback by remember { mutableStateOf<CallFeedback?>(null) }
-    CenteredEvent("Missed Call 3:31 PM")
+    ThreadEvent("Missed Call 3:31 PM")
     Box(Modifier.padding(start = 36.dp)) {
         if (case == MissedCase.Reason) {
             MissedCallCard(
@@ -243,7 +235,7 @@ private fun TaskSheet(
     scrollKey: Any?,
     onClose: () -> Unit,
     footer: @Composable () -> Unit,
-    content: @Composable ColumnScope.() -> Unit,
+    content: @Composable () -> Unit,
 ) {
     AssistantSheetShell(
         task = true,
@@ -253,7 +245,7 @@ private fun TaskSheet(
         footer = { Column(verticalArrangement = Arrangement.spacedBy(12.dp)) { footer() } },
     ) {
         ChatWallpaper(Modifier.fillMaxWidth().weight(1f)) {
-            MessageList(rememberScrollToEnd(scrollKey), content)
+            ThreadMessages(rememberScrollToEnd(scrollKey), content)
         }
     }
 }
@@ -349,7 +341,7 @@ fun ChatActionScreen(
             EqualAppBar(title = "Edit Message", onBackClick = { go("draft") }, align = AppBarAlign.Start, statusBar = true, modifier = Modifier.zIndex(1f))
             Box(Modifier.weight(1f).fillMaxWidth()) {
                 ChatWallpaper(Modifier.fillMaxSize()) {
-                    MessageList(rememberScrollToEnd(s)) { history() }
+                    ThreadMessages(rememberScrollToEnd(s)) { history() }
                 }
                 Box(Modifier.matchParentSize().background(EditDimColor))
             }
@@ -377,7 +369,7 @@ fun ChatActionScreen(
         Column(Modifier.fillMaxSize().background(EqualTheme.colors.bgPrimary)) {
             ChatTop(name = c.name, subtitle = c.phone, category = c.category, onBack = onBack)
             ChatWallpaper(Modifier.weight(1f).fillMaxWidth()) {
-                MessageList(rememberScrollToEnd(s)) {
+                ThreadMessages(rememberScrollToEnd(s)) {
                     history()
                     Results(action, s, c, text, missedCase != null, go)
                 }
@@ -617,8 +609,8 @@ fun ChatErrorScreen(
             Column(Modifier.fillMaxSize().background(colors.bgPrimary)) {
                 ChatTop(name = "+91-99536 72604", subtitle = null, category = EqualCategory.NA, onBack = {})
                 ChatWallpaper(Modifier.weight(1f).fillMaxWidth()) {
-                    MessageList(rememberScrollState()) {
-                        CenteredEvent("Call Ended 4:37 PM")
+                    ThreadMessages(rememberScrollState()) {
+                        ThreadEvent("Call Ended 4:37 PM")
                         ChatBubble(message = "Hey Keshav! Here is the summary of your call", timestamp = "03:21", type = ChatBubbleType.Assistant, sender = "Equal AI")
                     }
                 }
@@ -647,7 +639,7 @@ fun ChatErrorScreen(
         Column(Modifier.fillMaxSize().background(colors.bgPrimary)) {
             ChatTop(name = "Rahul", subtitle = "+91 98717 46113", category = EqualCategory.NA, onBack = {})
             ChatWallpaper(Modifier.weight(1f).fillMaxWidth()) {
-                MessageList(rememberScrollToEnd(state)) {
+                ThreadMessages(rememberScrollToEnd(state)) {
                     CallHistory(ChatAction.SaveContact)
                     AiTurn(text = "Saved! Rahul is in your contacts now.", width = 260.dp)
                     Indented { ContactCard("+91 98717 46113", listOf(ActionCardAction("View contact", "👤", onClick = {}))) }

@@ -45,7 +45,7 @@ import {
   Button,
   CallHistoryList,
   CallHistoryRow,
-  CallSummary,
+  CallSummaryMessage,
   ChatBubble,
   ChatHeader,
   ChatListItem,
@@ -419,19 +419,18 @@ export function ChatScreen({ chat = sampleChats[0], live = false, lock, onUnlock
         <ThreadEvent label="Call Ended 03:31" />
         <ThreadNotice>Call has ended. You are now talking to your AI assistant.</ThreadNotice>
         <ChatBubble kind="assistant" sender="Equal AI" time="03:32">Hey Keshav! Here is the summary of your call</ChatBubble>
-        <div style={{ paddingLeft: 36 }}>
-          {locked || withActions ? (
-            <CallSummary
-              width={264}
-              summary="Priya from Dr. Mehta's clinic confirmed your appointment for tomorrow at 10 AM. Bring your previous reports."
-              time="03:32"
-              recording={locked ? <LockedRecording onUnlock={onUnlock} /> : undefined}
-              footer={withActions ? <SummaryActions actions={[{ label: 'Call back', icon: 'call-filled' }, { label: 'Add to Calendar', icon: 'calendar' }]} /> : undefined}
-            />
-          ) : (
-            <CallSummary summary="Priya from Dr. Mehta's clinic confirmed your appointment for tomorrow at 10 AM. Bring your previous reports." time="03:32" onShare={() => {}} width={264} tag={{ emoji: '🪄', label: '2 instructions applied in this call' }} locked={lock === 'audio' ? 'audio' : undefined} onUnlock={onUnlock} />
-          )}
-        </div>
+        {locked || withActions ? (
+          <CallSummaryMessage
+            first={false}
+            width={264}
+            summary="Priya from Dr. Mehta's clinic confirmed your appointment for tomorrow at 10 AM. Bring your previous reports."
+            time="03:32"
+            recording={locked ? <LockedRecording onUnlock={onUnlock} /> : undefined}
+            footer={withActions ? <SummaryActions actions={[{ label: 'Call back', icon: 'call-filled' }, { label: 'Add to Calendar', icon: 'calendar' }]} /> : undefined}
+          />
+        ) : (
+          <CallSummaryMessage first={false} summary="Priya from Dr. Mehta's clinic confirmed your appointment for tomorrow at 10 AM. Bring your previous reports." time="03:32" onShare={() => {}} width={264} tag={{ emoji: '🪄', label: '2 instructions applied in this call' }} locked={lock === 'audio' ? 'audio' : undefined} onUnlock={onUnlock} />
+        )}
         <div style={{ paddingLeft: 36, marginTop: 4 }}>
           <FeedbackCard />
         </div>

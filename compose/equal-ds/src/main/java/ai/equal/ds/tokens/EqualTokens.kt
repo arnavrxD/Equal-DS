@@ -91,7 +91,7 @@ data class EqualColors(
     val actionBottomColor: Color,
     /** component/chat-bubble/user-bg */
     val chatBubbleUserBg: Color,
-    /** component/chat-bubble/user-title */
+    /** component/chat-bubble/user-title — derived from the screens */
     val chatBubbleUserTitle: Color,
     /** component/action-card/highlight — derived from the screens */
     val actionCardHighlight: Color,
@@ -408,7 +408,7 @@ val LightEqualColors = EqualColors(
     chipLabelRead = Color(0xFF3C3C3C), // direct value
     actionBottomColor = Color(0xFFEBEBEB), // direct value
     chatBubbleUserBg = Color(0xFFE8FFED), // direct value
-    chatBubbleUserTitle = Color(0xFF006223), // direct value
+    chatBubbleUserTitle = Color(0xFF00B140), // brand/green
     actionCardHighlight = Color(0xFFD3FEE3), // direct value
     textDanger = Color(0xFFC50000), // red/red08
     textSuccess = Color(0xFF00762B), // direct value
@@ -556,7 +556,7 @@ val LightEqualColors = EqualColors(
 val DarkEqualColors = EqualColors(
     bgPrimary = Color(0xFF141414), // direct value
     bgSurface = Color(0xFF1F1F1F), // direct value
-    bgOverlay = Color(0x661E1E1E), // direct value
+    bgOverlay = Color(0x99000000), // brand/black · 60%
     textPrimary = Color(0xCCFFFFFF), // brand/white · 80%
     textPlaceholder = Color(0x66FFFFFF), // brand/white · 40%
     textSecondary = Color(0x99FFFFFF), // brand/white · 60%
@@ -583,7 +583,7 @@ val DarkEqualColors = EqualColors(
     chipLabelRead = Color(0x99FFFFFF), // brand/white · 60%
     actionBottomColor = Color(0xFF191919), // direct value
     chatBubbleUserBg = Color(0xFF272C1E), // direct value
-    chatBubbleUserTitle = Color(0xFFBAFF29), // brand/lime
+    chatBubbleUserTitle = Color(0xFF00B140), // brand/green
     actionCardHighlight = Color(0xFF2F3423), // direct value
     textDanger = Color(0xFFFF5151), // direct value
     textSuccess = Color(0xFFBAFF29), // brand/lime
@@ -666,8 +666,8 @@ val DarkEqualColors = EqualColors(
     profileHeroStatusText = Color(0xFF000000), // direct value
     profileHeroPlainBg = Color(0xFF1E2215), // direct value
     infoNoteBg = Color(0x1F2395FF), // direct value
-    ongoingBarBg = Color(0xCCFFFFFF), // brand/white · 80%
-    ongoingBarText = Color(0xCC000000), // brand/black · 80%
+    ongoingBarBg = Color(0xFFFFFFFF), // brand/white
+    ongoingBarText = Color(0xFF00B140), // brand/green
     initialsDiscBg = Color(0xFF262626), // direct value
     paywallHeroTop = Color(0xFF4A3C1C), // direct value
     takeoverText = Color(0xFFFFFFFF), // direct value

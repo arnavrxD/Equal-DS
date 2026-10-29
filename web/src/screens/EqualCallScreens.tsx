@@ -2,7 +2,7 @@
 // screen, over an app, on the launcher and in Equal (three strip options), the caller from a chat
 // (mic permission, Calling, Ringing, Connected), the minimised strip, and the Voice Call card after.
 import { useEffect, useState, type ReactNode } from 'react';
-import { AiChatPanel, CallLogCard, CallStrip, CallSummary, ChatBubble, ChatHeader, ChatWallpaper, DayDivider, DeviceScreen, EqualCallScreen, IncomingCallNotification, MessageList, PermissionDialog, Screen, SystemPermissionStandIn, useCallTimer, type EqualCallState } from '../index';
+import { AiChatPanel, CallLogCard, CallStrip, CallSummaryMessage, ChatBubble, ChatHeader, ChatWallpaper, DayDivider, DeviceScreen, EqualCallScreen, IncomingCallNotification, MessageList, PermissionDialog, Screen, SystemPermissionStandIn, useCallTimer, type EqualCallState } from '../index';
 import { HomeScreen } from './Screens';
 
 const RECEIVER = { name: 'Keshav Reddy', initials: 'KR' };
@@ -95,9 +95,7 @@ export function EqualCallChat({ ongoing, seconds = 21, afterCall, onCall, onOpen
         <MessageList>
           <DayDivider label="Today" />
           <ChatBubble kind="assistant" sender="Equal AI" time="03:21">Hey Keshav! Here is the summary of your call</ChatBubble>
-          <div style={{ paddingLeft: 36 }}>
-            <CallSummary summary="Chaitanya invited you to dinner this Sunday, 8 PM at his place. He asked you to confirm by tonight." time="03:21" onShare={() => {}} width={264} />
-          </div>
+          <CallSummaryMessage first={false} summary="Chaitanya invited you to dinner this Sunday, 8 PM at his place. He asked you to confirm by tonight." time="03:21" onShare={() => {}} width={264} />
           {afterCall && <ChatBubble kind="outgoing" sender="You" time="03:21" bare><CallLogCard duration="1min" /></ChatBubble>}
         </MessageList>
       </ChatWallpaper>

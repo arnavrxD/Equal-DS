@@ -39,7 +39,7 @@ export default function Brand() {
 
       <H2>Mascot</H2>
       <p className="s-p">The robot on the “AI Assistant is On” card. The file keeps its transparent padding; <code>{'<Mascot>'}</code> scales it so the robot fills the box, and turns it greyscale when the assistant is off.</p>
-      <Example title="Mascot in the assistant card" width={390} code={`<Mascot size={36} />\n<AssistantToggle on />`}>
+      <Example title="Mascot in the assistant card" width={360} code={`<Mascot size={36} />\n<AssistantToggle on />`}>
         <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: 16, alignItems: 'center' }}>
           <div style={{ display: 'flex', gap: 28, alignItems: 'flex-end' }}>
             <Mascot size={36} />
@@ -97,8 +97,8 @@ export default function Brand() {
 
       <H2>Chat wallpaper</H2>
       <p className="s-p">The supplied doodle pattern, rendered as a tinted alpha mask on a 360 × 750 tile, so one file serves light and dark. It sits behind chat threads and the instruction setup chat.</p>
-      <Example title="Thread on the wallpaper" width={390} code={`<ChatWallpaper>\n  <MessageList>…</MessageList>\n</ChatWallpaper>`}>
-        <div style={{ width: 390, borderRadius: 16, overflow: 'hidden' }}>
+      <Example title="Thread on the wallpaper" width={360} code={`<ChatWallpaper>\n  <MessageList>…</MessageList>\n</ChatWallpaper>`}>
+        <div style={{ width: 360, borderRadius: 16, overflow: 'hidden' }}>
           <ChatWallpaper style={{ height: 300 }}>
             <MessageList>
               <ChatBubble kind="outgoing" sender="Equal AI" time="03:21">Hi, who is this?</ChatBubble>

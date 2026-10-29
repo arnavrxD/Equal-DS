@@ -1,11 +1,14 @@
 package ai.equal.ds.catalog
 
+import ai.equal.ds.components.MessageList
+import ai.equal.ds.components.CallSummaryMessage
+import ai.equal.ds.components.MessageSide
+import ai.equal.ds.components.messageSide
 import ai.equal.ds.assets.EqualAssets
 import ai.equal.ds.components.ActionChipData
 import ai.equal.ds.components.AiChatPanel
 import ai.equal.ds.components.CallLogCard
 import ai.equal.ds.components.CallStripStyle
-import ai.equal.ds.components.CallSummaryBubble
 import ai.equal.ds.components.ChatBubble
 import ai.equal.ds.components.ChatBubbleType
 import ai.equal.ds.components.ChatHeader
@@ -24,7 +27,6 @@ import ai.equal.ds.components.SystemPermissionStandIn
 import ai.equal.ds.components.rememberCallTimer
 import ai.equal.ds.theme.EqualTheme
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -124,11 +126,11 @@ fun EqualCallChatSample(
         if (ongoing) OngoingCallStrip("Chaitanya Sai", seconds, onOpen = onOpenCall, onEnd = onEnd, muted = muted, onMute = { muted = !muted })
         ChatHeader(name = "Chaitanya Sai", onBackClick = {}, subtitle = "+91-81720 33604", initials = "CS", category = null, onCallClick = onCall, callDisabled = ongoing)
         ChatWallpaper(Modifier.weight(1f).fillMaxWidth()) {
-            Column(Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(12.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                DayDivider("Today", Modifier.align(Alignment.CenterHorizontally))
+            MessageList(Modifier.fillMaxSize().verticalScroll(rememberScrollState())) {
+                DayDivider("Today")
                 ChatBubble(message = "Hey Keshav! Here is the summary of your call", timestamp = "03:21", type = ChatBubbleType.Assistant, sender = "Equal AI")
-                CallSummaryBubble(summary = "Chaitanya invited you to dinner this Sunday, 8 PM at his place. He asked you to confirm by tonight.", timestamp = "03:21", modifier = Modifier.padding(start = 36.dp), onShareClick = {})
-                if (afterCall) Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.CenterEnd) { CallLogCard(duration = "1min") }
+                CallSummaryMessage(first = false, summary = "Chaitanya invited you to dinner this Sunday, 8 PM at his place. He asked you to confirm by tonight.", timestamp = "03:21", width = 264.dp, onShareClick = {})
+                if (afterCall) Box(Modifier.messageSide(MessageSide.Right).fillMaxWidth(), contentAlignment = Alignment.CenterEnd) { CallLogCard(duration = "1min") }
             }
         }
         AiChatPanel(

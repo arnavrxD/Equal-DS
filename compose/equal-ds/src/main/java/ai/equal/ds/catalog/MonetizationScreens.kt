@@ -1,5 +1,8 @@
 package ai.equal.ds.catalog
 
+import ai.equal.ds.components.MessageList
+import ai.equal.ds.components.MessageSide
+import ai.equal.ds.components.messageSide
 import ai.equal.ds.assets.EqualAssets
 import ai.equal.ds.components.ActionChipData
 import ai.equal.ds.components.AssistantToggleArt
@@ -138,7 +141,7 @@ private fun MonetizationScaffold(
 /** Assistant row of a message list (web `ChatBubble kind="assistant" bare`): 28dp avatar column + 8 + [content]. */
 @Composable
 private fun AssistantRow(modifier: Modifier = Modifier, content: @Composable RowScope.() -> Unit) {
-    Row(modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+    Row(modifier.messageSide(MessageSide.Left).fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
         Box(Modifier.width(28.dp), contentAlignment = Alignment.TopCenter) { AiAvatar(size = AiAvatarSize.Small) }
         content()
     }
@@ -267,17 +270,13 @@ fun PaywallPreview(
             }
         }
         PaywallTouchpoint.Chat -> LockedPreviewCard(modifier) {
-            Column(
-                Modifier.padding(horizontal = 4.dp, vertical = 12.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp),
-            ) {
+            MessageList(Modifier.padding(horizontal = 4.dp, vertical = 12.dp)) {
                 ChatBubble(message = "Hello, who is this?", timestamp = "03:21", type = ChatBubbleType.Outgoing)
                 ChatBubble(
                     message = "Vijay from no broker",
                     timestamp = "03:21",
                     type = ChatBubbleType.Incoming,
                     incomingCategory = EqualCategory.RealEstate,
-                    modifier = Modifier.padding(top = 8.dp),
                 )
                 ChatBubble(
                     message = "Hey this is vijay calling from magicbrick a property advisor",
@@ -290,12 +289,9 @@ fun PaywallPreview(
             }
         }
         PaywallTouchpoint.Audio -> LockedPreviewCard(modifier) {
-            Column(
-                Modifier.padding(horizontal = 4.dp, vertical = 12.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp),
-            ) {
+            MessageList(Modifier.padding(horizontal = 4.dp, vertical = 12.dp)) {
                 ChatBubble(message = "Hi Arnav, Called you regarding…", timestamp = "03:21", type = ChatBubbleType.Outgoing, locked = true)
-                AssistantRow(Modifier.padding(top = 8.dp)) {
+                AssistantRow {
                     CallSummaryBubble(
                         summary = "Hey Keshav! Here is the summary of your call. Hi Arnav, Called you regarding the property visit.",
                         timestamp = "03:22",

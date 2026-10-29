@@ -44,7 +44,7 @@ export const healthCheckStates: Record<string, HcState> = {
 
 export type HealthCheckHandlers = { onStart?: () => void; onHome?: () => void; onBack?: () => void; onGrantApp?: () => void; onGrantPhone?: () => void; onFix?: () => void; onToggleApp?: () => void; onTogglePhone?: () => void };
 
-/** The Health Check screen for one state (390 wide; taller states scroll). */
+/** The Health Check screen for one state (360 wide; taller states scroll). */
 export function HealthCheckScreen({ state, onStart, onHome, onBack, onGrantApp, onGrantPhone, onFix, onToggleApp, onTogglePhone }: { state: HcState } & HealthCheckHandlers) {
   const s = state;
   const running = s.cta === 'checking';

@@ -713,7 +713,7 @@ fun KeyboardSpace(modifier: Modifier = Modifier) {
  * black/12%. [header] (e.g. [AssistantTaskHeader]) → scrolling body ([content]) → [footer]
  * (padding 12 / 16 / 20) → [keyboard] (full-bleed, e.g. [KeyboardSpace] in docs).
  * [task] makes it the taller conversation sheet: 82% of the screen with a `chat/wallpaper-bg`
- * body and footer; the body then has a fixed height and doesn't scroll itself, so put a
+ * body and a footer drawn on [ChatWallpaper] (the pattern runs to the bottom edge); the body then has a fixed height and doesn't scroll itself, so put a
  * [ChatWallpaper] with `weight(1f)` and a scrolling message column in [content].
  *
  * [inChat]: opened from a chat's AI layer, the sheet stops below the chat header so the user still
@@ -758,12 +758,16 @@ fun AssistantSheetShell(
                 content = content,
             )
             if (footer != null) {
-                Box(
-                    Modifier
-                        .fillMaxWidth()
-                        .background(bodyBg)
-                        .padding(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 20.dp),
-                ) { footer() }
+                val footerBox: @Composable () -> Unit = {
+                    Box(
+                        // No fill: transparent outside a task, the wallpaper shows through in one.
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(start = 16.dp, end = 16.dp, top = 12.dp, bottom = 20.dp),
+                    ) { footer() }
+                }
+                // Task sheet: the chat wallpaper runs on behind the chips and the input, to the bottom edge.
+                if (task) ChatWallpaper(Modifier.fillMaxWidth()) { footerBox() } else footerBox()
             }
             keyboard?.invoke()
         }

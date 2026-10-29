@@ -57,7 +57,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 
-/** Material 3 status-bar height on the 390 × 800 frame. */
+/** Material 3 status-bar height on the 360 × 800 frame. */
 val EqualStatusBarHeight = 52.dp
 
 /**

@@ -10,11 +10,12 @@ import { Button, IconButton } from './Button';
 import { Switch } from './Switch';
 import { AssistantReplyCard, type ReplyAction } from './Assistant';
 import './ChatActions.css';
+import './ChatBubble.css';
 
 /** The assistant's turn in a task: orb + reply card (text, time, emoji action rows). */
 export function AiTurn({ children, actions, time = '03:21', width = 280 }: { children: ReactNode; actions?: ReplyAction[]; time?: string; width?: number }) {
   return (
-    <div style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+    <div className="eq-bubble-row is-left">
       <AiAvatar size={28} />
       <AssistantReplyCard time={time} actions={actions} width={width}>{children}</AssistantReplyCard>
     </div>

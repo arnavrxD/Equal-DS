@@ -83,7 +83,7 @@ function BubbleBody({ time, children }: { time: string; children: ReactNode }) {
   );
 }
 
-/** Vertical stack of messages with the correct 4 / 12dp group rhythm. */
+/** Vertical stack of messages: 8 between messages on the same side, 12 when the side changes. */
 export function MessageList({ children, label = 'Messages' }: { children: ReactNode; /** Accessible name of the log. */ label?: string }) {
   // role="log": new messages in a live thread are announced politely.
   return <div className="eq-message-list" role="log" aria-label={label}>{children}</div>;

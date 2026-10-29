@@ -2,7 +2,7 @@
 import type { ChatAction } from '../components/ChatListItem';
 import type { Category } from '../foundations/Asset';
 
-export type SampleChat = { id: string; name: string; preview: string; date: string; unread: number; actions: ChatAction[]; initials?: string; phone: string; category: Category; /** Updated UI row states. */ status?: 'missed' | 'on-call' | 'loading'; muted?: boolean };
+export type SampleChat = { id: string; name: string; preview: string; date: string; unread: number; actions: ChatAction[]; initials?: string; phone: string; category: Category; /** Updated UI row states. */ status?: 'missed' | 'on-call' | 'loading' | 'dialing' | 'ringing'; muted?: boolean };
 
 export const sampleChats: SampleChat[] = [
   {

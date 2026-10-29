@@ -227,7 +227,7 @@ fun CallStatusLine(phase: CallPhase, modifier: Modifier = Modifier, muted: Boole
 }
 
 /**
- * The in-app call screen (vOIP design), 390 × 800: wallpaper → status bar → back + logo → call
+ * The in-app call screen (vOIP design), 360 × 800: wallpaper → status bar → back + logo → call
  * avatar → status → timer → control bar 32 from the bottom. Ripples and controls show only while
  * connected. [overlay] draws on top (the mic permission dialog).
  */

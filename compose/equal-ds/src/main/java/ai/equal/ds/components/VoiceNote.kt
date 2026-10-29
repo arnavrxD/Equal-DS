@@ -307,6 +307,54 @@ fun CallSummaryBubble(
     }
 }
 
+/**
+ * The call summary as Equal's message in a thread (web `CallSummaryMessage`): a 28dp avatar column
+ * holding the 24dp [AiAvatar] when [first] (empty otherwise, for a follow-up right after another
+ * Equal message) → 8 → [CallSummaryBubble] with every other parameter passed through. A left-side
+ * message in a [MessageList].
+ */
+@Composable
+fun CallSummaryMessage(
+    summary: String,
+    timestamp: String?,
+    modifier: Modifier = Modifier,
+    first: Boolean = true,
+    title: String = "Call Summary",
+    voiceNote: (@Composable () -> Unit)? = null,
+    onShareClick: (() -> Unit)? = null,
+    shareLabel: String = "Share",
+    tag: CallSummaryTag? = null,
+    locked: CallSummaryLock? = null,
+    onUnlock: () -> Unit = {},
+    actions: (@Composable () -> Unit)? = null,
+    width: Dp = 268.dp,
+    recording: (@Composable () -> Unit)? = null,
+    footer: (@Composable () -> Unit)? = null,
+) {
+    Row(modifier.messageSide(MessageSide.Left).fillMaxWidth(), verticalAlignment = Alignment.Top) {
+        Box(Modifier.width(28.dp), contentAlignment = Alignment.TopCenter) {
+            if (first) AiAvatar(size = AiAvatarSize.Small, contentDescription = null)
+        }
+        Spacer(Modifier.width(8.dp))
+        CallSummaryBubble(
+            summary = summary,
+            timestamp = timestamp,
+            modifier = Modifier.weight(1f, fill = !width.isSpecified),
+            title = title,
+            voiceNote = voiceNote,
+            onShareClick = onShareClick,
+            shareLabel = shareLabel,
+            tag = tag,
+            locked = locked,
+            onUnlock = onUnlock,
+            actions = actions,
+            width = width,
+            recording = recording,
+            footer = footer,
+        )
+    }
+}
+
 /** What a locked [CallSummaryBubble] hides: only the recording, or the recording and the summary. */
 enum class CallSummaryLock { Audio, All }
 

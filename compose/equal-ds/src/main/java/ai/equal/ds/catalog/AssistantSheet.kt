@@ -1,5 +1,7 @@
 package ai.equal.ds.catalog
 
+import ai.equal.ds.components.MessageList
+import androidx.compose.foundation.layout.PaddingValues
 import ai.equal.ds.components.ActionCardBody
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.horizontalScroll
@@ -249,12 +251,11 @@ fun AssistantSheet(
         when {
             task -> {
                 ChatWallpaper(Modifier.fillMaxWidth().weight(1f)) {
-                    Column(
+                    MessageList(
                         Modifier
                             .fillMaxSize()
-                            .verticalScroll(rememberScrollState())
-                            .padding(horizontal = 12.dp, vertical = 16.dp),
-                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                            .verticalScroll(rememberScrollState()),
+                        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 16.dp),
                     ) {
                         ChatBubble(
                             message = if (voice) MyaRequest else text,
@@ -389,12 +390,11 @@ fun ChatTaskSheet(
         },
     ) {
         ChatWallpaper(Modifier.fillMaxWidth().weight(1f)) {
-            Column(
+            MessageList(
                 Modifier
                     .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
-                    .padding(horizontal = 12.dp, vertical = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
+                    .verticalScroll(rememberScrollState()),
+                contentPadding = PaddingValues(horizontal = 12.dp, vertical = 16.dp),
             ) {
                 ChatBubble(message = request, timestamp = "03:21", type = ChatBubbleType.Outgoing, sender = "You")
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.Top) {
