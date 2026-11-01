@@ -16,6 +16,14 @@ or locally with `npm run mcp`. `npm run llms` also rebuilds its index (`api/_ind
 The reason behind every rule is in `site/src/data/decisions.ts` (the site’s Rules & decisions page).
 When a design and the system disagree, check it first; when a rule changes, update it there too.
 
+**Copy**
+- **Every string follows `UX-WRITING.md`**: components, screens, flows, docs examples, Figma copy
+  and anything you propose. Run its checklist before you finish. Equal AI is the app and plan,
+  Equal is who acts (third person in UI, “I” only in Equal’s own bubbles and calls), sentence case,
+  no dashes, verbs on buttons, and money, loss and error screens say what happens next.
+- **Statsig production copy wins in code.** When a string is a Statsig key, mirror the production
+  value exactly, even where it breaks the guide, and add it to the guide’s “fix in Statsig” table.
+
 **Type and colour**
 - **Typography:** DM Sans only, through the 12 type tokens (`<Text variant>` / `EqualTheme.type`).
   Nothing is set in Lora, Roboto, the system font or any other font, not even in system mocks (status
@@ -151,6 +159,15 @@ Done means: typecheck clean, `--check` passes, Gradle BUILD SUCCESSFUL, and lint
 - **Only supplied art is an image; everything else is code.** Why: Coded logos, seals, rings, badges and progress bars stay sharp at any size, follow light and dark automatically and weigh nothing. Images are reserved for 3D art and illustrations nobody can draw in code. (Source: Design direction)
 - **Never crop supplied art.** Why: Designers compose the transparent padding on purpose (glow, shadow, breathing room). Cropping changes the art; only fully transparent margins are trimmed when an asset is built. (Source: Design direction)
 - **Colours that aren’t in the colour guide are marked “derived”.** Why: The colour guide doesn’t cover every surface the screens use. Marking derived tokens keeps it clear which values came from the guide and which were measured from screens, so design can review them in one place. (Source: Design: colour guide gaps)
+
+### Copy
+
+- **Every string follows the UX writing guide.** Why: Production copy was written key by key, so the voice is consistent but the mechanics are not: the agent has three names, labels flip between Title Case and sentence case, and some strings have grammar slips. One guide with a checklist stops each new string from making its own call. (Source: Statsig production copy (Android, Oct 2026))
+- **Equal AI is the app and plan; Equal is who acts; “assistant” is only a lowercase description.** Why: Statsig uses Assistant, Equal and Equal AI for the same agent. Users meet one character; naming it one way makes it feel like one product, and the plan name (Equal AI Unlimited) stays distinct from the agent. (Source: Decided from a split in Statsig)
+- **App UI talks about Equal in the third person; Equal says “I” only in its own messages and calls.** Why: Statsig moved setup copy from “I answer everyone” to “Equal answers all your calls”: the user is in charge and Equal follows. “I” stays where Equal is literally the speaker, so it never sounds like the app is talking about itself. (Source: Statsig production copy)
+- **Sentence case everywhere; capitals only on proper nouns. Overlines are typed in sentence case and the style uppercases them.** Why: Statsig is split about evenly between Title Case and sentence case. Sentence case is the Android convention, reads like a person talking, and removes a coin flip from every label. (Source: Decided from a split in Statsig)
+- **Money, loss and error screens say what happens next and give a way out.** Why: Statsig already does this where it is strongest: refund timelines, “Before you cancel”, “Keep my plan”, “Reset” instead of “Delete”. Trust is won or lost at these moments, so it is the rule, not the exception. (Source: Statsig production copy)
+- **Statsig production copy wins in code until the key changes.** Why: The app reads its strings from Statsig, so the design system must show what users actually see. Strings that break the guide are kept as they are and listed in the guide’s “fix in Statsig” table, so copy is corrected at the source. (Source: Engineering)
 
 ### Colour & type
 

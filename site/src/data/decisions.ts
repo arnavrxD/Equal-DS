@@ -27,6 +27,19 @@ export const decisions: DecisionGroup[] = [
     ],
   },
   {
+    id: 'copy',
+    title: 'Copy',
+    intro: 'How Equal AI speaks. The full guide is UX-WRITING.md, read from the production copy in Statsig.',
+    items: [
+      { rule: 'Every string follows the UX writing guide.', why: 'Production copy was written key by key, so the voice is consistent but the mechanics are not: the agent has three names, labels flip between Title Case and sentence case, and some strings have grammar slips. One guide with a checklist stops each new string from making its own call.', source: 'Statsig production copy (Android, Oct 2026)', where: 'UX-WRITING.md' },
+      { rule: 'Equal AI is the app and plan; Equal is who acts; “assistant” is only a lowercase description.', why: 'Statsig uses Assistant, Equal and Equal AI for the same agent. Users meet one character; naming it one way makes it feel like one product, and the plan name (Equal AI Unlimited) stays distinct from the agent.', source: 'Decided from a split in Statsig', where: 'UX-WRITING.md §2' },
+      { rule: 'App UI talks about Equal in the third person; Equal says “I” only in its own messages and calls.', why: 'Statsig moved setup copy from “I answer everyone” to “Equal answers all your calls”: the user is in charge and Equal follows. “I” stays where Equal is literally the speaker, so it never sounds like the app is talking about itself.', source: 'Statsig production copy', where: 'UX-WRITING.md §2' },
+      { rule: 'Sentence case everywhere; capitals only on proper nouns. Overlines are typed in sentence case and the style uppercases them.', why: 'Statsig is split about evenly between Title Case and sentence case. Sentence case is the Android convention, reads like a person talking, and removes a coin flip from every label.', source: 'Decided from a split in Statsig', where: 'UX-WRITING.md §4' },
+      { rule: 'Money, loss and error screens say what happens next and give a way out.', why: 'Statsig already does this where it is strongest: refund timelines, “Before you cancel”, “Keep my plan”, “Reset” instead of “Delete”. Trust is won or lost at these moments, so it is the rule, not the exception.', source: 'Statsig production copy', where: 'UX-WRITING.md §8' },
+      { rule: 'Statsig production copy wins in code until the key changes.', why: 'The app reads its strings from Statsig, so the design system must show what users actually see. Strings that break the guide are kept as they are and listed in the guide’s “fix in Statsig” table, so copy is corrected at the source.', source: 'Engineering', where: 'UX-WRITING.md (last section)' },
+    ],
+  },
+  {
     id: 'colour-type',
     title: 'Colour & type',
     intro: 'How colour and text are chosen, and the accessibility floor under them.',

@@ -12,6 +12,14 @@ or locally with `npm run mcp`. `npm run llms` also rebuilds its index (`api/_ind
 The reason behind every rule is in `site/src/data/decisions.ts` (the site’s Rules & decisions page).
 When a design and the system disagree, check it first; when a rule changes, update it there too.
 
+**Copy**
+- **Every string follows `UX-WRITING.md`**: components, screens, flows, docs examples, Figma copy
+  and anything you propose. Run its checklist before you finish. Equal AI is the app and plan,
+  Equal is who acts (third person in UI, “I” only in Equal’s own bubbles and calls), sentence case,
+  no dashes, verbs on buttons, and money, loss and error screens say what happens next.
+- **Statsig production copy wins in code.** When a string is a Statsig key, mirror the production
+  value exactly, even where it breaks the guide, and add it to the guide’s “fix in Statsig” table.
+
 **Type and colour**
 - **Typography:** DM Sans only, through the 12 type tokens (`<Text variant>` / `EqualTheme.type`).
   Nothing is set in Lora, Roboto, the system font or any other font, not even in system mocks (status

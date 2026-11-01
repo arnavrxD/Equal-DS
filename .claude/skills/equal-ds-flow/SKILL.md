@@ -45,6 +45,7 @@ Split images into:
 - Material Symbols for flat icons, emoji on action chips (emoji size = label size).
 - Free = plain avatar, paid = gold ring.
 - Experiments are props.
+- Every string follows `UX-WRITING.md` (run its checklist); Statsig production keys are mirrored exactly and logged in its “fix in Statsig” table.
 - Light and dark, reduced motion.
 - Web: a component `.tsx` + `.css`, a docs entry with examples and code, and the flow on the site.
 - Android: a matching Compose component and screen, plus a snippet for every example and flow state.
