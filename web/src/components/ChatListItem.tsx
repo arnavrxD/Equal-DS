@@ -29,7 +29,7 @@ export type ChatListItemProps = {
   /**
    * Updated UI rows: missed by the assistant, or the summary is still generating. Live calls put the
    * row at the top of Chats with a green status line and one green pill (no ongoing-call bar on Home):
-   * `dialing` "Assistant is dialing" · Outgoing call, `on-call` "Assistant is on a call" · Takeover,
+   * `dialing` "Equal is dialing" · Outgoing call, `on-call` "Equal is on a call" · Takeover,
    * `ringing` "Calling you" · Answer.
    */
   status?: 'missed' | 'on-call' | 'loading' | 'dialing' | 'ringing';
@@ -41,8 +41,8 @@ export type ChatListItemProps = {
 
 /** Live-call row states: the green status line and the pill (an action for on-call and ringing). */
 const LIVE = {
-  dialing: { line: 'Assistant is dialing', pill: 'Outgoing call', action: false },
-  'on-call': { line: 'Assistant is on a call', pill: 'Takeover', action: true },
+  dialing: { line: 'Equal is dialing', pill: 'Outgoing call', action: false },
+  'on-call': { line: 'Equal is on a call', pill: 'Takeover', action: true },
   ringing: { line: 'Calling you', pill: 'Answer', action: true },
 } as const;
 

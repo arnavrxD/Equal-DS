@@ -1084,7 +1084,7 @@
       {
         "part": "Live status (dialing / on-call / ringing)",
         "description": "A live call puts the row at the top of Chats with a green status line and one green pill instead of the date; chips and the unread badge are hidden.",
-        "spec": "line body1 600 text/action: 'Assistant is dialing' / 'Assistant is on a call' / 'Calling you' · pill 32 high · padding 0 14 · radius full · button/primary · buttonSmall text/on-action: Outgoing call (status) / Takeover / Answer (buttons, onLiveAction)"
+        "spec": "line body1 600 text/action: 'Equal is dialing' / 'Equal is on a call' / 'Calling you' · pill 32 high · padding 0 14 · radius full · button/primary · buttonSmall text/on-action: Outgoing call (status) / Takeover / Answer (buttons, onLiveAction)"
       }
     ],
     "accessibility": [
@@ -1417,7 +1417,7 @@
       },
       {
         "topic": "Name",
-        "web": "Read as their visible text (\"Today\", \"Call Started 03:31\").",
+        "web": "Read as their visible text (\"Today\", \"Call started 03:31\").",
         "android": "Read as their visible text."
       },
       {

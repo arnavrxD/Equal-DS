@@ -42,16 +42,16 @@ export default function Patterns() {
     <Page title="Patterns" lead="How components combine: the rhythm of a call thread, selection in the chat list, and the confirm-then-undo pattern for destructive actions.">
       <H2>A call thread</H2>
       <p className="s-p">Day divider → call events → outgoing (Equal AI on your behalf) and incoming (the caller) bubbles → the notice that the call ended → the assistant’s summary with the recording → the rating card. Consecutive bubbles from one sender group at 4dp; a new sender opens at 12dp with a tail.</p>
-      <Example title="Thread on the chat wallpaper" width={360} code={`<ChatWallpaper>\n  <MessageList>\n    <DayDivider label="Today" />\n    <ThreadEvent label="Call Started 03:31" />\n    <ChatBubble kind="outgoing" sender="Equal AI">…</ChatBubble>\n    <ChatBubble kind="incoming" sender="Dr Mehta Clinic">…</ChatBubble>\n    <ThreadNotice>Call has ended…</ThreadNotice>\n    <CallSummary summary="…" tag={{ emoji: '🪄', label: '2 instructions applied in this call' }} />\n  </MessageList>\n</ChatWallpaper>`}>
+      <Example title="Thread on the chat wallpaper" width={360} code={`<ChatWallpaper>\n  <MessageList>\n    <DayDivider label="Today" />\n    <ThreadEvent label="Call started 03:31" />\n    <ChatBubble kind="outgoing" sender="Equal AI">…</ChatBubble>\n    <ChatBubble kind="incoming" sender="Dr Mehta Clinic">…</ChatBubble>\n    <ThreadNotice>Call has ended…</ThreadNotice>\n    <CallSummary summary="…" tag={{ emoji: '🪄', label: '2 instructions applied in this call' }} />\n  </MessageList>\n</ChatWallpaper>`}>
         <div style={{ width: 360, borderRadius: 16, overflow: 'hidden' }}>
           <ChatWallpaper>
             <MessageList>
               <DayDivider label="Today" />
-              <ThreadEvent label="Call Started 03:31" />
+              <ThreadEvent label="Call started 03:31" />
               <ChatBubble kind="outgoing" sender="Equal AI" time="03:21">Hi, who is this?</ChatBubble>
               <ChatBubble kind="incoming" sender="Dr Mehta Clinic" time="03:21">This is Priya from Dr. Mehta’s clinic. Your appointment is confirmed for tomorrow.</ChatBubble>
               <ChatBubble kind="outgoing" sender="Equal AI" time="03:21">Yes, I’ll be there at 10 AM</ChatBubble>
-              <ThreadEvent label="Call Ended 03:31" />
+              <ThreadEvent label="Call ended 03:31" />
               <ThreadNotice>Call has ended. You are now talking to your AI assistant.</ThreadNotice>
               <ChatBubble kind="assistant" sender="Equal AI" time="03:32">Hey Keshav! Here is the summary of your call</ChatBubble>
               <div style={{ paddingLeft: 36 }}>

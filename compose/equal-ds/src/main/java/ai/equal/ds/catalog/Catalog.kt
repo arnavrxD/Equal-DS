@@ -452,7 +452,7 @@ private fun CatalogContent(modifier: Modifier) {
             )
             // As Equal's message in a thread: the orb on the left (first), or the same indent without it.
             MessageList(contentPadding = PaddingValues(0.dp)) {
-                ThreadEvent("Call Ended 11:04 · 02:14")
+                ThreadEvent("Call ended 11:04 · 02:14")
                 CallSummaryMessage(
                     summary = "Amit moved the AC service to Saturday, 10 AM. The ₹499 visit charge still applies.",
                     timestamp = "11:04",
@@ -606,7 +606,7 @@ private fun CatalogContent(modifier: Modifier) {
         CatalogSection("21 · Call status indicators") {
             MessageList(Modifier.fillMaxWidth(), contentPadding = PaddingValues(0.dp)) {
                 DayDivider("Today")
-                ThreadEvent("Call Started 03:31")
+                ThreadEvent("Call started 03:31")
                 ThreadNotice("Call has ended. Equal AI shared a summary below.")
             }
         }
@@ -1539,7 +1539,7 @@ private fun ChatThread(
                 contentPadding = PaddingValues(horizontal = 12.dp, vertical = 16.dp),
             ) {
                 DayDivider("Today")
-                ThreadEvent("Call Started 03:31")
+                ThreadEvent("Call started 03:31")
                 ChatBubble(
                     "Hello, this is Equal AI answering for Arnav. How can I help?",
                     "03:31",
@@ -1556,7 +1556,7 @@ private fun ChatThread(
                 )
                 ChatBubble("Is 4 PM still okay?", "03:32", ChatBubbleType.Incoming, isFirstInGroup = false, locked = locked)
                 ChatBubble("I'll let him know and confirm by message.", "03:33", ChatBubbleType.Outgoing, sender = "Equal AI", locked = locked)
-                ThreadEvent("Call Ended 03:34")
+                ThreadEvent("Call ended 03:34")
                 val recording: @Composable () -> Unit = {
                     VoiceNotePlayer(
                         isPlaying = playing,

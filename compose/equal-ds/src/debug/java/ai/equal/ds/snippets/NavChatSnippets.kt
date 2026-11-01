@@ -333,7 +333,7 @@ internal fun CallSummaryAsEqualsMessageSnippet() {
     var speed by remember { mutableStateOf(PlaybackSpeed.X1) }
 
     MessageList {
-        ThreadEvent("Call Ended 11:04 · 02:14")
+        ThreadEvent("Call ended 11:04 · 02:14")
         CallSummaryMessage(
             summary = "Amit moved the AC service to Saturday, 10 AM. The ₹499 visit charge still applies.",
             timestamp = "11:04",
@@ -398,8 +398,8 @@ internal fun CallStatusAllIndicatorsSnippet() {
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         DayDivider("Today")
-        ThreadEvent("Call Started 03:31")
-        ThreadEvent("Call Ended 03:31")
+        ThreadEvent("Call started 03:31")
+        ThreadEvent("Call ended 03:31")
         ThreadNotice("Call has ended. You are now talking to your AI assistant.")
     }
 }
@@ -414,11 +414,11 @@ internal fun CallStatusInThreadSnippet() {
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             DayDivider("12 July")
-            ThreadEvent("Call Started 18:02")
+            ThreadEvent("Call started 18:02")
             ChatBubble(type = ChatBubbleType.Outgoing, sender = "Equal AI", timestamp = "18:02", message = "Hi, who is this?")
             ChatBubble(type = ChatBubbleType.Incoming, incomingCategory = EqualCategory.NA, sender = "Amit Nanda",
                 timestamp = "18:02", message = "It's Amit. Dinner at mine this Sunday, 8 PM?")
-            ThreadEvent("Call Ended 18:04")
+            ThreadEvent("Call ended 18:04")
             ThreadNotice("Call has ended. You are now talking to your AI assistant.")
         }
     }

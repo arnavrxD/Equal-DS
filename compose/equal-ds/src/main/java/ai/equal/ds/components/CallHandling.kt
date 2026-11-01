@@ -983,7 +983,7 @@ fun DeviceScreen(
     }
 }
 
-/** Strip under a chat header while the assistant is on the call: 44 high, `ongoing-bar/bg`, "Ongoing call - [elapsed]" `subheading` in `ongoing-bar/text`. */
+/** Strip under a chat header while the assistant is on the call: 44 high, `ongoing-bar/bg`, "Ongoing call · [elapsed]" `subheading` in `ongoing-bar/text`. */
 @Composable
 fun OngoingCallBar(elapsed: String, modifier: Modifier = Modifier) {
     val colors = EqualTheme.colors

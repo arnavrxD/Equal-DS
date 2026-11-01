@@ -72,7 +72,7 @@ const DRAFT = 'Hi Amit! Count me in for Sunday 8 PM. See you there 👍';
 function CallHistory({ action }: { action: ChatAction }) {
   return (
     <>
-      <ThreadEvent label="Call Ended 4:37 PM" />
+      <ThreadEvent label="Call ended 4:37 PM" />
       <ChatBubble kind="assistant" sender="Equal AI" time="03:21">Hey Keshav! Here is the summary of your call</ChatBubble>
       <CallSummaryMessage first={false} summary={SUMMARY[action]} time="03:21" footer={<SummaryActions actions={[{ label: 'Call back', icon: 'call-filled' }]} />} />
       <div style={{ paddingLeft: 36, marginTop: 4 }}><FeedbackCard /></div>
@@ -322,7 +322,7 @@ export function ChatErrorScreen({ state, onRetry }: { state: ErrorState; onRetry
           </AiTurn>
         </TaskSheet>
       }>
-        <ChatWallpaper style={{ minHeight: '100%' }}><MessageList><ThreadEvent label="Call Ended 4:37 PM" /><ChatBubble kind="assistant" sender="Equal AI" time="03:21">Hey Keshav! Here is the summary of your call</ChatBubble></MessageList></ChatWallpaper>
+        <ChatWallpaper style={{ minHeight: '100%' }}><MessageList><ThreadEvent label="Call ended 4:37 PM" /><ChatBubble kind="assistant" sender="Equal AI" time="03:21">Hey Keshav! Here is the summary of your call</ChatBubble></MessageList></ChatWallpaper>
       </Screen>
     );
   }

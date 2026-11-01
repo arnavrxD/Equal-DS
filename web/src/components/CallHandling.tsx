@@ -259,14 +259,14 @@ export function DeviceScreen({ time = '2:13', children }: { time?: string; child
   );
 }
 
-/** Black strip under a chat header while the assistant is on the call: "Ongoing call - 02:34". */
+/** Black strip under a chat header while the assistant is on the call: "Ongoing call · 02:34". */
 export function OngoingCallBar({ elapsed }: { elapsed: string }) {
   return (
     // Not a live region (the timer ticks every second); the call is announced once.
     <div className="eq-ch-ongoing">
       <Announce onMount message="Ongoing call" />
       <Icon name="graphic-eq" size={18} />
-      <Text as="span" variant="subheading" className="eq-tnum" style={{ color: 'inherit', fontWeight: 500 }}>Ongoing call - {elapsed}</Text>
+      <Text as="span" variant="subheading" className="eq-tnum" style={{ color: 'inherit', fontWeight: 500 }}>Ongoing call · {elapsed}</Text>
     </div>
   );
 }

@@ -79,10 +79,11 @@ Equal sounds like a capable friend who handles your calls: plain, warm, calm abo
 - **No em dash or en dash.** Use a comma, a colon or a full stop. Ranges use “to”: “5 to 7 working
   days”.
 - **Curly apostrophes and quotes:** ’ “ ”. Never ' or ".
-- **Ellipsis (…) only for something in progress**: “We’re confirming your payment…”. Never to trail
-  off.
-- **Middle dot (·)** only to join short trust facts on one line: “Cancel anytime · UPI secure · No
-  hidden charges”.
+- **Ellipsis (…) only for something in progress** (“We’re confirming your payment…”, “Joining
+  Equal…”) **or an input placeholder** (“Add something for Equal to ask…”). Never to trail off.
+- **Middle dot (·)** joins short facts on one line: metadata (“Call ended 11:04 · 02:14”, “Ongoing
+  call · 00:42”) and trust strips (“Cancel anytime · UPI secure · No hidden charges”). Never a hyphen
+  or dash as a separator.
 - **Comma before a name you are addressing:** “How would you rate your call, {first_name}?”
 
 ## 6. Numbers, money and time
@@ -96,7 +97,9 @@ Equal sounds like a capable friend who handles your calls: plain, warm, calm abo
 ## 7. Buttons and actions
 
 - **Start with a verb and say the result**, in 1 to 3 words: Call back, Use Equal’s number, Keep my
-  plan, Allow, Try again.
+  plan, Allow, Try again. A button that only goes somewhere can name the place: “Back to Amit”.
+- **Retry words:** “Try again” repeats the attempt that failed. “Call again” calls the person again,
+  with the time when it isn’t now: “Call again in 30 min”.
 - **Never a bare “Yes”, “No”, “OK” or “Confirm”.** Name the action: “Cancel plan” beside “Keep my
   plan”. **Decided** (Statsig has “Yes”).
 - **The safe choice is never the hidden one.** On a cancel or reset, the option that keeps things as

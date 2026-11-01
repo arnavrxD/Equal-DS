@@ -573,7 +573,7 @@ const flows: Record<string, FlowDef> = {
       <><b>Summary</b>: the line updates to what the caller wants as the call goes on.</>,
       <><b>Expanded</b>: two lines, a call button to pick up, and quick replies: <b>Takeover</b> first, then suggested answers the assistant can say for you.</>,
       <><b>Hand-off</b>: when it needs you, the replies give way to “This needs your attention, connecting this call to you”.</>,
-      <><b>Open</b>: the chat shows the call live under a black <b>Ongoing call - 02:34</b> strip with Takeover in the header and the assistant’s follow-up below. Android draws the notification shell; the system wallpaper here is a coded stand-in.</>,
+      <><b>Open</b>: the chat shows the call live under a black <b>Ongoing call · 02:34</b> strip with Takeover in the header and the assistant’s follow-up below. Android draws the notification shell; the system wallpaper here is a coded stand-in.</>,
     ],
   },
   search: {

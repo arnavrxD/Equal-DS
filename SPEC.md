@@ -145,7 +145,7 @@ Width 131 (min), fill `bg/surface`, radius 12, shadow `card`. Items 40 high, pad
 
 ## 21. Call Status Indicators
 - **Day divider** ("Today"): height 22, padding h 14, radius 8, fill `bg/surface`, 1dp `stroke/subtle`, `micro` `text/primary`.
-- **Thread event** ("Call Started 03:31", "Call Ended 03:31"): same pill, `micro` `text/secondary`.
+- **Thread event** ("Call started 03:31", "Call ended 03:31"): same pill, `micro` `text/secondary`.
 - **Thread notice**: max width 232, padding 8 h 16, radius 8, fill `notice/bg` ⓓ, `captionWrap` `text/secondary` centred.
 
 ## 22. What's New Card

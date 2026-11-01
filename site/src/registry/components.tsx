@@ -2851,11 +2851,11 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
         note: 'In a thread the summary is Equal’s message: the orb on its left and the left-side rhythm (8 to another left message, 12 when the side changes). Right after another Equal message, pass first={false}: same indent, no second orb.',
         render: () => (
           <MessageList>
-            <ThreadEvent label="Call Ended 11:04 · 02:14" />
+            <ThreadEvent label="Call ended 11:04 · 02:14" />
             <CallSummaryMessage duration={134} summary="Amit moved the AC service to Saturday, 10 AM. The ₹499 visit charge still applies." time="11:04" />
           </MessageList>
         ),
-        code: `<ThreadEvent label="Call Ended 11:04 · 02:14" />
+        code: `<ThreadEvent label="Call ended 11:04 · 02:14" />
 <CallSummaryMessage duration={134} time="11:04"
   summary="Amit moved the AC service to Saturday, 10 AM. The ₹499 visit charge still applies." />
 // after "Here is the summary of your call": <CallSummaryMessage first={false} … />`,
@@ -3017,16 +3017,16 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
           <div style={{ padding: '16px 0' }}>
             <MessageList>
               <DayDivider label="Today" />
-              <ThreadEvent label="Call Started 03:31" />
-              <ThreadEvent label="Call Ended 03:31" />
+              <ThreadEvent label="Call started 03:31" />
+              <ThreadEvent label="Call ended 03:31" />
               <ThreadNotice>Call has ended. You are now talking to your AI assistant.</ThreadNotice>
             </MessageList>
           </div>
         ),
         code: `<MessageList>
   <DayDivider label="Today" />
-  <ThreadEvent label="Call Started 03:31" />
-  <ThreadEvent label="Call Ended 03:31" />
+  <ThreadEvent label="Call started 03:31" />
+  <ThreadEvent label="Call ended 03:31" />
   <ThreadNotice>Call has ended. You are now talking to your AI assistant.</ThreadNotice>
 </MessageList>`,
       },
@@ -3036,10 +3036,10 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
           <ChatWallpaper style={{ padding: '16px 0' }}>
             <MessageList>
               <DayDivider label="12 July" />
-              <ThreadEvent label="Call Started 18:02" />
+              <ThreadEvent label="Call started 18:02" />
               <ChatBubble kind="outgoing" sender="Equal AI" time="18:02">Hi, who is this?</ChatBubble>
               <ChatBubble kind="incoming" category="na" sender="Amit Nanda" time="18:02">It's Amit. Dinner at mine this Sunday, 8 PM?</ChatBubble>
-              <ThreadEvent label="Call Ended 18:04" />
+              <ThreadEvent label="Call ended 18:04" />
               <ThreadNotice>Call has ended. You are now talking to your AI assistant.</ThreadNotice>
             </MessageList>
           </ChatWallpaper>
@@ -3047,10 +3047,10 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
         code: `<ChatWallpaper>
   <MessageList>
     <DayDivider label="12 July" />
-    <ThreadEvent label="Call Started 18:02" />
+    <ThreadEvent label="Call started 18:02" />
     <ChatBubble kind="outgoing" sender="Equal AI" time="18:02">Hi, who is this?</ChatBubble>
     …
-    <ThreadEvent label="Call Ended 18:04" />
+    <ThreadEvent label="Call ended 18:04" />
     <ThreadNotice>Call has ended. You are now talking to your AI assistant.</ThreadNotice>
   </MessageList>
 </ChatWallpaper>`,
@@ -3058,11 +3058,11 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     ],
     props: [
       { component: 'DayDivider', props: [req('label', 'string', '"Today", "12 July".')] },
-      { component: 'ThreadEvent', props: [req('label', 'string', '"Call Started 03:31", "Call Ended 03:31".')] },
+      { component: 'ThreadEvent', props: [req('label', 'string', '"Call started 03:31", "Call ended 03:31".')] },
       { component: 'ThreadNotice', props: [req('children', 'ReactNode', 'Notice text (captionWrap, centred, max width 240).')] },
     ],
     dos: [
-      'Bracket every call with Call Started / Call Ended events.',
+      'Bracket every call with Call started / Call ended events.',
       'Use a ThreadNotice when the conversation changes hands ("You are now talking to your AI assistant").',
     ],
     donts: [

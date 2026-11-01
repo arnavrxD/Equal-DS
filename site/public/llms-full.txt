@@ -217,9 +217,9 @@ Done means: typecheck clean, `--check` passes, Gradle BUILD SUCCESSFUL, and lint
 - **One-line messages keep the time beside the text, a little lower; longer ones put it on its own row.** Why: A one-line bubble stays compact (a single row instead of two); in a longer message the time would crowd the last line, so it gets its own right-aligned row. (Source: Product owner)
 - **Messages on the same side are 8 apart; when the side changes, 12.** Why: The gap says whether the speaker changed: 8 keeps a run from one side together, 12 marks the turn. Equal’s replies, reply cards and call summaries count as left-side messages; thread events and notices keep 12 around them. (Source: Design decision: Personal Number Outbound Call (2026-10-30))
 - **The call summary is Equal’s message: the orb sits on its left.** Why: After a call the summary is the last thing Equal says, so it carries Equal’s orb like any other Equal message. Right after another Equal message it keeps the indent without a second orb (first={false}). (Source: Design decision: Personal Number Outbound Call (2026-10-30))
-- **Thread events hug their label: 6 / 12 padding.** Why: “Call Ended 11:04 · 02:14” and similar events size to their text instead of a fixed 24 height, so longer labels never crowd the stroke. Day dividers (“Today”) keep 24. (Source: Design decision: Personal Number Outbound Call (2026-10-30))
+- **Thread events hug their label: 6 / 12 padding.** Why: “Call ended 11:04 · 02:14” and similar events size to their text instead of a fixed 24 height, so longer labels never crowd the stroke. Day dividers (“Today”) keep 24. (Source: Design decision: Personal Number Outbound Call (2026-10-30))
 - **The chat wallpaper runs to the bottom of the screen.** Why: The AI panel and the task sheet’s chips and input sit on the wallpaper, so the pattern shows behind the panel’s rounded corners and the sheet footer instead of stopping in a plain band. (Source: Design decision: Personal Number Outbound Call (2026-10-30))
-- **Home never shows an ongoing-call bar; the contact’s row does.** Why: On Home a live call is a row at the top of Chats: “Assistant is dialing” · Outgoing call, then “Assistant is on a call” · Takeover. A second call that rings while you are on Home is “Calling you” · Answer. Inside the chat, Takeover sits in the header and the strip only shows the status. (Source: Design decision: Personal Number Outbound Call (2026-10-30), from the Scheduled Outbound Call design)
+- **Home never shows an ongoing-call bar; the contact’s row does.** Why: On Home a live call is a row at the top of Chats: “Equal is dialing” · Outgoing call, then “Equal is on a call” · Takeover. A second call that rings while you are on Home is “Calling you” · Answer. Inside the chat, Takeover sits in the header and the strip only shows the status. (Source: Design decision: Personal Number Outbound Call (2026-10-30), from the Scheduled Outbound Call design)
 - **Dialog cards have 12 corners.** Why: The modal card reads as a card over the chat, not a sheet; 12 matches the bubbles and cards around it. (Source: Design decision: Personal Number Outbound Call (2026-10-30))
 - **The AI panel’s prompt starts at the top of its row.** Why: The prompt line aligns to the top of the 36 orb (no 7 offset), so one-line and two-line prompts start at the same height. (Source: Design decision: Personal Number Outbound Call (2026-10-30))
 - **A focused text input shows only a solid green outline.** Why: The 1.5 dp stroke/focus outline (#00B140, lime in dark) is the design’s selected state; the black two-ring focus indicator meant for buttons doubled it up on fields. (Source: Product owner)
@@ -1605,12 +1605,12 @@ Props of `DayDivider`:
 - `label`: `string`. "Today", "12 July".
 
 Props of `ThreadEvent`:
-- `label`: `string`. "Call Started 03:31", "Call Ended 03:31".
+- `label`: `string`. "Call started 03:31", "Call ended 03:31".
 
 Props of `ThreadNotice`:
 - `children`: `ReactNode`. Notice text (captionWrap, centred, max width 240).
 
-Do: Bracket every call with Call Started / Call Ended events. Use a ThreadNotice when the conversation changes hands ("You are now talking to your AI assistant").
+Do: Bracket every call with Call started / Call ended events. Use a ThreadNotice when the conversation changes hands ("You are now talking to your AI assistant").
 
 Don't: Don't use a ThreadNotice for ordinary messages; it is for system state changes only. Don't style these as bubbles; they are centred pills without avatars.
 
@@ -1621,7 +1621,7 @@ Anatomy:
 
 Accessibility:
 - Role. Web: Plain divs and spans with text (the notice is a <p>); no separator or status role. Inside MessageList they sit in its role="log". Android: Plain Box + EqualText; no extra semantics.
-- Name. Web: Read as their visible text ("Today", "Call Started 03:31"). Android: Read as their visible text.
+- Name. Web: Read as their visible text ("Today", "Call started 03:31"). Android: Read as their visible text.
 - Keyboard. Web: Not focusable; read in order when browsing. Android: TalkBack: swipe to each as plain text.
 - Touch target. Web: Not interactive. Android: Not interactive.
 - Contrast. Web: DayDivider text/primary 12.6:1 on white; ThreadEvent text/secondary 5.7:1; notice text/secondary 5.7:1 on notice/bg (dark 6.4:1). Android: Same tokens, same ratios.
@@ -1632,8 +1632,8 @@ Example: All indicators
 ```tsx
 <MessageList>
   <DayDivider label="Today" />
-  <ThreadEvent label="Call Started 03:31" />
-  <ThreadEvent label="Call Ended 03:31" />
+  <ThreadEvent label="Call started 03:31" />
+  <ThreadEvent label="Call ended 03:31" />
   <ThreadNotice>Call has ended. You are now talking to your AI assistant.</ThreadNotice>
 </MessageList>
 ```
@@ -1644,8 +1644,8 @@ Column(
     verticalArrangement = Arrangement.spacedBy(12.dp),
 ) {
     DayDivider("Today")
-    ThreadEvent("Call Started 03:31")
-    ThreadEvent("Call Ended 03:31")
+    ThreadEvent("Call started 03:31")
+    ThreadEvent("Call ended 03:31")
     ThreadNotice("Call has ended. You are now talking to your AI assistant.")
 }
 ```
@@ -1655,10 +1655,10 @@ Example: In a thread
 <ChatWallpaper>
   <MessageList>
     <DayDivider label="12 July" />
-    <ThreadEvent label="Call Started 18:02" />
+    <ThreadEvent label="Call started 18:02" />
     <ChatBubble kind="outgoing" sender="Equal AI" time="18:02">Hi, who is this?</ChatBubble>
     …
-    <ThreadEvent label="Call Ended 18:04" />
+    <ThreadEvent label="Call ended 18:04" />
     <ThreadNotice>Call has ended. You are now talking to your AI assistant.</ThreadNotice>
   </MessageList>
 </ChatWallpaper>
@@ -1671,11 +1671,11 @@ ChatWallpaper {
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         DayDivider("12 July")
-        ThreadEvent("Call Started 18:02")
+        ThreadEvent("Call started 18:02")
         ChatBubble(type = ChatBubbleType.Outgoing, sender = "Equal AI", timestamp = "18:02", message = "Hi, who is this?")
         ChatBubble(type = ChatBubbleType.Incoming, incomingCategory = EqualCategory.NA, sender = "Amit Nanda",
             timestamp = "18:02", message = "It's Amit. Dinner at mine this Sunday, 8 PM?")
-        ThreadEvent("Call Ended 18:04")
+        ThreadEvent("Call ended 18:04")
         ThreadNotice("Call has ended. You are now talking to your AI assistant.")
     }
 }
@@ -1745,7 +1745,7 @@ CallSummaryBubble(
 
 Example: As Equal's message
 ```tsx
-<ThreadEvent label="Call Ended 11:04 · 02:14" />
+<ThreadEvent label="Call ended 11:04 · 02:14" />
 <CallSummaryMessage duration={134} time="11:04"
   summary="Amit moved the AC service to Saturday, 10 AM. The ₹499 visit charge still applies." />
 // after "Here is the summary of your call": <CallSummaryMessage first={false} … />
@@ -1755,7 +1755,7 @@ var playing by remember { mutableStateOf(false) }
 var speed by remember { mutableStateOf(PlaybackSpeed.X1) }
 
 MessageList {
-    ThreadEvent("Call Ended 11:04 · 02:14")
+    ThreadEvent("Call ended 11:04 · 02:14")
     CallSummaryMessage(
         summary = "Amit moved the AC service to Saturday, 10 AM. The ₹499 visit charge still applies.",
         timestamp = "11:04",
@@ -1949,7 +1949,7 @@ Anatomy:
 5. Preview: Last message or summary, blurred when locked. (body1 14/400 text/secondary · one line · locked blur 4 + crown-lock 16)
 6. Unread count: CountBadge at the end of the preview line; the crown-lock replaces it when locked. (20 · button/primary · gap 8)
 7. Action chips: Scrolling row of SmallActionChips; state follows the row. (margin-top 8 · gap 12 · unread / read / outlined · gold crown-locked with lockedActions)
-8. Live status (dialing / on-call / ringing): A live call puts the row at the top of Chats with a green status line and one green pill instead of the date; chips and the unread badge are hidden. (line body1 600 text/action: 'Assistant is dialing' / 'Assistant is on a call' / 'Calling you' · pill 32 high · padding 0 14 · radius full · button/primary · buttonSmall text/on-action: Outgoing call (status) / Takeover / Answer (buttons, onLiveAction))
+8. Live status (dialing / on-call / ringing): A live call puts the row at the top of Chats with a green status line and one green pill instead of the date; chips and the unread badge are hidden. (line body1 600 text/action: 'Equal is dialing' / 'Equal is on a call' / 'Calling you' · pill 32 high · padding 0 14 · radius full · button/primary · buttonSmall text/on-action: Outgoing call (status) / Takeover / Answer (buttons, onLiveAction))
 
 Accessibility:
 - Role. Web: A <div role='button' tabIndex=0> with aria-pressed when `selected` is set, containing the chip <button>s. Android: combinedClickable(role = Role.Button) on the Row; chips are separate Role.Button nodes.
@@ -8523,7 +8523,7 @@ Source: Known-call notifications
 2. Summary: the line updates to what the caller wants as the call goes on.
 3. Expanded: two lines, a call button to pick up, and quick replies: Takeover first, then suggested answers the assistant can say for you.
 4. Hand-off: when it needs you, the replies give way to “This needs your attention, connecting this call to you”.
-5. Open: the chat shows the call live under a black Ongoing call - 02:34 strip with Takeover in the header and the assistant’s follow-up below. Android draws the notification shell; the system wallpaper here is a coded stand-in.
+5. Open: the chat shows the call live under a black Ongoing call · 02:34 strip with Takeover in the header and the assistant’s follow-up below. Android draws the notification shell; the system wallpaper here is a coded stand-in.
 
 States:
 - `answering` Answering: `<CallNotification name="Mom" state="answering" />`

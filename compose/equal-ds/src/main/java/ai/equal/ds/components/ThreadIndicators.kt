@@ -44,7 +44,7 @@ fun DayDivider(text: String, modifier: Modifier = Modifier) {
 }
 
 /**
- * Thread event, e.g. "Call Started 03:31" (SPEC §21). Same pill as [DayDivider] but it hugs its
+ * Thread event, e.g. "Call started 03:31" (SPEC §21). Same pill as [DayDivider] but it hugs its
  * label: no fixed height, padding 6 v / 12 h, `text/secondary`. A centre row in a [MessageList].
  */
 @Composable
@@ -77,7 +77,7 @@ private fun ThreadIndicatorsPreview() {
     PreviewFrame {
         DayDivider("Today")
         VSpace(8.dp)
-        ThreadEvent("Call Started 03:31")
+        ThreadEvent("Call started 03:31")
         VSpace(8.dp)
         ThreadNotice("Call has ended. Equal AI shared a summary below.")
     }

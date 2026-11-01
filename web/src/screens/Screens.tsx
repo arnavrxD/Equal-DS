@@ -315,7 +315,7 @@ export type ChatScreenProps = {
   lock?: 'details' | 'audio' | 'lapsed';
   /** Opens the paywall (or the plan page, for lapsed). */
   onUnlock?: () => void;
-  /** Known call in progress (Known-call notifications design): the "Ongoing call - 02:34" strip under the header and the assistant's follow-up. */
+  /** Known call in progress (Known-call notifications design): the "Ongoing call · 02:34" strip under the header and the assistant's follow-up. */
   ongoing?: string;
   /** Monetization experiments ---------------------------------------------------------------- */
   /** Equal AI's own conversation with its notice (Plan Expired / Usage Cap option 1). */
@@ -411,12 +411,12 @@ export function ChatScreen({ chat = sampleChats[0], live = false, lock, onUnlock
       <ChatWallpaper style={{ minHeight: '100%' }}>
       <MessageList>
         <DayDivider label="Today" />
-        <ThreadEvent label="Call Started 03:31" />
+        <ThreadEvent label="Call started 03:31" />
         <ChatBubble kind="outgoing" sender="Equal AI" time="03:21" locked={locked}>Hi, who is this?</ChatBubble>
         <ChatBubble kind="incoming" category="others" sender="Dr Mehta Clinic" time="03:21" locked={locked}>This is Priya from Dr. Mehta's clinic. Your appointment is confirmed for tomorrow.</ChatBubble>
         <ChatBubble kind="outgoing" sender="Equal AI" time="03:21" locked={locked}>Yes, I'll be there at 10 AM</ChatBubble>
         <ChatBubble kind="incoming" category="others" sender="Dr Mehta Clinic" time="03:22" locked={locked}>Great. Please bring your previous reports too.</ChatBubble>
-        <ThreadEvent label="Call Ended 03:31" />
+        <ThreadEvent label="Call ended 03:31" />
         <ThreadNotice>Call has ended. You are now talking to your AI assistant.</ThreadNotice>
         <ChatBubble kind="assistant" sender="Equal AI" time="03:32">Hey Keshav! Here is the summary of your call</ChatBubble>
         {locked || withActions ? (

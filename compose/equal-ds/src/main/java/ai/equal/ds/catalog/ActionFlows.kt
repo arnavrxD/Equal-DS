@@ -161,7 +161,7 @@ private fun CallHistory(action: ChatAction) {
     var playing by remember { mutableStateOf(false) }
     var speed by remember { mutableStateOf(PlaybackSpeed.X1) }
     var rating by remember { mutableIntStateOf(0) }
-    ThreadEvent("Call Ended 4:37 PM")
+    ThreadEvent("Call ended 4:37 PM")
     ChatBubble(message = "Hey Keshav! Here is the summary of your call", timestamp = "03:21", type = ChatBubbleType.Assistant, sender = "Equal AI")
     CallSummaryMessage(
         first = false,
@@ -610,7 +610,7 @@ fun ChatErrorScreen(
                 ChatTop(name = "+91-99536 72604", subtitle = null, category = EqualCategory.NA, onBack = {})
                 ChatWallpaper(Modifier.weight(1f).fillMaxWidth()) {
                     ThreadMessages(rememberScrollState()) {
-                        ThreadEvent("Call Ended 4:37 PM")
+                        ThreadEvent("Call ended 4:37 PM")
                         ChatBubble(message = "Hey Keshav! Here is the summary of your call", timestamp = "03:21", type = ChatBubbleType.Assistant, sender = "Equal AI")
                     }
                 }

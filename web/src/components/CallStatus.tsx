@@ -25,7 +25,7 @@ export function DayDivider({ label }: { label: string }) {
   );
 }
 
-/** Thread event ("Call Started 03:31", "Call Ended 03:31"). */
+/** Thread event ("Call started 03:31", "Call ended 03:31"). */
 export function ThreadEvent({ label }: { label: string }) {
   return (
     <div className="eq-center-row" style={{ display: 'flex', justifyContent: 'center' }}>

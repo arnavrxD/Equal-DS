@@ -46,10 +46,10 @@ enum class ChatListItemStatus {
     /** Missed by the assistant: the 14dp call-missed glyph and "Missed by Assistant". */
     Missed,
 
-    /** Live: the assistant is placing a call. "Assistant is dialing" and the "Outgoing call" status pill. */
+    /** Live: the assistant is placing a call. "Equal is dialing" and the "Outgoing call" status pill. */
     Dialing,
 
-    /** Live: the assistant is on the call. "Assistant is on a call" and the "Takeover" pill. */
+    /** Live: the assistant is on the call. "Equal is on a call" and the "Takeover" pill. */
     OnCall,
 
     /** Live: the call is ringing for the user. "Calling you" and the "Answer" pill. */
@@ -80,8 +80,8 @@ enum class ChatListItemStatus {
  * (`missed-call/icon`) before "Missed by Assistant". Live calls put the row at the top of Chats
  * with a status line (`text/action` SemiBold) and one pill (32 high, 14 h, full radius,
  * `button/primary`, `buttonSmall` `text/on-action`) in place of the date; the count and chips are
- * hidden: [ChatListItemStatus.Dialing] "Assistant is dialing" · "Outgoing call" (a status, not
- * clickable); [ChatListItemStatus.OnCall] "Assistant is on a call" · "Takeover";
+ * hidden: [ChatListItemStatus.Dialing] "Equal is dialing" · "Outgoing call" (a status, not
+ * clickable); [ChatListItemStatus.OnCall] "Equal is on a call" · "Takeover";
  * [ChatListItemStatus.Ringing] "Calling you" · "Answer". The Takeover / Answer pill is a button
  * that calls [onLiveAction]. [ChatListItemStatus.Loading] reads "Loading Summary..." with no chips. [muted] adds a 16dp
  * notifications-off glyph (`text/secondary`, "Muted") after the name.
@@ -247,8 +247,8 @@ fun ChatListItem(
 private class LiveCopy(val line: String, val pill: String, val action: Boolean)
 
 private fun ChatListItemStatus.liveCopy(): LiveCopy? = when (this) {
-    ChatListItemStatus.Dialing -> LiveCopy("Assistant is dialing", "Outgoing call", action = false)
-    ChatListItemStatus.OnCall -> LiveCopy("Assistant is on a call", "Takeover", action = true)
+    ChatListItemStatus.Dialing -> LiveCopy("Equal is dialing", "Outgoing call", action = false)
+    ChatListItemStatus.OnCall -> LiveCopy("Equal is on a call", "Takeover", action = true)
     ChatListItemStatus.Ringing -> LiveCopy("Calling you", "Answer", action = true)
     else -> null
 }
