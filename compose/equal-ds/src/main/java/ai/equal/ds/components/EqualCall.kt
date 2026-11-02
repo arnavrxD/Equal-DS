@@ -1,5 +1,6 @@
 package ai.equal.ds.components
 
+import ai.equal.ds.assets.EqualCategory
 import ai.equal.ds.icons.EqualIcon
 import ai.equal.ds.icons.EqualIcons
 import ai.equal.ds.icons.EqualSymbols
@@ -29,6 +30,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.minimumInteractiveComponentSize
@@ -38,7 +40,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.pointerInput
@@ -50,13 +51,15 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.liveRegion
+import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
-import kotlinx.coroutines.launch
 import kotlin.math.roundToInt
+import kotlinx.coroutines.launch
 
 /** "Identified by" + the Equal logo in `text/secondary` (the Equal-user badge). One node: "Identified by Equal AI". */
 @Composable
@@ -369,6 +372,81 @@ fun TakeoverCard(time: String, modifier: Modifier = Modifier, title: String = "C
                 }
                 EqualText(text = time, style = type.badgeCount, color = colors.textSecondary, modifier = Modifier.align(Alignment.BottomEnd).offset(y = 5.dp))
             }
+        }
+    }
+}
+
+/** Green Card panel colour: lime (dismissible, ×) or green; green turns lime in dark like every green. */
+enum class GreenCardTone { Lime, Green }
+
+/**
+ * Green Card (Green Cards design): the caller-ID overlay Equal shows while the phone rings. A dark
+ * frame with "Incoming call · [label]" and the Equal AI logo, a lime or green panel with the caller,
+ * their number and what they want, then View in app. [onClose] shows the ×.
+ */
+@Composable
+fun GreenCard(
+    name: String,
+    phone: String,
+    message: String,
+    label: String,
+    modifier: Modifier = Modifier,
+    category: EqualCategory = EqualCategory.NA,
+    initials: String? = null,
+    tone: GreenCardTone = GreenCardTone.Lime,
+    onClose: (() -> Unit)? = null,
+    onView: () -> Unit = {},
+) {
+    val colors = EqualTheme.colors
+    val type = EqualTheme.type
+    val panel = if (tone == GreenCardTone.Lime) colors.greenCardLimeBg else colors.buttonPrimary
+    val ink = if (tone == GreenCardTone.Lime) colors.greenCardLimeText else colors.textOnAction
+    Column(
+        modifier
+            .widthIn(max = 361.dp)
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(12.dp))
+            .background(colors.greenCardShell),
+    ) {
+        Row(
+            Modifier.fillMaxWidth().height(43.dp).padding(start = 19.dp, end = 20.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+        ) {
+            EqualText(text = "Incoming call", style = type.body2, color = colors.greenCardOnShell)
+            Box(Modifier.padding(horizontal = 4.dp).size(4.dp).clip(CircleShape).background(colors.greenCardOnShell))
+            EqualText(text = label, style = type.body2, color = colors.greenCardOnShell)
+            Spacer(Modifier.weight(1f))
+            EqualLogo(height = 16.dp, color = colors.greenCardOnShell)
+        }
+        Column(
+            Modifier
+                .fillMaxWidth()
+                .defaultMinSize(minHeight = 179.dp)
+                .clip(RoundedCornerShape(12.dp))
+                .background(panel)
+                .padding(start = 16.dp, end = 20.dp, top = 19.dp, bottom = 40.dp),
+            verticalArrangement = Arrangement.spacedBy(28.dp),
+        ) {
+            Row(Modifier.padding(start = 3.dp), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                ContactAvatar(size = 36.dp, category = category, initials = initials)
+                Column(Modifier.weight(1f).offset(y = (-3).dp)) {
+                    EqualText(text = name, style = type.subheading, color = ink, maxLines = 1, overflow = TextOverflow.Ellipsis)
+                    EqualText(text = phone, style = type.caption, color = ink)
+                }
+                if (onClose != null) {
+                    Box(Modifier.minimumInteractiveComponentSize().clickable(onClick = onClose).semantics { contentDescription = "Close" }, contentAlignment = Alignment.TopEnd) {
+                        EqualIcon(EqualIcons.Close, contentDescription = null, tint = ink, size = 20.dp)
+                    }
+                }
+            }
+            EqualText(text = message, style = type.title, color = ink)
+        }
+        Box(
+            Modifier.fillMaxWidth().height(40.dp).clickable(onClick = onView).semantics { role = Role.Button },
+            contentAlignment = Alignment.Center,
+        ) {
+            EqualText(text = "View in app", style = type.buttonLarge, color = colors.greenCardOnShell)
         }
     }
 }

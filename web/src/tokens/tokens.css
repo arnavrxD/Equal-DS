@@ -242,6 +242,10 @@
   --eq-call-strip-bg: #F7F7F7; /* derived */
   --eq-takeover-card-bg: #F7F7F7; /* derived */
   --eq-takeover-card-stroke: #F8F8F8; /* derived */
+  --eq-green-card-shell: rgba(36,36,36,0.8); /* derived */
+  --eq-green-card-on-shell: #FFFFFF; /* derived */
+  --eq-green-card-lime-bg: #BAFF29; /* derived */
+  --eq-green-card-lime-text: #000000; /* derived */
   --eq-system-call-decline: #E86A5C; /* derived */
   --eq-system-call-decline-text: #260500; /* derived */
   --eq-system-call-answer: #6FCE94; /* derived */
@@ -462,6 +466,10 @@
   --eq-call-strip-bg: #292929; /* derived */
   --eq-takeover-card-bg: #141414; /* derived */
   --eq-takeover-card-stroke: #1B1B1B; /* derived */
+  --eq-green-card-shell: rgba(36,36,36,0.8); /* derived */
+  --eq-green-card-on-shell: #FFFFFF; /* derived */
+  --eq-green-card-lime-bg: #BAFF29; /* derived */
+  --eq-green-card-lime-text: #000000; /* derived */
   --eq-system-call-decline: #E86A5C; /* derived */
   --eq-system-call-decline-text: #260500; /* derived */
   --eq-system-call-answer: #6FCE94; /* derived */

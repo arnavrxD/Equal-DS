@@ -47,7 +47,7 @@ When a design and the system disagree, check it first; when a rule changes, upda
 - **Radii:** whole numbers only (2, 4, 6, 8, 12, 16, 18, 20, 24, 28, 32, 36, 50, 54, 80, 100, full). The Figma "Experiments" and "🎨 Foundations" pages are not a source for anything; every other page is.
 
 **Icons and images**
-- **Action cards:** the grey body sits on a white card (never a green card), and every CTA row is
+- **Action cards:** the grey body sits on a white card (never a green wrapper; the Green Card is the caller-ID overlay, not an action card), and every CTA row is
   emoji + label (📤 Send, ✏️ Edit, 👍 Confirm, 🗑️ Delete).
 - **Icons:** flat icons are Material Symbols, Outlined weight 400 (`scripts/build-icons.mjs`, then `npm run icons`). Every outlined icon has the same 1.5dp stroke at 24dp; a glyph Symbols lacks (e.g. WhatsApp) is drawn on the 960 grid at that stroke, never taken from another icon set. Action
   chips use emoji, sized to the label font size.
@@ -209,7 +209,7 @@ Done means: typecheck clean, `--check` passes, Gradle BUILD SUCCESSFUL, and lint
 
 - **Build from atoms: atoms → molecules → organisms → screens.** Why: Every visible leaf (text, icon, emoji, image, coded art) is rendered by an atom (Text, Icon, Emoji, Asset, Button…). Molecules combine atoms for one job (a chip, a row), organisms are whole sections (a chat row, a paywall). Trace walks this chain, so a designer can point at any pixel and find the atom, then step up with ↑ to the molecule and section. (Source: Product owner)
 - **Corner radii are whole numbers from one scale.** Why: The Figma scale is 2, 4, 6, 8, 12, 16, 18, 20, 24, 28, 32, 36, 50, 54, 80, 100 and full. Decimal radii in Figma (5.76, 1.33, 10.27…) come from scaled component instances or circles; use the whole number the master component uses, and “full” for circles and pills. (Source: Figma audit)
-- **Action cards: grey body on a white card, never a green card.** Why: A green wrapper made confirmations look like warnings and broke consistency with the rest of the thread. Every action card has the same frame; the content says what happened. (Source: Design review)
+- **Action cards: grey body on a white card, never a green wrapper (the Green Card is the caller-ID overlay, not an action card).** Why: A green wrapper made confirmations look like warnings and broke consistency with the rest of the thread. Every action card has the same frame; the content says what happened. (Source: Design review)
 - **Every action-card CTA has an emoji (📤 Send, ✏️ Edit, 👍 Confirm, 🗑️ Delete).** Why: Emoji make the action recognisable at a glance and match the chip language used everywhere else in chat. (Source: Design review)
 - **All actions in a card have the same weight; Confirm is not a filled button.** Why: Two actions at equal weight let the user choose; a filled Confirm pushes them. The commit goes first, the revise second, both as text rows. (Source: Typography v3 / handoff)
 - **Instructions use the note_stack icon with When / Do lines, never a category avatar.** Why: An instruction is a rule the user set, not a caller. The icon and When / Do structure make that obvious. (Source: Design review)
@@ -258,7 +258,7 @@ Done means: typecheck clean, `--check` passes, Gradle BUILD SUCCESSFUL, and lint
 - **Silent Mode is titled “Silent Mode” everywhere.** Why: The dark mock said “Call Preferences”; design confirmed “Silent Mode” to match the You-tab row. (Source: Design decision)
 - **Auto-rickshaw, paper bag and delivery rider are not caller categories.** Why: They appeared in a design as decoration; product confirmed they shouldn’t become categories. (Source: Product decision)
 
-## Components (72 docs pages)
+## Components (73 docs pages)
 
 ### Group: Actions
 
@@ -6090,6 +6090,74 @@ Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
 }
 ```
 
+#### Green Card (`green-card`)
+
+The caller-ID overlay Equal shows while the phone rings: “Incoming call · Delivery” and the Equal AI logo on a dark frame, a lime or green panel with the caller, their number and what they want, then View in app. After Takeover on a known call, it shows as the call rings on your phone.
+
+- React: `import { GreenCard } from '@equal/ds';`
+- Compose: `GreenCard`, `GreenCardTone`
+- Tokens: `component/green-card/shell`, `component/green-card/on-shell`, `component/green-card/lime-bg`, `component/green-card/lime-text`, `button/primary`, `text/on-action`
+- Source: Green Cards
+
+Do: Say what the caller wants in the message, not who they are; the name is already above it. Use lime when the card can be dismissed.
+
+Don't: Don’t use it in the app; it is the overlay over other screens while the phone rings. Don’t put it on top of Equal’s other call cards; it sits below them.
+
+Anatomy:
+1. Frame: Dark frame over any screen. (max 361 wide · radius 12 · green-card/shell (#242424 @ 80%) · clips its children)
+2. Header: Incoming call · label, and the logo. (43 high · padding 0 20 0 19 · body2 green-card/on-shell · 4 dot · EqualLogo 16 at the right)
+3. Panel: Lime or green, with the caller and what they want. (min 179 · radius 12 · padding 19 20 40 16 · gap 28 · lime: green-card/lime-bg + lime-text · green: button/primary + text/on-action)
+4. Caller: Avatar, name and number, and the × on lime. (ContactAvatar 36 (category art or initials) · gap 6 · subheading name (one line) · caption number · close 20 (48 touch))
+5. Message: What the caller wants. (title (20/28, 500) · up to two lines)
+6. View in app: Opens the caller’s chat. (40 high · buttonLarge green-card/on-shell · centred)
+
+Accessibility:
+- Role. Web: role="dialog" named “Incoming call from {name}”. On a device it is an overlay window (Display over other apps). Android: A Column; close and View in app are clickable with Role.Button semantics.
+- Name. Web: Header, caller, number and message are read in order; the logo reads “Equal AI”; × is “Close”. Android: Same order; the × has contentDescription “Close”.
+- Keyboard. Web: Tab reaches × then View in app; both show the focus ring. Android: TalkBack: swipe to × and View in app, double-tap to act.
+- Touch target. Web: × gets the 48 touch area (eq-touch); View in app is the full 40 × width row. Android: × uses minimumInteractiveComponentSize (48); View in app is 40 high across the width.
+- Contrast. Web: Lime: black on #BAFF29 17.0:1. Header on the frame 15.0:1 over black. Green (light): white on #00B140 is 2.9:1 and fails AA for the name and number. Android: Same tokens, same ratios.
+- State. Web: No state; the card closes or opens the app. Android: No state.
+- Motion. Web: None. Android: None.
+
+Known accessibility gaps:
+- The green tone in light puts white text on #00B140 (2.9:1), below AA for the 16 name and 12 number, as drawn in the Green Cards design. Prefer lime, or ask design whether the green tone should use black text.
+
+Example: Lime
+```tsx
+<GreenCard name="Swiggy Ramesh" phone="+91 81780 33605" label="Delivery" category="delivery"
+  message="Delivery partner has arrived with your order and is at the gate."
+  onClose={close} onView={openChat} />
+```
+```kotlin
+GreenCard(
+    name = "Swiggy Ramesh",
+    phone = "+91 81780 33605",
+    label = "Delivery",
+    category = EqualCategory.Delivery,
+    message = "Delivery partner has arrived with your order and is at the gate.",
+    onClose = { /* close */ },
+    onView = { /* open the chat */ },
+)
+```
+
+Example: Green
+```tsx
+<GreenCard tone="green" name="Swiggy Ramesh" phone="+91 81780 33605" label="Delivery" category="delivery"
+  message="Delivery partner has arrived with your order and is at the gate." onView={openChat} />
+```
+```kotlin
+GreenCard(
+    name = "Swiggy Ramesh",
+    phone = "+91 81780 33605",
+    label = "Delivery",
+    category = EqualCategory.Delivery,
+    message = "Delivery partner has arrived with your order and is at the gate.",
+    tone = GreenCardTone.Green,
+    onView = { /* open the chat */ },
+)
+```
+
 #### Snooze & update (`snooze`)
 
 Assistant Snooze and Force Update parts: the duration dialog (OK disabled until a choice is made), the alert sheet with its art straddling the top edge, the troubleshooting list, the update art and the spinner that replaces the assistant switch while it turns on or off.
@@ -9095,6 +9163,10 @@ Alias colours (CSS `var(--eq-<name without component/>)`, TS `color.*`, Compose 
 - `component/call-strip/bg`  light #F7F7F7 · dark #292929 · derived
 - `component/takeover-card/bg`  light #F7F7F7 · dark #141414 · derived
 - `component/takeover-card/stroke`  light #F8F8F8 · dark #1B1B1B · derived
+- `component/green-card/shell`  light #242424 @ 80% · dark #242424 @ 80% · derived
+- `component/green-card/on-shell`  light {brand.white} · dark {brand.white} · derived
+- `component/green-card/lime-bg`  light {brand.lime} · dark {brand.lime} · derived
+- `component/green-card/lime-text`  light {brand.black} · dark {brand.black} · derived
 - `component/system-call/decline`  light #E86A5C · dark #E86A5C · derived
 - `component/system-call/decline-text`  light #260500 · dark #260500 · derived
 - `component/system-call/answer`  light #6FCE94 · dark #6FCE94 · derived

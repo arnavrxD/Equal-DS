@@ -1809,6 +1809,50 @@ export const aliases: AliasToken[] = [
     "why": "1dp inside stroke of the Call Takeover inner card, as drawn in the old Equal AI Assistant file."
   },
   {
+    "name": "component/green-card/shell",
+    "cssVar": "--eq-green-card-shell",
+    "light": "rgba(36,36,36,0.8)",
+    "dark": "rgba(36,36,36,0.8)",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": true,
+    "why": "The Green Card's dark frame (caller-ID overlay while the phone rings): the Incoming call row and View in app sit on it, over any screen. Same in both themes, as drawn in the Green Cards design."
+  },
+  {
+    "name": "component/green-card/on-shell",
+    "cssVar": "--eq-green-card-on-shell",
+    "light": "#FFFFFF",
+    "dark": "#FFFFFF",
+    "lightRef": "brand/white",
+    "darkRef": "brand/white",
+    "group": "component",
+    "derived": true,
+    "why": "Header, logo and View in app on the Green Card frame: white on #242424 @ 80% is 15.0:1 over black and 7.6:1 over white."
+  },
+  {
+    "name": "component/green-card/lime-bg",
+    "cssVar": "--eq-green-card-lime-bg",
+    "light": "#BAFF29",
+    "dark": "#BAFF29",
+    "lightRef": "brand/lime",
+    "darkRef": "brand/lime",
+    "group": "component",
+    "derived": true,
+    "why": "The lime Green Card panel (the dismissible one, with ×). Lime in both themes."
+  },
+  {
+    "name": "component/green-card/lime-text",
+    "cssVar": "--eq-green-card-lime-text",
+    "light": "#000000",
+    "dark": "#000000",
+    "lightRef": "brand/black",
+    "darkRef": "brand/black",
+    "group": "component",
+    "derived": true,
+    "why": "Caller, number and message on the lime panel: black on #BAFF29 is 17.0:1."
+  },
+  {
     "name": "component/system-call/decline",
     "cssVar": "--eq-system-call-decline",
     "light": "#E86A5C",
@@ -2105,6 +2149,10 @@ export const color = {
   callStripBg: 'var(--eq-call-strip-bg)',
   takeoverCardBg: 'var(--eq-takeover-card-bg)',
   takeoverCardStroke: 'var(--eq-takeover-card-stroke)',
+  greenCardShell: 'var(--eq-green-card-shell)',
+  greenCardOnShell: 'var(--eq-green-card-on-shell)',
+  greenCardLimeBg: 'var(--eq-green-card-lime-bg)',
+  greenCardLimeText: 'var(--eq-green-card-lime-text)',
   systemCallDecline: 'var(--eq-system-call-decline)',
   systemCallDeclineText: 'var(--eq-system-call-decline-text)',
   systemCallAnswer: 'var(--eq-system-call-answer)',

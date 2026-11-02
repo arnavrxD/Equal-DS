@@ -114,6 +114,7 @@ import {
   IncomingCallNotification,
   CallLogCard,
   TakeoverCard,
+  GreenCard,
   HealthHero,
   HealthStatusLabel,
   PermissionRow,
@@ -3616,6 +3617,53 @@ const [label, setLabel] = useState<(typeof LABELS)[number]>('Home');
     ],
     dos: ['Keep the title under about 32 characters, so it fits on one line on a 360dp phone.'],
     donts: ['Don’t use it as an in-app toast; it stands for the OS notification.'],
+  },
+
+  {
+    id: 'green-card',
+    name: 'Green Card',
+    group: 'Overlays',
+    summary: 'The caller-ID overlay Equal shows while the phone rings: “Incoming call · Delivery” and the Equal AI logo on a dark frame, a lime or green panel with the caller, their number and what they want, then View in app. After Takeover on a known call, it shows as the call rings on your phone.',
+    components: ['GreenCard'],
+    importLine: "import { GreenCard } from '@equal/ds';",
+    compose: ['GreenCard', 'GreenCardTone'],
+    spec: 'Green Cards',
+    tokens: ['component/green-card/shell', 'component/green-card/on-shell', 'component/green-card/lime-bg', 'component/green-card/lime-text', 'button/primary', 'text/on-action'],
+    examples: [
+      {
+        title: 'Lime',
+        note: 'The dismissible one: × closes the card, the call keeps ringing.',
+        render: () => <div style={{ padding: 16, width: 361 + 32, boxSizing: 'border-box', background: 'var(--eq-bg-primary)' }}><GreenCard name="Swiggy Ramesh" phone="+91 81780 33605" label="Delivery" category="delivery" message="Delivery partner has arrived with your order and is at the gate." onClose={() => {}} /></div>,
+        code: `<GreenCard name="Swiggy Ramesh" phone="+91 81780 33605" label="Delivery" category="delivery"
+  message="Delivery partner has arrived with your order and is at the gate."
+  onClose={close} onView={openChat} />`,
+      },
+      {
+        title: 'Green',
+        note: 'No ×. In dark the panel turns lime with black text, like every green.',
+        render: () => <div style={{ padding: 16, width: 361 + 32, boxSizing: 'border-box', background: 'var(--eq-bg-primary)' }}><GreenCard tone="green" name="Swiggy Ramesh" phone="+91 81780 33605" label="Delivery" category="delivery" message="Delivery partner has arrived with your order and is at the gate." /></div>,
+        code: `<GreenCard tone="green" name="Swiggy Ramesh" phone="+91 81780 33605" label="Delivery" category="delivery"
+  message="Delivery partner has arrived with your order and is at the gate." onView={openChat} />`,
+      },
+    ],
+    props: [
+      {
+        component: 'GreenCard',
+        props: [
+          req('name', 'string', 'Caller name (one line).'),
+          req('phone', 'string', 'Their number, under the name.'),
+          req('message', 'string', 'What they want, in one or two lines (title).'),
+          req('label', 'string', 'After “Incoming call ·”: the caller’s category (“Delivery”) or “Contact”.'),
+          opt('category', 'Category', "'na'", 'Category art on the 36 disc.'),
+          opt('initials', 'string', '—', 'Saved contacts: initials instead of the category art.'),
+          opt('tone', "'lime' | 'green'", "'lime'", 'Panel colour. Green turns lime in dark.'),
+          opt('onClose', '() => void', '—', 'Shows the × and dismisses the card.'),
+          opt('onView', '() => void', '—', 'View in app: opens the caller’s chat.'),
+        ],
+      },
+    ],
+    dos: ['Say what the caller wants in the message, not who they are; the name is already above it.', 'Use lime when the card can be dismissed.'],
+    donts: ['Don’t use it in the app; it is the overlay over other screens while the phone rings.', 'Don’t put it on top of Equal’s other call cards; it sits below them.'],
   },
 
   {

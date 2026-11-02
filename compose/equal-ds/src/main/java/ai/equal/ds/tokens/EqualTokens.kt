@@ -355,6 +355,14 @@ data class EqualColors(
     val takeoverCardBg: Color,
     /** component/takeover-card/stroke — derived from the screens */
     val takeoverCardStroke: Color,
+    /** component/green-card/shell — derived from the screens */
+    val greenCardShell: Color,
+    /** component/green-card/on-shell — derived from the screens */
+    val greenCardOnShell: Color,
+    /** component/green-card/lime-bg — derived from the screens */
+    val greenCardLimeBg: Color,
+    /** component/green-card/lime-text — derived from the screens */
+    val greenCardLimeText: Color,
     /** component/system-call/decline — derived from the screens */
     val systemCallDecline: Color,
     /** component/system-call/decline-text — derived from the screens */
@@ -544,6 +552,10 @@ val LightEqualColors = EqualColors(
     callStripBg = Color(0xFFF7F7F7), // direct value
     takeoverCardBg = Color(0xFFF7F7F7), // direct value
     takeoverCardStroke = Color(0xFFF8F8F8), // direct value
+    greenCardShell = Color(0xCC242424), // direct value
+    greenCardOnShell = Color(0xFFFFFFFF), // brand/white
+    greenCardLimeBg = Color(0xFFBAFF29), // brand/lime
+    greenCardLimeText = Color(0xFF000000), // brand/black
     systemCallDecline = Color(0xFFE86A5C), // direct value
     systemCallDeclineText = Color(0xFF260500), // direct value
     systemCallAnswer = Color(0xFF6FCE94), // direct value
@@ -721,6 +733,10 @@ val DarkEqualColors = EqualColors(
     callStripBg = Color(0xFF292929), // direct value
     takeoverCardBg = Color(0xFF141414), // direct value
     takeoverCardStroke = Color(0xFF1B1B1B), // direct value
+    greenCardShell = Color(0xCC242424), // direct value
+    greenCardOnShell = Color(0xFFFFFFFF), // brand/white
+    greenCardLimeBg = Color(0xFFBAFF29), // brand/lime
+    greenCardLimeText = Color(0xFF000000), // brand/black
     systemCallDecline = Color(0xFFE86A5C), // direct value
     systemCallDeclineText = Color(0xFF260500), // direct value
     systemCallAnswer = Color(0xFF6FCE94), // direct value

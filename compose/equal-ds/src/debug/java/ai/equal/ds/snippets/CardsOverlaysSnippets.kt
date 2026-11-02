@@ -30,6 +30,8 @@ import ai.equal.ds.components.EqualSnackbar
 import ai.equal.ds.components.EqualText
 import ai.equal.ds.components.FeedbackCard
 import ai.equal.ds.components.FullSheet
+import ai.equal.ds.components.GreenCard
+import ai.equal.ds.components.GreenCardTone
 import ai.equal.ds.components.HomeHeader
 import ai.equal.ds.components.IllustrationHeader
 import ai.equal.ds.components.LargeActionChip
@@ -223,6 +225,34 @@ internal fun SystemNotificationBackOnSnippet() {
     SystemNotificationPreview(
         title = "Equal AI Assistant is back on",
         body = "Equal AI is now handling all your unknown calls.",
+    )
+}
+
+// snippet: green-card / Lime
+@Composable
+internal fun GreenCardLimeSnippet() {
+    GreenCard(
+        name = "Swiggy Ramesh",
+        phone = "+91 81780 33605",
+        label = "Delivery",
+        category = EqualCategory.Delivery,
+        message = "Delivery partner has arrived with your order and is at the gate.",
+        onClose = { /* close */ },
+        onView = { /* open the chat */ },
+    )
+}
+
+// snippet: green-card / Green
+@Composable
+internal fun GreenCardGreenSnippet() {
+    GreenCard(
+        name = "Swiggy Ramesh",
+        phone = "+91 81780 33605",
+        label = "Delivery",
+        category = EqualCategory.Delivery,
+        message = "Delivery partner has arrived with your order and is at the gate.",
+        tone = GreenCardTone.Green,
+        onView = { /* open the chat */ },
     )
 }
 

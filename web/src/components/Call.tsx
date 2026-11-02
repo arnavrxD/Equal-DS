@@ -1,11 +1,12 @@
 // In-app calls (vOIP and Equal-to-Equal designs): the call shell shared by "Call me" with the
 // assistant and Equal user to Equal user calls.
 import { useEffect, useState, type ReactNode } from 'react';
-import { Asset, type AssetName } from '../foundations/Asset';
+import { Asset, type AssetName, type Category } from '../foundations/Asset';
 import { EqualLogo } from '../foundations/EqualMark';
 import { Icon } from '../foundations/Icon';
 import type { IconName } from '../foundations/icons';
 import { Text } from '../foundations/Text';
+import { ContactAvatar } from './Avatar';
 import { IconButton } from './Button';
 import { ChatWallpaper } from './Flows';
 import { StatusBar } from './StatusBar';
@@ -250,6 +251,39 @@ export function IncomingCallNotification({ name, initials, app = 'Equal AI', tim
         <button type="button" className="eq-reset-btn eq-incoming-notif__btn is-decline" onClick={onDecline}><Icon name="call-end-outline" size={24} /><Text variant="subheading" color="none">DECLINE</Text></button>
         <button type="button" className="eq-reset-btn eq-incoming-notif__btn is-answer" onClick={onAnswer}><Icon name="call" size={24} /><Text variant="subheading" color="none">ANSWER</Text></button>
       </div>
+    </div>
+  );
+}
+
+export type GreenCardTone = 'lime' | 'green';
+
+/**
+ * Green Card (Green Cards design): the caller-ID overlay Equal shows over the screen while the phone
+ * rings. A dark frame with "Incoming call · {label}" and the Equal AI logo, a lime or green panel with
+ * the caller, their number and what they want, and View in app. The lime panel can be dismissed (×).
+ * In dark, the green panel turns lime like every green.
+ */
+export function GreenCard({ name, phone, message, label, category = 'na', initials, tone = 'lime', onClose, onView }: { name: string; phone: string; message: string; /** After "Incoming call ·": the caller's category ("Delivery") or "Contact". */ label: string; category?: Category; /** Saved contacts: initials on the disc instead of the category art. */ initials?: string; tone?: GreenCardTone; /** Shows the × (lime). */ onClose?: () => void; onView?: () => void }) {
+  return (
+    <div className={`eq-green-card is-${tone}`} role="dialog" aria-label={`Incoming call from ${name}`}>
+      <div className="eq-green-card__head">
+        <Text variant="body2" color="none">Incoming call</Text>
+        <span className="eq-green-card__dot" aria-hidden />
+        <Text variant="body2" color="none">{label}</Text>
+        <span className="eq-green-card__logo"><EqualLogo height={16} color="var(--eq-green-card-on-shell)" /></span>
+      </div>
+      <div className="eq-green-card__panel">
+        <div className="eq-green-card__who">
+          <ContactAvatar size={36} category={category} initials={initials} />
+          <span className="eq-green-card__name">
+            <Text as="div" variant="subheading" color="none" truncate>{name}</Text>
+            <Text as="div" variant="caption" color="none" className="eq-tnum">{phone}</Text>
+          </span>
+          {onClose && <button type="button" className="eq-reset-btn eq-touch eq-green-card__close" aria-label="Close" onClick={onClose}><Icon name="close" size={20} /></button>}
+        </div>
+        <Text as="p" variant="title" color="none" className="eq-green-card__message">{message}</Text>
+      </div>
+      <button type="button" className="eq-reset-btn eq-green-card__view" onClick={onView}><Text variant="buttonLarge" color="none">View in app</Text></button>
     </div>
   );
 }

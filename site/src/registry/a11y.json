@@ -5310,5 +5310,79 @@
       }
     ],
     "gaps": []
+  },
+  "green-card": {
+    "anatomy": [
+      {
+        "part": "Frame",
+        "description": "Dark frame over any screen.",
+        "spec": "max 361 wide · radius 12 · green-card/shell (#242424 @ 80%) · clips its children"
+      },
+      {
+        "part": "Header",
+        "description": "Incoming call · label, and the logo.",
+        "spec": "43 high · padding 0 20 0 19 · body2 green-card/on-shell · 4 dot · EqualLogo 16 at the right"
+      },
+      {
+        "part": "Panel",
+        "description": "Lime or green, with the caller and what they want.",
+        "spec": "min 179 · radius 12 · padding 19 20 40 16 · gap 28 · lime: green-card/lime-bg + lime-text · green: button/primary + text/on-action"
+      },
+      {
+        "part": "Caller",
+        "description": "Avatar, name and number, and the × on lime.",
+        "spec": "ContactAvatar 36 (category art or initials) · gap 6 · subheading name (one line) · caption number · close 20 (48 touch)"
+      },
+      {
+        "part": "Message",
+        "description": "What the caller wants.",
+        "spec": "title (20/28, 500) · up to two lines"
+      },
+      {
+        "part": "View in app",
+        "description": "Opens the caller’s chat.",
+        "spec": "40 high · buttonLarge green-card/on-shell · centred"
+      }
+    ],
+    "accessibility": [
+      {
+        "topic": "Role",
+        "web": "role=\"dialog\" named “Incoming call from {name}”. On a device it is an overlay window (Display over other apps).",
+        "android": "A Column; close and View in app are clickable with Role.Button semantics."
+      },
+      {
+        "topic": "Name",
+        "web": "Header, caller, number and message are read in order; the logo reads “Equal AI”; × is “Close”.",
+        "android": "Same order; the × has contentDescription “Close”."
+      },
+      {
+        "topic": "Keyboard",
+        "web": "Tab reaches × then View in app; both show the focus ring.",
+        "android": "TalkBack: swipe to × and View in app, double-tap to act."
+      },
+      {
+        "topic": "Touch target",
+        "web": "× gets the 48 touch area (eq-touch); View in app is the full 40 × width row.",
+        "android": "× uses minimumInteractiveComponentSize (48); View in app is 40 high across the width."
+      },
+      {
+        "topic": "Contrast",
+        "web": "Lime: black on #BAFF29 17.0:1. Header on the frame 15.0:1 over black. Green (light): white on #00B140 is 2.9:1 and fails AA for the name and number.",
+        "android": "Same tokens, same ratios."
+      },
+      {
+        "topic": "State",
+        "web": "No state; the card closes or opens the app.",
+        "android": "No state."
+      },
+      {
+        "topic": "Motion",
+        "web": "None.",
+        "android": "None."
+      }
+    ],
+    "gaps": [
+      "The green tone in light puts white text on #00B140 (2.9:1), below AA for the 16 name and 12 number, as drawn in the Green Cards design. Prefer lime, or ask design whether the green tone should use black text."
+    ]
   }
 }

@@ -42,6 +42,7 @@ export const docLevel: Record<string, Level> = {
   'whats-new-card': 'molecule',
   'meet-assistant-card': 'molecule',
   'system-notification': 'molecule',
+  'green-card': 'molecule',
   'coupon-ticket': 'molecule',
   'locked-content': 'molecule',
   faq: 'molecule',

@@ -43,7 +43,7 @@ When a design and the system disagree, check it first; when a rule changes, upda
 - **Radii:** whole numbers only (2, 4, 6, 8, 12, 16, 18, 20, 24, 28, 32, 36, 50, 54, 80, 100, full). The Figma "Experiments" and "🎨 Foundations" pages are not a source for anything; every other page is.
 
 **Icons and images**
-- **Action cards:** the grey body sits on a white card (never a green card), and every CTA row is
+- **Action cards:** the grey body sits on a white card (never a green wrapper; the Green Card is the caller-ID overlay, not an action card), and every CTA row is
   emoji + label (📤 Send, ✏️ Edit, 👍 Confirm, 🗑️ Delete).
 - **Icons:** flat icons are Material Symbols, Outlined weight 400 (`scripts/build-icons.mjs`, then `npm run icons`). Every outlined icon has the same 1.5dp stroke at 24dp; a glyph Symbols lacks (e.g. WhatsApp) is drawn on the 960 grid at that stroke, never taken from another icon set. Action
   chips use emoji, sized to the label font size.

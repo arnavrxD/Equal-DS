@@ -69,3 +69,18 @@
 .eq-takeover-msg__icon { width: 40px; height: 40px; flex-shrink: 0; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; background: var(--eq-bg-surface); }
 .eq-takeover-msg__text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .eq-takeover-msg__time { position: absolute; right: 8px; bottom: 3px; }
+/* Green Card: the caller-ID overlay while the phone rings. 361 wide frame (radius 12, #242424 @ 80%),
+   43 header, the 179 lime / green panel, 40 View in app. */
+.eq-green-card { width: 100%; max-width: 361px; box-sizing: border-box; display: flex; flex-direction: column; border-radius: 12px; overflow: hidden; background: var(--eq-green-card-shell); color: var(--eq-green-card-on-shell); }
+.eq-green-card__head { height: 43px; display: flex; align-items: center; gap: 4px; padding: 0 20px 0 19px; }
+.eq-green-card__dot { width: 4px; height: 4px; margin: 0 4px; border-radius: 50%; background: currentColor; }
+.eq-green-card__logo { margin-left: auto; display: inline-flex; }
+.eq-green-card__panel { min-height: 179px; box-sizing: border-box; display: flex; flex-direction: column; gap: 28px; padding: 19px 20px 40px 16px; border-radius: 12px; }
+.eq-green-card.is-lime .eq-green-card__panel { background: var(--eq-green-card-lime-bg); color: var(--eq-green-card-lime-text); }
+.eq-green-card.is-green .eq-green-card__panel { background: var(--eq-button-primary); color: var(--eq-text-on-action); }
+.eq-green-card__who { display: flex; align-items: flex-start; gap: 6px; padding-left: 3px; }
+.eq-green-card__name { flex: 1; min-width: 0; margin-top: -3px; }
+.eq-green-card__close { display: inline-flex; color: inherit; margin-right: 1px; }
+.eq-green-card__message { margin: 0; }
+.eq-green-card__view { height: 40px; display: flex; align-items: center; justify-content: center; color: var(--eq-green-card-on-shell); }
+.eq-green-card__view:focus-visible, .eq-green-card__close:focus-visible { outline: none; box-shadow: var(--eq-shadow-focus-ring); border-radius: 8px; }
