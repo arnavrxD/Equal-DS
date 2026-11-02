@@ -8,7 +8,7 @@ import { Emoji, Icon } from '../foundations/Icon';
 import type { IconName } from '../foundations/icons';
 import { Text } from '../foundations/Text';
 import { EqualMark } from '../foundations/EqualMark';
-import { CategoryAvatar } from './Avatar';
+import { CategoryAvatar, ContactAvatar } from './Avatar';
 import { Button, IconButton, TextButton } from './Button';
 import { Checkbox } from './Checkbox';
 import { Lottie } from './Lottie';
@@ -196,6 +196,8 @@ export type CallNotificationState = 'answering' | 'summary' | 'expanded' | 'conn
 export type CallNotificationProps = {
   name: string;
   category?: Category;
+  /** Saved contacts: initials on the disc instead of the category art. */
+  initials?: string;
   /** Seconds on the call. */
   elapsed?: string;
   /** answering: "Your Equal AI is answering your call"; summary: what the caller wants (one line); expanded: two lines + call button + replies; connecting: "This needs your attention…". */
@@ -210,7 +212,7 @@ export type CallNotificationProps = {
  * Android ongoing-call notification while the assistant answers a known caller: app line with a
  * live timer, the caller and what they want, then quick replies (Takeover first) or the hand-off line.
  */
-export function CallNotification({ name, category = 'home-services', elapsed = '00:06', state, summary = 'She is asking when will you be coming to the wedding, she also asked you to bring her sweets.', replies = ['Takeover', 'I’ll bring them all', 'I’ll call back to get more'], onReply, onAnswer }: CallNotificationProps) {
+export function CallNotification({ name, category = 'home-services', initials, elapsed = '00:06', state, summary = 'She is asking when will you be coming to the wedding, she also asked you to bring her sweets.', replies = ['Takeover', 'I’ll bring them all', 'I’ll call back to get more'], onReply, onAnswer }: CallNotificationProps) {
   const big = state === 'expanded' || state === 'connecting';
   return (
     // Not a live region: the timer ticks every second. Screen readers hear the call once, on mount.
@@ -225,7 +227,7 @@ export function CallNotification({ name, category = 'home-services', elapsed = '
       </div>
       <div className="eq-ch-notif__main">
         <span style={{ position: 'relative', flexShrink: 0 }}>
-          <CategoryAvatar category={category} size={40} />
+          {initials ? <ContactAvatar initials={initials} size={40} /> : <CategoryAvatar category={category} size={40} />}
           {big && <span className="eq-ch-notif__badge" aria-hidden><EqualMark width={10} color="var(--eq-text-on-action)" /></span>}
         </span>
         <span style={{ flex: 1, minWidth: 0 }}>

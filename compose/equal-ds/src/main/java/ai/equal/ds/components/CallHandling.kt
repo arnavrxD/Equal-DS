@@ -752,6 +752,7 @@ fun CallNotification(
     state: CallNotificationState,
     modifier: Modifier = Modifier,
     category: EqualCategory = EqualCategory.HomeServices,
+    initials: String? = null,
     elapsed: String = "00:06",
     summary: String = SampleCallSummary,
     replies: List<String> = SampleCallReplies,
@@ -803,7 +804,7 @@ fun CallNotification(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             Box {
-                CategoryAvatar(category = category, size = 40.dp)
+                ContactAvatar(size = 40.dp, category = category, initials = initials)
                 if (big) {
                     Box(
                         Modifier

@@ -185,11 +185,11 @@ export function OfflineScreen({ onRetry }: { onRetry?: () => void }) {
 }
 
 /** Coded stand-in for the phone's dialer during Call Back (the OS draws the real one). */
-export function DialerStandIn({ number, place = 'Bangalore, Karnataka', carrier = 'airtel', onEnd }: { number: string; place?: string; carrier?: string; onEnd?: () => void }) {
+export function DialerStandIn({ number, place = 'Bangalore, Karnataka', carrier = 'airtel', status, onEnd }: { number: string; place?: string; carrier?: string; /** Replaces “Calling via {carrier}”, e.g. a connected call’s timer. */ status?: string; onEnd?: () => void }) {
   return (
     <div className="eq-dialer" role="group" aria-label={`Calling ${number}`}>
       <div className="eq-dialer__top">
-        <Text as="div" variant="subheading" align="center" style={{ color: 'rgba(255,255,255,0.8)', fontWeight: 400 }}>Calling via <Text variant="inherit" color="none" style={{ color: '#8AB4F8' }}>{carrier}</Text></Text>
+        <Text as="div" variant="subheading" align="center" style={{ color: 'rgba(255,255,255,0.8)', fontWeight: 400 }}>{status ?? <>Calling via <Text variant="inherit" color="none" style={{ color: '#8AB4F8' }}>{carrier}</Text></>}</Text>
         <Text variant="inherit" color="none" as="div" className="eq-dialer__number eq-tnum">{number}</Text>
         <Text as="div" variant="subheading" align="center" style={{ color: 'rgba(255,255,255,0.8)', fontWeight: 400 }}>{place}</Text>
       </div>

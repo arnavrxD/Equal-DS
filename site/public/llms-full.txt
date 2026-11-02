@@ -2738,6 +2738,7 @@ Props of `CallNotification`:
 - `name`: `string`. Caller.
 - `state`: `'answering' | 'summary' | 'expanded' | 'connecting'`. Stage of the call.
 - `category?`: `Category` = 'home-services'. Avatar art.
+- `initials?`: `string`. Saved contacts: initials instead of the category art.
 - `elapsed?`: `string` = '00:06'. Timer.
 - `summary?`: `string`. What the caller wants.
 - `replies?`: `string[]`. Quick replies (expanded).

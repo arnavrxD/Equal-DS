@@ -26,6 +26,10 @@
     "name": "Equal call"
    },
    {
+    "id": "green-card",
+    "name": "Green Card"
+   },
+   {
     "id": "call-handling",
     "name": "Call Handling"
    },
@@ -194,6 +198,10 @@
    {
     "id": "equal-call",
     "name": "Equal call"
+   },
+   {
+    "id": "green-card",
+    "name": "Green Card"
    },
    {
     "id": "call-handling",
@@ -521,6 +529,10 @@
     "name": "Equal call"
    },
    {
+    "id": "green-card",
+    "name": "Green Card"
+   },
+   {
     "id": "call-handling",
     "name": "Call Handling"
    },
@@ -813,6 +825,10 @@
     "name": "Equal call"
    },
    {
+    "id": "green-card",
+    "name": "Green Card"
+   },
+   {
     "id": "call-handling",
     "name": "Call Handling"
    },
@@ -1079,6 +1095,10 @@
     "name": "Equal call"
    },
    {
+    "id": "green-card",
+    "name": "Green Card"
+   },
+   {
     "id": "call-handling",
     "name": "Call Handling"
    },
@@ -1274,6 +1294,10 @@
     "name": "Equal call"
    },
    {
+    "id": "green-card",
+    "name": "Green Card"
+   },
+   {
     "id": "call-handling",
     "name": "Call Handling"
    },
@@ -1417,6 +1441,10 @@
    {
     "id": "equal-call",
     "name": "Equal call"
+   },
+   {
+    "id": "green-card",
+    "name": "Green Card"
    },
    {
     "id": "call-handling",
@@ -1664,6 +1692,10 @@
     "name": "Equal call"
    },
    {
+    "id": "green-card",
+    "name": "Green Card"
+   },
+   {
     "id": "call-handling",
     "name": "Call Handling"
    },
@@ -1839,6 +1871,10 @@
    {
     "id": "equal-call",
     "name": "Equal call"
+   },
+   {
+    "id": "green-card",
+    "name": "Green Card"
    },
    {
     "id": "empty-state",
@@ -2174,6 +2210,10 @@
     "name": "Equal call"
    },
    {
+    "id": "green-card",
+    "name": "Green Card"
+   },
+   {
     "id": "chat-list-item",
     "name": "Chat list item"
    },
@@ -2324,6 +2364,10 @@
     "name": "Equal call"
    },
    {
+    "id": "green-card",
+    "name": "Green Card"
+   },
+   {
     "id": "health-check",
     "name": "Health check"
    }
@@ -2360,6 +2404,10 @@
    {
     "id": "equal-call",
     "name": "Equal call"
+   },
+   {
+    "id": "green-card",
+    "name": "Green Card"
    },
    {
     "id": "composer",
@@ -2463,6 +2511,10 @@
     "name": "Equal call"
    },
    {
+    "id": "green-card",
+    "name": "Green Card"
+   },
+   {
     "id": "health-check",
     "name": "Health check"
    },
@@ -2528,6 +2580,10 @@
    {
     "id": "equal-call",
     "name": "Equal call"
+   },
+   {
+    "id": "green-card",
+    "name": "Green Card"
    },
    {
     "id": "chat-bubble",
@@ -2972,6 +3028,10 @@
    {
     "id": "equal-call",
     "name": "Equal call"
+   },
+   {
+    "id": "green-card",
+    "name": "Green Card"
    },
    {
     "id": "system-status-card",
@@ -5188,6 +5248,10 @@
    {
     "id": "equal-call",
     "name": "Equal call"
+   },
+   {
+    "id": "green-card",
+    "name": "Green Card"
    }
   ],
   "screens": []
@@ -5201,6 +5265,10 @@
    {
     "id": "equal-call",
     "name": "Equal call"
+   },
+   {
+    "id": "green-card",
+    "name": "Green Card"
    },
    {
     "id": "health-check",
@@ -5218,6 +5286,10 @@
    {
     "id": "equal-call",
     "name": "Equal call"
+   },
+   {
+    "id": "green-card",
+    "name": "Green Card"
    }
   ],
   "screens": []
@@ -5231,6 +5303,10 @@
    {
     "id": "equal-call",
     "name": "Equal call"
+   },
+   {
+    "id": "green-card",
+    "name": "Green Card"
    }
   ],
   "screens": []
@@ -5244,6 +5320,10 @@
    {
     "id": "equal-call",
     "name": "Equal call"
+   },
+   {
+    "id": "green-card",
+    "name": "Green Card"
    }
   ],
   "screens": []
@@ -5694,6 +5774,10 @@
    {
     "id": "equal-call",
     "name": "Equal call"
+   },
+   {
+    "id": "green-card",
+    "name": "Green Card"
    }
   ],
   "screens": []
@@ -5707,6 +5791,10 @@
    {
     "id": "equal-call",
     "name": "Equal call"
+   },
+   {
+    "id": "green-card",
+    "name": "Green Card"
    }
   ],
   "screens": []
@@ -5720,6 +5808,10 @@
    {
     "id": "equal-call",
     "name": "Equal call"
+   },
+   {
+    "id": "green-card",
+    "name": "Green Card"
    }
   ],
   "screens": []
@@ -5733,6 +5825,10 @@
    {
     "id": "equal-call",
     "name": "Equal call"
+   },
+   {
+    "id": "green-card",
+    "name": "Green Card"
    },
    {
     "id": "chat-header",
@@ -5754,6 +5850,10 @@
    {
     "id": "equal-call",
     "name": "Equal call"
+   },
+   {
+    "id": "green-card",
+    "name": "Green Card"
    }
   ],
   "screens": []
@@ -5767,6 +5867,78 @@
    {
     "id": "equal-call",
     "name": "Equal call"
+   },
+   {
+    "id": "green-card",
+    "name": "Green Card"
+   }
+  ],
+  "screens": []
+ },
+ "component/green-card/shell": {
+  "pages": [
+   {
+    "id": "call-controls",
+    "name": "Call controls"
+   },
+   {
+    "id": "equal-call",
+    "name": "Equal call"
+   },
+   {
+    "id": "green-card",
+    "name": "Green Card"
+   }
+  ],
+  "screens": []
+ },
+ "component/green-card/on-shell": {
+  "pages": [
+   {
+    "id": "call-controls",
+    "name": "Call controls"
+   },
+   {
+    "id": "equal-call",
+    "name": "Equal call"
+   },
+   {
+    "id": "green-card",
+    "name": "Green Card"
+   }
+  ],
+  "screens": []
+ },
+ "component/green-card/lime-bg": {
+  "pages": [
+   {
+    "id": "call-controls",
+    "name": "Call controls"
+   },
+   {
+    "id": "equal-call",
+    "name": "Equal call"
+   },
+   {
+    "id": "green-card",
+    "name": "Green Card"
+   }
+  ],
+  "screens": []
+ },
+ "component/green-card/lime-text": {
+  "pages": [
+   {
+    "id": "call-controls",
+    "name": "Call controls"
+   },
+   {
+    "id": "equal-call",
+    "name": "Equal call"
+   },
+   {
+    "id": "green-card",
+    "name": "Green Card"
    }
   ],
   "screens": []
@@ -5780,6 +5952,10 @@
    {
     "id": "equal-call",
     "name": "Equal call"
+   },
+   {
+    "id": "green-card",
+    "name": "Green Card"
    }
   ],
   "screens": []
@@ -5793,6 +5969,10 @@
    {
     "id": "equal-call",
     "name": "Equal call"
+   },
+   {
+    "id": "green-card",
+    "name": "Green Card"
    }
   ],
   "screens": []
@@ -5806,6 +5986,10 @@
    {
     "id": "equal-call",
     "name": "Equal call"
+   },
+   {
+    "id": "green-card",
+    "name": "Green Card"
    }
   ],
   "screens": []
@@ -5819,6 +6003,10 @@
    {
     "id": "equal-call",
     "name": "Equal call"
+   },
+   {
+    "id": "green-card",
+    "name": "Green Card"
    }
   ],
   "screens": []
@@ -5832,6 +6020,10 @@
    {
     "id": "equal-call",
     "name": "Equal call"
+   },
+   {
+    "id": "green-card",
+    "name": "Green Card"
    }
   ],
   "screens": []
@@ -7020,6 +7212,10 @@
    {
     "id": "equal-call",
     "name": "Equal call"
+   },
+   {
+    "id": "green-card",
+    "name": "Green Card"
    }
   ],
   "screens": []

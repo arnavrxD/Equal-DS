@@ -717,6 +717,7 @@ fun DialerStandIn(
     modifier: Modifier = Modifier,
     place: String = "Bangalore, Karnataka",
     carrier: String = "airtel",
+    status: String? = null,
     onEnd: () -> Unit = {},
 ) {
     val type = EqualTheme.type
@@ -734,8 +735,12 @@ fun DialerStandIn(
         Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(8.dp)) {
             BasicText(
                 text = buildAnnotatedString {
-                    append("Calling via ")
-                    withStyle(SpanStyle(color = DarkEqualColors.contactAvatarBlueText)) { append(carrier) }
+                    if (status != null) {
+                        append(status)
+                    } else {
+                        append("Calling via ")
+                        withStyle(SpanStyle(color = DarkEqualColors.contactAvatarBlueText)) { append(carrier) }
+                    }
                 },
                 style = line.copy(color = dim),
             )
