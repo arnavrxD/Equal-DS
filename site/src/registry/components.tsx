@@ -113,6 +113,7 @@ import {
   CallStrip,
   IncomingCallNotification,
   CallLogCard,
+  TakeoverCard,
   HealthHero,
   HealthStatusLabel,
   PermissionRow,
@@ -1537,9 +1538,9 @@ const [muted, setMuted] = useState(false);
     name: 'Equal call',
     group: 'Chat',
     summary: 'Equal user to Equal user calls: the call screen (receiver and caller), Identified by Equal, swipe to answer, the in-app incoming strip (three options) and the ongoing strip, the heads-up stand-in and the Voice Call card. Reuses the vOIP call controls.',
-    components: ['EqualCallScreen', 'SwipeToAnswer', 'IdentifiedByEqual', 'CallStrip', 'IncomingCallNotification', 'CallLogCard'],
-    importLine: "import { EqualCallScreen, SwipeToAnswer, IdentifiedByEqual, CallStrip, CallLogCard } from '@equal/ds';",
-    compose: ['EqualCallScreen', 'SwipeToAnswer', 'IdentifiedByEqual', 'IncomingCallStrip', 'OngoingCallStrip', 'IncomingCallNotification', 'CallLogCard'],
+    components: ['EqualCallScreen', 'SwipeToAnswer', 'IdentifiedByEqual', 'CallStrip', 'IncomingCallNotification', 'CallLogCard', 'TakeoverCard'],
+    importLine: "import { EqualCallScreen, SwipeToAnswer, IdentifiedByEqual, CallStrip, CallLogCard, TakeoverCard } from '@equal/ds';",
+    compose: ['EqualCallScreen', 'SwipeToAnswer', 'IdentifiedByEqual', 'IncomingCallStrip', 'OngoingCallStrip', 'IncomingCallNotification', 'CallLogCard', 'TakeoverCard'],
     spec: 'Equal To Equal Call Experience',
     tokens: ['call-avatar/bg', 'call-avatar/text', 'call-control/subtle-bg', 'call-strip/bg', 'button/end-call', 'button/primary', 'notification/bg'],
     examples: [
@@ -1587,6 +1588,20 @@ const [muted, setMuted] = useState(false);
         code: `<IncomingCallNotification name="Keshav Reddy" initials="KR" />
 <CallLogCard duration="1min" />`,
       },
+      {
+        title: 'Takeover card',
+        note: 'When you take over an assistant call (Personal Number call), the thread marks it with your Call Takeover message: a white bubble with the You label in its corner and the card inside, time in the card’s corner.',
+        render: () => (
+          <ChatWallpaper style={{ padding: 16, width: 360, boxSizing: 'border-box' }}>
+            <MessageList>
+              <TakeoverCard time="11:03" />
+            </MessageList>
+          </ChatWallpaper>
+        ),
+        code: `<MessageList>
+  <TakeoverCard time="11:03" />
+</MessageList>`,
+      },
     ],
     props: [
       {
@@ -1614,6 +1629,7 @@ const [muted, setMuted] = useState(false);
         ],
       },
       { component: 'CallLogCard', props: [req('duration', 'string', '"1min".'), opt('direction', "'outgoing' | 'incoming'", "'outgoing'", 'call_made or call_received.')] },
+      { component: 'TakeoverCard', props: [req('time', 'string', 'When you took over, e.g. "11:03".'), opt('title', 'string', "'Call taken over'", 'What happened.'), opt('body', 'string', "'You took over the call'", 'One line under the title.'), opt('sender', 'string', "'You'", 'The label in the bubble’s corner.')] },
     ],
     dos: ['Say who is calling and that Equal identified them.', 'Keep the in-app strip option a prop.', 'Let the assistant strip (OngoingCallBar) and the user call strip (CallStrip) stay separate.'],
     donts: ["Don't draw the heads-up or the permission dialog in the app; the OS does.", "Don't make the call icon tappable while a call is live."],

@@ -173,7 +173,8 @@
     "Incoming call": "EqualCallScreen(\n    role = EqualCallRole.Receiver,\n    state = EqualCallState.Ringing,\n    name = \"Keshav Reddy\",\n    initials = \"KR\",\n    onAccept = { /* answer */ },\n    onDecline = { /* decline */ },\n)",
     "Swipe to answer and badge": "IdentifiedByEqual()\nSwipeToAnswer(onAccept = { /* answer */ }, onDecline = { /* decline */ }, onMessage = { /* reply */ })",
     "Call strips": "IncomingCallStrip(name = \"Keshav Reddy\", initials = \"KR\", style = CallStripStyle.Avatar, onAnswer = { /* answer */ })\nIncomingCallStrip(name = \"Keshav Reddy\", style = CallStripStyle.Icon, onAnswer = {})\nIncomingCallStrip(name = \"Keshav Reddy\", style = CallStripStyle.Accent, onAnswer = {})\nOngoingCallStrip(name = \"Keshav Reddy\", seconds = 21, onOpen = { /* back to the call */ }, onEnd = { /* end */ })",
-    "Heads-up stand-in and call card": "IncomingCallNotification(name = \"Keshav Reddy\", initials = \"KR\")\nCallLogCard(duration = \"1min\")"
+    "Heads-up stand-in and call card": "IncomingCallNotification(name = \"Keshav Reddy\", initials = \"KR\")\nCallLogCard(duration = \"1min\")",
+    "Takeover card": "MessageList {\n    TakeoverCard(time = \"11:03\")\n}"
   },
   "faq": {
     "Accordion": "val faq = listOf(\n    FaqItem(\"What do I get with Equal AI Unlimited?\", \"Unlimited call screenings, full recordings, summaries, and zero daily cap.\"),\n    FaqItem(\"Does Equal AI screen all types of calls?\", \"Yes! Delivery, ride pickups, spam, loan calls, Equal AI handles them all.\"),\n    FaqItem(\"Can I cancel my Equal AI Unlimited plan later?\", \"Yes, cancel anytime. Your Unlimited access stays active until the end of your billing period.\"),\n    FaqItem(\"Can I get a refund if I’m not happy with Equal AI Unlimited?\", \"Yes. If you’re not happy within 3 days of your first payment, reach us through our helpline and we’ll process your refund.\"),\n)\nFaqList(items = faq, defaultOpen = listOf(3))",

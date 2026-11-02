@@ -5078,6 +5078,11 @@
         "part": "Heads-up stand-in",
         "description": "Android's CallStyle notification.",
         "spec": "radius 20 · notification/bg (dark) · 48 avatar + call-received badge · DECLINE / ANSWER system pills"
+      },
+      {
+        "part": "Takeover card",
+        "description": "Marks in the thread that you took over the call.",
+        "spec": "268 bubble chat-bubble/other-bg, radius 12 (top-right square), padding 20 / 8 / 8 · You label badgeCount SemiBold text/success at 8, 4 · 252 card takeover-card/bg + 1 inside takeover-card/stroke, radius 12, padding 8, gap 8 · 40 bg/surface disc, phone-incoming 24 text/action · body2 title, captionWrap text/secondary body, 2 apart · time badgeCount text/secondary 8 from the right, 3 from the bottom"
       }
     ],
     "accessibility": [

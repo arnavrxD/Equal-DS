@@ -267,6 +267,31 @@ export function CallLogCard({ duration, direction = 'outgoing', title = 'Voice C
   );
 }
 
+/**
+ * Call Takeover message (Personal Number call): your right-side bubble (`chat-bubble/other-bg`, the
+ * "You" label 10 SemiBold `text/success` in its top corner) holding the takeover card
+ * (`takeover-card/bg` + 1 inside stroke, radius 12, padding 8): a 40 `bg/surface` disc with
+ * `phone-incoming` in `text/action`, the title (body2) over what happened (captionWrap, 2 apart), and
+ * the time (badgeCount) in the card's bottom corner. Drop it in a `MessageList` like a `ChatBubble`.
+ */
+export function TakeoverCard({ time, title = 'Call taken over', body = 'You took over the call', sender = 'You' }: { time: string; title?: string; body?: string; sender?: string }) {
+  return (
+    <div className="eq-bubble-row is-right is-first">
+      <div className="eq-takeover-msg">
+        <Text variant="badgeCount" color="success" className="eq-takeover-msg__sender" style={{ fontWeight: 600 }}>{sender}</Text>
+        <div className="eq-takeover-msg__card">
+          <span className="eq-takeover-msg__icon"><Icon name="phone-incoming" size={24} color="var(--eq-text-action)" /></span>
+          <span className="eq-takeover-msg__text">
+            <Text as="div" variant="body2">{title}</Text>
+            <Text as="div" variant="captionWrap" color="secondary">{body}</Text>
+          </span>
+          <Text variant="badgeCount" color="secondary" className="eq-takeover-msg__time">{time}</Text>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export type CallPhase = 'connecting' | 'calling' | 'ringing' | 'connected' | 'ended';
 const PHASE: Record<CallPhase, string> = { connecting: 'Connecting…', calling: 'Calling…', ringing: 'Ringing…', connected: 'Connected', ended: 'Call ended' };
 

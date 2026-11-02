@@ -12,6 +12,7 @@ import androidx.compose.animation.core.infiniteRepeatable
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectVerticalDragGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -37,6 +38,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.pointerInput
@@ -324,6 +326,50 @@ private fun SystemCallPill(label: String, icon: androidx.compose.ui.graphics.vec
     ) {
         EqualIcon(icon, contentDescription = null, tint = ink, size = 24.dp)
         EqualText(text = label, style = EqualTheme.type.subheading, color = ink)
+    }
+}
+
+/**
+ * Call Takeover message (Personal Number call): your right-side bubble (`chat-bubble/other-bg`,
+ * radius 12 with the top-end corner square, padding 20 top / 8) with the "You" label (10 SemiBold
+ * `text/success`) in its top corner, holding the takeover card: 252 wide, `takeover-card/bg` with a
+ * 1dp `takeover-card/stroke`, radius 12, padding 8; a 40 `bg/surface` disc with phone-incoming in
+ * `text/action`, the title (body2) over what happened (captionWrap, 2 apart), and the time
+ * (badgeCount) in the card's bottom-end corner. Put it in a [MessageList] like a [ChatBubble].
+ */
+@Composable
+fun TakeoverCard(time: String, modifier: Modifier = Modifier, title: String = "Call taken over", body: String = "You took over the call", sender: String = "You") {
+    val colors = EqualTheme.colors
+    val type = EqualTheme.type
+    Row(modifier.messageSide(MessageSide.Right).fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+        Box(
+            Modifier
+                .clip(bubbleShape(outgoing = true, lead = true))
+                .background(colors.chatBubbleOtherBg)
+                .padding(start = 8.dp, end = 8.dp, top = 20.dp, bottom = 8.dp)
+                .semantics(mergeDescendants = true) {},
+        ) {
+            EqualText(text = sender, style = type.badgeCount.copy(fontWeight = FontWeight.SemiBold), color = colors.textSuccess, modifier = Modifier.offset(y = (-16).dp))
+            Box(
+                Modifier
+                    .width(252.dp)
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(colors.takeoverCardBg)
+                    .border(1.dp, colors.takeoverCardStroke, RoundedCornerShape(12.dp))
+                    .padding(8.dp),
+            ) {
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Box(Modifier.size(40.dp).clip(CircleShape).background(colors.bgSurface), contentAlignment = Alignment.Center) {
+                        EqualIcon(EqualIcons.PhoneIncoming, contentDescription = null, tint = colors.textAction, size = 24.dp)
+                    }
+                    Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                        EqualText(text = title, style = type.body2, color = colors.textPrimary)
+                        EqualText(text = body, style = type.captionWrap, color = colors.textSecondary)
+                    }
+                }
+                EqualText(text = time, style = type.badgeCount, color = colors.textSecondary, modifier = Modifier.align(Alignment.BottomEnd).offset(y = 5.dp))
+            }
+        }
     }
 }
 

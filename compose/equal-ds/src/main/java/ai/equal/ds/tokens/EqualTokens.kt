@@ -351,6 +351,10 @@ data class EqualColors(
     val callControlSubtleBg: Color,
     /** component/call-strip/bg — derived from the screens */
     val callStripBg: Color,
+    /** component/takeover-card/bg — derived from the screens */
+    val takeoverCardBg: Color,
+    /** component/takeover-card/stroke — derived from the screens */
+    val takeoverCardStroke: Color,
     /** component/system-call/decline — derived from the screens */
     val systemCallDecline: Color,
     /** component/system-call/decline-text — derived from the screens */
@@ -538,6 +542,8 @@ val LightEqualColors = EqualColors(
     callAvatarText = Color(0xFF004B20), // direct value
     callControlSubtleBg = Color(0x0F000000), // brand/black · 6%
     callStripBg = Color(0xFFF7F7F7), // direct value
+    takeoverCardBg = Color(0xFFF7F7F7), // direct value
+    takeoverCardStroke = Color(0xFFF8F8F8), // direct value
     systemCallDecline = Color(0xFFE86A5C), // direct value
     systemCallDeclineText = Color(0xFF260500), // direct value
     systemCallAnswer = Color(0xFF6FCE94), // direct value
@@ -713,6 +719,8 @@ val DarkEqualColors = EqualColors(
     callAvatarText = Color(0xFF283B00), // direct value
     callControlSubtleBg = Color(0x1FFFFFFF), // brand/white · 12%
     callStripBg = Color(0xFF292929), // direct value
+    takeoverCardBg = Color(0xFF141414), // direct value
+    takeoverCardStroke = Color(0xFF1B1B1B), // direct value
     systemCallDecline = Color(0xFFE86A5C), // direct value
     systemCallDeclineText = Color(0xFF260500), // direct value
     systemCallAnswer = Color(0xFF6FCE94), // direct value

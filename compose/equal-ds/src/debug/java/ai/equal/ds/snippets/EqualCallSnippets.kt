@@ -9,6 +9,8 @@ import ai.equal.ds.catalog.EqualCallCallerSample
 import ai.equal.ds.catalog.EqualCallReceiverSample
 import ai.equal.ds.catalog.ReceiverStage
 import ai.equal.ds.components.CallLogCard
+import ai.equal.ds.components.MessageList
+import ai.equal.ds.components.TakeoverCard
 import ai.equal.ds.components.CallStripStyle
 import ai.equal.ds.components.EqualCallRole
 import ai.equal.ds.components.EqualCallScreen
@@ -207,4 +209,12 @@ internal fun E2eStripsDocSnippet() {
 internal fun E2eHeadsUpDocSnippet() {
     IncomingCallNotification(name = "Keshav Reddy", initials = "KR")
     CallLogCard(duration = "1min")
+}
+
+// snippet: equal-call / Takeover card
+@Composable
+internal fun E2eTakeoverCardDocSnippet() {
+    MessageList {
+        TakeoverCard(time = "11:03")
+    }
 }

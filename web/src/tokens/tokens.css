@@ -240,6 +240,8 @@
   --eq-call-avatar-text: #004B20; /* derived */
   --eq-call-control-subtle-bg: rgba(0,0,0,0.06); /* derived */
   --eq-call-strip-bg: #F7F7F7; /* derived */
+  --eq-takeover-card-bg: #F7F7F7; /* derived */
+  --eq-takeover-card-stroke: #F8F8F8; /* derived */
   --eq-system-call-decline: #E86A5C; /* derived */
   --eq-system-call-decline-text: #260500; /* derived */
   --eq-system-call-answer: #6FCE94; /* derived */
@@ -458,6 +460,8 @@
   --eq-call-avatar-text: #283B00; /* derived */
   --eq-call-control-subtle-bg: rgba(255,255,255,0.12); /* derived */
   --eq-call-strip-bg: #292929; /* derived */
+  --eq-takeover-card-bg: #141414; /* derived */
+  --eq-takeover-card-stroke: #1B1B1B; /* derived */
   --eq-system-call-decline: #E86A5C; /* derived */
   --eq-system-call-decline-text: #260500; /* derived */
   --eq-system-call-answer: #6FCE94; /* derived */

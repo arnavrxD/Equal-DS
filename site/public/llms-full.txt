@@ -2119,8 +2119,8 @@ ChatWallpaper(Modifier.fillMaxSize()) {
 
 Equal user to Equal user calls: the call screen (receiver and caller), Identified by Equal, swipe to answer, the in-app incoming strip (three options) and the ongoing strip, the heads-up stand-in and the Voice Call card. Reuses the vOIP call controls.
 
-- React: `import { EqualCallScreen, SwipeToAnswer, IdentifiedByEqual, CallStrip, CallLogCard } from '@equal/ds';`
-- Compose: `EqualCallScreen`, `SwipeToAnswer`, `IdentifiedByEqual`, `IncomingCallStrip`, `OngoingCallStrip`, `IncomingCallNotification`, `CallLogCard`
+- React: `import { EqualCallScreen, SwipeToAnswer, IdentifiedByEqual, CallStrip, CallLogCard, TakeoverCard } from '@equal/ds';`
+- Compose: `EqualCallScreen`, `SwipeToAnswer`, `IdentifiedByEqual`, `IncomingCallStrip`, `OngoingCallStrip`, `IncomingCallNotification`, `CallLogCard`, `TakeoverCard`
 - Tokens: `call-avatar/bg`, `call-avatar/text`, `call-control/subtle-bg`, `call-strip/bg`, `button/end-call`, `button/primary`, `notification/bg`
 - Source: Equal To Equal Call Experience
 
@@ -2136,6 +2136,12 @@ Props of `CallLogCard`:
 - `duration`: `string`. "1min".
 - `direction?`: `'outgoing' | 'incoming'` = 'outgoing'. call_made or call_received.
 
+Props of `TakeoverCard`:
+- `time`: `string`. When you took over, e.g. "11:03".
+- `title?`: `string` = 'Call taken over'. What happened.
+- `body?`: `string` = 'You took over the call'. One line under the title.
+- `sender?`: `string` = 'You'. The label in the bubble’s corner.
+
 Do: Say who is calling and that Equal identified them. Keep the in-app strip option a prop. Let the assistant strip (OngoingCallBar) and the user call strip (CallStrip) stay separate.
 
 Don't: Don't draw the heads-up or the permission dialog in the app; the OS does. Don't make the call icon tappable while a call is live.
@@ -2146,6 +2152,7 @@ Anatomy:
 3. Swipe to answer: Decline · Accept · Message. (52 circles: decline button/end-call, accept button/primary, message call-control/bg + stroke/subtle · captions body2 · chevrons 20 at 100 / 70 / 40 / 20 %)
 4. Call strips: Incoming (3 options) or ongoing. (call-strip/bg · incoming 60 / 52 high, padding 16 / 24 · ongoing 72: 40 mute · subheading text/action name - time · 40 end)
 5. Heads-up stand-in: Android's CallStyle notification. (radius 20 · notification/bg (dark) · 48 avatar + call-received badge · DECLINE / ANSWER system pills)
+6. Takeover card: Marks in the thread that you took over the call. (268 bubble chat-bubble/other-bg, radius 12 (top-right square), padding 20 / 8 / 8 · You label badgeCount SemiBold text/success at 8, 4 · 252 card takeover-card/bg + 1 inside takeover-card/stroke, radius 12, padding 8, gap 8 · 40 bg/surface disc, phone-incoming 24 text/action · body2 title, captionWrap text/secondary body, 2 apart · time badgeCount text/secondary 8 from the right, 3 from the bottom)
 
 Accessibility:
 - Role. Web: Accept, Decline, Message, Minimise and End are buttons; speaker / mute are switches; the incoming strip is one button; the ongoing strip is a group. Android: Same roles; Accept carries a custom "Answer" action for TalkBack.
@@ -2206,6 +2213,18 @@ Example: Heads-up stand-in and call card
 ```kotlin
 IncomingCallNotification(name = "Keshav Reddy", initials = "KR")
 CallLogCard(duration = "1min")
+```
+
+Example: Takeover card
+```tsx
+<MessageList>
+  <TakeoverCard time="11:03" />
+</MessageList>
+```
+```kotlin
+MessageList {
+    TakeoverCard(time = "11:03")
+}
 ```
 
 #### Missed call card (`missed-call`)
@@ -9074,6 +9093,8 @@ Alias colours (CSS `var(--eq-<name without component/>)`, TS `color.*`, Compose 
 - `component/call-avatar/text`  light #004B20 · dark #283B00 · derived
 - `component/call-control/subtle-bg`  light {brand.black} @ 6% · dark {brand.white} @ 12% · derived
 - `component/call-strip/bg`  light #F7F7F7 · dark #292929 · derived
+- `component/takeover-card/bg`  light #F7F7F7 · dark #141414 · derived
+- `component/takeover-card/stroke`  light #F8F8F8 · dark #1B1B1B · derived
 - `component/system-call/decline`  light #E86A5C · dark #E86A5C · derived
 - `component/system-call/decline-text`  light #260500 · dark #260500 · derived
 - `component/system-call/answer`  light #6FCE94 · dark #6FCE94 · derived

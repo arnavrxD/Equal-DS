@@ -2316,6 +2316,14 @@
  "text/success": {
   "pages": [
    {
+    "id": "call-controls",
+    "name": "Call controls"
+   },
+   {
+    "id": "equal-call",
+    "name": "Equal call"
+   },
+   {
     "id": "health-check",
     "name": "Health check"
    }
@@ -2513,6 +2521,14 @@
  },
  "component/chat-bubble/other-bg": {
   "pages": [
+   {
+    "id": "call-controls",
+    "name": "Call controls"
+   },
+   {
+    "id": "equal-call",
+    "name": "Equal call"
+   },
    {
     "id": "chat-bubble",
     "name": "Chat bubble"
@@ -5725,6 +5741,32 @@
    {
     "id": "list-actions",
     "name": "List actions"
+   }
+  ],
+  "screens": []
+ },
+ "component/takeover-card/bg": {
+  "pages": [
+   {
+    "id": "call-controls",
+    "name": "Call controls"
+   },
+   {
+    "id": "equal-call",
+    "name": "Equal call"
+   }
+  ],
+  "screens": []
+ },
+ "component/takeover-card/stroke": {
+  "pages": [
+   {
+    "id": "call-controls",
+    "name": "Call controls"
+   },
+   {
+    "id": "equal-call",
+    "name": "Equal call"
    }
   ],
   "screens": []

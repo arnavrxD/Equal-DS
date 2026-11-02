@@ -1787,6 +1787,28 @@ export const aliases: AliasToken[] = [
     "why": "The full-width in-app call strip above the header (incoming and ongoing); separates from the white header and status bar."
   },
   {
+    "name": "component/takeover-card/bg",
+    "cssVar": "--eq-takeover-card-bg",
+    "light": "#F7F7F7",
+    "dark": "#141414",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": true,
+    "why": "The inner card of the Call Takeover message (Personal Number call), inside the chat-bubble/other-bg bubble; a step quieter than the bubble so the icon disc (bg/surface) stands out. From the Call Takeover card in the old Equal AI Assistant file."
+  },
+  {
+    "name": "component/takeover-card/stroke",
+    "cssVar": "--eq-takeover-card-stroke",
+    "light": "#F8F8F8",
+    "dark": "#1B1B1B",
+    "lightRef": "direct value",
+    "darkRef": "direct value",
+    "group": "component",
+    "derived": true,
+    "why": "1dp inside stroke of the Call Takeover inner card, as drawn in the old Equal AI Assistant file."
+  },
+  {
     "name": "component/system-call/decline",
     "cssVar": "--eq-system-call-decline",
     "light": "#E86A5C",
@@ -2081,6 +2103,8 @@ export const color = {
   callAvatarText: 'var(--eq-call-avatar-text)',
   callControlSubtleBg: 'var(--eq-call-control-subtle-bg)',
   callStripBg: 'var(--eq-call-strip-bg)',
+  takeoverCardBg: 'var(--eq-takeover-card-bg)',
+  takeoverCardStroke: 'var(--eq-takeover-card-stroke)',
   systemCallDecline: 'var(--eq-system-call-decline)',
   systemCallDeclineText: 'var(--eq-system-call-decline-text)',
   systemCallAnswer: 'var(--eq-system-call-answer)',
