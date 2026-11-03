@@ -805,7 +805,8 @@ fun CallNotification(
         ) {
             Box {
                 ContactAvatar(size = 40.dp, category = category, initials = initials)
-                if (big) {
+                // Saved contacts keep their person badge (known contact); the Equal badge is for category callers.
+                if (big && initials == null) {
                     Box(
                         Modifier
                             .align(Alignment.BottomEnd)

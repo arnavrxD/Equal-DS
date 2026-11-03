@@ -2738,7 +2738,7 @@ Props of `CallNotification`:
 - `name`: `string`. Caller.
 - `state`: `'answering' | 'summary' | 'expanded' | 'connecting'`. Stage of the call.
 - `category?`: `Category` = 'home-services'. Avatar art.
-- `initials?`: `string`. Saved contacts: initials instead of the category art.
+- `initials?`: `string`. Saved contacts: initials with the person badge, instead of the category art. The Equal badge (expanded, connecting) is then left off, so the avatar carries one badge.
 - `elapsed?`: `string` = '00:06'. Timer.
 - `summary?`: `string`. What the caller wants.
 - `replies?`: `string[]`. Quick replies (expanded).

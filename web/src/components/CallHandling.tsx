@@ -228,7 +228,8 @@ export function CallNotification({ name, category = 'home-services', initials, e
       <div className="eq-ch-notif__main">
         <span style={{ position: 'relative', flexShrink: 0 }}>
           {initials ? <ContactAvatar initials={initials} size={40} /> : <CategoryAvatar category={category} size={40} />}
-          {big && <span className="eq-ch-notif__badge" aria-hidden><EqualMark width={10} color="var(--eq-text-on-action)" /></span>}
+          {/* Saved contacts keep their person badge (known contact); the Equal badge is for category callers. */}
+          {big && !initials && <span className="eq-ch-notif__badge" aria-hidden><EqualMark width={10} color="var(--eq-text-on-action)" /></span>}
         </span>
         <span style={{ flex: 1, minWidth: 0 }}>
           <Text as="div" variant="subheading" style={{ fontWeight: 500 }}>{name}</Text>
